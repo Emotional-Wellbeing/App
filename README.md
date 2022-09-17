@@ -1,3 +1,7 @@
+![master workflow](https://github.com/VicDominguez/SBE-App/actions/workflows/master.yml/badge.svg)
+<!--[dev workflow](https://github.com/VicDominguez/SBE-pruebas/actions/workflows/master.yml/badge.svg)
+-->
+
 # SBE - App
 ## Español
 ### Información general
