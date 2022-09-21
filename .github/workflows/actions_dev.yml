@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - actions_dev
-    tags:
-      - 'v*'
+      tags:
+        - 'v*'
 # jobs are run in parallel on different machines
 # all steps run in series
 jobs:
@@ -38,6 +38,11 @@ jobs:
       - name: Build Release APK
         run: ./gradlew assembleRelease --stacktrace
         #path app/build/outputs/apk/release/app-release-unsigned.apk
+
+      - name: Rename Release APK
+        #skip app-release-unsigned-signed.apk case
+        run: mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk
+
       - name: Sign APK
         id: sign_apk
         uses: r0adkll/sign-android-release@v1
@@ -56,7 +61,7 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
-
+        #path ${{steps.sign_aab.outputs.signedReleaseFile}}
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
