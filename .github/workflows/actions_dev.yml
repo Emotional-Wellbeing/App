@@ -1,10 +1,8 @@
 name: Actions Dev
 on:
   push:
-    branches:
-      - actions_dev
-      tags:
-        - 'v*'
+    tags:
+      - 'v*'
 # jobs are run in parallel on different machines
 # all steps run in series
 jobs:
@@ -12,29 +10,43 @@ jobs:
     name: Work In Progress
     runs-on: ubuntu-latest
     steps:
+        # workaround to specify branch AND tag
+        # https://stackoverflow.com/questions/59874409/trigger-github-workflow-only-if-pushed-to-specific-branch-and-tag-exists
+      - name: Exit if not on actions_dev branch
+        if: endsWith(github.ref, 'actions_dev') == false
+        run: exit -1
+
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin' #Eclipse
           java-version: '17'
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+
       - name: Run Linters and Test
         run: ./gradlew check
+
       - name: Zip Test Results
         uses: montudor/action-zip@v1
         with:
           args: zip -qq -r test-reports.zip app/build/reports
+
       - name: Build with Gradle
         run: ./gradlew build
+
       - name: Build Release AAB
         run: ./gradlew bundleRelease
         #path app/build/outputs/bundle/release/app-release.aab
+
       - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace
         #path app/build/outputs/apk/debug/app-debug.apk
+
       - name: Build Release APK
         run: ./gradlew assembleRelease --stacktrace
         #path app/build/outputs/apk/release/app-release-unsigned.apk
@@ -52,6 +64,7 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
+
       - name: Sign AAB
         id: sign_aab
         uses: r0adkll/sign-android-release@v1
@@ -62,11 +75,12 @@ jobs:
           alias: ${{ secrets.KEY_ALIAS }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
         #path ${{steps.sign_aab.outputs.signedReleaseFile}}
+
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           name: Release ${{ github.ref_name }}
+          prerelease: true
           files: |
             app/build/outputs/apk/debug/app-debug.apk
             ${{steps.sign_apk.outputs.signedReleaseFile}}
