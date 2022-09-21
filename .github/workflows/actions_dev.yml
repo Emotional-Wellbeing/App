@@ -1,8 +1,8 @@
 name: Actions Dev
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - actions_dev
 # jobs are run in parallel on different machines
 # all steps run in series
 jobs:
@@ -13,7 +13,7 @@ jobs:
         # workaround to specify branch AND tag
         # https://stackoverflow.com/questions/59874409/trigger-github-workflow-only-if-pushed-to-specific-branch-and-tag-exists
       - name: Exit if not on actions_dev branch
-        if: endsWith(github.ref, 'actions_dev') == false
+        if: contains('refs/tags/', github.ref) == false
         run: exit -1
 
       - name: Checkout
