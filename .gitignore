@@ -4,6 +4,9 @@
 .gradle/
 build/
 
+# usually key files
+secrets/
+
 # Local configuration file (sdk path, etc)
 local.properties
 
