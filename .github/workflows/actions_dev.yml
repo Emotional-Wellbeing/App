@@ -13,7 +13,7 @@ jobs:
         # workaround to specify branch AND tag
         # https://stackoverflow.com/questions/59874409/trigger-github-workflow-only-if-pushed-to-specific-branch-and-tag-exists
       - name: Exit if not on actions_dev branch
-        if: contains('refs/tags/', github.ref) == false
+        if: startsWith(github.ref, 'refs/tags/') == false
         run: exit -1
 
       - name: Checkout
