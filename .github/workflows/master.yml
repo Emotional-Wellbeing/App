@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - master
-    tags:
-      - 'v*'
 # jobs are run in parallel on different machines
 # all steps run in series
 jobs:
@@ -12,6 +10,12 @@ jobs:
     name: Release App
     runs-on: ubuntu-latest
     steps:
+        # workaround to specify branch AND tag
+        # https://stackoverflow.com/questions/59874409/trigger-github-workflow-only-if-pushed-to-specific-branch-and-tag-exists
+      - name: Exit if not tag
+        if: startsWith(github.ref, 'refs/tags/') == false
+        run: exit -1
+
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up JDK
