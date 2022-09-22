@@ -1,4 +1,17 @@
-#Commented in other branches to avoid failures
+#Default state uncommented, custom state commented in other branches to avoid failures
+name: Actions Dev
+on:
+  push:
+    branches:
+      - actions_dev
+jobs:
+  actions_dev:
+    name: Work In Progress
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
 #name: Actions Dev
 #on:
 #  push:
