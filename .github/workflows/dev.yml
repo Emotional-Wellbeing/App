@@ -31,10 +31,10 @@ jobs:
 
       - name: Upload Reports
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: test-reports
           path: app/build/reports
-          if: always()
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
