@@ -1,0 +1,82 @@
+#Commented in other branches to avoid failures
+#name: Actions Dev
+#on:
+#  push:
+#    tags:
+#      - 'v*'
+#jobs:
+#  release:
+#    name: Work In Progress
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Set up JDK
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: 'temurin' #Eclipse
+#          java-version: '17'
+#
+#      - name: Make gradlew executable
+#        run: chmod +x ./gradlew
+#
+#      - name: Run Linters and Test
+#        run: ./gradlew check
+#
+#      - name: Zip Test Results
+#        uses: montudor/action-zip@v1
+#        with:
+#          args: zip -qq -r test-reports.zip app/build/reports
+#
+#      - name: Build with Gradle
+#        run: ./gradlew build
+#
+#      - name: Build Release AAB
+#        run: ./gradlew bundleRelease
+#        #path app/build/outputs/bundle/release/app-release.aab
+#
+#      - name: Build Debug APK
+#        run: ./gradlew assembleDebug --stacktrace
+#        #path app/build/outputs/apk/debug/app-debug.apk
+#
+#      - name: Build Release APK
+#        run: ./gradlew assembleRelease --stacktrace
+#        #path app/build/outputs/apk/release/app-release-unsigned.apk
+#
+#      - name: Rename Release APK
+#        #skip app-release-unsigned-signed.apk case
+#        run: mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk
+#
+#      - name: Sign APK
+#        id: sign_apk
+#        uses: r0adkll/sign-android-release@v1
+#        with:
+#          releaseDirectory: app/build/outputs/apk/release
+#          signingKeyBase64: ${{ secrets.KEY_STORE_FILE }}
+#          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+#          alias: ${{ secrets.KEY_ALIAS }}
+#          keyPassword: ${{ secrets.KEY_PASSWORD }}
+#
+#      - name: Sign AAB
+#        id: sign_aab
+#        uses: r0adkll/sign-android-release@v1
+#        with:
+#          releaseDirectory: app/build/outputs/bundle/release
+#          signingKeyBase64: ${{ secrets.KEY_STORE_FILE }}
+#          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+#          alias: ${{ secrets.KEY_ALIAS }}
+#          keyPassword: ${{ secrets.KEY_PASSWORD }}
+#        #path ${{steps.sign_aab.outputs.signedReleaseFile}}
+#
+#      - name: Release
+#        uses: softprops/action-gh-release@v1
+#        with:
+#          name: Release ${{ github.ref_name }}
+#          prerelease: true
+#          files: |
+#            app/build/outputs/apk/debug/app-debug.apk
+#            ${{steps.sign_apk.outputs.signedReleaseFile}}
+#            ${{steps.sign_aab.outputs.signedReleaseFile}}
+#            test-reports.zip
