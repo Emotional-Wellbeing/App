@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - dev
+    tags:
+      - '*alpha*'
+      - '*beta*'
+      - '*rc*'
 # jobs are run in parallel on different machines
 # all steps run in series
 jobs:
