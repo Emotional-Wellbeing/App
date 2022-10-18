@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Sistema Bienestar Emocional</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="welcome_text">Bievenido al Sistema de Bienestar Emocional</string>
+    <string name="sleep_notes">Notas</string>
+    <string name="not_available_abbrev">N/A</string>
+    <string name="sleep_stages">Etapas de sueño</string>
+    <string name="sleep_duration">Duración:</string>
+    <string name="sleep_time">Duración:</string>
 </resources>
