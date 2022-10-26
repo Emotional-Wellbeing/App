@@ -1,27 +1,47 @@
 package es.upm.sistemabienestaremocional.presentation.screen
 
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
-import es.upm.sistemabienestaremocional.R
-import es.upm.sistemabienestaremocional.data.HealthConnectAvailability
-import es.upm.sistemabienestaremocional.data.HealthConnectManager
-import es.upm.sistemabienestaremocional.presentation.theme.SistemaBienestarEmocionalTheme
+import androidx.navigation.NavController
+import es.upm.sistemabienestaremocional.navigation.Screen
 
+/**
+ * Welcome screen shown when the app is first launched.
+ */
+@Composable
+fun HomeScreen(navController: NavController)
+{
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { navController.navigate(Screen.SleepScreen.route) }) {
+            Text(text = "Sueño")
+        }
+        Spacer(modifier = Modifier.height(32.dp))
+        Button(onClick = { navController.navigate(Screen.PrivacyPolicyScreen.route) }) {
+            Text(text = "Política de privacidad")
+        }
+    }
+}
+
+/*@Preview
+@Composable
+fun HomeScreenPreview() {
+    SistemaBienestarEmocionalTheme {
+        HomeScreen()
+    }
+}*/
+
+/*
 /**
  * Welcome screen shown when the app is first launched.
  */
@@ -65,11 +85,11 @@ fun WelcomeScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        
+
         Text(text = stringResource(R.string.welcome_text))
-        
+
         Spacer(modifier = Modifier.height(32.dp))
-        
+
         when (healthConnectAvailability) {
             HealthConnectAvailability.INSTALLED -> InstalledMessage()
             HealthConnectAvailability.NOT_INSTALLED -> NotInstalledMessage()
@@ -181,3 +201,5 @@ fun NotSupportedMessagePreview() {
         )
     }
 }
+
+ */

@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity()
     {
         super.onCreate(savedInstanceState)
         setContent {
-                SistemaBienestarEmocionalApp(healthConnectManager = healthConnectManager)
+            SistemaBienestarEmocionalApp(healthConnectManager = healthConnectManager)
         }
     }
 }

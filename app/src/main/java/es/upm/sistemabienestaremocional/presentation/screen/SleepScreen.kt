@@ -18,7 +18,7 @@ import es.upm.sistemabienestaremocional.presentation.component.SleepSessionRow
  * Shows a week's worth of sleep data.
  */
 @Composable
-fun SleepSessionScreen(
+fun SleepScreen(
     permissions: Set<HealthPermission>,
     permissionsGranted: Boolean,
     sessionsList: List<SleepSessionData>,
