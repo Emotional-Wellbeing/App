@@ -1,9 +1,9 @@
-package es.upm.sistemabienestaremocional.presentation
+package es.upm.sistemabienestaremocional
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import es.upm.sistemabienestaremocional.data.HealthConnectManager
+import es.upm.sistemabienestaremocional.healthconnect.HealthConnectManager
 
 class MainActivity : ComponentActivity()
 {

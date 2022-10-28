@@ -7,7 +7,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import es.upm.sistemabienestaremocional.R
-import es.upm.sistemabienestaremocional.presentation.theme.SistemaBienestarEmocionalTheme
+import es.upm.sistemabienestaremocional.theme.SistemaBienestarEmocionalTheme
 
 /**
  * Welcome text shown when the Healthcore APK is not yet installed on the device, prompting the user

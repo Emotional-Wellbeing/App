@@ -7,14 +7,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import es.upm.sistemabienestaremocional.data.HealthConnectManager
-import es.upm.sistemabienestaremocional.presentation.screen.MainScreen
-import es.upm.sistemabienestaremocional.presentation.screen.ErrorScreen
-import es.upm.sistemabienestaremocional.presentation.screen.HomeScreen
-import es.upm.sistemabienestaremocional.presentation.screen.PrivacyPolicyScreen
-import es.upm.sistemabienestaremocional.presentation.screen.SleepScreen
-import es.upm.sistemabienestaremocional.presentation.screen.SleepSessionViewModel
-import es.upm.sistemabienestaremocional.presentation.screen.SleepSessionViewModelFactory
+import es.upm.sistemabienestaremocional.healthconnect.HealthConnectManager
+import es.upm.sistemabienestaremocional.screen.MainScreen
+import es.upm.sistemabienestaremocional.screen.ErrorScreen
+import es.upm.sistemabienestaremocional.screen.HomeScreen
+import es.upm.sistemabienestaremocional.screen.PrivacyPolicyScreen
+import es.upm.sistemabienestaremocional.sleep.SleepScreen
+import es.upm.sistemabienestaremocional.sleep.SleepSessionViewModel
+import es.upm.sistemabienestaremocional.sleep.SleepSessionViewModelFactory
 
 /**
  * Manages the navigation in the app
@@ -29,7 +29,9 @@ fun SBENavigation(navController: NavHostController, healthConnectManager: Health
 
         composable(route = Screen.MainScreen.route)
         {
-            MainScreen(navController = navController, healthConnectAvailability = availability)
+            MainScreen(healthConnectAvailability = availability,
+                onSucess = { navController.navigate(Screen.HomeScreen.route) },
+                onFailure = { navController.navigate(Screen.ErrorScreen.route) })
         }
         composable(route = Screen.ErrorScreen.route)
         {
@@ -37,11 +39,13 @@ fun SBENavigation(navController: NavHostController, healthConnectManager: Health
         }
         composable(route = Screen.HomeScreen.route)
         {
-            HomeScreen(navController = navController)
+            HomeScreen(
+                onSleepClick = { navController.navigate(Screen.SleepScreen.route) },
+                onPrivacyClick = {navController.navigate(Screen.PrivacyPolicyScreen.route)})
         }
         composable(route = Screen.PrivacyPolicyScreen.route)
         {
-            PrivacyPolicyScreen(navController = navController)
+            PrivacyPolicyScreen(onBackClick = {navController.navigateUp()})
         }
         composable(route = Screen.SleepScreen.route)
         {
@@ -70,28 +74,3 @@ fun SBENavigation(navController: NavHostController, healthConnectManager: Health
         }
     }
 }
-
-/*
-val viewModel: SleepSessionViewModel = viewModel(
-            factory = SleepSessionViewModelFactory(healthConnectManager = healthConnectManager))
-    val permissionsGranted by viewModel.permissionsGranted
-    val sessionsList by viewModel.sessionsList
-    val permissions = viewModel.permissions
-
-    val onPermissionsResult = {viewModel.initialLoad()}
-
-    val permissionsLauncher =
-        rememberLauncherForActivityResult(viewModel.permissionsLauncher) {
-            onPermissionsResult()}
-
-    SleepSessionScreen(
-        permissionsGranted = permissionsGranted,
-        permissions = permissions,
-        sessionsList = sessionsList,
-        onPermissionsResult = {
-            viewModel.initialLoad()
-        },
-        onPermissionsLaunch = { values ->
-            permissionsLauncher.launch(values)}
-    )
- */

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.upm.sistemabienestaremocional.data
+package es.upm.sistemabienestaremocional.healthconnect
 
 import java.time.Duration
 import java.time.Instant

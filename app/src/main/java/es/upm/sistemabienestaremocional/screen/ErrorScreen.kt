@@ -1,4 +1,4 @@
-package es.upm.sistemabienestaremocional.presentation.screen
+package es.upm.sistemabienestaremocional.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,11 +11,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.upm.sistemabienestaremocional.component.NotInstalledMessage
 import es.upm.sistemabienestaremocional.component.NotSupportedMessage
-import es.upm.sistemabienestaremocional.data.HealthConnectAvailability
-import es.upm.sistemabienestaremocional.presentation.theme.SistemaBienestarEmocionalTheme
+import es.upm.sistemabienestaremocional.healthconnect.HealthConnectAvailability
+import es.upm.sistemabienestaremocional.theme.SistemaBienestarEmocionalTheme
 
 /**
- * Welcome screen shown when the app is first launched.
+ * This screen is shown when we need show an error message.
  */
 @Composable
 fun ErrorScreen(healthConnectAvailability: HealthConnectAvailability)

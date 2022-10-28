@@ -1,4 +1,4 @@
-package es.upm.sistemabienestaremocional.presentation.theme
+package es.upm.sistemabienestaremocional.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

@@ -1,4 +1,4 @@
-package es.upm.sistemabienestaremocional.presentation.theme
+package es.upm.sistemabienestaremocional.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

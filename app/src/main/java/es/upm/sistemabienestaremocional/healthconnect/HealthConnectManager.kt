@@ -1,4 +1,4 @@
-package es.upm.sistemabienestaremocional.data
+package es.upm.sistemabienestaremocional.healthconnect
 
 import android.content.Context
 import android.os.Build
@@ -12,6 +12,7 @@ import androidx.health.connect.client.records.SleepStageRecord
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
+import es.upm.sistemabienestaremocional.sleep.SleepSessionData
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 

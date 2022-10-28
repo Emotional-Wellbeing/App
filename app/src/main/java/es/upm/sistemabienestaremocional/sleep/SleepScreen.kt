@@ -1,4 +1,4 @@
-package es.upm.sistemabienestaremocional.presentation.screen
+package es.upm.sistemabienestaremocional.sleep
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -11,8 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.health.connect.client.permission.HealthPermission
-import es.upm.sistemabienestaremocional.data.SleepSessionData
-import es.upm.sistemabienestaremocional.presentation.component.SleepSessionRow
 
 /**
  * Shows a week's worth of sleep data.

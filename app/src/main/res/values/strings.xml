@@ -14,11 +14,17 @@
         you will handle and use Health Connect data. This sample app does not store or transmit any
         data outside of Health Connect.
     </string>
-    
+
+    <!-- Sleep -->
+    <string name="sleep">Sleep</string>
     <string name="sleep_notes">Notas</string>
     <string name="not_available_abbrev">N/A</string>
     <string name="sleep_stages">Etapas de sueño</string>
     <string name="sleep_duration">Duración:</string>
     <string name="sleep_time">Duración:</string>
+
+    <!-- Menu -->
+    <string name="menu">Menu</string>
+    <string name="health_connect_settings">Health Connect Settings</string>
 
 </resources>

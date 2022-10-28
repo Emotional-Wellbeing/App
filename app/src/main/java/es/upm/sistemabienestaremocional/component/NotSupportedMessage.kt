@@ -7,8 +7,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import es.upm.sistemabienestaremocional.R
-import es.upm.sistemabienestaremocional.data.MIN_SUPPORTED_SDK
-import es.upm.sistemabienestaremocional.presentation.theme.SistemaBienestarEmocionalTheme
+import es.upm.sistemabienestaremocional.healthconnect.MIN_SUPPORTED_SDK
+import es.upm.sistemabienestaremocional.theme.SistemaBienestarEmocionalTheme
 
 /**
  * Welcome text shown when the app first starts, where the device is not running a sufficient
