@@ -21,7 +21,7 @@ import es.upm.sistemabienestaremocional.sleep.SleepSessionViewModelFactory
  */
 
 @Composable
-fun SBENavigation(navController: NavHostController, healthConnectManager: HealthConnectManager)
+fun AppNavigation(navController: NavHostController, healthConnectManager: HealthConnectManager)
 {
     NavHost(navController = navController, startDestination = Screen.MainScreen.route)
     {
@@ -40,8 +40,8 @@ fun SBENavigation(navController: NavHostController, healthConnectManager: Health
         composable(route = Screen.HomeScreen.route)
         {
             HomeScreen(
-                onSleepClick = { navController.navigate(Screen.SleepScreen.route) },
-                onPrivacyClick = {navController.navigate(Screen.PrivacyPolicyScreen.route)})
+                navController = navController,
+                onSleepClick = { navController.navigate(Screen.SleepScreen.route) })
         }
         composable(route = Screen.PrivacyPolicyScreen.route)
         {

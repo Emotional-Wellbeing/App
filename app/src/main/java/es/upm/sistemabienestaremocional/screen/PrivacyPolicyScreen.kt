@@ -26,7 +26,7 @@ fun PrivacyPolicyScreen(onBackClick : () -> Unit)
         topBar =
         {
             TopAppBar(
-                title = { Text(stringResource(id = R.string.privacy_policy))},
+                title = { Text(stringResource(id = R.string.privacy_policy_screen_label))},
                 navigationIcon =
                 {
                     IconButton(onClick = onBackClick)

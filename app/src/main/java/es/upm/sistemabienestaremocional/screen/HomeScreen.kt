@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import es.upm.sistemabienestaremocional.R
 import es.upm.sistemabienestaremocional.navigation.Drawer
 import es.upm.sistemabienestaremocional.theme.SistemaBienestarEmocionalTheme
@@ -22,7 +24,7 @@ import kotlinx.coroutines.launch
  */
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(onSleepClick : () -> Unit, onPrivacyClick: () -> Unit)
+fun HomeScreen(navController: NavController, onSleepClick : () -> Unit)
 {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
@@ -53,7 +55,7 @@ fun HomeScreen(onSleepClick : () -> Unit, onPrivacyClick: () -> Unit)
             },
         drawerContent =
             {
-                Drawer()
+                Drawer(navController = navController)
             }
     )
     {
@@ -84,11 +86,6 @@ fun HomeScreen(onSleepClick : () -> Unit, onPrivacyClick: () -> Unit)
             {
                 Text(text = stringResource(id = R.string.sleep))
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = onPrivacyClick)
-            {
-                Text(text = stringResource(id = R.string.privacy_policy))
-            }
         }
     }
 
@@ -98,7 +95,12 @@ fun HomeScreen(onSleepClick : () -> Unit, onPrivacyClick: () -> Unit)
 @Composable
 fun HomeScreenPreview()
 {
+    //nav controller init
+    val navController = rememberNavController()
+
     SistemaBienestarEmocionalTheme{
-        HomeScreen(onSleepClick = {}, onPrivacyClick = {})
+        HomeScreen(
+            navController = navController,
+            onSleepClick = {})
     }
 }

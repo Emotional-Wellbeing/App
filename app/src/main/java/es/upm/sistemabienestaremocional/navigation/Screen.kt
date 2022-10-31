@@ -7,9 +7,9 @@ package es.upm.sistemabienestaremocional.navigation
 
 enum class Screen (val route: String)
 {
-    MainScreen("main_screen"),
-    ErrorScreen("error_screen"),
-    HomeScreen("home_screen"),
-    PrivacyPolicyScreen("privacy_policy_screen"),
-    SleepScreen("sleep_screen")
+    MainScreen(route = "main_screen"),
+    ErrorScreen(route = "error_screen"),
+    HomeScreen(route = "home_screen"),
+    PrivacyPolicyScreen(route = "privacy_policy_screen"),
+    SleepScreen(route = "sleep_screen")
 }
