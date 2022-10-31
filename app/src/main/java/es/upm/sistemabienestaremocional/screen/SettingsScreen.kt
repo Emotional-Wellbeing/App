@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.upm.sistemabienestaremocional.R
+import es.upm.sistemabienestaremocional.component.BasicCard
+import es.upm.sistemabienestaremocional.component.DetailScreen
 import es.upm.sistemabienestaremocional.theme.SistemaBienestarEmocionalTheme
 
 /**
@@ -31,18 +33,8 @@ fun SettingsScreen(onBackClick : () -> Unit)
             horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                elevation = 10.dp
-            )
-            {
-                Column(
-                    modifier = Modifier.padding(15.dp)
-                )
-                {
+            BasicCard{
                     Text("Settings placeholder")
-                }
             }
         }
     }

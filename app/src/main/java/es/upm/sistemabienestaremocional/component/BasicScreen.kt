@@ -1,4 +1,4 @@
-package es.upm.sistemabienestaremocional.screen
+package es.upm.sistemabienestaremocional.component
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*

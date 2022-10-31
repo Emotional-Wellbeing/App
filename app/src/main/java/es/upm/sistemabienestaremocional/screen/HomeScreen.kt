@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import es.upm.sistemabienestaremocional.R
+import es.upm.sistemabienestaremocional.component.BasicCard
 import es.upm.sistemabienestaremocional.navigation.Drawer
 import es.upm.sistemabienestaremocional.theme.SistemaBienestarEmocionalTheme
 import kotlinx.coroutines.launch
@@ -67,21 +68,36 @@ fun HomeScreen(navController: NavController, onSleepClick : () -> Unit)
             horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(15.dp),
-                elevation = 10.dp
-            )
-            {
-                Column(
-                    modifier = Modifier.padding(15.dp)
-                )
-                {
-                    Text("Custom card")
-                }
+            BasicCard{
+                Text("Message placeholder")
             }
+
             Spacer(modifier = Modifier.height(16.dp))
+
+            BasicCard{
+                Text("Today stats placeholder")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            BasicCard{
+                Text("PHQ-9 placeholder")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            BasicCard{
+                Text("Feedback placeholder")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            BasicCard{
+                Text("Last week stats placeholder")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             Button(onClick = onSleepClick)
             {
                 Text(text = stringResource(id = R.string.sleep))
