@@ -3,8 +3,13 @@
 
     <!-- Screen -->
     <string name="home_screen_label">Inicio</string>
+    <string name="history_screen_label">Historial</string>
+    <string name="trends_screen_label">Tendencias</string>
+    <string name="settings_screen_label">Ajustes</string>
     <string name="privacy_policy_screen_label">Política de privacidad</string>
+    <string name="about_screen_label">Acerca de la aplicación</string>
     <string name="health_connect_settings_label">Ajustes de Salud Conectada</string>
+    <string name="demo_screen_label">Demo</string>
 
     <!-- Welcome screen -->
     <string name="welcome_text">Bievenido al Sistema de Bienestar Emocional</string>
@@ -29,6 +34,6 @@
 
     <!-- Misc -->
     <string name="menu">Menu</string>
-    <string name="settings">Ajustes</string>
+    <string name="go_back">Volver atrás</string>
 
 </resources>

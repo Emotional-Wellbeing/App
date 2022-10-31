@@ -8,10 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import es.upm.sistemabienestaremocional.healthconnect.HealthConnectManager
-import es.upm.sistemabienestaremocional.screen.MainScreen
-import es.upm.sistemabienestaremocional.screen.ErrorScreen
-import es.upm.sistemabienestaremocional.screen.HomeScreen
-import es.upm.sistemabienestaremocional.screen.PrivacyPolicyScreen
+import es.upm.sistemabienestaremocional.screen.*
 import es.upm.sistemabienestaremocional.sleep.SleepScreen
 import es.upm.sistemabienestaremocional.sleep.SleepSessionViewModel
 import es.upm.sistemabienestaremocional.sleep.SleepSessionViewModelFactory
@@ -33,20 +30,45 @@ fun AppNavigation(navController: NavHostController, healthConnectManager: Health
                 onSucess = { navController.navigate(Screen.HomeScreen.route) },
                 onFailure = { navController.navigate(Screen.ErrorScreen.route) })
         }
+
         composable(route = Screen.ErrorScreen.route)
         {
             ErrorScreen(healthConnectAvailability = availability)
         }
+
         composable(route = Screen.HomeScreen.route)
         {
             HomeScreen(
                 navController = navController,
                 onSleepClick = { navController.navigate(Screen.SleepScreen.route) })
         }
+
+        composable(route = Screen.HistoryScreen.route)
+        {
+            HistoryScreen(onBackClick = {navController.navigateUp()})
+        }
+
+        composable(route = Screen.TrendsScreen.route)
+        {
+            TrendsScreen(onBackClick = {navController.navigateUp()})
+        }
+
+        composable(route = Screen.SettingsScreen.route)
+        {
+            SettingsScreen(onBackClick = {navController.navigateUp()})
+        }
+
         composable(route = Screen.PrivacyPolicyScreen.route)
         {
             PrivacyPolicyScreen(onBackClick = {navController.navigateUp()})
         }
+
+        composable(route = Screen.AboutScreen.route)
+        {
+            AboutScreen(onBackClick = {navController.navigateUp()})
+        }
+
+
         composable(route = Screen.SleepScreen.route)
         {
             val viewModel: SleepSessionViewModel = viewModel(
