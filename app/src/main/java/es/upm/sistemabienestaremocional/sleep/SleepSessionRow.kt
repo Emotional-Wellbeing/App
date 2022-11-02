@@ -3,10 +3,10 @@ package es.upm.sistemabienestaremocional.sleep
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowForward
@@ -21,7 +21,7 @@ import es.upm.sistemabienestaremocional.R
 import es.upm.sistemabienestaremocional.healthconnect.dateTimeWithOffsetOrDefault
 import es.upm.sistemabienestaremocional.healthconnect.formatHoursMinutes
 import es.upm.sistemabienestaremocional.formatDisplayTimeStartEnd
-import es.upm.sistemabienestaremocional.theme.SistemaBienestarEmocionalTheme
+import es.upm.sistemabienestaremocional.ui.theme.SistemaBienestarEmocionalTheme
 import java.time.Duration
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -50,7 +50,7 @@ fun SleepSessionRow(sessionData: SleepSessionData, startExpanded: Boolean = fals
         Text(
             modifier = Modifier
                 .weight(0.4f),
-            color = MaterialTheme.colors.primary,
+            color = MaterialTheme.colorScheme.primary,
             text = startDateTime.format(formatter)
         )
         if (!expanded) {

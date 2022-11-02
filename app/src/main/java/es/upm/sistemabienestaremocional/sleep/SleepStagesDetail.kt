@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.SleepStageRecord
 import es.upm.sistemabienestaremocional.formatDisplayTimeStartEnd
-import es.upm.sistemabienestaremocional.theme.SistemaBienestarEmocionalTheme
+import es.upm.sistemabienestaremocional.ui.theme.SistemaBienestarEmocionalTheme
 import java.time.ZonedDateTime
 
 @Composable
@@ -31,7 +31,7 @@ fun SleepStagesDetail(sleepStages: List<SleepStageRecord>) {
             Text(
                 modifier = Modifier.weight(0.5f),
                 text = startEndLabel,
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.Start
             )
             Text(

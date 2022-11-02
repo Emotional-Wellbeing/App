@@ -1,14 +1,14 @@
 
-package es.upm.sistemabienestaremocional.component
+package es.upm.sistemabienestaremocional.ui.theme.component
 
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import es.upm.sistemabienestaremocional.R
 import es.upm.sistemabienestaremocional.healthconnect.MIN_SUPPORTED_SDK
-import es.upm.sistemabienestaremocional.theme.SistemaBienestarEmocionalTheme
+import es.upm.sistemabienestaremocional.ui.theme.SistemaBienestarEmocionalTheme
 
 /**
  * Welcome text shown when the app first starts, where the device is not running a sufficient

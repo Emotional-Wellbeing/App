@@ -1,15 +1,12 @@
 package es.upm.sistemabienestaremocional
 
-import android.annotation.SuppressLint
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
 import es.upm.sistemabienestaremocional.healthconnect.HealthConnectManager
 import es.upm.sistemabienestaremocional.navigation.AppNavigation
-import es.upm.sistemabienestaremocional.theme.SistemaBienestarEmocionalTheme
+import es.upm.sistemabienestaremocional.ui.theme.SistemaBienestarEmocionalTheme
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SistemaBienestarEmocionalApp(healthConnectManager: HealthConnectManager)
 {
@@ -18,13 +15,9 @@ fun SistemaBienestarEmocionalApp(healthConnectManager: HealthConnectManager)
 
     SistemaBienestarEmocionalTheme()
     {
-        Scaffold {
-            AppNavigation(
+        AppNavigation(
                 healthConnectManager = healthConnectManager,
                 navController = navController
-            )
-        }
-
-        //MainScreen(navController = navController, healthConnectAvailability = availability)
+        )
     }
 }

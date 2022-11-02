@@ -1,4 +1,4 @@
-package es.upm.sistemabienestaremocional.screen
+package es.upm.sistemabienestaremocional.ui.screen
 
 import androidx.compose.runtime.Composable
 import es.upm.sistemabienestaremocional.healthconnect.HealthConnectAvailability

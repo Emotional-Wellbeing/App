@@ -8,10 +8,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import es.upm.sistemabienestaremocional.healthconnect.HealthConnectManager
-import es.upm.sistemabienestaremocional.screen.*
 import es.upm.sistemabienestaremocional.sleep.SleepScreen
 import es.upm.sistemabienestaremocional.sleep.SleepSessionViewModel
 import es.upm.sistemabienestaremocional.sleep.SleepSessionViewModelFactory
+import es.upm.sistemabienestaremocional.ui.screen.*
 
 /**
  * Manages the navigation in the app
@@ -45,27 +45,27 @@ fun AppNavigation(navController: NavHostController, healthConnectManager: Health
 
         composable(route = Screen.HistoryScreen.route)
         {
-            HistoryScreen(onBackClick = {navController.navigateUp()})
+            HistoryScreen(navController)
         }
 
         composable(route = Screen.TrendsScreen.route)
         {
-            TrendsScreen(onBackClick = {navController.navigateUp()})
+            TrendsScreen(navController)
         }
 
         composable(route = Screen.SettingsScreen.route)
         {
-            SettingsScreen(onBackClick = {navController.navigateUp()})
+            SettingsScreen(navController)
         }
 
         composable(route = Screen.PrivacyPolicyScreen.route)
         {
-            PrivacyPolicyScreen(onBackClick = {navController.navigateUp()})
+            PrivacyPolicyScreen(navController)
         }
 
         composable(route = Screen.AboutScreen.route)
         {
-            AboutScreen(onBackClick = {navController.navigateUp()})
+            AboutScreen(navController)
         }
 
 
