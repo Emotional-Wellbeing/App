@@ -31,7 +31,7 @@ fun SettingsScreen(navController: NavController)
             horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-            SwitchWithLabel(label = "Wifi example")
+            SwitchWithLabel(label = "Hello world")
         }
     }
 }

@@ -1,4 +1,3 @@
-
 package es.upm.sistemabienestaremocional.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
@@ -9,24 +8,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import es.upm.sistemabienestaremocional.R
 import es.upm.sistemabienestaremocional.navigation.LocalMenuEntry
 import es.upm.sistemabienestaremocional.ui.component.AppBasicScreen
 import es.upm.sistemabienestaremocional.ui.component.BasicCard
 import es.upm.sistemabienestaremocional.ui.theme.SistemaBienestarEmocionalTheme
 
 /**
- * Shows the privacy policy.
+ * Plots graphics about user's evolution
  */
+
 @Composable
-fun PrivacyPolicyScreen(navController: NavController)
+fun EvolutionScreen(navController: NavController)
 {
-    AppBasicScreen(navController = navController, entrySelected = LocalMenuEntry.PrivacyPolicyScreen)
+    AppBasicScreen(navController = navController, entrySelected = LocalMenuEntry.EvolutionScreen)
     {
         Column(
             modifier = Modifier
@@ -37,7 +35,7 @@ fun PrivacyPolicyScreen(navController: NavController)
         )
         {
             BasicCard{
-                Text(stringResource(R.string.privacy_policy_description))
+                Text("Evolution placeholder")
             }
         }
     }
@@ -45,10 +43,10 @@ fun PrivacyPolicyScreen(navController: NavController)
 
 @Preview
 @Composable
-fun PrivacyPolicyScreenPreview()
+fun EvolutionScreenPreview()
 {
     val navController = rememberNavController()
     SistemaBienestarEmocionalTheme {
-        PrivacyPolicyScreen(navController)
+        EvolutionScreen(navController)
     }
 }

@@ -4,6 +4,7 @@
     <!-- Screen -->
     <string name="home_screen_label">Inicio</string>
     <string name="history_screen_label">Historial</string>
+    <string name="evolution_screen_label">Evolución</string>
     <string name="trends_screen_label">Tendencias</string>
     <string name="settings_screen_label">Ajustes</string>
     <string name="privacy_policy_screen_label">Política de privacidad</string>

@@ -44,6 +44,10 @@ android {
         }
     }
     namespace 'es.upm.sistemabienestaremocional'
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {

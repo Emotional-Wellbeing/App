@@ -11,6 +11,7 @@ enum class Screen (val route: String)
     ErrorScreen(route = "error_screen"),
     HomeScreen(route = "home_screen"),
     HistoryScreen(route = "history_screen"),
+    EvolutionScreen(route = "evolution_screen"),
     TrendsScreen(route= "trends_screen"),
     SettingsScreen(route = "settings_screen"),
     PrivacyPolicyScreen(route = "privacy_policy_screen"),

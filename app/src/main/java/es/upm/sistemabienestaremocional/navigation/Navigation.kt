@@ -48,6 +48,11 @@ fun AppNavigation(navController: NavHostController, healthConnectManager: Health
             HistoryScreen(navController)
         }
 
+        composable(route = Screen.EvolutionScreen.route)
+        {
+            EvolutionScreen(navController)
+        }
+
         composable(route = Screen.TrendsScreen.route)
         {
             TrendsScreen(navController)

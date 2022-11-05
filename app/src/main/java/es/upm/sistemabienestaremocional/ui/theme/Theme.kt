@@ -78,14 +78,19 @@ fun SistemaBienestarEmocionalTheme(
     content: @Composable () -> Unit
 ) {
     // Dynamic color is available on Android 12+
-    val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-
-    val colorScheme = when
+    val colorScheme : ColorScheme = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
     {
-        dynamicColor && darkTheme -> dynamicDarkColorScheme(LocalContext.current)
-        dynamicColor && !darkTheme -> dynamicLightColorScheme(LocalContext.current)
-        darkTheme -> DarkColors
-        else -> LightColors
+        if (darkTheme)
+            dynamicDarkColorScheme(LocalContext.current)
+        else
+            dynamicLightColorScheme(LocalContext.current)
+    }
+    else
+    {
+        if (darkTheme)
+            DarkColors
+        else
+            LightColors
     }
 
     MaterialTheme(

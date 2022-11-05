@@ -2,9 +2,6 @@ package es.upm.sistemabienestaremocional.ui.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,12 +22,6 @@ fun SwitchWithLabel(label: String)
         Switch(
             checked = isChecked.value,
             onCheckedChange = { isChecked.value = it },
-            thumbContent = {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = null
-                )
-            },
         )
     }
 }

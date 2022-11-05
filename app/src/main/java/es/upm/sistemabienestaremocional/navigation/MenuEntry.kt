@@ -34,12 +34,21 @@ enum class LocalMenuEntry(val route: String): MenuEntry
             get() = R.drawable.ic_baseline_monitor_heart
     },
 
+    EvolutionScreen(route = Screen.EvolutionScreen.route)
+    {
+        override val labelId: Int
+            get() = R.string.evolution_screen_label
+        override val iconId: Int
+            get() = R.drawable.ic_baseline_ssid_chart
+    },
+
     TrendsScreen(route = Screen.TrendsScreen.route)
     {
         override val labelId: Int
             get() = R.string.trends_screen_label
         override val iconId: Int
-            get() = R.drawable.ic_baseline_ssid_chart
+            get() = R.drawable.ic_baseline_people_alt
+
     },
     SettingsScreen(route = "settings_screen")
     {
@@ -53,7 +62,7 @@ enum class LocalMenuEntry(val route: String): MenuEntry
         override val labelId: Int
             get() = R.string.about_screen_label
         override val iconId: Int
-            get() = R.drawable.ic_baseline_people_alt
+            get() = R.drawable.ic_baseline_help_outline
     },
 
     PrivacyPolicyScreen(route = Screen.PrivacyPolicyScreen.route)
