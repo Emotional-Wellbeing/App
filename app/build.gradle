@@ -7,7 +7,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "es.upm.sistemabienestaremocional"
+        applicationId "es.upm.bienestaremocional"
         minSdk 28 //Health connect requires sdk >=27
         targetSdk 33
         versionCode 1
@@ -43,7 +43,7 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-    namespace 'es.upm.sistemabienestaremocional'
+    namespace 'es.upm.bienestaremocional'
 
     lintOptions {
         abortOnError false

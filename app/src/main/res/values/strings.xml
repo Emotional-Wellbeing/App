@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sistema Bienestar Emocional</string>
+    <string name="app_name">Bienestar Emocional</string>
 
     <!-- Screen -->
     <string name="home_screen_label">Inicio</string>
@@ -13,7 +13,7 @@
     <string name="demo_screen_label">Demo</string>
 
     <!-- Welcome screen -->
-    <string name="welcome_text">Bievenido al Sistema de Bienestar Emocional</string>
+    <string name="welcome_text">Bievenido a Bienestar Emocional</string>
     <string name="installed_welcome_message">¡Enhorabuena! Estás listo para utilizar esta aplicación.</string>
     <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Health Connect, aplicación disponible en Google Play.</string>
     <string name="not_supported_welcome_message">Esta aplicación solo está disponible para dispositivos que ejecuten una API %1$d o superior.</string>
@@ -30,8 +30,8 @@
     <string name="sleep_notes">Notas</string>
     <string name="not_available_abbrev">N/A</string>
     <string name="sleep_stages">Etapas de sueño</string>
-    <string name="sleep_duration">Duración:</string>
-    <string name="sleep_time">Duración:</string>
+    <string name="sleep_duration">Intervalo de sueño:</string>
+    <string name="sleep_time">Tiempo de sueño:</string>
 
     <!-- Misc -->
     <string name="menu">Menu</string>
