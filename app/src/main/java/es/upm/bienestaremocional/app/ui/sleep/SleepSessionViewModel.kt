@@ -19,7 +19,7 @@ class SleepSessionViewModel(val healthConnectSleep: HealthConnectSleep) :
         @Suppress("UNCHECKED_CAST")
 
         //This cast can sucess because SleepSessionData implements HealthConnectDataClass
-        readData(healthConnectSource = healthConnectSleep,
+        super.readData(healthConnectSource = healthConnectSleep,
             data = sessionsList as MutableState<List<HealthConnectDataClass>>)
     }
 }

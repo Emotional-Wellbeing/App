@@ -1,11 +1,10 @@
-package es.upm.bienestaremocional.app.ui.sleep
+package es.upm.bienestaremocional.app.ui.heartrate
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,22 +17,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.lifecycle.viewmodel.compose.viewModel
-import es.upm.bienestaremocional.app.ui.sleep.component.SleepSessionRow
-import es.upm.bienestaremocional.app.data.sleep.HealthConnectSleep
-import es.upm.bienestaremocional.app.data.sleep.SleepSessionData
+import es.upm.bienestaremocional.app.data.heartrate.HealthConnectHeartrate
+import es.upm.bienestaremocional.app.data.heartrate.HeartrateData
+import es.upm.bienestaremocional.app.ui.heartrate.component.heartRateSeries
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import java.util.*
 
-/**
- * Debug screen to visualize sleep data from health connect
- */
 @Composable
-private fun DrawSleepScreen(permissions: Set<HealthPermission>,
-                            uiState: HealthConnectViewModel.UiState,
-                            sessionList : List<SleepSessionData>,
-                            onPermissionsResult: () -> Unit = {},
-                            onRequestPermissions: (Set<HealthPermission>) -> Unit = {},
-                            onError: (Throwable?) -> Unit = {})
+fun DrawHeartrateScreen(permissions: Set<HealthPermission>,
+                        uiState: HealthConnectViewModel.UiState,
+                        hrList : List<HeartrateData>,
+                        onPermissionsResult: () -> Unit = {},
+                        onWrite: () -> Unit = {},
+                        onRequestPermissions: (Set<HealthPermission>) -> Unit = {},
+                        onError: (Throwable?) -> Unit = {})
 {
     // Remember the last error ID, such that it is possible to avoid re-launching the error
     // notification for the same error when the screen is recomposed, or configuration changes etc.
@@ -44,7 +41,7 @@ private fun DrawSleepScreen(permissions: Set<HealthPermission>,
         if (uiState is HealthConnectViewModel.UiState.Uninitialized)
             onPermissionsResult()
 
-        // The [SleepSessionViewModel.UiState] provides details of whether the last action was a
+        // The UiState provides details of whether the last action was a
         // success or resulted in an error. Where an error occurred, for example in reading and
         // writing to Health Connect, the user is notified, and where the error is one that can be
         // recovered from, an attempt to do so is made.
@@ -66,7 +63,13 @@ private fun DrawSleepScreen(permissions: Set<HealthPermission>,
         {
             if (uiState == HealthConnectViewModel.UiState.Success)
             {
-                items(sessionList) { session -> SleepSessionRow(session) }
+                item {
+                    Button(onClick = {onWrite()})
+                    {
+                        Text("Generate data")
+                    }
+                }
+                heartRateSeries(hrList)
             }
             else if (uiState == HealthConnectViewModel.UiState.NotEnoughPermissions)
             {
@@ -82,25 +85,27 @@ private fun DrawSleepScreen(permissions: Set<HealthPermission>,
 }
 
 @Composable
-fun SleepScreen(healthConnectSleep: HealthConnectSleep, onError: (Throwable?) -> Unit = {})
+fun HeartrateScreen(healthConnectHeartrate: HealthConnectHeartrate,
+                    onError: (Throwable?) -> Unit = {})
 {
     //get viewmodel to access sleep data
-    val viewModel: SleepSessionViewModel = viewModel(
-        factory = SleepSessionViewModelFactory(healthConnectSleep = healthConnectSleep)
+    val viewModel: HeartrateViewModel = viewModel(
+        factory = HeartrateViewModelFactory(healthConnectHeartrate = healthConnectHeartrate)
     )
 
-    val sessionsList by viewModel.sessionsList
-    val permissions = viewModel.healthConnectSleep.permissions
-    val onPermissionsResult = {viewModel.readSleepData()}
+    val hrList by viewModel.hrList
+    val permissions = viewModel.healthConnectHeartrate.permissions
+    val onPermissionsResult = {viewModel.readHeartrateData()}
     val permissionsLauncher =
         rememberLauncherForActivityResult(viewModel.permissionLauncher)
         { onPermissionsResult() }
 
-    DrawSleepScreen(
+    DrawHeartrateScreen(
         permissions = permissions,
         uiState = viewModel.uiState,
-        sessionList = sessionsList,
+        hrList = hrList,
         onPermissionsResult = onPermissionsResult,
+        onWrite = {viewModel.generateSamples()},
         onRequestPermissions = { values -> permissionsLauncher.launch(values)},
         onError = onError)
 }

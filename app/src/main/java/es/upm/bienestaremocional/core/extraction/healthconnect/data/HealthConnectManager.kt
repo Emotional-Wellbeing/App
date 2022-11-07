@@ -10,6 +10,7 @@ import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
+import androidx.health.connect.client.response.InsertRecordsResponse
 import androidx.health.connect.client.response.ReadRecordsResponse
 
 // The minimum android level that can use Health Connect
@@ -65,15 +66,14 @@ class HealthConnectManager(private val context: Context)
         permissions == healthConnectClient.permissionController.getGrantedPermissions(permissions)
 
 
-    suspend fun <T:Record> readRecords(request: ReadRecordsRequest<T>): ReadRecordsResponse<T>
-    {
-        return healthConnectClient.readRecords(request)
-    }
+    suspend fun <T:Record> readRecords(request: ReadRecordsRequest<T>): ReadRecordsResponse<T> =
+        healthConnectClient.readRecords(request)
 
-    suspend fun aggregate(request: AggregateRequest): AggregationResult
-    {
-        return healthConnectClient.aggregate(request)
-    }
+    suspend fun aggregate(request: AggregateRequest): AggregationResult =
+        healthConnectClient.aggregate(request)
+
+    suspend fun insertRecords(records: List<Record>): InsertRecordsResponse =
+        healthConnectClient.insertRecords(records)
 
 }
 

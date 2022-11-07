@@ -1,7 +1,12 @@
 package es.upm.bienestaremocional.core.extraction.healthconnect.data
 
-interface HealthConnectSource
+import androidx.health.connect.client.permission.HealthPermission
+
+abstract class HealthConnectSource(protected val healthConnectManager: HealthConnectManager)
 {
-    suspend fun permissionsCheck(): Boolean
-    suspend fun readSource(): List<HealthConnectDataClass>
+    abstract val permissions : Set<HealthPermission>
+
+    suspend fun permissionsCheck(): Boolean = healthConnectManager.hasAllPermissions(permissions)
+
+    abstract suspend fun readSource(): List<HealthConnectDataClass>
 }

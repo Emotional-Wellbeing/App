@@ -8,10 +8,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import es.upm.bienestaremocional.app.data.heartrate.HealthConnectHeartrate
 import es.upm.bienestaremocional.app.showExceptionSnackbar
 import es.upm.bienestaremocional.app.ui.screen.*
 import es.upm.bienestaremocional.app.ui.sleep.SleepScreen
 import es.upm.bienestaremocional.app.data.sleep.HealthConnectSleep
+import es.upm.bienestaremocional.app.ui.heartrate.HeartrateScreen
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
 import es.upm.bienestaremocional.core.ui.navigation.Screen
 
@@ -27,6 +29,7 @@ fun AppNavigation(navController: NavHostController, healthConnectManager: Health
     val scope = rememberCoroutineScope()
 
     val healthConnectSleep = HealthConnectSleep(healthConnectManager)
+    val healthConnectHeartrate = HealthConnectHeartrate(healthConnectManager)
     val availability by healthConnectManager.availability
 
     NavHost(navController = navController, startDestination = Screen.MainScreen.route)
@@ -47,7 +50,8 @@ fun AppNavigation(navController: NavHostController, healthConnectManager: Health
         {
             HomeScreen(
                 navController = navController,
-                onSleepClick = { navController.navigate(Screen.SleepScreen.route) })
+                onSleepClick = { navController.navigate(Screen.SleepScreen.route) },
+                onHeartrateClick = { navController.navigate(Screen.HeartrateScreen.route) })
         }
 
         composable(route = Screen.HistoryScreen.route)
@@ -80,12 +84,19 @@ fun AppNavigation(navController: NavHostController, healthConnectManager: Health
             AboutScreen(navController)
         }
 
-
         composable(route = Screen.SleepScreen.route)
         {
             SleepScreen(healthConnectSleep) {
                     exception -> showExceptionSnackbar(scope, snackbarHostState, exception)
             }
         }
+
+        composable(route = Screen.HeartrateScreen.route)
+        {
+            HeartrateScreen(healthConnectHeartrate){
+                    exception -> showExceptionSnackbar(scope, snackbarHostState, exception)
+            }
+        }
+
     }
 }

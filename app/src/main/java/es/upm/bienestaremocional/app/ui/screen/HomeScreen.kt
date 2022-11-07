@@ -24,7 +24,9 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(navController: NavController, onSleepClick : () -> Unit)
+fun HomeScreen(navController: NavController,
+               onSleepClick : () -> Unit,
+               onHeartrateClick : () -> Unit)
 {
     AppBasicScreen(navController = navController,
         entrySelected = LocalMenuEntry.HomeScreen,
@@ -72,6 +74,13 @@ fun HomeScreen(navController: NavController, onSleepClick : () -> Unit)
             {
                 Text(text = stringResource(id = R.string.sleep))
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(onClick = onHeartrateClick)
+            {
+                Text(text = stringResource(id = R.string.heart_rate))
+            }
         }
     }
 }
@@ -86,6 +95,7 @@ fun HomeScreenPreview()
     BienestarEmocionalTheme{
         HomeScreen(
             navController = navController,
-            onSleepClick = {})
+            onSleepClick = {},
+            onHeartrateClick = {})
     }
 }

@@ -5,5 +5,7 @@
         <item>androidx.health.permission.SleepSession.WRITE</item>
         <item>androidx.health.permission.SleepStage.READ</item>
         <item>androidx.health.permission.SleepStage.WRITE</item>
+        <item>androidx.health.permission.HeartRate.READ</item>
+        <item>androidx.health.permission.HeartRate.WRITE</item>
     </array>
 </resources>

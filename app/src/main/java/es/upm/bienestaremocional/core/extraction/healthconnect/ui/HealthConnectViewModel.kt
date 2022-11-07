@@ -1,7 +1,5 @@
 package es.upm.bienestaremocional.core.extraction.healthconnect.ui
 
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectDataClass
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import android.os.RemoteException
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -10,6 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.health.connect.client.PermissionController
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectDataClass
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*

@@ -30,14 +30,12 @@ data class SleepSessionData(
     val stages: List<SleepStageRecord> = listOf()
 ): HealthConnectDataClass
 
-class HealthConnectSleep(private val healthConnectManager: HealthConnectManager):
-    HealthConnectSource
+class HealthConnectSleep(healthConnectManager: HealthConnectManager):
+    HealthConnectSource(healthConnectManager)
 {
-    val permissions = setOf(
+    override val permissions = setOf(
         HealthPermission.createReadPermission(SleepSessionRecord::class),
         HealthPermission.createReadPermission(SleepStageRecord::class))
-
-    override suspend fun permissionsCheck() = healthConnectManager.hasAllPermissions(permissions)
 
     /**
      * Reads sleep sessions for the previous seven days (from yesterday) to show a week's worth of

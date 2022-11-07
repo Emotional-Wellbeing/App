@@ -38,3 +38,6 @@ fun formatDisplayTimeStartEnd(
     val end = timeFormatter.format(dateTimeWithOffsetOrDefault(endTime, endZoneOffset))
     return "$start - $end"
 }
+
+fun linspace(start: Long, stop: Long, num: Int) =
+    (start..stop step (stop - start) / (num - 1)).toList()
