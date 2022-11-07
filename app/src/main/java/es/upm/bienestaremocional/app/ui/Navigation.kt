@@ -1,22 +1,18 @@
 package es.upm.bienestaremocional.app.ui
 
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import es.upm.bienestaremocional.core.healthconnect.data.HealthConnectManager
-import es.upm.bienestaremocional.app.sleep.ui.SleepScreen
-import es.upm.bienestaremocional.app.sleep.ui.SleepSessionViewModel
-import es.upm.bienestaremocional.app.sleep.ui.SleepSessionViewModelFactory
-import es.upm.bienestaremocional.app.ui.screen.*
-
 import es.upm.bienestaremocional.app.showExceptionSnackbar
+import es.upm.bienestaremocional.app.ui.screen.*
+import es.upm.bienestaremocional.app.ui.sleep.SleepScreen
+import es.upm.bienestaremocional.app.data.sleep.HealthConnectSleep
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
 import es.upm.bienestaremocional.core.ui.navigation.Screen
 
 /**
@@ -30,6 +26,7 @@ fun AppNavigation(navController: NavHostController, healthConnectManager: Health
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
+    val healthConnectSleep = HealthConnectSleep(healthConnectManager)
     val availability by healthConnectManager.availability
 
     NavHost(navController = navController, startDestination = Screen.MainScreen.route)
@@ -86,26 +83,9 @@ fun AppNavigation(navController: NavHostController, healthConnectManager: Health
 
         composable(route = Screen.SleepScreen.route)
         {
-            //get viewmodel to access sleep data
-            val viewModel: SleepSessionViewModel = viewModel(
-                factory = SleepSessionViewModelFactory(healthConnectManager = healthConnectManager)
-            )
-
-            val sessionsList by viewModel.sessionsList
-            val permissions = viewModel.permissions
-            val onPermissionsResult = {viewModel.initialLoad()}
-            val permissionsLauncher =
-                rememberLauncherForActivityResult(viewModel.permissionsLauncher)
-                { onPermissionsResult() }
-
-            SleepScreen(
-                permissions = permissions,
-                uiState = viewModel.uiState,
-                sessionsList = sessionsList,
-                onPermissionsResult = onPermissionsResult,
-                onRequestPermissions = { values -> permissionsLauncher.launch(values)},
-                onError = {exception -> showExceptionSnackbar(scope, snackbarHostState, exception) }
-            )
+            SleepScreen(healthConnectSleep) {
+                    exception -> showExceptionSnackbar(scope, snackbarHostState, exception)
+            }
         }
     }
 }

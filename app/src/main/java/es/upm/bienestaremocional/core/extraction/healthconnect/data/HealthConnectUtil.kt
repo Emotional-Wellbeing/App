@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.core.healthconnect.data
+package es.upm.bienestaremocional.core.extraction.healthconnect.data
 
 import java.time.Duration
 import java.time.Instant

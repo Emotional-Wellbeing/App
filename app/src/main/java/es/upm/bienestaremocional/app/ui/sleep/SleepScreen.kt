@@ -1,5 +1,6 @@
-package es.upm.bienestaremocional.app.sleep.ui
+package es.upm.bienestaremocional.app.ui.sleep
 
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -9,30 +10,31 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.permission.HealthPermission
-import es.upm.bienestaremocional.core.healthconnect.ui.HealthConnectViewModel
-import es.upm.bienestaremocional.app.sleep.data.SleepSessionData
-import es.upm.bienestaremocional.app.sleep.ui.component.SleepSessionRow
+import androidx.lifecycle.viewmodel.compose.viewModel
+import es.upm.bienestaremocional.app.ui.sleep.component.SleepSessionRow
+import es.upm.bienestaremocional.app.data.sleep.HealthConnectSleep
+import es.upm.bienestaremocional.app.data.sleep.SleepSessionData
+import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import java.util.*
 
 /**
  * Debug screen to visualize sleep data from health connect
  */
 @Composable
-fun SleepScreen(
-    permissions: Set<HealthPermission>,
-    uiState: HealthConnectViewModel.UiState,
-    sessionsList: List<SleepSessionData>,
-    onPermissionsResult: () -> Unit = {},
-    onRequestPermissions: (Set<HealthPermission>) -> Unit = {},
-    onError: (Throwable?) -> Unit = {},
-)
+private fun DrawSleepScreen(viewModel: SleepSessionViewModel,
+                            sessionList : List<SleepSessionData>,
+                            onPermissionsResult: () -> Unit = {},
+                            onRequestPermissions: (Set<HealthPermission>) -> Unit = {},
+                            onError: (Throwable?) -> Unit = {})
 {
+    val uiState = viewModel.uiState
     // Remember the last error ID, such that it is possible to avoid re-launching the error
     // notification for the same error when the screen is recomposed, or configuration changes etc.
     val errorId = rememberSaveable { mutableStateOf(UUID.randomUUID()) }
@@ -56,18 +58,20 @@ fun SleepScreen(
     if (uiState != HealthConnectViewModel.UiState.Uninitialized)
     {
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally)
         {
             if (uiState == HealthConnectViewModel.UiState.Success)
             {
-                items(sessionsList) { session -> SleepSessionRow(session) }
+                items(sessionList) { session -> SleepSessionRow(session) }
             }
             else if (uiState == HealthConnectViewModel.UiState.NotEnoughPermissions)
             {
                 item {
-                    Button(onClick = {onRequestPermissions(permissions)})
+                    Button(onClick = {onRequestPermissions(viewModel.healthConnectSleep.permissions)})
                     {
                         Text(text = "Solicita permisos")
                     }
@@ -75,4 +79,26 @@ fun SleepScreen(
             }
         }
     }
+}
+
+@Composable
+fun SleepScreen(healthConnectSleep: HealthConnectSleep, onError: (Throwable?) -> Unit = {})
+{
+    //get viewmodel to access sleep data
+    val viewModel: SleepSessionViewModel = viewModel(
+        factory = SleepSessionViewModelFactory(healthConnectSleep = healthConnectSleep)
+    )
+
+    val sessionList by viewModel.sessionsList
+    val onPermissionsResult = {viewModel.readSleepData()}
+    val permissionsLauncher =
+        rememberLauncherForActivityResult(viewModel.permissionLauncher)
+        { onPermissionsResult() }
+
+    DrawSleepScreen(
+        viewModel = viewModel,
+        sessionList = sessionList,
+        onPermissionsResult = onPermissionsResult,
+        onRequestPermissions = { values -> permissionsLauncher.launch(values)},
+        onError = onError)
 }

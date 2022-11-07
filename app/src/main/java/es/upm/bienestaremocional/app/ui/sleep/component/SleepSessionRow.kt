@@ -1,5 +1,5 @@
 
-package es.upm.bienestaremocional.app.sleep.ui.component
+package es.upm.bienestaremocional.app.ui.sleep.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,10 +20,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.SleepStageRecord
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.core.healthconnect.data.dateTimeWithOffsetOrDefault
-import es.upm.bienestaremocional.core.healthconnect.data.formatDisplayTimeStartEnd
-import es.upm.bienestaremocional.core.healthconnect.data.formatHoursMinutes
-import es.upm.bienestaremocional.app.sleep.data.SleepSessionData
+import es.upm.bienestaremocional.app.sleep.ui.component.SleepStagesDetail
+import es.upm.bienestaremocional.app.data.sleep.SleepSessionData
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.dateTimeWithOffsetOrDefault
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatDisplayTimeStartEnd
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatHoursMinutes
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import java.time.Duration
 import java.time.ZonedDateTime

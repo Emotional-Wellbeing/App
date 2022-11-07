@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import es.upm.bienestaremocional.core.healthconnect.data.HealthConnectAvailability
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
 import es.upm.bienestaremocional.app.ui.component.NotInstalledMessage
 import es.upm.bienestaremocional.app.ui.component.NotSupportedMessage
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme

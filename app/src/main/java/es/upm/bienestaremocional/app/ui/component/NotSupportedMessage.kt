@@ -7,7 +7,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.core.healthconnect.data.MIN_SUPPORTED_SDK
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.MIN_SUPPORTED_SDK
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 

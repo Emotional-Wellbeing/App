@@ -1,5 +1,5 @@
 
-package es.upm.bienestaremocional.app.sleep.ui.component
+package es.upm.bienestaremocional.app.ui.sleep.component
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*

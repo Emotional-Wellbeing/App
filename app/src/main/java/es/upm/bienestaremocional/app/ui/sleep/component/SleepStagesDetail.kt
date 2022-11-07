@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.SleepStageRecord
-import es.upm.bienestaremocional.core.healthconnect.data.formatDisplayTimeStartEnd
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatDisplayTimeStartEnd
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import java.time.ZonedDateTime
 

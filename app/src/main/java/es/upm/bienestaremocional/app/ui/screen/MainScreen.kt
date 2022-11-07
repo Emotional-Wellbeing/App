@@ -1,7 +1,7 @@
 package es.upm.bienestaremocional.app.ui.screen
 
 import androidx.compose.runtime.Composable
-import es.upm.bienestaremocional.core.healthconnect.data.HealthConnectAvailability
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
 
 /**
  * @Todo close app when we arrive this screen from other
