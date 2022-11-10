@@ -31,19 +31,14 @@ class HealthConnectHeartrate(healthConnectManager: HealthConnectManager):
         HealthPermission.createWritePermission(HeartRateRecord::class)
     )
 
-    override suspend fun readSource(): List<HealthConnectDataClass>
+    override suspend fun readSource(startTime: Instant, endTime: Instant):
+            List<HealthConnectDataClass>
     {
-        val lastDay = ZonedDateTime.now().truncatedTo(ChronoUnit.DAYS)
-            .minusDays(1)
-            .withHour(12)
-        val firstDay = lastDay
-            .minusDays(7)
-
         val sessions = mutableListOf<HeartrateData>()
 
         val hearthRateRequest = ReadRecordsRequest(
             recordType = HeartRateRecord::class,
-            timeRangeFilter = TimeRangeFilter.between(firstDay.toInstant(), lastDay.toInstant()),
+            timeRangeFilter = TimeRangeFilter.between(startTime, endTime),
             ascendingOrder = false
         )
         val heartrateItems = healthConnectManager.readRecords(hearthRateRequest)
@@ -68,18 +63,20 @@ class HealthConnectHeartrate(healthConnectManager: HealthConnectManager):
         // Make yesterday the last day of the hr data
         val lastDay = ZonedDateTime.now().minusDays(1).truncatedTo(ChronoUnit.DAYS)
 
-        for (i in 0..5)
-        {
-            val init = lastDay.minusDays(i.toLong())
+        List(5)
+        { index ->
+            val init = lastDay.minusDays(index.toLong())
                 .withHour(Random.nextInt(0, 11))
                 .withMinute(Random.nextInt(0, 60))
-            val end = lastDay.minusDays(i.toLong())
+            val end = lastDay.minusDays(index.toLong())
                 .withHour(Random.nextInt(12, 23))
                 .withMinute(Random.nextInt(0, 60))
             val numberSamples = 5
-            val instants = linspace(init.toInstant().epochSecond, end.toInstant().epochSecond, numberSamples)
-            val samples = instants.map { instant ->
-                HeartRateRecord.Sample(Instant.ofEpochSecond(instant),Random.nextLong(60, 190) )
+            val samples = linspace(init.toInstant().epochSecond, end.toInstant().epochSecond, numberSamples).map {
+                instant ->
+                    HeartRateRecord.Sample(
+                        Instant.ofEpochSecond(instant),
+                        Random.nextLong(60, 190))
             }
             val hrr = HeartRateRecord(
                 startTime = init.toInstant(),

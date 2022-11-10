@@ -1,19 +1,17 @@
 package es.upm.bienestaremocional.app.data.sleep
 
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectDataClass
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.SleepSessionRecord
 import androidx.health.connect.client.records.SleepStageRecord
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectDataClass
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import java.time.Duration
 import java.time.Instant
 import java.time.ZoneOffset
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
 
 /**
  * Represents sleep data, raw, aggregated and sleep stages, for a given [SleepSessionRecord].
@@ -44,22 +42,20 @@ class HealthConnectSleep(healthConnectManager: HealthConnectManager):
      * In addition to reading [SleepSessionRecord]s, for each session, the duration is calculated to
      * demonstrate aggregation, and the underlying [SleepStageRecord] data is also read.
      */
-    override suspend fun readSource(): List<HealthConnectDataClass>
+    override suspend fun readSource(startTime: Instant, endTime: Instant):
+            List<HealthConnectDataClass>
     {
-        val lastDay = ZonedDateTime.now().truncatedTo(ChronoUnit.DAYS)
-            .minusDays(1)
-            .withHour(12)
-        val firstDay = lastDay
-            .minusDays(7)
-
         val sessions = mutableListOf<SleepSessionData>()
+
+        //petición de sesiones
         val sleepSessionRequest = ReadRecordsRequest(
             recordType = SleepSessionRecord::class,
-            timeRangeFilter = TimeRangeFilter.between(firstDay.toInstant(), lastDay.toInstant()),
+            timeRangeFilter = TimeRangeFilter.between(startTime, endTime),
             ascendingOrder = false
         )
         val sleepSessions = healthConnectManager.readRecords(sleepSessionRequest)
 
+        //para cada sesión, pedimos las stages y el agregado del total de sueño
         sleepSessions.records.forEach { session ->
             val sessionTimeFilter = TimeRangeFilter.between(session.startTime, session.endTime)
 
