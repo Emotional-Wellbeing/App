@@ -50,3 +50,13 @@ fun TrendsScreenPreview()
         TrendsScreen(navController)
     }
 }
+
+@Preview
+@Composable
+fun TrendsScreenPreviewDarkTheme()
+{
+    val navController = rememberNavController()
+    BienestarEmocionalTheme(darkTheme = true) {
+        TrendsScreen(navController)
+    }
+}

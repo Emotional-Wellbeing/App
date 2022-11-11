@@ -10,6 +10,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 @Composable
 fun SwitchWithLabel(label: String)
@@ -25,5 +27,23 @@ fun SwitchWithLabel(label: String)
             checked = isChecked.value,
             onCheckedChange = { isChecked.value = it },
         )
+    }
+}
+
+@Preview
+@Composable
+fun SwitchWithLabelPreview()
+{
+    BienestarEmocionalTheme {
+        SwitchWithLabel(label = "Hello world!")
+    }
+}
+
+@Preview
+@Composable
+fun SwitchWithLabelPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
+        SwitchWithLabel(label = "Hello world!")
     }
 }

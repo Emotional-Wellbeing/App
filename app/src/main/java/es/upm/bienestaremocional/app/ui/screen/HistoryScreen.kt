@@ -50,3 +50,13 @@ fun HistoryScreenPreview()
         HistoryScreen(navController)
     }
 }
+
+@Preview
+@Composable
+fun HistoryScreenPreviewDarkTheme()
+{
+    val navController = rememberNavController()
+    BienestarEmocionalTheme(darkTheme = true) {
+        HistoryScreen(navController)
+    }
+}

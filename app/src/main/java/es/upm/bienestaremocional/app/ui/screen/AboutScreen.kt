@@ -50,3 +50,13 @@ fun AboutScreenPreview()
         AboutScreen(navController)
     }
 }
+
+@Preview
+@Composable
+fun AboutScreenPreviewDarkTheme()
+{
+    val navController = rememberNavController()
+    BienestarEmocionalTheme(darkTheme = true) {
+        AboutScreen(navController)
+    }
+}

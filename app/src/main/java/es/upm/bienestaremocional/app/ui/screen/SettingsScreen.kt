@@ -45,3 +45,13 @@ fun SettingsScreenPreview()
         SettingsScreen(navController)
     }
 }
+
+@Preview
+@Composable
+fun SettingsScreenPreviewDarkTheme()
+{
+    val navController = rememberNavController()
+    BienestarEmocionalTheme(darkTheme = true) {
+        SettingsScreen(navController)
+    }
+}

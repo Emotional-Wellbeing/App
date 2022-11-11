@@ -31,3 +31,13 @@ fun NotInstalledMessagePreview()
         NotInstalledMessage()
     }
 }
+
+@Preview
+@Composable
+fun NotInstalledMessagePreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
+        NotInstalledMessage()
+    }
+}
+

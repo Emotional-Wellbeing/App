@@ -87,9 +87,31 @@ fun DrawLocalItemPreview()
 
 @Preview
 @Composable
+fun DrawLocalItemPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
+        DrawNavigationDrawerItem(LocalMenuEntry.HomeScreen, selected = false){}
+    }
+}
+
+@Preview
+@Composable
 fun DrawForeignItemPreview()
 {
     BienestarEmocionalTheme {
+        DrawNavigationDrawerItem(
+            ForeignMenuEntry.HealthConnectScreen,
+            selected = false,
+            repintIcon = false)
+        {}
+    }
+}
+
+@Preview
+@Composable
+fun DrawForeignItemPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
         DrawNavigationDrawerItem(
             ForeignMenuEntry.HealthConnectScreen,
             selected = false,

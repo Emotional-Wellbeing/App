@@ -27,6 +27,18 @@ fun CommonModalDrawerSheetPreview()
 {
     val navController = rememberNavController()
     BienestarEmocionalTheme {
-        CommonModalDrawerSheet(navController = navController, entrySelected = LocalMenuEntry.HomeScreen)
+        CommonModalDrawerSheet(navController = navController,
+            entrySelected = LocalMenuEntry.HomeScreen)
+    }
+}
+
+@Preview
+@Composable
+fun CommonModalDrawerSheetPreviewDarkTheme()
+{
+    val navController = rememberNavController()
+    BienestarEmocionalTheme(darkTheme = true) {
+        CommonModalDrawerSheet(navController = navController,
+            entrySelected = LocalMenuEntry.HomeScreen)
     }
 }

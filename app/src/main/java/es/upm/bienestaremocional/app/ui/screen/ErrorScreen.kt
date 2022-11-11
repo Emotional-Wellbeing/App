@@ -54,8 +54,24 @@ fun NotInstalledMessagePreview() {
 
 @Preview
 @Composable
+fun NotInstalledMessagePreviewDarkTheme() {
+    BienestarEmocionalTheme(darkTheme = true) {
+        ErrorScreen(healthConnectAvailability = HealthConnectAvailability.NOT_INSTALLED)
+    }
+}
+
+@Preview
+@Composable
 fun NotSupportedMessagePreview() {
     BienestarEmocionalTheme {
+        ErrorScreen(healthConnectAvailability = HealthConnectAvailability.NOT_SUPPORTED)
+    }
+}
+
+@Preview
+@Composable
+fun NotSupportedMessagePreviewDarkTheme() {
+    BienestarEmocionalTheme(darkTheme = true) {
         ErrorScreen(healthConnectAvailability = HealthConnectAvailability.NOT_SUPPORTED)
     }
 }

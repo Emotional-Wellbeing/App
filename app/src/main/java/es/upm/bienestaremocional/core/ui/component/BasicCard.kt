@@ -38,3 +38,14 @@ fun BasicCardPreview()
         }
     }
 }
+
+@Preview
+@Composable
+fun BasicCardPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
+        BasicCard{
+            Text(text = "Hello world!")
+        }
+    }
+}

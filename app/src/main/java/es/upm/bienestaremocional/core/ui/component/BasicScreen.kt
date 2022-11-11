@@ -1,6 +1,5 @@
 package es.upm.bienestaremocional.core.ui.component
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Menu
@@ -23,7 +22,6 @@ import kotlinx.coroutines.launch
  * Define the base detail screen used in the app
  */
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun AppBasicScreen(navController: NavController,
                    entrySelected: MenuEntry,
@@ -85,6 +83,20 @@ fun AppBasicScreenPreview()
 {
     val navController = rememberNavController()
     BienestarEmocionalTheme()
+    {
+        AppBasicScreen(navController = navController,
+            entrySelected = LocalMenuEntry.HomeScreen,
+            content = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun AppBasicScreenPreviewDarkTheme()
+{
+    val navController = rememberNavController()
+    BienestarEmocionalTheme(darkTheme = true)
     {
         AppBasicScreen(navController = navController,
             entrySelected = LocalMenuEntry.HomeScreen,

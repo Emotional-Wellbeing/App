@@ -50,3 +50,13 @@ fun EvolutionScreenPreview()
         EvolutionScreen(navController)
     }
 }
+
+@Preview
+@Composable
+fun EvolutionScreenPreviewDarkTheme()
+{
+    val navController = rememberNavController()
+    BienestarEmocionalTheme(darkTheme = true) {
+        EvolutionScreen(navController)
+    }
+}

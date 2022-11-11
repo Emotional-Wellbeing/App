@@ -1,6 +1,5 @@
 package es.upm.bienestaremocional.app.ui.screen
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -22,7 +21,6 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
  * Welcome screen shown when the app is first launched.
  */
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(navController: NavController,
                onSleepClick : () -> Unit,
@@ -93,6 +91,23 @@ fun HomeScreenPreview()
     val navController = rememberNavController()
 
     BienestarEmocionalTheme{
+        HomeScreen(
+            navController = navController,
+            onSleepClick = {},
+            onHeartrateClick = {})
+    }
+}
+
+// this preview has a bug rendering the background of the screen
+@Preview
+@Composable
+fun HomeScreenPreviewDarkTheme()
+{
+    //nav controller init
+    val navController = rememberNavController()
+
+    BienestarEmocionalTheme(darkTheme = true)
+    {
         HomeScreen(
             navController = navController,
             onSleepClick = {},

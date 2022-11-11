@@ -32,3 +32,11 @@ fun NotSupportedMessagePreview() {
         NotSupportedMessage()
     }
 }
+
+@Preview
+@Composable
+fun NotSupportedMessagePreviewDarkTheme() {
+    BienestarEmocionalTheme(darkTheme = true) {
+        NotSupportedMessage()
+    }
+}

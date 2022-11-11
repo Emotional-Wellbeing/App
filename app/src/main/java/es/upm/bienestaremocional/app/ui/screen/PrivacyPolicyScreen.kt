@@ -52,3 +52,13 @@ fun PrivacyPolicyScreenPreview()
         PrivacyPolicyScreen(navController)
     }
 }
+
+@Preview
+@Composable
+fun PrivacyPolicyScreenPreviewDarkTheme()
+{
+    val navController = rememberNavController()
+    BienestarEmocionalTheme(darkTheme = true) {
+        PrivacyPolicyScreen(navController)
+    }
+}
