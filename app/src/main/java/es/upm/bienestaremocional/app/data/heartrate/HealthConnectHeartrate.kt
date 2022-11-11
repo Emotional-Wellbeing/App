@@ -1,51 +1,44 @@
 package es.upm.bienestaremocional.app.data.heartrate
 
+import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.linspace
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectDataClass
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.linspace
 import java.time.Instant
-import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 
-data class HeartrateData(
-    val startTime: Instant,
-    val startZoneOffset: ZoneOffset?,
-    val endTime: Instant,
-    val endZoneOffset: ZoneOffset?,
-    val samples: List<HeartRateRecord.Sample>,
-): HealthConnectDataClass
-
-class HealthConnectHeartrate(healthConnectManager: HealthConnectManager):
+class HealthConnectHeartrate(private val healthConnectClient: HealthConnectClient,
+                             private val healthConnectManager: HealthConnectManager):
     HealthConnectSource(healthConnectManager)
 {
-    override val permissions = setOf(
-        HealthPermission.createReadPermission(HeartRateRecord::class),
-        HealthPermission.createWritePermission(HeartRateRecord::class)
-    )
+    override val readPermissions = setOf(
+        HealthPermission.createReadPermission(HeartRateRecord::class))
+
+    val writePermissions = setOf(
+        HealthPermission.createWritePermission(HeartRateRecord::class))
 
     override suspend fun readSource(startTime: Instant, endTime: Instant):
-            List<HealthConnectDataClass>
+            List<Record>
     {
-        val sessions = mutableListOf<HeartrateData>()
+        val sessions = mutableListOf<HeartRateRecord>()
 
         val hearthRateRequest = ReadRecordsRequest(
             recordType = HeartRateRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),
             ascendingOrder = false
         )
-        val heartrateItems = healthConnectManager.readRecords(hearthRateRequest)
+        val heartrateItems = healthConnectClient.readRecords(hearthRateRequest)
 
         heartrateItems.records.forEach { session ->
             sessions.add(
-                HeartrateData(
+                HeartRateRecord(
                     startTime = session.startTime,
                     startZoneOffset = session.startZoneOffset,
                     endTime = session.endTime,
@@ -56,6 +49,9 @@ class HealthConnectHeartrate(healthConnectManager: HealthConnectManager):
         }
         return sessions
     }
+
+    suspend fun writePermissionsCheck(): Boolean =
+        healthConnectManager.hasAllPermissions(writePermissions)
 
     suspend fun writeSource()
     {
@@ -72,7 +68,10 @@ class HealthConnectHeartrate(healthConnectManager: HealthConnectManager):
                 .withHour(Random.nextInt(12, 23))
                 .withMinute(Random.nextInt(0, 60))
             val numberSamples = 5
-            val samples = linspace(init.toInstant().epochSecond, end.toInstant().epochSecond, numberSamples).map {
+            val samples = linspace(init.toInstant().epochSecond,
+                end.toInstant().epochSecond,
+                numberSamples)
+                .map {
                 instant ->
                     HeartRateRecord.Sample(
                         Instant.ofEpochSecond(instant),
@@ -88,6 +87,6 @@ class HealthConnectHeartrate(healthConnectManager: HealthConnectManager):
             records.add(hrr)
         }
 
-        healthConnectManager.insertRecords(records)
+        healthConnectClient.insertRecords(records)
     }
 }

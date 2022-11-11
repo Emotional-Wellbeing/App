@@ -1,37 +1,22 @@
 package es.upm.bienestaremocional.app.data.sleep
 
+import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.SleepSessionRecord
 import androidx.health.connect.client.records.SleepStageRecord
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectDataClass
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
-import java.time.Duration
 import java.time.Instant
-import java.time.ZoneOffset
 
-/**
- * Represents sleep data, raw, aggregated and sleep stages, for a given [SleepSessionRecord].
- */
-data class SleepSessionData(
-    val uid: String,
-    val title: String?,
-    val notes: String?,
-    val startTime: Instant,
-    val startZoneOffset: ZoneOffset?,
-    val endTime: Instant,
-    val endZoneOffset: ZoneOffset?,
-    val duration: Duration?,
-    val stages: List<SleepStageRecord> = listOf()
-): HealthConnectDataClass
-
-class HealthConnectSleep(healthConnectManager: HealthConnectManager):
+class HealthConnectSleep(private val healthConnectClient: HealthConnectClient,
+                         healthConnectManager: HealthConnectManager):
     HealthConnectSource(healthConnectManager)
 {
-    override val permissions = setOf(
+    override val readPermissions = setOf(
         HealthPermission.createReadPermission(SleepSessionRecord::class),
         HealthPermission.createReadPermission(SleepStageRecord::class))
 
@@ -42,8 +27,7 @@ class HealthConnectSleep(healthConnectManager: HealthConnectManager):
      * In addition to reading [SleepSessionRecord]s, for each session, the duration is calculated to
      * demonstrate aggregation, and the underlying [SleepStageRecord] data is also read.
      */
-    override suspend fun readSource(startTime: Instant, endTime: Instant):
-            List<HealthConnectDataClass>
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<Record>
     {
         val sessions = mutableListOf<SleepSessionData>()
 
@@ -53,7 +37,7 @@ class HealthConnectSleep(healthConnectManager: HealthConnectManager):
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),
             ascendingOrder = false
         )
-        val sleepSessions = healthConnectManager.readRecords(sleepSessionRequest)
+        val sleepSessions = healthConnectClient.readRecords(sleepSessionRequest)
 
         //para cada sesión, pedimos las stages y el agregado del total de sueño
         sleepSessions.records.forEach { session ->
@@ -68,9 +52,9 @@ class HealthConnectSleep(healthConnectManager: HealthConnectManager):
                 timeRangeFilter = sessionTimeFilter
             )
 
-            val aggregateResponse = healthConnectManager.aggregate(durationAggregateRequest)
+            val aggregateResponse = healthConnectClient.aggregate(durationAggregateRequest)
 
-            val stagesResponse = healthConnectManager.readRecords(stagesRequest)
+            val stagesResponse = healthConnectClient.readRecords(stagesRequest)
 
             sessions.add(
                 SleepSessionData(

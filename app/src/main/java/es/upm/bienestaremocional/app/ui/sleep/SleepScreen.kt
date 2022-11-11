@@ -90,7 +90,7 @@ fun SleepScreen(healthConnectSleep: HealthConnectSleep, onError: (Throwable?) ->
     )
 
     val sessionsList by viewModel.sessionsList
-    val permissions = viewModel.healthConnectSleep.permissions
+    val permissions = viewModel.healthConnectSleep.readPermissions
     val onPermissionsResult = {viewModel.readSleepData()}
     val permissionsLauncher =
         rememberLauncherForActivityResult(viewModel.permissionLauncher)

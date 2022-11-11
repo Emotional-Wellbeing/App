@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.HeartRateRecord
-import es.upm.bienestaremocional.app.data.heartrate.HeartrateData
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.dateTimeWithOffsetOrDefault
 import java.time.Instant
 import java.time.ZoneOffset
@@ -67,7 +66,8 @@ fun SeriesRow(value: String) {
 /**
  * Displays a list of [HeartRateRecord] data in the [LazyColumn].
  */
-fun LazyListScope.heartRateSeries(series: List<HeartrateData>) {
+fun LazyListScope.heartRateSeries(series: List<HeartRateRecord>)
+{
     series.forEach { serie ->
         seriesDateTimeHeading(
             start = serie.startTime,

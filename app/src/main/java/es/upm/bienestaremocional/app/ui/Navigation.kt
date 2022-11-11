@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.health.connect.client.HealthConnectClient
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,14 +23,16 @@ import es.upm.bienestaremocional.core.ui.navigation.Screen
  */
 
 @Composable
-fun AppNavigation(navController: NavHostController, healthConnectManager: HealthConnectManager)
+fun AppNavigation(navController: NavHostController,
+                  healthConnectClient: HealthConnectClient,
+                  healthConnectManager: HealthConnectManager)
 {
     //to show exceptions
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    val healthConnectSleep = HealthConnectSleep(healthConnectManager)
-    val healthConnectHeartrate = HealthConnectHeartrate(healthConnectManager)
+    val healthConnectSleep = HealthConnectSleep(healthConnectClient, healthConnectManager)
+    val healthConnectHeartrate = HealthConnectHeartrate(healthConnectClient, healthConnectManager)
     val availability by healthConnectManager.availability
 
     NavHost(navController = navController, startDestination = Screen.MainScreen.route)

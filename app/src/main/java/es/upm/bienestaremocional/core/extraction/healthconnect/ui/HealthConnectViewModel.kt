@@ -6,9 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.health.connect.client.PermissionController
+import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectDataClass
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -21,12 +21,12 @@ abstract class HealthConnectViewModel: ViewModel()
 
     val permissionLauncher = PermissionController.createRequestPermissionResultContract()
 
-    fun readData(healthConnectSource: HealthConnectSource,
-                 data: MutableState<List<HealthConnectDataClass>>)
+    fun readData(healthConnectSource: HealthConnectSource, data: MutableState<List<Record>>)
     {
         viewModelScope.launch {
             uiState = try {
-                if (healthConnectSource.permissionsCheck()) {
+                if (healthConnectSource.readPermissionsCheck())
+                {
                     data.value = healthConnectSource.readSource()
                     UiState.Success
                 }

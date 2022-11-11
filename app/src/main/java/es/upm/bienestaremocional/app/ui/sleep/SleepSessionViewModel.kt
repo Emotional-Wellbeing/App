@@ -2,11 +2,11 @@
 package es.upm.bienestaremocional.app.ui.sleep
 
 import androidx.compose.runtime.*
+import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import es.upm.bienestaremocional.app.data.sleep.HealthConnectSleep
 import es.upm.bienestaremocional.app.data.sleep.SleepSessionData
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectDataClass
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 
 class SleepSessionViewModel(val healthConnectSleep: HealthConnectSleep) :
@@ -20,7 +20,7 @@ class SleepSessionViewModel(val healthConnectSleep: HealthConnectSleep) :
 
         //This cast can sucess because SleepSessionData implements HealthConnectDataClass
         super.readData(healthConnectSource = healthConnectSleep,
-            data = sessionsList as MutableState<List<HealthConnectDataClass>>)
+            data = sessionsList as MutableState<List<Record>>)
     }
 }
 

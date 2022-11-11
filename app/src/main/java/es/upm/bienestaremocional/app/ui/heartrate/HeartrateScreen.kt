@@ -16,9 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.HeartRateRecord
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.upm.bienestaremocional.app.data.heartrate.HealthConnectHeartrate
-import es.upm.bienestaremocional.app.data.heartrate.HeartrateData
 import es.upm.bienestaremocional.app.ui.heartrate.component.heartRateSeries
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import java.util.*
@@ -26,7 +26,7 @@ import java.util.*
 @Composable
 fun DrawHeartrateScreen(permissions: Set<HealthPermission>,
                         uiState: HealthConnectViewModel.UiState,
-                        hrList : List<HeartrateData>,
+                        hrList : List<HeartRateRecord>,
                         onPermissionsResult: () -> Unit = {},
                         onWrite: () -> Unit = {},
                         onRequestPermissions: (Set<HealthPermission>) -> Unit = {},
@@ -94,7 +94,8 @@ fun HeartrateScreen(healthConnectHeartrate: HealthConnectHeartrate,
     )
 
     val hrList by viewModel.hrList
-    val permissions = viewModel.healthConnectHeartrate.permissions
+    val permissions = viewModel.healthConnectHeartrate.readPermissions +
+            viewModel.healthConnectHeartrate.writePermissions
     val onPermissionsResult = {viewModel.readHeartrateData()}
     val permissionsLauncher =
         rememberLauncherForActivityResult(viewModel.permissionLauncher)

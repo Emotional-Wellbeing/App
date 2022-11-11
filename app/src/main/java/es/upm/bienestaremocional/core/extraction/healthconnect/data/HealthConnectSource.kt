@@ -1,28 +1,24 @@
 package es.upm.bienestaremocional.core.extraction.healthconnect.data
 
-import androidx.health.connect.client.permission.HealthPermission
-import java.time.Instant
+import androidx.health.connect.client.records.Record
 import java.time.ZonedDateTime
 
-abstract class HealthConnectSource(protected val healthConnectManager: HealthConnectManager)
+/**
+ * Override some common functions of [HealthConnectSourceInterface]
+ */
+abstract class HealthConnectSource(private val healthConnectManager: HealthConnectManager):
+    HealthConnectSourceInterface
 {
-    abstract val permissions : Set<HealthPermission>
+    override suspend fun readPermissionsCheck(): Boolean =
+        healthConnectManager.hasAllPermissions(readPermissions)
 
-    suspend fun permissionsCheck(): Boolean = healthConnectManager.hasAllPermissions(permissions)
-
-    /**
-     * Reads data from the last 7 seven days (now - 7 days, now)
-     */
-    suspend fun readSource(): List<HealthConnectDataClass>
+    override suspend fun readSource(): List<Record>
     {
         val lastDay: ZonedDateTime = ZonedDateTime.now()
-        val firstDay: ZonedDateTime = lastDay.minusDays(7)
+        val firstDay: ZonedDateTime = lastDay.minusDays(30)
         return readSource(firstDay,lastDay)
     }
 
-    suspend fun readSource(startTime: ZonedDateTime, endTime: ZonedDateTime):
-            List<HealthConnectDataClass> = readSource(startTime.toInstant(), endTime.toInstant())
-
-    abstract suspend fun readSource(startTime: Instant, endTime: Instant): List<HealthConnectDataClass>
-
+    override suspend fun readSource(startTime: ZonedDateTime, endTime: ZonedDateTime): List<Record>
+        = readSource(startTime.toInstant(), endTime.toInstant())
 }

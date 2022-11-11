@@ -5,13 +5,7 @@ import android.os.Build
 import androidx.compose.runtime.mutableStateOf
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
-import androidx.health.connect.client.aggregate.AggregationResult
 import androidx.health.connect.client.permission.HealthPermission
-import androidx.health.connect.client.records.Record
-import androidx.health.connect.client.request.AggregateRequest
-import androidx.health.connect.client.request.ReadRecordsRequest
-import androidx.health.connect.client.response.InsertRecordsResponse
-import androidx.health.connect.client.response.ReadRecordsResponse
 
 // The minimum android level that can use Health Connect
 const val MIN_SUPPORTED_SDK = Build.VERSION_CODES.O_MR1
@@ -31,11 +25,9 @@ enum class HealthConnectAvailability {
 /**
  * Demonstrates reading and writing from Health Connect.
  */
-class HealthConnectManager(private val context: Context)
+class HealthConnectManager(private val healthConnectClient: HealthConnectClient,
+                           private val context: Context)
 {
-    //health connect client used to interact with the Health Connect SDK
-    private val healthConnectClient by lazy { HealthConnectClient.getOrCreate(context) }
-
     //contains one values of HealthConnectAvailability
     var availability = mutableStateOf(HealthConnectAvailability.NOT_SUPPORTED)
 
@@ -65,15 +57,6 @@ class HealthConnectManager(private val context: Context)
     suspend fun hasAllPermissions(permissions: Set<HealthPermission>): Boolean =
         permissions == healthConnectClient.permissionController.getGrantedPermissions(permissions)
 
-
-    suspend fun <T:Record> readRecords(request: ReadRecordsRequest<T>): ReadRecordsResponse<T> =
-        healthConnectClient.readRecords(request)
-
-    suspend fun aggregate(request: AggregateRequest): AggregationResult =
-        healthConnectClient.aggregate(request)
-
-    suspend fun insertRecords(records: List<Record>): InsertRecordsResponse =
-        healthConnectClient.insertRecords(records)
 
 }
 
