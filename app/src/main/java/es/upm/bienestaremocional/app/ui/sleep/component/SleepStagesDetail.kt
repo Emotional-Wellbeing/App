@@ -1,10 +1,11 @@
 
-package es.upm.bienestaremocional.app.sleep.ui.component
+package es.upm.bienestaremocional.app.ui.sleep.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,8 +25,12 @@ fun SleepStageDetail(stage: SleepStageRecord)
         val intervalLabel = formatDisplayTimeStartEnd(
             stage.startTime, stage.startZoneOffset, stage.endTime, stage.endZoneOffset)
 
-        Text(modifier = Modifier.weight(0.5f), text = intervalLabel)
-        Text(modifier = Modifier.weight(0.4f), text = stage.stage)
+        Text(modifier = Modifier.weight(0.5f),
+            text = intervalLabel,
+            color = MaterialTheme.colorScheme.tertiary)
+        Text(modifier = Modifier.weight(0.4f),
+            text = stage.stage,
+            color = MaterialTheme.colorScheme.secondary)
     }
 }
 

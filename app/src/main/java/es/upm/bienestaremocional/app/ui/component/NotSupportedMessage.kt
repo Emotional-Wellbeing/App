@@ -1,6 +1,7 @@
 
 package es.upm.bienestaremocional.app.ui.component
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -19,7 +20,8 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 fun NotSupportedMessage() {
     Text(
         text = stringResource(id = R.string.not_supported_welcome_message, MIN_SUPPORTED_SDK),
-        textAlign = TextAlign.Justify
+        textAlign = TextAlign.Justify,
+        color = MaterialTheme.colorScheme.onBackground
     )
 }
 

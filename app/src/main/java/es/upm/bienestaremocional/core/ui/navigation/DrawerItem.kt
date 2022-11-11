@@ -36,7 +36,7 @@ private fun DrawNavigationDrawerItem(entry: MenuEntry,
                     .size(size = 28.dp),
                 painter = painterResource(entry.iconId),
                 contentDescription = null,
-                tint = if(repintIcon) Color.Black else Color.Unspecified
+                tint = if(repintIcon) MaterialTheme.colorScheme.onBackground else Color.Unspecified
             )
         },
         label = {
@@ -45,7 +45,7 @@ private fun DrawNavigationDrawerItem(entry: MenuEntry,
                 text = stringResource(id = entry.labelId),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onBackground
             )
         },
         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),

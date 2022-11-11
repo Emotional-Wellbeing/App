@@ -2,6 +2,7 @@ package es.upm.bienestaremocional.core.ui.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +18,8 @@ fun SwitchWithLabel(label: String)
     val isChecked = remember { mutableStateOf(false) }
     Row(verticalAlignment = Alignment.CenterVertically)
     {
-        Text(text = label)
+        Text(text = label,
+            color = MaterialTheme.colorScheme.onBackground)
         Spacer(Modifier.weight(1f))
         Switch(
             checked = isChecked.value,

@@ -59,7 +59,8 @@ fun SeriesRow(value: String) {
             .padding(4.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text("Pulsaciones: $value")
+        Text("Pulsaciones: $value",
+            color = MaterialTheme.colorScheme.onBackground)
     }
 }
 

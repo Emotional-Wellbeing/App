@@ -20,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.SleepStageRecord
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.sleep.ui.component.SleepStagesDetail
 import es.upm.bienestaremocional.app.data.sleep.SleepSessionData
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.dateTimeWithOffsetOrDefault
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatDisplayTimeStartEnd
@@ -54,7 +53,7 @@ fun SleepSessionRow(sessionData: SleepSessionData, startExpanded: Boolean = fals
         Text(
             modifier = Modifier
                 .weight(0.4f),
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.secondary,
             text = startDateTime.format(formatter)
         )
         //duration text
@@ -67,7 +66,10 @@ fun SleepSessionRow(sessionData: SleepSessionData, startExpanded: Boolean = fals
         IconButton(onClick = { expanded = !expanded })
         {
             val icon = if (expanded) Icons.Default.ArrowForward else Icons.Default.ArrowDropDown
-            Icon(icon, "expand")
+            Icon(icon,
+                contentDescription = "expand",
+                tint = MaterialTheme.colorScheme.primary,
+            )
         }
     }
     if (expanded)
