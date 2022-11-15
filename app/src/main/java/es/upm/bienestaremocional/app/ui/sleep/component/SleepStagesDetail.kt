@@ -27,7 +27,7 @@ fun SleepStageDetail(stage: SleepStageRecord)
 
         Text(modifier = Modifier.weight(0.5f),
             text = intervalLabel,
-            color = MaterialTheme.colorScheme.tertiary)
+            color = MaterialTheme.colorScheme.primary)
         Text(modifier = Modifier.weight(0.4f),
             text = stage.stage,
             color = MaterialTheme.colorScheme.secondary)

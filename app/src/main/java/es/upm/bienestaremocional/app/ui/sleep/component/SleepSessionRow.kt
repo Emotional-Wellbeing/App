@@ -53,7 +53,7 @@ fun SleepSessionRow(sessionData: SleepSessionData, startExpanded: Boolean = fals
         Text(
             modifier = Modifier
                 .weight(0.4f),
-            color = MaterialTheme.colorScheme.secondary,
+            color = MaterialTheme.colorScheme.onBackground,
             text = startDateTime.format(formatter)
         )
         //duration text
@@ -61,7 +61,9 @@ fun SleepSessionRow(sessionData: SleepSessionData, startExpanded: Boolean = fals
         {
             Text(
                 modifier = Modifier.weight(0.4f),
-                text = sessionData.duration?.formatHoursMinutes() ?: stringResource(id = R.string.not_available_abbrev))
+                text = sessionData.duration?.formatHoursMinutes() ?: stringResource(id = R.string.not_available_abbrev),
+                color = MaterialTheme.colorScheme.primary
+            )
         }
         IconButton(onClick = { expanded = !expanded })
         {

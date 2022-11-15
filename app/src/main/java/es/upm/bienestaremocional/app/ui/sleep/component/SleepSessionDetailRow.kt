@@ -30,7 +30,7 @@ fun SleepSessionDetailRow(@StringRes labelId: Int, item: String?)
     {
         Text(modifier = Modifier.weight(0.5f),
             text = stringResource(id = labelId),
-            color = MaterialTheme.colorScheme.tertiary)
+            color = MaterialTheme.colorScheme.primary)
 
         Text(modifier = Modifier.weight(0.5f),
             text = item ?: "N/A",

@@ -15,6 +15,7 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 @Composable
 fun CommonModalDrawerSheet(navController: NavController, entrySelected : MenuEntry)
 {
+    //Modifier.alpha(0.66f) to obtain transparent menu
     ModalDrawerSheet {
         Spacer(Modifier.height(12.dp))
         NavigationDrawerItems(navController = navController, entrySelected = entrySelected)
