@@ -83,7 +83,7 @@ fun HomeScreen(navController: NavController,
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview()
 {
@@ -99,7 +99,7 @@ fun HomeScreenPreview()
 }
 
 // this preview has a bug rendering the background of the screen
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun HomeScreenPreviewDarkTheme()
 {

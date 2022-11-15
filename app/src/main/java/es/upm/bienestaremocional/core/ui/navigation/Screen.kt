@@ -7,7 +7,7 @@ package es.upm.bienestaremocional.core.ui.navigation
 
 enum class Screen (val route: String)
 {
-    MainScreen(route = "main_screen"),
+    SplashScreen(route = "splash_screen"),
     ErrorScreen(route = "error_screen"),
     HomeScreen(route = "home_screen"),
     HistoryScreen(route = "history_screen"),

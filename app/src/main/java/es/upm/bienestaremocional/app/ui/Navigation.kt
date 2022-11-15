@@ -35,13 +35,11 @@ fun AppNavigation(navController: NavHostController,
     val healthConnectHeartrate = HealthConnectHeartrate(healthConnectClient, healthConnectManager)
     val availability by healthConnectManager.availability
 
-    NavHost(navController = navController, startDestination = Screen.MainScreen.route)
+    NavHost(navController = navController, startDestination = Screen.SplashScreen.route)
     {
-        composable(route = Screen.MainScreen.route)
+        composable(route = Screen.SplashScreen.route)
         {
-            MainScreen(healthConnectAvailability = availability,
-                onSucess = { navController.navigate(Screen.HomeScreen.route) },
-                onFailure = { navController.navigate(Screen.ErrorScreen.route) })
+            SplashScreen(healthConnectAvailability = availability, navController = navController)
         }
 
         composable(route = Screen.ErrorScreen.route)
