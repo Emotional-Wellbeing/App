@@ -32,7 +32,7 @@ fun Splash()
             Brush.verticalGradient(
                 colors = listOf(
                     MaterialTheme.colorScheme.primary,
-                    MaterialTheme.colorScheme.background
+                    MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
         ),
@@ -58,7 +58,7 @@ fun SplashScreen(
         navController.popBackStack() //prevents a return to splash screen
         when (healthConnectAvailability)
         {
-            HealthConnectAvailability.INSTALLED -> navController.navigate(Screen.HomeScreen.route)
+            HealthConnectAvailability.INSTALLED -> navController.navigate(Screen.OnboardingScreen.route)
             HealthConnectAvailability.NOT_INSTALLED -> navController.navigate(Screen.ErrorScreen.route)
             HealthConnectAvailability.NOT_SUPPORTED -> navController.navigate(Screen.ErrorScreen.route)
         }

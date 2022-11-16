@@ -36,7 +36,7 @@ fun SettingsScreen(navController: NavController)
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun SettingsScreenPreview()
 {
@@ -46,7 +46,7 @@ fun SettingsScreenPreview()
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun SettingsScreenPreviewDarkTheme()
 {

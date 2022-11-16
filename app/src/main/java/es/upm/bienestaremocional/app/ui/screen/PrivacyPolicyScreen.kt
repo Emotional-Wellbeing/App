@@ -43,7 +43,7 @@ fun PrivacyPolicyScreen(navController: NavController)
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun PrivacyPolicyScreenPreview()
 {
@@ -53,7 +53,7 @@ fun PrivacyPolicyScreenPreview()
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun PrivacyPolicyScreenPreviewDarkTheme()
 {

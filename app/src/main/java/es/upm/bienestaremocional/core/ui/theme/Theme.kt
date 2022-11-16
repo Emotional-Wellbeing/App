@@ -95,7 +95,9 @@ fun BienestarEmocionalTheme(
     }
 
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(colorScheme.primary, darkIcons = darkTheme)
+
+    systemUiController.setStatusBarColor(colorScheme.primary, darkIcons = darkTheme)
+    systemUiController.setNavigationBarColor(colorScheme.onPrimaryContainer, darkIcons = darkTheme)
 
     MaterialTheme(
         colorScheme = colorScheme,

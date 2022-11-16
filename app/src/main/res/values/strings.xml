@@ -13,11 +13,32 @@
     <string name="demo_screen_label">Demo</string>
 
     <!-- Welcome screen -->
-    <string name="welcome_text">Bievenido a Bienestar Emocional</string>
     <string name="installed_welcome_message">¡Enhorabuena! Estás listo para utilizar esta aplicación.</string>
     <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Health Connect, aplicación disponible en Google Play.</string>
     <string name="not_supported_welcome_message">Esta aplicación solo está disponible para dispositivos que ejecuten una API %1$d o superior.</string>
-    
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">¡Hola! Bienvenido a Bienestar Emocional</string>
+    <string name="onboarding_welcome_description">Diseñada para ayudarte a cuidar
+        tu bienestar emocional de forma fácil y sencilla. Creada por y para la Universidad.</string>
+
+    <string name="onboarding_features_title">Tu salud mental importa</string>
+    <string name="onboarding_features_description">Utilizando Inteligencia
+        Artificial te ayuda a monitorizar tu salud mental,
+        pudiendo detectar posibles síntomas para que puedas buscar ayuda.
+    </string>
+
+    <string name="onboarding_privacy_title">Tus datos, tu privacidad</string>
+    <string name="onboarding_privacy_description">La aplicación puede utilizar datos
+        como tu uso del móvil o tus pulsaciones cardíacas, pero en todo momento
+        tienes el control de los datos.
+    </string>
+
+    <string name="onboarding_community_title">El poder de la comunidad</string>
+    <string name="onboarding_community_description">Es posible consultar estadísticas
+        anonimizadas sobre tu comunidad. Además puedes colaborar con el desarrollo de la aplicación.
+    </string>
+
     <!-- Privacy screen -->
     <string name="privacy_policy_description">
         This is a placeholder example. Your app should display an appropriate privacy policy for how
@@ -37,7 +58,10 @@
     <string name="heart_rate">Pulsaciones</string>
 
     <!-- Misc -->
+    <string name="hello">¡Hola!</string>
     <string name="menu">Menu</string>
     <string name="go_back">Volver atrás</string>
-
+    <string name="finish">Finalizar</string>
+    <string name="skip">Omitir</string>
+    <string name="next">Siguiente</string>
 </resources>

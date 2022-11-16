@@ -9,6 +9,7 @@ enum class Screen (val route: String)
 {
     SplashScreen(route = "splash_screen"),
     ErrorScreen(route = "error_screen"),
+    OnboardingScreen(route = "onboarding_screen"),
     HomeScreen(route = "home_screen"),
     HistoryScreen(route = "history_screen"),
     EvolutionScreen(route = "evolution_screen"),

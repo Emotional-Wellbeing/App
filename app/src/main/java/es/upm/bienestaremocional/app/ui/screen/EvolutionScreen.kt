@@ -41,7 +41,7 @@ fun EvolutionScreen(navController: NavController)
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun EvolutionScreenPreview()
 {
@@ -51,7 +51,7 @@ fun EvolutionScreenPreview()
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun EvolutionScreenPreviewDarkTheme()
 {

@@ -41,7 +41,7 @@ fun TrendsScreen(navController: NavController)
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun TrendsScreenPreview()
 {
@@ -51,7 +51,7 @@ fun TrendsScreenPreview()
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun TrendsScreenPreviewDarkTheme()
 {

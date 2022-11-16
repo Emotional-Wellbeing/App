@@ -47,6 +47,14 @@ fun AppNavigation(navController: NavHostController,
             ErrorScreen(healthConnectAvailability = availability)
         }
 
+        composable(route = Screen.OnboardingScreen.route)
+        {
+            OnboardingScreen(onFinish = {
+                navController.popBackStack()
+                navController.navigate(Screen.HomeScreen.route)
+            })
+        }
+
         composable(route = Screen.HomeScreen.route)
         {
             HomeScreen(

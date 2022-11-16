@@ -72,7 +72,17 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
     //window bar
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.27.0"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+
+    // pager
+    implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
+
+    //lottie
+    implementation 'com.airbnb.android:lottie-compose:5.2.0'
+
+    //window size
+    implementation "androidx.window:window:1.0.0"
 
     // Navigation
     implementation "androidx.navigation:navigation-compose:$navigation_compose_version"
