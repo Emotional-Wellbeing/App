@@ -24,7 +24,9 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 @Composable
 fun EvolutionScreen(navController: NavController)
 {
-    AppBasicScreen(navController = navController, entrySelected = LocalMenuEntry.EvolutionScreen)
+    AppBasicScreen(navController = navController,
+        entrySelected = LocalMenuEntry.EvolutionScreen,
+        label = LocalMenuEntry.EvolutionScreen.labelId)
     {
         Column(
             modifier = Modifier

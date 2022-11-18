@@ -18,5 +18,6 @@ enum class Screen (val route: String)
     PrivacyPolicyScreen(route = "privacy_policy_screen"),
     AboutScreen(route = "about_screen"),
     SleepScreen(route = "sleep_screen"),
-    HeartrateScreen(route = "heartrate_screen")
+    HeartrateScreen(route = "heartrate_screen"),
+    CreditsScreen(route = "credits_screen")
 }

@@ -15,10 +15,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
 import es.upm.bienestaremocional.core.ui.navigation.Screen
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 
 /**
  * @Todo close app when we arrive this screen from other
@@ -28,14 +30,16 @@ import kotlinx.coroutines.delay
 fun Splash()
 {
     Column(
-        modifier = Modifier.fillMaxSize().background(
-            Brush.verticalGradient(
-                colors = listOf(
-                    MaterialTheme.colorScheme.primary,
-                    MaterialTheme.colorScheme.onPrimaryContainer
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        MaterialTheme.colorScheme.primary,
+                        MaterialTheme.colorScheme.onPrimaryContainer
+                    )
                 )
-            )
-        ),
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -47,18 +51,27 @@ fun Splash()
 
 @Composable
 fun SplashScreen(
+    appSettings: AppSettingsInterface,
     healthConnectAvailability: HealthConnectAvailability,
     navController: NavHostController)
 {
+
     //init block. Delay simulate it
     LaunchedEffect(key1 = true)
     {
         delay(1000)
 
         navController.popBackStack() //prevents a return to splash screen
+
+        val showOnboarding = appSettings.getShowOnboarding().first() //read if we should present onboarding
+
         when (healthConnectAvailability)
         {
-            HealthConnectAvailability.INSTALLED -> navController.navigate(Screen.OnboardingScreen.route)
+            HealthConnectAvailability.INSTALLED -> if (showOnboarding)
+                navController.navigate(Screen.OnboardingScreen.route)
+            else
+                navController.navigate(Screen.HomeScreen.route)
+
             HealthConnectAvailability.NOT_INSTALLED -> navController.navigate(Screen.ErrorScreen.route)
             HealthConnectAvailability.NOT_SUPPORTED -> navController.navigate(Screen.ErrorScreen.route)
         }

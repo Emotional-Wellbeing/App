@@ -57,13 +57,6 @@ enum class LocalMenuEntry(val route: String): MenuEntry
         override val iconId: Int
             get() = R.drawable.settings
     },
-    AboutScreen(route = "about_screen")
-    {
-        override val labelId: Int
-            get() = R.string.about_screen_label
-        override val iconId: Int
-            get() = R.drawable.ic_baseline_help_outline
-    },
 
     PrivacyPolicyScreen(route = Screen.PrivacyPolicyScreen.route)
     {

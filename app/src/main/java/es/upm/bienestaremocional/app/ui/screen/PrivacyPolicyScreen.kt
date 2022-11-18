@@ -26,7 +26,9 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 @Composable
 fun PrivacyPolicyScreen(navController: NavController)
 {
-    AppBasicScreen(navController = navController, entrySelected = LocalMenuEntry.PrivacyPolicyScreen)
+    AppBasicScreen(navController = navController,
+        entrySelected = LocalMenuEntry.PrivacyPolicyScreen,
+        label = LocalMenuEntry.PrivacyPolicyScreen.labelId)
     {
         Column(
             modifier = Modifier

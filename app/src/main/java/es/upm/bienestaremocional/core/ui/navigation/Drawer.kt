@@ -13,7 +13,7 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommonModalDrawerSheet(navController: NavController, entrySelected : MenuEntry)
+fun CommonModalDrawerSheet(navController: NavController, entrySelected : MenuEntry?)
 {
     //Modifier.alpha(0.66f) to obtain transparent menu
     ModalDrawerSheet {

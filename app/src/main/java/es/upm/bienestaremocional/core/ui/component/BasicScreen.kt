@@ -24,8 +24,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBasicScreen(navController: NavController,
-                   entrySelected: MenuEntry,
-                   label: Int = entrySelected.labelId,
+                   entrySelected: MenuEntry?,
+                   label: Int,
                    content: @Composable RowScope.() -> Unit)
 {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -86,6 +86,7 @@ fun AppBasicScreenPreview()
     {
         AppBasicScreen(navController = navController,
             entrySelected = LocalMenuEntry.HomeScreen,
+            label = LocalMenuEntry.HomeScreen.labelId,
             content = {}
         )
     }
@@ -100,6 +101,7 @@ fun AppBasicScreenPreviewDarkTheme()
     {
         AppBasicScreen(navController = navController,
             entrySelected = LocalMenuEntry.HomeScreen,
+            label = LocalMenuEntry.HomeScreen.labelId,
             content = {}
         )
     }

@@ -24,7 +24,9 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 @Composable
 fun HistoryScreen(navController: NavController)
 {
-    AppBasicScreen(navController = navController, entrySelected = LocalMenuEntry.HistoryScreen)
+    AppBasicScreen(navController = navController,
+        entrySelected = LocalMenuEntry.HistoryScreen,
+        label = LocalMenuEntry.HistoryScreen.labelId)
     {
         Column(
             modifier = Modifier

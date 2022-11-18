@@ -24,7 +24,9 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 @Composable
 fun TrendsScreen(navController: NavController)
 {
-    AppBasicScreen(navController = navController, entrySelected = LocalMenuEntry.TrendsScreen)
+    AppBasicScreen(navController = navController,
+        entrySelected = LocalMenuEntry.TrendsScreen,
+        label = LocalMenuEntry.TrendsScreen.labelId)
     {
         Column(
             modifier = Modifier

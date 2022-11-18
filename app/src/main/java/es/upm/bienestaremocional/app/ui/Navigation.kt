@@ -10,13 +10,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import es.upm.bienestaremocional.app.data.heartrate.HealthConnectHeartrate
+import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
+import es.upm.bienestaremocional.app.data.sleep.HealthConnectSleep
 import es.upm.bienestaremocional.app.showExceptionSnackbar
+import es.upm.bienestaremocional.app.ui.heartrate.HeartrateScreen
 import es.upm.bienestaremocional.app.ui.screen.*
 import es.upm.bienestaremocional.app.ui.sleep.SleepScreen
-import es.upm.bienestaremocional.app.data.sleep.HealthConnectSleep
-import es.upm.bienestaremocional.app.ui.heartrate.HeartrateScreen
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
 import es.upm.bienestaremocional.core.ui.navigation.Screen
+import kotlinx.coroutines.launch
 
 /**
  * Manages the navigation in the app
@@ -24,6 +26,7 @@ import es.upm.bienestaremocional.core.ui.navigation.Screen
 
 @Composable
 fun AppNavigation(navController: NavHostController,
+                  appSettings: AppSettingsInterface,
                   healthConnectClient: HealthConnectClient,
                   healthConnectManager: HealthConnectManager)
 {
@@ -39,7 +42,10 @@ fun AppNavigation(navController: NavHostController,
     {
         composable(route = Screen.SplashScreen.route)
         {
-            SplashScreen(healthConnectAvailability = availability, navController = navController)
+            SplashScreen(
+                appSettings = appSettings,
+                healthConnectAvailability = availability,
+                navController = navController)
         }
 
         composable(route = Screen.ErrorScreen.route)
@@ -50,6 +56,9 @@ fun AppNavigation(navController: NavHostController,
         composable(route = Screen.OnboardingScreen.route)
         {
             OnboardingScreen(onFinish = {
+                scope.launch {
+                    appSettings.saveShowOnboarding(false)
+                }
                 navController.popBackStack()
                 navController.navigate(Screen.HomeScreen.route)
             })
@@ -105,6 +114,11 @@ fun AppNavigation(navController: NavHostController,
             HeartrateScreen(healthConnectHeartrate){
                     exception -> showExceptionSnackbar(scope, snackbarHostState, exception)
             }
+        }
+
+        composable(route = Screen.CreditsScreen.route)
+        {
+            CreditsScreen(navController)
         }
 
     }

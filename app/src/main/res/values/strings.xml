@@ -8,9 +8,15 @@
     <string name="trends_screen_label">Tendencias</string>
     <string name="settings_screen_label">Ajustes</string>
     <string name="privacy_policy_screen_label">Política de privacidad</string>
-    <string name="about_screen_label">Acerca de la aplicación</string>
     <string name="health_connect_settings_label">Ajustes de Salud Conectada</string>
     <string name="demo_screen_label">Demo</string>
+
+    <string name="about_screen_label">Acerca de la aplicación</string>
+    <string name="about_screen_description">Información técnica de la aplicación</string>
+    <string name="onboarding_screen_label">Bienvenida</string>
+    <string name="onboarding_screen_description">Volver a visitar el tutorial de bienvenida</string>
+    <string name="credits_screen_label">Créditos</string>
+    <string name="credits_screen_description">Las personas detrás del proyecto</string>
 
     <!-- Welcome screen -->
     <string name="installed_welcome_message">¡Enhorabuena! Estás listo para utilizar esta aplicación.</string>
@@ -56,6 +62,35 @@
 
     <!-- Heart rate-->
     <string name="heart_rate">Pulsaciones</string>
+
+    <!-- Credits-->
+    <string name="credit_author_name">Victor Manuel Domínguez Rivas</string>
+    <string name="credit_author_description">Autor del TFM Sistema para el Bienestar Emocional
+        y principal autor de la aplicación.</string>
+    <string name="credit_director1_name">Sandra Gómez Canaval</string>
+    <string name="credit_director1_description">Codirectora del TFM
+        Sistema para el Bienestar Emocional.</string>
+    <string name="credit_director2_name">Gema Bello Orgaz</string>
+    <string name="credit_director2_description">Codirectora del TFM
+        Sistema para el Bienestar Emocional.</string>
+
+    <string name="credit_logo1_name">Aman Mishra</string>
+    <string name="credit_logo1_description">Autor de la ilustración \"Health checkup\", disponible
+        en la plataforma Lottie.</string>
+    <string name="credit_logo2_name">Echotech Engineering</string>
+    <string name="credit_logo2_description">Autor de la ilustración \"How it works\", disponible
+        en la plataforma Lottie.</string>
+    <string name="credit_logo3_name">Tushar</string>
+    <string name="credit_logo3_description">Autor de la ilustración \"Mental Wellbeing\", disponible
+        en la plataforma Lottie.</string>
+    <string name="credit_logo4_name">Suhayra Sarwar</string>
+    <string name="credit_logo4_description">Autor de la ilustración \"Mental Health Awareness\",
+        disponible en la plataforma Lottie.</string>
+
+    <string name="credit_app_logo_name">Gambar Wahyu S. Adi Wibowo</string>
+    <string name="credit_app_logo_description">Autor original del logotipo de la aplicación,
+        disponible en la plataforma Canvas.
+    </string>
 
     <!-- Misc -->
     <string name="hello">¡Hola!</string>

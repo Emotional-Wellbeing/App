@@ -55,7 +55,7 @@ private fun DrawNavigationDrawerItem(entry: MenuEntry,
 }
 
 @Composable
-fun NavigationDrawerItems(navController: NavController, entrySelected: MenuEntry)
+fun NavigationDrawerItems(navController: NavController, entrySelected: MenuEntry?)
 {
     val context = LocalContext.current
 
