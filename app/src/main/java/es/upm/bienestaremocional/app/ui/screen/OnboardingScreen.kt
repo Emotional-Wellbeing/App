@@ -23,7 +23,6 @@ import es.upm.bienestaremocional.core.ui.responsive.WindowSizeClass
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowSizeClasses
 import es.upm.bienestaremocional.core.ui.responsive.getActivity
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
-import es.upm.bienestaremocional.core.ui.theme.Quicksand
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -96,7 +95,6 @@ fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
                 text = stringResource(id = horizontalPagerContent.title),
                 color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Justify,
-                fontFamily = Quicksand,
                 style = MaterialTheme.typography.titleLarge
             )
 
@@ -106,7 +104,6 @@ fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
                 text = stringResource(id = horizontalPagerContent.content),
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Justify,
-                fontFamily = Quicksand,
                 style = if (windowSizeClass == WindowSizeClass.COMPACT)
                     MaterialTheme.typography.bodyMedium
                 else

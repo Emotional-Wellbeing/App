@@ -15,7 +15,6 @@ import es.upm.bienestaremocional.core.ui.responsive.WindowSizeClass
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowSizeClasses
 import es.upm.bienestaremocional.core.ui.responsive.getActivity
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
-import es.upm.bienestaremocional.core.ui.theme.Quicksand
 
 @Composable
 private fun nameStyle(windowSizeClass: WindowSizeClass, importantContribution: Boolean) =
@@ -69,13 +68,11 @@ fun CreditComponent(credit: Credit)
         Text(text = stringResource(id = credit.nameResource),
             textAlign = TextAlign.Justify,
             color = MaterialTheme.colorScheme.primary,
-            fontFamily = Quicksand,
             style = nameStyle(windowSizeClass,credit.importantContribution)
         )
         Text(text = stringResource(id = credit.descriptionResource),
             textAlign = TextAlign.Justify,
             color = MaterialTheme.colorScheme.onBackground,
-            fontFamily = Quicksand,
             style = descriptionStyle(windowSizeClass,credit.importantContribution)
         )
     }
