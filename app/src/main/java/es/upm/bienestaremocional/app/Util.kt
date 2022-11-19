@@ -1,11 +1,13 @@
 
 package es.upm.bienestaremocional.app
 
+import android.os.Build
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+fun dynamicColorsSupported() : Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
 /**
  * Shows details of a given throwable in the snackbar

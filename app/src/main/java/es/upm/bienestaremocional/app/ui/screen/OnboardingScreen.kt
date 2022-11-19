@@ -79,17 +79,25 @@ fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
         Column(
             Modifier
                 .fillMaxHeight(0.75f)
-                .fillMaxWidth())
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
         {
             DisplayLottieAnimation(rawRes = horizontalPagerContent.animation,
                 animationLoop = horizontalPagerContent.animationLoop,
                 modifier = Modifier.fillMaxSize())
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         //text
         Column(
-            Modifier
+            modifier = Modifier
                 .fillMaxHeight()
-                .fillMaxWidth())
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
         {
             Text(
                 text = stringResource(id = horizontalPagerContent.title),

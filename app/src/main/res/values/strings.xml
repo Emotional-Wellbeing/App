@@ -99,4 +99,7 @@
     <string name="finish">Finalizar</string>
     <string name="skip">Omitir</string>
     <string name="next">Siguiente</string>
+    <string name="dark_mode">Modo oscuro</string>
+    <string name="dynamic_colors_label">Colores dinámicos</string>
+    <string name="dynamic_colors_description">Basados en tu fondo de pantalla</string>
 </resources>

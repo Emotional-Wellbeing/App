@@ -28,7 +28,9 @@ import kotlinx.coroutines.launch
 fun AppNavigation(navController: NavHostController,
                   appSettings: AppSettingsInterface,
                   healthConnectClient: HealthConnectClient,
-                  healthConnectManager: HealthConnectManager)
+                  healthConnectManager: HealthConnectManager,
+                  darkTheme : Boolean
+)
 {
     //to show exceptions
     val snackbarHostState = remember { SnackbarHostState() }
@@ -38,6 +40,7 @@ fun AppNavigation(navController: NavHostController,
     val healthConnectHeartrate = HealthConnectHeartrate(healthConnectClient, healthConnectManager)
     val availability by healthConnectManager.availability
 
+
     NavHost(navController = navController, startDestination = Screen.SplashScreen.route)
     {
         composable(route = Screen.SplashScreen.route)
@@ -45,7 +48,9 @@ fun AppNavigation(navController: NavHostController,
             SplashScreen(
                 appSettings = appSettings,
                 healthConnectAvailability = availability,
-                navController = navController)
+                navController = navController,
+                darkTheme = darkTheme
+            )
         }
 
         composable(route = Screen.ErrorScreen.route)
@@ -89,7 +94,7 @@ fun AppNavigation(navController: NavHostController,
 
         composable(route = Screen.SettingsScreen.route)
         {
-            SettingsScreen(navController)
+            SettingsScreen(navController, appSettings)
         }
 
         composable(route = Screen.PrivacyPolicyScreen.route)

@@ -27,17 +27,19 @@ import kotlinx.coroutines.flow.first
  */
 
 @Composable
-fun Splash()
+fun Splash(darkTheme: Boolean)
 {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.primary,
-                        MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+                Brush.verticalGradient(colors =
+                    if (darkTheme)
+                        listOf(MaterialTheme.colorScheme.primaryContainer,
+                            MaterialTheme.colorScheme.onPrimary)
+                    else
+                        listOf(MaterialTheme.colorScheme.primary,
+                            MaterialTheme.colorScheme.onPrimaryContainer)
                 )
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -53,8 +55,13 @@ fun Splash()
 fun SplashScreen(
     appSettings: AppSettingsInterface,
     healthConnectAvailability: HealthConnectAvailability,
-    navController: NavHostController)
+    navController: NavHostController,
+    darkTheme: Boolean
+)
 {
+
+    //splash screen
+    Splash(darkTheme)
 
     //init block. Delay simulate it
     LaunchedEffect(key1 = true)
@@ -63,7 +70,9 @@ fun SplashScreen(
 
         navController.popBackStack() //prevents a return to splash screen
 
-        val showOnboarding = appSettings.getShowOnboarding().first() //read if we should present onboarding
+        //read if we should present onboarding
+        val showOnboarding = appSettings.getShowOnboarding().first()
+
 
         when (healthConnectAvailability)
         {
@@ -76,8 +85,6 @@ fun SplashScreen(
             HealthConnectAvailability.NOT_SUPPORTED -> navController.navigate(Screen.ErrorScreen.route)
         }
     }
-    //splash screen
-    Splash()
 }
 
 @Preview(showBackground = true)
@@ -85,6 +92,15 @@ fun SplashScreen(
 fun SplashPreview()
 {
     BienestarEmocionalTheme {
-        Splash()
+        Splash(darkTheme = false)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SplashDarkThemePreview()
+{
+    BienestarEmocionalTheme {
+        Splash(darkTheme = true)
     }
 }

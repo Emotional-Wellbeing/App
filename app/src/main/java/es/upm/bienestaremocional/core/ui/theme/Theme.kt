@@ -1,11 +1,11 @@
 package es.upm.bienestaremocional.core.ui.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import es.upm.bienestaremocional.app.dynamicColorsSupported
 
 
 private val LightColors = lightColorScheme(
@@ -76,10 +76,11 @@ private val DarkColors = darkColorScheme(
 @Composable
 fun BienestarEmocionalTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColors : Boolean = false,
     content: @Composable () -> Unit
 ) {
     // Dynamic color is available on Android 12+
-    val colorScheme : ColorScheme = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+    val colorScheme : ColorScheme = if (dynamicColorsSupported() && dynamicColors)
     {
         if (darkTheme)
             dynamicDarkColorScheme(LocalContext.current)
@@ -96,8 +97,19 @@ fun BienestarEmocionalTheme(
 
     val systemUiController = rememberSystemUiController()
 
-    systemUiController.setStatusBarColor(colorScheme.primary, darkIcons = darkTheme)
-    systemUiController.setNavigationBarColor(colorScheme.onPrimaryContainer, darkIcons = darkTheme)
+
+    systemUiController.setStatusBarColor(
+        color = if (darkTheme)
+            colorScheme.primaryContainer
+        else
+            colorScheme.primary,
+        darkIcons = false)
+    systemUiController.setNavigationBarColor(
+        color = if (darkTheme)
+            colorScheme.onPrimary
+        else
+            colorScheme.onPrimaryContainer,
+        darkIcons = false)
 
     MaterialTheme(
         colorScheme = colorScheme,

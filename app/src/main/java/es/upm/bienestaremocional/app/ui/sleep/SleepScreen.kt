@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -57,23 +58,25 @@ private fun DrawSleepScreen(permissions: Set<HealthPermission>,
 
     if (uiState != HealthConnectViewModel.UiState.Uninitialized)
     {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally)
-        {
-            if (uiState == HealthConnectViewModel.UiState.Success)
+        Surface{
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally)
             {
-                items(sessionList) { session -> SleepSessionRow(session) }
-            }
-            else if (uiState == HealthConnectViewModel.UiState.NotEnoughPermissions)
-            {
-                item {
-                    Button(onClick = {onRequestPermissions(permissions)})
-                    {
-                        Text(text = "Solicita permisos")
+                if (uiState == HealthConnectViewModel.UiState.Success)
+                {
+                    items(sessionList) { session -> SleepSessionRow(session) }
+                }
+                else if (uiState == HealthConnectViewModel.UiState.NotEnoughPermissions)
+                {
+                    item {
+                        Button(onClick = {onRequestPermissions(permissions)})
+                        {
+                            Text(text = "Solicita permisos")
+                        }
                     }
                 }
             }

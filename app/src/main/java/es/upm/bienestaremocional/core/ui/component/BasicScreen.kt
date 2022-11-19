@@ -30,7 +30,7 @@ fun AppBasicScreen(navController: NavController,
 {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent =
@@ -41,38 +41,41 @@ fun AppBasicScreen(navController: NavController,
         {
             //all content in this screen belongs to a general column and two rows
             //first row is por top bar
-            Column(modifier = Modifier.fillMaxSize())
-            {
-                Row(modifier = Modifier.fillMaxWidth())
+            Surface{
+                Column(modifier = Modifier.fillMaxSize())
                 {
-                    CenterAlignedTopAppBar(
-                        title = { Text(stringResource(id = label)) },
-                        navigationIcon =
-                        {
-                            IconButton(
-                                onClick = {
-                                    scope.launch {
-                                        if (drawerState.isOpen)
-                                            drawerState.close()
-                                        else
-                                            drawerState.open()
-                                    }
-                                }
-                            )
+                    Row(modifier = Modifier.fillMaxWidth())
+                    {
+                        CenterAlignedTopAppBar(
+                            title = { Text(stringResource(id = label)) },
+                            navigationIcon =
                             {
-                                Icon(
-                                    imageVector = Icons.Rounded.Menu,
-                                    contentDescription = stringResource(id = R.string.menu)
+                                IconButton(
+                                    onClick = {
+                                        scope.launch {
+                                            if (drawerState.isOpen)
+                                                drawerState.close()
+                                            else
+                                                drawerState.open()
+                                        }
+                                    }
                                 )
+                                {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Menu,
+                                        contentDescription = stringResource(id = R.string.menu)
+                                    )
+                                }
                             }
-                        }
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        content = content,
                     )
                 }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    content = content,
-                )
             }
+
         }
     )
 }
