@@ -2,6 +2,7 @@ package es.upm.bienestaremocional.app.ui.screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -29,20 +30,23 @@ import kotlinx.coroutines.launch
 @Composable
 fun OnboardingScreen(onFinish: () -> Unit)
 {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(PaddingValues(vertical = 32.dp)))
+    Surface()
     {
-        val items = OnboardingContent.content
-        val pagerState = rememberPagerState()
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp))
+        {
+            val items = OnboardingContent.content
+            val pagerState = rememberPagerState()
 
-        HorizontalPager(
-            count = items.size,
-            state = pagerState,
-            modifier = Modifier.weight(1f))
-        { currentPage -> DrawPage(horizontalPagerContent = items[currentPage],
-            pagerState = pagerState,
-            onFinish = onFinish)
+            HorizontalPager(
+                count = items.size,
+                state = pagerState,
+                modifier = Modifier.weight(1f))
+            { currentPage -> DrawPage(horizontalPagerContent = items[currentPage],
+                pagerState = pagerState,
+                onFinish = onFinish)
+            }
         }
     }
 }
@@ -68,111 +72,104 @@ fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
     val corrutineScope = rememberCoroutineScope()
 
     //content
-    Column(
-        modifier = Modifier
-            .fillMaxHeight(0.95f)
-            .padding(PaddingValues(horizontal = 32.dp, vertical = 32.dp)),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top)
+    Column(modifier = Modifier.fillMaxHeight(),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
+    )
     {
         //image
-        Column(
-            Modifier
-                .fillMaxHeight(0.75f)
-                .fillMaxWidth(),
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .weight(2.25f),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        )
+            horizontalAlignment = Alignment.CenterHorizontally)
         {
             DisplayLottieAnimation(rawRes = horizontalPagerContent.animation,
                 animationLoop = horizontalPagerContent.animationLoop,
-                modifier = Modifier.fillMaxSize())
+            )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        //text
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        )
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f),
+            verticalArrangement = Arrangement.SpaceAround)
         {
+            //label
             Text(
                 text = stringResource(id = horizontalPagerContent.title),
                 color = MaterialTheme.colorScheme.secondary,
-                textAlign = TextAlign.Justify,
-                style = MaterialTheme.typography.titleLarge
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+                style = if (windowSizeClass == WindowSizeClass.COMPACT)
+                    MaterialTheme.typography.titleMedium
+                else
+                    MaterialTheme.typography.titleLarge
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
+            //description
             Text(
                 text = stringResource(id = horizontalPagerContent.content),
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Justify,
+                modifier = Modifier.fillMaxWidth(),
                 style = if (windowSizeClass == WindowSizeClass.COMPACT)
                     MaterialTheme.typography.bodyMedium
                 else
                     MaterialTheme.typography.bodyLarge
             )
-        }
-    }
-    //footer
-    Column(modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom)
-    {
-        Row(modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically)
-        {
-            if (pagerState.currentPage == 0)
+
+            //footer
+            Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically)
             {
-                TextButton(onClick = onFinish)
+                if (pagerState.currentPage == 0)
                 {
-                    Text(text = stringResource(id = R.string.skip))
-                }
-            }
-            else
-            {
-                TextButton(onClick = {
-                    corrutineScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage - 1,
-                            pagerState.currentPageOffset)
+                    TextButton(onClick = onFinish)
+                    {
+                        Text(text = stringResource(id = R.string.skip))
                     }
-                })
-                {
-                    Text(text = stringResource(id = R.string.go_back))
                 }
-            }
-
-            HorizontalPagerIndicator(
-                pagerState = pagerState,
-                activeColor = MaterialTheme.colorScheme.primary,
-            )
-
-            if (pagerState.currentPage == pagerState.pageCount - 1)
-            {
-                TextButton(onClick = onFinish)
+                else
                 {
-                    Text(text = stringResource(id = R.string.finish))
-                }
-            }
-            else
-            {
-                TextButton(onClick = {
-                    corrutineScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1,
-                            pagerState.currentPageOffset)
+                    TextButton(onClick = {
+                        corrutineScope.launch {
+                            pagerState.animateScrollToPage(
+                                pagerState.currentPage - 1,
+                                pagerState.currentPageOffset
+                            )
+                        }
+                    })
+                    {
+                        Text(text = stringResource(id = R.string.go_back))
                     }
-                })
+                }
+
+                HorizontalPagerIndicator(
+                    pagerState = pagerState,
+                    activeColor = MaterialTheme.colorScheme.primary)
+
+                if (pagerState.currentPage == pagerState.pageCount - 1) {
+                    TextButton(onClick = onFinish)
+                    {
+                        Text(text = stringResource(id = R.string.finish))
+                    }
+                }
+                else
                 {
-                    Text(text = stringResource(id = R.string.next))
+                    TextButton(onClick = {
+                        corrutineScope.launch {
+                            pagerState.animateScrollToPage(
+                                pagerState.currentPage + 1,
+                                pagerState.currentPageOffset
+                            )
+                        }
+                    })
+                    {
+                        Text(text = stringResource(id = R.string.next))
+                    }
                 }
             }
-
         }
     }
 }

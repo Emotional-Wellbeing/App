@@ -1,25 +1,27 @@
 package es.upm.bienestaremocional.core.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.text.TextStyle
 
 // Set of Material typography styles to start with
+
+private val defaultTypography = Typography()
+
 val Typography = Typography(
-    displayLarge = TextStyle(fontFamily = Quicksand),
-    displayMedium = TextStyle(fontFamily = Quicksand),
-    displaySmall = TextStyle(fontFamily = Quicksand),
-    headlineLarge = TextStyle(fontFamily = Quicksand),
-    headlineMedium = TextStyle(fontFamily = Quicksand),
-    headlineSmall = TextStyle(fontFamily = Quicksand),
-    titleLarge = TextStyle(fontFamily = Quicksand),
-    titleMedium = TextStyle(fontFamily = Quicksand),
-    titleSmall = TextStyle(fontFamily = Quicksand),
-    bodyLarge = TextStyle(fontFamily = Quicksand),
-    bodyMedium = TextStyle(fontFamily = Quicksand),
-    bodySmall = TextStyle(fontFamily = Quicksand),
-    labelLarge = TextStyle(fontFamily = Quicksand),
-    labelMedium = TextStyle(fontFamily = Quicksand),
-    labelSmall = TextStyle(fontFamily = Quicksand),
+    displayLarge = defaultTypography.displayLarge.copy(fontFamily = Quicksand),
+    displayMedium = defaultTypography.displayMedium.copy(fontFamily = Quicksand),
+    displaySmall = defaultTypography.displaySmall.copy(fontFamily = Quicksand),
+    headlineLarge = defaultTypography.headlineLarge.copy(fontFamily = Quicksand),
+    headlineMedium = defaultTypography.headlineMedium.copy(fontFamily = Quicksand),
+    headlineSmall = defaultTypography.headlineSmall.copy(fontFamily = Quicksand),
+    titleLarge = defaultTypography.titleLarge.copy(fontFamily = Quicksand),
+    titleMedium = defaultTypography.titleMedium.copy(fontFamily = Quicksand),
+    titleSmall = defaultTypography.titleSmall.copy(fontFamily = Quicksand),
+    bodyLarge = defaultTypography.bodyLarge.copy(fontFamily = Quicksand),
+    bodyMedium = defaultTypography.bodyMedium.copy(fontFamily = Quicksand),
+    bodySmall = defaultTypography.bodySmall.copy(fontFamily = Quicksand),
+    labelLarge = defaultTypography.labelLarge.copy(fontFamily = Quicksand),
+    labelMedium = defaultTypography.labelMedium.copy(fontFamily = Quicksand),
+    labelSmall = defaultTypography.labelSmall.copy(fontFamily = Quicksand),
     /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
