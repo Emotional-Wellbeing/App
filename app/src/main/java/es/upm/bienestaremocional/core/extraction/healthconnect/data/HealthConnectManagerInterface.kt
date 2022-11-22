@@ -1,0 +1,28 @@
+package es.upm.bienestaremocional.core.extraction.healthconnect.data
+
+import androidx.compose.runtime.MutableState
+import androidx.health.connect.client.permission.HealthPermission
+
+/**
+ * Interface with the Health Connect operations that are related to permissions
+ * and availability
+ */
+interface HealthConnectManagerInterface
+{
+    var availability: MutableState<HealthConnectAvailability>
+
+    /**
+     * Determinate if device can run Health Connect
+     */
+    fun isSupported() : Boolean
+
+    /**
+     * Check if Health Connect is installed or could be
+     */
+    fun checkAvailability()
+
+    /**
+     * Check if [permissions] are granted by user
+     */
+    suspend fun hasAllPermissions(permissions: Set<HealthPermission>): Boolean
+}
