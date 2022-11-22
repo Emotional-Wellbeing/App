@@ -1,3 +1,6 @@
 package es.upm.bienestaremocional.core.ui.responsive
 
-enum class WindowSizeClass { COMPACT, MEDIUM, EXPANDED }
+/**
+ * Stores the screen's type to implement responsive layouts
+ */
+enum class WindowSize { COMPACT, MEDIUM, EXPANDED }

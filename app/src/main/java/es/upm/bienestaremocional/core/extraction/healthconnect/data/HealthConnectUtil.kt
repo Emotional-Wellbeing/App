@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.core.extraction.healthconnect.data
 
+import android.os.Build
 import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
@@ -7,6 +8,9 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+
+// The minimum android level that can use Health Connect
+const val MIN_SUPPORTED_SDK = Build.VERSION_CODES.O_MR1
 
 /**
  * Creates a [ZonedDateTime] either using the offset stored in Health Connect, or falling back on

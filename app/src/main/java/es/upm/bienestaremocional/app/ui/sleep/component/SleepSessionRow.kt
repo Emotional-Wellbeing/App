@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowForward
@@ -18,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.SleepStageRecord
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.sleep.SleepSessionData
@@ -94,6 +98,29 @@ fun SleepSessionRow(sessionData: SleepSessionData, startExpanded: Boolean = fals
             SleepStagesDetail(sessionData.stages)
         }
     }
+}
+
+
+/**
+ * Displays a list of [HeartRateRecord] data in the [LazyColumn].
+ * @param series: Data to show
+ */
+fun LazyListScope.sleepDataSeries(series: List<SleepSessionData>)
+{
+    items(series) { SleepSessionRow(it) }
+
+    /*series.forEach{ serie ->
+        seriesDateTimeHeading(
+            start = serie.startTime,
+            startZoneOffset = serie.startZoneOffset,
+            end = serie.endTime,
+            endZoneOffset = serie.endZoneOffset
+        )
+        items(serie.samples)
+        {
+            SleepSessionRow(it,false)
+        }
+    }*/
 }
 
 @Preview

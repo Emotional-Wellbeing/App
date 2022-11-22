@@ -15,6 +15,7 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.credits.CreditContent
 import es.upm.bienestaremocional.app.ui.component.CreditComponent
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
+import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
@@ -22,7 +23,7 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
  */
 
 @Composable
-fun CreditsScreen(navController: NavController)
+fun CreditsScreen(navController: NavController, windowSize: WindowSize)
 {
     AppBasicScreen(navController = navController,
         entrySelected = null,
@@ -40,7 +41,7 @@ fun CreditsScreen(navController: NavController)
             {
                 items(CreditContent.content.filter { credit -> credit.importantContribution })
                 {
-                    CreditComponent(credit = it)
+                    CreditComponent(credit = it, windowSize = windowSize)
                     Spacer(Modifier.size(16.dp))
                 }
                 item {
@@ -48,7 +49,7 @@ fun CreditsScreen(navController: NavController)
                 }
                 items(CreditContent.content.filter { credit -> !credit.importantContribution })
                 {
-                    CreditComponent(credit = it)
+                    CreditComponent(credit = it, windowSize = windowSize)
                     Spacer(Modifier.size(16.dp))
                 }
             }
@@ -62,7 +63,7 @@ fun CreditsScreenPreview()
 {
     val navController = rememberNavController()
     BienestarEmocionalTheme {
-        CreditsScreen(navController)
+        CreditsScreen(navController = navController, windowSize = WindowSize.COMPACT)
     }
 }
 
@@ -72,6 +73,6 @@ fun CreditsScreenPreviewDarkTheme()
 {
     val navController = rememberNavController()
     BienestarEmocionalTheme(darkTheme = true) {
-        CreditsScreen(navController)
+        CreditsScreen(navController = navController, windowSize = WindowSize.COMPACT)
     }
 }

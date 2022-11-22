@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -47,24 +48,23 @@ fun Splash(darkTheme: Boolean)
     ) {
         Image(painter = painterResource(id = R.drawable.app_logo),
             contentDescription = "Logo aplicación",
-            modifier = Modifier.fillMaxSize(0.5f))
+            modifier = Modifier.fillMaxSize(0.66f))
     }
 }
 
 @Composable
 fun SplashScreen(
     appSettings: AppSettingsInterface,
-    healthConnectAvailability: HealthConnectAvailability,
+    healthConnectAvailability: MutableState<HealthConnectAvailability>,
     navController: NavHostController,
     darkTheme: Boolean
 )
 {
-
     //splash screen
     Splash(darkTheme)
 
-    //init block. Delay simulate it
-    LaunchedEffect(key1 = true)
+    //init block. Delay simulate loading
+    LaunchedEffect(true)
     {
         delay(1000)
 
@@ -73,16 +73,16 @@ fun SplashScreen(
         //read if we should present onboarding
         val showOnboarding = appSettings.getShowOnboarding().first()
 
-
-        when (healthConnectAvailability)
+        //redirect to certain screen
+        when (healthConnectAvailability.value)
         {
-            HealthConnectAvailability.INSTALLED -> if (showOnboarding)
-                navController.navigate(Screen.OnboardingScreen.route)
-            else
-                navController.navigate(Screen.HomeScreen.route)
+            HealthConnectAvailability.INSTALLED ->
+                if (showOnboarding)
+                    navController.navigate(Screen.OnboardingScreen.route)
+                else
+                    navController.navigate(Screen.HomeScreen.route)
 
-            HealthConnectAvailability.NOT_INSTALLED -> navController.navigate(Screen.ErrorScreen.route)
-            HealthConnectAvailability.NOT_SUPPORTED -> navController.navigate(Screen.ErrorScreen.route)
+            else -> navController.navigate(Screen.ErrorScreen.route)
         }
     }
 }
@@ -98,9 +98,9 @@ fun SplashPreview()
 
 @Preview(showBackground = true)
 @Composable
-fun SplashDarkThemePreview()
+fun SplashPreviewDarkTheme()
 {
-    BienestarEmocionalTheme {
+    BienestarEmocionalTheme(darkTheme = true) {
         Splash(darkTheme = true)
     }
 }

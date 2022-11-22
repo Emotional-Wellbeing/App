@@ -2,6 +2,7 @@
 package es.upm.bienestaremocional.app.ui.component
 
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -23,21 +24,25 @@ fun NotInstalledMessage() {
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun NotInstalledMessagePreview()
 {
     BienestarEmocionalTheme {
-        NotInstalledMessage()
+        Surface() {
+            NotInstalledMessage()
+        }
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun NotInstalledMessagePreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        NotInstalledMessage()
+        Surface() {
+            NotInstalledMessage()
+        }
     }
 }
 

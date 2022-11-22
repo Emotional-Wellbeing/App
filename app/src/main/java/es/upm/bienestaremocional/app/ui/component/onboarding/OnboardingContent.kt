@@ -2,6 +2,12 @@ package es.upm.bienestaremocional.app.ui.component.onboarding
 
 import es.upm.bienestaremocional.R
 
+/**
+ * Contains a list of all slides of OnboardingScreen
+ * @see HorizontalPagerContent
+ * @see OnboardingContent
+ */
+
 object OnboardingContent
 {
     val content = listOf(

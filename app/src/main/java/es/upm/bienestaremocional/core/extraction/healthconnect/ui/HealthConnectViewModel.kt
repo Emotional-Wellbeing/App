@@ -9,19 +9,28 @@ import androidx.health.connect.client.PermissionController
 import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.util.*
 
-abstract class HealthConnectViewModel: ViewModel()
+/**
+ * Implements [HealthConnectViewModelInterface] and add some shared variables
+ */
+abstract class HealthConnectViewModel: ViewModel(), HealthConnectViewModelInterface
 {
+    /**
+     * Holds UiState to show (or not) data, request permission button, exceptions...
+     */
     var uiState: UiState by mutableStateOf(UiState.Uninitialized)
         protected set
 
+    /**
+     * Launcher to request permissions
+     */
     val permissionLauncher = PermissionController.createRequestPermissionResultContract()
 
-    fun readData(healthConnectSource: HealthConnectSource, data: MutableState<List<Record>>)
+    override fun readData(healthConnectSource: HealthConnectSourceInterface,
+                          data: MutableState<List<Record>>)
     {
         viewModelScope.launch {
             uiState = try {
@@ -46,17 +55,6 @@ abstract class HealthConnectViewModel: ViewModel()
                 UiState.Error(illegalStateException)
             }
         }
-    }
-
-    sealed class UiState
-    {
-        object Uninitialized : UiState()
-        object Success : UiState()
-        object NotEnoughPermissions : UiState()
-
-        // A random UUID is used in each Error object to allow errors to be uniquely identified,
-        // and recomposition won't result in multiple snackbars.
-        data class Error(val exception: Throwable, val uuid: UUID = UUID.randomUUID()) : UiState()
     }
 
 }

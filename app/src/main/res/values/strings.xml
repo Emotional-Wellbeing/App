@@ -20,7 +20,9 @@
 
     <!-- Welcome screen -->
     <string name="installed_welcome_message">¡Enhorabuena! Estás listo para utilizar esta aplicación.</string>
-    <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Health Connect, aplicación disponible en Google Play.</string>
+    <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es
+        necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes
+        instalada, por favor reinicia la aplicación.</string>
     <string name="not_supported_welcome_message">Esta aplicación solo está disponible para dispositivos que ejecuten una API %1$d o superior.</string>
 
     <!-- Onboarding -->
@@ -102,4 +104,7 @@
     <string name="dark_mode">Modo oscuro</string>
     <string name="dynamic_colors_label">Colores dinámicos</string>
     <string name="dynamic_colors_description">Basados en tu fondo de pantalla</string>
+    <string name="light_mode_label">Desactivado</string>
+    <string name="dark_mode_label">Activado</string>
+    <string name="default_mode_label">Usar la configuración del dispositivo</string>
 </resources>

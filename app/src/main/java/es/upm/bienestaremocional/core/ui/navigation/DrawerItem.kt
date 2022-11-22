@@ -16,18 +16,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
+/**
+ * Draw a single element
+ * @param entry to be drawn
+ * @param selected: if the user is in this entry
+ * @param repaintIcon: if the app should repaint the icon for appropriate view
+ * @param onClick: function to execute when the user click on this element
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DrawNavigationDrawerItem(entry: MenuEntry,
                                      selected : Boolean,
-                                     repintIcon: Boolean = true,
+                                     repaintIcon: Boolean = true,
                                      onClick: () -> Unit)
 {
-    /**
-     * @Todo create text size options responsive
-     * @Todo create color options according to light/dark theme
-     */
-
     NavigationDrawerItem(
         icon = {
             Icon(
@@ -36,7 +38,7 @@ private fun DrawNavigationDrawerItem(entry: MenuEntry,
                     .size(size = 28.dp),
                 painter = painterResource(entry.iconId),
                 contentDescription = null,
-                tint = if(repintIcon) MaterialTheme.colorScheme.onBackground else Color.Unspecified
+                tint = if(repaintIcon) MaterialTheme.colorScheme.onBackground else Color.Unspecified
             )
         },
         label = {
@@ -54,6 +56,12 @@ private fun DrawNavigationDrawerItem(entry: MenuEntry,
     )
 }
 
+/**
+ * Draw menu items
+ * @param navController: manager of app navigation 
+ * @param entrySelected: entry that the user is visualizing. Null if the user is in entry that 
+ * isn't part of menu
+ */
 @Composable
 fun NavigationDrawerItems(navController: NavController, entrySelected: MenuEntry?)
 {
@@ -66,10 +74,9 @@ fun NavigationDrawerItems(navController: NavController, entrySelected: MenuEntry
     }
 
     ForeignMenuEntry.values().forEach {
-        element -> DrawNavigationDrawerItem(
-                        entry = element,
-                        selected = element === entrySelected,
-                        repintIcon = false)
+        element -> DrawNavigationDrawerItem(entry = element,
+                                            selected = element === entrySelected,
+                                            repaintIcon = false)
                     {
                         openForeignActivity(context = context, action = element.action)
                     }
@@ -96,13 +103,35 @@ fun DrawLocalItemPreviewDarkTheme()
 
 @Preview
 @Composable
+fun DrawItemSelectPreview()
+{
+    BienestarEmocionalTheme {
+        DrawNavigationDrawerItem(LocalMenuEntry.HomeScreen, selected = true){}
+    }
+}
+
+@Preview
+@Composable
+fun DrawItemSelectedDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
+        DrawNavigationDrawerItem(
+            ForeignMenuEntry.HealthConnectScreen,
+            selected = true,
+            repaintIcon = false)
+        {}
+    }
+}
+
+@Preview
+@Composable
 fun DrawForeignItemPreview()
 {
     BienestarEmocionalTheme {
         DrawNavigationDrawerItem(
             ForeignMenuEntry.HealthConnectScreen,
             selected = false,
-            repintIcon = false)
+            repaintIcon = false)
         {}
     }
 }
@@ -115,7 +144,7 @@ fun DrawForeignItemPreviewDarkTheme()
         DrawNavigationDrawerItem(
             ForeignMenuEntry.HealthConnectScreen,
             selected = false,
-            repintIcon = false)
+            repaintIcon = false)
         {}
     }
 }

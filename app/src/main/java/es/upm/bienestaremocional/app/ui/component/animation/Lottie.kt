@@ -1,6 +1,7 @@
 package es.upm.bienestaremocional.app.ui.component.animation
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -13,9 +14,10 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
- * Takes a resource raw id and display the animation
- * @param rawRes: element to display
+ * Display Lottie animation
+ * @param rawRes: element to display. Must be an element from R.raw
  * @param modifier: Modifier to alter this element
+ * @param animationLoop: Indicate if the animation should be animate repeatedly or once
  */
 @Composable
 fun DisplayLottieAnimation(rawRes: Int, modifier: Modifier = Modifier, animationLoop : Boolean = true)
@@ -23,17 +25,34 @@ fun DisplayLottieAnimation(rawRes: Int, modifier: Modifier = Modifier, animation
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(rawRes))
     LottieAnimation(
         composition = composition,
-        iterations = if (animationLoop) LottieConstants.IterateForever else 1,
-        modifier = modifier
+        modifier = modifier,
+        iterations = if (animationLoop) LottieConstants.IterateForever else 1
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun DisplayLottieAnimationPreview()
 {
     BienestarEmocionalTheme {
-        DisplayLottieAnimation(rawRes = R.raw.mental_wellbeing,
-            modifier = Modifier.fillMaxSize())
+        Surface() {
+            DisplayLottieAnimation(
+                rawRes = R.raw.mental_wellbeing,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DisplayLottieAnimationDarkModePreview()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
+        Surface() {
+            DisplayLottieAnimation(
+                rawRes = R.raw.mental_wellbeing,
+                modifier = Modifier.fillMaxSize())
+        }
     }
 }

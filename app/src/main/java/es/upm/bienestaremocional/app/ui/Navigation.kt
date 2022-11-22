@@ -2,22 +2,21 @@ package es.upm.bienestaremocional.app.ui
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.health.connect.client.HealthConnectClient
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import es.upm.bienestaremocional.app.data.heartrate.HealthConnectHeartrate
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
-import es.upm.bienestaremocional.app.data.sleep.HealthConnectSleep
 import es.upm.bienestaremocional.app.showExceptionSnackbar
-import es.upm.bienestaremocional.app.ui.heartrate.HeartrateScreen
+import es.upm.bienestaremocional.app.ui.heartrate.HeartRateScreenWrapper
 import es.upm.bienestaremocional.app.ui.screen.*
-import es.upm.bienestaremocional.app.ui.sleep.SleepScreen
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
+import es.upm.bienestaremocional.app.ui.settings.SettingsScreenWrapper
+import es.upm.bienestaremocional.app.ui.sleep.SleepScreenWrapper
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
 import es.upm.bienestaremocional.core.ui.navigation.Screen
+import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import kotlinx.coroutines.launch
 
 /**
@@ -27,8 +26,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun AppNavigation(navController: NavHostController,
                   appSettings: AppSettingsInterface,
-                  healthConnectClient: HealthConnectClient,
-                  healthConnectManager: HealthConnectManager,
+                  windowSize: WindowSize,
+                  healthConnectAvailability: MutableState<HealthConnectAvailability>,
                   darkTheme : Boolean
 )
 {
@@ -36,18 +35,13 @@ fun AppNavigation(navController: NavHostController,
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    val healthConnectSleep = HealthConnectSleep(healthConnectClient, healthConnectManager)
-    val healthConnectHeartrate = HealthConnectHeartrate(healthConnectClient, healthConnectManager)
-    val availability by healthConnectManager.availability
-
-
     NavHost(navController = navController, startDestination = Screen.SplashScreen.route)
     {
         composable(route = Screen.SplashScreen.route)
         {
             SplashScreen(
                 appSettings = appSettings,
-                healthConnectAvailability = availability,
+                healthConnectAvailability = healthConnectAvailability,
                 navController = navController,
                 darkTheme = darkTheme
             )
@@ -55,18 +49,19 @@ fun AppNavigation(navController: NavHostController,
 
         composable(route = Screen.ErrorScreen.route)
         {
-            ErrorScreen(healthConnectAvailability = availability)
+            ErrorScreen(healthConnectAvailability = healthConnectAvailability)
         }
 
         composable(route = Screen.OnboardingScreen.route)
         {
-            OnboardingScreen(onFinish = {
+            OnboardingScreen(windowSize = windowSize)
+            {
                 scope.launch {
                     appSettings.saveShowOnboarding(false)
                 }
                 navController.popBackStack()
                 navController.navigate(Screen.HomeScreen.route)
-            })
+            }
         }
 
         composable(route = Screen.HomeScreen.route)
@@ -74,7 +69,7 @@ fun AppNavigation(navController: NavHostController,
             HomeScreen(
                 navController = navController,
                 onSleepClick = { navController.navigate(Screen.SleepScreen.route) },
-                onHeartrateClick = { navController.navigate(Screen.HeartrateScreen.route) })
+                onHeartRateClick = { navController.navigate(Screen.HeartRateScreen.route) })
         }
 
         composable(route = Screen.HistoryScreen.route)
@@ -94,7 +89,7 @@ fun AppNavigation(navController: NavHostController,
 
         composable(route = Screen.SettingsScreen.route)
         {
-            SettingsScreen(navController, appSettings)
+            SettingsScreenWrapper(navController)
         }
 
         composable(route = Screen.PrivacyPolicyScreen.route)
@@ -109,22 +104,17 @@ fun AppNavigation(navController: NavHostController,
 
         composable(route = Screen.SleepScreen.route)
         {
-            SleepScreen(healthConnectSleep) {
-                    exception -> showExceptionSnackbar(scope, snackbarHostState, exception)
-            }
+            SleepScreenWrapper { exception -> showExceptionSnackbar(scope, snackbarHostState, exception) }
         }
 
-        composable(route = Screen.HeartrateScreen.route)
+        composable(route = Screen.HeartRateScreen.route)
         {
-            HeartrateScreen(healthConnectHeartrate){
-                    exception -> showExceptionSnackbar(scope, snackbarHostState, exception)
-            }
+            HeartRateScreenWrapper{ exception -> showExceptionSnackbar(scope, snackbarHostState, exception) }
         }
 
         composable(route = Screen.CreditsScreen.route)
         {
-            CreditsScreen(navController)
+            CreditsScreen(navController = navController, windowSize = windowSize)
         }
-
     }
 }

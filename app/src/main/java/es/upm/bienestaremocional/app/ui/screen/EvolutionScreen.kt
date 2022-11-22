@@ -20,7 +20,6 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 /**
  * Plots graphics about user's evolution
  */
-
 @Composable
 fun EvolutionScreen(navController: NavController)
 {

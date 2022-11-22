@@ -3,9 +3,7 @@ package es.upm.bienestaremocional.core.ui.navigation
 import android.content.Context
 import android.content.Intent
 
-fun openForeignActivity(context: Context, action: String)
-{
-    val settingsIntent = Intent()
-    settingsIntent.action = action
-    context.startActivity(settingsIntent)
-}
+/**
+ * Open activity from other app
+ */
+fun openForeignActivity(context: Context, action: String) = context.startActivity(Intent(action))

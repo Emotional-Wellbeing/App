@@ -9,26 +9,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.window.layout.WindowMetricsCalculator
 import com.google.accompanist.pager.*
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.ui.component.animation.DisplayLottieAnimation
 import es.upm.bienestaremocional.app.ui.component.onboarding.HorizontalPagerContent
 import es.upm.bienestaremocional.app.ui.component.onboarding.OnboardingContent
-import es.upm.bienestaremocional.core.ui.responsive.WindowSizeClass
-import es.upm.bienestaremocional.core.ui.responsive.computeWindowSizeClasses
-import es.upm.bienestaremocional.core.ui.responsive.getActivity
+import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun OnboardingScreen(onFinish: () -> Unit)
+fun OnboardingScreen(windowSize: WindowSize, onFinish: () -> Unit)
 {
     Surface()
     {
@@ -42,10 +38,13 @@ fun OnboardingScreen(onFinish: () -> Unit)
             HorizontalPager(
                 count = items.size,
                 state = pagerState,
-                modifier = Modifier.weight(1f))
-            { currentPage -> DrawPage(horizontalPagerContent = items[currentPage],
-                pagerState = pagerState,
-                onFinish = onFinish)
+                modifier = Modifier.weight(1f)
+            )
+            {
+                currentPage -> DrawPage(horizontalPagerContent = items[currentPage],
+                                        pagerState = pagerState,
+                                        windowSize = windowSize,
+                                        onFinish = onFinish)
             }
         }
     }
@@ -56,19 +55,10 @@ fun OnboardingScreen(onFinish: () -> Unit)
 @Composable
 fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
              pagerState : PagerState,
+             windowSize: WindowSize,
              onFinish: () -> Unit
 )
 {
-    val windowSizeClass = LocalContext.current.getActivity()?.let {
-        computeWindowSizeClasses(
-            windowMetricsCalculator = WindowMetricsCalculator.getOrCreate(),
-            activity = it,
-            displayMetrics = LocalContext.current.resources.displayMetrics)
-    }
-    ?: run {
-        WindowSizeClass.COMPACT
-    }
-
     val corrutineScope = rememberCoroutineScope()
 
     //content
@@ -100,7 +90,7 @@ fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
                 color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
-                style = if (windowSizeClass == WindowSizeClass.COMPACT)
+                style = if (windowSize == WindowSize.COMPACT)
                     MaterialTheme.typography.titleMedium
                 else
                     MaterialTheme.typography.titleLarge
@@ -112,7 +102,7 @@ fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Justify,
                 modifier = Modifier.fillMaxWidth(),
-                style = if (windowSizeClass == WindowSizeClass.COMPACT)
+                style = if (windowSize == WindowSize.COMPACT)
                     MaterialTheme.typography.bodyMedium
                 else
                     MaterialTheme.typography.bodyLarge
@@ -174,11 +164,43 @@ fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
     }
 }
 
+/*
+ * Previews are not shown properly in Android Studio, but if they are executed on device they are
+ * shown successfully
+ */
+
 @Preview(showBackground = true)
 @Composable
 fun OnboardingScreenPreview()
 {
     BienestarEmocionalTheme {
-        OnboardingScreen(onFinish = {})
+        OnboardingScreen(windowSize = WindowSize.COMPACT, onFinish = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OnboardingScreenPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
+        OnboardingScreen(windowSize = WindowSize.COMPACT, onFinish = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OnboardingScreenNotCompactPreview()
+{
+    BienestarEmocionalTheme {
+        OnboardingScreen(windowSize = WindowSize.MEDIUM, onFinish = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun OnboardingScreenNotCompactPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
+        OnboardingScreen(windowSize = WindowSize.MEDIUM, onFinish = {})
     }
 }

@@ -20,7 +20,6 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 /**
  * Contains info about app and project
  */
-
 @Composable
 fun AboutScreen(navController: NavController)
 {

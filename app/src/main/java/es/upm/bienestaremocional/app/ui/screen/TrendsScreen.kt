@@ -20,7 +20,6 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 /**
  * Plots graphics about all users (trends)
  */
-
 @Composable
 fun TrendsScreen(navController: NavController)
 {

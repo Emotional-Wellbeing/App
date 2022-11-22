@@ -1,6 +1,8 @@
 package es.upm.bienestaremocional.app.ui.screen
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,66 +20,62 @@ import es.upm.bienestaremocional.core.ui.navigation.LocalMenuEntry
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
- * Welcome screen shown when the app is first launched.
+ * Home Screen is point of entry screen
  */
-
 @Composable
 fun HomeScreen(navController: NavController,
                onSleepClick : () -> Unit,
-               onHeartrateClick : () -> Unit)
+               onHeartRateClick : () -> Unit)
 {
     AppBasicScreen(navController = navController,
         entrySelected = LocalMenuEntry.HomeScreen,
         label = R.string.app_name)
     {
+        //https://developer.android.com/jetpack/compose/gestures for verticalScroll
         Column(
             modifier = Modifier
-                .fillMaxSize() //need it for fill all remaining screen
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceAround
         )
         {
             BasicCard{
                 Text("Message placeholder")
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
             BasicCard{
                 Text("Today stats placeholder")
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
 
             BasicCard{
                 Text("PHQ-9 placeholder")
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
             BasicCard{
                 Text("Feedback placeholder")
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
 
             BasicCard{
                 Text("Last week stats placeholder")
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(onClick = onSleepClick)
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceAround,
+                horizontalAlignment = Alignment.CenterHorizontally
+            )
             {
-                Text(text = stringResource(id = R.string.sleep))
-            }
+                Button(onClick = onSleepClick)
+                {
+                    Text(text = stringResource(id = R.string.sleep))
+                }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(onClick = onHeartrateClick)
-            {
-                Text(text = stringResource(id = R.string.heart_rate))
+                Button(onClick = onHeartRateClick)
+                {
+                    Text(text = stringResource(id = R.string.heart_rate))
+                }
             }
         }
     }
@@ -94,11 +92,10 @@ fun HomeScreenPreview()
         HomeScreen(
             navController = navController,
             onSleepClick = {},
-            onHeartrateClick = {})
+            onHeartRateClick = {})
     }
 }
 
-// this preview has a bug rendering the background of the screen
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreviewDarkTheme()
@@ -111,6 +108,6 @@ fun HomeScreenPreviewDarkTheme()
         HomeScreen(
             navController = navController,
             onSleepClick = {},
-            onHeartrateClick = {})
+            onHeartRateClick = {})
     }
 }

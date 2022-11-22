@@ -2,23 +2,28 @@ package es.upm.bienestaremocional.app.ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.window.layout.WindowMetricsCalculator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.credits.Credit
-import es.upm.bienestaremocional.core.ui.responsive.WindowSizeClass
-import es.upm.bienestaremocional.core.ui.responsive.computeWindowSizeClasses
-import es.upm.bienestaremocional.core.ui.responsive.getActivity
+import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
+/**
+ * Provides the style used for  [Credit.nameResource] depending of [WindowSize]
+ * and [Credit.importantContribution]
+ * @param windowSize: instance of [WindowSize] indicating the type of screen
+ * @param importantContribution: [Credit.importantContribution] value
+ * @see Credit
+ * @see WindowSize
+ */
 @Composable
-private fun nameStyle(windowSizeClass: WindowSizeClass, importantContribution: Boolean) =
-    if (windowSizeClass == WindowSizeClass.COMPACT)
+private fun nameStyle(windowSize: WindowSize, importantContribution: Boolean) =
+    if (windowSize == WindowSize.COMPACT)
     {
         if (importantContribution)
             MaterialTheme.typography.titleMedium
@@ -28,14 +33,22 @@ private fun nameStyle(windowSizeClass: WindowSizeClass, importantContribution: B
     else
     {
         if (importantContribution)
-            MaterialTheme.typography.titleLarge
+            MaterialTheme.typography.headlineSmall
         else
-            MaterialTheme.typography.bodyLarge
+            MaterialTheme.typography.titleSmall
     }
 
+/**
+ * Provides the style used for [Credit.descriptionResource] depending of [WindowSize]
+ * and [Credit.importantContribution]
+ * @param windowSize: instance of [WindowSize] indicating the type of screen
+ * @param importantContribution: [Credit.importantContribution] value
+ * @see Credit
+ * @see WindowSize
+ */
 @Composable
-private fun descriptionStyle(windowSizeClass: WindowSizeClass, importantContribution: Boolean) =
-    if (windowSizeClass == WindowSizeClass.COMPACT)
+private fun descriptionStyle(windowSize: WindowSize, importantContribution: Boolean) =
+    if (windowSize == WindowSize.COMPACT)
     {
         if (importantContribution)
             MaterialTheme.typography.bodyMedium
@@ -45,35 +58,32 @@ private fun descriptionStyle(windowSizeClass: WindowSizeClass, importantContribu
     else
     {
         if (importantContribution)
-            MaterialTheme.typography.bodyLarge
+            MaterialTheme.typography.titleMedium
         else
-            MaterialTheme.typography.labelLarge
+            MaterialTheme.typography.bodyMedium
     }
 
+/**
+ * Display Credit information inside a column
+ * @param credit: element to display
+ * @param windowSize: Type of [WindowSize] used for calibrate Texts
+ * @see Credit
+ * @see WindowSize
+ */
 @Composable
-fun CreditComponent(credit: Credit)
+fun CreditComponent(credit: Credit, windowSize: WindowSize)
 {
-    val windowSizeClass = LocalContext.current.getActivity()?.let {
-        computeWindowSizeClasses(
-            windowMetricsCalculator = WindowMetricsCalculator.getOrCreate(),
-            activity = it,
-            displayMetrics = LocalContext.current.resources.displayMetrics)
-    }
-        ?: run {
-            WindowSizeClass.COMPACT
-        }
-
     Column()
     {
         Text(text = stringResource(id = credit.nameResource),
             textAlign = TextAlign.Justify,
-            color = MaterialTheme.colorScheme.primary,
-            style = nameStyle(windowSizeClass,credit.importantContribution)
+            color = MaterialTheme.colorScheme.secondary,
+            style = nameStyle(windowSize,credit.importantContribution)
         )
         Text(text = stringResource(id = credit.descriptionResource),
             textAlign = TextAlign.Justify,
             color = MaterialTheme.colorScheme.onBackground,
-            style = descriptionStyle(windowSizeClass,credit.importantContribution)
+            style = descriptionStyle(windowSize,credit.importantContribution)
         )
     }
 
@@ -84,12 +94,16 @@ fun CreditComponent(credit: Credit)
 fun CreditImportantComponentPreview()
 {
     BienestarEmocionalTheme {
-        CreditComponent(
-            Credit(
-                nameResource = R.string.credit_author_name,
-                descriptionResource = R.string.credit_author_description,
-                importantContribution = true)
-        )
+        Surface() {
+            CreditComponent(
+                credit = Credit(
+                    nameResource = R.string.credit_author_name,
+                    descriptionResource = R.string.credit_author_description,
+                    importantContribution = true
+                ),
+                windowSize = WindowSize.COMPACT
+            )
+        }
     }
 }
 
@@ -99,12 +113,53 @@ fun CreditImportantComponentPreview()
 fun CreditImportantComponentPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        CreditComponent(
-            Credit(
-                nameResource = R.string.credit_author_name,
-                descriptionResource = R.string.credit_author_description,
-                importantContribution = true)
-        )
+        Surface() {
+            CreditComponent(
+                credit = Credit(
+                    nameResource = R.string.credit_author_name,
+                    descriptionResource = R.string.credit_author_description,
+                    importantContribution = true
+                ),
+                windowSize = WindowSize.COMPACT
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CreditImportantComponentPreviewMediumScreen()
+{
+    BienestarEmocionalTheme {
+        Surface() {
+            CreditComponent(
+                credit = Credit(
+                    nameResource = R.string.credit_author_name,
+                    descriptionResource = R.string.credit_author_description,
+                    importantContribution = true
+                ),
+                windowSize = WindowSize.MEDIUM
+            )
+        }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun CreditImportantComponentPreviewDarkThemeMediumScreen()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
+        Surface() {
+            CreditComponent(
+                credit = Credit(
+                    nameResource = R.string.credit_author_name,
+                    descriptionResource = R.string.credit_author_description,
+                    importantContribution = true
+                ),
+                windowSize = WindowSize.MEDIUM
+            )
+        }
     }
 }
 
@@ -113,12 +168,16 @@ fun CreditImportantComponentPreviewDarkTheme()
 fun CreditNotImportantComponentPreview()
 {
     BienestarEmocionalTheme {
-        CreditComponent(
-            Credit(
-                nameResource = R.string.credit_logo1_name,
-                descriptionResource = R.string.credit_logo1_description,
-                importantContribution = false)
-        )
+        Surface() {
+            CreditComponent(
+                credit = Credit(
+                    nameResource = R.string.credit_logo1_name,
+                    descriptionResource = R.string.credit_logo1_description,
+                    importantContribution = false
+                ),
+                windowSize = WindowSize.COMPACT
+            )
+        }
     }
 }
 
@@ -128,12 +187,53 @@ fun CreditNotImportantComponentPreview()
 fun CreditNotImportantComponentPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        CreditComponent(
-            Credit(
-                nameResource = R.string.credit_logo1_name,
-                descriptionResource = R.string.credit_logo1_description,
-                importantContribution = false
+        Surface() {
+            CreditComponent(
+                credit = Credit(
+                    nameResource = R.string.credit_logo1_name,
+                    descriptionResource = R.string.credit_logo1_description,
+                    importantContribution = false
+                ),
+                windowSize = WindowSize.COMPACT
             )
-        )
+        }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun CreditNotImportantComponentPreviewMediumScreen()
+{
+    BienestarEmocionalTheme {
+        Surface() {
+            CreditComponent(
+                credit = Credit(
+                    nameResource = R.string.credit_logo1_name,
+                    descriptionResource = R.string.credit_logo1_description,
+                    importantContribution = false
+                ),
+                windowSize = WindowSize.MEDIUM
+            )
+        }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun CreditNotImportantComponentPreviewDarkThemeMediumScreen()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
+        Surface() {
+            CreditComponent(
+                credit = Credit(
+                    nameResource = R.string.credit_logo1_name,
+                    descriptionResource = R.string.credit_logo1_description,
+                    importantContribution = false
+                ),
+                windowSize = WindowSize.MEDIUM
+            )
+        }
     }
 }

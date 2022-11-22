@@ -5,11 +5,12 @@ import android.util.DisplayMetrics
 import androidx.window.layout.WindowMetricsCalculator
 
 /**
- * Extracted from https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#kotlin
+ * Computes window size according for their width. Threshold values are extracted from
+ * https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#kotlin
  */
-fun computeWindowSizeClasses(windowMetricsCalculator: WindowMetricsCalculator,
-                             activity: Activity,
-                             displayMetrics : DisplayMetrics): WindowSizeClass
+fun computeWindowSize(windowMetricsCalculator: WindowMetricsCalculator,
+                      activity: Activity,
+                      displayMetrics : DisplayMetrics): WindowSize
 {
     val metrics = windowMetricsCalculator.computeCurrentWindowMetrics(activity)
 
@@ -17,9 +18,9 @@ fun computeWindowSizeClasses(windowMetricsCalculator: WindowMetricsCalculator,
 
     val widthWindowSizeClass = when
     {
-        widthDp < 600f -> WindowSizeClass.COMPACT
-        widthDp < 840f -> WindowSizeClass.MEDIUM
-        else -> WindowSizeClass.EXPANDED
+        widthDp < 600f -> WindowSize.COMPACT
+        widthDp < 840f -> WindowSize.MEDIUM
+        else -> WindowSize.EXPANDED
     }
 
     return widthWindowSizeClass

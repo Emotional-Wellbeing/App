@@ -11,11 +11,16 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
+/**
+ * Draws the entire menu
+ * @param navController: manager of app navigation
+ * @param entrySelected: entry that the user is visualizing. Null if the user is in entry that
+ * isn't part of menu
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommonModalDrawerSheet(navController: NavController, entrySelected : MenuEntry?)
 {
-    //Modifier.alpha(0.66f) to obtain transparent menu
     ModalDrawerSheet {
         Spacer(Modifier.height(12.dp))
         NavigationDrawerItems(navController = navController, entrySelected = entrySelected)

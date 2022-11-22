@@ -4,13 +4,15 @@ import androidx.health.connect.client.records.Record
 import java.time.ZonedDateTime
 
 /**
- * Override some common functions of [HealthConnectSourceInterface]
+ * Provides default implementation for some functions of [HealthConnectSourceInterface]
  */
-abstract class HealthConnectSource(private val healthConnectManager: HealthConnectManager):
+abstract class HealthConnectSource(private val healthConnectManager: HealthConnectManagerInterface):
     HealthConnectSourceInterface
 {
-    override suspend fun readPermissionsCheck(): Boolean =
-        healthConnectManager.hasAllPermissions(readPermissions)
+    override suspend fun readPermissionsCheck(): Boolean
+    {
+        return healthConnectManager.hasAllPermissions(readPermissions)
+    }
 
     override suspend fun readSource(): List<Record>
     {
@@ -20,5 +22,7 @@ abstract class HealthConnectSource(private val healthConnectManager: HealthConne
     }
 
     override suspend fun readSource(startTime: ZonedDateTime, endTime: ZonedDateTime): List<Record>
-        = readSource(startTime.toInstant(), endTime.toInstant())
+    {
+        return readSource(startTime.toInstant(), endTime.toInstant())
+    }
 }
