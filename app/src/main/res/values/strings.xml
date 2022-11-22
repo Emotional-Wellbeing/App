@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore = "typos">
     <string name="app_name">Bienestar Emocional</string>
 
     <!-- Screen -->
@@ -9,7 +9,6 @@
     <string name="settings_screen_label">Ajustes</string>
     <string name="privacy_policy_screen_label">Política de privacidad</string>
     <string name="health_connect_settings_label">Ajustes de Salud Conectada</string>
-    <string name="demo_screen_label">Demo</string>
 
     <string name="about_screen_label">Acerca de la aplicación</string>
     <string name="about_screen_description">Información técnica de la aplicación</string>
@@ -18,8 +17,7 @@
     <string name="credits_screen_label">Créditos</string>
     <string name="credits_screen_description">Las personas detrás del proyecto</string>
 
-    <!-- Welcome screen -->
-    <string name="installed_welcome_message">¡Enhorabuena! Estás listo para utilizar esta aplicación.</string>
+    <!-- Error screen -->
     <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es
         necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes
         instalada, por favor reinicia la aplicación.</string>
@@ -95,7 +93,6 @@
     </string>
 
     <!-- Misc -->
-    <string name="hello">¡Hola!</string>
     <string name="menu">Menu</string>
     <string name="go_back">Volver atrás</string>
     <string name="finish">Finalizar</string>

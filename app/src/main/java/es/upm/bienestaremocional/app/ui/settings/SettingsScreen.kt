@@ -101,7 +101,7 @@ private fun SettingsScreen(navController: NavController,
             Divider()
 
             SettingsMenuLink(
-                icon = { Icon(painter = painterResource(R.drawable.ic_baseline_help_outline),
+                icon = { Icon(painter = painterResource(R.drawable.help_outline),
                     contentDescription = null,
                     modifier = Modifier.defaultIconModifier()) },
                 title = { Text(text = stringResource(id = R.string.about_screen_label),
@@ -121,7 +121,7 @@ private fun SettingsScreen(navController: NavController,
             )
 
             SettingsMenuLink(
-                icon = { Icon(painter = painterResource(R.drawable.ic_baseline_people_alt),
+                icon = { Icon(painter = painterResource(R.drawable.people_alt),
                     contentDescription = null,
                     modifier = Modifier.defaultIconModifier()) },
                 title = { Text(text = stringResource(id = R.string.credits_screen_label),
