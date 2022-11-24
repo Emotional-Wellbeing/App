@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.core.ui.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Menu
@@ -16,32 +17,37 @@ import es.upm.bienestaremocional.core.ui.navigation.CommonModalDrawerSheet
 import es.upm.bienestaremocional.core.ui.navigation.LocalMenuEntry
 import es.upm.bienestaremocional.core.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 /**
  * Define the base detail screen used in the app
  */
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBasicScreen(navController: NavController,
                    entrySelected: MenuEntry?,
                    label: Int,
+                   scope : CoroutineScope = rememberCoroutineScope(),
+                   snackbarHostState: SnackbarHostState? = null,
                    content: @Composable RowScope.() -> Unit)
 {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent =
-        {
-            CommonModalDrawerSheet(navController = navController, entrySelected = entrySelected)
-        },
-        content =
-        {
-            //all content in this screen belongs to a general column and two rows
-            //first row is por top bar
-            Surface{
+    //top bar doesn't work well
+    Scaffold(snackbarHost = {snackbarHostState?.let { SnackbarHost(it)}})
+    {
+        ModalNavigationDrawer(
+            drawerState = drawerState,
+            drawerContent =
+            {
+                CommonModalDrawerSheet(navController = navController, entrySelected = entrySelected)
+            },
+            content =
+            {
+                //all content in this screen belongs to a general column and two rows
+                //first row is por top bar
                 Column(modifier = Modifier.fillMaxSize())
                 {
                     Row(modifier = Modifier.fillMaxWidth())
@@ -74,10 +80,12 @@ fun AppBasicScreen(navController: NavController,
                         content = content,
                     )
                 }
-            }
 
-        }
-    )
+            }
+        )
+    }
+
+
 }
 
 @Preview

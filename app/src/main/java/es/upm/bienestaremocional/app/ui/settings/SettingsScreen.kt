@@ -4,12 +4,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -36,6 +35,12 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 private fun Modifier.defaultIconModifier() = this.then(padding(all = 2.dp).size(size = 28.dp))
 
+private suspend fun showRestartInfo(snackbarHostState: SnackbarHostState,
+                                    message : String)
+{
+    snackbarHostState.showSnackbar(message = message)
+}
+
 /**
  * Renders settings menu
  * @param navController: needed for render menu
@@ -54,19 +59,40 @@ private fun SettingsScreen(navController: NavController,
                    onThemeChange : suspend (SettingValueState<Int>) -> Unit,
                    onDynamicChange : suspend (SettingValueState<Boolean>) -> Unit)
 {
-    LaunchedEffect(themeMode.value)
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    //avoid undesired launch
+    val defaultThemeValue : Int = remember { themeMode.value }
+    val defaultDynamicValue : Boolean = remember { dynamicColor.value }
+
+    val snackbarTextToDisplay = stringResource(id = R.string.restart_apply_changes)
+
+    if (themeMode.value != defaultThemeValue)
     {
-        onThemeChange(themeMode)
+        LaunchedEffect(themeMode.value)
+        {
+            onThemeChange(themeMode)
+            showRestartInfo(snackbarHostState,snackbarTextToDisplay)
+        }
     }
 
-    LaunchedEffect(dynamicColor.value)
+    if (dynamicColor.value != defaultDynamicValue)
     {
-        onDynamicChange(dynamicColor)
+        LaunchedEffect(dynamicColor.value)
+        {
+            onDynamicChange(dynamicColor)
+            showRestartInfo(snackbarHostState,snackbarTextToDisplay)
+        }
     }
+
 
     AppBasicScreen(navController = navController,
         entrySelected = LocalMenuEntry.SettingsScreen,
-        label = LocalMenuEntry.SettingsScreen.labelId)
+        label = LocalMenuEntry.SettingsScreen.labelId,
+        scope = scope,
+        snackbarHostState = snackbarHostState
+    )
     {
         Column(
             modifier = Modifier
