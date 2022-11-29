@@ -1,7 +1,5 @@
-package es.upm.bienestaremocional.app.ui.heartrate
+package es.upm.bienestaremocional.app.ui.healthconnect.heartrate
 
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.HeartRateRecord
@@ -15,16 +13,9 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 @Suppress("UNCHECKED_CAST")
 @Composable
 private fun DrawHeartRateScreen(viewModelData: ViewModelData,
-                                onWrite : () -> Unit,
                                 onError: (Throwable?) -> Unit = {})
 {
     DrawHealthConnectScreen(viewModelData = viewModelData,
-        onEmptyData = {
-            Button(onClick = { onWrite() })
-            {
-                Text("Generar datos")
-            }
-        },
         onDisplayData = { heartRateSeries(viewModelData.data as List<HeartRateRecord>)},
         onError = onError)
 }
@@ -38,10 +29,7 @@ private fun DrawHeartRateScreen(viewModelData: ViewModelData,
 fun HeartRateScreen(onError: (Throwable?) -> Unit = {})
 {
     val viewModel: HeartRateViewModel = viewModel(factory = HeartRateViewModel.Factory)
-    DrawHeartRateScreen(viewModelData = viewModel.getViewModelData(),
-        onWrite = {viewModel.writeAndReadDummyData()},
-        onError = onError)
-
+    DrawHeartRateScreen(viewModelData = viewModel.getViewModelData(), onError = onError)
 }
 
 @Preview(showBackground = true)
@@ -54,13 +42,11 @@ fun HealthRateScreenPreview()
         permissions = setOf(),
         onPermissionsResult = { },
         onRequestPermissions = {},
+        onWrite = {}
     )
     BienestarEmocionalTheme()
     {
-        DrawHeartRateScreen(
-            viewModelData = viewModelData,
-            onWrite = {},
-            onError = {})
+        DrawHeartRateScreen(viewModelData = viewModelData, onError = {})
     }
 }
 
@@ -74,13 +60,11 @@ fun HealthRateScreenPreviewDarkMode()
         permissions = setOf(),
         onPermissionsResult = { },
         onRequestPermissions = {},
+        onWrite = {}
     )
     BienestarEmocionalTheme(darkTheme = true)
     {
-        DrawHeartRateScreen(
-            viewModelData = viewModelData,
-            onWrite = {},
-            onError = {})
+        DrawHeartRateScreen(viewModelData = viewModelData, onError = {})
     }
 }
 
@@ -94,13 +78,11 @@ fun HealthRateScreenNoDataPreview()
         permissions = setOf(),
         onPermissionsResult = { },
         onRequestPermissions = {},
+        onWrite = {}
     )
     BienestarEmocionalTheme()
     {
-        DrawHeartRateScreen(
-            viewModelData = viewModelData,
-            onWrite = {},
-            onError = {})
+        DrawHeartRateScreen(viewModelData = viewModelData, onError = {})
     }
 }
 
@@ -114,13 +96,11 @@ fun HealthRateScreenNoDataPreviewDarkMode()
         permissions = setOf(),
         onPermissionsResult = { },
         onRequestPermissions = {},
+        onWrite = {}
     )
     BienestarEmocionalTheme(darkTheme = true)
     {
-        DrawHeartRateScreen(
-            viewModelData = viewModelData,
-            onWrite = {},
-            onError = {})
+        DrawHeartRateScreen(viewModelData = viewModelData, onError = {})
     }
 }
 
@@ -134,13 +114,11 @@ fun HealthRateScreenNotEnoughPermissionsPreview()
         permissions = setOf(),
         onPermissionsResult = { },
         onRequestPermissions = {},
+        onWrite = {}
     )
     BienestarEmocionalTheme()
     {
-        DrawHeartRateScreen(
-            viewModelData = viewModelData,
-            onWrite = {},
-            onError = {})
+        DrawHeartRateScreen(viewModelData = viewModelData, onError = {})
     }
 }
 
@@ -154,12 +132,10 @@ fun HealthRateScreenNotEnoughPermissionsPreviewDarkMode()
         permissions = setOf(),
         onPermissionsResult = { },
         onRequestPermissions = {},
+        onWrite = {}
     )
     BienestarEmocionalTheme(darkTheme = true)
     {
-        DrawHeartRateScreen(
-            viewModelData = viewModelData,
-            onWrite = {},
-            onError = {})
+        DrawHeartRateScreen(viewModelData = viewModelData, onError = {})
     }
 }

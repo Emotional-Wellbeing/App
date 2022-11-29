@@ -1,5 +1,5 @@
 
-package es.upm.bienestaremocional.app.ui.sleep
+package es.upm.bienestaremocional.app.ui.healthconnect.sleep
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
@@ -166,40 +166,6 @@ fun LazyListScope.sleepSeries(series: List<SleepSessionData>)
     }
 
 }
-
-
-
-/*@Preview
-@Composable
-fun SleepStagesDetailPreview()
-{
-    BienestarEmocionalTheme()
-    {
-        val end2 = ZonedDateTime.now()
-        val start2 = end2.minusHours(1)
-        val start1 = start2.minusHours(1)
-        Column {
-            SleepStagesDetail(
-                sleepStages = listOf(
-                    SleepStageRecord(
-                        stage = SleepStageRecord.StageType.DEEP,
-                        startTime = start2.toInstant(),
-                        startZoneOffset = start2.offset,
-                        endTime = end2.toInstant(),
-                        endZoneOffset = end2.offset
-                    ),
-                    SleepStageRecord(
-                        stage = SleepStageRecord.StageType.LIGHT,
-                        startTime = start1.toInstant(),
-                        startZoneOffset = start1.offset,
-                        endTime = start2.toInstant(),
-                        endZoneOffset = start2.offset
-                    )
-                )
-            )
-        }
-    }
-}*/
 
 @Preview(showBackground = true)
 @Composable

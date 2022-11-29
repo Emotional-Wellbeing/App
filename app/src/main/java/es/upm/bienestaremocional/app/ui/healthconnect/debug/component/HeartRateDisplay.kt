@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.debug.component
+package es.upm.bienestaremocional.app.ui.healthconnect.debug.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
@@ -21,7 +20,6 @@ import java.util.*
 
 @Composable
 fun DrawHealthConnectScreen(viewModelData: ViewModelData,
-                            onEmptyData: @Composable LazyItemScope.() -> Unit,
                             onDisplayData: LazyListScope.() -> Unit,
                             onError: (Throwable?) -> Unit = {})
 {
@@ -61,7 +59,10 @@ fun DrawHealthConnectScreen(viewModelData: ViewModelData,
                     if (viewModelData.data.isEmpty())
                     {
                         item {
-                            onEmptyData()
+                            Button(onClick = viewModelData.onWrite)
+                            {
+                                Text(text = "Generar datos")
+                            }
                         }
                     }
                     else
@@ -80,5 +81,4 @@ fun DrawHealthConnectScreen(viewModelData: ViewModelData,
             }
         }
     }
-
 }

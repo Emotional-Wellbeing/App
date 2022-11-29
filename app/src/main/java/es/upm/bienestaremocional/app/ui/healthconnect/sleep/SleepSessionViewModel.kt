@@ -1,35 +1,32 @@
-package es.upm.bienestaremocional.app.ui.heartrate
+
+package es.upm.bienestaremocional.app.ui.healthconnect.sleep
 
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.health.connect.client.records.HeartRateRecord
+import androidx.compose.runtime.*
 import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import es.upm.bienestaremocional.app.MainApplication
-import es.upm.bienestaremocional.app.data.healthconnect.sources.HeartRate
-
+import es.upm.bienestaremocional.app.data.healthconnect.sources.Sleep
+import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 import kotlinx.coroutines.launch
 
-class HeartRateViewModel(val heartRate: HeartRate) :
+class SleepSessionViewModel(val sleep: Sleep) :
     HealthConnectViewModel()
 {
     companion object
     {
         /**
-         * Factory class to instance [HeartRateViewModel]
+         * Factory class to instance [SleepSessionViewModel]
          */
         val Factory : ViewModelProvider.Factory = viewModelFactory{
             initializer {
-                HeartRateViewModel(
-                    HeartRate(
+                SleepSessionViewModel(
+                    Sleep(
                         healthConnectClient = MainApplication.healthConnectClient,
                         healthConnectManager = MainApplication.healthConnectManager
                     )
@@ -37,57 +34,54 @@ class HeartRateViewModel(val heartRate: HeartRate) :
             }
         }
     }
-
     //data of viewmodel
-    var heartRateData: MutableState<List<HeartRateRecord>> = mutableStateOf(listOf())
+    var sleepData: MutableState<List<SleepSessionData>> = mutableStateOf(listOf())
 
     /**
-     * Implements [HealthConnectViewModel.readData] with [HeartRateRecord] data
+     * Implements [HealthConnectViewModel.readData] with [SleepSessionData] data
      */
-    fun readHeartRateData()
+    fun readSleepData()
     {
         @Suppress("UNCHECKED_CAST")
-        /**
-         * This cast can sucess because [HeartRateRecord] implements [Record]
-         * */
-        super.readData(
-            healthConnectSource = heartRate,
-            data = heartRateData as MutableState<List<Record>>)
+
+        //This cast can sucess because SleepSessionData implements Record
+        super.readData(healthConnectSource = sleep,
+            data = sleepData as MutableState<List<Record>>)
     }
 
     /**
      * Demo function used to write and read the data to show it
      */
-    fun writeAndReadDummyData()
+    private fun writeAndReadDummyData()
     {
-        writeHeartRateDummyData()
-        readHeartRateData()
+        writeSleepData()
+        readSleepData()
     }
 
     /**
      * Generate dummy data
      */
-    private fun writeHeartRateDummyData()
+    private fun writeSleepData()
     {
-        writeHeartRateData(HeartRate.generateDummyData())
+        writeSleepData(Sleep.generateDummyData())
     }
 
     /**
-     * Write data using [HeartRate.writeSource]
+     * Write data using [Sleep.writeSource]
      */
-    private fun writeHeartRateData(data: List<Record>)
+    private fun writeSleepData(data: List<Record>)
     {
         viewModelScope.launch {
-            if (heartRate.writePermissionsCheck())
-                heartRate.writeSource(data)
+            if (sleep.writePermissionsCheck())
+                sleep.writeSource(data)
         }
     }
 
     @Composable
     override fun getViewModelData(): ViewModelData
     {
-        val data by heartRateData
-        val onPermissionsResult = {readHeartRateData()}
+        val data by sleepData
+        val onPermissionsResult = {readSleepData()}
 
         //launcher is a special case
         val permissionsLauncher =
@@ -96,9 +90,11 @@ class HeartRateViewModel(val heartRate: HeartRate) :
         return ViewModelData(
             data = data,
             uiState = uiState,
-            permissions = heartRate.readPermissions,
+            permissions = sleep.readPermissions + sleep.writePermissions,
             onPermissionsResult = onPermissionsResult,
             onRequestPermissions = { values -> permissionsLauncher.launch(values)},
+            onWrite = {writeAndReadDummyData()}
         )
     }
 }
+

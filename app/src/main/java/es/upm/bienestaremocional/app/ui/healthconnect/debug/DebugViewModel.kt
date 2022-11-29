@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.debug
+package es.upm.bienestaremocional.app.ui.healthconnect.debug
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -7,11 +7,14 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.healthconnect.sources.HeartRate
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Sleep
-import es.upm.bienestaremocional.app.ui.heartrate.HeartRateViewModel
-import es.upm.bienestaremocional.app.ui.sleep.SleepSessionViewModel
+import es.upm.bienestaremocional.app.data.healthconnect.sources.Steps
+import es.upm.bienestaremocional.app.ui.healthconnect.heartrate.HeartRateViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.sleep.SleepSessionViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.steps.StepsViewModel
 
 class DebugViewModel(val sleepSessionViewModel: SleepSessionViewModel,
-                     val heartRateViewModel: HeartRateViewModel) : ViewModel()
+                     val heartRateViewModel: HeartRateViewModel,
+                     val stepsViewModel: StepsViewModel) : ViewModel()
 {
     companion object
     {
@@ -25,13 +28,20 @@ class DebugViewModel(val sleepSessionViewModel: SleepSessionViewModel,
                         Sleep(
                             healthConnectClient = MainApplication.healthConnectClient,
                             healthConnectManager = MainApplication.healthConnectManager
-                        )),
+                        )
+                    ),
                     heartRateViewModel = HeartRateViewModel(
                         HeartRate(
                             healthConnectClient = MainApplication.healthConnectClient,
                             healthConnectManager = MainApplication.healthConnectManager
                         )
                     ),
+                    stepsViewModel = StepsViewModel(
+                        Steps(
+                            healthConnectClient = MainApplication.healthConnectClient,
+                            healthConnectManager = MainApplication.healthConnectManager
+                        )
+                    )
                 )
             }
         }

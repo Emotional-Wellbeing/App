@@ -1,6 +1,5 @@
-package es.upm.bienestaremocional.app.ui.sleep
+package es.upm.bienestaremocional.app.ui.healthconnect.sleep
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,7 +19,6 @@ private fun DrawSleepScreen(viewModelData: ViewModelData,
                             onError: (Throwable?) -> Unit = {})
 {
     DrawHealthConnectScreen(viewModelData = viewModelData,
-        onEmptyData = { Text(text = "Lista vacía")},
         onDisplayData = { sleepSeries(viewModelData.data as List<SleepSessionData>)},
         onError = onError)
 }
@@ -42,7 +40,9 @@ fun SleepScreenPreview()
         uiState = UiState.Success,
         permissions = setOf(),
         onPermissionsResult = { },
-        onRequestPermissions = {})
+        onRequestPermissions = {},
+        onWrite = {}
+    )
     BienestarEmocionalTheme()
     {
         DrawSleepScreen(viewModelData = viewModelData, onError = {})
@@ -58,7 +58,9 @@ fun SleepScreenPreviewDarkMode()
         uiState = UiState.Success,
         permissions = setOf(),
         onPermissionsResult = { },
-        onRequestPermissions = {})
+        onRequestPermissions = {},
+        onWrite = {}
+    )
     BienestarEmocionalTheme(darkTheme = true)
     {
         DrawSleepScreen(viewModelData = viewModelData, onError = {})
@@ -74,7 +76,9 @@ fun SleepScreenNotEnoughPermissionsPreview()
         uiState = UiState.NotEnoughPermissions,
         permissions = setOf(),
         onPermissionsResult = { },
-        onRequestPermissions = {})
+        onRequestPermissions = {},
+        onWrite = {}
+    )
     BienestarEmocionalTheme()
     {
         DrawSleepScreen(viewModelData = viewModelData, onError = {})
@@ -90,7 +94,9 @@ fun SleepScreenNotEnoughPermissionsPreviewDarkMode()
         uiState = UiState.NotEnoughPermissions,
         permissions = setOf(),
         onPermissionsResult = { },
-        onRequestPermissions = {})
+        onRequestPermissions = {},
+        onWrite = {}
+    )
 
     BienestarEmocionalTheme(darkTheme = true)
     {

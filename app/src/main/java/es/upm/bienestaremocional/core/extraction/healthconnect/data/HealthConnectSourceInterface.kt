@@ -44,4 +44,22 @@ interface HealthConnectSourceInterface
      * @see readSource
      */
     suspend fun readSource(startTime: Instant, endTime: Instant): List<Record>
+
+    /**
+     * Set that contains permissions needed to write data
+     */
+    val writePermissions : Set<HealthPermission>
+
+    /**
+     * Checks if all permissions needed for read are granted
+     * @see readPermissions
+     */
+    suspend fun writePermissionsCheck(): Boolean
+
+    /**
+     * Write data into health connect
+     * @param data: [List] of [Record] with the data
+     */
+    suspend fun writeSource(data: List<Record>)
+
 }

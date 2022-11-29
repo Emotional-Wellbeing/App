@@ -10,4 +10,5 @@ data class ViewModelData(
     val permissions: Set<HealthPermission>,
     val onPermissionsResult : () -> Unit,
     val onRequestPermissions : (Set<HealthPermission>) -> Unit,
+    val onWrite : () -> Unit
 )

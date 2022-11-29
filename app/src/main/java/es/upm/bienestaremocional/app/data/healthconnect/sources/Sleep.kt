@@ -25,7 +25,7 @@ import kotlin.random.Random
  */
 class Sleep(private val healthConnectClient: HealthConnectClient,
             healthConnectManager: HealthConnectManagerInterface):
-    HealthConnectSource(healthConnectManager)
+    HealthConnectSource(healthConnectClient,healthConnectManager)
 {
     companion object
     {
@@ -166,5 +166,9 @@ class Sleep(private val healthConnectClient: HealthConnectClient,
         }
         return sessions.toList()
     }
+
+    override val writePermissions: Set<HealthPermission> = setOf(
+        HealthPermission.createWritePermission(SleepSessionRecord::class),
+        HealthPermission.createWritePermission(SleepStageRecord::class))
 }
 

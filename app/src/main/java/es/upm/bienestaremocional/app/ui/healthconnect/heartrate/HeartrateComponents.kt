@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.heartrate
+package es.upm.bienestaremocional.app.ui.healthconnect.heartrate
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

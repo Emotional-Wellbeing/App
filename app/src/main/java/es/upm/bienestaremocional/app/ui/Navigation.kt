@@ -10,11 +10,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.showExceptionSnackbar
-import es.upm.bienestaremocional.app.ui.debug.DebugScreen
-import es.upm.bienestaremocional.app.ui.heartrate.HeartRateScreen
+import es.upm.bienestaremocional.app.ui.healthconnect.debug.DebugScreen
+import es.upm.bienestaremocional.app.ui.healthconnect.heartrate.HeartRateScreen
 import es.upm.bienestaremocional.app.ui.screen.*
 import es.upm.bienestaremocional.app.ui.settings.SettingsScreen
-import es.upm.bienestaremocional.app.ui.sleep.SleepScreen
+import es.upm.bienestaremocional.app.ui.healthconnect.sleep.SleepScreen
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
 import es.upm.bienestaremocional.core.ui.navigation.Screen
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
