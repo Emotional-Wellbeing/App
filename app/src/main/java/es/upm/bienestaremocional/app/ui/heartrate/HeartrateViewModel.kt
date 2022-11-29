@@ -1,6 +1,9 @@
 package es.upm.bienestaremocional.app.ui.heartrate
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.Record
@@ -9,12 +12,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import es.upm.bienestaremocional.app.MainApplication
-import es.upm.bienestaremocional.app.data.heartrate.HealthConnectHeartRate
-import es.upm.bienestaremocional.app.data.heartrate.generateDummyData
+import es.upm.bienestaremocional.app.data.healthconnect.sources.HeartRate
+
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
+import es.upm.bienestaremocional.core.ui.component.ViewModelData
 import kotlinx.coroutines.launch
 
-class HeartRateViewModel(val healthConnectHeartRate: HealthConnectHeartRate) :
+class HeartRateViewModel(val heartRate: HeartRate) :
     HealthConnectViewModel()
 {
     companion object
@@ -25,7 +29,7 @@ class HeartRateViewModel(val healthConnectHeartRate: HealthConnectHeartRate) :
         val Factory : ViewModelProvider.Factory = viewModelFactory{
             initializer {
                 HeartRateViewModel(
-                    HealthConnectHeartRate(
+                    HeartRate(
                         healthConnectClient = MainApplication.healthConnectClient,
                         healthConnectManager = MainApplication.healthConnectManager
                     )
@@ -43,9 +47,11 @@ class HeartRateViewModel(val healthConnectHeartRate: HealthConnectHeartRate) :
     fun readHeartRateData()
     {
         @Suppress("UNCHECKED_CAST")
-        //This cast can sucess because HealthConnectHeartRate implements HealthConnectDataClass
+        /**
+         * This cast can sucess because [HeartRateRecord] implements [Record]
+         * */
         super.readData(
-            healthConnectSource = healthConnectHeartRate,
+            healthConnectSource = heartRate,
             data = heartRateData as MutableState<List<Record>>)
     }
 
@@ -63,17 +69,36 @@ class HeartRateViewModel(val healthConnectHeartRate: HealthConnectHeartRate) :
      */
     private fun writeHeartRateDummyData()
     {
-        writeHeartRateData(generateDummyData())
+        writeHeartRateData(HeartRate.generateDummyData())
     }
 
     /**
-     * Write data using [HealthConnectHeartRate.writeSource]
+     * Write data using [HeartRate.writeSource]
      */
     private fun writeHeartRateData(data: List<Record>)
     {
         viewModelScope.launch {
-            if (healthConnectHeartRate.writePermissionsCheck())
-                healthConnectHeartRate.writeSource(data)
+            if (heartRate.writePermissionsCheck())
+                heartRate.writeSource(data)
         }
+    }
+
+    @Composable
+    override fun getViewModelData(): ViewModelData
+    {
+        val data by heartRateData
+        val onPermissionsResult = {readHeartRateData()}
+
+        //launcher is a special case
+        val permissionsLauncher =
+            rememberLauncherForActivityResult(permissionLauncher) { onPermissionsResult() }
+
+        return ViewModelData(
+            data = data,
+            uiState = uiState,
+            permissions = heartRate.readPermissions,
+            onPermissionsResult = onPermissionsResult,
+            onRequestPermissions = { values -> permissionsLauncher.launch(values)},
+        )
     }
 }

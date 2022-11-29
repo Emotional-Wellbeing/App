@@ -24,8 +24,10 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
  */
 @Composable
 fun HomeScreen(navController: NavController,
-               onSleepClick : () -> Unit,
-               onHeartRateClick : () -> Unit)
+               onSleepClick : () -> Unit = {},
+               onHeartRateClick : () -> Unit = {},
+               onDebugClick: () -> Unit = {}
+)
 {
     AppBasicScreen(navController = navController,
         entrySelected = LocalMenuEntry.HomeScreen,
@@ -61,10 +63,10 @@ fun HomeScreen(navController: NavController,
                 Text("Last week stats placeholder")
             }
 
-            Column(
+            Row(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceAround,
-                horizontalAlignment = Alignment.CenterHorizontally
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
             )
             {
                 Button(onClick = onSleepClick)
@@ -75,6 +77,11 @@ fun HomeScreen(navController: NavController,
                 Button(onClick = onHeartRateClick)
                 {
                     Text(text = stringResource(id = R.string.heart_rate))
+                }
+
+                Button(onClick = onDebugClick)
+                {
+                    Text(text = stringResource(id = R.string.debug_screen))
                 }
             }
         }
@@ -89,10 +96,7 @@ fun HomeScreenPreview()
     val navController = rememberNavController()
 
     BienestarEmocionalTheme{
-        HomeScreen(
-            navController = navController,
-            onSleepClick = {},
-            onHeartRateClick = {})
+        HomeScreen(navController = navController)
     }
 }
 
@@ -105,9 +109,6 @@ fun HomeScreenPreviewDarkTheme()
 
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(
-            navController = navController,
-            onSleepClick = {},
-            onHeartRateClick = {})
+        HomeScreen(navController = navController)
     }
 }

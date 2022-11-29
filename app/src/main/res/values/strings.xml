@@ -53,7 +53,7 @@
     </string>
 
     <!-- Sleep -->
-    <string name="sleep">Sleep</string>
+    <string name="sleep">Sueño</string>
     <string name="sleep_notes">Notas</string>
     <string name="not_available_abbrev">N/A</string>
     <string name="sleep_stages">Etapas de sueño</string>
@@ -105,4 +105,7 @@
     <string name="dark_mode_label">Activado</string>
     <string name="default_mode_label">Usar la configuración del dispositivo</string>
     <string name="restart_apply_changes">Se aplicarán los cambios al reiniciar</string>
+    <string name="debug_screen">Debug</string>
+
+    <string name="empty_data">No existen datos</string>
 </resources>

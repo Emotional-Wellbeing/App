@@ -10,10 +10,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.showExceptionSnackbar
-import es.upm.bienestaremocional.app.ui.heartrate.HeartRateScreenWrapper
+import es.upm.bienestaremocional.app.ui.debug.DebugScreen
+import es.upm.bienestaremocional.app.ui.heartrate.HeartRateScreen
 import es.upm.bienestaremocional.app.ui.screen.*
-import es.upm.bienestaremocional.app.ui.settings.SettingsScreenWrapper
-import es.upm.bienestaremocional.app.ui.sleep.SleepScreenWrapper
+import es.upm.bienestaremocional.app.ui.settings.SettingsScreen
+import es.upm.bienestaremocional.app.ui.sleep.SleepScreen
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
 import es.upm.bienestaremocional.core.ui.navigation.Screen
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
@@ -69,7 +70,8 @@ fun AppNavigation(navController: NavHostController,
             HomeScreen(
                 navController = navController,
                 onSleepClick = { navController.navigate(Screen.SleepScreen.route) },
-                onHeartRateClick = { navController.navigate(Screen.HeartRateScreen.route) })
+                onHeartRateClick = { navController.navigate(Screen.HeartRateScreen.route) },
+                onDebugClick = { navController.navigate(Screen.DebugScreen.route) })
         }
 
         composable(route = Screen.HistoryScreen.route)
@@ -89,7 +91,7 @@ fun AppNavigation(navController: NavHostController,
 
         composable(route = Screen.SettingsScreen.route)
         {
-            SettingsScreenWrapper(navController)
+            SettingsScreen(navController)
         }
 
         composable(route = Screen.PrivacyPolicyScreen.route)
@@ -104,17 +106,22 @@ fun AppNavigation(navController: NavHostController,
 
         composable(route = Screen.SleepScreen.route)
         {
-            SleepScreenWrapper { exception -> showExceptionSnackbar(scope, snackbarHostState, exception) }
+            SleepScreen{ exception -> showExceptionSnackbar(scope, snackbarHostState, exception) }
         }
 
         composable(route = Screen.HeartRateScreen.route)
         {
-            HeartRateScreenWrapper{ exception -> showExceptionSnackbar(scope, snackbarHostState, exception) }
+            HeartRateScreen{ exception -> showExceptionSnackbar(scope, snackbarHostState, exception) }
         }
 
         composable(route = Screen.CreditsScreen.route)
         {
             CreditsScreen(navController = navController, windowSize = windowSize)
+        }
+
+        composable(route = Screen.DebugScreen.route)
+        {
+            DebugScreen{ exception -> showExceptionSnackbar(scope, snackbarHostState, exception) }
         }
     }
 }

@@ -1,5 +1,7 @@
 package es.upm.bienestaremocional.app.ui.settings
 
+import android.app.Activity
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,6 +30,7 @@ import com.alorma.compose.settings.ui.SettingsSwitch
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import es.upm.bienestaremocional.app.dynamicColorsSupported
+import es.upm.bienestaremocional.app.restartApp
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.navigation.LocalMenuEntry
 import es.upm.bienestaremocional.core.ui.navigation.Screen
@@ -36,9 +40,13 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 private fun Modifier.defaultIconModifier() = this.then(padding(all = 2.dp).size(size = 28.dp))
 
 private suspend fun showRestartInfo(snackbarHostState: SnackbarHostState,
-                                    message : String)
+                                    message : String,
+                                    context: Context)
 {
-    snackbarHostState.showSnackbar(message = message)
+    val result = snackbarHostState.showSnackbar(message = message, actionLabel = "Reiniciar",
+        withDismissAction = true, duration = SnackbarDuration.Long)
+    if (result === SnackbarResult.ActionPerformed)
+        restartApp(activity = context as Activity)
 }
 
 /**
@@ -52,7 +60,7 @@ private suspend fun showRestartInfo(snackbarHostState: SnackbarHostState,
  * @param onDynamicChange: callback to react dynamic setting changes
  */
 @Composable
-private fun SettingsScreen(navController: NavController,
+private fun DrawSettingsScreen(navController: NavController,
                    themeMode: SettingValueState<Int>,
                    dynamicColor : SettingValueState<Boolean>,
                    shouldDisplayDynamicOption : Boolean,
@@ -61,6 +69,7 @@ private fun SettingsScreen(navController: NavController,
 {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     //avoid undesired launch
     val defaultThemeValue : Int = remember { themeMode.value }
@@ -73,7 +82,7 @@ private fun SettingsScreen(navController: NavController,
         LaunchedEffect(themeMode.value)
         {
             onThemeChange(themeMode)
-            showRestartInfo(snackbarHostState,snackbarTextToDisplay)
+            showRestartInfo(snackbarHostState,snackbarTextToDisplay,context)
         }
     }
 
@@ -82,7 +91,7 @@ private fun SettingsScreen(navController: NavController,
         LaunchedEffect(dynamicColor.value)
         {
             onDynamicChange(dynamicColor)
-            showRestartInfo(snackbarHostState,snackbarTextToDisplay)
+            showRestartInfo(snackbarHostState,snackbarTextToDisplay,context)
         }
     }
 
@@ -163,13 +172,13 @@ private fun SettingsScreen(navController: NavController,
  * Public function to read SettingsScreen using [SettingsViewModel]
  */
 @Composable
-fun SettingsScreenWrapper(navController: NavController)
+fun SettingsScreen(navController: NavController)
 {
     val viewModel : SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
     val themeMode = viewModel.loadDarkMode()
     val dynamicColor = viewModel.loadDynamicColors()
 
-    SettingsScreen(
+    DrawSettingsScreen(
         navController = navController,
         themeMode = themeMode,
         dynamicColor = dynamicColor,
@@ -187,7 +196,7 @@ fun SettingsScreenNoDynamicPreview()
 
     BienestarEmocionalTheme()
     {
-        SettingsScreen(
+        DrawSettingsScreen(
             navController = navController,
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
@@ -206,7 +215,7 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
 
     BienestarEmocionalTheme(darkTheme = true)
     {
-        SettingsScreen(
+        DrawSettingsScreen(
             navController = navController,
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
@@ -225,7 +234,7 @@ fun SettingsScreenPreview()
 
     BienestarEmocionalTheme()
     {
-        SettingsScreen(
+        DrawSettingsScreen(
             navController = navController,
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
@@ -244,7 +253,7 @@ fun SettingsScreenPreviewDarkTheme()
 
     BienestarEmocionalTheme(darkTheme = true)
     {
-        SettingsScreen(
+        DrawSettingsScreen(
             navController = navController,
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
