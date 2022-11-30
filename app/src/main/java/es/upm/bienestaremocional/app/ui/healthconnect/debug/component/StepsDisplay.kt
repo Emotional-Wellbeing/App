@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.debug.component
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.health.connect.client.records.StepsRecord
@@ -17,6 +18,8 @@ fun StepsRecord.Display()
             endZoneOffset = endZoneOffset
         )
 
-        Text(text = "$count pasos")
+        Text(text = "$count pasos", color = MaterialTheme.colorScheme.onSurface)
+
+        metadata.Display()
     }
 }

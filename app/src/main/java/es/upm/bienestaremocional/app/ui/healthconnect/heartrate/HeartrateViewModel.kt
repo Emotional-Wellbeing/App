@@ -8,15 +8,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import es.upm.bienestaremocional.app.MainApplication
+import es.upm.bienestaremocional.app.data.healthconnect.sources.BasalMetabolicRate
 import es.upm.bienestaremocional.app.data.healthconnect.sources.HeartRate
-
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
-import kotlinx.coroutines.launch
 
 class HeartRateViewModel(private val heartRate: HeartRate) :
     HealthConnectViewModel()
@@ -39,55 +37,39 @@ class HeartRateViewModel(private val heartRate: HeartRate) :
     }
 
     //data of viewmodel
-    var heartRateData: MutableState<List<HeartRateRecord>> = mutableStateOf(listOf())
+    private var heartRateData: MutableState<List<HeartRateRecord>> = mutableStateOf(listOf())
 
     /**
-     * Implements [HealthConnectViewModel.readData] with [HeartRateRecord] data
+     * Read data calling [HealthConnectViewModel.readData]
      */
-    private fun readHeartRateData()
+    private fun readData()
     {
         @Suppress("UNCHECKED_CAST")
-        /**
-         * This cast can sucess because [HeartRateRecord] implements [Record]
-         * */
-        super.readData(
-            healthConnectSource = heartRate,
+        super.readData(healthConnectSource = heartRate,
             data = heartRateData as MutableState<List<Record>>)
     }
 
-    /**
-     * Demo function used to write and read the data to show it
-     */
+    private fun writeData(data: List<Record>)
+    {
+        super.writeData(healthConnectSource = heartRate, data = data)
+    }
+
+    private fun writeData()
+    {
+        writeData(BasalMetabolicRate.generateDummyData())
+    }
+
     private fun writeAndReadDummyData()
     {
-        writeHeartRateDummyData()
-        readHeartRateData()
-    }
-
-    /**
-     * Generate dummy data
-     */
-    private fun writeHeartRateDummyData()
-    {
-        writeHeartRateData(HeartRate.generateDummyData())
-    }
-
-    /**
-     * Write data using [HeartRate.writeSource]
-     */
-    private fun writeHeartRateData(data: List<Record>)
-    {
-        viewModelScope.launch {
-            if (heartRate.writePermissionsCheck())
-                heartRate.writeSource(data)
-        }
+        writeData()
+        readData()
     }
 
     @Composable
     override fun getViewModelData(): ViewModelData
     {
         val data by heartRateData
-        val onPermissionsResult = {readHeartRateData()}
+        val onPermissionsResult = {readData()}
 
         //launcher is a special case
         val permissionsLauncher =

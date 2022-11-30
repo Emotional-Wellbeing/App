@@ -5,7 +5,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.*
 import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import es.upm.bienestaremocional.app.MainApplication
@@ -13,7 +12,6 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.Sleep
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
-import kotlinx.coroutines.launch
 
 class SleepSessionViewModel(val sleep: Sleep) :
     HealthConnectViewModel()
@@ -38,50 +36,35 @@ class SleepSessionViewModel(val sleep: Sleep) :
     var sleepData: MutableState<List<SleepSessionData>> = mutableStateOf(listOf())
 
     /**
-     * Implements [HealthConnectViewModel.readData] with [SleepSessionData] data
+     * Read data calling [HealthConnectViewModel.readData]
      */
-    fun readSleepData()
+    private fun readData()
     {
         @Suppress("UNCHECKED_CAST")
-
-        //This cast can sucess because SleepSessionData implements Record
-        super.readData(healthConnectSource = sleep,
-            data = sleepData as MutableState<List<Record>>)
+        super.readData(healthConnectSource = sleep, data = sleepData as MutableState<List<Record>>)
     }
 
-    /**
-     * Demo function used to write and read the data to show it
-     */
+    private fun writeData(data: List<Record>)
+    {
+        super.writeData(healthConnectSource = sleep, data = data)
+    }
+
+    private fun writeData()
+    {
+        writeData(Sleep.generateDummyData())
+    }
+
     private fun writeAndReadDummyData()
     {
-        writeSleepData()
-        readSleepData()
-    }
-
-    /**
-     * Generate dummy data
-     */
-    private fun writeSleepData()
-    {
-        writeSleepData(Sleep.generateDummyData())
-    }
-
-    /**
-     * Write data using [Sleep.writeSource]
-     */
-    private fun writeSleepData(data: List<Record>)
-    {
-        viewModelScope.launch {
-            if (sleep.writePermissionsCheck())
-                sleep.writeSource(data)
-        }
+        writeData()
+        readData()
     }
 
     @Composable
     override fun getViewModelData(): ViewModelData
     {
         val data by sleepData
-        val onPermissionsResult = {readSleepData()}
+        val onPermissionsResult = {readData()}
 
         //launcher is a special case
         val permissionsLauncher =

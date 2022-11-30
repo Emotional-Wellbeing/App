@@ -8,16 +8,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.StepsRecord
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import es.upm.bienestaremocional.app.MainApplication
+import es.upm.bienestaremocional.app.data.healthconnect.sources.BasalMetabolicRate
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Steps
-import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.ui.healthconnect.sleep.SleepSessionViewModel
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
-import kotlinx.coroutines.launch
 
 class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
 {
@@ -41,49 +39,35 @@ class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
     private var stepsData: MutableState<List<StepsRecord>> = mutableStateOf(listOf())
 
     /**
-     * Implements [HealthConnectViewModel.readData] with [SleepSessionData] data
+     * Read data calling [HealthConnectViewModel.readData]
      */
-    private fun readStepsData()
+    private fun readData()
     {
         @Suppress("UNCHECKED_CAST")
-
-        //This cast can sucess because SleepSessionData implements Record
         super.readData(healthConnectSource = steps, data = stepsData as MutableState<List<Record>>)
     }
 
-    /**
-     * Demo function used to write and read the data to show it
-     */
+    private fun writeData(data: List<Record>)
+    {
+        super.writeData(healthConnectSource = steps, data = data)
+    }
+
+    private fun writeData()
+    {
+        writeData(BasalMetabolicRate.generateDummyData())
+    }
+
     private fun writeAndReadDummyData()
     {
-        writeStepsData()
-        readStepsData()
-    }
-
-    /**
-     * Generate dummy data
-     */
-    private fun writeStepsData()
-    {
-        writeStepsData(Steps.generateDummyData())
-    }
-
-    /**
-     * Write data using [Steps.writeSource]
-     */
-    private fun writeStepsData(data: List<Record>)
-    {
-        viewModelScope.launch {
-            if (steps.writePermissionsCheck())
-                steps.writeSource(data)
-        }
+        writeData()
+        readData()
     }
 
     @Composable
     override fun getViewModelData(): ViewModelData
     {
         val data by stepsData
-        val onPermissionsResult = {readStepsData()}
+        val onPermissionsResult = {readData()}
 
         //launcher is a special case
         val permissionsLauncher =

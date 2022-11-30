@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.healthconnect.debug.bmr
+package es.upm.bienestaremocional.app.ui.healthconnect.bmr
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
