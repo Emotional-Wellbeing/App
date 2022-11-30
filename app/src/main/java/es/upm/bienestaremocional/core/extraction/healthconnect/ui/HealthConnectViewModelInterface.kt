@@ -19,6 +19,14 @@ interface HealthConnectViewModelInterface
     fun readData(healthConnectSource: HealthConnectSourceInterface,
                  data: MutableState<List<Record>>)
 
+    /**
+     * Write data into [healthConnectSource]
+     * @param healthConnectSource: source to write
+     * @param data: [List] of [Record] that holds data to write
+     */
+    fun writeData(healthConnectSource: HealthConnectSourceInterface,
+                  data: List<Record>)
+
     @Composable
     fun getViewModelData(): ViewModelData
 }

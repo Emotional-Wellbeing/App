@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.health.connect.client.records.BasalMetabolicRateRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -24,11 +25,13 @@ import es.upm.bienestaremocional.core.ui.component.ViewModelData
 private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                             heartRateViewModelData: ViewModelData,
                             stepsViewModelData: ViewModelData,
+                            bmrViewModelData: ViewModelData,
                             onError: (Throwable?) -> Unit = {})
 {
     var sleepExpanded by remember { mutableStateOf(false) }
     var heartRateExpanded by remember { mutableStateOf(false) }
     var stepsExpanded by remember { mutableStateOf(false) }
+    var bmrExpanded by remember { mutableStateOf(false) }
 
     Surface(modifier = Modifier.fillMaxSize())
     {
@@ -100,6 +103,28 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     },
                     onError = onError)
             }
+
+            Text(modifier = Modifier
+                .fillMaxWidth()
+                .clickable { bmrExpanded = !bmrExpanded },
+                text = stringResource(id = R.string.bmr),
+                style = MaterialTheme.typography.headlineSmall,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.primary)
+            if (bmrExpanded)
+            {
+                DrawHealthConnectScreen(viewModelData = bmrViewModelData,
+                    onDisplayData = {
+                        val data = bmrViewModelData.data as List<BasalMetabolicRateRecord>
+                        data.forEach {
+                            item {
+                                it.Display()
+                                Spacer(Modifier.height(16.dp))
+                            }
+                        }
+                    },
+                    onError = onError)
+            }
         }
     }
 }
@@ -113,5 +138,6 @@ fun DebugScreen(onError: (Throwable?) -> Unit = {})
         sleepViewModelData = debugViewModel.sleepSessionViewModel.getViewModelData(),
         heartRateViewModelData = debugViewModel.heartRateViewModel.getViewModelData(),
         stepsViewModelData = debugViewModel.stepsViewModel.getViewModelData(),
+        bmrViewModelData = debugViewModel.basalMetabolicRateViewModel.getViewModelData(),
         onError = onError)
 }

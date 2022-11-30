@@ -53,10 +53,10 @@ fun formatDateTime(start: Instant,
     return "$dateLabel: $startLabel - $endLabel"
 }
 
-fun formatDateTime(start: Instant,
-                   startZoneOffset: ZoneOffset?): String
+fun formatDateTime(time: Instant,
+                   zoneOffset: ZoneOffset?): String
 {
-    val startTime = dateTimeWithOffsetOrDefault(start, startZoneOffset)
+    val startTime = dateTimeWithOffsetOrDefault(time, zoneOffset)
     val dateLabel = formatDate(startTime)
     val timeLabel = formatTime(startTime)
     return "$dateLabel: $timeLabel"

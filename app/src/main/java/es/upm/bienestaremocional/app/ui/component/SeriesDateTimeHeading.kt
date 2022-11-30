@@ -72,6 +72,26 @@ fun SeriesDateTimeHeading(
     }
 }
 
+/**
+ * Display DD/MM/YYYY and start and end date in text
+ * @param time: Instant with the date
+ * @param zoneOffset: ZoneOffset of [time]
+ */
+@Composable
+fun SeriesDateTimeHeading(time: Instant, zoneOffset: ZoneOffset?)
+{
+    val textToDisplay = formatDateTime(time = time, zoneOffset = zoneOffset)
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center)
+    {
+        Text(
+            color = MaterialTheme.colorScheme.secondary,
+            text = textToDisplay,
+            textAlign = TextAlign.Center)
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun SeriesDateTimeHeadingPreview()

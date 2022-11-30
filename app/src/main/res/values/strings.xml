@@ -108,6 +108,6 @@
     <string name="debug_screen">Debug</string>
 
     <string name="steps">Pasos</string>
-
+    <string name="bmr">Tasa metabólica basal</string>
     <string name="empty_data">No existen datos</string>
 </resources>

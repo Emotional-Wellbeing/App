@@ -9,5 +9,7 @@
         <item>androidx.health.permission.HeartRate.WRITE</item>
         <item>androidx.health.permission.Steps.READ</item>
         <item>androidx.health.permission.Steps.WRITE</item>
+        <item>androidx.health.permission.BasalMetabolicRate.READ</item>
+        <item>androidx.health.permission.BasalMetabolicRate.WRITE</item>
     </array>
 </resources>

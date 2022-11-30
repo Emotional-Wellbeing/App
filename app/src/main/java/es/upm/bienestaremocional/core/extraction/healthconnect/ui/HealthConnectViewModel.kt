@@ -57,4 +57,12 @@ abstract class HealthConnectViewModel: ViewModel(), HealthConnectViewModelInterf
         }
     }
 
+    override fun writeData(healthConnectSource: HealthConnectSourceInterface, data: List<Record>)
+    {
+        viewModelScope.launch {
+            if (healthConnectSource.writePermissionsCheck())
+                healthConnectSource.writeSource(data)
+        }
+    }
+
 }
