@@ -96,7 +96,7 @@ fun SeriesDateTimeHeading(time: Instant, zoneOffset: ZoneOffset?)
 @Composable
 fun SeriesDateTimeHeadingPreview()
 {
-    BienestarEmocionalTheme() {
+    BienestarEmocionalTheme {
         Surface {
             LazyColumn()
             {
@@ -117,7 +117,7 @@ fun SeriesDateTimeHeadingPreview()
 fun SeriesDateTimeHeadingPreviewDarkMode()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        Surface() {
+        Surface {
             LazyColumn()
             {
                 val data = HeartRate.generateDummyData()[0]

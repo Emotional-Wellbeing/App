@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.healthconnect.debug.component
+package es.upm.bienestaremocional.app.ui.healthconnect.component
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -10,9 +10,10 @@ import es.upm.bienestaremocional.core.ui.component.BasicCard
 @Composable
 fun BasalMetabolicRateRecord.Display()
 {
+    val imb = String.format("%.2f",basalMetabolicRate.inKilocaloriesPerDay)
     BasicCard {
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
-        Text(text = "IMB: $basalMetabolicRate",
+        Text(text = "IMB: $imb kcal/día",
             color = MaterialTheme.colorScheme.onSurface)
         metadata.Display()
     }

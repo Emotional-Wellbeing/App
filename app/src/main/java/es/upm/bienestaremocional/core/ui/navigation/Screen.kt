@@ -17,8 +17,6 @@ enum class Screen (val route: String)
     SettingsScreen(route = "settings_screen"),
     PrivacyPolicyScreen(route = "privacy_policy_screen"),
     AboutScreen(route = "about_screen"),
-    SleepScreen(route = "sleep_screen"),
-    HeartRateScreen(route = "heartrate_screen"),
     CreditsScreen(route = "credits_screen"),
     DebugScreen(route = "debug_screen")
 }

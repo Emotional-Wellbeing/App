@@ -29,7 +29,7 @@ fun NotSupportedMessage() {
 @Composable
 fun NotSupportedMessagePreview() {
     BienestarEmocionalTheme {
-        Surface() {
+        Surface {
             NotSupportedMessage()
         }
     }
@@ -39,7 +39,7 @@ fun NotSupportedMessagePreview() {
 @Composable
 fun NotSupportedMessagePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
-        Surface() {
+        Surface {
             NotSupportedMessage()
         }
     }

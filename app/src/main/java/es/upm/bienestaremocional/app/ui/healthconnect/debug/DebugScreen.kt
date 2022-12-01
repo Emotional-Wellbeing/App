@@ -16,7 +16,7 @@ import androidx.health.connect.client.records.StepsRecord
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
-import es.upm.bienestaremocional.app.ui.healthconnect.debug.component.Display
+import es.upm.bienestaremocional.app.ui.healthconnect.component.Display
 import es.upm.bienestaremocional.core.ui.component.DrawHealthConnectScreen
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 

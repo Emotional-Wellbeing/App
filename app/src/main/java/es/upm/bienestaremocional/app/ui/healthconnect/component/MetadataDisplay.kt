@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.healthconnect.debug.component
+package es.upm.bienestaremocional.app.ui.healthconnect.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

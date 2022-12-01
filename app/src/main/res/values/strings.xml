@@ -105,7 +105,7 @@
     <string name="dark_mode_label">Activado</string>
     <string name="default_mode_label">Usar la configuración del dispositivo</string>
     <string name="restart_apply_changes">Se aplicarán los cambios al reiniciar</string>
-    <string name="debug_screen">Debug</string>
+    <string name="debug_screen">Datos salud conectada</string>
 
     <string name="steps">Pasos</string>
     <string name="bmr">Tasa metabólica basal</string>

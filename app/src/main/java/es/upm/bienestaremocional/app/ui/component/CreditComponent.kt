@@ -94,7 +94,7 @@ fun CreditComponent(credit: Credit, windowSize: WindowSize)
 fun CreditImportantComponentPreview()
 {
     BienestarEmocionalTheme {
-        Surface() {
+        Surface {
             CreditComponent(
                 credit = Credit(
                     nameResource = R.string.credit_author_name,
@@ -113,7 +113,7 @@ fun CreditImportantComponentPreview()
 fun CreditImportantComponentPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        Surface() {
+        Surface {
             CreditComponent(
                 credit = Credit(
                     nameResource = R.string.credit_author_name,
@@ -131,7 +131,7 @@ fun CreditImportantComponentPreviewDarkTheme()
 fun CreditImportantComponentPreviewMediumScreen()
 {
     BienestarEmocionalTheme {
-        Surface() {
+        Surface {
             CreditComponent(
                 credit = Credit(
                     nameResource = R.string.credit_author_name,
@@ -150,7 +150,7 @@ fun CreditImportantComponentPreviewMediumScreen()
 fun CreditImportantComponentPreviewDarkThemeMediumScreen()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        Surface() {
+        Surface {
             CreditComponent(
                 credit = Credit(
                     nameResource = R.string.credit_author_name,
@@ -168,7 +168,7 @@ fun CreditImportantComponentPreviewDarkThemeMediumScreen()
 fun CreditNotImportantComponentPreview()
 {
     BienestarEmocionalTheme {
-        Surface() {
+        Surface {
             CreditComponent(
                 credit = Credit(
                     nameResource = R.string.credit_logo1_name,
@@ -187,7 +187,7 @@ fun CreditNotImportantComponentPreview()
 fun CreditNotImportantComponentPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        Surface() {
+        Surface {
             CreditComponent(
                 credit = Credit(
                     nameResource = R.string.credit_logo1_name,
@@ -206,7 +206,7 @@ fun CreditNotImportantComponentPreviewDarkTheme()
 fun CreditNotImportantComponentPreviewMediumScreen()
 {
     BienestarEmocionalTheme {
-        Surface() {
+        Surface {
             CreditComponent(
                 credit = Credit(
                     nameResource = R.string.credit_logo1_name,
@@ -225,7 +225,7 @@ fun CreditNotImportantComponentPreviewMediumScreen()
 fun CreditNotImportantComponentPreviewDarkThemeMediumScreen()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        Surface() {
+        Surface {
             CreditComponent(
                 credit = Credit(
                     nameResource = R.string.credit_logo1_name,

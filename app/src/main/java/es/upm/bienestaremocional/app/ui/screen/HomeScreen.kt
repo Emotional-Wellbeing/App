@@ -1,6 +1,9 @@
 package es.upm.bienestaremocional.app.ui.screen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -24,10 +27,7 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
  */
 @Composable
 fun HomeScreen(navController: NavController,
-               onSleepClick : () -> Unit = {},
-               onHeartRateClick : () -> Unit = {},
-               onDebugClick: () -> Unit = {}
-)
+               onDebugClick: () -> Unit = {})
 {
     AppBasicScreen(navController = navController,
         entrySelected = LocalMenuEntry.HomeScreen,
@@ -63,26 +63,10 @@ fun HomeScreen(navController: NavController,
                 Text("Last week stats placeholder")
             }
 
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceAround
-            )
+
+            Button(onClick = onDebugClick)
             {
-                Button(onClick = onSleepClick)
-                {
-                    Text(text = stringResource(id = R.string.sleep))
-                }
-
-                Button(onClick = onHeartRateClick)
-                {
-                    Text(text = stringResource(id = R.string.heart_rate))
-                }
-
-                Button(onClick = onDebugClick)
-                {
-                    Text(text = stringResource(id = R.string.debug_screen))
-                }
+                Text(text = stringResource(id = R.string.debug_screen))
             }
         }
     }

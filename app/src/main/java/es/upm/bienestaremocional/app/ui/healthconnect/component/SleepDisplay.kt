@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.healthconnect.debug.component
+package es.upm.bienestaremocional.app.ui.healthconnect.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +14,7 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.Sleep
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatDisplayTimeStartEnd
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatTime
+import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatHoursMinutes
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
@@ -35,8 +35,8 @@ fun SleepSessionData.Display()
         //    Text(text = "Uid: $uid")
 
         duration?.let {
-            val formattedDuration = duration.formatTime()
-            Text(text = "Duración: $formattedDuration h",
+            val formattedDuration = duration.formatHoursMinutes()
+            Text(text = "Duración: $formattedDuration",
                 color = MaterialTheme.colorScheme.onSurface) }
 
         Text(text = "Etapas del sueño:",color = MaterialTheme.colorScheme.onSurface)
@@ -61,7 +61,7 @@ fun SleepStageRecord.Display()
             color = MaterialTheme.colorScheme.primary)
         Text(modifier = Modifier.weight(1f),
             text = stage,
-            color = MaterialTheme.colorScheme.secondary)
+            color = MaterialTheme.colorScheme.tertiary)
     }
 }
 

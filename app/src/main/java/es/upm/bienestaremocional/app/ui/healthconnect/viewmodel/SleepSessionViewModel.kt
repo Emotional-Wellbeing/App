@@ -1,23 +1,20 @@
-package es.upm.bienestaremocional.app.ui.healthconnect.steps
+
+package es.upm.bienestaremocional.app.ui.healthconnect.viewmodel
 
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.health.connect.client.records.Record
-import androidx.health.connect.client.records.StepsRecord
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import es.upm.bienestaremocional.app.MainApplication
-import es.upm.bienestaremocional.app.data.healthconnect.sources.BasalMetabolicRate
-import es.upm.bienestaremocional.app.data.healthconnect.sources.Steps
-import es.upm.bienestaremocional.app.ui.healthconnect.sleep.SleepSessionViewModel
+import es.upm.bienestaremocional.app.data.healthconnect.sources.Sleep
+import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
-class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
+class SleepSessionViewModel(val sleep: Sleep) :
+    HealthConnectViewModel()
 {
     companion object
     {
@@ -26,8 +23,8 @@ class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
          */
         val Factory : ViewModelProvider.Factory = viewModelFactory{
             initializer {
-                StepsViewModel(
-                    Steps(
+                SleepSessionViewModel(
+                    Sleep(
                         healthConnectClient = MainApplication.healthConnectClient,
                         healthConnectManager = MainApplication.healthConnectManager
                     )
@@ -36,7 +33,7 @@ class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
         }
     }
     //data of viewmodel
-    private var stepsData: MutableState<List<StepsRecord>> = mutableStateOf(listOf())
+    var sleepData: MutableState<List<SleepSessionData>> = mutableStateOf(listOf())
 
     /**
      * Read data calling [HealthConnectViewModel.readData]
@@ -44,17 +41,17 @@ class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
     private fun readData()
     {
         @Suppress("UNCHECKED_CAST")
-        super.readData(healthConnectSource = steps, data = stepsData as MutableState<List<Record>>)
+        super.readData(healthConnectSource = sleep, data = sleepData as MutableState<List<Record>>)
     }
 
     private fun writeData(data: List<Record>)
     {
-        super.writeData(healthConnectSource = steps, data = data)
+        super.writeData(healthConnectSource = sleep, data = data)
     }
 
     private fun writeData()
     {
-        writeData(BasalMetabolicRate.generateDummyData())
+        writeData(Sleep.generateDummyData())
     }
 
     private fun writeAndReadDummyData()
@@ -66,7 +63,7 @@ class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
     @Composable
     override fun getViewModelData(): ViewModelData
     {
-        val data by stepsData
+        val data by sleepData
         val onPermissionsResult = {readData()}
 
         //launcher is a special case
@@ -76,10 +73,11 @@ class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
         return ViewModelData(
             data = data,
             uiState = uiState,
-            permissions = steps.readPermissions + steps.writePermissions,
+            permissions = sleep.readPermissions + sleep.writePermissions,
             onPermissionsResult = onPermissionsResult,
             onRequestPermissions = { values -> permissionsLauncher.launch(values)},
             onWrite = {writeAndReadDummyData()}
         )
     }
 }
+

@@ -9,10 +9,10 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.BasalMetabolicRa
 import es.upm.bienestaremocional.app.data.healthconnect.sources.HeartRate
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Sleep
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Steps
-import es.upm.bienestaremocional.app.ui.healthconnect.bmr.BasalMetabolicRateViewModel
-import es.upm.bienestaremocional.app.ui.healthconnect.heartrate.HeartRateViewModel
-import es.upm.bienestaremocional.app.ui.healthconnect.sleep.SleepSessionViewModel
-import es.upm.bienestaremocional.app.ui.healthconnect.steps.StepsViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.BasalMetabolicRateViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.HeartRateViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.SleepSessionViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.StepsViewModel
 
 class DebugViewModel(val sleepSessionViewModel: SleepSessionViewModel,
                      val heartRateViewModel: HeartRateViewModel,

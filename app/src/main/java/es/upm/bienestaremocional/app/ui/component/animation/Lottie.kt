@@ -35,7 +35,7 @@ fun DisplayLottieAnimation(rawRes: Int, modifier: Modifier = Modifier, animation
 fun DisplayLottieAnimationPreview()
 {
     BienestarEmocionalTheme {
-        Surface() {
+        Surface {
             DisplayLottieAnimation(
                 rawRes = R.raw.mental_wellbeing,
                 modifier = Modifier.fillMaxSize()
@@ -49,7 +49,7 @@ fun DisplayLottieAnimationPreview()
 fun DisplayLottieAnimationDarkModePreview()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        Surface() {
+        Surface {
             DisplayLottieAnimation(
                 rawRes = R.raw.mental_wellbeing,
                 modifier = Modifier.fillMaxSize())
