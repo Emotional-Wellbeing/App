@@ -1,11 +1,11 @@
 package es.upm.bienestaremocional.app.ui.healthconnect
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -52,9 +52,13 @@ private fun clickable(index: Int, expanderElements: ExpanderElements)
 {
     expanderElements.get(index)?.let {
         if (it.value)
+        {
             expanderElements.unselect(index)
+        }
         else
+        {
             expanderElements.select(index)
+        }
     }
 
 }
@@ -62,13 +66,29 @@ private fun clickable(index: Int, expanderElements: ExpanderElements)
 @Composable
 private fun CategoryText(index: Int, stringRes: Int, expanderElements: ExpanderElements)
 {
-    Text(modifier = Modifier
-        .fillMaxWidth()
-        .clickable { clickable(index, expanderElements) },
-        text = stringResource(id = stringRes),
-        style = MaterialTheme.typography.headlineSmall,
-        textAlign = TextAlign.Center,
-        color = MaterialTheme.colorScheme.primary)
+    Row(
+        modifier = Modifier
+            .height(IntrinsicSize.Min)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier.align(Alignment.CenterVertically),
+            text = stringResource(id = stringRes),
+            style = MaterialTheme.typography.headlineSmall,
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.primary)
+        IconButton(onClick = { clickable(index, expanderElements) })
+        {
+            val icon = if(expanderElements.get(index)?.value == true)
+                Icons.Default.KeyboardArrowDown
+            else
+                Icons.Default.KeyboardArrowRight
+            Icon(icon,  contentDescription = "Expandir")
+        }
+    }
+
 }
 
 @Suppress("UNCHECKED_CAST")
