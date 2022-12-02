@@ -10,10 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.health.connect.client.records.BasalMetabolicRateRecord
-import androidx.health.connect.client.records.BloodGlucoseRecord
-import androidx.health.connect.client.records.HeartRateRecord
-import androidx.health.connect.client.records.StepsRecord
+import androidx.health.connect.client.records.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
@@ -81,10 +78,11 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                             stepsViewModelData: ViewModelData,
                             bmrViewModelData: ViewModelData,
                             bloodGlucoseViewModelData: ViewModelData,
+                            bloodPressureViewModelData: ViewModelData,
                             windowSize: WindowSize,
                             onError: (Throwable?) -> Unit = {})
 {
-    val expanderElements = remember {ExpanderElements(5) }
+    val expanderElements = remember {ExpanderElements(6) }
 
     Surface(modifier = Modifier.fillMaxSize())
     {
@@ -200,6 +198,29 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                 }
             }
 
+            if (expanderElements.allAreUnselected() || expanderElements.get(5)?.value == true)
+            {
+                CategoryText(index = 5,
+                    stringRes = R.string.blood_pressure,
+                    expanderElements = expanderElements)
+                if (expanderElements.get(5)?.value == true)
+                {
+                    DrawHealthConnectScreen(viewModelData = bloodPressureViewModelData,
+                        onDisplayData = {
+                            val data = bloodPressureViewModelData.data
+                                    as List<BloodPressureRecord>
+                            data.forEach {
+                                item {
+                                    it.Display(windowSize)
+                                    Spacer(Modifier.height(16.dp))
+                                }
+                            }
+                        },
+                        onError = onError)
+                }
+            }
+
+
         }
     }
 }
@@ -216,15 +237,18 @@ fun DebugScreen(windowSize: WindowSize,
         viewModel(factory = StepsViewModel.Factory)
     val basalMetabolicRateViewModel: BasalMetabolicRateViewModel =
         viewModel(factory = BasalMetabolicRateViewModel.Factory)
-    val bloodGlucoseViewMode: BloodGlucoseViewModel =
+    val bloodGlucoseViewModel: BloodGlucoseViewModel =
         viewModel(factory = BloodGlucoseViewModel.Factory)
+    val bloodPressureViewModel: BloodPressureViewModel =
+        viewModel(factory = BloodPressureViewModel.Factory)
 
     DrawDebugScreen(
         sleepViewModelData = sleepSessionViewModel.getViewModelData(),
         heartRateViewModelData = heartRateViewModel.getViewModelData(),
         stepsViewModelData = stepsViewModel.getViewModelData(),
         bmrViewModelData = basalMetabolicRateViewModel.getViewModelData(),
-        bloodGlucoseViewModelData = bloodGlucoseViewMode.getViewModelData(),
+        bloodGlucoseViewModelData = bloodGlucoseViewModel.getViewModelData(),
+        bloodPressureViewModelData = bloodPressureViewModel.getViewModelData(),
         windowSize = windowSize,
         onError = onError)
 }
