@@ -16,10 +16,11 @@ import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatDisplayTimeStartEnd
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatHoursMinutes
 import es.upm.bienestaremocional.core.ui.component.BasicCard
+import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 @Composable
-fun SleepSessionData.Display()
+fun SleepSessionData.Display(windowSize: WindowSize)
 {
     BasicCard {
         SeriesDateTimeHeading(
@@ -42,7 +43,7 @@ fun SleepSessionData.Display()
         Text(text = "Etapas del sueño:",color = MaterialTheme.colorScheme.onSurface)
         stages.forEach{it.Display()}
 
-        metadata.Display()
+        metadata.Display(windowSize)
     }
 }
 
@@ -71,7 +72,7 @@ fun SleepSessionDataDisplayPreview()
 {
     val sleepSessionData = Sleep.generateDummyData()[0]
     BienestarEmocionalTheme {
-        sleepSessionData.Display()
+        sleepSessionData.Display(windowSize = WindowSize.COMPACT)
     }
 }
 
@@ -81,7 +82,27 @@ fun SleepSessionDataDisplayPreviewDarkTheme()
 {
     val sleepSessionData = Sleep.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        sleepSessionData.Display()
+        sleepSessionData.Display(windowSize = WindowSize.COMPACT)
+    }
+}
+
+@Preview
+@Composable
+fun SleepSessionDataDisplayLargeScreenPreview()
+{
+    val sleepSessionData = Sleep.generateDummyData()[0]
+    BienestarEmocionalTheme {
+        sleepSessionData.Display(windowSize = WindowSize.MEDIUM)
+    }
+}
+
+@Preview
+@Composable
+fun SleepSessionDataDisplayLargeScreenPreviewDarkTheme()
+{
+    val sleepSessionData = Sleep.generateDummyData()[0]
+    BienestarEmocionalTheme(darkTheme = true) {
+        sleepSessionData.Display(windowSize = WindowSize.MEDIUM)
     }
 }
 

@@ -6,9 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.health.connect.client.records.StepsRecord
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.ui.component.BasicCard
+import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 
 @Composable
-fun StepsRecord.Display()
+fun StepsRecord.Display(windowSize: WindowSize)
 {
     BasicCard {
         SeriesDateTimeHeading(
@@ -20,6 +21,6 @@ fun StepsRecord.Display()
 
         Text(text = "$count pasos", color = MaterialTheme.colorScheme.onSurface)
 
-        metadata.Display()
+        metadata.Display(windowSize)
     }
 }

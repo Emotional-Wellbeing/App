@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.showExceptionSnackbar
-import es.upm.bienestaremocional.app.ui.healthconnect.debug.DebugScreen
+import es.upm.bienestaremocional.app.ui.healthconnect.DebugScreen
 import es.upm.bienestaremocional.app.ui.screen.*
 import es.upm.bienestaremocional.app.ui.settings.SettingsScreen
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
@@ -107,7 +107,15 @@ fun AppNavigation(navController: NavHostController,
 
         composable(route = Screen.DebugScreen.route)
         {
-            DebugScreen{ exception -> showExceptionSnackbar(scope, snackbarHostState, exception) }
+            DebugScreen(
+                windowSize = windowSize,
+                onError = { exception ->
+                    showExceptionSnackbar(
+                        scope,
+                        snackbarHostState,
+                        exception
+                    )
+                })
         }
     }
 }

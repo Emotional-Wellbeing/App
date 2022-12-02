@@ -13,10 +13,11 @@ import androidx.health.connect.client.records.HeartRateRecord
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatHoursMinutes
 import es.upm.bienestaremocional.core.ui.component.BasicCard
+import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import java.time.Duration
 
 @Composable
-fun HeartRateRecord.Display()
+fun HeartRateRecord.Display(windowSize: WindowSize)
 {
     BasicCard {
         SeriesDateTimeHeading(
@@ -48,6 +49,6 @@ fun HeartRateRecord.Display()
         }
         
         
-        metadata.Display()
+        metadata.Display(windowSize)
     }
 }
