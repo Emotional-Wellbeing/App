@@ -5,27 +5,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.health.connect.client.records.DistanceRecord
 import androidx.health.connect.client.records.Record
-import androidx.health.connect.client.records.StepsRecord
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import es.upm.bienestaremocional.app.MainApplication
-import es.upm.bienestaremocional.app.data.healthconnect.sources.Steps
+import es.upm.bienestaremocional.app.data.healthconnect.sources.Distance
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
-class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
+class DistanceViewModel(private val distance: Distance) :
+    HealthConnectViewModel()
 {
     companion object
     {
         /**
-         * Factory class to instance [SleepSessionViewModel]
+         * Factory class to instance [DistanceViewModel]
          */
         val Factory : ViewModelProvider.Factory = viewModelFactory{
             initializer {
-                StepsViewModel(
-                    Steps(
+                DistanceViewModel(
+                    Distance(
                         healthConnectClient = MainApplication.healthConnectClient,
                         healthConnectManager = MainApplication.healthConnectManager
                     )
@@ -33,8 +34,9 @@ class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
             }
         }
     }
+
     //data of viewmodel
-    private var stepsData: MutableState<List<StepsRecord>> = mutableStateOf(listOf())
+    private var distanceData: MutableState<List<DistanceRecord>> = mutableStateOf(listOf())
 
     /**
      * Read data calling [HealthConnectViewModel.readData]
@@ -42,17 +44,18 @@ class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
     private fun readData()
     {
         @Suppress("UNCHECKED_CAST")
-        super.readData(healthConnectSource = steps, data = stepsData as MutableState<List<Record>>)
+        super.readData(healthConnectSource = distance,
+            data = distanceData as MutableState<List<Record>>)
     }
 
     private fun writeData(data: List<Record>)
     {
-        super.writeData(healthConnectSource = steps, data = data)
+        super.writeData(healthConnectSource = distance, data = data)
     }
 
     private fun writeData()
     {
-        writeData(Steps.generateDummyData())
+        writeData(Distance.generateDummyData())
     }
 
     private fun writeAndReadDummyData()
@@ -64,7 +67,7 @@ class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
     @Composable
     override fun getViewModelData(): ViewModelData
     {
-        val data by stepsData
+        val data by distanceData
         val onPermissionsResult = {readData()}
 
         //launcher is a special case
@@ -74,7 +77,7 @@ class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
         return ViewModelData(
             data = data,
             uiState = uiState,
-            permissions = steps.readPermissions + steps.writePermissions,
+            permissions = distance.readPermissions + distance.writePermissions,
             onPermissionsResult = onPermissionsResult,
             onRequestPermissions = { values -> permissionsLauncher.launch(values)},
             onWrite = {writeAndReadDummyData()}

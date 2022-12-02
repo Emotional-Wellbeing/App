@@ -111,5 +111,6 @@
     <string name="bmr">Tasa metabólica basal</string>
     <string name="blood_glucose">Glucosa en sangre</string>
     <string name="blood_pressure">Presión arterial</string>
+    <string name="distance">Distancia</string>
     <string name="empty_data">No existen datos</string>
 </resources>

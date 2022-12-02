@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import es.upm.bienestaremocional.app.MainApplication
-import es.upm.bienestaremocional.app.data.healthconnect.sources.BasalMetabolicRate
 import es.upm.bienestaremocional.app.data.healthconnect.sources.HeartRate
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
@@ -56,7 +55,7 @@ class HeartRateViewModel(private val heartRate: HeartRate) :
 
     private fun writeData()
     {
-        writeData(BasalMetabolicRate.generateDummyData())
+        writeData(HeartRate.generateDummyData())
     }
 
     private fun writeAndReadDummyData()

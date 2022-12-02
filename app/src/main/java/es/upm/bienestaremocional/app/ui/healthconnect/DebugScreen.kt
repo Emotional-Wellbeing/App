@@ -79,10 +79,11 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                             bmrViewModelData: ViewModelData,
                             bloodGlucoseViewModelData: ViewModelData,
                             bloodPressureViewModelData: ViewModelData,
+                            distanceViewModelData: ViewModelData,
                             windowSize: WindowSize,
                             onError: (Throwable?) -> Unit = {})
 {
-    val expanderElements = remember {ExpanderElements(6) }
+    val expanderElements = remember {ExpanderElements(7) }
 
     Surface(modifier = Modifier.fillMaxSize())
     {
@@ -220,7 +221,27 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                 }
             }
 
-
+            if (expanderElements.allAreUnselected() || expanderElements.get(6)?.value == true)
+            {
+                CategoryText(index = 6,
+                    stringRes = R.string.distance,
+                    expanderElements = expanderElements)
+                if (expanderElements.get(6)?.value == true)
+                {
+                    DrawHealthConnectScreen(viewModelData = distanceViewModelData,
+                        onDisplayData = {
+                            val data = distanceViewModelData.data
+                                    as List<DistanceRecord>
+                            data.forEach {
+                                item {
+                                    it.Display(windowSize)
+                                    Spacer(Modifier.height(16.dp))
+                                }
+                            }
+                        },
+                        onError = onError)
+                }
+            }
         }
     }
 }
@@ -241,6 +262,8 @@ fun DebugScreen(windowSize: WindowSize,
         viewModel(factory = BloodGlucoseViewModel.Factory)
     val bloodPressureViewModel: BloodPressureViewModel =
         viewModel(factory = BloodPressureViewModel.Factory)
+    val distanceViewModel: DistanceViewModel =
+        viewModel(factory = DistanceViewModel.Factory)
 
     DrawDebugScreen(
         sleepViewModelData = sleepSessionViewModel.getViewModelData(),
@@ -249,6 +272,7 @@ fun DebugScreen(windowSize: WindowSize,
         bmrViewModelData = basalMetabolicRateViewModel.getViewModelData(),
         bloodGlucoseViewModelData = bloodGlucoseViewModel.getViewModelData(),
         bloodPressureViewModelData = bloodPressureViewModel.getViewModelData(),
+        distanceViewModelData = distanceViewModel.getViewModelData(),
         windowSize = windowSize,
         onError = onError)
 }

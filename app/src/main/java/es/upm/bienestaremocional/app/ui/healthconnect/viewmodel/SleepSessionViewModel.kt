@@ -13,7 +13,7 @@ import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
-class SleepSessionViewModel(val sleep: Sleep) :
+class SleepSessionViewModel(private val sleep: Sleep) :
     HealthConnectViewModel()
 {
     companion object
