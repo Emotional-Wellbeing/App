@@ -16,6 +16,7 @@ import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatDisplayTimeStartEnd
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatHoursMinutes
 import es.upm.bienestaremocional.core.ui.component.BasicCard
+import es.upm.bienestaremocional.core.ui.component.DrawPair
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
@@ -29,16 +30,17 @@ fun SleepSessionData.Display(windowSize: WindowSize)
             end = endTime,
             endZoneOffset = endZoneOffset
         )
-        title?.let { Text(text = "Titulo: $it",color = MaterialTheme.colorScheme.onSurface) }
-        notes?.let { Text(text = "Notas: $it",color = MaterialTheme.colorScheme.onSurface) }
-
-        //if (uid.isNotEmpty())
-        //    Text(text = "Uid: $uid")
+        title?.let {
+            DrawPair(key = "Titulo: ", value = it)
+        }
+        notes?.let {
+            DrawPair(key = "Notas: ", value = it)
+        }
 
         duration?.let {
             val formattedDuration = duration.formatHoursMinutes()
-            Text(text = "Duración: $formattedDuration",
-                color = MaterialTheme.colorScheme.onSurface) }
+            DrawPair(key = "Duración: ", value = formattedDuration)
+        }
 
         Text(text = "Etapas del sueño:",color = MaterialTheme.colorScheme.onSurface)
         stages.forEach{it.Display()}

@@ -11,16 +11,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.BasalMetabolicRateRecord
+import androidx.health.connect.client.records.BloodGlucoseRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.lifecycle.viewmodel.compose.viewModel
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.ui.healthconnect.component.Display
-import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.BasalMetabolicRateViewModel
-import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.HeartRateViewModel
-import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.SleepSessionViewModel
-import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.StepsViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.*
 import es.upm.bienestaremocional.core.ui.component.DrawHealthConnectScreen
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
@@ -64,16 +62,29 @@ private fun clickable(index: Int, expanderElements: ExpanderElements)
 
 }
 
+@Composable
+private fun CategoryText(index: Int, stringRes: Int, expanderElements: ExpanderElements)
+{
+    Text(modifier = Modifier
+        .fillMaxWidth()
+        .clickable { clickable(index, expanderElements) },
+        text = stringResource(id = stringRes),
+        style = MaterialTheme.typography.headlineSmall,
+        textAlign = TextAlign.Center,
+        color = MaterialTheme.colorScheme.primary)
+}
+
 @Suppress("UNCHECKED_CAST")
 @Composable
 private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                             heartRateViewModelData: ViewModelData,
                             stepsViewModelData: ViewModelData,
                             bmrViewModelData: ViewModelData,
+                            bloodGlucoseViewModelData: ViewModelData,
                             windowSize: WindowSize,
                             onError: (Throwable?) -> Unit = {})
 {
-    val expanderElements = remember {ExpanderElements(4) }
+    val expanderElements = remember {ExpanderElements(5) }
 
     Surface(modifier = Modifier.fillMaxSize())
     {
@@ -83,14 +94,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
         {
             if (expanderElements.allAreUnselected() || expanderElements.get(0)?.value == true)
             {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { clickable(0, expanderElements) },
-                    text = stringResource(id = R.string.sleep),
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.primary)
+                CategoryText(index = 0,
+                    stringRes = R.string.sleep,
+                    expanderElements = expanderElements)
                 if (expanderElements.get(0)?.value == true)
                 {
                     DrawHealthConnectScreen(viewModelData = sleepViewModelData,
@@ -109,13 +115,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
 
             if (expanderElements.allAreUnselected() || expanderElements.get(1)?.value == true)
             {
-                Text(modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { clickable(1, expanderElements) },
-                    text = stringResource(id = R.string.heart_rate),
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.primary)
+                CategoryText(index = 1,
+                    stringRes = R.string.heart_rate,
+                    expanderElements = expanderElements)
                 if (expanderElements.get(1)?.value == true)
                 {
                     DrawHealthConnectScreen(viewModelData = heartRateViewModelData,
@@ -134,16 +136,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
 
             if (expanderElements.allAreUnselected() || expanderElements.get(2)?.value == true)
             {
-
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { clickable(2, expanderElements) },
-                    text = stringResource(id = R.string.steps),
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                CategoryText(index = 2,
+                    stringRes = R.string.steps,
+                    expanderElements = expanderElements)
                 if (expanderElements.get(2)?.value == true)
                 {
                     DrawHealthConnectScreen(
@@ -164,18 +159,36 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
 
             if (expanderElements.allAreUnselected() || expanderElements.get(3)?.value == true)
             {
-                Text(modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { clickable(3, expanderElements) },
-                    text = stringResource(id = R.string.bmr),
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.primary)
+                CategoryText(index = 3,
+                    stringRes = R.string.bmr,
+                    expanderElements = expanderElements)
                 if (expanderElements.get(3)?.value == true)
                 {
                     DrawHealthConnectScreen(viewModelData = bmrViewModelData,
                         onDisplayData = {
                             val data = bmrViewModelData.data as List<BasalMetabolicRateRecord>
+                            data.forEach {
+                                item {
+                                    it.Display(windowSize)
+                                    Spacer(Modifier.height(16.dp))
+                                }
+                            }
+                        },
+                        onError = onError)
+                }
+            }
+
+            if (expanderElements.allAreUnselected() || expanderElements.get(4)?.value == true)
+            {
+                CategoryText(index = 4,
+                    stringRes = R.string.blood_glucose,
+                    expanderElements = expanderElements)
+                if (expanderElements.get(4)?.value == true)
+                {
+                    DrawHealthConnectScreen(viewModelData = bloodGlucoseViewModelData,
+                        onDisplayData = {
+                            val data = bloodGlucoseViewModelData.data
+                                    as List<BloodGlucoseRecord>
                             data.forEach {
                                 item {
                                     it.Display(windowSize)
@@ -203,12 +216,15 @@ fun DebugScreen(windowSize: WindowSize,
         viewModel(factory = StepsViewModel.Factory)
     val basalMetabolicRateViewModel: BasalMetabolicRateViewModel =
         viewModel(factory = BasalMetabolicRateViewModel.Factory)
+    val bloodGlucoseViewMode: BloodGlucoseViewModel =
+        viewModel(factory = BloodGlucoseViewModel.Factory)
 
     DrawDebugScreen(
         sleepViewModelData = sleepSessionViewModel.getViewModelData(),
         heartRateViewModelData = heartRateViewModel.getViewModelData(),
         stepsViewModelData = stepsViewModel.getViewModelData(),
         bmrViewModelData = basalMetabolicRateViewModel.getViewModelData(),
+        bloodGlucoseViewModelData = bloodGlucoseViewMode.getViewModelData(),
         windowSize = windowSize,
         onError = onError)
 }

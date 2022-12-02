@@ -11,5 +11,7 @@
         <item>androidx.health.permission.Steps.WRITE</item>
         <item>androidx.health.permission.BasalMetabolicRate.READ</item>
         <item>androidx.health.permission.BasalMetabolicRate.WRITE</item>
+        <item>androidx.health.permission.BloodGlucose.READ</item>
+        <item>androidx.health.permission.BloodGlucose.WRITE</item>
     </array>
 </resources>

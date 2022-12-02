@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.metadata.Metadata
 import es.upm.bienestaremocional.app.data.healthconnect.sources.HeartRate
 import es.upm.bienestaremocional.app.formatDate
+import es.upm.bienestaremocional.core.ui.component.DrawPair
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import java.time.ZoneId
@@ -36,23 +37,25 @@ fun Metadata.Display(windowSize: WindowSize)
         Column(modifier = Modifier.padding(horizontal = 16.dp))
         {
             if (id.isNotEmpty())
-                Text(text = "Id: $id",
-                    color = color,
-                    style = textStyle)
+            {
+                DrawPair(key = "Id: ", value = id, textStyle = textStyle)
+            }
             if (dataOrigin.packageName.isNotEmpty())
-                Text(text = "DataOrigin: ${dataOrigin.packageName}",
-                    color = color,
-                    style = textStyle)
-            Text(text = "Instante: $time",
-                color = color,
-                style = textStyle)
+            {
+                DrawPair(key = "DataOrigin: ",
+                    value = dataOrigin.packageName,
+                    textStyle = textStyle)
+            }
+
+            DrawPair(key = "Instante: ", value = time, textStyle = textStyle)
+
             device?.let { d ->
-                d.manufacturer?.let { Text(text = "Fabricante: $it",
-                    color = color,
-                    style = textStyle) }
-                d.model?.let { Text(text = "Modelo: $it",
-                    color = color,
-                    style = textStyle) }
+                d.manufacturer?.let { DrawPair(key = "Fabricante: ",
+                    value = it,
+                    textStyle = textStyle) }
+                d.model?.let { DrawPair(key = "Modelo: ",
+                    value = it,
+                    textStyle = textStyle) }
             }
         }
     }
