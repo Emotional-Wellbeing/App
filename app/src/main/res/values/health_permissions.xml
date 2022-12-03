@@ -19,5 +19,7 @@
         <item>androidx.health.permission.Distance.WRITE</item>
         <item>androidx.health.permission.OxygenSaturation.READ</item>
         <item>androidx.health.permission.OxygenSaturation.WRITE</item>
+        <item>androidx.health.permission.TotalCaloriesBurned.READ</item>
+        <item>androidx.health.permission.TotalCaloriesBurned.WRITE</item>
     </array>
 </resources>

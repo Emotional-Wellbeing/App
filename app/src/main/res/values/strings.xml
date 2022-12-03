@@ -113,5 +113,6 @@
     <string name="blood_pressure">Presión arterial</string>
     <string name="distance">Distancia</string>
     <string name="oxygen_saturation">Oxígeno en sangre</string>
+    <string name="total_calories_burned">Calorías quemadas</string>
     <string name="empty_data">No existen datos</string>
 </resources>
