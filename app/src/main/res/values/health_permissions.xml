@@ -17,5 +17,7 @@
         <item>androidx.health.permission.BloodPressure.WRITE</item>
         <item>androidx.health.permission.Distance.READ</item>
         <item>androidx.health.permission.Distance.WRITE</item>
+        <item>androidx.health.permission.OxygenSaturation.READ</item>
+        <item>androidx.health.permission.OxygenSaturation.WRITE</item>
     </array>
 </resources>
