@@ -27,5 +27,7 @@
         <item>androidx.health.permission.BodyTemperature.WRITE</item>
         <item>androidx.health.permission.ElevationGained.READ</item>
         <item>androidx.health.permission.ElevationGained.WRITE</item>
+        <item>androidx.health.permission.RespiratoryRate.READ</item>
+        <item>androidx.health.permission.RespiratoryRate.WRITE</item>
     </array>
 </resources>

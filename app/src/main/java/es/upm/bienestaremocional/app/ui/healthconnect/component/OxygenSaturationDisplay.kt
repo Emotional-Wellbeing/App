@@ -25,35 +25,35 @@ fun OxygenSaturationRecord.Display(windowSize: WindowSize)
 @Composable
 fun OxygenSaturationRecordDisplayPreview()
 {
-    val basalMetabolicRateRecord = OxygenSaturation.generateDummyData()[0]
+    val oxygenSaturationRecord = OxygenSaturation.generateDummyData()[0]
     BienestarEmocionalTheme {
-        basalMetabolicRateRecord.Display(windowSize = WindowSize.COMPACT)
+        oxygenSaturationRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
 @Preview
 @Composable
 fun OxygenSaturationRecordDisplayPreviewDarkTheme()
 {
-    val basalMetabolicRateRecord = OxygenSaturation.generateDummyData()[0]
+    val oxygenSaturationRecord = OxygenSaturation.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        basalMetabolicRateRecord.Display(windowSize = WindowSize.COMPACT)
+        oxygenSaturationRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
 @Preview
 @Composable
 fun OxygenSaturationRecordDisplayLargeScreenPreview()
 {
-    val basalMetabolicRateRecord = OxygenSaturation.generateDummyData()[0]
+    val oxygenSaturationRecord = OxygenSaturation.generateDummyData()[0]
     BienestarEmocionalTheme {
-        basalMetabolicRateRecord.Display(windowSize = WindowSize.MEDIUM)
+        oxygenSaturationRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
 @Preview
 @Composable
 fun OxygenSaturationRecordDisplayLargeScreenPreviewDarkTheme()
 {
-    val basalMetabolicRateRecord = OxygenSaturation.generateDummyData()[0]
+    val oxygenSaturationRecord = OxygenSaturation.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        basalMetabolicRateRecord.Display(windowSize = WindowSize.MEDIUM)
+        oxygenSaturationRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
