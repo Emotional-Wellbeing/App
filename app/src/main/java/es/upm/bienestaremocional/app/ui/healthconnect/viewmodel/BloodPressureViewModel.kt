@@ -2,11 +2,8 @@ package es.upm.bienestaremocional.app.ui.healthconnect.viewmodel
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.health.connect.client.records.BloodPressureRecord
-import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -15,7 +12,8 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.BloodPressure
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
-class BloodPressureViewModel(private val bloodPressure: BloodPressure) : HealthConnectViewModel()
+class BloodPressureViewModel(private val bloodPressure: BloodPressure) :
+    HealthConnectViewModel<BloodPressureRecord>()
 {
     companion object
     {
@@ -33,39 +31,18 @@ class BloodPressureViewModel(private val bloodPressure: BloodPressure) : HealthC
             }
         }
     }
-    private var bpData : MutableState<List<BloodPressureRecord>> = mutableStateOf(listOf())
-
-    /**
-     * Read data calling [HealthConnectViewModel.readData]
-     */
-    private fun readData()
-    {
-        @Suppress("UNCHECKED_CAST")
-        super.readData(healthConnectSource = bloodPressure,
-            data = bpData as MutableState<List<Record>>)
-    }
-
-    private fun writeData(data: List<Record>)
-    {
-        super.writeData(healthConnectSource = bloodPressure, data = data)
-    }
-
-    private fun writeData()
-    {
-        writeData(BloodPressure.generateDummyData())
-    }
 
     private fun writeAndReadDummyData()
     {
-        writeData()
-        readData()
+        writeData(bloodPressure,BloodPressure.generateDummyData())
+        readData(bloodPressure)
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData
+    override fun getViewModelData(): ViewModelData<BloodPressureRecord>
     {
-        val data by bpData
-        val onPermissionsResult = {readData()}
+        val data by elements
+        val onPermissionsResult = {readData(bloodPressure)}
 
         val launcher = rememberLauncherForActivityResult(contract = permissionLauncher,
             onResult = {onPermissionsResult()})

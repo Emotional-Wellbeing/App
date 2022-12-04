@@ -2,13 +2,13 @@ package es.upm.bienestaremocional.app.data.healthconnect.sources
 
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
-import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.SleepSessionRecord
 import androidx.health.connect.client.records.SleepStageRecord
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
+import es.upm.bienestaremocional.app.generateInterval
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
@@ -25,7 +25,7 @@ import kotlin.random.Random
  */
 class Sleep(private val healthConnectClient: HealthConnectClient,
             healthConnectManager: HealthConnectManagerInterface):
-    HealthConnectSource(healthConnectClient,healthConnectManager)
+    HealthConnectSource<SleepSessionData>(healthConnectClient,healthConnectManager)
 {
     companion object
     {
@@ -36,23 +36,18 @@ class Sleep(private val healthConnectClient: HealthConnectClient,
          */
         fun generateDummyData(): List<SleepSessionData>
         {
-            // Make yesterday the last day of the sleep data
-            val lastDay = ZonedDateTime.now().minusDays(1).truncatedTo(ChronoUnit.DAYS)
+
             val notes = listOf("I slept great!",
                 "I got woken up",
                 "Struggled to sleep",
                 "Much needed sleep",
                 "Restful sleep")
 
-            // Create 7 days-worth of sleep data
             return List(7)
             { index ->
-                val wakeUp = lastDay.minusDays(index.toLong())
-                    .withHour(Random.nextInt(7, 10))
-                    .withMinute(Random.nextInt(0, 60))
-                val bedtime = wakeUp.minusDays(1)
-                    .withHour(Random.nextInt(19, 22))
-                    .withMinute(Random.nextInt(0, 60))
+                val (bedtime, wakeUp) = generateInterval(
+                    offsetDays = index.toLong() + 1,
+                    upperBound = 14)
                 val sleepStages = generateSleepStages(bedtime, wakeUp)
                 SleepSessionData(
                     uid = "",
@@ -121,7 +116,7 @@ class Sleep(private val healthConnectClient: HealthConnectClient,
      * In addition to reading [SleepSessionRecord]s, for each session, the duration is calculated to
      * demonstrate aggregation, and the underlying [SleepStageRecord] data is also read.
      */
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<Record>
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<SleepSessionData>
     {
         val sessions = mutableListOf<SleepSessionData>()
 

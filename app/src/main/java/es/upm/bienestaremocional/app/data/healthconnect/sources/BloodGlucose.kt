@@ -4,17 +4,15 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.BloodGlucoseRecord
 import androidx.health.connect.client.records.MealType
-import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.RelationToMeal
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.BloodGlucose
+import es.upm.bienestaremocional.app.generateTime
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
 import java.time.Instant
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 
 /**
@@ -26,7 +24,7 @@ import kotlin.random.Random
 
 class BloodGlucose(private val healthConnectClient: HealthConnectClient,
                    private val healthConnectManager: HealthConnectManagerInterface):
-    HealthConnectSource(healthConnectClient,healthConnectManager)
+    HealthConnectSource<BloodGlucoseRecord>(healthConnectClient,healthConnectManager)
 {
     companion object
     {
@@ -35,15 +33,10 @@ class BloodGlucose(private val healthConnectClient: HealthConnectClient,
          */
         fun generateDummyData() : List<BloodGlucoseRecord>
         {
-            // Make yesterday the last day of the hr data
-            val lastDay = ZonedDateTime.now().minusDays(1).truncatedTo(ChronoUnit.DAYS)
-
             return List(5)
             { index ->
-                val measureTime = lastDay.minusDays(index.toLong())
-                    .withHour(Random.nextInt(0, 24))
-                    .withMinute(Random.nextInt(0, 60))
-                    .withSecond(Random.nextInt(0, 60))
+
+                val measureTime = generateTime(offsetDays = index.toLong())
 
                 val level = BloodGlucose.millimolesPerLiter(Random.nextDouble(0.1,49.9))
 
@@ -98,7 +91,7 @@ class BloodGlucose(private val healthConnectClient: HealthConnectClient,
     override val writePermissions = setOf(
         HealthPermission.createWritePermission(BloodGlucoseRecord::class))
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<Record>
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<BloodGlucoseRecord>
     {
         val request = ReadRecordsRequest(
             recordType = BloodGlucoseRecord::class,

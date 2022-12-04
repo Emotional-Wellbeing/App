@@ -2,11 +2,8 @@ package es.upm.bienestaremocional.app.ui.healthconnect.viewmodel
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.health.connect.client.records.DistanceRecord
-import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -16,7 +13,7 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectV
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
 class DistanceViewModel(private val distance: Distance) :
-    HealthConnectViewModel()
+    HealthConnectViewModel<DistanceRecord>()
 {
     companion object
     {
@@ -35,40 +32,17 @@ class DistanceViewModel(private val distance: Distance) :
         }
     }
 
-    //data of viewmodel
-    private var distanceData: MutableState<List<DistanceRecord>> = mutableStateOf(listOf())
-
-    /**
-     * Read data calling [HealthConnectViewModel.readData]
-     */
-    private fun readData()
-    {
-        @Suppress("UNCHECKED_CAST")
-        super.readData(healthConnectSource = distance,
-            data = distanceData as MutableState<List<Record>>)
-    }
-
-    private fun writeData(data: List<Record>)
-    {
-        super.writeData(healthConnectSource = distance, data = data)
-    }
-
-    private fun writeData()
-    {
-        writeData(Distance.generateDummyData())
-    }
-
     private fun writeAndReadDummyData()
     {
-        writeData()
-        readData()
+        writeData(distance, Distance.generateDummyData())
+        readData(distance)
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData
+    override fun getViewModelData(): ViewModelData<DistanceRecord>
     {
-        val data by distanceData
-        val onPermissionsResult = {readData()}
+        val data by elements
+        val onPermissionsResult = {readData(distance)}
 
         //launcher is a special case
         val permissionsLauncher =

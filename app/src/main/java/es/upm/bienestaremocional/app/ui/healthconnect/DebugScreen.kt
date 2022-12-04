@@ -1,10 +1,16 @@
 package es.upm.bienestaremocional.app.ui.healthconnect
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -91,22 +97,21 @@ private fun CategoryText(index: Int, stringRes: Int, expanderElements: ExpanderE
 
 }
 
-@Suppress("UNCHECKED_CAST")
 @Composable
-private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
-                            heartRateViewModelData: ViewModelData,
-                            stepsViewModelData: ViewModelData,
-                            bmrViewModelData: ViewModelData,
-                            bloodGlucoseViewModelData: ViewModelData,
-                            bloodPressureViewModelData: ViewModelData,
-                            distanceViewModelData: ViewModelData,
-                            oxygenSaturationViewModelData: ViewModelData,
-                            totalCaloriesBurnedViewModelData: ViewModelData,
-                            activeCaloriesBurnedViewModelData: ViewModelData,
-                            bodyTemperatureViewModelData: ViewModelData,
-                            elevationGainedViewModelData: ViewModelData,
-                            respiratoryRateViewModelData: ViewModelData,
-                            restingHeartRateViewModelData: ViewModelData,
+private fun DrawDebugScreen(sleepVMD: ViewModelData<SleepSessionData>,
+                            heartRateVMD: ViewModelData<HeartRateRecord>,
+                            stepsVMD: ViewModelData<StepsRecord>,
+                            basalMetabolicRateVMD: ViewModelData<BasalMetabolicRateRecord>,
+                            bloodGlucoseVMD: ViewModelData<BloodGlucoseRecord>,
+                            bloodPressureVMD: ViewModelData<BloodPressureRecord>,
+                            distanceVMD: ViewModelData<DistanceRecord>,
+                            oxygenSaturationVMD: ViewModelData<OxygenSaturationRecord>,
+                            totalCaloriesBurnedVMD: ViewModelData<TotalCaloriesBurnedRecord>,
+                            activeCaloriesBurnedVMD: ViewModelData<ActiveCaloriesBurnedRecord>,
+                            bodyTemperatureVMD: ViewModelData<BodyTemperatureRecord>,
+                            elevationGainedVMD: ViewModelData<ElevationGainedRecord>,
+                            respiratoryRateVMD: ViewModelData<RespiratoryRateRecord>,
+                            restingHeartRateVMD: ViewModelData<RestingHeartRateRecord>,
                             windowSize: WindowSize,
                             onError: (Throwable?) -> Unit = {})
 {
@@ -116,6 +121,7 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
     {
         Column(modifier = Modifier
             .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
             .padding(8.dp))
         {
             if (expanderElements.allAreUnselected() || expanderElements.get(0)?.value == true)
@@ -125,10 +131,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(0)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = sleepViewModelData,
+                    DrawHealthConnectScreen(viewModelData = sleepVMD,
                         onDisplayData = {
-                            val data = sleepViewModelData.data as List<SleepSessionData>
-                            data.forEach {
+                            sleepVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -146,10 +151,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(1)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = heartRateViewModelData,
+                    DrawHealthConnectScreen(viewModelData = heartRateVMD,
                         onDisplayData = {
-                            val data = heartRateViewModelData.data as List<HeartRateRecord>
-                            data.forEach {
+                            heartRateVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -168,10 +172,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                 if (expanderElements.get(2)?.value == true)
                 {
                     DrawHealthConnectScreen(
-                        viewModelData = stepsViewModelData,
+                        viewModelData = stepsVMD,
                         onDisplayData = {
-                            val data = stepsViewModelData.data as List<StepsRecord>
-                            data.forEach {
+                            stepsVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -190,10 +193,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(3)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = bmrViewModelData,
+                    DrawHealthConnectScreen(viewModelData = basalMetabolicRateVMD,
                         onDisplayData = {
-                            val data = bmrViewModelData.data as List<BasalMetabolicRateRecord>
-                            data.forEach {
+                            basalMetabolicRateVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -211,11 +213,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(4)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = bloodGlucoseViewModelData,
+                    DrawHealthConnectScreen(viewModelData = bloodGlucoseVMD,
                         onDisplayData = {
-                            val data = bloodGlucoseViewModelData.data
-                                    as List<BloodGlucoseRecord>
-                            data.forEach {
+                            bloodGlucoseVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -233,11 +233,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(5)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = bloodPressureViewModelData,
+                    DrawHealthConnectScreen(viewModelData = bloodPressureVMD,
                         onDisplayData = {
-                            val data = bloodPressureViewModelData.data
-                                    as List<BloodPressureRecord>
-                            data.forEach {
+                            bloodPressureVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -255,11 +253,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(6)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = distanceViewModelData,
+                    DrawHealthConnectScreen(viewModelData = distanceVMD,
                         onDisplayData = {
-                            val data = distanceViewModelData.data
-                                    as List<DistanceRecord>
-                            data.forEach {
+                            distanceVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -277,11 +273,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(7)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = oxygenSaturationViewModelData,
+                    DrawHealthConnectScreen(viewModelData = oxygenSaturationVMD,
                         onDisplayData = {
-                            val data = oxygenSaturationViewModelData.data
-                                    as List<OxygenSaturationRecord>
-                            data.forEach {
+                            oxygenSaturationVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -299,11 +293,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(8)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = totalCaloriesBurnedViewModelData,
+                    DrawHealthConnectScreen(viewModelData = totalCaloriesBurnedVMD,
                         onDisplayData = {
-                            val data = totalCaloriesBurnedViewModelData.data
-                                    as List<TotalCaloriesBurnedRecord>
-                            data.forEach {
+                            totalCaloriesBurnedVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -321,11 +313,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(9)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = activeCaloriesBurnedViewModelData,
+                    DrawHealthConnectScreen(viewModelData = activeCaloriesBurnedVMD,
                         onDisplayData = {
-                            val data = activeCaloriesBurnedViewModelData.data
-                                    as List<ActiveCaloriesBurnedRecord>
-                            data.forEach {
+                            activeCaloriesBurnedVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -343,11 +333,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(10)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = bodyTemperatureViewModelData,
+                    DrawHealthConnectScreen(viewModelData = bodyTemperatureVMD,
                         onDisplayData = {
-                            val data = bodyTemperatureViewModelData.data
-                                    as List<BodyTemperatureRecord>
-                            data.forEach {
+                            bodyTemperatureVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -365,11 +353,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(11)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = elevationGainedViewModelData,
+                    DrawHealthConnectScreen(viewModelData = elevationGainedVMD,
                         onDisplayData = {
-                            val data = elevationGainedViewModelData.data
-                                    as List<ElevationGainedRecord>
-                            data.forEach {
+                            elevationGainedVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -387,11 +373,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(12)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = respiratoryRateViewModelData,
+                    DrawHealthConnectScreen(viewModelData = respiratoryRateVMD,
                         onDisplayData = {
-                            val data = respiratoryRateViewModelData.data
-                                    as List<RespiratoryRateRecord>
-                            data.forEach {
+                            respiratoryRateVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -409,11 +393,9 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                     expanderElements = expanderElements)
                 if (expanderElements.get(13)?.value == true)
                 {
-                    DrawHealthConnectScreen(viewModelData = restingHeartRateViewModelData,
+                    DrawHealthConnectScreen(viewModelData = restingHeartRateVMD,
                         onDisplayData = {
-                            val data = restingHeartRateViewModelData.data
-                                    as List<RestingHeartRateRecord>
-                            data.forEach {
+                            restingHeartRateVMD.data.forEach {
                                 item {
                                     it.Display(windowSize)
                                     Spacer(Modifier.height(16.dp))
@@ -461,20 +443,20 @@ fun DebugScreen(windowSize: WindowSize,
         viewModel(factory = RestingHeartRateViewModel.Factory)
 
     DrawDebugScreen(
-        sleepViewModelData = sleepSessionViewModel.getViewModelData(),
-        heartRateViewModelData = heartRateViewModel.getViewModelData(),
-        stepsViewModelData = stepsViewModel.getViewModelData(),
-        bmrViewModelData = basalMetabolicRateViewModel.getViewModelData(),
-        bloodGlucoseViewModelData = bloodGlucoseViewModel.getViewModelData(),
-        bloodPressureViewModelData = bloodPressureViewModel.getViewModelData(),
-        distanceViewModelData = distanceViewModel.getViewModelData(),
-        oxygenSaturationViewModelData = oxygenSaturationViewModel.getViewModelData(),
-        totalCaloriesBurnedViewModelData = totalCaloriesBurnedViewModel.getViewModelData(),
-        activeCaloriesBurnedViewModelData = activeCaloriesBurnedViewModel.getViewModelData(),
-        bodyTemperatureViewModelData = bodyTemperatureViewModel.getViewModelData(),
-        elevationGainedViewModelData = elevationGainedViewModel.getViewModelData(),
-        respiratoryRateViewModelData = respiratoryRateViewModel.getViewModelData(),
-        restingHeartRateViewModelData = restingHeartRateViewModel.getViewModelData(),
+        sleepVMD = sleepSessionViewModel.getViewModelData(),
+        heartRateVMD = heartRateViewModel.getViewModelData(),
+        stepsVMD = stepsViewModel.getViewModelData(),
+        basalMetabolicRateVMD = basalMetabolicRateViewModel.getViewModelData(),
+        bloodGlucoseVMD = bloodGlucoseViewModel.getViewModelData(),
+        bloodPressureVMD = bloodPressureViewModel.getViewModelData(),
+        distanceVMD = distanceViewModel.getViewModelData(),
+        oxygenSaturationVMD = oxygenSaturationViewModel.getViewModelData(),
+        totalCaloriesBurnedVMD = totalCaloriesBurnedViewModel.getViewModelData(),
+        activeCaloriesBurnedVMD = activeCaloriesBurnedViewModel.getViewModelData(),
+        bodyTemperatureVMD = bodyTemperatureViewModel.getViewModelData(),
+        elevationGainedVMD = elevationGainedViewModel.getViewModelData(),
+        respiratoryRateVMD = respiratoryRateViewModel.getViewModelData(),
+        restingHeartRateVMD = restingHeartRateViewModel.getViewModelData(),
         windowSize = windowSize,
         onError = onError)
 }

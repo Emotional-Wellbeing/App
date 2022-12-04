@@ -15,11 +15,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.health.connect.client.records.Record
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.UiState
 import java.util.*
 
 @Composable
-fun DrawHealthConnectScreen(viewModelData: ViewModelData,
+fun DrawHealthConnectScreen(viewModelData: ViewModelData<out Record>,
                             onDisplayData: LazyListScope.() -> Unit,
                             onError: (Throwable?) -> Unit = {})
 {

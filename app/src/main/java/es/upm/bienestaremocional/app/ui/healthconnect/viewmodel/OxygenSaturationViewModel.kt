@@ -2,11 +2,8 @@ package es.upm.bienestaremocional.app.ui.healthconnect.viewmodel
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.health.connect.client.records.OxygenSaturationRecord
-import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -16,7 +13,7 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectV
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
 class OxygenSaturationViewModel(private val oxygenSaturation: OxygenSaturation) :
-    HealthConnectViewModel()
+    HealthConnectViewModel<OxygenSaturationRecord>()
 {
     companion object
     {
@@ -34,39 +31,18 @@ class OxygenSaturationViewModel(private val oxygenSaturation: OxygenSaturation) 
             }
         }
     }
-    private var o2Data : MutableState<List<OxygenSaturationRecord>> = mutableStateOf(listOf())
-
-    /**
-     * Read data calling [HealthConnectViewModel.readData]
-     */
-    private fun readData()
-    {
-        @Suppress("UNCHECKED_CAST")
-        super.readData(healthConnectSource = oxygenSaturation,
-            data = o2Data as MutableState<List<Record>>)
-    }
-
-    private fun writeData(data: List<Record>)
-    {
-        super.writeData(healthConnectSource = oxygenSaturation, data = data)
-    }
-
-    private fun writeData()
-    {
-        writeData(OxygenSaturation.generateDummyData())
-    }
 
     private fun writeAndReadDummyData()
     {
-        writeData()
-        readData()
+        writeData(oxygenSaturation,OxygenSaturation.generateDummyData())
+        readData(oxygenSaturation)
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData
+    override fun getViewModelData(): ViewModelData<OxygenSaturationRecord>
     {
-        val data by o2Data
-        val onPermissionsResult = {readData()}
+        val data by elements
+        val onPermissionsResult = {readData(oxygenSaturation)}
 
         val launcher = rememberLauncherForActivityResult(contract = permissionLauncher,
             onResult = {onPermissionsResult()})

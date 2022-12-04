@@ -2,11 +2,8 @@ package es.upm.bienestaremocional.app.ui.healthconnect.viewmodel
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.health.connect.client.records.ActiveCaloriesBurnedRecord
-import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -16,7 +13,7 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectV
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
 class ActiveCaloriesBurnedViewModel(private val activeCaloriesBurned: ActiveCaloriesBurned) :
-    HealthConnectViewModel()
+    HealthConnectViewModel<ActiveCaloriesBurnedRecord>()
 {
     companion object
     {
@@ -34,39 +31,18 @@ class ActiveCaloriesBurnedViewModel(private val activeCaloriesBurned: ActiveCalo
             }
         }
     }
-    private var acbData : MutableState<List<ActiveCaloriesBurnedRecord>> = mutableStateOf(listOf())
-
-    /**
-     * Read data calling [HealthConnectViewModel.readData]
-     */
-    private fun readData()
-    {
-        @Suppress("UNCHECKED_CAST")
-        super.readData(healthConnectSource = activeCaloriesBurned,
-            data = acbData as MutableState<List<Record>>)
-    }
-
-    private fun writeData(data: List<Record>)
-    {
-        super.writeData(healthConnectSource = activeCaloriesBurned, data = data)
-    }
-
-    private fun writeData()
-    {
-        writeData(ActiveCaloriesBurned.generateDummyData())
-    }
 
     private fun writeAndReadDummyData()
     {
-        writeData()
-        readData()
+        writeData(activeCaloriesBurned,ActiveCaloriesBurned.generateDummyData())
+        readData(activeCaloriesBurned)
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData
+    override fun getViewModelData(): ViewModelData<ActiveCaloriesBurnedRecord>
     {
-        val data by acbData
-        val onPermissionsResult = {readData()}
+        val data by elements
+        val onPermissionsResult = {readData(activeCaloriesBurned)}
 
         val launcher = rememberLauncherForActivityResult(contract = permissionLauncher,
             onResult = {onPermissionsResult()})
@@ -74,7 +50,8 @@ class ActiveCaloriesBurnedViewModel(private val activeCaloriesBurned: ActiveCalo
         return ViewModelData(
             data = data,
             uiState = uiState,
-            permissions = activeCaloriesBurned.readPermissions + activeCaloriesBurned.writePermissions,
+            permissions = activeCaloriesBurned.readPermissions +
+                    activeCaloriesBurned.writePermissions,
             onPermissionsResult = onPermissionsResult,
             onRequestPermissions = {values -> launcher.launch(values)},
             onWrite = {writeAndReadDummyData()}

@@ -3,16 +3,14 @@ package es.upm.bienestaremocional.app.data.healthconnect.sources
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.HeartRateRecord
-import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
+import es.upm.bienestaremocional.app.generateInterval
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.linspace
 import java.time.Instant
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 
 /**
@@ -22,7 +20,7 @@ import kotlin.random.Random
  */
 class HeartRate(private val healthConnectClient: HealthConnectClient,
                 private val healthConnectManager: HealthConnectManagerInterface):
-    HealthConnectSource(healthConnectClient,healthConnectManager)
+    HealthConnectSource<HeartRateRecord>(healthConnectClient,healthConnectManager)
 {
 
     companion object
@@ -32,17 +30,10 @@ class HeartRate(private val healthConnectClient: HealthConnectClient,
          */
         fun generateDummyData() : List<HeartRateRecord>
         {
-            // Make yesterday the last day of the hr data
-            val lastDay = ZonedDateTime.now().minusDays(1).truncatedTo(ChronoUnit.DAYS)
-
             return List(5)
             { index ->
-                val init = lastDay.minusDays(index.toLong())
-                    .withHour(Random.nextInt(0, 11))
-                    .withMinute(Random.nextInt(0, 60))
-                val end = lastDay.minusDays(index.toLong())
-                    .withHour(Random.nextInt(12, 23))
-                    .withMinute(Random.nextInt(0, 60))
+                val (init, end) = generateInterval(offsetDays = index.toLong())
+
                 val numberSamples = 5
                 val samples = linspace(
                     init.toInstant().epochSecond,
@@ -69,22 +60,17 @@ class HeartRate(private val healthConnectClient: HealthConnectClient,
     override val readPermissions = setOf(
         HealthPermission.createReadPermission(HeartRateRecord::class))
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<Record>
+    override val writePermissions = setOf(
+        HealthPermission.createWritePermission(HeartRateRecord::class))
+
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<HeartRateRecord>
     {
-        val hearthRateRequest = ReadRecordsRequest(
+        val request = ReadRecordsRequest(
             recordType = HeartRateRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),
             ascendingOrder = false
         )
-        val heartrateItems = healthConnectClient.readRecords(hearthRateRequest)
-
-        return heartrateItems.records
+        val items = healthConnectClient.readRecords(request)
+        return items.records
     }
-
-    /**
-     * Set that contains permissions needed to write data
-     */
-    override val writePermissions = setOf(
-        HealthPermission.createWritePermission(HeartRateRecord::class))
-
 }

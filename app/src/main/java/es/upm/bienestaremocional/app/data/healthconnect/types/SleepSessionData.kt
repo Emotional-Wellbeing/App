@@ -23,3 +23,15 @@ data class SleepSessionData(
     val stages: List<SleepStageRecord> = listOf(),
     override val metadata: Metadata = Metadata()
 ): Record
+{
+    fun toSleepSessionRecord() : SleepSessionRecord =
+        SleepSessionRecord(
+            startTime = startTime,
+            startZoneOffset = startZoneOffset,
+            endTime = endTime,
+            endZoneOffset = endZoneOffset,
+            title = title,
+            notes = notes,
+            metadata = metadata
+        )
+}

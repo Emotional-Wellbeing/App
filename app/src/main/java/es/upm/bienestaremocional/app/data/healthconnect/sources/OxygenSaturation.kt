@@ -3,16 +3,14 @@ package es.upm.bienestaremocional.app.data.healthconnect.sources
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.OxygenSaturationRecord
-import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Percentage
+import es.upm.bienestaremocional.app.generateTime
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
 import java.time.Instant
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 
 /**
@@ -24,7 +22,7 @@ import kotlin.random.Random
 
 class OxygenSaturation(private val healthConnectClient: HealthConnectClient,
                        private val healthConnectManager: HealthConnectManagerInterface):
-    HealthConnectSource(healthConnectClient,healthConnectManager)
+    HealthConnectSource<OxygenSaturationRecord>(healthConnectClient,healthConnectManager)
 {
     companion object
     {
@@ -33,13 +31,10 @@ class OxygenSaturation(private val healthConnectClient: HealthConnectClient,
          */
         fun generateDummyData() : List<OxygenSaturationRecord>
         {
-            val lastDay = ZonedDateTime.now().minusDays(1).truncatedTo(ChronoUnit.DAYS)
-
             return List(5)
             { index ->
-                val measureTime = lastDay.minusDays(index.toLong())
-                    .withHour(Random.nextInt(0, 24))
-                    .withMinute(Random.nextInt(0, 60))
+                val measureTime = generateTime(offsetDays = index.toLong())
+
                 val percentage = Percentage(Random.nextDouble(0.0,100.0))
                 OxygenSaturationRecord(
                     time = measureTime.toInstant(),
@@ -56,7 +51,8 @@ class OxygenSaturation(private val healthConnectClient: HealthConnectClient,
     override val writePermissions = setOf(
         HealthPermission.createWritePermission(OxygenSaturationRecord::class))
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<Record>
+    override suspend fun readSource(startTime: Instant, endTime: Instant):
+            List<OxygenSaturationRecord>
     {
         val request = ReadRecordsRequest(
             recordType = OxygenSaturationRecord::class,

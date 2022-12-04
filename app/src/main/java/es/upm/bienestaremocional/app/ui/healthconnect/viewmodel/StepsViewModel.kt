@@ -2,10 +2,7 @@ package es.upm.bienestaremocional.app.ui.healthconnect.viewmodel
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.StepsRecord
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
@@ -15,7 +12,7 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.Steps
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
-class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
+class StepsViewModel(private val steps: Steps) : HealthConnectViewModel<StepsRecord>()
 {
     companion object
     {
@@ -33,41 +30,19 @@ class StepsViewModel(private val steps: Steps) : HealthConnectViewModel()
             }
         }
     }
-    //data of viewmodel
-    private var stepsData: MutableState<List<StepsRecord>> = mutableStateOf(listOf())
-
-    /**
-     * Read data calling [HealthConnectViewModel.readData]
-     */
-    private fun readData()
-    {
-        @Suppress("UNCHECKED_CAST")
-        super.readData(healthConnectSource = steps, data = stepsData as MutableState<List<Record>>)
-    }
-
-    private fun writeData(data: List<Record>)
-    {
-        super.writeData(healthConnectSource = steps, data = data)
-    }
-
-    private fun writeData()
-    {
-        writeData(Steps.generateDummyData())
-    }
 
     private fun writeAndReadDummyData()
     {
-        writeData()
-        readData()
+        writeData(steps,Steps.generateDummyData())
+        readData(steps)
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData
+    override fun getViewModelData(): ViewModelData<StepsRecord>
     {
-        val data by stepsData
-        val onPermissionsResult = {readData()}
+        val data by elements
+        val onPermissionsResult = {readData(steps)}
 
-        //launcher is a special case
         val permissionsLauncher =
             rememberLauncherForActivityResult(permissionLauncher) { onPermissionsResult() }
 

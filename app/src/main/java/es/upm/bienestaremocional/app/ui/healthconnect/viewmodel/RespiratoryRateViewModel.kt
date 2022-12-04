@@ -2,10 +2,7 @@ package es.upm.bienestaremocional.app.ui.healthconnect.viewmodel
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.records.RespiratoryRateRecord
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
@@ -16,7 +13,7 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectV
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
 class RespiratoryRateViewModel(private val respiratoryRate: RespiratoryRate) :
-    HealthConnectViewModel()
+    HealthConnectViewModel<RespiratoryRateRecord>()
 {
     companion object
     {
@@ -34,39 +31,18 @@ class RespiratoryRateViewModel(private val respiratoryRate: RespiratoryRate) :
             }
         }
     }
-    private var ratioData : MutableState<List<RespiratoryRateRecord>> = mutableStateOf(listOf())
-
-    /**
-     * Read data calling [HealthConnectViewModel.readData]
-     */
-    private fun readData()
-    {
-        @Suppress("UNCHECKED_CAST")
-        super.readData(healthConnectSource = respiratoryRate,
-            data = ratioData as MutableState<List<Record>>)
-    }
-
-    private fun writeData(data: List<Record>)
-    {
-        super.writeData(healthConnectSource = respiratoryRate, data = data)
-    }
-
-    private fun writeData()
-    {
-        writeData(RespiratoryRate.generateDummyData())
-    }
 
     private fun writeAndReadDummyData()
     {
-        writeData()
-        readData()
+        writeData(respiratoryRate,RespiratoryRate.generateDummyData())
+        readData(respiratoryRate)
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData
+    override fun getViewModelData(): ViewModelData<RespiratoryRateRecord>
     {
-        val data by ratioData
-        val onPermissionsResult = {readData()}
+        val data by elements
+        val onPermissionsResult = {readData(respiratoryRate)}
 
         val launcher = rememberLauncherForActivityResult(contract = permissionLauncher,
             onResult = {onPermissionsResult()})

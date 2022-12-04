@@ -2,11 +2,8 @@ package es.upm.bienestaremocional.app.ui.healthconnect.viewmodel
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.health.connect.client.records.BodyTemperatureRecord
-import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -16,7 +13,7 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectV
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
 class BodyTemperatureViewModel(private val bodyTemperature: BodyTemperature) :
-    HealthConnectViewModel()
+    HealthConnectViewModel<BodyTemperatureRecord>()
 {
     companion object
     {
@@ -34,40 +31,18 @@ class BodyTemperatureViewModel(private val bodyTemperature: BodyTemperature) :
             }
         }
     }
-    private var temperatureData : MutableState<List<BodyTemperatureRecord>> =
-        mutableStateOf(listOf())
-
-    /**
-     * Read data calling [HealthConnectViewModel.readData]
-     */
-    private fun readData()
-    {
-        @Suppress("UNCHECKED_CAST")
-        super.readData(healthConnectSource = bodyTemperature,
-            data = temperatureData as MutableState<List<Record>>)
-    }
-
-    private fun writeData(data: List<Record>)
-    {
-        super.writeData(healthConnectSource = bodyTemperature, data = data)
-    }
-
-    private fun writeData()
-    {
-        writeData(BodyTemperature.generateDummyData())
-    }
 
     private fun writeAndReadDummyData()
     {
-        writeData()
-        readData()
+        writeData(bodyTemperature,BodyTemperature.generateDummyData())
+        readData(bodyTemperature)
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData
+    override fun getViewModelData(): ViewModelData<BodyTemperatureRecord>
     {
-        val data by temperatureData
-        val onPermissionsResult = {readData()}
+        val data by elements
+        val onPermissionsResult = {readData(bodyTemperature)}
 
         val launcher = rememberLauncherForActivityResult(contract = permissionLauncher,
             onResult = {onPermissionsResult()})

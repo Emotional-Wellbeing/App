@@ -1,7 +1,6 @@
 package es.upm.bienestaremocional.core.extraction.healthconnect.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.health.connect.client.records.Record
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
@@ -9,24 +8,21 @@ import es.upm.bienestaremocional.core.ui.component.ViewModelData
 /**
  * Defines common features shared by all viewmodels that interact with healthconnect
  */
-interface HealthConnectViewModelInterface
+interface HealthConnectViewModelInterface<T: Record>
 {
     /**
      * Reads data from [healthConnectSource]
      * @param healthConnectSource: source to read
-     * @param data: [List] of [MutableState] of [Record] that holds data read
      */
-    fun readData(healthConnectSource: HealthConnectSourceInterface,
-                 data: MutableState<List<Record>>)
+    fun readData(healthConnectSource: HealthConnectSourceInterface<T>)
 
     /**
      * Write data into [healthConnectSource]
      * @param healthConnectSource: source to write
      * @param data: [List] of [Record] that holds data to write
      */
-    fun writeData(healthConnectSource: HealthConnectSourceInterface,
-                  data: List<Record>)
+    fun writeData(healthConnectSource: HealthConnectSourceInterface<T>, data: List<Record>)
 
     @Composable
-    fun getViewModelData(): ViewModelData
+    fun getViewModelData(): ViewModelData<T>
 }

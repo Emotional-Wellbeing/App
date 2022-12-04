@@ -3,16 +3,14 @@ package es.upm.bienestaremocional.app.data.healthconnect.sources
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.ActiveCaloriesBurnedRecord
-import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Energy
+import es.upm.bienestaremocional.app.generateInterval
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
 import java.time.Instant
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 
 /**
@@ -24,7 +22,7 @@ import kotlin.random.Random
 
 class ActiveCaloriesBurned(private val healthConnectClient: HealthConnectClient,
                            private val healthConnectManager: HealthConnectManagerInterface):
-    HealthConnectSource(healthConnectClient,healthConnectManager)
+    HealthConnectSource<ActiveCaloriesBurnedRecord>(healthConnectClient,healthConnectManager)
 {
     companion object
     {
@@ -33,18 +31,9 @@ class ActiveCaloriesBurned(private val healthConnectClient: HealthConnectClient,
          */
         fun generateDummyData() : List<ActiveCaloriesBurnedRecord>
         {
-            val lastDay = ZonedDateTime.now().minusDays(1).truncatedTo(ChronoUnit.DAYS)
-
             return List(5)
             { index ->
-                val init = lastDay.minusDays(index.toLong())
-                    .withHour(Random.nextInt(0, 11))
-                    .withMinute(Random.nextInt(0, 60))
-                    .withSecond(Random.nextInt(0, 60))
-                val end = lastDay.minusDays(index.toLong())
-                    .withHour(Random.nextInt(12, 23))
-                    .withMinute(Random.nextInt(0, 60))
-                    .withSecond(Random.nextInt(0, 60))
+                val (init,end) = generateInterval(offsetDays = index.toLong())
                 val energy = Energy.kilocalories(Random.nextDouble(1000.0,5000.0))
                 ActiveCaloriesBurnedRecord(
                     startTime = init.toInstant(),
@@ -63,7 +52,8 @@ class ActiveCaloriesBurned(private val healthConnectClient: HealthConnectClient,
     override val writePermissions = setOf(
         HealthPermission.createWritePermission(ActiveCaloriesBurnedRecord::class))
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<Record>
+    override suspend fun readSource(startTime: Instant, endTime: Instant):
+            List<ActiveCaloriesBurnedRecord>
     {
         val request = ReadRecordsRequest(
             recordType = ActiveCaloriesBurnedRecord::class,

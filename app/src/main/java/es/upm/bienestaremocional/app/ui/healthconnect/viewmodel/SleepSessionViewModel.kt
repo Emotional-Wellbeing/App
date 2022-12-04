@@ -2,8 +2,8 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.viewmodel
 
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.runtime.*
-import androidx.health.connect.client.records.Record
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -14,7 +14,7 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectV
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
 class SleepSessionViewModel(private val sleep: Sleep) :
-    HealthConnectViewModel()
+    HealthConnectViewModel<SleepSessionData>()
 {
     companion object
     {
@@ -32,41 +32,23 @@ class SleepSessionViewModel(private val sleep: Sleep) :
             }
         }
     }
-    //data of viewmodel
-    var sleepData: MutableState<List<SleepSessionData>> = mutableStateOf(listOf())
-
-    /**
-     * Read data calling [HealthConnectViewModel.readData]
-     */
-    private fun readData()
-    {
-        @Suppress("UNCHECKED_CAST")
-        super.readData(healthConnectSource = sleep, data = sleepData as MutableState<List<Record>>)
-    }
-
-    private fun writeData(data: List<Record>)
-    {
-        super.writeData(healthConnectSource = sleep, data = data)
-    }
-
-    private fun writeData()
-    {
-        writeData(Sleep.generateDummyData())
-    }
 
     private fun writeAndReadDummyData()
     {
-        writeData()
-        readData()
+        val data = Sleep.generateDummyData()
+        super.writeData(sleep, data.map { it.toSleepSessionRecord() })
+        data.forEach {
+            super.writeData(sleep, it.stages)
+        }
+        readData(sleep)
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData
+    override fun getViewModelData(): ViewModelData<SleepSessionData>
     {
-        val data by sleepData
-        val onPermissionsResult = {readData()}
+        val data by elements
+        val onPermissionsResult = {readData(sleep)}
 
-        //launcher is a special case
         val permissionsLauncher =
             rememberLauncherForActivityResult(permissionLauncher) { onPermissionsResult() }
 

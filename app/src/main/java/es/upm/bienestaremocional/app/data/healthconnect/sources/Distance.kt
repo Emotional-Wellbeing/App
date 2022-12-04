@@ -3,16 +3,14 @@ package es.upm.bienestaremocional.app.data.healthconnect.sources
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.DistanceRecord
-import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Length
+import es.upm.bienestaremocional.app.generateInterval
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
 import java.time.Instant
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 
 /**
@@ -24,7 +22,7 @@ import kotlin.random.Random
 
 class Distance(private val healthConnectClient: HealthConnectClient,
                private val healthConnectManager: HealthConnectManagerInterface):
-    HealthConnectSource(healthConnectClient,healthConnectManager)
+    HealthConnectSource<DistanceRecord>(healthConnectClient,healthConnectManager)
 {
     companion object
     {
@@ -33,18 +31,9 @@ class Distance(private val healthConnectClient: HealthConnectClient,
          */
         fun generateDummyData() : List<DistanceRecord>
         {
-            val lastDay = ZonedDateTime.now().minusDays(1).truncatedTo(ChronoUnit.DAYS)
-
             return List(5)
             { index ->
-                val init = lastDay.minusDays(index.toLong())
-                    .withHour(Random.nextInt(0, 11))
-                    .withMinute(Random.nextInt(0, 60))
-                    .withSecond(Random.nextInt(0, 60))
-                val end = lastDay.minusDays(index.toLong())
-                    .withHour(Random.nextInt(12, 23))
-                    .withMinute(Random.nextInt(0, 60))
-                    .withSecond(Random.nextInt(0, 60))
+                val (init, end) = generateInterval(offsetDays = index.toLong())
 
                 val distance = Length.kilometers(Random.nextDouble(0.0,10.0))
 
@@ -65,7 +54,7 @@ class Distance(private val healthConnectClient: HealthConnectClient,
     override val writePermissions = setOf(
         HealthPermission.createWritePermission(DistanceRecord::class))
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<Record>
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<DistanceRecord>
     {
         val request = ReadRecordsRequest(
             recordType = DistanceRecord::class,

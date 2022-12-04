@@ -3,16 +3,14 @@ package es.upm.bienestaremocional.app.data.healthconnect.sources
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.BasalMetabolicRateRecord
-import androidx.health.connect.client.records.Record
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Power
+import es.upm.bienestaremocional.app.generateTime
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
 import java.time.Instant
-import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 
 /**
@@ -24,7 +22,7 @@ import kotlin.random.Random
 
 class BasalMetabolicRate(private val healthConnectClient: HealthConnectClient,
                          private val healthConnectManager: HealthConnectManagerInterface):
-    HealthConnectSource(healthConnectClient,healthConnectManager)
+    HealthConnectSource<BasalMetabolicRateRecord>(healthConnectClient,healthConnectManager)
 {
     companion object
     {
@@ -33,14 +31,9 @@ class BasalMetabolicRate(private val healthConnectClient: HealthConnectClient,
          */
         fun generateDummyData() : List<BasalMetabolicRateRecord>
         {
-            // Make yesterday the last day of the hr data
-            val lastDay = ZonedDateTime.now().minusDays(1).truncatedTo(ChronoUnit.DAYS)
-
             return List(5)
             { index ->
-                val measureTime = lastDay.minusDays(index.toLong())
-                    .withHour(Random.nextInt(0, 24))
-                    .withMinute(Random.nextInt(0, 60))
+                val measureTime = generateTime(offsetDays = index.toLong())
                 val bmr = Power.kilocaloriesPerDay(Random.nextDouble(1000.0,3000.0))
                 BasalMetabolicRateRecord(
                     time = measureTime.toInstant(),
@@ -57,7 +50,8 @@ class BasalMetabolicRate(private val healthConnectClient: HealthConnectClient,
     override val writePermissions = setOf(
         HealthPermission.createWritePermission(BasalMetabolicRateRecord::class))
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<Record>
+    override suspend fun readSource(startTime: Instant, endTime: Instant):
+            List<BasalMetabolicRateRecord>
     {
         val request = ReadRecordsRequest(
             recordType = BasalMetabolicRateRecord::class,

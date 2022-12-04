@@ -2,11 +2,8 @@ package es.upm.bienestaremocional.app.ui.healthconnect.viewmodel
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.health.connect.client.records.HeartRateRecord
-import androidx.health.connect.client.records.Record
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -16,7 +13,7 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectV
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 
 class HeartRateViewModel(private val heartRate: HeartRate) :
-    HealthConnectViewModel()
+    HealthConnectViewModel<HeartRateRecord>()
 {
     companion object
     {
@@ -35,42 +32,18 @@ class HeartRateViewModel(private val heartRate: HeartRate) :
         }
     }
 
-    //data of viewmodel
-    private var heartRateData: MutableState<List<HeartRateRecord>> = mutableStateOf(listOf())
-
-    /**
-     * Read data calling [HealthConnectViewModel.readData]
-     */
-    private fun readData()
-    {
-        @Suppress("UNCHECKED_CAST")
-        super.readData(healthConnectSource = heartRate,
-            data = heartRateData as MutableState<List<Record>>)
-    }
-
-    private fun writeData(data: List<Record>)
-    {
-        super.writeData(healthConnectSource = heartRate, data = data)
-    }
-
-    private fun writeData()
-    {
-        writeData(HeartRate.generateDummyData())
-    }
-
     private fun writeAndReadDummyData()
     {
-        writeData()
-        readData()
+        writeData(heartRate, HeartRate.generateDummyData())
+        readData(heartRate)
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData
+    override fun getViewModelData(): ViewModelData<HeartRateRecord>
     {
-        val data by heartRateData
-        val onPermissionsResult = {readData()}
+        val data by elements
+        val onPermissionsResult = {readData(heartRate)}
 
-        //launcher is a special case
         val permissionsLauncher =
             rememberLauncherForActivityResult(permissionLauncher) { onPermissionsResult() }
 
