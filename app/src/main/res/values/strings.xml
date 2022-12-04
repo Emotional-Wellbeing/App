@@ -23,6 +23,7 @@
     <string name="body_temperature">Temperatura corporal</string>
     <string name="elevation_gained">Elevación ganada</string>
     <string name="respiratory_rate">Frecuencia respiratoria</string>
+    <string name="resting_heart_rate">Pulsaciones en reposo</string>
 
     <!-- Settings-->
     <string name="about_screen_label">Acerca de la aplicación</string>

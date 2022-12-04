@@ -106,10 +106,11 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                             bodyTemperatureViewModelData: ViewModelData,
                             elevationGainedViewModelData: ViewModelData,
                             respiratoryRateViewModelData: ViewModelData,
+                            restingHeartRateViewModelData: ViewModelData,
                             windowSize: WindowSize,
                             onError: (Throwable?) -> Unit = {})
 {
-    val expanderElements = remember {ExpanderElements(13) }
+    val expanderElements = remember {ExpanderElements(14) }
 
     Surface(modifier = Modifier.fillMaxSize())
     {
@@ -400,6 +401,28 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                         onError = onError)
                 }
             }
+
+            if (expanderElements.allAreUnselected() || expanderElements.get(13)?.value == true)
+            {
+                CategoryText(index = 13,
+                    stringRes = R.string.resting_heart_rate,
+                    expanderElements = expanderElements)
+                if (expanderElements.get(13)?.value == true)
+                {
+                    DrawHealthConnectScreen(viewModelData = restingHeartRateViewModelData,
+                        onDisplayData = {
+                            val data = restingHeartRateViewModelData.data
+                                    as List<RestingHeartRateRecord>
+                            data.forEach {
+                                item {
+                                    it.Display(windowSize)
+                                    Spacer(Modifier.height(16.dp))
+                                }
+                            }
+                        },
+                        onError = onError)
+                }
+            }
         }
     }
 }
@@ -434,6 +457,8 @@ fun DebugScreen(windowSize: WindowSize,
         viewModel(factory = ElevationGainedViewModel.Factory)
     val respiratoryRateViewModel: RespiratoryRateViewModel =
         viewModel(factory = RespiratoryRateViewModel.Factory)
+    val restingHeartRateViewModel: RestingHeartRateViewModel =
+        viewModel(factory = RestingHeartRateViewModel.Factory)
 
     DrawDebugScreen(
         sleepViewModelData = sleepSessionViewModel.getViewModelData(),
@@ -449,6 +474,7 @@ fun DebugScreen(windowSize: WindowSize,
         bodyTemperatureViewModelData = bodyTemperatureViewModel.getViewModelData(),
         elevationGainedViewModelData = elevationGainedViewModel.getViewModelData(),
         respiratoryRateViewModelData = respiratoryRateViewModel.getViewModelData(),
+        restingHeartRateViewModelData = restingHeartRateViewModel.getViewModelData(),
         windowSize = windowSize,
         onError = onError)
 }

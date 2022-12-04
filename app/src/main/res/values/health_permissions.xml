@@ -29,5 +29,7 @@
         <item>androidx.health.permission.ElevationGained.WRITE</item>
         <item>androidx.health.permission.RespiratoryRate.READ</item>
         <item>androidx.health.permission.RespiratoryRate.WRITE</item>
+        <item>androidx.health.permission.RestingHeartRate.READ</item>
+        <item>androidx.health.permission.RestingHeartRate.WRITE</item>
     </array>
 </resources>
