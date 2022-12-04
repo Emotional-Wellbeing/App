@@ -24,6 +24,7 @@
     <string name="elevation_gained">Elevación ganada</string>
     <string name="respiratory_rate">Frecuencia respiratoria</string>
     <string name="resting_heart_rate">Pulsaciones en reposo</string>
+    <string name="vo2_max">Volumen máximo de oxígeno</string>
 
     <!-- Settings-->
     <string name="about_screen_label">Acerca de la aplicación</string>

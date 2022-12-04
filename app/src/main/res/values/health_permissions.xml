@@ -31,5 +31,7 @@
         <item>androidx.health.permission.RespiratoryRate.WRITE</item>
         <item>androidx.health.permission.RestingHeartRate.READ</item>
         <item>androidx.health.permission.RestingHeartRate.WRITE</item>
+        <item>androidx.health.permission.Vo2Max.READ</item>
+        <item>androidx.health.permission.Vo2Max.WRITE</item>
     </array>
 </resources>

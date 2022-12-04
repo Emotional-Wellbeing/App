@@ -1,8 +1,8 @@
 package es.upm.bienestaremocional.app.ui.healthconnect
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -22,7 +22,7 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.ui.healthconnect.component.Display
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.*
-import es.upm.bienestaremocional.core.ui.component.DrawHealthConnectScreen
+import es.upm.bienestaremocional.core.ui.component.DrawHealthConnectSubscreen
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 
@@ -80,7 +80,7 @@ private fun CategoryText(index: Int, stringRes: Int, expanderElements: ExpanderE
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            modifier = Modifier.align(Alignment.CenterVertically),
+            modifier = Modifier.align(Alignment.CenterVertically).weight(1f),
             text = stringResource(id = stringRes),
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
@@ -112,297 +112,393 @@ private fun DrawDebugScreen(sleepVMD: ViewModelData<SleepSessionData>,
                             elevationGainedVMD: ViewModelData<ElevationGainedRecord>,
                             respiratoryRateVMD: ViewModelData<RespiratoryRateRecord>,
                             restingHeartRateVMD: ViewModelData<RestingHeartRateRecord>,
+                            vo2MaxVMD: ViewModelData<Vo2MaxRecord>,
                             windowSize: WindowSize,
                             onError: (Throwable?) -> Unit = {})
 {
-    val expanderElements = remember {ExpanderElements(14) }
+    val expanderElements = remember {ExpanderElements(15) }
 
     Surface(modifier = Modifier.fillMaxSize())
     {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(8.dp))
+        LazyColumn(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally)
         {
             if (expanderElements.allAreUnselected() || expanderElements.get(0)?.value == true)
             {
-                CategoryText(index = 0,
-                    stringRes = R.string.sleep,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(0)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = sleepVMD,
-                        onDisplayData = {
-                            sleepVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 0,
+                        stringRes = R.string.sleep,
+                        expanderElements = expanderElements
+                    )
+
+                    if (expanderElements.get(0)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = sleepVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(sleepVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(1)?.value == true)
             {
-                CategoryText(index = 1,
-                    stringRes = R.string.heart_rate,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(1)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = heartRateVMD,
-                        onDisplayData = {
-                            heartRateVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 1,
+                        stringRes = R.string.heart_rate,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(1)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = heartRateVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(heartRateVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(2)?.value == true)
             {
-                CategoryText(index = 2,
-                    stringRes = R.string.steps,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(2)?.value == true)
-                {
-                    DrawHealthConnectScreen(
-                        viewModelData = stepsVMD,
-                        onDisplayData = {
-                            stepsVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
-                                    Spacer(Modifier.height(16.dp))
-                                }
-                            }
-                        },
-                        onError = onError
+                item {
+                    CategoryText(
+                        index = 2,
+                        stringRes = R.string.steps,
+                        expanderElements = expanderElements
                     )
+                    if (expanderElements.get(2)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = stepsVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(stepsVMD.data)
+                                {
+                                    Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
+                                }
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(3)?.value == true)
             {
-                CategoryText(index = 3,
-                    stringRes = R.string.bmr,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(3)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = basalMetabolicRateVMD,
-                        onDisplayData = {
-                            basalMetabolicRateVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 3,
+                        stringRes = R.string.bmr,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(3)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = basalMetabolicRateVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(basalMetabolicRateVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(4)?.value == true)
             {
-                CategoryText(index = 4,
-                    stringRes = R.string.blood_glucose,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(4)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = bloodGlucoseVMD,
-                        onDisplayData = {
-                            bloodGlucoseVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 4,
+                        stringRes = R.string.blood_glucose,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(4)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = bloodGlucoseVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(bloodGlucoseVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(5)?.value == true)
             {
-                CategoryText(index = 5,
-                    stringRes = R.string.blood_pressure,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(5)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = bloodPressureVMD,
-                        onDisplayData = {
-                            bloodPressureVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 5,
+                        stringRes = R.string.blood_pressure,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(5)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = bloodPressureVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(bloodPressureVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(6)?.value == true)
             {
-                CategoryText(index = 6,
-                    stringRes = R.string.distance,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(6)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = distanceVMD,
-                        onDisplayData = {
-                            distanceVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 6,
+                        stringRes = R.string.distance,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(6)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = distanceVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(distanceVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(7)?.value == true)
             {
-                CategoryText(index = 7,
-                    stringRes = R.string.oxygen_saturation,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(7)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = oxygenSaturationVMD,
-                        onDisplayData = {
-                            oxygenSaturationVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 7,
+                        stringRes = R.string.oxygen_saturation,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(7)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = oxygenSaturationVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(oxygenSaturationVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(8)?.value == true)
             {
-                CategoryText(index = 8,
-                    stringRes = R.string.total_calories_burned,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(8)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = totalCaloriesBurnedVMD,
-                        onDisplayData = {
-                            totalCaloriesBurnedVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 8,
+                        stringRes = R.string.total_calories_burned,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(8)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = totalCaloriesBurnedVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(totalCaloriesBurnedVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(9)?.value == true)
             {
-                CategoryText(index = 9,
-                    stringRes = R.string.active_calories_burned,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(9)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = activeCaloriesBurnedVMD,
-                        onDisplayData = {
-                            activeCaloriesBurnedVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 9,
+                        stringRes = R.string.active_calories_burned,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(9)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = activeCaloriesBurnedVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(activeCaloriesBurnedVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(10)?.value == true)
             {
-                CategoryText(index = 10,
-                    stringRes = R.string.body_temperature,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(10)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = bodyTemperatureVMD,
-                        onDisplayData = {
-                            bodyTemperatureVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 10,
+                        stringRes = R.string.body_temperature,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(10)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = bodyTemperatureVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(bodyTemperatureVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(11)?.value == true)
             {
-                CategoryText(index = 11,
-                    stringRes = R.string.elevation_gained,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(11)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = elevationGainedVMD,
-                        onDisplayData = {
-                            elevationGainedVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 11,
+                        stringRes = R.string.elevation_gained,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(11)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = elevationGainedVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(elevationGainedVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(12)?.value == true)
             {
-                CategoryText(index = 12,
-                    stringRes = R.string.respiratory_rate,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(12)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = respiratoryRateVMD,
-                        onDisplayData = {
-                            respiratoryRateVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 12,
+                        stringRes = R.string.respiratory_rate,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(12)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = respiratoryRateVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(respiratoryRateVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
 
             if (expanderElements.allAreUnselected() || expanderElements.get(13)?.value == true)
             {
-                CategoryText(index = 13,
-                    stringRes = R.string.resting_heart_rate,
-                    expanderElements = expanderElements)
-                if (expanderElements.get(13)?.value == true)
-                {
-                    DrawHealthConnectScreen(viewModelData = restingHeartRateVMD,
-                        onDisplayData = {
-                            restingHeartRateVMD.data.forEach {
-                                item {
-                                    it.Display(windowSize)
+                item {
+                    CategoryText(
+                        index = 13,
+                        stringRes = R.string.resting_heart_rate,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(13)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = restingHeartRateVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(restingHeartRateVMD.data)
+                                {
                                     Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
                                 }
-                            }
-                        },
-                        onError = onError)
+                            },
+                            onError = onError
+                        )
+                    }
+                }
+            }
+
+            if (expanderElements.allAreUnselected() || expanderElements.get(14)?.value == true)
+            {
+                item {
+                    CategoryText(
+                        index = 14,
+                        stringRes = R.string.vo2_max,
+                        expanderElements = expanderElements
+                    )
+                    if (expanderElements.get(14)?.value == true) {
+                        DrawHealthConnectSubscreen(
+                            viewModelData = vo2MaxVMD,
+                            lazyListScope = this@LazyColumn,
+                            onDisplayData = {
+                                this@LazyColumn.items(vo2MaxVMD.data)
+                                {
+                                    Spacer(Modifier.height(16.dp))
+                                    it.Display(windowSize)
+                                }
+                            },
+                            onError = onError
+                        )
+                    }
                 }
             }
         }
@@ -441,6 +537,8 @@ fun DebugScreen(windowSize: WindowSize,
         viewModel(factory = RespiratoryRateViewModel.Factory)
     val restingHeartRateViewModel: RestingHeartRateViewModel =
         viewModel(factory = RestingHeartRateViewModel.Factory)
+    val vo2MaxViewModel: Vo2MaxViewModel =
+        viewModel(factory = Vo2MaxViewModel.Factory)
 
     DrawDebugScreen(
         sleepVMD = sleepSessionViewModel.getViewModelData(),
@@ -457,6 +555,7 @@ fun DebugScreen(windowSize: WindowSize,
         elevationGainedVMD = elevationGainedViewModel.getViewModelData(),
         respiratoryRateVMD = respiratoryRateViewModel.getViewModelData(),
         restingHeartRateVMD = restingHeartRateViewModel.getViewModelData(),
+        vo2MaxVMD = vo2MaxViewModel.getViewModelData(),
         windowSize = windowSize,
         onError = onError)
 }

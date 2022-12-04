@@ -1,28 +1,21 @@
 package es.upm.bienestaremocional.core.ui.component
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Button
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.Record
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.UiState
 import java.util.*
 
 @Composable
-fun DrawHealthConnectScreen(viewModelData: ViewModelData<out Record>,
-                            onDisplayData: LazyListScope.() -> Unit,
-                            onError: (Throwable?) -> Unit = {})
+fun DrawHealthConnectSubscreen(viewModelData: ViewModelData<out Record>,
+                               lazyListScope: LazyListScope,
+                               onDisplayData: () -> Unit,
+                               onError: (Throwable?) -> Unit = {})
 {
     // Remember the last error ID, such that it is possible to avoid re-launching the error
     // notification for the same error when the screen is recomposed, or configuration changes etc.
@@ -46,38 +39,27 @@ fun DrawHealthConnectScreen(viewModelData: ViewModelData<out Record>,
     }
     if (viewModelData.uiState != UiState.Uninitialized)
     {
-        Surface {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
-            )
+        if (viewModelData.uiState == UiState.Success)
+        {
+            if (viewModelData.data.isEmpty())
             {
-                if (viewModelData.uiState == UiState.Success)
-                {
-                    if (viewModelData.data.isEmpty())
+                lazyListScope.item {
+                    Button(onClick = viewModelData.onWrite)
                     {
-                        item {
-                            Button(onClick = viewModelData.onWrite)
-                            {
-                                Text(text = "Generar datos")
-                            }
-                        }
+                        Text(text = "Generar datos")
                     }
-                    else
-                        onDisplayData()
                 }
-                else if (viewModelData.uiState == UiState.NotEnoughPermissions)
+            }
+            else
+                onDisplayData()
+        }
+        else if (viewModelData.uiState == UiState.NotEnoughPermissions)
+        {
+            lazyListScope.item {
+                Button(onClick = {
+                    viewModelData.onRequestPermissions(viewModelData.permissions) })
                 {
-                    item {
-                        Button(onClick = {
-                            viewModelData.onRequestPermissions(viewModelData.permissions) })
-                        {
-                            Text(text = "Solicita permisos")
-                        }
-                    }
+                    Text(text = "Solicita permisos")
                 }
             }
         }
