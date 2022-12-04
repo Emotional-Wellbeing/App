@@ -1,15 +1,44 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore = "typos">
     <string name="app_name">Bienestar Emocional</string>
 
-    <!-- Screen -->
+    <!-- Menu -->
     <string name="home_screen_label">Inicio</string>
     <string name="history_screen_label">Historial</string>
     <string name="evolution_screen_label">Evolución</string>
     <string name="trends_screen_label">Tendencias</string>
     <string name="settings_screen_label">Ajustes</string>
-    <string name="privacy_policy_screen_label">Política de privacidad</string>
-    <string name="health_connect_settings_label">Ajustes de Salud Conectada</string>
 
+
+    <!-- Available data -->
+    <string name="heart_rate">Pulsaciones</string>
+    <string name="steps">Pasos</string>
+    <string name="bmr">Tasa metabólica basal</string>
+    <string name="blood_glucose">Glucosa en sangre</string>
+    <string name="blood_pressure">Presión arterial</string>
+    <string name="distance">Distancia</string>
+    <string name="oxygen_saturation">Oxígeno en sangre</string>
+    <string name="total_calories_burned">Calorías quemadas</string>
+    <string name="active_calories_burned">Calorías quemadas en actividad</string>
+    <string name="body_temperature">Temperatura corporal</string>
+    <string name="elevation_gained">Elevación ganada</string>
+    <string name="respiratory_rate">Frecuencia respiratoria</string>
+    <string name="resting_heart_rate">Pulsaciones en reposo</string>
+    <string name="vo2_max">Volumen máximo de oxígeno</string>
+
+    <!-- Settings-->
+    <string name="privacy_group">Privacidad</string>
+    <string name="health_connect_settings_label">Salud Conectada</string>
+    <string name="health_connect_settings_description">Administra los permisos y accesos</string>
+    <string name="my_data_label">Mis datos</string>
+    <string name="my_data_description">Visualiza los datos recogidos por la app</string>
+    <string name="privacy_policy_screen_label">Política de privacidad</string>
+    <string name="privacy_policy_screen_description">Tratamiento y finalidad de tus datos</string>
+
+    <string name="ui_group">Interfaz gráfica</string>
+    <string name="dark_mode">Modo oscuro</string>
+    <string name="dynamic_colors_label">Colores dinámicos</string>
+    <string name="dynamic_colors_description">Basados en tu fondo de pantalla</string>
+    <string name="misc_group">Miscelánea</string>
     <string name="about_screen_label">Acerca de la aplicación</string>
     <string name="about_screen_description">Información técnica de la aplicación</string>
     <string name="onboarding_screen_label">Bienvenida</string>
@@ -53,15 +82,12 @@
     </string>
 
     <!-- Sleep -->
-    <string name="sleep">Sleep</string>
+    <string name="sleep">Sueño</string>
     <string name="sleep_notes">Notas</string>
     <string name="not_available_abbrev">N/A</string>
     <string name="sleep_stages">Etapas de sueño</string>
     <string name="sleep_duration">Intervalo de sueño:</string>
     <string name="sleep_time">Tiempo de sueño:</string>
-
-    <!-- Heart rate-->
-    <string name="heart_rate">Pulsaciones</string>
 
     <!-- Credits-->
     <string name="credit_author_name">Victor Manuel Domínguez Rivas</string>
@@ -98,10 +124,13 @@
     <string name="finish">Finalizar</string>
     <string name="skip">Omitir</string>
     <string name="next">Siguiente</string>
-    <string name="dark_mode">Modo oscuro</string>
-    <string name="dynamic_colors_label">Colores dinámicos</string>
-    <string name="dynamic_colors_description">Basados en tu fondo de pantalla</string>
+
     <string name="light_mode_label">Desactivado</string>
     <string name="dark_mode_label">Activado</string>
     <string name="default_mode_label">Usar la configuración del dispositivo</string>
+    <string name="restart_apply_changes">Se aplicarán los cambios al reiniciar</string>
+    <string name="debug_screen">Datos salud conectada</string>
+    <string name="empty_data">No existen datos</string>
+
+
 </resources>

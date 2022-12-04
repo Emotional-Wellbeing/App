@@ -5,7 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.navigation.compose.rememberNavController
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
-import es.upm.bienestaremocional.app.ui.AppNavigation
+import es.upm.bienestaremocional.app.ui.navigation.AppNavigation
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme

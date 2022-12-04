@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
@@ -24,7 +25,7 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 fun AboutScreen(navController: NavController)
 {
     AppBasicScreen(navController = navController,
-        entrySelected = null,
+        entrySelected = MenuEntry.SettingsScreen,
         label = R.string.about_screen_label)
     {
         Column(

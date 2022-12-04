@@ -1,34 +1,33 @@
 package es.upm.bienestaremocional.app.ui.screen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
-import es.upm.bienestaremocional.core.ui.navigation.LocalMenuEntry
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
  * Home Screen is point of entry screen
  */
 @Composable
-fun HomeScreen(navController: NavController,
-               onSleepClick : () -> Unit,
-               onHeartRateClick : () -> Unit)
+fun HomeScreen(navController: NavController)
 {
     AppBasicScreen(navController = navController,
-        entrySelected = LocalMenuEntry.HomeScreen,
+        entrySelected = MenuEntry.HomeScreen,
         label = R.string.app_name)
     {
         //https://developer.android.com/jetpack/compose/gestures for verticalScroll
@@ -60,23 +59,6 @@ fun HomeScreen(navController: NavController,
             BasicCard{
                 Text("Last week stats placeholder")
             }
-
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceAround,
-                horizontalAlignment = Alignment.CenterHorizontally
-            )
-            {
-                Button(onClick = onSleepClick)
-                {
-                    Text(text = stringResource(id = R.string.sleep))
-                }
-
-                Button(onClick = onHeartRateClick)
-                {
-                    Text(text = stringResource(id = R.string.heart_rate))
-                }
-            }
         }
     }
 }
@@ -89,10 +71,7 @@ fun HomeScreenPreview()
     val navController = rememberNavController()
 
     BienestarEmocionalTheme{
-        HomeScreen(
-            navController = navController,
-            onSleepClick = {},
-            onHeartRateClick = {})
+        HomeScreen(navController = navController)
     }
 }
 
@@ -105,9 +84,6 @@ fun HomeScreenPreviewDarkTheme()
 
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(
-            navController = navController,
-            onSleepClick = {},
-            onHeartRateClick = {})
+        HomeScreen(navController = navController)
     }
 }

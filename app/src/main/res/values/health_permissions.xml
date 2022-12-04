@@ -7,5 +7,31 @@
         <item>androidx.health.permission.SleepStage.WRITE</item>
         <item>androidx.health.permission.HeartRate.READ</item>
         <item>androidx.health.permission.HeartRate.WRITE</item>
+        <item>androidx.health.permission.Steps.READ</item>
+        <item>androidx.health.permission.Steps.WRITE</item>
+        <item>androidx.health.permission.BasalMetabolicRate.READ</item>
+        <item>androidx.health.permission.BasalMetabolicRate.WRITE</item>
+        <item>androidx.health.permission.BloodGlucose.READ</item>
+        <item>androidx.health.permission.BloodGlucose.WRITE</item>
+        <item>androidx.health.permission.BloodPressure.READ</item>
+        <item>androidx.health.permission.BloodPressure.WRITE</item>
+        <item>androidx.health.permission.Distance.READ</item>
+        <item>androidx.health.permission.Distance.WRITE</item>
+        <item>androidx.health.permission.OxygenSaturation.READ</item>
+        <item>androidx.health.permission.OxygenSaturation.WRITE</item>
+        <item>androidx.health.permission.TotalCaloriesBurned.READ</item>
+        <item>androidx.health.permission.TotalCaloriesBurned.WRITE</item>
+        <item>androidx.health.permission.ActiveCaloriesBurned.READ</item>
+        <item>androidx.health.permission.ActiveCaloriesBurned.WRITE</item>
+        <item>androidx.health.permission.BodyTemperature.READ</item>
+        <item>androidx.health.permission.BodyTemperature.WRITE</item>
+        <item>androidx.health.permission.ElevationGained.READ</item>
+        <item>androidx.health.permission.ElevationGained.WRITE</item>
+        <item>androidx.health.permission.RespiratoryRate.READ</item>
+        <item>androidx.health.permission.RespiratoryRate.WRITE</item>
+        <item>androidx.health.permission.RestingHeartRate.READ</item>
+        <item>androidx.health.permission.RestingHeartRate.WRITE</item>
+        <item>androidx.health.permission.Vo2Max.READ</item>
+        <item>androidx.health.permission.Vo2Max.WRITE</item>
     </array>
 </resources>

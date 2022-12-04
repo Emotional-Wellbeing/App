@@ -29,7 +29,7 @@ fun NotInstalledMessage() {
 fun NotInstalledMessagePreview()
 {
     BienestarEmocionalTheme {
-        Surface() {
+        Surface {
             NotInstalledMessage()
         }
     }
@@ -40,7 +40,7 @@ fun NotInstalledMessagePreview()
 fun NotInstalledMessagePreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        Surface() {
+        Surface {
             NotInstalledMessage()
         }
     }

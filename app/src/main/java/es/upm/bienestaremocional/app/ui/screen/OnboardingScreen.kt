@@ -41,7 +41,7 @@ fun OnboardingScreen(windowSize: WindowSize, onFinish: () -> Unit)
                 modifier = Modifier.weight(1f)
             )
             {
-                currentPage -> DrawPage(horizontalPagerContent = items[currentPage],
+                page -> DrawPage(horizontalPagerContent = items[page],
                                         pagerState = pagerState,
                                         windowSize = windowSize,
                                         onFinish = onFinish)
@@ -100,7 +100,7 @@ fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
             Text(
                 text = stringResource(id = horizontalPagerContent.content),
                 color = MaterialTheme.colorScheme.onBackground,
-                textAlign = TextAlign.Justify,
+                textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
                 style = if (windowSize == WindowSize.COMPACT)
                     MaterialTheme.typography.bodyMedium

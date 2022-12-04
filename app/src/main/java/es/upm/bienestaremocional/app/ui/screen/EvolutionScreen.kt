@@ -12,9 +12,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
-import es.upm.bienestaremocional.core.ui.navigation.LocalMenuEntry
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
@@ -24,8 +24,8 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 fun EvolutionScreen(navController: NavController)
 {
     AppBasicScreen(navController = navController,
-        entrySelected = LocalMenuEntry.EvolutionScreen,
-        label = LocalMenuEntry.EvolutionScreen.labelId)
+        entrySelected = MenuEntry.EvolutionScreen,
+        label = MenuEntry.EvolutionScreen.labelId)
     {
         Column(
             modifier = Modifier

@@ -5,6 +5,11 @@ import android.util.DisplayMetrics
 import androidx.window.layout.WindowMetricsCalculator
 
 /**
+ * Stores the screen's type to implement responsive layouts
+ */
+enum class WindowSize { COMPACT, MEDIUM, EXPANDED }
+
+/**
  * Computes window size according for their width. Threshold values are extracted from
  * https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#kotlin
  */

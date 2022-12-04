@@ -5,7 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import es.upm.bienestaremocional.app.dynamicColorsSupported
+import es.upm.bienestaremocional.app.utils.dynamicColorsSupported
 
 
 private val LightColors = lightColorScheme(

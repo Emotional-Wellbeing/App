@@ -21,7 +21,7 @@ fun BasicCard(content: @Composable (ColumnScope.() -> Unit))
      */
     Card(modifier = Modifier.fillMaxWidth())
     {
-        Column(modifier = Modifier.padding(15.dp))
+        Column(modifier = Modifier.padding(16.dp))
         {
             content()
         }
