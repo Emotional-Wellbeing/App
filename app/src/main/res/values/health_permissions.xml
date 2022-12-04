@@ -23,5 +23,7 @@
         <item>androidx.health.permission.TotalCaloriesBurned.WRITE</item>
         <item>androidx.health.permission.ActiveCaloriesBurned.READ</item>
         <item>androidx.health.permission.ActiveCaloriesBurned.WRITE</item>
+        <item>androidx.health.permission.BodyTemperature.READ</item>
+        <item>androidx.health.permission.BodyTemperature.WRITE</item>
     </array>
 </resources>
