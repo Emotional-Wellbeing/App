@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.core.ui.navigation
+package es.upm.bienestaremocional.app.ui.navigation
 
 /**
  * Contains all Screens in the app
@@ -18,5 +18,5 @@ enum class Screen (val route: String)
     PrivacyPolicyScreen(route = "privacy_policy_screen"),
     AboutScreen(route = "about_screen"),
     CreditsScreen(route = "credits_screen"),
-    DebugScreen(route = "debug_screen")
+    MyDataScreen(route = "my_data_screen")
 }

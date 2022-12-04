@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app
+package es.upm.bienestaremocional.app.utils
 
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.dateTimeWithOffsetOrDefault
 import java.time.Instant

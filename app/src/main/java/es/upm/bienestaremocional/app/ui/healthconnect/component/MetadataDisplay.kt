@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.metadata.Metadata
 import es.upm.bienestaremocional.app.data.healthconnect.sources.HeartRate
-import es.upm.bienestaremocional.app.formatDate
+import es.upm.bienestaremocional.app.utils.formatDate
 import es.upm.bienestaremocional.core.ui.component.DrawPair
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme

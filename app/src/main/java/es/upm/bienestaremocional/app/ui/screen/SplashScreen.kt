@@ -17,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
+import es.upm.bienestaremocional.app.ui.navigation.Screen
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
-import es.upm.bienestaremocional.core.ui.navigation.Screen
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first

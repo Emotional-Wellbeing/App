@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.core.ui.navigation
+package es.upm.bienestaremocional.app.ui.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -6,7 +6,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -65,21 +64,10 @@ private fun DrawNavigationDrawerItem(entry: MenuEntry,
 @Composable
 fun NavigationDrawerItems(navController: NavController, entrySelected: MenuEntry?)
 {
-    val context = LocalContext.current
-
-    LocalMenuEntry.values().forEach {
+    MenuEntry.values().forEach {
         element -> DrawNavigationDrawerItem(entry = element, selected = element === entrySelected) {
             navController.navigate(element.route)
         }
-    }
-
-    ForeignMenuEntry.values().forEach {
-        element -> DrawNavigationDrawerItem(entry = element,
-                                            selected = element === entrySelected,
-                                            repaintIcon = false)
-                    {
-                        openForeignActivity(context = context, action = element.action)
-                    }
     }
 }
 
@@ -88,7 +76,7 @@ fun NavigationDrawerItems(navController: NavController, entrySelected: MenuEntry
 fun DrawLocalItemPreview()
 {
     BienestarEmocionalTheme {
-        DrawNavigationDrawerItem(LocalMenuEntry.HomeScreen, selected = false){}
+        DrawNavigationDrawerItem(MenuEntry.HomeScreen, selected = false){}
     }
 }
 
@@ -97,54 +85,25 @@ fun DrawLocalItemPreview()
 fun DrawLocalItemPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        DrawNavigationDrawerItem(LocalMenuEntry.HomeScreen, selected = false){}
+        DrawNavigationDrawerItem(MenuEntry.HomeScreen, selected = false){}
     }
 }
 
 @Preview
 @Composable
-fun DrawItemSelectPreview()
+fun DrawItemSelectedPreview()
 {
     BienestarEmocionalTheme {
-        DrawNavigationDrawerItem(LocalMenuEntry.HomeScreen, selected = true){}
+        DrawNavigationDrawerItem(MenuEntry.HistoryScreen, selected = true){}
     }
 }
 
 @Preview
 @Composable
-fun DrawItemSelectedDarkTheme()
+fun DrawItemSelectPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        DrawNavigationDrawerItem(
-            ForeignMenuEntry.HealthConnectScreen,
-            selected = true,
-            repaintIcon = false)
-        {}
+        DrawNavigationDrawerItem(MenuEntry.HistoryScreen, selected = true){}
     }
 }
 
-@Preview
-@Composable
-fun DrawForeignItemPreview()
-{
-    BienestarEmocionalTheme {
-        DrawNavigationDrawerItem(
-            ForeignMenuEntry.HealthConnectScreen,
-            selected = false,
-            repaintIcon = false)
-        {}
-    }
-}
-
-@Preview
-@Composable
-fun DrawForeignItemPreviewDarkTheme()
-{
-    BienestarEmocionalTheme(darkTheme = true) {
-        DrawNavigationDrawerItem(
-            ForeignMenuEntry.HealthConnectScreen,
-            selected = false,
-            repaintIcon = false)
-        {}
-    }
-}

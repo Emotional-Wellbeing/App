@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui
+package es.upm.bienestaremocional.app.ui.navigation
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -9,12 +9,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
-import es.upm.bienestaremocional.app.showExceptionSnackbar
-import es.upm.bienestaremocional.app.ui.healthconnect.DebugScreen
 import es.upm.bienestaremocional.app.ui.screen.*
 import es.upm.bienestaremocional.app.ui.settings.SettingsScreen
+import es.upm.bienestaremocional.app.utils.showExceptionSnackbar
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
-import es.upm.bienestaremocional.core.ui.navigation.Screen
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import kotlinx.coroutines.launch
 
@@ -65,9 +63,7 @@ fun AppNavigation(navController: NavHostController,
 
         composable(route = Screen.HomeScreen.route)
         {
-            HomeScreen(
-                navController = navController,
-                onDebugClick = { navController.navigate(Screen.DebugScreen.route) })
+            HomeScreen(navController = navController)
         }
 
         composable(route = Screen.HistoryScreen.route)
@@ -105,9 +101,10 @@ fun AppNavigation(navController: NavHostController,
             CreditsScreen(navController = navController, windowSize = windowSize)
         }
 
-        composable(route = Screen.DebugScreen.route)
+        composable(route = Screen.MyDataScreen.route)
         {
-            DebugScreen(
+            MyDataScreen(
+                navController = navController,
                 windowSize = windowSize,
                 onError = { exception ->
                     showExceptionSnackbar(

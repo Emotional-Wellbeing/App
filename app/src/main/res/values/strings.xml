@@ -7,8 +7,7 @@
     <string name="evolution_screen_label">Evolución</string>
     <string name="trends_screen_label">Tendencias</string>
     <string name="settings_screen_label">Ajustes</string>
-    <string name="privacy_policy_screen_label">Política de privacidad</string>
-    <string name="health_connect_settings_label">Ajustes de Salud Conectada</string>
+
 
     <!-- Available data -->
     <string name="heart_rate">Pulsaciones</string>
@@ -27,6 +26,19 @@
     <string name="vo2_max">Volumen máximo de oxígeno</string>
 
     <!-- Settings-->
+    <string name="privacy_group">Privacidad</string>
+    <string name="health_connect_settings_label">Salud Conectada</string>
+    <string name="health_connect_settings_description">Administra los permisos y accesos</string>
+    <string name="my_data_label">Mis datos</string>
+    <string name="my_data_description">Visualiza los datos recogidos por la app</string>
+    <string name="privacy_policy_screen_label">Política de privacidad</string>
+    <string name="privacy_policy_screen_description">Tratamiento y finalidad de tus datos</string>
+
+    <string name="ui_group">Interfaz gráfica</string>
+    <string name="dark_mode">Modo oscuro</string>
+    <string name="dynamic_colors_label">Colores dinámicos</string>
+    <string name="dynamic_colors_description">Basados en tu fondo de pantalla</string>
+    <string name="misc_group">Miscelánea</string>
     <string name="about_screen_label">Acerca de la aplicación</string>
     <string name="about_screen_description">Información técnica de la aplicación</string>
     <string name="onboarding_screen_label">Bienvenida</string>
@@ -112,9 +124,7 @@
     <string name="finish">Finalizar</string>
     <string name="skip">Omitir</string>
     <string name="next">Siguiente</string>
-    <string name="dark_mode">Modo oscuro</string>
-    <string name="dynamic_colors_label">Colores dinámicos</string>
-    <string name="dynamic_colors_description">Basados en tu fondo de pantalla</string>
+
     <string name="light_mode_label">Desactivado</string>
     <string name="dark_mode_label">Activado</string>
     <string name="default_mode_label">Usar la configuración del dispositivo</string>

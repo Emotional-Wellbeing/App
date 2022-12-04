@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.core.ui.navigation
+package es.upm.bienestaremocional.app.ui.navigation
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -34,7 +34,8 @@ fun CommonModalDrawerSheetPreview()
     val navController = rememberNavController()
     BienestarEmocionalTheme {
         CommonModalDrawerSheet(navController = navController,
-            entrySelected = LocalMenuEntry.HomeScreen)
+            entrySelected = MenuEntry.HomeScreen
+        )
     }
 }
 
@@ -45,6 +46,7 @@ fun CommonModalDrawerSheetPreviewDarkTheme()
     val navController = rememberNavController()
     BienestarEmocionalTheme(darkTheme = true) {
         CommonModalDrawerSheet(navController = navController,
-            entrySelected = LocalMenuEntry.HomeScreen)
+            entrySelected = MenuEntry.HomeScreen
+        )
     }
 }

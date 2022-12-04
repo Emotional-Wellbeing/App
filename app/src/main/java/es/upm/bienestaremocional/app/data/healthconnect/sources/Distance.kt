@@ -6,7 +6,7 @@ import androidx.health.connect.client.records.DistanceRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Length
-import es.upm.bienestaremocional.app.generateInterval
+import es.upm.bienestaremocional.app.utils.generateInterval
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface

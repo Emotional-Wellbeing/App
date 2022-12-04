@@ -7,7 +7,7 @@ import androidx.health.connect.client.records.BodyPosition
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Pressure
-import es.upm.bienestaremocional.app.generateTime
+import es.upm.bienestaremocional.app.utils.generateTime
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface

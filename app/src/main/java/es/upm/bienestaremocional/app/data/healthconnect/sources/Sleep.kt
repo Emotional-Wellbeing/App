@@ -8,7 +8,7 @@ import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
-import es.upm.bienestaremocional.app.generateInterval
+import es.upm.bienestaremocional.app.utils.generateInterval
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface

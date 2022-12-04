@@ -5,7 +5,7 @@ import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.RestingHeartRateRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
-import es.upm.bienestaremocional.app.generateTime
+import es.upm.bienestaremocional.app.utils.generateTime
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface

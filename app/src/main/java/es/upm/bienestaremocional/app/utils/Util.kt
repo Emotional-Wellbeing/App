@@ -1,7 +1,8 @@
-
-package es.upm.bienestaremocional.app
+package es.upm.bienestaremocional.app.utils
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
@@ -32,3 +33,8 @@ fun restartApp(activity: Activity)
     activity.startActivity(activity.intent)
     activity.overridePendingTransition(0,0)
 }
+
+/**
+ * Open activity from other app
+ */
+fun openForeignActivity(context: Context, action: String) = context.startActivity(Intent(action))

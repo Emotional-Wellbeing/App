@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.healthconnect
+package es.upm.bienestaremocional.app.ui.screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -6,7 +6,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -18,10 +21,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.*
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.ui.healthconnect.component.Display
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.*
+import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
+import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.DrawHealthConnectSubscreen
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
@@ -98,31 +104,34 @@ private fun CategoryText(index: Int, stringRes: Int, expanderElements: ExpanderE
 }
 
 @Composable
-private fun DrawDebugScreen(sleepVMD: ViewModelData<SleepSessionData>,
-                            heartRateVMD: ViewModelData<HeartRateRecord>,
-                            stepsVMD: ViewModelData<StepsRecord>,
-                            basalMetabolicRateVMD: ViewModelData<BasalMetabolicRateRecord>,
-                            bloodGlucoseVMD: ViewModelData<BloodGlucoseRecord>,
-                            bloodPressureVMD: ViewModelData<BloodPressureRecord>,
-                            distanceVMD: ViewModelData<DistanceRecord>,
-                            oxygenSaturationVMD: ViewModelData<OxygenSaturationRecord>,
-                            totalCaloriesBurnedVMD: ViewModelData<TotalCaloriesBurnedRecord>,
-                            activeCaloriesBurnedVMD: ViewModelData<ActiveCaloriesBurnedRecord>,
-                            bodyTemperatureVMD: ViewModelData<BodyTemperatureRecord>,
-                            elevationGainedVMD: ViewModelData<ElevationGainedRecord>,
-                            respiratoryRateVMD: ViewModelData<RespiratoryRateRecord>,
-                            restingHeartRateVMD: ViewModelData<RestingHeartRateRecord>,
-                            vo2MaxVMD: ViewModelData<Vo2MaxRecord>,
-                            windowSize: WindowSize,
-                            onError: (Throwable?) -> Unit = {})
+private fun DrawMyDataScreen(navController: NavController,
+                             windowSize: WindowSize,
+                             sleepVMD: ViewModelData<SleepSessionData>,
+                             heartRateVMD: ViewModelData<HeartRateRecord>,
+                             stepsVMD: ViewModelData<StepsRecord>,
+                             basalMetabolicRateVMD: ViewModelData<BasalMetabolicRateRecord>,
+                             bloodGlucoseVMD: ViewModelData<BloodGlucoseRecord>,
+                             bloodPressureVMD: ViewModelData<BloodPressureRecord>,
+                             distanceVMD: ViewModelData<DistanceRecord>,
+                             oxygenSaturationVMD: ViewModelData<OxygenSaturationRecord>,
+                             totalCaloriesBurnedVMD: ViewModelData<TotalCaloriesBurnedRecord>,
+                             activeCaloriesBurnedVMD: ViewModelData<ActiveCaloriesBurnedRecord>,
+                             bodyTemperatureVMD: ViewModelData<BodyTemperatureRecord>,
+                             elevationGainedVMD: ViewModelData<ElevationGainedRecord>,
+                             respiratoryRateVMD: ViewModelData<RespiratoryRateRecord>,
+                             restingHeartRateVMD: ViewModelData<RestingHeartRateRecord>,
+                             vo2MaxVMD: ViewModelData<Vo2MaxRecord>,
+                             onError: (Throwable?) -> Unit = {})
 {
     val expanderElements = remember {ExpanderElements(15) }
 
-    Surface(modifier = Modifier.fillMaxSize())
+    AppBasicScreen(navController = navController,
+        entrySelected = MenuEntry.SettingsScreen,
+        label = R.string.my_data_label)
     {
         LazyColumn(modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(start = 16.dp, end = 16.dp, bottom = 24.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally)
         {
@@ -506,8 +515,9 @@ private fun DrawDebugScreen(sleepVMD: ViewModelData<SleepSessionData>,
 }
 
 @Composable
-fun DebugScreen(windowSize: WindowSize,
-                onError: (Throwable?) -> Unit = {})
+fun MyDataScreen(navController: NavController,
+                 windowSize: WindowSize,
+                 onError: (Throwable?) -> Unit = {})
 {
     val sleepSessionViewModel: SleepSessionViewModel =
         viewModel(factory = SleepSessionViewModel.Factory)
@@ -540,7 +550,9 @@ fun DebugScreen(windowSize: WindowSize,
     val vo2MaxViewModel: Vo2MaxViewModel =
         viewModel(factory = Vo2MaxViewModel.Factory)
 
-    DrawDebugScreen(
+    DrawMyDataScreen(
+        navController = navController,
+        windowSize = windowSize,
         sleepVMD = sleepSessionViewModel.getViewModelData(),
         heartRateVMD = heartRateViewModel.getViewModelData(),
         stepsVMD = stepsViewModel.getViewModelData(),
@@ -556,6 +568,5 @@ fun DebugScreen(windowSize: WindowSize,
         respiratoryRateVMD = respiratoryRateViewModel.getViewModelData(),
         restingHeartRateVMD = restingHeartRateViewModel.getViewModelData(),
         vo2MaxVMD = vo2MaxViewModel.getViewModelData(),
-        windowSize = windowSize,
         onError = onError)
 }

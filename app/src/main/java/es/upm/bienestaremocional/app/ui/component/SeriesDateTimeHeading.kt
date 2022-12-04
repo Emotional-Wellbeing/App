@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import es.upm.bienestaremocional.app.data.healthconnect.sources.HeartRate
-import es.upm.bienestaremocional.app.formatDateTime
+import es.upm.bienestaremocional.app.utils.formatDateTime
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import java.time.Instant
 import java.time.ZoneOffset

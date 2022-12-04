@@ -13,9 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.core.ui.navigation.CommonModalDrawerSheet
-import es.upm.bienestaremocional.core.ui.navigation.LocalMenuEntry
-import es.upm.bienestaremocional.core.ui.navigation.MenuEntry
+import es.upm.bienestaremocional.app.ui.navigation.CommonModalDrawerSheet
+import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -96,8 +95,8 @@ fun AppBasicScreenPreview()
     BienestarEmocionalTheme()
     {
         AppBasicScreen(navController = navController,
-            entrySelected = LocalMenuEntry.HomeScreen,
-            label = LocalMenuEntry.HomeScreen.labelId,
+            entrySelected = MenuEntry.HomeScreen,
+            label = MenuEntry.HomeScreen.labelId,
             content = {}
         )
     }
@@ -111,8 +110,8 @@ fun AppBasicScreenPreviewDarkTheme()
     BienestarEmocionalTheme(darkTheme = true)
     {
         AppBasicScreen(navController = navController,
-            entrySelected = LocalMenuEntry.HomeScreen,
-            label = LocalMenuEntry.HomeScreen.labelId,
+            entrySelected = MenuEntry.HomeScreen,
+            label = MenuEntry.HomeScreen.labelId,
             content = {}
         )
     }
