@@ -104,10 +104,11 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                             totalCaloriesBurnedViewModelData: ViewModelData,
                             activeCaloriesBurnedViewModelData: ViewModelData,
                             bodyTemperatureViewModelData: ViewModelData,
+                            elevationGainedViewModelData: ViewModelData,
                             windowSize: WindowSize,
                             onError: (Throwable?) -> Unit = {})
 {
-    val expanderElements = remember {ExpanderElements(11) }
+    val expanderElements = remember {ExpanderElements(12) }
 
     Surface(modifier = Modifier.fillMaxSize())
     {
@@ -354,6 +355,28 @@ private fun DrawDebugScreen(sleepViewModelData: ViewModelData,
                         onError = onError)
                 }
             }
+
+            if (expanderElements.allAreUnselected() || expanderElements.get(11)?.value == true)
+            {
+                CategoryText(index = 11,
+                    stringRes = R.string.elevation_gained,
+                    expanderElements = expanderElements)
+                if (expanderElements.get(11)?.value == true)
+                {
+                    DrawHealthConnectScreen(viewModelData = elevationGainedViewModelData,
+                        onDisplayData = {
+                            val data = elevationGainedViewModelData.data
+                                    as List<ElevationGainedRecord>
+                            data.forEach {
+                                item {
+                                    it.Display(windowSize)
+                                    Spacer(Modifier.height(16.dp))
+                                }
+                            }
+                        },
+                        onError = onError)
+                }
+            }
         }
     }
 }
@@ -384,6 +407,8 @@ fun DebugScreen(windowSize: WindowSize,
         viewModel(factory = ActiveCaloriesBurnedViewModel.Factory)
     val bodyTemperatureViewModel: BodyTemperatureViewModel =
         viewModel(factory = BodyTemperatureViewModel.Factory)
+    val elevationGainedViewModel: ElevationGainedViewModel =
+        viewModel(factory = ElevationGainedViewModel.Factory)
 
     DrawDebugScreen(
         sleepViewModelData = sleepSessionViewModel.getViewModelData(),
@@ -397,6 +422,7 @@ fun DebugScreen(windowSize: WindowSize,
         totalCaloriesBurnedViewModelData = totalCaloriesBurnedViewModel.getViewModelData(),
         activeCaloriesBurnedViewModelData = activeCaloriesBurnedViewModel.getViewModelData(),
         bodyTemperatureViewModelData = bodyTemperatureViewModel.getViewModelData(),
+        elevationGainedViewModelData = elevationGainedViewModel.getViewModelData(),
         windowSize = windowSize,
         onError = onError)
 }
