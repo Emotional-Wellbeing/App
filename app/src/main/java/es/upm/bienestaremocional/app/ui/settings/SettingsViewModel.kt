@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.settings
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,12 +11,14 @@ import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
 import com.alorma.compose.settings.storage.base.rememberIntSettingState
 import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
+import es.upm.bienestaremocional.app.data.settings.LanguageManager
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
-class SettingsViewModel(val appSettings: AppSettingsInterface): ViewModel()
+class SettingsViewModel(val appSettings: AppSettingsInterface,
+                        private val languageManager: LanguageManager) : ViewModel()
 {
     companion object
     {
@@ -24,7 +27,8 @@ class SettingsViewModel(val appSettings: AppSettingsInterface): ViewModel()
          */
         val Factory : ViewModelProvider.Factory = viewModelFactory{
             initializer {
-                SettingsViewModel(appSettings = MainApplication.appSettings)
+                SettingsViewModel(appSettings = MainApplication.appSettings,
+                    languageManager = MainApplication.languageManager)
             }
         }
     }
@@ -66,8 +70,24 @@ class SettingsViewModel(val appSettings: AppSettingsInterface): ViewModel()
     }
 
     /**
+     * Save theme value from [LanguageManager]
+     */
+     fun changeLanguage(context: Context, option: SettingValueState<Int>)
+    {
+        languageManager.changeLocale(context,option.value)
+    }
+
+    /**
+     * Load theme value from [LanguageManager]
+     */
+    @Composable
+    fun loadLanguage() : SettingValueState<Int>
+    {
+        return rememberIntSettingState(languageManager.getLocale())
+    }
+
+    /**
      * Save theme value from [AppSettingsInterface]
-     * @Todo solve recall bug to implement restart
      */
     suspend fun changeDarkMode(option: SettingValueState<Int>)
     {

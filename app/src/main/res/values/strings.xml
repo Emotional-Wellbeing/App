@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore = "typos">
-    <string name="app_name">Bienestar Emocional</string>
+    <string name="app_name" translatable="false">Bienestar Emocional</string>
 
     <!-- Menu -->
     <string name="home_screen_label">Inicio</string>
@@ -47,32 +47,21 @@
     <string name="credits_screen_description">Las personas detrás del proyecto</string>
 
     <!-- Error screen -->
-    <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es
-        necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes
-        instalada, por favor reinicia la aplicación.</string>
+    <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es         necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes         instalada, por favor reinicia la aplicación.</string>
     <string name="not_supported_welcome_message">Esta aplicación solo está disponible para dispositivos que ejecuten una API %1$d o superior.</string>
 
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">¡Hola! Bienvenido a Bienestar Emocional</string>
-    <string name="onboarding_welcome_description">Diseñada para ayudarte a cuidar
-        tu bienestar emocional de forma fácil y sencilla. Creada por y para la Universidad.</string>
+    <string name="onboarding_welcome_description">Diseñada para ayudarte a cuidar         tu bienestar emocional de forma fácil y sencilla. Creada por y para la Universidad.</string>
 
     <string name="onboarding_features_title">Tu salud mental importa</string>
-    <string name="onboarding_features_description">Utilizando Inteligencia
-        Artificial te ayuda a monitorizar tu salud mental,
-        pudiendo detectar posibles síntomas para que puedas buscar ayuda.
-    </string>
+    <string name="onboarding_features_description">"Utilizando Inteligencia         Artificial te ayuda a monitorizar tu salud mental,         pudiendo detectar posibles síntomas para que puedas buscar ayuda.     "</string>
 
     <string name="onboarding_privacy_title">Tus datos, tu privacidad</string>
-    <string name="onboarding_privacy_description">La aplicación puede utilizar datos
-        como tu uso del móvil o tus pulsaciones cardíacas, pero en todo momento
-        tienes el control de los datos.
-    </string>
+    <string name="onboarding_privacy_description">"La aplicación puede utilizar datos         como tu uso del móvil o tus pulsaciones cardíacas, pero en todo momento         tienes el control de los datos.     "</string>
 
     <string name="onboarding_community_title">El poder de la comunidad</string>
-    <string name="onboarding_community_description">Es posible consultar estadísticas
-        anonimizadas sobre tu comunidad. Además puedes colaborar con el desarrollo de la aplicación.
-    </string>
+    <string name="onboarding_community_description">"Es posible consultar estadísticas         anonimizadas sobre tu comunidad. Además puedes colaborar con el desarrollo de la aplicación.     "</string>
 
     <!-- Privacy screen -->
     <string name="privacy_policy_description">
@@ -81,42 +70,31 @@
         data outside of Health Connect.
     </string>
 
-    <!-- Sleep -->
-    <string name="sleep">Sueño</string>
-    <string name="sleep_notes">Notas</string>
-    <string name="not_available_abbrev">N/A</string>
-    <string name="sleep_stages">Etapas de sueño</string>
-    <string name="sleep_duration">Intervalo de sueño:</string>
-    <string name="sleep_time">Tiempo de sueño:</string>
 
     <!-- Credits-->
-    <string name="credit_author_name">Victor Manuel Domínguez Rivas</string>
-    <string name="credit_author_description">Autor del TFM Sistema para el Bienestar Emocional
-        y principal autor de la aplicación.</string>
-    <string name="credit_director1_name">Sandra Gómez Canaval</string>
+    <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>
+    <string name="credit_author_description">Autor del TFM \"Sistema para el Bienestar Emocional\"         y principal autor de la aplicación.</string>
+    <string name="credit_director1_name" translatable="false">Sandra Gómez Canaval</string>
     <string name="credit_director1_description">Codirectora del TFM
         Sistema para el Bienestar Emocional.</string>
-    <string name="credit_director2_name">Gema Bello Orgaz</string>
+    <string name="credit_director2_name" translatable="false">Gema Bello Orgaz</string>
     <string name="credit_director2_description">Codirectora del TFM
         Sistema para el Bienestar Emocional.</string>
 
-    <string name="credit_logo1_name">Aman Mishra</string>
-    <string name="credit_logo1_description">Autor de la ilustración \"Health checkup\", disponible
-        en la plataforma Lottie.</string>
-    <string name="credit_logo2_name">Echotech Engineering</string>
+    <string name="credit_logo1_name" translatable="false">Aman Mishra</string>
+    <string name="credit_logo1_description">Autor de la ilustración \"Health checkup\", disponible         en la plataforma Lottie.</string>
+    <string name="credit_logo2_name" translatable="false">Echotech Engineering</string>
     <string name="credit_logo2_description">Autor de la ilustración \"How it works\", disponible
         en la plataforma Lottie.</string>
-    <string name="credit_logo3_name">Tushar</string>
+    <string name="credit_logo3_name" translatable="false">Tushar</string>
     <string name="credit_logo3_description">Autor de la ilustración \"Mental Wellbeing\", disponible
         en la plataforma Lottie.</string>
-    <string name="credit_logo4_name">Suhayra Sarwar</string>
+    <string name="credit_logo4_name" translatable="false">Suhayra Sarwar</string>
     <string name="credit_logo4_description">Autor de la ilustración \"Mental Health Awareness\",
         disponible en la plataforma Lottie.</string>
 
-    <string name="credit_app_logo_name">Gambar Wahyu S. Adi Wibowo</string>
-    <string name="credit_app_logo_description">Autor original del logotipo de la aplicación,
-        disponible en la plataforma Canvas.
-    </string>
+    <string name="credit_app_logo_name" translatable="false">Gambar Wahyu S. Adi Wibowo</string>
+    <string name="credit_app_logo_description">"Autor original del logotipo de la aplicación,         disponible en la plataforma Canvas.     "</string>
 
     <!-- Misc -->
     <string name="menu">Menu</string>
@@ -124,13 +102,13 @@
     <string name="finish">Finalizar</string>
     <string name="skip">Omitir</string>
     <string name="next">Siguiente</string>
+    <string name="sleep">Sueño</string>
+    <string name="language">Idioma</string>
+    <string name="restart">Reiniciar</string>
 
     <string name="light_mode_label">Desactivado</string>
     <string name="dark_mode_label">Activado</string>
     <string name="default_mode_label">Usar la configuración del dispositivo</string>
     <string name="restart_apply_changes">Se aplicarán los cambios al reiniciar</string>
-    <string name="debug_screen">Datos salud conectada</string>
-    <string name="empty_data">No existen datos</string>
-
-
+    <string name="restart_apply_all_changes">Es posible que no se apliquen todos los cambios hasta reiniciar</string>
 </resources>

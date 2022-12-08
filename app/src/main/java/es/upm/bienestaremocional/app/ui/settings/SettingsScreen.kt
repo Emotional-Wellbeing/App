@@ -28,6 +28,7 @@ import com.alorma.compose.settings.ui.SettingsList
 import com.alorma.compose.settings.ui.SettingsMenuLink
 import com.alorma.compose.settings.ui.SettingsSwitch
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.app.ui.navigation.Screen
@@ -40,7 +41,9 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 @Composable
 private fun GroupText(textRes : Int)
 {
-    Row(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, bottom = 16.dp),
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(start = 16.dp, bottom = 16.dp),
         horizontalArrangement = Arrangement.Start)
     {
         Text(text = stringResource(textRes),
@@ -52,11 +55,13 @@ private fun GroupText(textRes : Int)
 
 private fun Modifier.defaultIconModifier() = this.then(padding(all = 2.dp).size(size = 28.dp))
 
+
 private suspend fun showRestartInfo(snackbarHostState: SnackbarHostState,
                                     message : String,
+                                    actionLabel : String,
                                     context: Context)
 {
-    val result = snackbarHostState.showSnackbar(message = message, actionLabel = "Reiniciar",
+    val result = snackbarHostState.showSnackbar(message = message, actionLabel = actionLabel,
         withDismissAction = true, duration = SnackbarDuration.Long)
     if (result === SnackbarResult.ActionPerformed)
         restartApp(activity = context as Activity)
@@ -67,6 +72,7 @@ private const val HEALTH_CONNECT_ACTION = "androidx.health.ACTION_HEALTH_CONNECT
 /**
  * Renders settings menu
  * @param navController: needed for render menu
+ * @param language: var that stores the language of the app
  * @param themeMode: var that stores theme setting value
  * @param dynamicColor: var that stores dynamic setting value
  * @param shouldDisplayDynamicOption: boolean to control rendering (or not) dynamic option
@@ -76,11 +82,13 @@ private const val HEALTH_CONNECT_ACTION = "androidx.health.ACTION_HEALTH_CONNECT
  */
 @Composable
 private fun DrawSettingsScreen(navController: NavController,
-                   themeMode: SettingValueState<Int>,
-                   dynamicColor : SettingValueState<Boolean>,
-                   shouldDisplayDynamicOption : Boolean,
-                   onThemeChange : suspend (SettingValueState<Int>) -> Unit,
-                   onDynamicChange : suspend (SettingValueState<Boolean>) -> Unit)
+                               language: SettingValueState<Int>,
+                               themeMode: SettingValueState<Int>,
+                               dynamicColor : SettingValueState<Boolean>,
+                               shouldDisplayDynamicOption : Boolean,
+                               onLanguageChange : @Composable (SettingValueState<Int>) -> Unit,
+                               onThemeChange : suspend (SettingValueState<Int>) -> Unit,
+                               onDynamicChange : suspend (SettingValueState<Boolean>) -> Unit)
 {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -89,15 +97,21 @@ private fun DrawSettingsScreen(navController: NavController,
     //avoid undesired launch
     val defaultThemeValue : Int = remember { themeMode.value }
     val defaultDynamicValue : Boolean = remember { dynamicColor.value }
+    val defaultLanguage : Int = remember { language.value }
 
-    val snackbarTextToDisplay = stringResource(id = R.string.restart_apply_changes)
+    val restartToApplyChanges = stringResource(id = R.string.restart_apply_changes)
+    val restartApplyAllChanges = stringResource(id = R.string.restart_apply_all_changes)
+    val actionLabel = stringResource(id = R.string.restart)
 
     if (themeMode.value != defaultThemeValue)
     {
         LaunchedEffect(themeMode.value)
         {
             onThemeChange(themeMode)
-            showRestartInfo(snackbarHostState,snackbarTextToDisplay,context)
+            showRestartInfo(snackbarHostState = snackbarHostState,
+                message = restartToApplyChanges,
+                actionLabel = actionLabel,
+                context = context)
         }
     }
 
@@ -106,7 +120,22 @@ private fun DrawSettingsScreen(navController: NavController,
         LaunchedEffect(dynamicColor.value)
         {
             onDynamicChange(dynamicColor)
-            showRestartInfo(snackbarHostState,snackbarTextToDisplay,context)
+            showRestartInfo(snackbarHostState = snackbarHostState,
+                message = restartToApplyChanges,
+                actionLabel = actionLabel,
+                context = context)
+        }
+    }
+
+    if (language.value != defaultLanguage)
+    {
+        onLanguageChange(language)
+        LaunchedEffect(language.value)
+        {
+            showRestartInfo(snackbarHostState = snackbarHostState,
+                message = restartApplyAllChanges,
+                actionLabel = actionLabel,
+                context = context)
         }
     }
 
@@ -163,6 +192,16 @@ private fun DrawSettingsScreen(navController: NavController,
             Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
 
             GroupText(textRes = R.string.ui_group)
+
+            SettingsList(
+                icon = { Icon(painter = painterResource(R.drawable.language),
+                    contentDescription = null,
+                    modifier = Modifier.defaultIconModifier()) },
+                title = { Text(stringResource(R.string.language),
+                    color = MaterialTheme.colorScheme.secondary) },
+                state = language,
+                items = MainApplication.languageManager.getSupportedLocalesLabel()
+            )
 
             if (shouldDisplayDynamicOption)
             {
@@ -231,16 +270,19 @@ private fun DrawSettingsScreen(navController: NavController,
 fun SettingsScreen(navController: NavController)
 {
     val viewModel : SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
+    val language = viewModel.loadLanguage()
     val themeMode = viewModel.loadDarkMode()
     val dynamicColor = viewModel.loadDynamicColors()
 
     DrawSettingsScreen(
         navController = navController,
+        language = language,
         themeMode = themeMode,
         dynamicColor = dynamicColor,
         shouldDisplayDynamicOption = dynamicColorsSupported(),
         onThemeChange = {theme -> viewModel.changeDarkMode(theme)},
-        onDynamicChange = {dynamic -> viewModel.changeDynamicColors(dynamic)}
+        onDynamicChange = {dynamic -> viewModel.changeDynamicColors(dynamic)},
+        onLanguageChange = { viewModel.changeLanguage(LocalContext.current,it)}
     )
 }
 
@@ -254,11 +296,13 @@ fun SettingsScreenNoDynamicPreview()
     {
         DrawSettingsScreen(
             navController = navController,
+            language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = false,
             onThemeChange = {},
-            onDynamicChange = {}
+            onDynamicChange = {},
+            onLanguageChange = {}
         )
     }
 }
@@ -273,11 +317,13 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
     {
         DrawSettingsScreen(
             navController = navController,
+            language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = false,
             onThemeChange = {},
-            onDynamicChange = {}
+            onDynamicChange = {},
+            onLanguageChange = {}
         )
     }
 }
@@ -292,11 +338,13 @@ fun SettingsScreenPreview()
     {
         DrawSettingsScreen(
             navController = navController,
+            language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = true,
             onThemeChange = {},
-            onDynamicChange = {}
+            onDynamicChange = {},
+            onLanguageChange = {}
         )
     }
 }
@@ -311,11 +359,13 @@ fun SettingsScreenPreviewDarkTheme()
     {
         DrawSettingsScreen(
             navController = navController,
+            language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = true,
             onThemeChange = {},
-            onDynamicChange = {}
+            onDynamicChange = {},
+            onLanguageChange = {}
         )
     }
 }
