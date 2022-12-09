@@ -6,9 +6,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.HeartRateRecord
+import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.HeartRate
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatHoursMinutes
@@ -21,6 +23,8 @@ import java.time.Duration
 @Composable
 fun HeartRateRecord.Display(windowSize: WindowSize)
 {
+    val unit = stringResource(id = R.string.bpm)
+
     BasicCard {
         SeriesDateTimeHeading(
             start = startTime,
@@ -31,13 +35,13 @@ fun HeartRateRecord.Display(windowSize: WindowSize)
         
         if (samples.isNotEmpty())
         {
-            Text(text = "Pulsaciones: ",
+            Text(text = stringResource(id = R.string.heart_rate),
                 color = MaterialTheme.colorScheme.onSurface)
             Column(modifier = Modifier.padding(horizontal = 16.dp)) 
             {
                 samples.forEach {
                     val formattedInstant = Duration.between(startTime, it.time).formatHoursMinutes()
-                    DrawPair(key = "$formattedInstant ", value = "${it.beatsPerMinute} bpm")
+                    DrawPair(key = "$formattedInstant ", value = "${it.beatsPerMinute} $unit")
                 }
             }
         }

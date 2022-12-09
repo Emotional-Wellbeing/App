@@ -1,8 +1,10 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.component
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.DistanceRecord
+import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Distance
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.ui.component.BasicCard
@@ -14,6 +16,8 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 fun DistanceRecord.Display(windowSize: WindowSize)
 {
     val distanceFormatted  = String.format("%.2f",distance.inKilometers)
+    val unit = stringResource(id = R.string.km)
+
     BasicCard {
         SeriesDateTimeHeading(
             start = startTime,
@@ -22,7 +26,7 @@ fun DistanceRecord.Display(windowSize: WindowSize)
             endZoneOffset = endZoneOffset
         )
 
-        DrawPair(key = "Distancia: ", value = "$distanceFormatted km")
+        DrawPair(key = stringResource(id = R.string.distance), value = "$distanceFormatted $unit")
 
         metadata.Display(windowSize)
     }

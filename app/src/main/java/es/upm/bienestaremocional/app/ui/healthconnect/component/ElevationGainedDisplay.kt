@@ -1,8 +1,10 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.component
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.ElevationGainedRecord
+import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.ElevationGained
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.ui.component.BasicCard
@@ -14,6 +16,7 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 fun ElevationGainedRecord.Display(windowSize: WindowSize)
 {
     val elevationGainedFormatted  = String.format("%.2f",elevation.inMeters)
+    val unit = stringResource(id = R.string.m)
     BasicCard {
         SeriesDateTimeHeading(
             start = startTime,
@@ -22,7 +25,8 @@ fun ElevationGainedRecord.Display(windowSize: WindowSize)
             endZoneOffset = endZoneOffset
         )
 
-        DrawPair(key = "Elevación ganada: ", value = "$elevationGainedFormatted m")
+        DrawPair(key = stringResource(id = R.string.elevation_gained),
+            value = "$elevationGainedFormatted $unit")
 
         metadata.Display(windowSize)
     }

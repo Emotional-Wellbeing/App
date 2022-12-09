@@ -1,8 +1,10 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.component
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.RestingHeartRateRecord
+import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.RestingHeartRate
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.ui.component.BasicCard
@@ -13,9 +15,10 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 @Composable
 fun RestingHeartRateRecord.Display(windowSize: WindowSize)
 {
+    val unit = stringResource(id = R.string.bpm)
     BasicCard {
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
-        DrawPair(key = "Frecuencia: ", value = "$beatsPerMinute bpm")
+        DrawPair(key = stringResource(id = R.string.frequency), value = "$beatsPerMinute $unit")
         metadata.Display(windowSize)
     }
 }

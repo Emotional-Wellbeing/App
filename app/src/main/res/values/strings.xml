@@ -73,7 +73,7 @@
 
     <!-- Credits-->
     <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>
-    <string name="credit_author_description">Autor del TFM \"Sistema para el Bienestar Emocional\"         y principal autor de la aplicación.</string>
+    <string name="credit_author_description">Autor del TFM Sistema para el Bienestar Emocional         y principal autor de la aplicación.</string>
     <string name="credit_director1_name" translatable="false">Sandra Gómez Canaval</string>
     <string name="credit_director1_description">Codirectora del TFM
         Sistema para el Bienestar Emocional.</string>
@@ -82,15 +82,15 @@
         Sistema para el Bienestar Emocional.</string>
 
     <string name="credit_logo1_name" translatable="false">Aman Mishra</string>
-    <string name="credit_logo1_description">Autor de la ilustración \"Health checkup\", disponible         en la plataforma Lottie.</string>
+    <string name="credit_logo1_description">Autor de la ilustración Health checkup, disponible         en la plataforma Lottie.</string>
     <string name="credit_logo2_name" translatable="false">Echotech Engineering</string>
-    <string name="credit_logo2_description">Autor de la ilustración \"How it works\", disponible
+    <string name="credit_logo2_description">Autor de la ilustración How it works, disponible
         en la plataforma Lottie.</string>
     <string name="credit_logo3_name" translatable="false">Tushar</string>
-    <string name="credit_logo3_description">Autor de la ilustración \"Mental Wellbeing\", disponible
+    <string name="credit_logo3_description">Autor de la ilustración Mental Wellbeing, disponible
         en la plataforma Lottie.</string>
     <string name="credit_logo4_name" translatable="false">Suhayra Sarwar</string>
-    <string name="credit_logo4_description">Autor de la ilustración \"Mental Health Awareness\",
+    <string name="credit_logo4_description">Autor de la ilustración Mental Health Awareness,
         disponible en la plataforma Lottie.</string>
 
     <string name="credit_app_logo_name" translatable="false">Gambar Wahyu S. Adi Wibowo</string>
@@ -110,5 +110,39 @@
     <string name="dark_mode_label">Activado</string>
     <string name="default_mode_label">Usar la configuración del dispositivo</string>
     <string name="restart_apply_changes">Se aplicarán los cambios al reiniciar</string>
-    <string name="restart_apply_all_changes">Es posible que no se apliquen todos los cambios hasta reiniciar</string>
+    <string name="restart_apply_all_changes">Reinicia para aplicar todos los cambios</string>
+    <string name="calories_burnt">Calorias quemadas:</string>
+    <string name="bmr_literal">IMB</string>
+    <string name="level">Nivel</string>
+    <string name="fluid_type">Tipo de fluido utilizado</string>
+    <string name="meal">Comida</string>
+    <string name="time_measurement">Momento de la medición</string>
+    <string name="systolic">Sistólica</string>
+    <string name="diastolic">Diastólica</string>
+    <string name="temperature">Temperatura</string>
+    <string name="place">Lugar</string>
+    <string name="metadata">Metadata:</string>
+    <string name="id">Id</string>
+    <string name="data_origin">Origen de datos</string>
+    <string name="instant">Instante</string>
+    <string name="manufacturer">Fabricante</string>
+    <string name="model">Modelo</string>
+    <string name="saturation">Saturación</string>
+    <string name="frequency">Frecuencia</string>
+    <string name="title">Titulo</string>
+    <string name="notes">Notas</string>
+    <string name="duration">Duración</string>
+    <string name="sleep_stages">Etapas del sueño:</string>
+    <string name="kcal" translatable="false">kcal</string>
+    <string name="celsius" translatable="false">ºC</string>
+    <string name="km" translatable="false">km</string>
+    <string name="m" translatable="false">m</string>
+    <string name="bpm">ppm</string>
+    <string name="percentage" translatable="false">%</string>
+    <string name="ml_kg_min" translatable="false">ml/kg/min</string>
+    <string name="body_position">Posición corporal"</string>
+    <string name="measurement_location">Lugar de medición</string>
+    <string name="mmHg" translatable="false">mmHg</string>
+    <string name="kcal_day">kcal/día</string>
+    <string name="mg_dL" translatable="false">mg/dL</string>
 </resources>

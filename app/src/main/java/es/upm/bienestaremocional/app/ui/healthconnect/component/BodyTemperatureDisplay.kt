@@ -1,8 +1,10 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.component
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.BodyTemperatureRecord
+import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.BodyTemperature
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.ui.component.BasicCard
@@ -14,10 +16,11 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 fun BodyTemperatureRecord.Display(windowSize: WindowSize)
 {
     val temperatureFormatted = String.format("%.2f",temperature.inCelsius)
+    val unit = stringResource(id = R.string.celsius)
     BasicCard {
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
-        DrawPair(key = "Temperatura: ", value = "$temperatureFormatted ºC")
-        measurementLocation?.let { DrawPair(key = "Lugar: ", value = it) }
+        DrawPair(key = stringResource(R.string.temperature), value = "$temperatureFormatted $unit")
+        measurementLocation?.let { DrawPair(key = stringResource(R.string.place), value = it) }
         metadata.Display(windowSize)
     }
 }
