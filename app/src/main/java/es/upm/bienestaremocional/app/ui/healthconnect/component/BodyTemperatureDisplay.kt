@@ -3,6 +3,7 @@ package es.upm.bienestaremocional.app.ui.healthconnect.component
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation
 import androidx.health.connect.client.records.BodyTemperatureRecord
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.BodyTemperature
@@ -20,10 +21,30 @@ fun BodyTemperatureRecord.Display(windowSize: WindowSize)
     BasicCard {
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(R.string.temperature), value = "$temperatureFormatted $unit")
-        measurementLocation?.let { DrawPair(key = stringResource(R.string.place), value = it) }
+        decodeMeasurementLocation()?.let {
+            DrawPair(key = stringResource(R.string.place), value = it)
+        }
         metadata.Display(windowSize)
     }
 }
+
+@Composable
+fun BodyTemperatureRecord.decodeMeasurementLocation(): String? =
+    when(measurementLocation)
+    {
+        BodyTemperatureMeasurementLocation.ARMPIT -> stringResource(R.string.armpit)
+        BodyTemperatureMeasurementLocation.FINGER -> stringResource(R.string.finger)
+        BodyTemperatureMeasurementLocation.FOREHEAD -> stringResource(R.string.forehead)
+        BodyTemperatureMeasurementLocation.MOUTH -> stringResource(R.string.mouth)
+        BodyTemperatureMeasurementLocation.RECTUM -> stringResource(R.string.rectum)
+        BodyTemperatureMeasurementLocation.TEMPORAL_ARTERY ->
+            stringResource(R.string.temporal_artery)
+        BodyTemperatureMeasurementLocation.TOE -> stringResource(R.string.toe)
+        BodyTemperatureMeasurementLocation.EAR -> stringResource(R.string.ear)
+        BodyTemperatureMeasurementLocation.WRIST -> stringResource(R.string.wrist)
+        BodyTemperatureMeasurementLocation.VAGINA -> stringResource(R.string.vagina)
+        else -> null
+    }
 
 @Preview
 @Composable

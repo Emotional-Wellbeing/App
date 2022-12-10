@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.BloodPressureRecord
+import androidx.health.connect.client.records.BodyPosition
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.BloodPressure
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
@@ -23,15 +24,41 @@ fun BloodPressureRecord.Display(windowSize: WindowSize)
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(R.string.systolic), value = "$systolicFormatted $unit")
         DrawPair(key = stringResource(R.string.diastolic), value = "$diastolicFormatted $unit")
-        bodyPosition?.let {
+        decodeBodyPosition()?.let {
             DrawPair(key = stringResource(R.string.body_position), value = it)
         }
-        measurementLocation?.let {
+        decodeMeasurementLocation()?.let {
             DrawPair(key = stringResource(R.string.measurement_location), value = it)
         }
         metadata.Display(windowSize)
     }
 }
+
+@Composable
+fun BloodPressureRecord.decodeBodyPosition(): String? =
+    when(bodyPosition)
+    {
+        BodyPosition.STANDING_UP -> stringResource(R.string.standing_up)
+        BodyPosition.SITTING_DOWN -> stringResource(R.string.sitting_down)
+        BodyPosition.LYING_DOWN -> stringResource(R.string.lying_down)
+        BodyPosition.RECLINING -> stringResource(R.string.reclining)
+        else -> null
+    }
+
+@Composable
+fun BloodPressureRecord.decodeMeasurementLocation(): String? =
+    when(measurementLocation)
+    {
+        BloodPressureRecord.MeasurementLocation.LEFT_WRIST ->
+            stringResource(R.string.left_wrist)
+        BloodPressureRecord.MeasurementLocation.RIGHT_WRIST ->
+            stringResource(R.string.right_wrist)
+        BloodPressureRecord.MeasurementLocation.LEFT_UPPER_ARM ->
+            stringResource(R.string.left_upper_arm)
+        BloodPressureRecord.MeasurementLocation.RIGHT_UPPER_ARM ->
+            stringResource(R.string.right_upper_arm)
+        else -> null
+    }
 
 @Preview
 @Composable

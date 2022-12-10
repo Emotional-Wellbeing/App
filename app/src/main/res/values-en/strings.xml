@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Bienestar Emocional</string>
+    <string name="app_name">Emotional Wellbeing</string>
     <string name="home_screen_label">Home</string>
     <string name="history_screen_label">History</string>
     <string name="evolution_screen_label">Evolution</string>
@@ -96,4 +96,42 @@
     <string name="body_position">Body position</string>
     <string name="measurement_location">Measurement location</string>
     <string name="kcal_day">kcal/day</string>
+    <string name="interstitial_fluid">Interstitial fluid</string>
+    <string name="capillary_blood">Capillary blood</string>
+    <string name="plasma">Plasma</string>
+    <string name="serum">Serum</string>
+    <string name="tears">Tears</string>
+    <string name="whole_blood">Whole blood</string>
+    <string name="unknown">Unknown</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="snack">Snack</string>
+    <string name="dinner">Dinner</string>
+    <string name="general">General</string>
+    <string name="fasting">Fasting</string>
+    <string name="before_meal">Before meal</string>
+    <string name="after_meal">After meal</string>
+    <string name="standing_up">Standing up</string>
+    <string name="sitting_down">Sitting down</string>
+    <string name="lying_down">Lying down</string>
+    <string name="reclining">Reclining</string>
+    <string name="left_wrist">Left wrist</string>
+    <string name="right_wrist">Right wrist</string>
+    <string name="left_upper_arm">Left upper arm</string>
+    <string name="right_upper_arm">Right upper arm</string>
+    <string name="armpit">Armpit</string>
+    <string name="finger">Finger</string>
+    <string name="forehead">Forehead</string>
+    <string name="mouth">Mouth</string>
+    <string name="rectum">Rectum</string>
+    <string name="temporal_artery">Temporal artery</string>
+    <string name="toe">Toe</string>
+    <string name="ear">Ear</string>
+    <string name="wrist">Wrist</string>
+    <string name="vagina">Vagina</string>
+    <string name="awake">Awake</string>
+    <string name="sleeping">Sleeping</string>
+    <string name="out_of_bed">Out of bed</string>
+    <string name="light">Light</string>
+    <string name="deep">Deep</string>
 </resources>

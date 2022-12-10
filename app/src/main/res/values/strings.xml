@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore = "typos">
-    <string name="app_name" translatable="false">Bienestar Emocional</string>
+    <string name="app_name">Bienestar Emocional</string>
 
     <!-- Menu -->
     <string name="home_screen_label">Inicio</string>
@@ -145,4 +145,45 @@
     <string name="mmHg" translatable="false">mmHg</string>
     <string name="kcal_day">kcal/día</string>
     <string name="mg_dL" translatable="false">mg/dL</string>
+
+    <!-- Decode health connect -->
+    <string name="interstitial_fluid">Líquido intersticial</string>
+    <string name="capillary_blood">Sangre capilar</string>
+    <string name="plasma">Plasma</string>
+    <string name="serum">Serum</string>
+    <string name="tears">Lágrimas</string>
+    <string name="whole_blood">Sangre entera</string>
+    <string name="unknown">Desconocido</string>
+    <string name="breakfast">Desayuno</string>
+    <string name="lunch">Almuerzo</string>
+    <string name="snack">Merienda</string>
+    <string name="dinner">Cena</string>
+    <string name="general">General</string>
+    <string name="fasting">Ayuno</string>
+    <string name="before_meal">Antes de la comida</string>
+    <string name="after_meal">Después de la comida</string>
+    <string name="standing_up">De pie</string>
+    <string name="sitting_down">Sentado</string>
+    <string name="lying_down">Tumbado</string>
+    <string name="reclining">Reclinado</string>
+    <string name="left_wrist">Muñeca izquierda</string>
+    <string name="right_wrist">Muñeca derecha</string>
+    <string name="left_upper_arm">Brazo izquierdo</string>
+    <string name="right_upper_arm">Brazo derecho</string>
+    <string name="armpit">Axila</string>
+    <string name="finger">Dedo</string>
+    <string name="forehead">Frente</string>
+    <string name="mouth">Boca</string>
+    <string name="rectum">Recto</string>
+    <string name="temporal_artery">Arteria temporal</string>
+    <string name="toe">Dedo del pie</string>
+    <string name="ear">Oído</string>
+    <string name="wrist">Muñeca</string>
+    <string name="vagina">Vagina</string>
+    <string name="awake">Despierto</string>
+    <string name="sleeping">Durmiendo</string>
+    <string name="out_of_bed">Fuera de la cama</string>
+    <string name="light">Ligero</string>
+    <string name="deep">Profundo</string>
+    <string name="rem" translatable="false">Rem</string>
 </resources>

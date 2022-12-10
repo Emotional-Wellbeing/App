@@ -65,10 +65,23 @@ fun SleepStageRecord.Display()
             text = intervalLabel,
             color = MaterialTheme.colorScheme.primary)
         Text(modifier = Modifier.weight(1f),
-            text = stage,
+            text = decode(),
             color = MaterialTheme.colorScheme.tertiary)
     }
 }
+
+@Composable
+fun SleepStageRecord.decode(): String =
+    when(stage)
+    {
+        SleepStageRecord.StageType.AWAKE -> stringResource(R.string.awake)
+        SleepStageRecord.StageType.SLEEPING -> stringResource(R.string.sleeping)
+        SleepStageRecord.StageType.OUT_OF_BED -> stringResource(R.string.out_of_bed)
+        SleepStageRecord.StageType.LIGHT -> stringResource(R.string.light)
+        SleepStageRecord.StageType.DEEP -> stringResource(R.string.deep)
+        SleepStageRecord.StageType.REM -> stringResource(R.string.rem)
+        else -> stringResource(R.string.unknown)
+    }
 
 @Preview
 @Composable
