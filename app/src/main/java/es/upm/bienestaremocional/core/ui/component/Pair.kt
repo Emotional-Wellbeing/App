@@ -19,7 +19,7 @@ fun DrawPair(key: String, value: String, textStyle: TextStyle? = null)
     {
         if (textStyle != null)
         {
-            Text(text = key,
+            Text(text = "$key: ",
                 color = MaterialTheme.colorScheme.onSurface,
                 style = textStyle)
             Text(text = value,
@@ -28,7 +28,7 @@ fun DrawPair(key: String, value: String, textStyle: TextStyle? = null)
         }
         else
         {
-            Text(text = key,
+            Text(text = "$key: ",
                 color = MaterialTheme.colorScheme.onSurface)
             Text(text = value,
                 color = MaterialTheme.colorScheme.tertiary)
@@ -41,7 +41,7 @@ fun DrawPair(key: String, value: String, textStyle: TextStyle? = null)
 @Composable
 fun DrawPairPreview()
 {
-    val key = "Motivación: "
+    val key = "Motivación"
     val value = "100%"
     BienestarEmocionalTheme {
         Surface(modifier = Modifier.fillMaxWidth()) {

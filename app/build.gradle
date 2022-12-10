@@ -95,6 +95,9 @@ dependencies {
 
     //health connect
     //version historic https://developer.android.com/jetpack/androidx/releases/health-connect
-    implementation 'androidx.health.connect:connect-client:1.0.0-alpha07'
+    implementation 'androidx.health.connect:connect-client:1.0.0-alpha08'
+
+    //language
+    implementation "com.github.YarikSOffice:lingver:1.3.0"
 
 }

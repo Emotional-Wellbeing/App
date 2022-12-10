@@ -12,11 +12,6 @@ interface HealthConnectManagerInterface
     var availability: MutableState<HealthConnectAvailability>
 
     /**
-     * Determinate if device can run Health Connect
-     */
-    fun isSupported() : Boolean
-
-    /**
      * Check if Health Connect is installed or could be
      */
     fun checkAvailability()

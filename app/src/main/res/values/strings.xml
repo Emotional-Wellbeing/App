@@ -23,7 +23,7 @@
     <string name="elevation_gained">Elevación ganada</string>
     <string name="respiratory_rate">Frecuencia respiratoria</string>
     <string name="resting_heart_rate">Pulsaciones en reposo</string>
-    <string name="vo2_max">Volumen máximo de oxígeno</string>
+    <string name="vo2_max">VO2 máx</string>
 
     <!-- Settings-->
     <string name="privacy_group">Privacidad</string>
@@ -47,32 +47,21 @@
     <string name="credits_screen_description">Las personas detrás del proyecto</string>
 
     <!-- Error screen -->
-    <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es
-        necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes
-        instalada, por favor reinicia la aplicación.</string>
+    <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es         necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes         instalada, por favor reinicia la aplicación.</string>
     <string name="not_supported_welcome_message">Esta aplicación solo está disponible para dispositivos que ejecuten una API %1$d o superior.</string>
 
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">¡Hola! Bienvenido a Bienestar Emocional</string>
-    <string name="onboarding_welcome_description">Diseñada para ayudarte a cuidar
-        tu bienestar emocional de forma fácil y sencilla. Creada por y para la Universidad.</string>
+    <string name="onboarding_welcome_description">Diseñada para ayudarte a cuidar         tu bienestar emocional de forma fácil y sencilla. Creada por y para la Universidad.</string>
 
     <string name="onboarding_features_title">Tu salud mental importa</string>
-    <string name="onboarding_features_description">Utilizando Inteligencia
-        Artificial te ayuda a monitorizar tu salud mental,
-        pudiendo detectar posibles síntomas para que puedas buscar ayuda.
-    </string>
+    <string name="onboarding_features_description">"Utilizando Inteligencia         Artificial te ayuda a monitorizar tu salud mental,         pudiendo detectar posibles síntomas para que puedas buscar ayuda.     "</string>
 
     <string name="onboarding_privacy_title">Tus datos, tu privacidad</string>
-    <string name="onboarding_privacy_description">La aplicación puede utilizar datos
-        como tu uso del móvil o tus pulsaciones cardíacas, pero en todo momento
-        tienes el control de los datos.
-    </string>
+    <string name="onboarding_privacy_description">"La aplicación puede utilizar datos         como tu uso del móvil o tus pulsaciones cardíacas, pero en todo momento         tienes el control de los datos.     "</string>
 
     <string name="onboarding_community_title">El poder de la comunidad</string>
-    <string name="onboarding_community_description">Es posible consultar estadísticas
-        anonimizadas sobre tu comunidad. Además puedes colaborar con el desarrollo de la aplicación.
-    </string>
+    <string name="onboarding_community_description">"Es posible consultar estadísticas         anonimizadas sobre tu comunidad. Además puedes colaborar con el desarrollo de la aplicación.     "</string>
 
     <!-- Privacy screen -->
     <string name="privacy_policy_description">
@@ -81,42 +70,31 @@
         data outside of Health Connect.
     </string>
 
-    <!-- Sleep -->
-    <string name="sleep">Sueño</string>
-    <string name="sleep_notes">Notas</string>
-    <string name="not_available_abbrev">N/A</string>
-    <string name="sleep_stages">Etapas de sueño</string>
-    <string name="sleep_duration">Intervalo de sueño:</string>
-    <string name="sleep_time">Tiempo de sueño:</string>
 
     <!-- Credits-->
-    <string name="credit_author_name">Victor Manuel Domínguez Rivas</string>
-    <string name="credit_author_description">Autor del TFM Sistema para el Bienestar Emocional
-        y principal autor de la aplicación.</string>
-    <string name="credit_director1_name">Sandra Gómez Canaval</string>
+    <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>
+    <string name="credit_author_description">Autor del TFM Sistema para el Bienestar Emocional         y principal autor de la aplicación.</string>
+    <string name="credit_director1_name" translatable="false">Sandra Gómez Canaval</string>
     <string name="credit_director1_description">Codirectora del TFM
         Sistema para el Bienestar Emocional.</string>
-    <string name="credit_director2_name">Gema Bello Orgaz</string>
+    <string name="credit_director2_name" translatable="false">Gema Bello Orgaz</string>
     <string name="credit_director2_description">Codirectora del TFM
         Sistema para el Bienestar Emocional.</string>
 
-    <string name="credit_logo1_name">Aman Mishra</string>
-    <string name="credit_logo1_description">Autor de la ilustración \"Health checkup\", disponible
+    <string name="credit_logo1_name" translatable="false">Aman Mishra</string>
+    <string name="credit_logo1_description">Autor de la ilustración Health checkup, disponible         en la plataforma Lottie.</string>
+    <string name="credit_logo2_name" translatable="false">Echotech Engineering</string>
+    <string name="credit_logo2_description">Autor de la ilustración How it works, disponible
         en la plataforma Lottie.</string>
-    <string name="credit_logo2_name">Echotech Engineering</string>
-    <string name="credit_logo2_description">Autor de la ilustración \"How it works\", disponible
+    <string name="credit_logo3_name" translatable="false">Tushar</string>
+    <string name="credit_logo3_description">Autor de la ilustración Mental Wellbeing, disponible
         en la plataforma Lottie.</string>
-    <string name="credit_logo3_name">Tushar</string>
-    <string name="credit_logo3_description">Autor de la ilustración \"Mental Wellbeing\", disponible
-        en la plataforma Lottie.</string>
-    <string name="credit_logo4_name">Suhayra Sarwar</string>
-    <string name="credit_logo4_description">Autor de la ilustración \"Mental Health Awareness\",
+    <string name="credit_logo4_name" translatable="false">Suhayra Sarwar</string>
+    <string name="credit_logo4_description">Autor de la ilustración Mental Health Awareness,
         disponible en la plataforma Lottie.</string>
 
-    <string name="credit_app_logo_name">Gambar Wahyu S. Adi Wibowo</string>
-    <string name="credit_app_logo_description">Autor original del logotipo de la aplicación,
-        disponible en la plataforma Canvas.
-    </string>
+    <string name="credit_app_logo_name" translatable="false">Gambar Wahyu S. Adi Wibowo</string>
+    <string name="credit_app_logo_description">"Autor original del logotipo de la aplicación,         disponible en la plataforma Canvas.     "</string>
 
     <!-- Misc -->
     <string name="menu">Menu</string>
@@ -124,13 +102,95 @@
     <string name="finish">Finalizar</string>
     <string name="skip">Omitir</string>
     <string name="next">Siguiente</string>
+    <string name="sleep">Sueño</string>
+    <string name="language">Idioma</string>
+    <string name="restart">Reiniciar</string>
 
     <string name="light_mode_label">Desactivado</string>
     <string name="dark_mode_label">Activado</string>
     <string name="default_mode_label">Usar la configuración del dispositivo</string>
     <string name="restart_apply_changes">Se aplicarán los cambios al reiniciar</string>
-    <string name="debug_screen">Datos salud conectada</string>
-    <string name="empty_data">No existen datos</string>
+    <string name="restart_apply_all_changes">Reinicia para aplicar todos los cambios</string>
+    <string name="calories_burnt">Calorias quemadas:</string>
+    <string name="bmr_literal">IMB</string>
+    <string name="level">Nivel</string>
+    <string name="fluid_type">Tipo de fluido utilizado</string>
+    <string name="meal">Comida</string>
+    <string name="time_measurement">Momento</string>
+    <string name="systolic">Sistólica</string>
+    <string name="diastolic">Diastólica</string>
+    <string name="temperature">Temperatura</string>
+    <string name="place">Lugar</string>
+    <string name="metadata">Metadata:</string>
+    <string name="id">Id</string>
+    <string name="data_origin">Origen de datos</string>
+    <string name="instant">Instante</string>
+    <string name="manufacturer">Fabricante</string>
+    <string name="model">Modelo</string>
+    <string name="saturation">Saturación</string>
+    <string name="frequency">Frecuencia</string>
+    <string name="title">Titulo</string>
+    <string name="notes">Notas</string>
+    <string name="duration">Duración</string>
+    <string name="sleep_stages">Etapas del sueño:</string>
+    <string name="kcal" translatable="false">kcal</string>
+    <string name="celsius" translatable="false">ºC</string>
+    <string name="km" translatable="false">km</string>
+    <string name="m" translatable="false">m</string>
+    <string name="bpm">ppm</string>
+    <string name="percentage" translatable="false">%</string>
+    <string name="ml_kg_min" translatable="false">ml/kg/min</string>
+    <string name="body_position">Posición corporal"</string>
+    <string name="measurement_location">Lugar</string>
+    <string name="measurement_method">Método</string>
+    <string name="mmHg" translatable="false">mmHg</string>
+    <string name="kcal_day">kcal/día</string>
+    <string name="mg_dL" translatable="false">mg/dL</string>
 
-
+    <!-- Decode health connect -->
+    <string name="interstitial_fluid">Líquido intersticial</string>
+    <string name="capillary_blood">Sangre capilar</string>
+    <string name="plasma">Plasma</string>
+    <string name="serum">Serum</string>
+    <string name="tears">Lágrimas</string>
+    <string name="whole_blood">Sangre entera</string>
+    <string name="unknown">Desconocido</string>
+    <string name="breakfast">Desayuno</string>
+    <string name="lunch">Almuerzo</string>
+    <string name="snack">Merienda</string>
+    <string name="dinner">Cena</string>
+    <string name="general">General</string>
+    <string name="fasting">Ayuno</string>
+    <string name="before_meal">Antes de la comida</string>
+    <string name="after_meal">Después de la comida</string>
+    <string name="standing_up">De pie</string>
+    <string name="sitting_down">Sentado</string>
+    <string name="lying_down">Tumbado</string>
+    <string name="reclining">Reclinado</string>
+    <string name="left_wrist">Muñeca izquierda</string>
+    <string name="right_wrist">Muñeca derecha</string>
+    <string name="left_upper_arm">Brazo izquierdo</string>
+    <string name="right_upper_arm">Brazo derecho</string>
+    <string name="armpit">Axila</string>
+    <string name="finger">Dedo</string>
+    <string name="forehead">Frente</string>
+    <string name="mouth">Boca</string>
+    <string name="rectum">Recto</string>
+    <string name="temporal_artery">Arteria temporal</string>
+    <string name="toe">Dedo del pie</string>
+    <string name="ear">Oído</string>
+    <string name="wrist">Muñeca</string>
+    <string name="vagina">Vagina</string>
+    <string name="awake">Despierto</string>
+    <string name="sleeping">Durmiendo</string>
+    <string name="out_of_bed">Fuera de la cama</string>
+    <string name="light">Ligero</string>
+    <string name="deep">Profundo</string>
+    <string name="rem" translatable="false">Rem</string>
+    <string name="other">Otro</string>
+    <string name="metabolic_cart">Carro metabólico</string>
+    <string name="heart_rate_ratio">Ratio de pulsaciones</string>
+    <string name="cooper_test">Test de Cooper</string>
+    <string name="multistage_fitness_test">Test de Course-Navette</string>
+    <string name="rockport_fitness_test">Test de Rockport</string>
 </resources>

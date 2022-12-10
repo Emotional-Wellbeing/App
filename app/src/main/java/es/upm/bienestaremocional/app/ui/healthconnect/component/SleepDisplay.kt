@@ -7,9 +7,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.SleepStageRecord
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_AWAKE
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_DEEP
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_LIGHT
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_OUT_OF_BED
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_REM
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_SLEEPING
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_UNKNOWN
+import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Sleep
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
@@ -31,18 +40,18 @@ fun SleepSessionData.Display(windowSize: WindowSize)
             endZoneOffset = endZoneOffset
         )
         title?.let {
-            DrawPair(key = "Titulo: ", value = it)
+            DrawPair(key = stringResource(R.string.title), value = it)
         }
         notes?.let {
-            DrawPair(key = "Notas: ", value = it)
+            DrawPair(key = stringResource(R.string.notes), value = it)
         }
 
         duration?.let {
             val formattedDuration = duration.formatHoursMinutes()
-            DrawPair(key = "Duración: ", value = formattedDuration)
+            DrawPair(key = stringResource(R.string.duration), value = formattedDuration)
         }
 
-        Text(text = "Etapas del sueño:",color = MaterialTheme.colorScheme.onSurface)
+        Text(text = stringResource(R.string.sleep_stages),color = MaterialTheme.colorScheme.onSurface)
         stages.forEach{it.Display()}
 
         metadata.Display(windowSize)
@@ -63,10 +72,24 @@ fun SleepStageRecord.Display()
             text = intervalLabel,
             color = MaterialTheme.colorScheme.primary)
         Text(modifier = Modifier.weight(1f),
-            text = stage,
+            text = decode(),
             color = MaterialTheme.colorScheme.tertiary)
     }
 }
+
+@Composable
+fun SleepStageRecord.decode(): String =
+    when(stage)
+    {
+        STAGE_TYPE_UNKNOWN -> stringResource(R.string.unknown)
+        STAGE_TYPE_AWAKE -> stringResource(R.string.awake)
+        STAGE_TYPE_SLEEPING -> stringResource(R.string.sleeping)
+        STAGE_TYPE_OUT_OF_BED -> stringResource(R.string.out_of_bed)
+        STAGE_TYPE_LIGHT -> stringResource(R.string.light)
+        STAGE_TYPE_DEEP -> stringResource(R.string.deep)
+        STAGE_TYPE_REM -> stringResource(R.string.rem)
+        else -> stringResource(R.string.unknown)
+    }
 
 @Preview
 @Composable
