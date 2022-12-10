@@ -3,7 +3,6 @@ package es.upm.bienestaremocional.app.data.healthconnect.sources
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.BloodPressureRecord
-import androidx.health.connect.client.records.BodyPosition
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Pressure
@@ -42,25 +41,9 @@ class BloodPressure(private val healthConnectClient: HealthConnectClient,
                 val diastolic: Pressure = Pressure.millimetersOfMercury(
                     Random.nextDouble(10.1,179.9))
 
-                val bodyPosition: String? by lazy {
-                    when(index % 4)
-                    {
-                        0 -> BodyPosition.LYING_DOWN
-                        1 -> BodyPosition.RECLINING
-                        2 -> BodyPosition.SITTING_DOWN
-                        else -> BodyPosition.STANDING_UP
-                    }
-                }
+                val bodyPosition = index % 5
+                val measurementLocation = index % 5
 
-                val measurementLocation: String? by lazy {
-                    when(index % 4)
-                    {
-                        0 -> BloodPressureRecord.MeasurementLocation.LEFT_UPPER_ARM
-                        1 -> BloodPressureRecord.MeasurementLocation.LEFT_WRIST
-                        2 -> BloodPressureRecord.MeasurementLocation.RIGHT_UPPER_ARM
-                        else -> BloodPressureRecord.MeasurementLocation.RIGHT_WRIST
-                    }
-                }
                 BloodPressureRecord(
                     time = measureTime.toInstant(),
                     zoneOffset = measureTime.offset,

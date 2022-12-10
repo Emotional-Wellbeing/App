@@ -3,7 +3,17 @@ package es.upm.bienestaremocional.app.ui.healthconnect.component
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_ARMPIT
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_EAR
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_FINGER
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_FOREHEAD
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_MOUTH
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_RECTUM
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_TEMPORAL_ARTERY
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_TOE
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_UNKNOWN
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_VAGINA
+import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation.MEASUREMENT_LOCATION_WRIST
 import androidx.health.connect.client.records.BodyTemperatureRecord
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.BodyTemperature
@@ -21,29 +31,27 @@ fun BodyTemperatureRecord.Display(windowSize: WindowSize)
     BasicCard {
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(R.string.temperature), value = "$temperatureFormatted $unit")
-        decodeMeasurementLocation()?.let {
-            DrawPair(key = stringResource(R.string.place), value = it)
-        }
+        DrawPair(key = stringResource(R.string.place), value = decodeMeasurementLocation())
         metadata.Display(windowSize)
     }
 }
 
 @Composable
-fun BodyTemperatureRecord.decodeMeasurementLocation(): String? =
+fun BodyTemperatureRecord.decodeMeasurementLocation(): String =
     when(measurementLocation)
     {
-        BodyTemperatureMeasurementLocation.ARMPIT -> stringResource(R.string.armpit)
-        BodyTemperatureMeasurementLocation.FINGER -> stringResource(R.string.finger)
-        BodyTemperatureMeasurementLocation.FOREHEAD -> stringResource(R.string.forehead)
-        BodyTemperatureMeasurementLocation.MOUTH -> stringResource(R.string.mouth)
-        BodyTemperatureMeasurementLocation.RECTUM -> stringResource(R.string.rectum)
-        BodyTemperatureMeasurementLocation.TEMPORAL_ARTERY ->
-            stringResource(R.string.temporal_artery)
-        BodyTemperatureMeasurementLocation.TOE -> stringResource(R.string.toe)
-        BodyTemperatureMeasurementLocation.EAR -> stringResource(R.string.ear)
-        BodyTemperatureMeasurementLocation.WRIST -> stringResource(R.string.wrist)
-        BodyTemperatureMeasurementLocation.VAGINA -> stringResource(R.string.vagina)
-        else -> null
+        MEASUREMENT_LOCATION_UNKNOWN -> stringResource(R.string.unknown)
+        MEASUREMENT_LOCATION_ARMPIT -> stringResource(R.string.armpit)
+        MEASUREMENT_LOCATION_FINGER -> stringResource(R.string.finger)
+        MEASUREMENT_LOCATION_FOREHEAD -> stringResource(R.string.forehead)
+        MEASUREMENT_LOCATION_MOUTH -> stringResource(R.string.mouth)
+        MEASUREMENT_LOCATION_RECTUM -> stringResource(R.string.rectum)
+        MEASUREMENT_LOCATION_TEMPORAL_ARTERY -> stringResource(R.string.temporal_artery)
+        MEASUREMENT_LOCATION_TOE -> stringResource(R.string.toe)
+        MEASUREMENT_LOCATION_EAR -> stringResource(R.string.ear)
+        MEASUREMENT_LOCATION_WRIST -> stringResource(R.string.wrist)
+        MEASUREMENT_LOCATION_VAGINA -> stringResource(R.string.vagina)
+        else -> stringResource(R.string.unknown)
     }
 
 @Preview

@@ -34,17 +34,7 @@ class Vo2Max(private val healthConnectClient: HealthConnectClient,
             { index ->
                 val measureTime = generateTime(offsetDays = index.toLong())
                 val vo2 = Random.nextDouble(0.0,100.0)
-                val measurementMethod by lazy {
-                    when(index % 6)
-                    {
-                        0 -> Vo2MaxRecord.MeasurementMethod.METABOLIC_CART
-                        1 -> Vo2MaxRecord.MeasurementMethod.HEART_RATE_RATIO
-                        2 -> Vo2MaxRecord.MeasurementMethod.COOPER_TEST
-                        3 -> Vo2MaxRecord.MeasurementMethod.MULTISTAGE_FITNESS_TEST
-                        4 -> Vo2MaxRecord.MeasurementMethod.ROCKPORT_FITNESS_TEST
-                        else -> Vo2MaxRecord.MeasurementMethod.OTHER
-                    }
-                }
+                val measurementMethod = index % 6
                 Vo2MaxRecord(
                     time = measureTime.toInstant(),
                     zoneOffset = measureTime.offset,

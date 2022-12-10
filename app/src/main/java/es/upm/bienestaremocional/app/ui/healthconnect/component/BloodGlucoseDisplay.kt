@@ -4,8 +4,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.BloodGlucoseRecord
-import androidx.health.connect.client.records.MealType
-import androidx.health.connect.client.records.RelationToMeal
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.RELATION_TO_MEAL_AFTER_MEAL
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.RELATION_TO_MEAL_BEFORE_MEAL
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.RELATION_TO_MEAL_FASTING
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.RELATION_TO_MEAL_GENERAL
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.RELATION_TO_MEAL_UNKNOWN
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.SPECIMEN_SOURCE_CAPILLARY_BLOOD
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.SPECIMEN_SOURCE_INTERSTITIAL_FLUID
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.SPECIMEN_SOURCE_PLASMA
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.SPECIMEN_SOURCE_SERUM
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.SPECIMEN_SOURCE_TEARS
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.SPECIMEN_SOURCE_UNKNOWN
+import androidx.health.connect.client.records.BloodGlucoseRecord.Companion.SPECIMEN_SOURCE_WHOLE_BLOOD
+import androidx.health.connect.client.records.MealType.MEAL_TYPE_BREAKFAST
+import androidx.health.connect.client.records.MealType.MEAL_TYPE_DINNER
+import androidx.health.connect.client.records.MealType.MEAL_TYPE_LUNCH
+import androidx.health.connect.client.records.MealType.MEAL_TYPE_SNACK
+import androidx.health.connect.client.records.MealType.MEAL_TYPE_UNKNOWN
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.BloodGlucose
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
@@ -22,59 +37,49 @@ fun BloodGlucoseRecord.Display(windowSize: WindowSize)
     BasicCard {
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(R.string.level), value = "$level $unit")
-        decodeSpecimenSource()?.let {
-            DrawPair(key = stringResource(R.string.fluid_type), value = it)
-        }
-        decodeMealType()?.let {
-            DrawPair(key = stringResource(R.string.meal), value = it)
-        }
-        decodeRelationToMeal()?.let {
-            DrawPair(key = stringResource(R.string.time_measurement), value = it)
-        }
+        DrawPair(key = stringResource(R.string.fluid_type), value = decodeSpecimenSource())
+        DrawPair(key = stringResource(R.string.meal), value = decodeMealType())
+        DrawPair(key = stringResource(R.string.time_measurement), value = decodeRelationToMeal())
         metadata.Display(windowSize)
     }
 }
 
 @Composable
-fun BloodGlucoseRecord.decodeSpecimenSource(): String? =
+fun BloodGlucoseRecord.decodeSpecimenSource(): String =
     when(specimenSource)
     {
-        BloodGlucoseRecord.SpecimenSource.INTERSTITIAL_FLUID -> 
-            stringResource(R.string.interstitial_fluid)
-        BloodGlucoseRecord.SpecimenSource.CAPILLARY_BLOOD ->
-            stringResource(R.string.capillary_blood)
-        BloodGlucoseRecord.SpecimenSource.PLASMA ->
-            stringResource(R.string.plasma)
-        BloodGlucoseRecord.SpecimenSource.SERUM ->
-            stringResource(R.string.serum)
-        BloodGlucoseRecord.SpecimenSource.TEARS ->
-            stringResource(R.string.tears)
-        BloodGlucoseRecord.SpecimenSource.WHOLE_BLOOD ->
-            stringResource(R.string.whole_blood)
-        else -> null
+        SPECIMEN_SOURCE_UNKNOWN -> stringResource(R.string.unknown)
+        SPECIMEN_SOURCE_INTERSTITIAL_FLUID -> stringResource(R.string.interstitial_fluid)
+        SPECIMEN_SOURCE_CAPILLARY_BLOOD -> stringResource(R.string.capillary_blood)
+        SPECIMEN_SOURCE_PLASMA -> stringResource(R.string.plasma)
+        SPECIMEN_SOURCE_SERUM -> stringResource(R.string.serum)
+        SPECIMEN_SOURCE_TEARS -> stringResource(R.string.tears)
+        SPECIMEN_SOURCE_WHOLE_BLOOD -> stringResource(R.string.whole_blood)
+        else -> stringResource(R.string.unknown)
     }
 
 @Composable
-fun BloodGlucoseRecord.decodeMealType(): String? =
+fun BloodGlucoseRecord.decodeMealType(): String =
     when(mealType)
     {
-        MealType.UNKNOWN -> stringResource(R.string.unknown)
-        MealType.BREAKFAST -> stringResource(R.string.breakfast)
-        MealType.LUNCH -> stringResource(R.string.lunch)
-        MealType.DINNER -> stringResource(R.string.dinner)
-        MealType.SNACK -> stringResource(R.string.snack)
-        else -> null
+        MEAL_TYPE_UNKNOWN -> stringResource(R.string.unknown)
+        MEAL_TYPE_BREAKFAST -> stringResource(R.string.breakfast)
+        MEAL_TYPE_LUNCH -> stringResource(R.string.lunch)
+        MEAL_TYPE_DINNER -> stringResource(R.string.dinner)
+        MEAL_TYPE_SNACK -> stringResource(R.string.snack)
+        else -> stringResource(R.string.unknown)
     }
 
 @Composable
-fun BloodGlucoseRecord.decodeRelationToMeal(): String? =
-    when(mealType)
+fun BloodGlucoseRecord.decodeRelationToMeal(): String =
+    when(relationToMeal)
     {
-        RelationToMeal.GENERAL -> stringResource(R.string.general)
-        RelationToMeal.FASTING -> stringResource(R.string.fasting)
-        RelationToMeal.BEFORE_MEAL -> stringResource(R.string.before_meal)
-        RelationToMeal.AFTER_MEAL -> stringResource(R.string.after_meal)
-        else -> null
+        RELATION_TO_MEAL_UNKNOWN -> stringResource(R.string.unknown)
+        RELATION_TO_MEAL_GENERAL -> stringResource(R.string.general)
+        RELATION_TO_MEAL_FASTING -> stringResource(R.string.fasting)
+        RELATION_TO_MEAL_BEFORE_MEAL -> stringResource(R.string.before_meal)
+        RELATION_TO_MEAL_AFTER_MEAL -> stringResource(R.string.after_meal)
+        else -> stringResource(R.string.unknown)
     }
 @Preview
 @Composable

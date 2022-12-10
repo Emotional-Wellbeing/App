@@ -3,8 +3,6 @@ package es.upm.bienestaremocional.app.data.healthconnect.sources
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.BloodGlucoseRecord
-import androidx.health.connect.client.records.MealType
-import androidx.health.connect.client.records.RelationToMeal
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.BloodGlucose
@@ -33,45 +31,16 @@ class BloodGlucose(private val healthConnectClient: HealthConnectClient,
          */
         fun generateDummyData() : List<BloodGlucoseRecord>
         {
-            return List(5)
+            return List(7)
             { index ->
 
                 val measureTime = generateTime(offsetDays = index.toLong())
 
                 val level = BloodGlucose.millimolesPerLiter(Random.nextDouble(0.1,49.9))
 
-                val specimenSource by lazy {
-                        when(index % 6)
-                        {
-                            0 -> BloodGlucoseRecord.SpecimenSource.INTERSTITIAL_FLUID
-                            1 -> BloodGlucoseRecord.SpecimenSource.CAPILLARY_BLOOD
-                            2 -> BloodGlucoseRecord.SpecimenSource.PLASMA
-                            3 -> BloodGlucoseRecord.SpecimenSource.SERUM
-                            4 -> BloodGlucoseRecord.SpecimenSource.TEARS
-                            else -> BloodGlucoseRecord.SpecimenSource.WHOLE_BLOOD
-                        }
-                    }
-
-                val mealType by lazy {
-                    when(index % 5)
-                    {
-                        0 -> MealType.BREAKFAST
-                        1 -> MealType.DINNER
-                        2 -> MealType.LUNCH
-                        3 -> MealType.SNACK
-                        else -> MealType.UNKNOWN
-                    }
-                }
-
-                val relationToMeal by lazy {
-                    when(index % 4)
-                    {
-                        0 -> RelationToMeal.AFTER_MEAL
-                        1 -> RelationToMeal.BEFORE_MEAL
-                        2 -> RelationToMeal.FASTING
-                        else -> RelationToMeal.GENERAL
-                    }
-                }
+                val specimenSource = index % 7
+                val mealType = index % 5
+                val relationToMeal = index % 4
 
                 BloodGlucoseRecord(
                     time = measureTime.toInstant(),

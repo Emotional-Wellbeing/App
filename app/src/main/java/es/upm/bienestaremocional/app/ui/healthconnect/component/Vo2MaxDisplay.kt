@@ -20,9 +20,28 @@ fun Vo2MaxRecord.Display(windowSize: WindowSize)
     BasicCard {
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(id = R.string.vo2_max), value = "$vo2 $unit")
+        decodeMeasurementMethod().let {
+            DrawPair(key = stringResource(R.string.measurement_method), value = it)
+        }
         metadata.Display(windowSize)
     }
 }
+
+@Composable
+fun Vo2MaxRecord.decodeMeasurementMethod(): String =
+    when(measurementMethod)
+    {
+        Vo2MaxRecord.MEASUREMENT_METHOD_OTHER -> stringResource(R.string.other)
+        Vo2MaxRecord.MEASUREMENT_METHOD_METABOLIC_CART -> stringResource(R.string.metabolic_cart)
+        Vo2MaxRecord.MEASUREMENT_METHOD_HEART_RATE_RATIO ->
+            stringResource(R.string.heart_rate_ratio)
+        Vo2MaxRecord.MEASUREMENT_METHOD_COOPER_TEST -> stringResource(R.string.cooper_test)
+        Vo2MaxRecord.MEASUREMENT_METHOD_MULTISTAGE_FITNESS_TEST ->
+            stringResource(R.string.multistage_fitness_test)
+        Vo2MaxRecord.MEASUREMENT_METHOD_ROCKPORT_FITNESS_TEST ->
+            stringResource(R.string.rockport_fitness_test)
+        else -> stringResource(R.string.unknown)
+    }
 
 @Preview
 @Composable

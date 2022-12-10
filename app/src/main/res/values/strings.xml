@@ -23,7 +23,7 @@
     <string name="elevation_gained">Elevación ganada</string>
     <string name="respiratory_rate">Frecuencia respiratoria</string>
     <string name="resting_heart_rate">Pulsaciones en reposo</string>
-    <string name="vo2_max">Volumen máximo de oxígeno</string>
+    <string name="vo2_max">VO2 máx</string>
 
     <!-- Settings-->
     <string name="privacy_group">Privacidad</string>
@@ -116,7 +116,7 @@
     <string name="level">Nivel</string>
     <string name="fluid_type">Tipo de fluido utilizado</string>
     <string name="meal">Comida</string>
-    <string name="time_measurement">Momento de la medición</string>
+    <string name="time_measurement">Momento</string>
     <string name="systolic">Sistólica</string>
     <string name="diastolic">Diastólica</string>
     <string name="temperature">Temperatura</string>
@@ -141,7 +141,8 @@
     <string name="percentage" translatable="false">%</string>
     <string name="ml_kg_min" translatable="false">ml/kg/min</string>
     <string name="body_position">Posición corporal"</string>
-    <string name="measurement_location">Lugar de medición</string>
+    <string name="measurement_location">Lugar</string>
+    <string name="measurement_method">Método</string>
     <string name="mmHg" translatable="false">mmHg</string>
     <string name="kcal_day">kcal/día</string>
     <string name="mg_dL" translatable="false">mg/dL</string>
@@ -186,4 +187,10 @@
     <string name="light">Ligero</string>
     <string name="deep">Profundo</string>
     <string name="rem" translatable="false">Rem</string>
+    <string name="other">Otro</string>
+    <string name="metabolic_cart">Carro metabólico</string>
+    <string name="heart_rate_ratio">Ratio de pulsaciones</string>
+    <string name="cooper_test">Test de Cooper</string>
+    <string name="multistage_fitness_test">Test de Course-Navette</string>
+    <string name="rockport_fitness_test">Test de Rockport</string>
 </resources>

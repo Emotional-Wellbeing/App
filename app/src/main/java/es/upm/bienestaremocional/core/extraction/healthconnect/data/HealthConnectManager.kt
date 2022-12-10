@@ -1,7 +1,6 @@
 package es.upm.bienestaremocional.core.extraction.healthconnect.data
 
 import android.content.Context
-import android.os.Build
 import androidx.compose.runtime.mutableStateOf
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
@@ -20,14 +19,13 @@ class HealthConnectManager(private val healthConnectClient: HealthConnectClient,
         checkAvailability()
     }
 
-    override fun isSupported() : Boolean = Build.VERSION.SDK_INT >= MIN_SUPPORTED_SDK
 
     override fun checkAvailability()
     {
         availability.value = when
         {
-            HealthConnectClient.isAvailable(context) -> HealthConnectAvailability.INSTALLED
-            isSupported() -> HealthConnectAvailability.NOT_INSTALLED
+            HealthConnectClient.isProviderAvailable(context) -> HealthConnectAvailability.INSTALLED
+            HealthConnectClient.isApiSupported() -> HealthConnectAvailability.NOT_INSTALLED
             else -> HealthConnectAvailability.NOT_SUPPORTED
         }
     }

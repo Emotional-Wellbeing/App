@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.BloodPressureRecord
-import androidx.health.connect.client.records.BodyPosition
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.BloodPressure
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
@@ -24,40 +23,38 @@ fun BloodPressureRecord.Display(windowSize: WindowSize)
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(R.string.systolic), value = "$systolicFormatted $unit")
         DrawPair(key = stringResource(R.string.diastolic), value = "$diastolicFormatted $unit")
-        decodeBodyPosition()?.let {
-            DrawPair(key = stringResource(R.string.body_position), value = it)
-        }
-        decodeMeasurementLocation()?.let {
-            DrawPair(key = stringResource(R.string.measurement_location), value = it)
-        }
+        DrawPair(key = stringResource(R.string.body_position), value = decodeBodyPosition())
+        DrawPair(key = stringResource(R.string.measurement_location), value = decodeMeasurementLocation())
         metadata.Display(windowSize)
     }
 }
 
 @Composable
-fun BloodPressureRecord.decodeBodyPosition(): String? =
+fun BloodPressureRecord.decodeBodyPosition(): String =
     when(bodyPosition)
     {
-        BodyPosition.STANDING_UP -> stringResource(R.string.standing_up)
-        BodyPosition.SITTING_DOWN -> stringResource(R.string.sitting_down)
-        BodyPosition.LYING_DOWN -> stringResource(R.string.lying_down)
-        BodyPosition.RECLINING -> stringResource(R.string.reclining)
-        else -> null
+        BloodPressureRecord.BODY_POSITION_UNKNOWN -> stringResource(R.string.unknown)
+        BloodPressureRecord.BODY_POSITION_STANDING_UP -> stringResource(R.string.standing_up)
+        BloodPressureRecord.BODY_POSITION_SITTING_DOWN -> stringResource(R.string.sitting_down)
+        BloodPressureRecord.BODY_POSITION_LYING_DOWN -> stringResource(R.string.lying_down)
+        BloodPressureRecord.BODY_POSITION_RECLINING -> stringResource(R.string.reclining)
+        else -> stringResource(R.string.unknown)
     }
 
 @Composable
-fun BloodPressureRecord.decodeMeasurementLocation(): String? =
+fun BloodPressureRecord.decodeMeasurementLocation(): String =
     when(measurementLocation)
     {
-        BloodPressureRecord.MeasurementLocation.LEFT_WRIST ->
+        BloodPressureRecord.MEASUREMENT_LOCATION_UNKNOWN -> stringResource(R.string.unknown)
+        BloodPressureRecord.MEASUREMENT_LOCATION_LEFT_WRIST ->
             stringResource(R.string.left_wrist)
-        BloodPressureRecord.MeasurementLocation.RIGHT_WRIST ->
+        BloodPressureRecord.MEASUREMENT_LOCATION_RIGHT_WRIST ->
             stringResource(R.string.right_wrist)
-        BloodPressureRecord.MeasurementLocation.LEFT_UPPER_ARM ->
+        BloodPressureRecord.MEASUREMENT_LOCATION_LEFT_UPPER_ARM ->
             stringResource(R.string.left_upper_arm)
-        BloodPressureRecord.MeasurementLocation.RIGHT_UPPER_ARM ->
+        BloodPressureRecord.MEASUREMENT_LOCATION_RIGHT_UPPER_ARM ->
             stringResource(R.string.right_upper_arm)
-        else -> null
+        else -> stringResource(R.string.unknown)
     }
 
 @Preview

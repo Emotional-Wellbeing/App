@@ -75,7 +75,7 @@
     <string name="level">Level</string>
     <string name="fluid_type">Type of fluid used</string>
     <string name="meal">Meal</string>
-    <string name="time_measurement">Time of measurement</string>
+    <string name="time_measurement">Time</string>
     <string name="systolic">Systolic</string>
     <string name="diastolic">Diastolic</string>
     <string name="temperature">Temperature</string>
@@ -94,7 +94,8 @@
     <string name="sleep_stages">Sleep stages</string>
     <string name="bpm">bpm</string>
     <string name="body_position">Body position</string>
-    <string name="measurement_location">Measurement location</string>
+    <string name="measurement_location">Location</string>
+    <string name="measurement_method">Method</string>
     <string name="kcal_day">kcal/day</string>
     <string name="interstitial_fluid">Interstitial fluid</string>
     <string name="capillary_blood">Capillary blood</string>
@@ -134,4 +135,10 @@
     <string name="out_of_bed">Out of bed</string>
     <string name="light">Light</string>
     <string name="deep">Deep</string>
+    <string name="other">Other</string>
+    <string name="metabolic_cart">Metabolic cart</string>
+    <string name="heart_rate_ratio">Heart rate ratio</string>
+    <string name="cooper_test">Cooper test</string>
+    <string name="multistage_fitness_test">Multistage fitness test</string>
+    <string name="rockport_fitness_test">Rockport fitness test</string>
 </resources>

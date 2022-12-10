@@ -2,7 +2,6 @@ package es.upm.bienestaremocional.app.data.healthconnect.sources
 
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.permission.HealthPermission
-import androidx.health.connect.client.records.BodyTemperatureMeasurementLocation
 import androidx.health.connect.client.records.BodyTemperatureRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
@@ -33,26 +32,12 @@ class BodyTemperature(private val healthConnectClient: HealthConnectClient,
         fun generateDummyData() : List<BodyTemperatureRecord>
         {
 
-            return List(10)
+            return List(11)
             { index ->
                 val measureTime = generateTime(offsetDays = index.toLong())
 
                 val temperature = Temperature.celsius(Random.nextDouble(35.0,40.0))
-                val measureLocation by lazy {
-                    when(index % 10)
-                    {
-                        0 -> BodyTemperatureMeasurementLocation.ARMPIT
-                        1 -> BodyTemperatureMeasurementLocation.FINGER
-                        2 -> BodyTemperatureMeasurementLocation.FOREHEAD
-                        3 -> BodyTemperatureMeasurementLocation.MOUTH
-                        4 -> BodyTemperatureMeasurementLocation.RECTUM
-                        5 -> BodyTemperatureMeasurementLocation.TEMPORAL_ARTERY
-                        6 -> BodyTemperatureMeasurementLocation.TOE
-                        7 -> BodyTemperatureMeasurementLocation.EAR
-                        8 -> BodyTemperatureMeasurementLocation.WRIST
-                        else -> BodyTemperatureMeasurementLocation.VAGINA
-                    }
-                }
+                val measureLocation = index % 11
                 BodyTemperatureRecord(
                     time = measureTime.toInstant(),
                     zoneOffset = measureTime.offset,

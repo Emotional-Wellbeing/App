@@ -91,18 +91,9 @@ class Sleep(private val healthConnectClient: HealthConnectClient,
         }
 
         /**
-         * Generates a random sleep stage for the purpose of populating data. Excludes UNKNOWN sleep stage.
+         * Generates a random sleep stage for the purpose of populating data.
          */
-        private fun randomSleepStage() = listOf(
-            SleepStageRecord.StageType.AWAKE,
-            SleepStageRecord.StageType.DEEP,
-            SleepStageRecord.StageType.LIGHT,
-            SleepStageRecord.StageType.OUT_OF_BED,
-            SleepStageRecord.StageType.REM,
-            SleepStageRecord.StageType.SLEEPING
-        ).let { stages ->
-            stages[Random.nextInt(stages.size)]
-        }
+        private fun randomSleepStage() = Random.nextInt(7)
     }
 
     override val readPermissions = setOf(

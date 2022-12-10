@@ -11,6 +11,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.SleepStageRecord
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_AWAKE
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_DEEP
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_LIGHT
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_OUT_OF_BED
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_REM
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_SLEEPING
+import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_UNKNOWN
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Sleep
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
@@ -74,12 +81,13 @@ fun SleepStageRecord.Display()
 fun SleepStageRecord.decode(): String =
     when(stage)
     {
-        SleepStageRecord.StageType.AWAKE -> stringResource(R.string.awake)
-        SleepStageRecord.StageType.SLEEPING -> stringResource(R.string.sleeping)
-        SleepStageRecord.StageType.OUT_OF_BED -> stringResource(R.string.out_of_bed)
-        SleepStageRecord.StageType.LIGHT -> stringResource(R.string.light)
-        SleepStageRecord.StageType.DEEP -> stringResource(R.string.deep)
-        SleepStageRecord.StageType.REM -> stringResource(R.string.rem)
+        STAGE_TYPE_UNKNOWN -> stringResource(R.string.unknown)
+        STAGE_TYPE_AWAKE -> stringResource(R.string.awake)
+        STAGE_TYPE_SLEEPING -> stringResource(R.string.sleeping)
+        STAGE_TYPE_OUT_OF_BED -> stringResource(R.string.out_of_bed)
+        STAGE_TYPE_LIGHT -> stringResource(R.string.light)
+        STAGE_TYPE_DEEP -> stringResource(R.string.deep)
+        STAGE_TYPE_REM -> stringResource(R.string.rem)
         else -> stringResource(R.string.unknown)
     }
 
