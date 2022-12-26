@@ -42,7 +42,10 @@ fun EvolutionScreen(navController: NavController)
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun EvolutionScreenPreview()
 {
@@ -52,7 +55,10 @@ fun EvolutionScreenPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun EvolutionScreenPreviewDarkTheme()
 {

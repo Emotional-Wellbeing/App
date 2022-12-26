@@ -92,7 +92,10 @@ fun SeriesDateTimeHeading(time: Instant, zoneOffset: ZoneOffset?)
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun SeriesDateTimeHeadingPreview()
 {
@@ -112,7 +115,10 @@ fun SeriesDateTimeHeadingPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun SeriesDateTimeHeadingPreviewDarkMode()
 {

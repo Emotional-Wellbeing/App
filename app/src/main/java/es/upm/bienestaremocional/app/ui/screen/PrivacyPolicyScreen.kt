@@ -45,7 +45,10 @@ fun PrivacyPolicyScreen(navController: NavController)
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun PrivacyPolicyScreenPreview()
 {
@@ -55,7 +58,10 @@ fun PrivacyPolicyScreenPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun PrivacyPolicyScreenPreviewDarkTheme()
 {

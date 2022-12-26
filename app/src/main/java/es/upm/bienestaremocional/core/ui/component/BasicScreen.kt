@@ -87,7 +87,7 @@ fun AppBasicScreen(navController: NavController,
 
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun AppBasicScreenPreview()
 {
@@ -102,7 +102,7 @@ fun AppBasicScreenPreview()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun AppBasicScreenPreviewDarkTheme()
 {

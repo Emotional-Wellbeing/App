@@ -43,7 +43,7 @@ fun Vo2MaxRecord.decodeMeasurementMethod(): String =
         else -> stringResource(R.string.unknown)
     }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun Vo2MaxRecordDisplayPreview()
 {
@@ -52,7 +52,7 @@ fun Vo2MaxRecordDisplayPreview()
         vo2Max.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun Vo2MaxRecordDisplayPreviewDarkTheme()
 {
@@ -61,7 +61,7 @@ fun Vo2MaxRecordDisplayPreviewDarkTheme()
         vo2Max.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun Vo2MaxRecordDisplayLargeScreenPreview()
 {
@@ -70,7 +70,7 @@ fun Vo2MaxRecordDisplayLargeScreenPreview()
         vo2Max.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun Vo2MaxRecordDisplayLargeScreenPreviewDarkTheme()
 {

@@ -89,7 +89,10 @@ fun CreditComponent(credit: Credit, windowSize: WindowSize)
 
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun CreditImportantComponentPreview()
 {
@@ -108,7 +111,10 @@ fun CreditImportantComponentPreview()
 }
 
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun CreditImportantComponentPreviewDarkTheme()
 {
@@ -126,7 +132,10 @@ fun CreditImportantComponentPreviewDarkTheme()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun CreditImportantComponentPreviewMediumScreen()
 {
@@ -145,7 +154,10 @@ fun CreditImportantComponentPreviewMediumScreen()
 }
 
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun CreditImportantComponentPreviewDarkThemeMediumScreen()
 {
@@ -163,7 +175,10 @@ fun CreditImportantComponentPreviewDarkThemeMediumScreen()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun CreditNotImportantComponentPreview()
 {
@@ -182,7 +197,10 @@ fun CreditNotImportantComponentPreview()
 }
 
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun CreditNotImportantComponentPreviewDarkTheme()
 {
@@ -201,7 +219,10 @@ fun CreditNotImportantComponentPreviewDarkTheme()
 }
 
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun CreditNotImportantComponentPreviewMediumScreen()
 {
@@ -220,7 +241,10 @@ fun CreditNotImportantComponentPreviewMediumScreen()
 }
 
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun CreditNotImportantComponentPreviewDarkThemeMediumScreen()
 {

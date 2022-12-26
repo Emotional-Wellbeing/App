@@ -570,3 +570,7 @@ fun MyDataScreen(navController: NavController,
         vo2MaxVMD = vo2MaxViewModel.getViewModelData(),
         onError = onError)
 }
+
+/**
+ * Previews can not be instantiated due Preview's ban of creating viewmodels
+ */

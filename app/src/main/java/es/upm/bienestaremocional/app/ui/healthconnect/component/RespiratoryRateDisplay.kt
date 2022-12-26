@@ -25,7 +25,7 @@ fun RespiratoryRateRecord.Display(windowSize: WindowSize)
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun RespiratoryRateRecordDisplayPreview()
 {
@@ -34,7 +34,7 @@ fun RespiratoryRateRecordDisplayPreview()
         respiratoryRateRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun RespiratoryRateRecordDisplayPreviewDarkTheme()
 {
@@ -43,7 +43,7 @@ fun RespiratoryRateRecordDisplayPreviewDarkTheme()
         respiratoryRateRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun RespiratoryRateRecordDisplayLargeScreenPreview()
 {
@@ -52,7 +52,7 @@ fun RespiratoryRateRecordDisplayLargeScreenPreview()
         respiratoryRateRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun RespiratoryRateRecordDisplayLargeScreenPreviewDarkTheme()
 {

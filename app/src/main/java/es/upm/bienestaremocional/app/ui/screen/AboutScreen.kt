@@ -43,7 +43,10 @@ fun AboutScreen(navController: NavController)
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun AboutScreenPreview()
 {
@@ -53,7 +56,10 @@ fun AboutScreenPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun AboutScreenPreviewDarkTheme()
 {

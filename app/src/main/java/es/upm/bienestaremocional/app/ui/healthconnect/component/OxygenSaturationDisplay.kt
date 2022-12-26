@@ -25,7 +25,7 @@ fun OxygenSaturationRecord.Display(windowSize: WindowSize)
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun OxygenSaturationRecordDisplayPreview()
 {
@@ -34,7 +34,7 @@ fun OxygenSaturationRecordDisplayPreview()
         oxygenSaturationRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun OxygenSaturationRecordDisplayPreviewDarkTheme()
 {
@@ -43,7 +43,7 @@ fun OxygenSaturationRecordDisplayPreviewDarkTheme()
         oxygenSaturationRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun OxygenSaturationRecordDisplayLargeScreenPreview()
 {
@@ -52,7 +52,7 @@ fun OxygenSaturationRecordDisplayLargeScreenPreview()
         oxygenSaturationRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun OxygenSaturationRecordDisplayLargeScreenPreviewDarkTheme()
 {

@@ -77,6 +77,8 @@ private const val HEALTH_CONNECT_ACTION = "androidx.health.ACTION_HEALTH_CONNECT
  * @param dynamicColor: var that stores dynamic setting value
  * @param shouldDisplayDynamicOption: boolean to control rendering (or not) dynamic option
  * (option available in Android 12+)
+ * @param languageSupportedLabels: labels to show on language setting
+ * @param onLanguageChange: callback to react language setting changes
  * @param onThemeChange: callback to react theme setting changes
  * @param onDynamicChange: callback to react dynamic setting changes
  */
@@ -86,6 +88,7 @@ private fun DrawSettingsScreen(navController: NavController,
                                themeMode: SettingValueState<Int>,
                                dynamicColor : SettingValueState<Boolean>,
                                shouldDisplayDynamicOption : Boolean,
+                               languageSupportedLabels : List<String>,
                                onLanguageChange : @Composable (SettingValueState<Int>) -> Unit,
                                onThemeChange : suspend (SettingValueState<Int>) -> Unit,
                                onDynamicChange : suspend (SettingValueState<Boolean>) -> Unit)
@@ -200,7 +203,7 @@ private fun DrawSettingsScreen(navController: NavController,
                 title = { Text(stringResource(R.string.language),
                     color = MaterialTheme.colorScheme.secondary) },
                 state = language,
-                items = MainApplication.languageManager.getSupportedLocalesLabel()
+                items = languageSupportedLabels
             )
 
             if (shouldDisplayDynamicOption)
@@ -273,6 +276,7 @@ fun SettingsScreen(navController: NavController)
     val language = viewModel.loadLanguage()
     val themeMode = viewModel.loadDarkMode()
     val dynamicColor = viewModel.loadDynamicColors()
+    val languageManager = MainApplication.languageManager
 
     DrawSettingsScreen(
         navController = navController,
@@ -280,13 +284,17 @@ fun SettingsScreen(navController: NavController)
         themeMode = themeMode,
         dynamicColor = dynamicColor,
         shouldDisplayDynamicOption = dynamicColorsSupported(),
+        languageSupportedLabels = languageManager.getSupportedLocalesLabel(),
         onThemeChange = {theme -> viewModel.changeDarkMode(theme)},
         onDynamicChange = {dynamic -> viewModel.changeDynamicColors(dynamic)},
         onLanguageChange = { viewModel.changeLanguage(LocalContext.current,it)}
     )
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun SettingsScreenNoDynamicPreview()
 {
@@ -300,6 +308,7 @@ fun SettingsScreenNoDynamicPreview()
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = false,
+            languageSupportedLabels = listOf("Español","English"),
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {}
@@ -307,7 +316,10 @@ fun SettingsScreenNoDynamicPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun SettingsScreenNoDynamicPreviewDarkTheme()
 {
@@ -321,6 +333,7 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = false,
+            languageSupportedLabels = listOf("Español","English"),
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {}
@@ -328,7 +341,10 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun SettingsScreenPreview()
 {
@@ -342,6 +358,7 @@ fun SettingsScreenPreview()
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = true,
+            languageSupportedLabels = listOf("Español","English"),
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {}
@@ -349,7 +366,10 @@ fun SettingsScreenPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun SettingsScreenPreviewDarkTheme()
 {
@@ -363,6 +383,7 @@ fun SettingsScreenPreviewDarkTheme()
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = true,
+            languageSupportedLabels = listOf("Español","English"),
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {}

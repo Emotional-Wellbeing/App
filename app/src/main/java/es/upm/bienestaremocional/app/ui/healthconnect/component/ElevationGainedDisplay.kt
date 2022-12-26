@@ -32,7 +32,7 @@ fun ElevationGainedRecord.Display(windowSize: WindowSize)
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun ElevationGainedRecordDisplayPreview()
 {
@@ -41,7 +41,7 @@ fun ElevationGainedRecordDisplayPreview()
         elevationGainedRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun ElevationGainedRecordDisplayPreviewDarkTheme()
 {
@@ -50,7 +50,7 @@ fun ElevationGainedRecordDisplayPreviewDarkTheme()
         elevationGainedRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun ElevationGainedRecordDisplayLargeScreenPreview()
 {
@@ -59,7 +59,7 @@ fun ElevationGainedRecordDisplayLargeScreenPreview()
         elevationGainedRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun ElevationGainedRecordDisplayLargeScreenPreviewDarkTheme()
 {

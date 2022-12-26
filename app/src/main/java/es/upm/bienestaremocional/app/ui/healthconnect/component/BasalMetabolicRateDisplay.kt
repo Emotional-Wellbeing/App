@@ -24,7 +24,7 @@ fun BasalMetabolicRateRecord.Display(windowSize: WindowSize)
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun BasalMetabolicRateRecordDisplayPreview()
 {
@@ -33,7 +33,7 @@ fun BasalMetabolicRateRecordDisplayPreview()
         basalMetabolicRateRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun BasalMetabolicRateRecordDisplayPreviewDarkTheme()
 {
@@ -42,7 +42,7 @@ fun BasalMetabolicRateRecordDisplayPreviewDarkTheme()
         basalMetabolicRateRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun BasalMetabolicRateRecordDisplayLargeScreenPreview()
 {
@@ -51,7 +51,7 @@ fun BasalMetabolicRateRecordDisplayLargeScreenPreview()
         basalMetabolicRateRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun BasalMetabolicRateRecordDisplayLargeScreenPreviewDarkTheme()
 {

@@ -27,7 +27,7 @@ fun CommonModalDrawerSheet(navController: NavController, entrySelected : MenuEnt
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun CommonModalDrawerSheetPreview()
 {
@@ -39,7 +39,7 @@ fun CommonModalDrawerSheetPreview()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun CommonModalDrawerSheetPreviewDarkTheme()
 {

@@ -63,7 +63,10 @@ fun HomeScreen(navController: NavController)
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun HomeScreenPreview()
 {
@@ -75,7 +78,10 @@ fun HomeScreenPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun HomeScreenPreviewDarkTheme()
 {

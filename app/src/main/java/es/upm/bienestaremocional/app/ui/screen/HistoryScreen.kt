@@ -42,7 +42,10 @@ fun HistoryScreen(navController: NavController)
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun HistoryScreenPreview()
 {
@@ -52,7 +55,10 @@ fun HistoryScreenPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun HistoryScreenPreviewDarkTheme()
 {

@@ -24,7 +24,10 @@ fun NotInstalledMessage() {
     )
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun NotInstalledMessagePreview()
 {
@@ -35,7 +38,10 @@ fun NotInstalledMessagePreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun NotInstalledMessagePreviewDarkTheme()
 {

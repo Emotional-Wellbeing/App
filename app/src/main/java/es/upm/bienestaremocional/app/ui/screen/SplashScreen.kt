@@ -87,7 +87,10 @@ fun SplashScreen(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun SplashPreview()
 {
@@ -96,7 +99,10 @@ fun SplashPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun SplashPreviewDarkTheme()
 {

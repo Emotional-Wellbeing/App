@@ -37,7 +37,7 @@ fun DrawPair(key: String, value: String, textStyle: TextStyle? = null)
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun DrawPairPreview()
 {
@@ -50,7 +50,7 @@ fun DrawPairPreview()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun DrawPairDarkThemePreview()
 {
