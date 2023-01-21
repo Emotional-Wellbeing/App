@@ -8,6 +8,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.ui.screen.*
 import es.upm.bienestaremocional.app.ui.settings.SettingsScreen
@@ -113,6 +114,12 @@ fun AppNavigation(navController: NavHostController,
                         exception
                     )
                 })
+        }
+
+        composable(route = Screen.QuestionnaireScreen.route,
+            deepLinks = listOf(navDeepLink { uriPattern = ScreenUri.Questionnaire.uriPattern}))
+        {
+            QuestionnaireScreen(navController = navController)
         }
     }
 }

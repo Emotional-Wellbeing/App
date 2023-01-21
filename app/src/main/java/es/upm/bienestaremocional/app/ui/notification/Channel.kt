@@ -5,16 +5,17 @@ import android.app.NotificationManager
 import android.content.Context
 import es.upm.bienestaremocional.R
 
-enum class AppChannels(val nameId: Int, val channelId: String)
+enum class AppChannels(val nameId: Int, val channelId: String, val importance: Int)
 {
-    Main(R.string.mainChannelName,"0")
+    Main(R.string.main_channel,"0",NotificationManager.IMPORTANCE_DEFAULT),
+    Questionnaire(R.string.questionnaire_channel,"1",NotificationManager.IMPORTANCE_HIGH)
 }
 
 fun createNotificationChannel(
     id: String,
     name: String,
-    context: Context,
-    importance: Int = NotificationManager.IMPORTANCE_DEFAULT)
+    importance: Int,
+    context: Context)
 {
     val notificationManager: NotificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

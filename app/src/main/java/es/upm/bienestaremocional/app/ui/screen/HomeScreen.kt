@@ -6,6 +6,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -15,9 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
-import es.upm.bienestaremocional.app.ui.notification.AppChannels
-import es.upm.bienestaremocional.app.ui.notification.showLargeTextNotification
-import es.upm.bienestaremocional.app.ui.notification.showSimpleNotification
+import es.upm.bienestaremocional.app.ui.notification.ShowQuestionnaireNotification
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
@@ -34,6 +34,8 @@ fun HomeScreen(navController: NavController)
     {
         var notificationId = 0
         val context = LocalContext.current
+        val sendNotification = remember { mutableStateOf(false) }
+
         //https://developer.android.com/jetpack/compose/gestures for verticalScroll
         Column(
             modifier = Modifier
@@ -69,35 +71,20 @@ fun HomeScreen(navController: NavController)
                 modifier = Modifier.fillMaxWidth()
             )
             {
-                Button(onClick =
-                    {
-                        showSimpleNotification(
-                            context,
-                            AppChannels.Main.channelId,
-                            notificationId++,
-                            "Simple notification",
-                            "This is a simple notification with default priority."
-                        )
-                    }
-                )
+                Button(onClick = { sendNotification.value = !sendNotification.value})
                 {
-                    Text(text = "Simples")
-                }
-                Button(onClick =
-                    {
-                        showLargeTextNotification(
-                            context,
-                            AppChannels.Main.channelId,
-                            notificationId++,
-                            "Large notification",
-                            "This is a simple notification with default priority.This is a simple notification with default priority.This is a simple notification with default priority.This is a simple notification with default priority.This is a simple notification with default priority.This is a simple notification with default priority.This is a simple notification with default priority."
-                        )
-                    }
-                )
-                {
-                    Text(text = "Largas")
+                    Text(text = "Notificación cuestionarios")
                 }
             }
+        }
+
+        if (sendNotification.value)
+        {
+            notificationId++
+            ShowQuestionnaireNotification(
+                context,
+                notificationId
+            )
         }
     }
 }

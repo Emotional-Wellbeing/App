@@ -9,7 +9,8 @@
     <string name="settings_screen_label">Ajustes</string>
 
     <!-- Notifications -->
-    <string name="mainChannelName">Notificaciones generales</string>
+    <string name="main_channel">Notificaciones generales</string>
+    <string name="questionnaire_channel">Cuestionarios</string>
 
     <!-- Available data -->
     <string name="heart_rate">Pulsaciones</string>
@@ -47,6 +48,7 @@
     <string name="onboarding_screen_description">Volver a visitar el tutorial de bienvenida</string>
     <string name="credits_screen_label">Créditos</string>
     <string name="credits_screen_description">Las personas detrás del proyecto</string>
+    <string name="questionnaire_screen_label">Cuestionario</string>
 
     <!-- Error screen -->
     <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes instalada, por favor reinicia la aplicación.</string>
@@ -72,6 +74,10 @@
     data outside of Health Connect.
     </string>
 
+
+    <!-- Notifications -->
+    <string name="new_questionnaire_available_title">Nuevo cuestionario</string>
+    <string name="new_questionnaire_available_content">¡Hola! Se ha abierto un nuevo cuestionario. Haz click para realizarlo.</string>
 
     <!-- Credits-->
     <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>

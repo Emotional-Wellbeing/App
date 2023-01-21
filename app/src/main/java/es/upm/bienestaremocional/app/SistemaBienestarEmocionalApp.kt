@@ -32,7 +32,8 @@ fun BienestarEmocionalApp(
             createNotificationChannel(
                 id = appChannel.channelId,
                 name = stringResource(appChannel.nameId),
-                context = context
+                importance = appChannel.importance,
+                context = context,
             )
 
     //read ui settings
