@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmsFrequency
+import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
+import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -25,12 +26,14 @@ class AppSettings(private val context: Context): AppSettingsInterface
 
         //preferences keys of the settings
         private val ALARM_FREQUENCY = intPreferencesKey("alarm_frequency")
+        private val QUESTIONNAIRES = stringSetPreferencesKey("questionnaires")
         private val FIRST_TIME = booleanPreferencesKey("first_time")
         private val THEME = stringPreferencesKey("theme")
         private val DYNAMIC_COLORS = booleanPreferencesKey("dynamic_colors")
 
         //defaults values
         private val ALARM_FREQUENCY_DEFAULT_VALUE = AlarmsFrequency.NIGHT_ALARM
+        private val QUESTIONNAIRES_DEFAULT_VALUE = emptySet<String>()
         private const val FIRST_TIME_DEFAULT_VALUE = true
         private val THEME_DEFAULT_VALUE = ThemeMode.DEFAULT_MODE
         private const val DYNAMIC_COLORS_DEFAULT_VALUE = false
@@ -56,6 +59,27 @@ class AppSettings(private val context: Context): AppSettingsInterface
     override fun getAlarmFrequencyValue(): AlarmsFrequency =
         runBlocking {
             getAlarmFrequency().first()
+        }
+
+    override suspend fun saveQuestionnairesSelected(value: Set<Questionnaire>)
+    {
+        val setTransformed = value.map { it.id }.toSet()
+        context.appSettingsDataStore.edit{ preferences ->
+            preferences[QUESTIONNAIRES] = setTransformed
+        }
+    }
+
+    override suspend fun getQuestionnairesSelected(): Flow<Set<Questionnaire>> {
+        val originalFlow = context.appSettingsDataStore.data.map { preferences ->
+            preferences[QUESTIONNAIRES] ?: QUESTIONNAIRES_DEFAULT_VALUE
+        }
+        return originalFlow.map { set -> set.mapNotNull { Questionnaire.decode(it) }.toSet() }
+    }
+
+
+    override fun getQuestionnairesSelectedValue(): Set<Questionnaire> =
+        runBlocking {
+            getQuestionnairesSelected().first()
         }
 
     override suspend fun saveFirstTime(value: Boolean)

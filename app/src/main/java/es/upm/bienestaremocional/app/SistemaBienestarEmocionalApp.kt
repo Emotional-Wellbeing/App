@@ -5,10 +5,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.rememberNavController
+import es.upm.bienestaremocional.app.data.settings.AppChannels
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import es.upm.bienestaremocional.app.ui.navigation.AppNavigation
-import es.upm.bienestaremocional.app.ui.notification.AppChannels
 import es.upm.bienestaremocional.app.ui.notification.createNotificationChannel
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize

@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.notification.alarm
+package es.upm.bienestaremocional.app.data.alarm
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource

@@ -42,11 +42,11 @@
 
         </activity>
         <receiver
-            android:name="es.upm.bienestaremocional.app.ui.notification.alarm.AlarmReceiver"
+            android:name="es.upm.bienestaremocional.app.data.alarm.AlarmReceiver"
             android:enabled="true" />
 
         <receiver
-            android:name="es.upm.bienestaremocional.app.ui.notification.alarm.BootReceiver"
+            android:name="es.upm.bienestaremocional.app.data.alarm.BootReceiver"
             android:enabled="true"
             android:exported="false">
 

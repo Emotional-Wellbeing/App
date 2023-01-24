@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.notification
+package es.upm.bienestaremocional.app.data.settings
 
 const val NOTIFICATION_REQUEST_CODE = 0
 const val NIGHT_ALARM_CODE = 1

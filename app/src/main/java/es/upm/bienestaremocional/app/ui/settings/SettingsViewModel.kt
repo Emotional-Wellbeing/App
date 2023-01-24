@@ -8,13 +8,15 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.alorma.compose.settings.storage.base.SettingValueState
 import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
+import com.alorma.compose.settings.storage.base.rememberIntSetSettingState
 import com.alorma.compose.settings.storage.base.rememberIntSettingState
 import es.upm.bienestaremocional.app.MainApplication
+import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
+import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
+import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.LanguageManager
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
-import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmScheduler
-import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmsFrequency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -105,7 +107,7 @@ class SettingsViewModel(val appSettings: AppSettingsInterface,
     }
 
     /**
-     * Load dynamic color value from [AppSettingsInterface]
+     * Load alarm frequency from [AppSettingsInterface]
      */
     @Composable
     fun loadAlarmFrequency(): SettingValueState<Int>
@@ -119,7 +121,7 @@ class SettingsViewModel(val appSettings: AppSettingsInterface,
     }
 
     /**
-     * Saves dynamic color value
+     * Saves alarm frequency value
      */
     suspend fun changeAlarmFrequency(option: SettingValueState<Int>)
     {
@@ -128,5 +130,32 @@ class SettingsViewModel(val appSettings: AppSettingsInterface,
             alarmScheduler.setAlarms(it.alarms)
             appSettings.saveAlarmFrequency(it)
         }
+    }
+
+    /**
+     * Load questionnaires selected value from [AppSettingsInterface]
+     */
+    @Composable
+    fun loadQuestionnairesSelected(): SettingValueState<Set<Int>>
+    {
+        var option : Set<Int>
+        runBlocking(Dispatchers.IO)
+        {
+            option = appSettings.getQuestionnairesSelected().first().map { it.ordinal }.toSet()
+        }
+        return rememberIntSetSettingState(option)
+    }
+
+    /**
+     * Saves questionnaires selected value
+     */
+    suspend fun changeQuestionnairesSelected(option: SettingValueState<Set<Int>>)
+    {
+        // Default to null
+        val questionnaire: Set<Questionnaire> = option.value.mapNotNull {
+            Questionnaire.values().getOrNull(it)
+        }.toSet()
+
+        appSettings.saveQuestionnairesSelected(questionnaire)
     }
 }

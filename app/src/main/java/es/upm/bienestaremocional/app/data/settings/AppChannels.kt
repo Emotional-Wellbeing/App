@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.notification
+package es.upm.bienestaremocional.app.data.settings
 
 import android.app.NotificationManager
 import es.upm.bienestaremocional.R

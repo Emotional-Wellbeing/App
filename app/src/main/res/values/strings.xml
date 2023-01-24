@@ -55,7 +55,9 @@
     <string name="questionnaire_only_night">Un cuestionario a la noche</string>
     <string name="questionnaire_night_lunch">Un cuestionario al mediodía y otro a la noche</string>
     <string name="questionnaire_screen_label">Cuestionario</string>
-
+    <string name="additional_questionnaires">Cuestionarios adicionales</string>
+    <string name="phq9_label">PHQ-9 (depresión)</string>
+    <string name="ucla_label">UCLA (soledad)</string>
 
     <!-- Error screen -->
     <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes instalada, por favor reinicia la aplicación.</string>
@@ -115,6 +117,7 @@
     <string name="sleep">Sueño</string>
     <string name="language">Idioma</string>
     <string name="restart">Reiniciar</string>
+    <string name="accept">Aceptar</string>
 
     <string name="light_mode_label">Desactivado</string>
     <string name="dark_mode_label">Activado</string>

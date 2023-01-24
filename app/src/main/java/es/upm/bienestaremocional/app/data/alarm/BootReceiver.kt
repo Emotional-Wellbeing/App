@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.notification.alarm
+package es.upm.bienestaremocional.app.data.alarm
 
 import android.content.BroadcastReceiver
 import android.content.Context

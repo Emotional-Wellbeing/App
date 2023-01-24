@@ -9,6 +9,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.MainActivity
+import es.upm.bienestaremocional.app.data.settings.AppChannels
+import es.upm.bienestaremocional.app.data.settings.NOTIFICATION_REQUEST_CODE
 import es.upm.bienestaremocional.app.ui.navigation.ScreenUri
 
 class NotificationSender(private val context: Context)

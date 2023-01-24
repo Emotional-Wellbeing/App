@@ -4,12 +4,12 @@ import android.app.Application
 import android.content.Context
 import androidx.health.connect.client.HealthConnectClient
 import com.yariksoffice.lingver.Lingver
+import es.upm.bienestaremocional.app.data.alarm.AlarmReceiver
+import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.LanguageManager
 import es.upm.bienestaremocional.app.ui.notification.NotificationSender
-import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmReceiver
-import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmScheduler
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
 
 

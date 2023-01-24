@@ -1,6 +1,7 @@
 package es.upm.bienestaremocional.app.data.settings
 
-import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmsFrequency
+import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
+import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -26,6 +27,23 @@ interface AppSettingsInterface
      * Thread-blocking implementation of [getAlarmFrequency]
      */
     fun getAlarmFrequencyValue(): AlarmsFrequency
+
+    /**
+     * Save questionnaires selected
+     * @param value: Preference to save
+     */
+    suspend fun saveQuestionnairesSelected(value: Set<Questionnaire>)
+
+    /**
+     * Get alarm frequency preference
+     * @return [Flow] of [Set] of [Questionnaire] with the values
+     */
+    suspend fun getQuestionnairesSelected(): Flow<Set<Questionnaire>>
+
+    /**
+     * Thread-blocking implementation of [getQuestionnairesSelected]
+     */
+    fun getQuestionnairesSelectedValue(): Set<Questionnaire>
 
     /**
      * Save first time info
