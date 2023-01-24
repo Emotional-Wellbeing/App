@@ -27,14 +27,21 @@ fun BienestarEmocionalApp(
     val navController = rememberNavController()
     val context = LocalContext.current
 
-    //notifications
-    for (appChannel in AppChannels.values())
+    if (appSettings.getFirstTimeValue())
+    {
+        //build channel notifications
+        for (appChannel in AppChannels.values())
             createNotificationChannel(
                 id = appChannel.channelId,
                 name = stringResource(appChannel.nameId),
                 importance = appChannel.importance,
                 context = context,
             )
+        //schedule alarms
+        MainApplication.alarmScheduler.setAlarms(appSettings.getAlarmFrequencyValue().alarms)
+    }
+
+
 
     //read ui settings
     val darkTheme : ThemeMode = appSettings.getThemeValue()

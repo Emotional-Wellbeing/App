@@ -55,7 +55,8 @@ fun AppNavigation(navController: NavHostController,
             OnboardingScreen(windowSize = windowSize)
             {
                 scope.launch {
-                    appSettings.saveShowOnboarding(false)
+                    //only quit first time info when the app exit onboarding screen
+                    appSettings.saveFirstTime(false)
                 }
                 navController.popBackStack()
                 navController.navigate(Screen.HomeScreen.route)

@@ -6,18 +6,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
-import es.upm.bienestaremocional.app.ui.notification.ShowQuestionnaireNotification
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
@@ -32,10 +29,6 @@ fun HomeScreen(navController: NavController)
         entrySelected = MenuEntry.HomeScreen,
         label = R.string.app_name)
     {
-        var notificationId = 0
-        val context = LocalContext.current
-        val sendNotification = remember { mutableStateOf(false) }
-
         //https://developer.android.com/jetpack/compose/gestures for verticalScroll
         Column(
             modifier = Modifier
@@ -71,20 +64,11 @@ fun HomeScreen(navController: NavController)
                 modifier = Modifier.fillMaxWidth()
             )
             {
-                Button(onClick = { sendNotification.value = !sendNotification.value})
+                Button(onClick = { MainApplication.notificationSender.showQuestionnaireNotification() })
                 {
-                    Text(text = "Notificación cuestionarios")
+                    Text(text = "Notificacion")
                 }
             }
-        }
-
-        if (sendNotification.value)
-        {
-            notificationId++
-            ShowQuestionnaireNotification(
-                context,
-                notificationId
-            )
         }
     }
 }
