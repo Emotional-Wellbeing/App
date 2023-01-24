@@ -7,6 +7,9 @@ import com.yariksoffice.lingver.Lingver
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.LanguageManager
+import es.upm.bienestaremocional.app.ui.notification.NotificationSender
+import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmReceiver
+import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmScheduler
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
 
 
@@ -43,6 +46,10 @@ class MainApplication: Application()
                 context = applicationContext)
         val appSettings : AppSettingsInterface
             get() = AppSettings(applicationContext)
+        val notificationSender: NotificationSender
+            get() = NotificationSender(applicationContext)
+        val alarmScheduler: AlarmScheduler
+            get() = AlarmScheduler(applicationContext, AlarmReceiver::class.java)
         lateinit var languageManager : LanguageManager
             private set
     }

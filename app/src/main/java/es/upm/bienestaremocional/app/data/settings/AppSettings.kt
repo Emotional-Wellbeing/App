@@ -2,11 +2,9 @@ package es.upm.bienestaremocional.app.data.settings
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmsFrequency
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -26,31 +24,55 @@ class AppSettings(private val context: Context): AppSettingsInterface
             by preferencesDataStore(name = "settings")
 
         //preferences keys of the settings
-        private val SHOW_ONBOARDING = booleanPreferencesKey("show_onboarding")
+        private val ALARM_FREQUENCY = intPreferencesKey("alarm_frequency")
+        private val FIRST_TIME = booleanPreferencesKey("first_time")
         private val THEME = stringPreferencesKey("theme")
         private val DYNAMIC_COLORS = booleanPreferencesKey("dynamic_colors")
 
         //defaults values
-        private const val SHOW_ONBOARDING_DEFAULT_VALUE = true
+        private val ALARM_FREQUENCY_DEFAULT_VALUE = AlarmsFrequency.NIGHT_ALARM
+        private const val FIRST_TIME_DEFAULT_VALUE = true
         private val THEME_DEFAULT_VALUE = ThemeMode.DEFAULT_MODE
         private const val DYNAMIC_COLORS_DEFAULT_VALUE = false
     }
 
-    override suspend fun saveShowOnboarding(value: Boolean)
+    override suspend fun saveAlarmFrequency(value: AlarmsFrequency)
     {
         context.appSettingsDataStore.edit{ preferences ->
-            preferences[SHOW_ONBOARDING] = value
+            preferences[ALARM_FREQUENCY] = value.ordinal
         }
     }
 
-    override suspend fun getShowOnboarding(): Flow<Boolean> =
+    override suspend fun getAlarmFrequency(): Flow<AlarmsFrequency> =
         context.appSettingsDataStore.data.map { preferences ->
-            preferences[SHOW_ONBOARDING] ?: SHOW_ONBOARDING_DEFAULT_VALUE
+            when(preferences[ALARM_FREQUENCY])
+            {
+                AlarmsFrequency.NIGHT_ALARM.ordinal -> AlarmsFrequency.NIGHT_ALARM
+                AlarmsFrequency.NIGHT_LUNCH_ALARM.ordinal -> AlarmsFrequency.NIGHT_LUNCH_ALARM
+                else -> ALARM_FREQUENCY_DEFAULT_VALUE
+            }
         }
 
-    override fun getShowOnboardingValue(): Boolean =
+    override fun getAlarmFrequencyValue(): AlarmsFrequency =
         runBlocking {
-            getShowOnboarding().first()
+            getAlarmFrequency().first()
+        }
+
+    override suspend fun saveFirstTime(value: Boolean)
+    {
+        context.appSettingsDataStore.edit{ preferences ->
+            preferences[FIRST_TIME] = value
+        }
+    }
+
+    override suspend fun getFirstTime(): Flow<Boolean> =
+        context.appSettingsDataStore.data.map { preferences ->
+            preferences[FIRST_TIME] ?: FIRST_TIME_DEFAULT_VALUE
+        }
+
+    override fun getFirstTimeValue(): Boolean =
+        runBlocking {
+            getFirstTime().first()
         }
 
     override suspend fun saveTheme(value: ThemeMode)

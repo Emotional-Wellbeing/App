@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +29,7 @@ import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.app.ui.navigation.Screen
+import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmsFrequency
 import es.upm.bienestaremocional.app.utils.dynamicColorsSupported
 import es.upm.bienestaremocional.app.utils.openForeignActivity
 import es.upm.bienestaremocional.app.utils.restartApp
@@ -72,20 +70,25 @@ private const val HEALTH_CONNECT_ACTION = "androidx.health.ACTION_HEALTH_CONNECT
 /**
  * Renders settings menu
  * @param navController: needed for render menu
+ * @param alarmFrequency: var that holds questionnaire frequency
  * @param language: var that stores the language of the app
  * @param themeMode: var that stores theme setting value
  * @param dynamicColor: var that stores dynamic setting value
  * @param shouldDisplayDynamicOption: boolean to control rendering (or not) dynamic option
  * (option available in Android 12+)
+ * @param onAlarmFrequencyChange: callback to react alarm frequency setting changes
+ * @param onLanguageChange: callback to react language setting changes
  * @param onThemeChange: callback to react theme setting changes
  * @param onDynamicChange: callback to react dynamic setting changes
  */
 @Composable
 private fun DrawSettingsScreen(navController: NavController,
+                               alarmFrequency: SettingValueState<Int>,
                                language: SettingValueState<Int>,
                                themeMode: SettingValueState<Int>,
                                dynamicColor : SettingValueState<Boolean>,
                                shouldDisplayDynamicOption : Boolean,
+                               onAlarmFrequencyChange : suspend (SettingValueState<Int>) -> Unit,
                                onLanguageChange : @Composable (SettingValueState<Int>) -> Unit,
                                onThemeChange : suspend (SettingValueState<Int>) -> Unit,
                                onDynamicChange : suspend (SettingValueState<Boolean>) -> Unit)
@@ -95,6 +98,8 @@ private fun DrawSettingsScreen(navController: NavController,
     val context = LocalContext.current
 
     //avoid undesired launch
+    val defaultAlarmFrequency : Int = remember { alarmFrequency.value }
+    val alarmFrequencyChanged : MutableState<Boolean> = remember { mutableStateOf(false) }
     val defaultThemeValue : Int = remember { themeMode.value }
     val defaultDynamicValue : Boolean = remember { dynamicColor.value }
     val defaultLanguage : Int = remember { language.value }
@@ -102,6 +107,16 @@ private fun DrawSettingsScreen(navController: NavController,
     val restartToApplyChanges = stringResource(id = R.string.restart_apply_changes)
     val restartApplyAllChanges = stringResource(id = R.string.restart_apply_all_changes)
     val actionLabel = stringResource(id = R.string.restart)
+
+    if (alarmFrequency.value != defaultAlarmFrequency || alarmFrequencyChanged.value)
+    {
+        if (alarmFrequency.value != defaultAlarmFrequency)
+            alarmFrequencyChanged.value = true
+        LaunchedEffect(alarmFrequency.value)
+        {
+            onAlarmFrequencyChange(alarmFrequency)
+        }
+    }
 
     if (themeMode.value != defaultThemeValue)
     {
@@ -191,6 +206,21 @@ private fun DrawSettingsScreen(navController: NavController,
 
             Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
 
+            GroupText(textRes = R.string.feedback_group)
+
+            SettingsList(
+                icon = { Icon(painter = painterResource(R.drawable.event_repeat),
+                    contentDescription = null,
+                    modifier = Modifier.defaultIconModifier()) },
+                title = { Text(stringResource(R.string.feedback_frequency),
+                    color = MaterialTheme.colorScheme.secondary) },
+                state = alarmFrequency,
+                items = AlarmsFrequency.getLabels()
+            )
+
+
+            Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
+
             GroupText(textRes = R.string.ui_group)
 
             SettingsList(
@@ -270,16 +300,19 @@ private fun DrawSettingsScreen(navController: NavController,
 fun SettingsScreen(navController: NavController)
 {
     val viewModel : SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
+    val alarmFrequency = viewModel.loadAlarmFrequency()
     val language = viewModel.loadLanguage()
     val themeMode = viewModel.loadDarkMode()
     val dynamicColor = viewModel.loadDynamicColors()
 
     DrawSettingsScreen(
         navController = navController,
+        alarmFrequency = alarmFrequency,
         language = language,
         themeMode = themeMode,
         dynamicColor = dynamicColor,
         shouldDisplayDynamicOption = dynamicColorsSupported(),
+        onAlarmFrequencyChange = { viewModel.changeAlarmFrequency(it)},
         onThemeChange = {theme -> viewModel.changeDarkMode(theme)},
         onDynamicChange = {dynamic -> viewModel.changeDynamicColors(dynamic)},
         onLanguageChange = { viewModel.changeLanguage(LocalContext.current,it)}
@@ -296,10 +329,12 @@ fun SettingsScreenNoDynamicPreview()
     {
         DrawSettingsScreen(
             navController = navController,
+            alarmFrequency = rememberIntSettingState(-1),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = false,
+            onAlarmFrequencyChange = {},
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {}
@@ -317,10 +352,12 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
     {
         DrawSettingsScreen(
             navController = navController,
+            alarmFrequency = rememberIntSettingState(-1),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = false,
+            onAlarmFrequencyChange = {},
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {}
@@ -338,10 +375,12 @@ fun SettingsScreenPreview()
     {
         DrawSettingsScreen(
             navController = navController,
+            alarmFrequency = rememberIntSettingState(-1),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = true,
+            onAlarmFrequencyChange = {},
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {}
@@ -359,10 +398,12 @@ fun SettingsScreenPreviewDarkTheme()
     {
         DrawSettingsScreen(
             navController = navController,
+            alarmFrequency = rememberIntSettingState(-1),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             shouldDisplayDynamicOption = true,
+            onAlarmFrequencyChange = {},
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {}

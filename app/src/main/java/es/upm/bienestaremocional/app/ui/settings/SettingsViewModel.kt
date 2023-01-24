@@ -13,12 +13,16 @@ import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.LanguageManager
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
+import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmScheduler
+import es.upm.bienestaremocional.app.ui.notification.alarm.AlarmsFrequency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 class SettingsViewModel(val appSettings: AppSettingsInterface,
-                        private val languageManager: LanguageManager) : ViewModel()
+                        private val languageManager: LanguageManager,
+                        private val alarmScheduler: AlarmScheduler
+) : ViewModel()
 {
     companion object
     {
@@ -28,7 +32,9 @@ class SettingsViewModel(val appSettings: AppSettingsInterface,
         val Factory : ViewModelProvider.Factory = viewModelFactory{
             initializer {
                 SettingsViewModel(appSettings = MainApplication.appSettings,
-                    languageManager = MainApplication.languageManager)
+                    languageManager = MainApplication.languageManager,
+                    alarmScheduler = MainApplication.alarmScheduler
+                )
             }
         }
     }
@@ -95,6 +101,32 @@ class SettingsViewModel(val appSettings: AppSettingsInterface,
         val themeMode: ThemeMode? = ThemeMode.values().getOrNull(option.value)
         themeMode?.let {
             appSettings.saveTheme(themeMode)
+        }
+    }
+
+    /**
+     * Load dynamic color value from [AppSettingsInterface]
+     */
+    @Composable
+    fun loadAlarmFrequency(): SettingValueState<Int>
+    {
+        var option : Int
+        runBlocking(Dispatchers.IO)
+        {
+            option = appSettings.getAlarmFrequency().first().ordinal
+        }
+        return rememberIntSettingState(option)
+    }
+
+    /**
+     * Saves dynamic color value
+     */
+    suspend fun changeAlarmFrequency(option: SettingValueState<Int>)
+    {
+        val alarmsFrequency: AlarmsFrequency? = AlarmsFrequency.values().getOrNull(option.value)
+        alarmsFrequency?.let {
+            alarmScheduler.setAlarms(it.alarms)
+            appSettings.saveAlarmFrequency(it)
         }
     }
 }

@@ -141,4 +141,13 @@
     <string name="cooper_test">Cooper test</string>
     <string name="multistage_fitness_test">Multistage fitness test</string>
     <string name="rockport_fitness_test">Rockport fitness test</string>
+    <string name="main_channel">General notifications</string>
+    <string name="questionnaire_screen_label">Questionnaire</string>
+    <string name="questionnaire_channel">Questionnaires</string>
+    <string name="new_questionnaire_available_title">New questionnaire</string>
+    <string name="new_questionnaire_available_content">Hi! A new questionnaire is available. Se ha abierto un nuevo cuestionario. Click here to do it.</string>
+    <string name="feedback_group">Feedback</string>
+    <string name="feedback_frequency">Questionnaire frequency</string>
+    <string name="questionnaire_only_night">One questionnaire at night</string>
+    <string name="questionnaire_night_lunch">One questionnaire at lunch and another at night</string>
 </resources>

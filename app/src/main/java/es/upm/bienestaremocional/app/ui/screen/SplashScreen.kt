@@ -71,7 +71,7 @@ fun SplashScreen(
         navController.popBackStack() //prevents a return to splash screen
 
         //read if we should present onboarding
-        val showOnboarding = appSettings.getShowOnboarding().first()
+        val showOnboarding = appSettings.getFirstTime().first()
 
         //redirect to certain screen
         when (healthConnectAvailability.value)
