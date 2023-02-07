@@ -33,23 +33,21 @@ class QuestionnaireRoundViewModel(private val appSettings: AppSettingsInterface)
 
     fun onFinish()
     {
-        if (actualQuestionnaire + 1 < questionnaires.size)
-        {
+        state = if (actualQuestionnaire + 1 < questionnaires.size) {
             actualQuestionnaire++
-            state = QuestionnaireRoundState.InProgress(actualQuestionnaire)
+            QuestionnaireRoundState.InProgress(actualQuestionnaire)
         }
         else
-            state = QuestionnaireRoundState.Finishing
+            QuestionnaireRoundState.Finishing
     }
 
     fun onSkip()
     {
-        if (actualQuestionnaire + 1 < questionnaires.size)
-        {
+        state = if (actualQuestionnaire + 1 < questionnaires.size) {
             actualQuestionnaire++
-            state = QuestionnaireRoundState.InProgress(actualQuestionnaire)
+            QuestionnaireRoundState.InProgress(actualQuestionnaire)
         }
         else
-            state = QuestionnaireRoundState.Finishing
+            QuestionnaireRoundState.Finishing
     }
 }

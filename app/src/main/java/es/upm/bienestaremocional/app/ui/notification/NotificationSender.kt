@@ -26,7 +26,7 @@ class NotificationSender(private val context: Context)
      */
     fun showQuestionnaireNotification()
     {
-        val pendingIntent = makePendingIntent("be://questionnaire")
+        val pendingIntent = "be://questionnaire".makePendingIntent()
 
         val textTitle = context.getString(R.string.new_questionnaire_available_title)
         val textContent = context.getString(R.string.new_questionnaire_available_content)
@@ -46,7 +46,7 @@ class NotificationSender(private val context: Context)
      * @param textContent: Content of the notification
      * @param pendingIntent: action to be executed when the user press the notification
      */
-    fun showAccionableNotification(
+    private fun showAccionableNotification(
         channelId: String,
         textTitle: String,
         textContent: String,
@@ -111,14 +111,13 @@ class NotificationSender(private val context: Context)
     }
 
     /**
-     * Obtains a pending intent
-     * @param uriPattern: Pattern associated with the related screen of the app
+     * Obtains a pending intent from pattern associated with the related screen of the app
      */
-    private fun makePendingIntent(uriPattern : String) : PendingIntent
+    private fun String.makePendingIntent(): PendingIntent
     {
         val intent = Intent(
             Intent.ACTION_VIEW,
-            uriPattern.toUri(),
+            toUri(),
             context,
             MainActivity::class.java
         )

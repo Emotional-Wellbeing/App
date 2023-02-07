@@ -20,9 +20,7 @@ fun Vo2MaxRecord.Display(windowSize: WindowSize)
     BasicCard {
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(id = R.string.vo2_max), value = "$vo2 $unit")
-        decodeMeasurementMethod().let {
-            DrawPair(key = stringResource(R.string.measurement_method), value = it)
-        }
+        DrawPair(key = stringResource(R.string.measurement_method), value = decodeMeasurementMethod())
         metadata.Display(windowSize)
     }
 }

@@ -144,7 +144,6 @@
     <string name="multistage_fitness_test">Multistage fitness test</string>
     <string name="rockport_fitness_test">Rockport fitness test</string>
     <string name="main_channel">General notifications</string>
-    <string name="questionnaire_screen_label">Questionnaire</string>
     <string name="questionnaire_channel">Questionnaires</string>
     <string name="new_questionnaire_available_title">New questionnaire</string>
     <string name="new_questionnaire_available_content">Hi! A new questionnaire is available. Click here to do it.</string>
@@ -162,4 +161,5 @@
     <string name="questionnaire_not_completed">Questionnaire not completed</string>
     <string name="exit_questionnaire">Exit questionnaire</string>
     <string name="sure_skip_questionnaire">Are you sure you want to skip the questionnaire?</string>
+    <string name="score">Score</string>
 </resources>

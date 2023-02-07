@@ -338,12 +338,16 @@ private fun Summary(score : Int,
                     questionnaire: Questionnaire,
                     onSucess : () -> Unit)
 {
-    val label = stringResource(questionnaire.labelRes)
+    val previousLabel = stringResource(R.string.questionnaire)
+    val scoreLabel = stringResource(R.string.score)
+    val questionnaireLabel = stringResource(questionnaire.labelRes)
+
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Tu puntuación en el cuestionario $label es: $score")
+            Text("$previousLabel $questionnaireLabel")
+            Text("$scoreLabel: $score")
             Button(onClick = onSucess ) {
                 Text("OK")
             }

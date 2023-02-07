@@ -54,9 +54,9 @@
     <string name="feedback_frequency">Frecuencia de los cuestionarios</string>
     <string name="questionnaire_only_night">Un cuestionario a la noche</string>
     <string name="questionnaire_night_lunch">Un cuestionario al mediodía y otro a la noche</string>
-    <string name="questionnaire_screen_label">Cuestionario</string>
     <string name="additional_questionnaires">Cuestionarios adicionales</string>
     <string name="questionnaire">Cuestionario</string>
+    <string name="score">Puntuación</string>
     <string name="pss_label">PSS (estrés)</string>
     <string name="phq_label">PHQ (depresión)</string>
     <string name="ucla_label">UCLA (soledad)</string>
