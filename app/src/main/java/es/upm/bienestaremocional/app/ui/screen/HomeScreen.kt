@@ -10,11 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
+import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireScreenDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
@@ -22,10 +24,12 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 /**
  * Home Screen is point of entry screen
  */
+
+@Destination
 @Composable
-fun HomeScreen(navController: NavController)
+fun HomeScreen(navigator: DestinationsNavigator)
 {
-    AppBasicScreen(navController = navController,
+    AppBasicScreen(navigator = navigator,
         entrySelected = MenuEntry.HomeScreen,
         label = R.string.app_name)
     {
@@ -68,6 +72,10 @@ fun HomeScreen(navController: NavController)
                 {
                     Text(text = "Notificacion")
                 }
+                Button(onClick = { navigator.navigate(QuestionnaireScreenDestination) })
+                {
+                    Text(text = "Cuestionario")
+                }
             }
         }
     }
@@ -77,11 +85,8 @@ fun HomeScreen(navController: NavController)
 @Composable
 fun HomeScreenPreview()
 {
-    //nav controller init
-    val navController = rememberNavController()
-
     BienestarEmocionalTheme{
-        HomeScreen(navController = navController)
+        HomeScreen(EmptyDestinationsNavigator)
     }
 }
 
@@ -89,11 +94,8 @@ fun HomeScreenPreview()
 @Composable
 fun HomeScreenPreviewDarkTheme()
 {
-    //nav controller init
-    val navController = rememberNavController()
-
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(navController = navController)
+        HomeScreen(EmptyDestinationsNavigator)
     }
 }

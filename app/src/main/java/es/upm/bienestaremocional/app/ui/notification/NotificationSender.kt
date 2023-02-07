@@ -11,7 +11,6 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.MainActivity
 import es.upm.bienestaremocional.app.data.settings.AppChannels
 import es.upm.bienestaremocional.app.data.settings.NOTIFICATION_REQUEST_CODE
-import es.upm.bienestaremocional.app.ui.navigation.ScreenUri
 
 class NotificationSender(private val context: Context)
 {
@@ -24,7 +23,7 @@ class NotificationSender(private val context: Context)
      */
     fun showQuestionnaireNotification()
     {
-        val pendingIntent = makePendingIntent(ScreenUri.Questionnaire.uriPattern)
+        val pendingIntent = makePendingIntent("be://questionnaire")
 
         val textTitle = context.getString(R.string.new_questionnaire_available_title)
         val textContent = context.getString(R.string.new_questionnaire_available_content)

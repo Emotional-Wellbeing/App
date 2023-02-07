@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
@@ -57,16 +57,16 @@ private fun DrawNavigationDrawerItem(entry: MenuEntry,
 
 /**
  * Draw menu items
- * @param navController: manager of app navigation 
+ * @param navigator: manager of app navigation 
  * @param entrySelected: entry that the user is visualizing. Null if the user is in entry that 
  * isn't part of menu
  */
 @Composable
-fun NavigationDrawerItems(navController: NavController, entrySelected: MenuEntry?)
+fun NavigationDrawerItems(navigator: DestinationsNavigator, entrySelected: MenuEntry?)
 {
     MenuEntry.values().forEach {
         element -> DrawNavigationDrawerItem(entry = element, selected = element === entrySelected) {
-            navController.navigate(element.route)
+            navigator.navigate(element.direction)
         }
     }
 }

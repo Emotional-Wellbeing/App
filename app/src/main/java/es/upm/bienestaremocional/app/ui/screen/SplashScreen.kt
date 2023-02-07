@@ -8,20 +8,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
-import es.upm.bienestaremocional.app.ui.navigation.Screen
+import es.upm.bienestaremocional.app.MainApplication
+import es.upm.bienestaremocional.app.ui.screen.destinations.ErrorScreenDestination
+import es.upm.bienestaremocional.app.ui.screen.destinations.HomeScreenDestination
+import es.upm.bienestaremocional.app.ui.screen.destinations.OnboardingScreenDestination
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 
 /**
  * @Todo close app when we arrive this screen from other
@@ -52,11 +53,12 @@ fun Splash(darkTheme: Boolean)
     }
 }
 
+@Destination
 @Composable
 fun SplashScreen(
-    appSettings: AppSettingsInterface,
-    healthConnectAvailability: MutableState<HealthConnectAvailability>,
-    navController: NavHostController,
+    navigator: DestinationsNavigator,
+    healthConnectAvailability: HealthConnectAvailability,
+    showOnboarding : Boolean,
     darkTheme: Boolean
 )
 {
@@ -68,21 +70,19 @@ fun SplashScreen(
     {
         delay(1000)
 
-        navController.popBackStack() //prevents a return to splash screen
+        navigator.popBackStack() //prevents a return to splash screen
 
-        //read if we should present onboarding
-        val showOnboarding = appSettings.getFirstTime().first()
 
         //redirect to certain screen
-        when (healthConnectAvailability.value)
+        when (healthConnectAvailability)
         {
             HealthConnectAvailability.INSTALLED ->
-                if (showOnboarding)
-                    navController.navigate(Screen.OnboardingScreen.route)
-                else
-                    navController.navigate(Screen.HomeScreen.route)
 
-            else -> navController.navigate(Screen.ErrorScreen.route)
+                if (showOnboarding)
+                    navigator.navigate(OnboardingScreenDestination(MainApplication.windowSize!!))
+                else
+                    navigator.navigate(HomeScreenDestination)
+            else -> navigator.navigate(ErrorScreenDestination(healthConnectAvailability))
         }
     }
 }

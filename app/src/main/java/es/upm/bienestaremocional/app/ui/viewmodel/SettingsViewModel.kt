@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.settings
+package es.upm.bienestaremocional.app.ui.viewmodel
 
 import android.content.Context
 import androidx.compose.runtime.Composable
@@ -21,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
-class SettingsViewModel(val appSettings: AppSettingsInterface,
+class SettingsViewModel(private val appSettings: AppSettingsInterface,
                         private val languageManager: LanguageManager,
                         private val alarmScheduler: AlarmScheduler
 ) : ViewModel()
@@ -127,7 +127,9 @@ class SettingsViewModel(val appSettings: AppSettingsInterface,
     {
         val alarmsFrequency: AlarmsFrequency? = AlarmsFrequency.values().getOrNull(option.value)
         alarmsFrequency?.let {
-            alarmScheduler.setAlarms(it.alarms)
+            val alarms = appSettings.getAlarmFrequencyValue().alarmItems
+            alarmScheduler.cancel(alarms)
+            alarmScheduler.schedule(it.alarmItems)
             appSettings.saveAlarmFrequency(it)
         }
     }
@@ -139,9 +141,10 @@ class SettingsViewModel(val appSettings: AppSettingsInterface,
     fun loadQuestionnairesSelected(): SettingValueState<Set<Int>>
     {
         var option : Set<Int>
+        val possibleOptions = Questionnaire.getOptional()
         runBlocking(Dispatchers.IO)
         {
-            option = appSettings.getQuestionnairesSelected().first().map { it.ordinal }.toSet()
+            option = appSettings.getQuestionnairesSelected().first().map { possibleOptions.indexOf(it) }.toSet()
         }
         return rememberIntSetSettingState(option)
     }
@@ -153,7 +156,7 @@ class SettingsViewModel(val appSettings: AppSettingsInterface,
     {
         // Default to null
         val questionnaire: Set<Questionnaire> = option.value.mapNotNull {
-            Questionnaire.values().getOrNull(it)
+            Questionnaire.getOptional().getOrNull(it)
         }.toSet()
 
         appSettings.saveQuestionnairesSelected(questionnaire)

@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.settings
+package es.upm.bienestaremocional.app.ui.screen
 
 import android.app.Activity
 import android.content.Context
@@ -15,9 +15,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.alorma.compose.settings.storage.base.SettingValueState
 import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
 import com.alorma.compose.settings.storage.base.rememberIntSetSettingState
@@ -26,13 +23,17 @@ import com.alorma.compose.settings.ui.SettingsList
 import com.alorma.compose.settings.ui.SettingsListMultiSelect
 import com.alorma.compose.settings.ui.SettingsMenuLink
 import com.alorma.compose.settings.ui.SettingsSwitch
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
-import es.upm.bienestaremocional.app.ui.navigation.Screen
+import es.upm.bienestaremocional.app.ui.screen.destinations.*
+import es.upm.bienestaremocional.app.ui.viewmodel.SettingsViewModel
 import es.upm.bienestaremocional.app.utils.dynamicColorsSupported
 import es.upm.bienestaremocional.app.utils.openForeignActivity
 import es.upm.bienestaremocional.app.utils.restartApp
@@ -72,7 +73,7 @@ private const val HEALTH_CONNECT_ACTION = "androidx.health.ACTION_HEALTH_CONNECT
 
 /**
  * Renders settings menu
- * @param navController: needed for render menu
+ * @param navigator: needed for render menu
  * @param alarmFrequency: var that holds questionnaire frequency
  * @param questionnaires: var that stores additional questionnaires selection
  * @param language: var that stores the language of the app
@@ -87,7 +88,7 @@ private const val HEALTH_CONNECT_ACTION = "androidx.health.ACTION_HEALTH_CONNECT
  * @param onDynamicChange: callback to react dynamic setting changes
  */
 @Composable
-private fun DrawSettingsScreen(navController: NavController,
+private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                                alarmFrequency: SettingValueState<Int>,
                                questionnaires: SettingValueState<Set<Int>>,
                                language: SettingValueState<Int>,
@@ -103,6 +104,7 @@ private fun DrawSettingsScreen(navController: NavController,
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
+    val windowSize = MainApplication.windowSize!!
 
     //avoid undesired launch
     val defaultAlarmFrequency : Int = remember { alarmFrequency.value }
@@ -171,7 +173,7 @@ private fun DrawSettingsScreen(navController: NavController,
     }
 
 
-    AppBasicScreen(navController = navController,
+    AppBasicScreen(navigator = navigator,
         entrySelected = MenuEntry.SettingsScreen,
         label = MenuEntry.SettingsScreen.labelId,
         scope = scope,
@@ -195,7 +197,7 @@ private fun DrawSettingsScreen(navController: NavController,
                 title = { Text(text = stringResource(id = R.string.my_data_label),
                     color = MaterialTheme.colorScheme.secondary) },
                 subtitle = { Text(stringResource(id = R.string.my_data_description)) },
-                onClick = { navController.navigate(Screen.MyDataScreen.route) },
+                onClick = { navigator.navigate(MyDataScreenDestination(windowSize)) },
             )
 
 
@@ -206,7 +208,7 @@ private fun DrawSettingsScreen(navController: NavController,
                 title = { Text(text = stringResource(id = R.string.privacy_policy_screen_label),
                     color = MaterialTheme.colorScheme.secondary) },
                 subtitle = { Text(stringResource(id = R.string.privacy_policy_screen_description)) },
-                onClick = { navController.navigate(Screen.PrivacyPolicyScreen.route) },
+                onClick = { navigator.navigate(PrivacyPolicyScreenDestination) },
             )
 
             SettingsMenuLink(
@@ -241,7 +243,7 @@ private fun DrawSettingsScreen(navController: NavController,
                 title = { Text(stringResource(R.string.additional_questionnaires),
                     color = MaterialTheme.colorScheme.secondary) },
                 state = questionnaires,
-                items = Questionnaire.getLabels(),
+                items = Questionnaire.getOptionalLabels(),
                 confirmButton = stringResource(R.string.accept)
             )
 
@@ -294,7 +296,7 @@ private fun DrawSettingsScreen(navController: NavController,
                 title = { Text(text = stringResource(id = R.string.about_screen_label),
                     color = MaterialTheme.colorScheme.secondary) },
                 subtitle = { Text(stringResource(id = R.string.about_screen_description)) },
-                onClick = { navController.navigate(Screen.AboutScreen.route) },
+                onClick = { navigator.navigate(AboutScreenDestination) },
             )
 
             SettingsMenuLink(
@@ -304,7 +306,7 @@ private fun DrawSettingsScreen(navController: NavController,
                 title = { Text(text = stringResource(id = R.string.onboarding_screen_label),
                     color = MaterialTheme.colorScheme.secondary) },
                 subtitle = { Text(stringResource(id = R.string.onboarding_screen_description)) },
-                onClick = { navController.navigate(Screen.OnboardingScreen.route) },
+                onClick = { navigator.navigate(OnboardingScreenDestination(windowSize)) },
             )
 
             SettingsMenuLink(
@@ -314,7 +316,7 @@ private fun DrawSettingsScreen(navController: NavController,
                 title = { Text(text = stringResource(id = R.string.credits_screen_label),
                     color = MaterialTheme.colorScheme.secondary) },
                 subtitle = { Text(stringResource(id = R.string.credits_screen_description)) },
-                onClick = { navController.navigate(Screen.CreditsScreen.route) },
+                onClick = { navigator.navigate(CreditsScreenDestination(windowSize)) },
             )
         }
     }
@@ -323,10 +325,10 @@ private fun DrawSettingsScreen(navController: NavController,
 /**
  * Public function to read SettingsScreen using [SettingsViewModel]
  */
+@Destination
 @Composable
-fun SettingsScreen(navController: NavController)
+fun SettingsScreen(navigator: DestinationsNavigator, viewModel: SettingsViewModel)
 {
-    val viewModel : SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
     val alarmFrequency = viewModel.loadAlarmFrequency()
     val questionnaire = viewModel.loadQuestionnairesSelected()
     val language = viewModel.loadLanguage()
@@ -335,7 +337,7 @@ fun SettingsScreen(navController: NavController)
 
 
     DrawSettingsScreen(
-        navController = navController,
+        navigator = navigator,
         alarmFrequency = alarmFrequency,
         questionnaires = questionnaire,
         language = language,
@@ -354,12 +356,10 @@ fun SettingsScreen(navController: NavController)
 @Composable
 fun SettingsScreenNoDynamicPreview()
 {
-    val navController = rememberNavController()
-
     BienestarEmocionalTheme()
     {
         DrawSettingsScreen(
-            navController = navController,
+            navigator = EmptyDestinationsNavigator,
             alarmFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
@@ -379,12 +379,10 @@ fun SettingsScreenNoDynamicPreview()
 @Composable
 fun SettingsScreenNoDynamicPreviewDarkTheme()
 {
-    val navController = rememberNavController()
-
     BienestarEmocionalTheme(darkTheme = true)
     {
         DrawSettingsScreen(
-            navController = navController,
+            navigator = EmptyDestinationsNavigator,
             alarmFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
@@ -404,12 +402,10 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
 @Composable
 fun SettingsScreenPreview()
 {
-    val navController = rememberNavController()
-
     BienestarEmocionalTheme()
     {
         DrawSettingsScreen(
-            navController = navController,
+            navigator = EmptyDestinationsNavigator,
             alarmFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
@@ -429,12 +425,10 @@ fun SettingsScreenPreview()
 @Composable
 fun SettingsScreenPreviewDarkTheme()
 {
-    val navController = rememberNavController()
-
     BienestarEmocionalTheme(darkTheme = true)
     {
         DrawSettingsScreen(
-            navController = navController,
+            navigator = EmptyDestinationsNavigator,
             alarmFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),

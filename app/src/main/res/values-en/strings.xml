@@ -33,11 +33,13 @@
     <string name="credits_screen_label">Credits</string>
     <string name="menu">Menu</string>
     <string name="go_back">Go back</string>
+    <string name="back">Back</string>
     <string name="finish">Finish</string>
     <string name="skip">Skip</string>
     <string name="next">Next</string>
     <string name="sleep">Sleep</string>
     <string name="language">Language</string>
+    <string name="exit">Exit</string>
     <string name="light_mode_label">Deactivated</string>
     <string name="dark_mode_label">Activated</string>
     <string name="health_connect_settings_description">"Manage access and permissions "</string>
@@ -151,7 +153,13 @@
     <string name="questionnaire_only_night">One questionnaire at night</string>
     <string name="questionnaire_night_lunch">One questionnaire at lunch and another at night</string>
     <string name="additional_questionnaires">Additional questionnaires</string>
-    <string name="phq9_label">PHQ-9 (depression)</string>
+    <string name="pss_label">PSS (stress)</string>
+    <string name="phq_label">PHQ (depression)</string>
     <string name="ucla_label">UCLA (loneliness)</string>
     <string name="accept">Accept</string>
+    <string name="questionnaire">Questionnaire</string>
+    <string name="ok">OK</string>
+    <string name="questionnaire_not_completed">Questionnaire not completed</string>
+    <string name="exit_questionnaire">Exit questionnaire</string>
+    <string name="sure_skip_questionnaire">Are you sure you want to skip the questionnaire?</string>
 </resources>

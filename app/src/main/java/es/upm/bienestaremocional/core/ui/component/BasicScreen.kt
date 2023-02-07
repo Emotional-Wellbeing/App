@@ -10,8 +10,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.ui.navigation.CommonModalDrawerSheet
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBasicScreen(navController: NavController,
+fun AppBasicScreen(navigator: DestinationsNavigator,
                    entrySelected: MenuEntry?,
                    label: Int,
                    scope : CoroutineScope = rememberCoroutineScope(),
@@ -41,7 +41,7 @@ fun AppBasicScreen(navController: NavController,
             drawerState = drawerState,
             drawerContent =
             {
-                CommonModalDrawerSheet(navController = navController, entrySelected = entrySelected)
+                CommonModalDrawerSheet(navigator = navigator, entrySelected = entrySelected)
             },
             content =
             {
@@ -91,10 +91,9 @@ fun AppBasicScreen(navController: NavController,
 @Composable
 fun AppBasicScreenPreview()
 {
-    val navController = rememberNavController()
     BienestarEmocionalTheme()
     {
-        AppBasicScreen(navController = navController,
+        AppBasicScreen(navigator = EmptyDestinationsNavigator,
             entrySelected = MenuEntry.HomeScreen,
             label = MenuEntry.HomeScreen.labelId,
             content = {}
@@ -106,10 +105,9 @@ fun AppBasicScreenPreview()
 @Composable
 fun AppBasicScreenPreviewDarkTheme()
 {
-    val navController = rememberNavController()
     BienestarEmocionalTheme(darkTheme = true)
     {
-        AppBasicScreen(navController = navController,
+        AppBasicScreen(navigator = EmptyDestinationsNavigator,
             entrySelected = MenuEntry.HomeScreen,
             label = MenuEntry.HomeScreen.labelId,
             content = {}

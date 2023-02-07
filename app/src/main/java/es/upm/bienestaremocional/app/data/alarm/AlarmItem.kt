@@ -8,4 +8,4 @@ import java.time.LocalTime
  * @see AlarmsAvailable
  * @see AlarmScheduler
  */
-data class Alarm(val localTime: LocalTime, val code: Int)
+data class AlarmItem(val localTime: LocalTime, val code: Int)

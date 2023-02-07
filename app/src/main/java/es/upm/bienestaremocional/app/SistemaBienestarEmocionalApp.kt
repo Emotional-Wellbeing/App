@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.compose.rememberNavController
 import es.upm.bienestaremocional.app.data.settings.AppChannels
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
@@ -24,7 +23,6 @@ fun BienestarEmocionalApp(
 {
 
     //init variables
-    val navController = rememberNavController()
     val context = LocalContext.current
 
     if (appSettings.getFirstTimeValue())
@@ -38,10 +36,8 @@ fun BienestarEmocionalApp(
                 context = context,
             )
         //schedule alarms
-        MainApplication.alarmScheduler.setAlarms(appSettings.getAlarmFrequencyValue().alarms)
+        MainApplication.alarmScheduler.schedule(appSettings.getAlarmFrequencyValue().alarmItems)
     }
-
-
 
     //read ui settings
     val darkTheme : ThemeMode = appSettings.getThemeValue()
@@ -51,12 +47,6 @@ fun BienestarEmocionalApp(
 
     BienestarEmocionalTheme(darkTheme = darkTheme.themeIsDark(), dynamicColors = dynamicColors)
     {
-        AppNavigation(
-            navController = navController,
-            appSettings = appSettings,
-            windowSize = windowSize,
-            healthConnectAvailability = healthConnectAvailability,
-            darkTheme = darkTheme.themeIsDark()
-        )
+        AppNavigation()
     }
 }

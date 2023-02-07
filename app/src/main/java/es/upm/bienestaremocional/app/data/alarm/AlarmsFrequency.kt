@@ -7,7 +7,7 @@ import es.upm.bienestaremocional.R
 /**
  * Enum with the options of frequency of alarms that user could select with the associated alarms
  */
-enum class AlarmsFrequency(val labelRes: Int, val alarms: List<Alarm>)
+enum class AlarmsFrequency(val labelRes: Int, val alarmItems: List<AlarmItem>)
 {
     NIGHT_ALARM(R.string.questionnaire_only_night,listOf(AlarmsAvailable.nightAlarm)),
     NIGHT_LUNCH_ALARM(

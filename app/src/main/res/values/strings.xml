@@ -56,7 +56,9 @@
     <string name="questionnaire_night_lunch">Un cuestionario al mediodía y otro a la noche</string>
     <string name="questionnaire_screen_label">Cuestionario</string>
     <string name="additional_questionnaires">Cuestionarios adicionales</string>
-    <string name="phq9_label">PHQ-9 (depresión)</string>
+    <string name="questionnaire">Cuestionario</string>
+    <string name="pss_label">PSS (estrés)</string>
+    <string name="phq_label">PHQ (depresión)</string>
     <string name="ucla_label">UCLA (soledad)</string>
 
     <!-- Error screen -->
@@ -111,6 +113,7 @@
     <!-- Misc -->
     <string name="menu">Menu</string>
     <string name="go_back">Volver atrás</string>
+    <string name="back">Atrás</string>
     <string name="finish">Finalizar</string>
     <string name="skip">Omitir</string>
     <string name="next">Siguiente</string>
@@ -118,6 +121,12 @@
     <string name="language">Idioma</string>
     <string name="restart">Reiniciar</string>
     <string name="accept">Aceptar</string>
+    <string name="exit">Salir</string>
+    <string name="ok">Vale</string>
+    <string name="questionnaire_not_completed">Cuestionario no completado</string>
+    <string name="exit_questionnaire">Salir del cuestionario</string>
+    <string name="sure_skip_questionnaire">¿Estás seguro de querer omitir el cuestionario?</string>
+
 
     <string name="light_mode_label">Desactivado</string>
     <string name="dark_mode_label">Activado</string>

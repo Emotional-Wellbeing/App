@@ -6,11 +6,13 @@ import androidx.health.connect.client.HealthConnectClient
 import com.yariksoffice.lingver.Lingver
 import es.upm.bienestaremocional.app.data.alarm.AlarmReceiver
 import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
+import es.upm.bienestaremocional.app.data.alarm.AndroidAlarmScheduler
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.LanguageManager
 import es.upm.bienestaremocional.app.ui.notification.NotificationSender
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
+import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 
 
 //https://guides.codepath.com/android/Understanding-the-Android-Application-Class
@@ -49,8 +51,11 @@ class MainApplication: Application()
         val notificationSender: NotificationSender
             get() = NotificationSender(applicationContext)
         val alarmScheduler: AlarmScheduler
-            get() = AlarmScheduler(applicationContext, AlarmReceiver::class.java)
+            get() = AndroidAlarmScheduler(applicationContext, AlarmReceiver::class.java)
         lateinit var languageManager : LanguageManager
             private set
+
+        //init at MainActivity
+        var windowSize : WindowSize? = null
     }
 }

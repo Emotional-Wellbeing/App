@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="number_of_questions_left">
+        <item quantity="one">Falta una pregunta por responder: %s</item>
+        <item quantity="other">Faltan por responder las siguientes preguntas : %s</item>
+    </plurals>
+</resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Questionnaires -->
+    <string-array name="pss_questions">
+        <item>In the last month, how often have you been upset because of something that happened unexpectedly?</item>
+        <item>In the last month, how often have you felt that you were unable to control the important things in your life?</item>
+        <item>In the last month, how often have you felt nervous and stressed?</item>
+        <item>In the last month, how often have you felt confident about your ability to handle your personal problems?</item>
+        <item>In the last month, how often have you felt that things were going your way?</item>
+        <item>In the last month, how often have you found that you could not cope with all the things that you had to do?</item>
+        <item>In the last month, how often have you been able to control irritations in your life?</item>
+        <item>In the last month, how often have you felt that you were on top of things?</item>
+        <item>In the last month, how often have you been angered because of things that happened that were outside of your control?</item>
+        <item>In the last month, how often have you felt difficulties were piling up so high that you could not overcome them?</item>
+    </string-array>
+    <string-array name="phq_questions">
+        <item>Little interest or pleasure in doing things</item>
+        <item>Feeling down, depressed, or hopeless</item>
+        <item>Trouble falling or staying asleep, or sleeping too much</item>
+        <item>Feeling tired or having little energy</item>
+        <item>Poor appetite or overeating</item>
+        <item>Feeling bad about yourself — or that you are a failure or have let yourself or your family down</item>
+        <item>Trouble concentrating on things, such as reading the newspaper or watching television</item>
+        <item>Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual</item>
+        <item>Thoughts that you would be better off dead or of hurting yourself in some way</item>
+    </string-array>
+    <string-array name="ucla_questions">
+        <item>I feel in tune with the people around me</item>
+        <item>I lack companionship</item>
+        <item>There is no one I can turn to</item>
+        <item>I do not feel alone</item>
+        <item>I feel part of a group of friends</item>
+        <item>I have a lot in common with the people around me</item>
+        <item>I am no longer close to anyone</item>
+        <item>My interests and ideas are not shared by those around me</item>
+        <item>I am an outgoing person</item>
+        <item>There are people I feel close to</item>
+        <item>I feel left out</item>
+        <item>My social relationships are superficial</item>
+        <item>No one really knows me well</item>
+        <item>I feel isolated from others</item>
+        <item>I can find companionship when I want it</item>
+        <item>There are people who really understand me</item>
+        <item>I am unhappy being so withdrawn</item>
+        <item>People are around me but not with me</item>
+        <item>There are people I can talk to</item>
+        <item>There are people I can turn to</item>
+    </string-array>
+    <string-array name="four_answers_questionnaire">
+        <item>Never</item>
+        <item>Rarely</item>
+        <item>Sometimes</item>
+        <item>Often</item>
+    </string-array>
+    <string-array name="five_answers_questionnaire">
+        <item>Never</item>
+        <item>Almost never</item>
+        <item>Sometimes</item>
+        <item>Fairly often</item>
+        <item>Very often</item>
+    </string-array>
+</resources>

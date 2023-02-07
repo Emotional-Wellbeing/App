@@ -12,8 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
@@ -23,10 +24,11 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 /**
  * Shows the privacy policy.
  */
+@Destination
 @Composable
-fun PrivacyPolicyScreen(navController: NavController)
+fun PrivacyPolicyScreen(navigator: DestinationsNavigator)
 {
-    AppBasicScreen(navController = navController,
+    AppBasicScreen(navigator = navigator,
         entrySelected = MenuEntry.SettingsScreen,
         label = R.string.privacy_policy_screen_label)
     {
@@ -49,9 +51,9 @@ fun PrivacyPolicyScreen(navController: NavController)
 @Composable
 fun PrivacyPolicyScreenPreview()
 {
-    val navController = rememberNavController()
+
     BienestarEmocionalTheme {
-        PrivacyPolicyScreen(navController)
+        PrivacyPolicyScreen(EmptyDestinationsNavigator)
     }
 }
 
@@ -59,8 +61,8 @@ fun PrivacyPolicyScreenPreview()
 @Composable
 fun PrivacyPolicyScreenPreviewDarkTheme()
 {
-    val navController = rememberNavController()
+
     BienestarEmocionalTheme(darkTheme = true) {
-        PrivacyPolicyScreen(navController)
+        PrivacyPolicyScreen(EmptyDestinationsNavigator)
     }
 }

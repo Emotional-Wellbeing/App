@@ -10,8 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
@@ -21,10 +22,11 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 /**
  * Contains info about app and project
  */
+@Destination
 @Composable
-fun AboutScreen(navController: NavController)
+fun AboutScreen(navigator: DestinationsNavigator)
 {
-    AppBasicScreen(navController = navController,
+    AppBasicScreen(navigator = navigator,
         entrySelected = MenuEntry.SettingsScreen,
         label = R.string.about_screen_label)
     {
@@ -47,9 +49,8 @@ fun AboutScreen(navController: NavController)
 @Composable
 fun AboutScreenPreview()
 {
-    val navController = rememberNavController()
     BienestarEmocionalTheme {
-        AboutScreen(navController)
+        AboutScreen(EmptyDestinationsNavigator)
     }
 }
 
@@ -57,8 +58,7 @@ fun AboutScreenPreview()
 @Composable
 fun AboutScreenPreviewDarkTheme()
 {
-    val navController = rememberNavController()
     BienestarEmocionalTheme(darkTheme = true) {
-        AboutScreen(navController)
+        AboutScreen(EmptyDestinationsNavigator)
     }
 }
