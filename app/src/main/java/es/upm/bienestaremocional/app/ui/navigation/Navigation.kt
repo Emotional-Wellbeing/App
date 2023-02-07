@@ -6,11 +6,10 @@ import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
-import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.ui.screen.NavGraphs
 import es.upm.bienestaremocional.app.ui.screen.destinations.MyDataScreenDestination
 import es.upm.bienestaremocional.app.ui.screen.destinations.OnboardingScreenDestination
-import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireScreenDestination
+import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
 import es.upm.bienestaremocional.app.ui.screen.destinations.SettingsScreenDestination
 import es.upm.bienestaremocional.app.ui.viewmodel.*
 
@@ -23,6 +22,7 @@ fun AppNavigation()
 {
     val snackbarHostState = remember { SnackbarHostState() }
 
+
     DestinationsNavHost(navGraph = NavGraphs.root, dependenciesContainerBuilder = {
         dependency(MyDataScreenDestination)
         {
@@ -32,10 +32,9 @@ fun AppNavigation()
         {
             viewModel<OnboardingViewModel>(factory = OnboardingViewModel.Factory)
         }
-        dependency(QuestionnaireScreenDestination)
+        dependency(QuestionnaireRoundScreenDestination)
         {
-            //viewModel<QuestionnaireViewModel>(factory = QuestionnaireViewModelFactory(appSettings.getQuestionnairesSelectedValue()))
-            viewModel<QuestionnaireViewModel>(factory = QuestionnaireViewModelFactory(Questionnaire.PSS))
+            viewModel<QuestionnaireRoundViewModel>(factory = QuestionnaireRoundViewModel.Factory)
         }
         dependency(SettingsScreenDestination)
         {

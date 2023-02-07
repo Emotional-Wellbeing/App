@@ -18,167 +18,138 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
-import com.ramcosta.composedestinations.annotation.DeepLink
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.app.ui.viewmodel.QuestionnaireState
-import es.upm.bienestaremocional.app.ui.viewmodel.QuestionnaireViewModel
+import es.upm.bienestaremocional.app.ui.state.QuestionnaireState
+import es.upm.bienestaremocional.app.ui.viewmodel.QuestionnaireData
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
-/**
- * Plots questionnaires
- */
-@Destination(
-    deepLinks = [
-        DeepLink(
-            uriPattern = "be://questionnaire"
-        )
-    ]
-)
-@Composable
-fun QuestionnaireScreen(navigator: DestinationsNavigator,
-                        viewModel: QuestionnaireViewModel)
-{
-    //header
 
-    val previousTitleText = stringResource(viewModel.previousTitleTextRes)
-    when(viewModel.state)
-    {
-        QuestionnaireState.InProgress ->
-        {
-            val questionnaireLabel = stringResource(viewModel.questionnaire.labelRes)
-            DrawQuestionnaire(
-                title = "$previousTitleText $questionnaireLabel",
-                questions = stringArrayResource(viewModel.questionnaire.questionRes),
-                answers = stringArrayResource(viewModel.questionnaire.answerRes),
-                answerSelected = {index -> viewModel.getAnswer(index)},
-                onAnswer = { question, answer ->
-                    if (viewModel.getAnswer(question) != answer)
-                        viewModel.setAnswer(question,answer)
-                    else
-                        viewModel.removeAnswer(question)
-                },
-                onFinish = {viewModel.state = QuestionnaireState.Summary(viewModel.getScore()!!)},
-                onSkip = {viewModel.state = QuestionnaireState.Skip},
-                answersRemaining = { viewModel.answersRemaining() },
-            )
-        }
-        is QuestionnaireState.Summary ->
-        {
-            Summary(score = (viewModel.state as QuestionnaireState.Summary).score, onSucess = { viewModel.state = QuestionnaireState.Finish })
-        }
-        QuestionnaireState.Skip ->
-        {
-            viewModel.state = QuestionnaireState.Finish
-            //Button(onClick = {viewModel.state = QuestionnaireState.Finish}) {
-            //    Text(text = "Aceptar")
-            //}
-        }
-        QuestionnaireState.Finish -> {navigator.popBackStack()}
-    }
+@Composable
+fun QuestionnaireScreen(questionnaireData: QuestionnaireData,
+                        onFinish: () -> Unit,
+                        onSkip: () -> Unit
+)
+{
+    DrawQuestionnaire(
+        state = questionnaireData.state,
+        questionnaire = questionnaireData.questionnaire,
+        title = questionnaireData.title(),
+        answerSelected = {index -> questionnaireData.getAnswer(index)},
+        answersRemaining = { questionnaireData.answersRemaining() },
+        getScore = {questionnaireData.getScore()},
+        onAnswer = { question, answer ->
+            if (questionnaireData.getAnswer(question) != answer)
+                questionnaireData.setAnswer(question,answer)
+            else
+                questionnaireData.removeAnswer(question)
+        },
+        onFinish = onFinish,
+        onSkip = onSkip)
 }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun DrawQuestionnaire(title: String,
-                      questions : Array<String>,
-                      answers: Array<String>,
+fun DrawQuestionnaire(state: MutableState<QuestionnaireState>,
+                      questionnaire: Questionnaire,
+                      title: String,
                       answerSelected: (Int) -> Int?,
+                      answersRemaining: () -> List<Int>,
+                      getScore : () -> Int?,
                       onAnswer: (Int,Int) -> Unit,
                       onFinish: () -> Unit,
                       onSkip: () -> Unit,
-                      answersRemaining: () -> List<Int>)
+)
 {
-    val showAlertDialog = remember { mutableStateOf(false) }
-    val finishPressed = remember { mutableStateOf(false) }
+    val questions = stringArrayResource(questionnaire.questionRes)
+    val answers = stringArrayResource(questionnaire.answerRes)
 
-    Surface()
+    if (state.value !is QuestionnaireState.Summary || state.value !is QuestionnaireState.Finished)
     {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp))
+        Surface()
         {
-            val pagerState = rememberPagerState()
-
-            //header
-            Column(modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally)
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp))
             {
-                Row(modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                )
+                val pagerState = rememberPagerState()
+
+                //header
+                Column(modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally)
                 {
-                    Text(title,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.weight(1f))
-                    IconButton(onClick = {showAlertDialog.value = true})
+                    Row(modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
+                    )
                     {
-                        Icon(Icons.Filled.Close, contentDescription = "Finish")
+                        Text(title,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.weight(1f))
+                        IconButton(onClick = {state.value = QuestionnaireState.Skipping})
+                        {
+                            Icon(Icons.Filled.Close, contentDescription = "Finish")
+                        }
                     }
                 }
 
-            }
-
-            HorizontalPager(
-                count = questions.size,
-                state = pagerState,
-                modifier = Modifier.weight(1f)
-            )
-            {
-                    page -> QuestionnairePage(question = questions[page],
-                answers = answers,
-                answerSelectedPrevious = answerSelected(page),
-                pagerState = pagerState,
-                onAnswer = {answer -> onAnswer(page,answer)},
-                onExit = {showAlertDialog.value = true},
-                onFinish = {finishPressed.value = true})
+                //internal page
+                HorizontalPager(
+                    count = questionnaire.numberOfQuestions,
+                    state = pagerState,
+                    modifier = Modifier.weight(1f)
+                )
+                {
+                        page -> QuestionnaireInternalPage(question = questions[page],
+                    answers = answers,
+                    answerSelectedPrevious = answerSelected(page),
+                    pagerState = pagerState,
+                    onAnswer = {answer -> onAnswer(page,answer)},
+                    onExit = {state.value = QuestionnaireState.Skipping},
+                    onFinish = {state.value = QuestionnaireState.FinishingQuestions})
+                }
             }
         }
     }
-
-    //show when user closes screen
-    if (showAlertDialog.value)
+    when(state.value)
     {
-        ExitDialog(onDismiss = { showAlertDialog.value = false },
-            onConfirm = {
-                showAlertDialog.value = false
-                onSkip()
-            })
-    }
-
-    //show when user press finish
-    if (finishPressed.value)
-    {
-        val listAnswersRemaining = answersRemaining()
-        if (listAnswersRemaining.isEmpty())
+        QuestionnaireState.Skipping ->
         {
-            finishPressed.value = false
-            onFinish()
+            ExitDialog(onDismiss = { state.value = QuestionnaireState.InProgress},
+                onConfirm = { state.value = QuestionnaireState.Skipped })
         }
-        else
+        QuestionnaireState.Skipped -> {onSkip()}
+        QuestionnaireState.FinishingQuestions ->
         {
-            AnswersRemainingDialog(answersRemaining = listAnswersRemaining) {finishPressed.value = false}
+            val listAnswersRemaining = answersRemaining()
+            if (listAnswersRemaining.isEmpty())
+                state.value = QuestionnaireState.Summary
+            else
+                AnswersRemainingDialog(answersRemaining = listAnswersRemaining) {
+                    state.value = QuestionnaireState.InProgress
+                }
         }
-        //TODO hacer un dialogo que diga que no has acabado. Hay que recibir la funcion de cuestionario completado
-
+        QuestionnaireState.Summary ->
+        {
+            Summary(score = getScore()!!, questionnaire = questionnaire) {
+                state.value = QuestionnaireState.Finished
+            }}
+        QuestionnaireState.Finished -> {onFinish()}
+        QuestionnaireState.InProgress -> {}
     }
 }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun QuestionnairePage(question: String,
-                                  answers : Array<String>,
-                                  answerSelectedPrevious : Int?,
-                                  pagerState : PagerState,
-                                  onAnswer: (Int) -> Unit,
-                                  onExit: () -> Unit,
-                                  onFinish: () -> Unit
-)
+private fun QuestionnaireInternalPage(question: String,
+                                      answers : Array<String>,
+                                      answerSelectedPrevious : Int?,
+                                      pagerState : PagerState,
+                                      onAnswer: (Int) -> Unit,
+                                      onExit: () -> Unit,
+                                      onFinish: () -> Unit)
 {
     val corrutineScope = rememberCoroutineScope()
     val answerSelected = remember { mutableStateOf(answerSelectedPrevious) }
@@ -189,7 +160,6 @@ private fun QuestionnairePage(question: String,
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-
         //q&a
         Column(modifier = Modifier
             .fillMaxWidth()
@@ -265,8 +235,9 @@ private fun QuestionnairePage(question: String,
 
                 HorizontalPagerIndicator(
                     pagerState = pagerState,
-                    activeColor = MaterialTheme.colorScheme.primary)
-
+                    activeColor = MaterialTheme.colorScheme.primary,
+                    indicatorWidth = if(pagerState.pageCount > 12) 4.dp else 8.dp
+                )
                 if (pagerState.currentPage == pagerState.pageCount - 1) {
                     TextButton(onClick = onFinish)
                     {
@@ -362,25 +333,35 @@ private fun OptionCard(text : String,
     }
 }
 
+@Composable
+private fun Summary(score : Int,
+                    questionnaire: Questionnaire,
+                    onSucess : () -> Unit)
+{
+    val label = stringResource(questionnaire.labelRes)
+    Surface(modifier = Modifier.fillMaxSize()) {
+        Column(verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Tu puntuación en el cuestionario $label es: $score")
+            Button(onClick = onSucess ) {
+                Text("OK")
+            }
+        }
+
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun QuestionnaireScreenPreview()
 {
-    val questionnaire = Questionnaire.PHQ
-    val answers : Array<Int?> = arrayOfNulls(questionnaire.numberOfQuestions)
-    val questionnaireLabel = stringResource(questionnaire.labelRes)
-
     BienestarEmocionalTheme {
-        DrawQuestionnaire(
-            title = "Cuestionario $questionnaireLabel",
-            questions = stringArrayResource(questionnaire.questionRes),
-            answers = stringArrayResource(questionnaire.answerRes),
-            answerSelected = {question -> answers[question]},
-            onAnswer = {question, answer -> answers[question] = answer},
-            onFinish = { },
-            onSkip = { },
-            answersRemaining = { List(answers.filter { it == null }.size) { index->index}},
-        )
+        QuestionnaireScreen(
+            questionnaireData = QuestionnaireData(Questionnaire.UCLA),
+            onFinish = {},
+            onSkip = {})
     }
 }
 
@@ -388,28 +369,18 @@ fun QuestionnaireScreenPreview()
 @Composable
 fun QuestionnaireScreenPreviewDarkTheme()
 {
-    val questionnaire = Questionnaire.PHQ
-    val answers : Array<Int?> = arrayOfNulls(questionnaire.numberOfQuestions)
-    val questionnaireLabel = stringResource(questionnaire.labelRes)
-
     BienestarEmocionalTheme(darkTheme = true) {
-        DrawQuestionnaire(
-            title = "Cuestionario $questionnaireLabel",
-            questions = stringArrayResource(questionnaire.questionRes),
-            answers = stringArrayResource(questionnaire.answerRes),
-            answerSelected = {question -> answers[question]},
-            onAnswer = {question, answer -> answers[question] = answer},
-            onFinish = { },
-            onSkip = { },
-            answersRemaining = { List(answers.filter { it == null }.size) { index->index}},
-        )
+        QuestionnaireScreen(
+            questionnaireData = QuestionnaireData(Questionnaire.PSS),
+            onFinish = {},
+            onSkip = {})
     }
 }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview(showBackground = true)
-fun QuestionnairePagePreview()
+fun QuestionnaireInternalPagePreview()
 {
     val questionnaire = Questionnaire.PHQ
     val questions = stringArrayResource(questionnaire.questionRes)
@@ -420,7 +391,7 @@ fun QuestionnairePagePreview()
 
     BienestarEmocionalTheme {
         Surface {
-            QuestionnairePage(question = questions[0],
+            QuestionnaireInternalPage(question = questions[0],
                 answers = possibleAnswers,
                 answerSelectedPrevious = null,
                 pagerState = pagerState,
@@ -434,7 +405,7 @@ fun QuestionnairePagePreview()
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview(showBackground = true)
-fun QuestionnairePageDarkThemePreview()
+fun QuestionnaireInternalPageDarkThemePreview()
 {
     val questionnaire = Questionnaire.PHQ
     val questions = stringArrayResource(questionnaire.questionRes)
@@ -445,7 +416,7 @@ fun QuestionnairePageDarkThemePreview()
 
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
-            QuestionnairePage(question = questions[0],
+            QuestionnaireInternalPage(question = questions[0],
                 answers = possibleAnswers,
                 answerSelectedPrevious = null,
                 pagerState = pagerState,
@@ -545,27 +516,11 @@ fun OptionCardSelectedDarkThemePreview()
 }
 
 @Composable
-fun Summary(score : Int, onSucess : () -> Unit)
-{
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Column(verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "Tu puntuación es: $score")
-            Button(onClick = onSucess ) {
-                Text("OK")
-            }
-        }
-
-    }
-}
-
-@Composable
 @Preview(showBackground = true)
 fun SummaryPreview()
 {
     BienestarEmocionalTheme {
-        Summary(score = 10, onSucess = {})
+        Summary(score = 10, questionnaire = Questionnaire.PHQ, onSucess = {})
     }
 }
 
@@ -574,6 +529,6 @@ fun SummaryPreview()
 fun SummaryDarkThemePreview()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        Summary(score = 10, onSucess = {})
+        Summary(score = 10, questionnaire = Questionnaire.PHQ, onSucess = {})
     }
 }

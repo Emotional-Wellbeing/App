@@ -11,9 +11,8 @@ enum class Questionnaire(val id: String,
                          val questionRes: Int,
                          val answerRes: Int,
                          val numberOfQuestions : Int,
-                         val numberOfAnswers : Int,
-                         val questionsWithInvertedScore : Set<Int>,
                          val questionScoreOffset : Int,
+                         val questionsWithInvertedScore : Set<Int> = setOf()
 )
 {
     PSS("pss",
@@ -22,9 +21,9 @@ enum class Questionnaire(val id: String,
         R.array.pss_questions,
         R.array.five_answers_questionnaire,
         10,
-        5,
-        setOf(3,4,5,6),
-        0
+        //5,
+        0,
+        setOf(3,4,5,6)
     ),
     PHQ("phq",
         false,
@@ -32,8 +31,7 @@ enum class Questionnaire(val id: String,
         R.array.phq_questions,
         R.array.four_answers_questionnaire,
         9,
-        4,
-        setOf(),
+        //4,
         0,
     ),
     UCLA("ucla",
@@ -42,9 +40,9 @@ enum class Questionnaire(val id: String,
         R.array.ucla_questions,
         R.array.four_answers_questionnaire,
         20,
-        4,
-        setOf(0, 4, 5, 8, 9, 14, 15, 18, 19),
-        1
+        //4,
+        1,
+        setOf(0, 4, 5, 8, 9, 14, 15, 18, 19)
     );
 
     companion object
@@ -56,17 +54,16 @@ enum class Questionnaire(val id: String,
         fun get(): List<Questionnaire> = values().asList()
 
         /**
+         * Get all [Questionnaire] that are mandatory
+         * @return [List] of [Questionnaire]
+         */
+        fun getMandatory(): List<Questionnaire> = values().filter { it.mandatory }
+
+        /**
          * Get all [Questionnaire] that aren't mandatory
          * @return [List] of [Questionnaire]
          */
         fun getOptional(): List<Questionnaire> = values().filter { !it.mandatory }
-
-        /**
-         * Get all labels of the [Questionnaire] possible values
-         * @return [List] of [String] with the labels
-         */
-        @Composable
-        fun getLabels(): List<String> = get().map { stringResource(id = it.labelRes)  }
 
         /**
          * Get all labels of the optional [Questionnaire] possible values

@@ -14,7 +14,17 @@ class AlarmReceiver : BroadcastReceiver()
     override fun onReceive(context: Context?, intent: Intent?)
     {
         Log.d("BienestarEmocionalApp","An alarm was triggered")
+        intent?.let { i ->
+            val alarmCode = i.extras?.getInt("alarm_code")
+            alarmCode?.let { ac ->
+                val alarmItem = AlarmsAvailable.decode(ac)
+                alarmItem?.let { ai ->
+                    Log.d("BienestarEmocionalApp","Re-scheduling alarm ${ai.code}")
+                    MainApplication.alarmScheduler.schedule(ai)
+                }
+
+            }
+        }
         MainApplication.notificationSender.showQuestionnaireNotification()
-        //context?.let { showQuestionnaireNotification(it, 27) }
     }
 }

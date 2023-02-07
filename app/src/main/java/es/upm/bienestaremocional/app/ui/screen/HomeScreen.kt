@@ -15,8 +15,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.MainApplication
+import es.upm.bienestaremocional.app.data.alarm.AlarmsAvailable
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
-import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireScreenDestination
+import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
@@ -70,9 +71,16 @@ fun HomeScreen(navigator: DestinationsNavigator)
             {
                 Button(onClick = { MainApplication.notificationSender.showQuestionnaireNotification() })
                 {
-                    Text(text = "Notificacion")
+                    Text(text = "Not.")
                 }
-                Button(onClick = { navigator.navigate(QuestionnaireScreenDestination) })
+                Button(onClick = {
+                    MainApplication.alarmScheduler.cancel(AlarmsAvailable.allAlarms)
+                    MainApplication.alarmScheduler.schedule(AlarmsAvailable.allAlarms)
+                })
+                {
+                    Text(text = "Prog.")
+                }
+                Button(onClick = { navigator.navigate(QuestionnaireRoundScreenDestination) })
                 {
                     Text(text = "Cuestionario")
                 }

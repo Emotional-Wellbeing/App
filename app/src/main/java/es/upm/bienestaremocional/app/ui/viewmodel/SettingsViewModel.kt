@@ -127,8 +127,7 @@ class SettingsViewModel(private val appSettings: AppSettingsInterface,
     {
         val alarmsFrequency: AlarmsFrequency? = AlarmsFrequency.values().getOrNull(option.value)
         alarmsFrequency?.let {
-            val alarms = appSettings.getAlarmFrequencyValue().alarmItems
-            alarmScheduler.cancel(alarms)
+            alarmScheduler.cancel(appSettings.getAlarmFrequencyValue().alarmItems)
             alarmScheduler.schedule(it.alarmItems)
             appSettings.saveAlarmFrequency(it)
         }

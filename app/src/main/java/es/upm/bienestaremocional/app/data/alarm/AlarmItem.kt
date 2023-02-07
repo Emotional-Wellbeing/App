@@ -1,6 +1,6 @@
 package es.upm.bienestaremocional.app.data.alarm
 
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 /**
  * Class with alarm data: the time when the alarm should be generated and the code of the pending
@@ -8,4 +8,4 @@ import java.time.LocalTime
  * @see AlarmsAvailable
  * @see AlarmScheduler
  */
-data class AlarmItem(val localTime: LocalTime, val code: Int)
+data class AlarmItem(val time: LocalDateTime, val code: Int)

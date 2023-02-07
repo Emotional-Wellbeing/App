@@ -5,7 +5,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import java.util.*
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 /**
  * Class that implement the functionality of schedule alarms
@@ -14,12 +15,13 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
 {
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    private fun makePendingIntent(requestCode: Int): PendingIntent?
+    private fun makePendingIntent(alarmCode: Int): PendingIntent?
     {
         val alarmIntent = Intent(context, receiver)
+        alarmIntent.putExtra("alarm_code",alarmCode)
         return PendingIntent.getBroadcast(
             context,
-            requestCode,
+            alarmCode,
             alarmIntent,
              PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -27,34 +29,32 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
 
     override fun schedule(alarm: AlarmItem)
     {
+        Log.d("BienestarEmocionalApp","Setting alarm ${alarm.code}")
         //compute trigger for the next one. If the hour has passed, schedule it to the following day
-        val calendar = Calendar.getInstance(Locale.getDefault())
+        val now = ZonedDateTime.now()
 
-        calendar.set(Calendar.HOUR_OF_DAY,alarm.localTime.hour)
-        calendar.set(Calendar.MINUTE,alarm.localTime.minute)
-        calendar.set(Calendar.SECOND,alarm.localTime.second)
-        if (System.currentTimeMillis() >= calendar.timeInMillis)
-            calendar.add(Calendar.DATE,1)
-        val trigger = calendar.timeInMillis
+        var alarmTime = alarm.time.atZone(ZoneId.systemDefault())
+
+        if (alarmTime.isBefore(now))
+            alarmTime = alarmTime.plusDays(1)
+
+        val trigger = alarmTime.toEpochSecond() * 1000
 
         val pendingIntent = makePendingIntent(alarm.code)
         pendingIntent?.let {
-            alarmManager.setRepeating(
-                AlarmManager.RTC,
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP, //AlarmManager.RTC
                 trigger,
-                (1000 * 60 * 60 * 24), //one day
                 it
             )
         }
-        Log.d("BienestarEmocionalApp", "The alarm shall be triggered for the first time at $trigger " +
-                "and thereafter once a day")
+        Log.d("BienestarEmocionalApp", "The alarm shall be triggered at $trigger ")
     }
 
     override fun schedule(alarms: List<AlarmItem>)
     {
         for (alarm in alarms)
         {
-            Log.d("BienestarEmocionalApp","Setting alarm ${alarm.code}")
             schedule(alarm)
         }
     }
