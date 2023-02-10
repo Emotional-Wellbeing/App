@@ -21,10 +21,7 @@ class MainActivity : ComponentActivity()
 
         setContent {
             BienestarEmocionalApp(
-                appSettings = MainApplication.appSettings,
-                windowSize = windowSize,
-                healthConnectAvailability = MainApplication.healthConnectManager.availability
-            )
+                appSettings = MainApplication.appSettings)
         }
     }
 }

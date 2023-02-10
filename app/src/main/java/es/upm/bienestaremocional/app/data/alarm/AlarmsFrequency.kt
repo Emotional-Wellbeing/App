@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.data.alarm
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import es.upm.bienestaremocional.R
@@ -7,7 +8,7 @@ import es.upm.bienestaremocional.R
 /**
  * Enum with the options of frequency of alarms that user could select with the associated alarms
  */
-enum class AlarmsFrequency(val labelRes: Int, val alarmItems: List<AlarmItem>)
+enum class AlarmsFrequency(@StringRes val labelRes: Int, val alarmItems: List<AlarmItem>)
 {
     NIGHT_ALARM(R.string.questionnaire_only_night,listOf(AlarmsAvailable.nightAlarm)),
     NIGHT_LUNCH_ALARM(

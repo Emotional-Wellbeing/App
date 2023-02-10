@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.component.animation
 
+import androidx.annotation.RawRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -20,7 +21,7 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
  * @param animationLoop: Indicate if the animation should be animate repeatedly or once
  */
 @Composable
-fun DisplayLottieAnimation(rawRes: Int, modifier: Modifier = Modifier, animationLoop : Boolean = true)
+fun DisplayLottieAnimation(@RawRes rawRes: Int, modifier: Modifier = Modifier, animationLoop : Boolean = true)
 {
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(rawRes))
     LottieAnimation(

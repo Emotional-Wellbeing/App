@@ -24,9 +24,8 @@ class QuestionnaireData(val questionnaire: Questionnaire,
     else
         "${stringResource(previousTitleTextRes)} ${stringResource(questionnaireLabelRes)}"
 
-    fun answersRemaining(): List<Int> {
-        return List(answers.filter { it == null }.size) { index -> index }
-    }
+    fun answersRemaining(): List<Int> =
+        answers.mapIndexed{index, value -> if(value == null) index else null}.filterNotNull()
 
     private fun allAnswersFulfilled(): Boolean {
         return answers.all { it != null }

@@ -1,15 +1,16 @@
 package es.upm.bienestaremocional.app.data.questionnaire
 
-import android.util.Log
+import androidx.annotation.ArrayRes
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import es.upm.bienestaremocional.R
 
 enum class Questionnaire(val id: String,
                          val mandatory : Boolean,
-                         val labelRes: Int,
-                         val questionRes: Int,
-                         val answerRes: Int,
+                         @StringRes val labelRes: Int,
+                         @ArrayRes val questionRes: Int,
+                         @ArrayRes val answerRes: Int,
                          val numberOfQuestions : Int,
                          val questionScoreOffset : Int,
                          val questionsWithInvertedScore : Set<Int> = setOf()
@@ -72,7 +73,6 @@ enum class Questionnaire(val id: String,
         @Composable
         fun getOptionalLabels(): List<String> {
             val aux = getOptional().map { stringResource(id = it.labelRes)  }
-            Log.d("hola","adios")
             return aux
         }
 

@@ -26,14 +26,18 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun QuestionnaireScreen(questionnaireData: QuestionnaireData,
+                        pagerState: PagerState,
                         onFinish: () -> Unit,
                         onSkip: () -> Unit
 )
 {
+
     DrawQuestionnaire(
         state = questionnaireData.state,
+        pagerState = pagerState,
         questionnaire = questionnaireData.questionnaire,
         title = questionnaireData.title(),
         answerSelected = {index -> questionnaireData.getAnswer(index)},
@@ -52,6 +56,7 @@ fun QuestionnaireScreen(questionnaireData: QuestionnaireData,
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun DrawQuestionnaire(state: MutableState<QuestionnaireState>,
+                      pagerState: PagerState,
                       questionnaire: Questionnaire,
                       title: String,
                       answerSelected: (Int) -> Int?,
@@ -73,8 +78,6 @@ fun DrawQuestionnaire(state: MutableState<QuestionnaireState>,
                 .fillMaxSize()
                 .padding(16.dp))
             {
-                val pagerState = rememberPagerState()
-
                 //header
                 Column(modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.Center,
@@ -357,25 +360,31 @@ private fun Summary(score : Int,
 }
 
 
+@OptIn(ExperimentalPagerApi::class)
 @Preview(showBackground = true)
 @Composable
 fun QuestionnaireScreenPreview()
 {
+    val pagerState = rememberPagerState()
     BienestarEmocionalTheme {
         QuestionnaireScreen(
             questionnaireData = QuestionnaireData(Questionnaire.UCLA),
+            pagerState = pagerState,
             onFinish = {},
             onSkip = {})
     }
 }
 
+@OptIn(ExperimentalPagerApi::class)
 @Preview(showBackground = true)
 @Composable
 fun QuestionnaireScreenPreviewDarkTheme()
 {
+    val pagerState = rememberPagerState()
     BienestarEmocionalTheme(darkTheme = true) {
         QuestionnaireScreen(
             questionnaireData = QuestionnaireData(Questionnaire.PSS),
+            pagerState = pagerState,
             onFinish = {},
             onSkip = {})
     }

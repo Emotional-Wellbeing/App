@@ -1,6 +1,9 @@
 package es.upm.bienestaremocional.app.ui.screen
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -10,6 +13,7 @@ import es.upm.bienestaremocional.app.ui.viewmodel.QuestionnaireRoundViewModel
 /**
  * Plots questionnaires
  */
+@OptIn(ExperimentalPagerApi::class)
 @Destination(
     deepLinks = [
         DeepLink(
@@ -22,10 +26,19 @@ fun QuestionnaireRoundScreen(navigator: DestinationsNavigator,
                              viewModel: QuestionnaireRoundViewModel
 )
 {
+    val pagerState = rememberPagerState()
     when(viewModel.state)
     {
-        is QuestionnaireRoundState.InProgress -> {
+        QuestionnaireRoundState.PreShow -> {
+            LaunchedEffect(true)
+            {
+                pagerState.scrollToPage(0)
+                viewModel.state = QuestionnaireRoundState.Show
+            }
+        }
+        QuestionnaireRoundState.Show -> {
             QuestionnaireScreen(questionnaireData = viewModel.getQuestionnaireData(),
+                pagerState = pagerState,
                 onFinish = { viewModel.onFinish() },
                 onSkip = { viewModel.onSkip() })
             }

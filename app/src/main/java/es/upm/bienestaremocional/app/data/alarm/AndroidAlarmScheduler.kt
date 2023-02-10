@@ -4,7 +4,11 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import android.os.Build
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.util.Log
+import androidx.annotation.RequiresApi
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
@@ -18,6 +22,7 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
     private fun makePendingIntent(alarmCode: Int): PendingIntent?
     {
         val alarmIntent = Intent(context, receiver)
+        alarmIntent.action = "alarm"
         alarmIntent.putExtra("alarm_code",alarmCode)
         return PendingIntent.getBroadcast(
             context,
@@ -42,11 +47,16 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
 
         val pendingIntent = makePendingIntent(alarm.code)
         pendingIntent?.let {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP, //AlarmManager.RTC
-                trigger,
-                it
-            )
+            if(canScheduleExactly())
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP, //AlarmManager.RTC
+                    trigger,
+                    it)
+            else
+                alarmManager.setAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    trigger,
+                    it)
         }
         Log.d("BienestarEmocionalApp", "The alarm shall be triggered at $trigger ")
     }
@@ -76,4 +86,17 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
             cancel(alarm)
         }
     }
+
+    override fun canScheduleExactly(): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            alarmManager.canScheduleExactAlarms()
+        else
+            true
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    override fun requestPermissions(): Unit =
+        run { Intent().apply {
+            action = ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+            flags = FLAG_ACTIVITY_NEW_TASK
+        }.also { context.startActivity(it) } }
 }

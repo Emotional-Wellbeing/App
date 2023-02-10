@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.screen
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -78,7 +79,7 @@ private fun clickable(index: Int, expanderElements: ExpanderElements)
 }
 
 @Composable
-private fun CategoryText(index: Int, stringRes: Int, expanderElements: ExpanderElements)
+private fun CategoryText(index: Int, @StringRes stringRes: Int, expanderElements: ExpanderElements)
 {
     Row(
         modifier = Modifier

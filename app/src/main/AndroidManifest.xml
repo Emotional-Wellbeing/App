@@ -42,15 +42,21 @@
                 android:resource="@array/health_permissions"/>
 
         </activity>
+
         <receiver
             android:name="es.upm.bienestaremocional.app.data.alarm.AlarmReceiver"
-            android:enabled="true" />
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
+                <action android:name="alarm" />
+            </intent-filter>
+        </receiver>
 
         <receiver
             android:name="es.upm.bienestaremocional.app.data.alarm.BootReceiver"
             android:enabled="true"
             android:exported="false">
-
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

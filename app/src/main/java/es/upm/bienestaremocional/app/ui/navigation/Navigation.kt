@@ -2,15 +2,15 @@ package es.upm.bienestaremocional.app.ui.navigation
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
+import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.ui.screen.NavGraphs
-import es.upm.bienestaremocional.app.ui.screen.destinations.MyDataScreenDestination
-import es.upm.bienestaremocional.app.ui.screen.destinations.OnboardingScreenDestination
-import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
-import es.upm.bienestaremocional.app.ui.screen.destinations.SettingsScreenDestination
+import es.upm.bienestaremocional.app.ui.screen.destinations.*
+import es.upm.bienestaremocional.app.ui.state.SplashState
 import es.upm.bienestaremocional.app.ui.viewmodel.*
 
 /**
@@ -39,6 +39,14 @@ fun AppNavigation()
         dependency(SettingsScreenDestination)
         {
             viewModel<SettingsViewModel>(factory = SettingsViewModel.Factory)
+        }
+        dependency(SplashScreenDestination)
+        {
+            remember {
+                mutableStateOf(if (!MainApplication.alarmScheduler.canScheduleExactly()) //&& MainApplication.appSettings.getFirstTimeValue())
+                    SplashState.LaunchDialog
+                else
+                    SplashState.SkipDialog) }
         }
     })
 }

@@ -20,9 +20,8 @@ fun RootScreen(navigator: DestinationsNavigator)
 
     navigator.navigate(
         SplashScreenDestination(
-        healthConnectAvailability = healthConnectAvailability,
-        showOnboarding = showOnboarding,
-        darkTheme = darkTheme
-    )
+            healthConnectAvailability = healthConnectAvailability,
+            showOnboarding = showOnboarding,
+            darkTheme = darkTheme)
     )
 }

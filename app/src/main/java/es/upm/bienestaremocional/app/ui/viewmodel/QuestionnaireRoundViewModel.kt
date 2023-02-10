@@ -21,7 +21,7 @@ class QuestionnaireRoundViewModel(private val appSettings: AppSettingsInterface)
             }
         }
     }
-    var state: QuestionnaireRoundState by mutableStateOf(QuestionnaireRoundState.InProgress(0))
+    var state: QuestionnaireRoundState by mutableStateOf(QuestionnaireRoundState.Show)
 
     private val questionnaires = Questionnaire.getMandatory() + appSettings.getQuestionnairesSelectedValue().toList()
 
@@ -35,7 +35,7 @@ class QuestionnaireRoundViewModel(private val appSettings: AppSettingsInterface)
     {
         state = if (actualQuestionnaire + 1 < questionnaires.size) {
             actualQuestionnaire++
-            QuestionnaireRoundState.InProgress(actualQuestionnaire)
+            QuestionnaireRoundState.PreShow
         }
         else
             QuestionnaireRoundState.Finishing
@@ -45,7 +45,7 @@ class QuestionnaireRoundViewModel(private val appSettings: AppSettingsInterface)
     {
         state = if (actualQuestionnaire + 1 < questionnaires.size) {
             actualQuestionnaire++
-            QuestionnaireRoundState.InProgress(actualQuestionnaire)
+            QuestionnaireRoundState.PreShow
         }
         else
             QuestionnaireRoundState.Finishing

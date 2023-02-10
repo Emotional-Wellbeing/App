@@ -5,4 +5,6 @@ interface AlarmScheduler {
     fun schedule(alarms: List<AlarmItem>)
     fun cancel(alarm: AlarmItem)
     fun cancel(alarms: List<AlarmItem>)
+    fun canScheduleExactly(): Boolean
+    fun requestPermissions()
 }

@@ -16,11 +16,17 @@ class BootReceiver : BroadcastReceiver()
     * */
     override fun onReceive(context: Context, intent: Intent)
     {
-        if (intent.action == "android.intent.action.BOOT_COMPLETED")
-        {
-            Log.d("BienestarEmocionalApp","Scheduling alarms after reboot")
-            val alarms = MainApplication.appSettings.getAlarmFrequencyValue().alarmItems
-            MainApplication.alarmScheduler.schedule(alarms)
+        when(intent.action) {
+            "android.intent.action.BOOT_COMPLETED" -> {
+                Log.d("BienestarEmocionalApp", "Scheduling alarms after reboot")
+                val alarmScheduler = MainApplication.alarmScheduler
+                if (alarmScheduler.canScheduleExactly())
+                {
+                    val alarms = MainApplication.appSettings.getAlarmFrequencyValue().alarmItems
+                    alarmScheduler.schedule(alarms)
+                }
+
+            }
         }
     }
 }
