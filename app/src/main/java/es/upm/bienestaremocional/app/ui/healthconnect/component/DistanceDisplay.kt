@@ -32,7 +32,7 @@ fun DistanceRecord.Display(windowSize: WindowSize)
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun DistanceRecordDisplayPreview()
 {
@@ -41,7 +41,7 @@ fun DistanceRecordDisplayPreview()
         distanceRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun DistanceRecordDisplayPreviewDarkTheme()
 {
@@ -50,7 +50,7 @@ fun DistanceRecordDisplayPreviewDarkTheme()
         distanceRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun DistanceRecordDisplayLargeScreenPreview()
 {
@@ -59,7 +59,7 @@ fun DistanceRecordDisplayLargeScreenPreview()
         distanceRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun DistanceRecordDisplayLargeScreenPreviewDarkTheme()
 {

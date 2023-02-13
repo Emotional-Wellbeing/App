@@ -45,7 +45,10 @@ fun ErrorScreen(healthConnectAvailability: HealthConnectAvailability)
 }
 
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun NotInstalledMessagePreview() {
     val healthConnectAvailability = HealthConnectAvailability.NOT_INSTALLED
@@ -54,7 +57,10 @@ fun NotInstalledMessagePreview() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun NotInstalledMessagePreviewDarkTheme() {
     val healthConnectAvailability = HealthConnectAvailability.NOT_INSTALLED
@@ -63,7 +69,10 @@ fun NotInstalledMessagePreviewDarkTheme() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun NotSupportedMessagePreview() {
     val healthConnectAvailability = HealthConnectAvailability.NOT_SUPPORTED
@@ -72,7 +81,10 @@ fun NotSupportedMessagePreview() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun NotSupportedMessagePreviewDarkTheme() {
     val healthConnectAvailability = HealthConnectAvailability.NOT_SUPPORTED

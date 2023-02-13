@@ -50,7 +50,7 @@ fun HeartRateRecord.Display(windowSize: WindowSize)
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun HeartRateRecordDisplayPreview()
 {
@@ -59,7 +59,7 @@ fun HeartRateRecordDisplayPreview()
         heartRateRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun HeartRateRecordDisplayPreviewDarkTheme()
 {
@@ -68,7 +68,7 @@ fun HeartRateRecordDisplayPreviewDarkTheme()
         heartRateRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun HeartRateRecordDisplayLargeScreenPreview()
 {
@@ -77,7 +77,7 @@ fun HeartRateRecordDisplayLargeScreenPreview()
         heartRateRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun HeartRateRecordDisplayLargeScreenPreviewDarkTheme()
 {

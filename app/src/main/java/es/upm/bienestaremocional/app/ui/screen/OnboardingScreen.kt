@@ -188,7 +188,10 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
  * shown successfully
  */
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun OnboardingScreenPreview()
 {
@@ -197,7 +200,10 @@ fun OnboardingScreenPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun OnboardingScreenPreviewDarkTheme()
 {
@@ -206,7 +212,10 @@ fun OnboardingScreenPreviewDarkTheme()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun OnboardingScreenNotCompactPreview()
 {
@@ -215,7 +224,10 @@ fun OnboardingScreenNotCompactPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun OnboardingScreenNotCompactPreviewDarkTheme()
 {

@@ -29,7 +29,7 @@ fun ActiveCaloriesBurnedRecord.Display(windowSize: WindowSize)
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun ActiveCaloriesBurnedRecordDisplayPreview()
 {
@@ -38,7 +38,7 @@ fun ActiveCaloriesBurnedRecordDisplayPreview()
         basalMetabolicRateRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun ActiveCaloriesBurnedRecordDisplayPreviewDarkTheme()
 {
@@ -47,7 +47,7 @@ fun ActiveCaloriesBurnedRecordDisplayPreviewDarkTheme()
         basalMetabolicRateRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun ActiveCaloriesBurnedRecordDisplayLargeScreenPreview()
 {
@@ -56,7 +56,7 @@ fun ActiveCaloriesBurnedRecordDisplayLargeScreenPreview()
         basalMetabolicRateRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun ActiveCaloriesBurnedRecordDisplayLargeScreenPreviewDarkTheme()
 {

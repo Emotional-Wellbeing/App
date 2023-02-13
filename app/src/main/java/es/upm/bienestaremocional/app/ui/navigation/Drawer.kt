@@ -27,7 +27,7 @@ fun CommonModalDrawerSheet(navigator: DestinationsNavigator, entrySelected : Men
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun CommonModalDrawerSheetPreview()
 {
@@ -38,7 +38,7 @@ fun CommonModalDrawerSheetPreview()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun CommonModalDrawerSheetPreviewDarkTheme()
 {

@@ -29,7 +29,7 @@ fun StepsRecord.Display(windowSize: WindowSize)
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun StepsRecordDisplayPreview()
 {
@@ -38,7 +38,7 @@ fun StepsRecordDisplayPreview()
         stepsRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun StepsRecordDisplayPreviewDarkTheme()
 {
@@ -47,7 +47,7 @@ fun StepsRecordDisplayPreviewDarkTheme()
         stepsRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun StepsRecordDisplayLargeScreenPreview()
 {
@@ -56,7 +56,7 @@ fun StepsRecordDisplayLargeScreenPreview()
         stepsRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun StepsRecordDisplayLargeScreenPreviewDarkTheme()
 {

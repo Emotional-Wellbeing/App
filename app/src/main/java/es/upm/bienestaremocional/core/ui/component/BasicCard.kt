@@ -28,7 +28,7 @@ fun BasicCard(content: @Composable (ColumnScope.() -> Unit))
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun BasicCardPreview()
 {
@@ -39,7 +39,7 @@ fun BasicCardPreview()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun BasicCardPreviewDarkTheme()
 {

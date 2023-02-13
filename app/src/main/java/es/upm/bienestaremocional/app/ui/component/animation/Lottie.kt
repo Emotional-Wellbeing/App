@@ -23,6 +23,7 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 @Composable
 fun DisplayLottieAnimation(@RawRes rawRes: Int, modifier: Modifier = Modifier, animationLoop : Boolean = true)
 {
+
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(rawRes))
     LottieAnimation(
         composition = composition,
@@ -31,7 +32,14 @@ fun DisplayLottieAnimation(@RawRes rawRes: Int, modifier: Modifier = Modifier, a
     )
 }
 
-@Preview(showBackground = true)
+/**
+ * These previews don't work properly on IDE, you should display on device
+ */
+
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun DisplayLottieAnimationPreview()
 {
@@ -45,7 +53,10 @@ fun DisplayLottieAnimationPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun DisplayLottieAnimationDarkModePreview()
 {

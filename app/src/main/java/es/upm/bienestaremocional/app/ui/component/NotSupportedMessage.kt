@@ -25,7 +25,10 @@ fun NotSupportedMessage() {
     )
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun NotSupportedMessagePreview() {
     BienestarEmocionalTheme {
@@ -35,7 +38,10 @@ fun NotSupportedMessagePreview() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun NotSupportedMessagePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {

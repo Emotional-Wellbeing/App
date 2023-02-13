@@ -66,7 +66,7 @@ fun Metadata.Display(windowSize: WindowSize)
 
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun MetadataPreview()
 {
@@ -78,7 +78,7 @@ fun MetadataPreview()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun MetadataPreviewDarkTheme()
 {
@@ -91,7 +91,7 @@ fun MetadataPreviewDarkTheme()
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun MetadataPreviewLargeScreen()
 {
@@ -103,7 +103,7 @@ fun MetadataPreviewLargeScreen()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun MetadataPreviewLargeScreenDarkTheme()
 {

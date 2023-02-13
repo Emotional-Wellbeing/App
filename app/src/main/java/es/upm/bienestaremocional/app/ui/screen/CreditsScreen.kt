@@ -60,7 +60,10 @@ fun CreditsScreen(navigator: DestinationsNavigator, windowSize: WindowSize)
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
 @Composable
 fun CreditsScreenPreview()
 {
@@ -71,7 +74,10 @@ fun CreditsScreenPreview()
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
 @Composable
 fun CreditsScreenPreviewDarkTheme()
 {

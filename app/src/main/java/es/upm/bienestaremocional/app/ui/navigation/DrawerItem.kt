@@ -71,7 +71,7 @@ fun NavigationDrawerItems(navigator: DestinationsNavigator, entrySelected: MenuE
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun DrawLocalItemPreview()
 {
@@ -80,7 +80,7 @@ fun DrawLocalItemPreview()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun DrawLocalItemPreviewDarkTheme()
 {
@@ -89,7 +89,7 @@ fun DrawLocalItemPreviewDarkTheme()
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun DrawItemSelectedPreview()
 {
@@ -98,7 +98,7 @@ fun DrawItemSelectedPreview()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun DrawItemSelectPreviewDarkTheme()
 {

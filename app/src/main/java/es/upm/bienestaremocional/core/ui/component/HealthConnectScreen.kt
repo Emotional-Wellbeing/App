@@ -65,3 +65,7 @@ fun DrawHealthConnectSubscreen(viewModelData: ViewModelData<out Record>,
         }
     }
 }
+
+/**
+ * Previews can not be instantiated due Preview's ban of creating viewmodels
+ */
