@@ -18,7 +18,7 @@ class BootReceiver : BroadcastReceiver()
     {
         when(intent.action) {
             "android.intent.action.BOOT_COMPLETED" -> {
-                Log.d("BienestarEmocionalApp", "Scheduling alarms after reboot")
+                Log.d(MainApplication.logTag, "Scheduling alarms after reboot")
                 val alarmScheduler = MainApplication.alarmScheduler
                 if (alarmScheduler.canScheduleExactly())
                 {

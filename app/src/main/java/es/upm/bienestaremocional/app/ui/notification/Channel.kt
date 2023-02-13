@@ -6,7 +6,7 @@ import android.content.Context
 
 /**
  * Creates notification channel in order to send notifications properly
- * @see NotificationSender
+ * @see Notification
  */
 fun createNotificationChannel(
     id: String,

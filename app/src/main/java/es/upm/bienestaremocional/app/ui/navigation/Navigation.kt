@@ -2,15 +2,12 @@ package es.upm.bienestaremocional.app.ui.navigation
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
-import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.ui.screen.NavGraphs
 import es.upm.bienestaremocional.app.ui.screen.destinations.*
-import es.upm.bienestaremocional.app.ui.state.SplashState
 import es.upm.bienestaremocional.app.ui.viewmodel.*
 
 /**
@@ -21,7 +18,6 @@ import es.upm.bienestaremocional.app.ui.viewmodel.*
 fun AppNavigation()
 {
     val snackbarHostState = remember { SnackbarHostState() }
-
 
     DestinationsNavHost(navGraph = NavGraphs.root, dependenciesContainerBuilder = {
         dependency(MyDataScreenDestination)
@@ -42,11 +38,7 @@ fun AppNavigation()
         }
         dependency(SplashScreenDestination)
         {
-            remember {
-                mutableStateOf(if (!MainApplication.alarmScheduler.canScheduleExactly()) //&& MainApplication.appSettings.getFirstTimeValue())
-                    SplashState.LaunchDialog
-                else
-                    SplashState.SkipDialog) }
+            viewModel<SplashViewModel>(factory = SplashViewModel.Factory)
         }
     })
 }

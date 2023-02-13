@@ -6,19 +6,59 @@ import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.MainActivity
+import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.settings.AppChannels
 import es.upm.bienestaremocional.app.data.settings.NOTIFICATION_REQUEST_CODE
+import kotlinx.coroutines.async
 
-class NotificationSender(private val context: Context)
+class Notification(private val context: Context)
 {
     //since we don't edit notifications, this code is id to fire and forget
     private var notificationId = 0
+
+
+    fun hasNotificationPermission(): Boolean
+    {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        {
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+        else
+            true
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    @Composable
+    fun RequestNotificationPermission(onResult : (Boolean) -> Unit = {})
+    {
+        val permissionLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission(),
+            onResult = onResult)
+
+        Log.d(MainApplication.logTag,"RequestNotificationPermission")
+        LaunchedEffect(true)
+        {
+            val launchCall = this.async {permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)}
+            launchCall.await()
+        }
+    }
 
     /**
      * Send a notification related to do a questionnaire

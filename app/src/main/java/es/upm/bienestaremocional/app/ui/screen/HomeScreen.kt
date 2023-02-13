@@ -69,7 +69,7 @@ fun HomeScreen(navigator: DestinationsNavigator)
                 modifier = Modifier.fillMaxWidth()
             )
             {
-                Button(onClick = { MainApplication.notificationSender.showQuestionnaireNotification() })
+                Button(onClick = { MainApplication.notification.showQuestionnaireNotification() })
                 {
                     Text(text = "Not.")
                 }

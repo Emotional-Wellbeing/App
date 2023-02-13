@@ -9,6 +9,7 @@ import android.os.Build
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.util.Log
 import androidx.annotation.RequiresApi
+import es.upm.bienestaremocional.app.MainApplication
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
@@ -34,7 +35,7 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
 
     override fun schedule(alarm: AlarmItem)
     {
-        Log.d("BienestarEmocionalApp","Setting alarm ${alarm.code}")
+        Log.d(MainApplication.logTag,"Setting alarm ${alarm.code}")
         //compute trigger for the next one. If the hour has passed, schedule it to the following day
         val now = ZonedDateTime.now()
 
@@ -58,7 +59,7 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
                     trigger,
                     it)
         }
-        Log.d("BienestarEmocionalApp", "The alarm shall be triggered at $trigger ")
+        Log.d(MainApplication.logTag, "The alarm shall be triggered at $trigger ")
     }
 
     override fun schedule(alarms: List<AlarmItem>)
@@ -74,7 +75,7 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
         val pendingIntent = makePendingIntent(alarm.code)
         pendingIntent?.let {
             alarmManager.cancel(it)
-            Log.d("BienestarEmocionalApp", "The alarm with code ${alarm.code} has been cancelled")
+            Log.d(MainApplication.logTag, "The alarm with code ${alarm.code} has been cancelled")
         }
     }
 
@@ -82,7 +83,7 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
     {
         for (alarm in alarms)
         {
-            Log.d("BienestarEmocionalApp","Cancelling alarm ${alarm.code}")
+            Log.d(MainApplication.logTag,"Cancelling alarm ${alarm.code}")
             cancel(alarm)
         }
     }

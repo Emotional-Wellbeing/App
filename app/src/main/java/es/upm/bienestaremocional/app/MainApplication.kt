@@ -10,7 +10,7 @@ import es.upm.bienestaremocional.app.data.alarm.AndroidAlarmScheduler
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.LanguageManager
-import es.upm.bienestaremocional.app.ui.notification.NotificationSender
+import es.upm.bienestaremocional.app.ui.notification.Notification
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 
@@ -48,12 +48,13 @@ class MainApplication: Application()
                 context = applicationContext)
         val appSettings : AppSettingsInterface
             get() = AppSettings(applicationContext)
-        val notificationSender: NotificationSender
-            get() = NotificationSender(applicationContext)
+        val notification: Notification
+            get() = Notification(applicationContext)
         val alarmScheduler: AlarmScheduler
             get() = AndroidAlarmScheduler(applicationContext, AlarmReceiver::class.java)
         lateinit var languageManager : LanguageManager
             private set
+        val logTag = "BienestarEmocionalApp"
 
         //init at MainActivity
         var windowSize : WindowSize? = null

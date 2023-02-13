@@ -2,6 +2,7 @@ package es.upm.bienestaremocional.app.ui.state
 
 sealed class SplashState
 {
-    object SkipDialog : SplashState()
-    object LaunchDialog: SplashState()
+    object NoDialog : SplashState()
+    object ExactDialog: SplashState()
+    object NotificationsDialog: SplashState()
 }

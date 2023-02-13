@@ -25,18 +25,18 @@ class AlarmReceiver : BroadcastReceiver()
             }
             "alarm" ->
             {
-                Log.d("BienestarEmocionalApp","An alarm was triggered")
+                Log.d(MainApplication.logTag,"An alarm was triggered")
                 intent.let { i ->
                     val alarmCode = i.extras?.getInt("alarm_code")
                     alarmCode?.let { ac ->
                         val alarmItem = AlarmsAvailable.decode(ac)
                         alarmItem?.let { ai ->
-                            Log.d("BienestarEmocionalApp","Re-scheduling alarm ${ai.code}")
+                            Log.d(MainApplication.logTag,"Re-scheduling alarm ${ai.code}")
                             MainApplication.alarmScheduler.schedule(ai)
                         }
                     }
                 }
-                MainApplication.notificationSender.showQuestionnaireNotification()
+                MainApplication.notification.showQuestionnaireNotification()
             }
         }
 

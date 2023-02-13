@@ -12,16 +12,7 @@ import es.upm.bienestaremocional.app.ui.screen.destinations.SplashScreenDestinat
 @Composable
 fun RootScreen(navigator: DestinationsNavigator)
 {
-    val appSettings = MainApplication.appSettings
+    val darkTheme : Boolean = MainApplication.appSettings.getThemeValue().themeIsDark()
 
-    val healthConnectAvailability = MainApplication.healthConnectManager.availability.value
-    val showOnboarding = appSettings.getFirstTimeValue()
-    val darkTheme : Boolean = appSettings.getThemeValue().themeIsDark()
-
-    navigator.navigate(
-        SplashScreenDestination(
-            healthConnectAvailability = healthConnectAvailability,
-            showOnboarding = showOnboarding,
-            darkTheme = darkTheme)
-    )
+    navigator.navigate(SplashScreenDestination(darkTheme = darkTheme))
 }

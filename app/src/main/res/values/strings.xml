@@ -126,7 +126,7 @@
     <string name="questionnaire_not_completed">Cuestionario no completado</string>
     <string name="exit_questionnaire">Salir del cuestionario</string>
     <string name="sure_skip_questionnaire">¿Estás seguro de querer omitir el cuestionario?</string>
-    <string name="permission_for_notifications">Permiso de notificaciones</string>
+    <string name="permission_for_notifications">Permiso de notificaciones precisas</string>
     <string name="permission_for_notifications_body">Para enviar notificaciones de forma precisa, se necesita que aceptes el permiso correspondiente. ¿Desea dar el permiso ahora?</string>
 
     <string name="light_mode_label">Desactivado</string>
