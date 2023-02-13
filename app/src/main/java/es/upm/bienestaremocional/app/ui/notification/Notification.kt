@@ -71,12 +71,13 @@ class Notification(private val context: Context)
         val textTitle = context.getString(R.string.new_questionnaire_available_title)
         val textContent = context.getString(R.string.new_questionnaire_available_content)
 
-        showAccionableNotification(
-            channelId = AppChannels.Questionnaire.channelId,
-            textTitle = textTitle,
-            textContent = textContent,
-            pendingIntent = pendingIntent
-        )
+        if(hasNotificationPermission())
+            showAccionableNotification(
+                channelId = AppChannels.Questionnaire.channelId,
+                textTitle = textTitle,
+                textContent = textContent,
+                pendingIntent = pendingIntent
+            )
     }
 
     /**
@@ -163,7 +164,8 @@ class Notification(private val context: Context)
         )
         return TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(intent)
-            getPendingIntent(NOTIFICATION_REQUEST_CODE, PendingIntent.FLAG_UPDATE_CURRENT)
+            //PendingIntent.FLAG_IMMUTABLE for SDK 31 and above
+            getPendingIntent(NOTIFICATION_REQUEST_CODE, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         }
     }
 }

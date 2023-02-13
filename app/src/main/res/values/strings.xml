@@ -11,6 +11,9 @@
     <!-- Notifications -->
     <string name="main_channel">Notificaciones generales</string>
     <string name="questionnaire_channel">Cuestionarios</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="permission_for_notifications">Permiso de notificaciones</string>
+    <string name="permission_for_notifications_body">Ajusta las notificaciones de la app</string>
 
     <!-- Available data -->
     <string name="heart_rate">Pulsaciones</string>
@@ -126,8 +129,9 @@
     <string name="questionnaire_not_completed">Cuestionario no completado</string>
     <string name="exit_questionnaire">Salir del cuestionario</string>
     <string name="sure_skip_questionnaire">¿Estás seguro de querer omitir el cuestionario?</string>
-    <string name="permission_for_notifications">Permiso de notificaciones precisas</string>
-    <string name="permission_for_notifications_body">Para enviar notificaciones de forma precisa, se necesita que aceptes el permiso correspondiente. ¿Desea dar el permiso ahora?</string>
+    <string name="permission_for_exact_notifications">Permiso de notificaciones precisas</string>
+    <string name="permission_for_exact_notifications_body">Ajusta las notificaciones precisas de la app</string>
+    <string name="permission_for_exact_notifications_alert_body">Para enviar notificaciones de forma precisa, se necesita que aceptes el permiso correspondiente. ¿Desea dar el permiso ahora?</string>
 
     <string name="light_mode_label">Desactivado</string>
     <string name="dark_mode_label">Activado</string>

@@ -1,5 +1,7 @@
 package es.upm.bienestaremocional.app.ui.screen
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -319,15 +321,17 @@ private fun OptionCard(text : String,
                        selected : Boolean,
                        onClick : () -> Unit)
 {
+    val color by animateColorAsState(
+        targetValue = if(selected)
+            MaterialTheme.colorScheme.inversePrimary
+        else
+            MaterialTheme.colorScheme.surfaceVariant,
+        animationSpec = tween(durationMillis = 1000)
+    )
     Card(modifier = Modifier
         .fillMaxWidth()
         .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor =
-        if(selected)
-            MaterialTheme.colorScheme.inversePrimary
-        else
-            MaterialTheme.colorScheme.surfaceVariant
-        )
+        colors = CardDefaults.cardColors(containerColor = color)
     )
     {
         Text(text,

@@ -88,10 +88,10 @@ fun SplashScreen(
                     }
                 },
                 title = {
-                    Text(stringResource(R.string.permission_for_notifications))
+                    Text(stringResource(R.string.permission_for_exact_notifications))
                 },
                 text = {
-                    Text(stringResource(R.string.permission_for_notifications_body))
+                    Text(stringResource(R.string.permission_for_exact_notifications_alert_body))
                 })
         }
         SplashState.NoDialog ->

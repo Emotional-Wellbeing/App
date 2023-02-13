@@ -2,6 +2,7 @@ package es.upm.bienestaremocional.app.ui.screen
 
 import android.app.Activity
 import android.content.Context
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -34,14 +35,12 @@ import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.app.ui.screen.destinations.*
 import es.upm.bienestaremocional.app.ui.viewmodel.SettingsViewModel
-import es.upm.bienestaremocional.app.utils.dynamicColorsSupported
-import es.upm.bienestaremocional.app.utils.openForeignActivity
-import es.upm.bienestaremocional.app.utils.restartApp
+import es.upm.bienestaremocional.app.utils.*
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 @Composable
-private fun GroupText(textRes : Int)
+private fun GroupText(@StringRes textRes : Int)
 {
     Row(modifier = Modifier
         .fillMaxWidth()
@@ -79,8 +78,7 @@ private const val HEALTH_CONNECT_ACTION = "androidx.health.ACTION_HEALTH_CONNECT
  * @param language: var that stores the language of the app
  * @param themeMode: var that stores theme setting value
  * @param dynamicColor: var that stores dynamic setting value
- * @param shouldDisplayDynamicOption: boolean to control rendering (or not) dynamic option
- * (option available in Android 12+)
+ * @param android12OrAbove: boolean to print Android 12+ options
  * @param onAlarmFrequencyChange: callback to react alarm frequency setting changes
  * @param onQuestionnairesChange: callback to react questionnaires changes
  * @param onLanguageChange: callback to react language setting changes
@@ -94,7 +92,7 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                                language: SettingValueState<Int>,
                                themeMode: SettingValueState<Int>,
                                dynamicColor : SettingValueState<Boolean>,
-                               shouldDisplayDynamicOption : Boolean,
+                               android12OrAbove : Boolean,
                                onAlarmFrequencyChange : suspend (SettingValueState<Int>) -> Unit,
                                onQuestionnairesChange : suspend (SettingValueState<Set<Int>>) -> Unit,
                                onLanguageChange : @Composable (SettingValueState<Int>) -> Unit,
@@ -224,6 +222,81 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
 
             Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
 
+            GroupText(textRes = R.string.ui_group)
+
+            SettingsList(
+                icon = { Icon(painter = painterResource(R.drawable.language),
+                    contentDescription = null,
+                    modifier = Modifier.defaultIconModifier()) },
+                title = { Text(stringResource(R.string.language),
+                    color = MaterialTheme.colorScheme.secondary) },
+                state = language,
+                items = MainApplication.languageManager.getSupportedLocalesLabel()
+            )
+
+            if (android12OrAbove)
+            {
+                SettingsSwitch(
+                    icon = { Icon(painter = painterResource(R.drawable.palette),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()) },
+                    title = { Text(text = stringResource(R.string.dynamic_colors_label),
+                        color = MaterialTheme.colorScheme.secondary) },
+                    subtitle = { Text(text = stringResource(R.string.dynamic_colors_description)) },
+                    state = dynamicColor
+                )
+            }
+
+            SettingsList(
+                icon = { Icon(painter = painterResource(R.drawable.dark_mode),
+                    contentDescription = null,
+                    modifier = Modifier.defaultIconModifier()) },
+                title = { Text(stringResource(R.string.dark_mode),
+                    color = MaterialTheme.colorScheme.secondary) },
+                state = themeMode,
+                items = ThemeMode.getLabels()
+            )
+
+
+            Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
+
+            GroupText(textRes = R.string.notifications)
+
+            SettingsMenuLink(
+                icon = { Icon(painter = painterResource(R.drawable.notifications),
+                    contentDescription = null,
+                    modifier = Modifier.defaultIconModifier(),
+                    tint = Color.Unspecified) },
+                title = { Text(stringResource(R.string.permission_for_notifications),
+                    color = MaterialTheme.colorScheme.secondary) },
+                subtitle = { Text(stringResource(R.string.permission_for_notifications_body)) },
+                onClick = { openSettingsNotifications(context) },
+            )
+
+            if (android12OrAbove)
+            {
+                SettingsMenuLink(
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable.notification_important),
+                            contentDescription = null,
+                            modifier = Modifier.defaultIconModifier(),
+                            tint = Color.Unspecified
+                        )
+                    },
+                    title = {
+                        Text(
+                            stringResource(R.string.permission_for_exact_notifications),
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    },
+                    subtitle = { Text(stringResource(R.string.permission_for_exact_notifications_body)) },
+                    onClick = { openSettingsExactNotifications(context) },
+                )
+            }
+
+            Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
+
             GroupText(textRes = R.string.feedback_group)
 
             SettingsList(
@@ -245,44 +318,6 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                 state = questionnaires,
                 items = Questionnaire.getOptionalLabels(),
                 confirmButton = stringResource(R.string.accept)
-            )
-
-
-            Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
-
-            GroupText(textRes = R.string.ui_group)
-
-            SettingsList(
-                icon = { Icon(painter = painterResource(R.drawable.language),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(stringResource(R.string.language),
-                    color = MaterialTheme.colorScheme.secondary) },
-                state = language,
-                items = MainApplication.languageManager.getSupportedLocalesLabel()
-            )
-
-            if (shouldDisplayDynamicOption)
-            {
-                SettingsSwitch(
-                    icon = { Icon(painter = painterResource(R.drawable.palette),
-                        contentDescription = null,
-                        modifier = Modifier.defaultIconModifier()) },
-                    title = { Text(text = stringResource(R.string.dynamic_colors_label),
-                        color = MaterialTheme.colorScheme.secondary) },
-                    subtitle = { Text(text = stringResource(R.string.dynamic_colors_description)) },
-                    state = dynamicColor
-                )
-            }
-
-            SettingsList(
-                icon = { Icon(painter = painterResource(R.drawable.dark_mode),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(stringResource(R.string.dark_mode),
-                    color = MaterialTheme.colorScheme.secondary) },
-                state = themeMode,
-                items = ThemeMode.getLabels()
             )
 
             Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
@@ -343,7 +378,7 @@ fun SettingsScreen(navigator: DestinationsNavigator, viewModel: SettingsViewMode
         language = language,
         themeMode = themeMode,
         dynamicColor = dynamicColor,
-        shouldDisplayDynamicOption = dynamicColorsSupported(),
+        android12OrAbove = android12OrAbove(),
         onAlarmFrequencyChange = { viewModel.changeAlarmFrequency(it)},
         onQuestionnairesChange = { viewModel.changeQuestionnairesSelected(it) },
         onThemeChange = {theme -> viewModel.changeDarkMode(theme)},
@@ -365,7 +400,7 @@ fun SettingsScreenNoDynamicPreview()
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
-            shouldDisplayDynamicOption = false,
+            android12OrAbove = false,
             onAlarmFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
@@ -388,7 +423,7 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
-            shouldDisplayDynamicOption = false,
+            android12OrAbove = false,
             onAlarmFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
@@ -411,7 +446,7 @@ fun SettingsScreenPreview()
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
-            shouldDisplayDynamicOption = true,
+            android12OrAbove = true,
             onAlarmFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
@@ -434,7 +469,7 @@ fun SettingsScreenPreviewDarkTheme()
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
-            shouldDisplayDynamicOption = true,
+            android12OrAbove = true,
             onAlarmFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
