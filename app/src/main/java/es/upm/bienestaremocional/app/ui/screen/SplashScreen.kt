@@ -5,23 +5,25 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
-import es.upm.bienestaremocional.app.ui.navigation.Screen
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
+import es.upm.bienestaremocional.app.ui.state.SplashState
+import es.upm.bienestaremocional.app.ui.viewmodel.SplashViewModel
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 
 /**
  * @Todo close app when we arrive this screen from other
@@ -34,13 +36,18 @@ fun Splash(darkTheme: Boolean)
         modifier = Modifier
             .fillMaxSize()
             .background(
-                Brush.verticalGradient(colors =
+                Brush.verticalGradient(
+                    colors =
                     if (darkTheme)
-                        listOf(MaterialTheme.colorScheme.primaryContainer,
-                            MaterialTheme.colorScheme.onPrimary)
+                        listOf(
+                            MaterialTheme.colorScheme.primaryContainer,
+                            MaterialTheme.colorScheme.onPrimary
+                        )
                     else
-                        listOf(MaterialTheme.colorScheme.primary,
-                            MaterialTheme.colorScheme.onPrimaryContainer)
+                        listOf(
+                            MaterialTheme.colorScheme.primary,
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        )
                 )
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -52,37 +59,52 @@ fun Splash(darkTheme: Boolean)
     }
 }
 
+
+@Destination
 @Composable
 fun SplashScreen(
-    appSettings: AppSettingsInterface,
-    healthConnectAvailability: MutableState<HealthConnectAvailability>,
-    navController: NavHostController,
-    darkTheme: Boolean
-)
+    navigator: DestinationsNavigator,
+    splashViewModel: SplashViewModel,
+    darkTheme: Boolean)
 {
     //splash screen
     Splash(darkTheme)
 
-    //init block. Delay simulate loading
-    LaunchedEffect(true)
+    when(splashViewModel.state.value)
     {
-        delay(1000)
+        SplashState.NotificationsDialog -> { splashViewModel.NotificationsDialogAction() }
+        SplashState.ExactDialog -> {
 
-        navController.popBackStack() //prevents a return to splash screen
-
-        //read if we should present onboarding
-        val showOnboarding = appSettings.getShowOnboarding().first()
-
-        //redirect to certain screen
-        when (healthConnectAvailability.value)
+            AlertDialog(onDismissRequest = {splashViewModel.exactDialogAction(false)},
+                confirmButton = {
+                    TextButton(onClick = { splashViewModel.exactDialogAction(true) })
+                    {
+                        Text(stringResource(R.string.ok))
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {splashViewModel.exactDialogAction(false)}) {
+                        Text(stringResource(R.string.skip))
+                    }
+                },
+                title = {
+                    Text(stringResource(R.string.permission_for_exact_notifications))
+                },
+                text = {
+                    Text(stringResource(R.string.permission_for_exact_notifications_alert_body))
+                })
+        }
+        SplashState.NoDialog ->
         {
-            HealthConnectAvailability.INSTALLED ->
-                if (showOnboarding)
-                    navController.navigate(Screen.OnboardingScreen.route)
-                else
-                    navController.navigate(Screen.HomeScreen.route)
+            //init block. Delay simulate loading
+            LaunchedEffect(true)
+            {
+                delay(1000)
 
-            else -> navController.navigate(Screen.ErrorScreen.route)
+                navigator.popBackStack() //prevents a return to splash screen
+
+                navigator.navigate(splashViewModel.noDialogAction())
+            }
         }
     }
 }

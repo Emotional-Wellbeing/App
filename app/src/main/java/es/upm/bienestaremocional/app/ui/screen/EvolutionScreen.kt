@@ -10,8 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
@@ -20,10 +21,11 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 /**
  * Plots graphics about user's evolution
  */
+@Destination
 @Composable
-fun EvolutionScreen(navController: NavController)
+fun EvolutionScreen(navigator: DestinationsNavigator)
 {
-    AppBasicScreen(navController = navController,
+    AppBasicScreen(navigator = navigator,
         entrySelected = MenuEntry.EvolutionScreen,
         label = MenuEntry.EvolutionScreen.labelId)
     {
@@ -49,9 +51,8 @@ fun EvolutionScreen(navController: NavController)
 @Composable
 fun EvolutionScreenPreview()
 {
-    val navController = rememberNavController()
     BienestarEmocionalTheme {
-        EvolutionScreen(navController)
+        EvolutionScreen(EmptyDestinationsNavigator)
     }
 }
 
@@ -62,8 +63,7 @@ fun EvolutionScreenPreview()
 @Composable
 fun EvolutionScreenPreviewDarkTheme()
 {
-    val navController = rememberNavController()
     BienestarEmocionalTheme(darkTheme = true) {
-        EvolutionScreen(navController)
+        EvolutionScreen(EmptyDestinationsNavigator)
     }
 }

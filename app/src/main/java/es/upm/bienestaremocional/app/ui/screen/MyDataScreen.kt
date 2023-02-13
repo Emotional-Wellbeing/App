@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.screen
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,12 +22,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.*
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.ui.healthconnect.component.Display
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.*
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
+import es.upm.bienestaremocional.app.ui.viewmodel.MyDataViewModel
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.DrawHealthConnectSubscreen
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
@@ -76,7 +79,7 @@ private fun clickable(index: Int, expanderElements: ExpanderElements)
 }
 
 @Composable
-private fun CategoryText(index: Int, stringRes: Int, expanderElements: ExpanderElements)
+private fun CategoryText(index: Int, @StringRes stringRes: Int, expanderElements: ExpanderElements)
 {
     Row(
         modifier = Modifier
@@ -104,7 +107,7 @@ private fun CategoryText(index: Int, stringRes: Int, expanderElements: ExpanderE
 }
 
 @Composable
-private fun DrawMyDataScreen(navController: NavController,
+private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                              windowSize: WindowSize,
                              sleepVMD: ViewModelData<SleepSessionData>,
                              heartRateVMD: ViewModelData<HeartRateRecord>,
@@ -125,7 +128,7 @@ private fun DrawMyDataScreen(navController: NavController,
 {
     val expanderElements = remember {ExpanderElements(15) }
 
-    AppBasicScreen(navController = navController,
+    AppBasicScreen(navigator = navigator,
         entrySelected = MenuEntry.SettingsScreen,
         label = R.string.my_data_label)
     {
@@ -514,10 +517,12 @@ private fun DrawMyDataScreen(navController: NavController,
     }
 }
 
+@Destination
 @Composable
-fun MyDataScreen(navController: NavController,
+fun MyDataScreen(navigator: DestinationsNavigator,
                  windowSize: WindowSize,
-                 onError: (Throwable?) -> Unit = {})
+                 viewModel: MyDataViewModel
+)
 {
     val sleepSessionViewModel: SleepSessionViewModel =
         viewModel(factory = SleepSessionViewModel.Factory)
@@ -551,7 +556,7 @@ fun MyDataScreen(navController: NavController,
         viewModel(factory = Vo2MaxViewModel.Factory)
 
     DrawMyDataScreen(
-        navController = navController,
+        navigator = navigator,
         windowSize = windowSize,
         sleepVMD = sleepSessionViewModel.getViewModelData(),
         heartRateVMD = heartRateViewModel.getViewModelData(),
@@ -568,9 +573,5 @@ fun MyDataScreen(navController: NavController,
         respiratoryRateVMD = respiratoryRateViewModel.getViewModelData(),
         restingHeartRateVMD = restingHeartRateViewModel.getViewModelData(),
         vo2MaxVMD = vo2MaxViewModel.getViewModelData(),
-        onError = onError)
+        onError = {exception -> viewModel.onError(exception)})
 }
-
-/**
- * Previews can not be instantiated due Preview's ban of creating viewmodels
- */

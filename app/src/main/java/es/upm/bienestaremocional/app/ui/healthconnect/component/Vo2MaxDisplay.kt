@@ -20,9 +20,7 @@ fun Vo2MaxRecord.Display(windowSize: WindowSize)
     BasicCard {
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(id = R.string.vo2_max), value = "$vo2 $unit")
-        decodeMeasurementMethod().let {
-            DrawPair(key = stringResource(R.string.measurement_method), value = it)
-        }
+        DrawPair(key = stringResource(R.string.measurement_method), value = decodeMeasurementMethod())
         metadata.Display(windowSize)
     }
 }
@@ -43,7 +41,7 @@ fun Vo2MaxRecord.decodeMeasurementMethod(): String =
         else -> stringResource(R.string.unknown)
     }
 
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun Vo2MaxRecordDisplayPreview()
 {
@@ -52,7 +50,7 @@ fun Vo2MaxRecordDisplayPreview()
         vo2Max.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview(group = "Dark Theme")
+@Preview
 @Composable
 fun Vo2MaxRecordDisplayPreviewDarkTheme()
 {
@@ -61,7 +59,7 @@ fun Vo2MaxRecordDisplayPreviewDarkTheme()
         vo2Max.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun Vo2MaxRecordDisplayLargeScreenPreview()
 {
@@ -70,7 +68,7 @@ fun Vo2MaxRecordDisplayLargeScreenPreview()
         vo2Max.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview(group = "Dark Theme")
+@Preview
 @Composable
 fun Vo2MaxRecordDisplayLargeScreenPreviewDarkTheme()
 {

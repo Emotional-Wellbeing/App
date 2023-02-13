@@ -1,5 +1,7 @@
 package es.upm.bienestaremocional.app.data.settings
 
+import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
+import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -8,22 +10,57 @@ import kotlinx.coroutines.flow.Flow
  */
 interface AppSettingsInterface
 {
+
     /**
-     * Save show onboarding screen preference
+     * Save alarm frequency preference
      * @param value: Preference to save
      */
-    suspend fun saveShowOnboarding(value: Boolean)
+    suspend fun saveAlarmFrequency(value: AlarmsFrequency)
 
     /**
-     * Get show onboarding screen preference
+     * Get alarm frequency preference
+     * @return [Flow] of [AlarmsFrequency] with the values
+     */
+    suspend fun getAlarmFrequency(): Flow<AlarmsFrequency>
+
+    /**
+     * Thread-blocking implementation of [getAlarmFrequency]
+     */
+    fun getAlarmFrequencyValue(): AlarmsFrequency
+
+    /**
+     * Save questionnaires selected
+     * @param value: Preference to save
+     */
+    suspend fun saveQuestionnairesSelected(value: Set<Questionnaire>)
+
+    /**
+     * Get alarm frequency preference
+     * @return [Flow] of [Set] of [Questionnaire] with the values
+     */
+    suspend fun getQuestionnairesSelected(): Flow<Set<Questionnaire>>
+
+    /**
+     * Thread-blocking implementation of [getQuestionnairesSelected]
+     */
+    fun getQuestionnairesSelectedValue(): Set<Questionnaire>
+
+    /**
+     * Save first time info
+     * @param value: Preference to save
+     */
+    suspend fun saveFirstTime(value: Boolean)
+
+    /**
+     * Get if the app is executed for first time
      * @return [Flow] of [Boolean] with the values
      */
-    suspend fun getShowOnboarding(): Flow<Boolean>
+    suspend fun getFirstTime(): Flow<Boolean>
 
     /**
-     * Thread-blocking implementation of [getShowOnboarding]
+     * Thread-blocking implementation of [getFirstTime]
      */
-    fun getShowOnboardingValue(): Boolean
+    fun getFirstTimeValue(): Boolean
 
     /**
      * Save theme preference

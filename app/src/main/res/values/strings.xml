@@ -8,6 +8,12 @@
     <string name="trends_screen_label">Tendencias</string>
     <string name="settings_screen_label">Ajustes</string>
 
+    <!-- Notifications -->
+    <string name="main_channel">Notificaciones generales</string>
+    <string name="questionnaire_channel">Cuestionarios</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="permission_for_notifications">Permiso de notificaciones</string>
+    <string name="permission_for_notifications_body">Ajusta las notificaciones de la app</string>
 
     <!-- Available data -->
     <string name="heart_rate">Pulsaciones</string>
@@ -37,6 +43,7 @@
     <string name="ui_group">Interfaz gráfica</string>
     <string name="dark_mode">Modo oscuro</string>
     <string name="dynamic_colors_label">Colores dinámicos</string>
+
     <string name="dynamic_colors_description">Basados en tu fondo de pantalla</string>
     <string name="misc_group">Miscelánea</string>
     <string name="about_screen_label">Acerca de la aplicación</string>
@@ -46,12 +53,24 @@
     <string name="credits_screen_label">Créditos</string>
     <string name="credits_screen_description">Las personas detrás del proyecto</string>
 
+    <string name="feedback_group">Retroalimentación</string>
+    <string name="feedback_frequency">Frecuencia de los cuestionarios</string>
+    <string name="questionnaire_only_night">Un cuestionario a la noche</string>
+    <string name="questionnaire_night_lunch">Un cuestionario al mediodía y otro a la noche</string>
+    <string name="additional_questionnaires">Cuestionarios adicionales</string>
+    <string name="questionnaire">Cuestionario</string>
+    <string name="score">Puntuación</string>
+    <string name="pss_label">PSS (estrés)</string>
+    <string name="phq_label">PHQ (depresión)</string>
+    <string name="ucla_label">UCLA (soledad)</string>
+
     <!-- Error screen -->
     <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes instalada, por favor reinicia la aplicación.</string>
     <string name="not_supported_welcome_message">Esta aplicación solo está disponible para dispositivos que ejecuten una API %1$d o superior.</string>
 
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">¡Hola! Bienvenido a Bienestar Emocional</string>
+
     <string name="onboarding_welcome_description">Diseñada para ayudarte a cuidar tu bienestar emocional de forma fácil y sencilla. Creada por y para la Universidad.</string>
 
     <string name="onboarding_features_title">Tu salud mental importa</string>
@@ -70,6 +89,9 @@
     data outside of Health Connect.
     </string>
 
+    <!-- Notifications -->
+    <string name="new_questionnaire_available_title">Nuevo cuestionario</string>
+    <string name="new_questionnaire_available_content">¡Hola! Se ha abierto un nuevo cuestionario. Haz click para realizarlo.</string>
 
     <!-- Credits-->
     <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>
@@ -94,19 +116,29 @@
     <!-- Misc -->
     <string name="menu">Menu</string>
     <string name="go_back">Volver atrás</string>
+    <string name="back">Atrás</string>
     <string name="finish">Finalizar</string>
     <string name="skip">Omitir</string>
     <string name="next">Siguiente</string>
     <string name="sleep">Sueño</string>
     <string name="language">Idioma</string>
     <string name="restart">Reiniciar</string>
+    <string name="accept">Aceptar</string>
+    <string name="exit">Salir</string>
+    <string name="ok">Vale</string>
+    <string name="questionnaire_not_completed">Cuestionario no completado</string>
+    <string name="exit_questionnaire">Salir del cuestionario</string>
+    <string name="sure_skip_questionnaire">¿Estás seguro de querer omitir el cuestionario?</string>
+    <string name="permission_for_exact_notifications">Permiso de notificaciones precisas</string>
+    <string name="permission_for_exact_notifications_body">Ajusta las notificaciones precisas de la app</string>
+    <string name="permission_for_exact_notifications_alert_body">Para enviar notificaciones de forma precisa, se necesita que aceptes el permiso correspondiente. ¿Desea dar el permiso ahora?</string>
 
     <string name="light_mode_label">Desactivado</string>
     <string name="dark_mode_label">Activado</string>
     <string name="default_mode_label">Usar la configuración del dispositivo</string>
     <string name="restart_apply_changes">Se aplicarán los cambios al reiniciar</string>
     <string name="restart_apply_all_changes">Reinicia para aplicar todos los cambios</string>
-    <string name="calories_burnt">Calorias quemadas</string>
+    <string name="calories_burnt">Calorias quemadas:</string>
     <string name="bmr_literal">IMB</string>
     <string name="level">Nivel</string>
     <string name="fluid_type">Tipo de fluido utilizado</string>

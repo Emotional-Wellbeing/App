@@ -1,14 +1,16 @@
 package es.upm.bienestaremocional.app.data.settings
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.app.data.settings.ThemeMode.*
 
 /**
  * Contains the options of theming: [LIGHT_MODE], [DARK_MODE] and [DEFAULT_MODE]
  */
-enum class ThemeMode(val labelRes: Int, val key: String)
+enum class ThemeMode(@StringRes val labelRes: Int, val key: String)
 {
     LIGHT_MODE(R.string.light_mode_label, "light"),
     DARK_MODE(R.string.dark_mode_label, "dark"),

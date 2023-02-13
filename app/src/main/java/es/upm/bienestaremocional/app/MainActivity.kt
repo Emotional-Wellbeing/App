@@ -13,16 +13,15 @@ class MainActivity : ComponentActivity()
         super.onCreate(savedInstanceState)
 
         val windowSize = computeWindowSize(
-                windowMetricsCalculator = WindowMetricsCalculator.getOrCreate(),
-                activity = this,
-                displayMetrics = applicationContext.resources.displayMetrics)
+            windowMetricsCalculator = WindowMetricsCalculator.getOrCreate(),
+            activity = this,
+            displayMetrics = applicationContext.resources.displayMetrics)
+
+        MainApplication.windowSize = windowSize
 
         setContent {
             BienestarEmocionalApp(
-                appSettings = MainApplication.appSettings,
-                windowSize = windowSize,
-                healthConnectAvailability = MainApplication.healthConnectManager.availability
-            )
+                appSettings = MainApplication.appSettings)
         }
     }
 }

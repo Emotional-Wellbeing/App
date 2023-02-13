@@ -5,7 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import es.upm.bienestaremocional.app.utils.dynamicColorsSupported
+import es.upm.bienestaremocional.app.utils.android12OrAbove
 
 
 private val LightColors = lightColorScheme(
@@ -80,7 +80,7 @@ fun BienestarEmocionalTheme(
     content: @Composable () -> Unit
 ) {
     // Dynamic color is available on Android 12+
-    val colorScheme : ColorScheme = if (dynamicColorsSupported() && dynamicColors)
+    val colorScheme : ColorScheme = if (android12OrAbove() && dynamicColors)
     {
         if (darkTheme)
             dynamicDarkColorScheme(LocalContext.current)

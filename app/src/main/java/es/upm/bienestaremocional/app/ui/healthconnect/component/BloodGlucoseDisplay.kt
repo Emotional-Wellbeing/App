@@ -81,7 +81,7 @@ fun BloodGlucoseRecord.decodeRelationToMeal(): String =
         RELATION_TO_MEAL_AFTER_MEAL -> stringResource(R.string.after_meal)
         else -> stringResource(R.string.unknown)
     }
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun BloodGlucoseRecordDisplayPreview()
 {
@@ -90,7 +90,7 @@ fun BloodGlucoseRecordDisplayPreview()
         bloodGlucoseRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview(group = "Dark Theme")
+@Preview
 @Composable
 fun BloodGlucoseRecordDisplayPreviewDarkTheme()
 {
@@ -99,7 +99,7 @@ fun BloodGlucoseRecordDisplayPreviewDarkTheme()
         bloodGlucoseRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun BloodGlucoseRecordDisplayLargeScreenPreview()
 {
@@ -108,7 +108,7 @@ fun BloodGlucoseRecordDisplayLargeScreenPreview()
         bloodGlucoseRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview(group = "Dark Theme")
+@Preview
 @Composable
 fun BloodGlucoseRecordDisplayLargeScreenPreviewDarkTheme()
 {

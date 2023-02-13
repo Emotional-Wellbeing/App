@@ -57,7 +57,7 @@ fun BloodPressureRecord.decodeMeasurementLocation(): String =
         else -> stringResource(R.string.unknown)
     }
 
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun BloodPressureRecordDisplayPreview()
 {
@@ -66,7 +66,7 @@ fun BloodPressureRecordDisplayPreview()
         bloodPressureRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview(group = "Dark Theme")
+@Preview
 @Composable
 fun BloodPressureRecordDisplayPreviewDarkTheme()
 {
@@ -75,7 +75,7 @@ fun BloodPressureRecordDisplayPreviewDarkTheme()
         bloodPressureRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun BloodPressureRecordDisplayLargeScreenPreview()
 {
@@ -84,7 +84,7 @@ fun BloodPressureRecordDisplayLargeScreenPreview()
         bloodPressureRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview(group = "Dark Theme")
+@Preview
 @Composable
 fun BloodPressureRecordDisplayLargeScreenPreviewDarkTheme()
 {

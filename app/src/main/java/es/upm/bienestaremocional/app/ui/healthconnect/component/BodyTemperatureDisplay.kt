@@ -54,7 +54,7 @@ fun BodyTemperatureRecord.decodeMeasurementLocation(): String =
         else -> stringResource(R.string.unknown)
     }
 
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun BodyTemperatureRecordDisplayPreview()
 {
@@ -63,7 +63,7 @@ fun BodyTemperatureRecordDisplayPreview()
         bodyTemperatureRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview(group = "Dark Theme")
+@Preview
 @Composable
 fun BodyTemperatureRecordDisplayPreviewDarkTheme()
 {
@@ -72,7 +72,7 @@ fun BodyTemperatureRecordDisplayPreviewDarkTheme()
         bodyTemperatureRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun BodyTemperatureRecordDisplayLargeScreenPreview()
 {
@@ -81,7 +81,7 @@ fun BodyTemperatureRecordDisplayLargeScreenPreview()
         bodyTemperatureRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview(group = "Dark Theme")
+@Preview
 @Composable
 fun BodyTemperatureRecordDisplayLargeScreenPreviewDarkTheme()
 {

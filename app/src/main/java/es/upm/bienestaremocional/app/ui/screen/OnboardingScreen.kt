@@ -14,17 +14,35 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.ui.component.animation.DisplayLottieAnimation
 import es.upm.bienestaremocional.app.ui.component.onboarding.HorizontalPagerContent
 import es.upm.bienestaremocional.app.ui.component.onboarding.OnboardingContent
+import es.upm.bienestaremocional.app.ui.screen.destinations.HomeScreenDestination
+import es.upm.bienestaremocional.app.ui.viewmodel.OnboardingViewModel
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
+@Destination
+@Composable
+fun OnboardingScreen(navigator: DestinationsNavigator,
+                     windowSize: WindowSize,
+                     onboardingViewModel: OnboardingViewModel
+)
+{
+    DrawOnboardingScreen(windowSize = windowSize, onFinish = {
+        onboardingViewModel.onFinish()
+        navigator.popBackStack()
+        navigator.navigate(HomeScreenDestination)
+    })
+}
+
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun OnboardingScreen(windowSize: WindowSize, onFinish: () -> Unit)
+private fun DrawOnboardingScreen(windowSize: WindowSize, onFinish: () -> Unit)
 {
     Surface()
     {
@@ -41,19 +59,20 @@ fun OnboardingScreen(windowSize: WindowSize, onFinish: () -> Unit)
                 modifier = Modifier.weight(1f)
             )
             {
-                page -> DrawPage(horizontalPagerContent = items[page],
-                                        pagerState = pagerState,
-                                        windowSize = windowSize,
-                                        onFinish = onFinish)
+                    page -> DrawPage(horizontalPagerContent = items[page],
+                pagerState = pagerState,
+                windowSize = windowSize,
+                onFinish = onFinish)
             }
         }
     }
 }
 
 
+
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
+private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
              pagerState : PagerState,
              windowSize: WindowSize,
              onFinish: () -> Unit
@@ -177,7 +196,7 @@ fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
 fun OnboardingScreenPreview()
 {
     BienestarEmocionalTheme {
-        OnboardingScreen(windowSize = WindowSize.COMPACT, onFinish = {})
+        DrawOnboardingScreen(windowSize = WindowSize.COMPACT, onFinish = {})
     }
 }
 
@@ -189,7 +208,7 @@ fun OnboardingScreenPreview()
 fun OnboardingScreenPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        OnboardingScreen(windowSize = WindowSize.COMPACT, onFinish = {})
+        DrawOnboardingScreen(windowSize = WindowSize.COMPACT, onFinish = {})
     }
 }
 
@@ -201,7 +220,7 @@ fun OnboardingScreenPreviewDarkTheme()
 fun OnboardingScreenNotCompactPreview()
 {
     BienestarEmocionalTheme {
-        OnboardingScreen(windowSize = WindowSize.MEDIUM, onFinish = {})
+        DrawOnboardingScreen(windowSize = WindowSize.MEDIUM, onFinish = {})
     }
 }
 
@@ -213,6 +232,6 @@ fun OnboardingScreenNotCompactPreview()
 fun OnboardingScreenNotCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        OnboardingScreen(windowSize = WindowSize.MEDIUM, onFinish = {})
+        DrawOnboardingScreen(windowSize = WindowSize.MEDIUM, onFinish = {})
     }
 }

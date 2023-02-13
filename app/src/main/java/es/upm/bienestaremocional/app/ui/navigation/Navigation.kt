@@ -2,117 +2,43 @@ package es.upm.bienestaremocional.app.ui.navigation
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
-import es.upm.bienestaremocional.app.ui.screen.*
-import es.upm.bienestaremocional.app.ui.settings.SettingsScreen
-import es.upm.bienestaremocional.app.utils.showExceptionSnackbar
-import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
-import kotlinx.coroutines.launch
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.navigation.dependency
+import es.upm.bienestaremocional.app.ui.screen.NavGraphs
+import es.upm.bienestaremocional.app.ui.screen.destinations.*
+import es.upm.bienestaremocional.app.ui.viewmodel.*
 
 /**
  * Manages the navigation in the app
  */
 
 @Composable
-fun AppNavigation(navController: NavHostController,
-                  appSettings: AppSettingsInterface,
-                  windowSize: WindowSize,
-                  healthConnectAvailability: MutableState<HealthConnectAvailability>,
-                  darkTheme : Boolean
-)
+fun AppNavigation()
 {
-    //to show exceptions
     val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
 
-    NavHost(navController = navController, startDestination = Screen.SplashScreen.route)
-    {
-        composable(route = Screen.SplashScreen.route)
+    DestinationsNavHost(navGraph = NavGraphs.root, dependenciesContainerBuilder = {
+        dependency(MyDataScreenDestination)
         {
-            SplashScreen(
-                appSettings = appSettings,
-                healthConnectAvailability = healthConnectAvailability,
-                navController = navController,
-                darkTheme = darkTheme
-            )
+            viewModel<MyDataViewModel>(factory = MyDataViewModelFactory(snackbarHostState))
         }
-
-        composable(route = Screen.ErrorScreen.route)
+        dependency(OnboardingScreenDestination)
         {
-            ErrorScreen(healthConnectAvailability = healthConnectAvailability)
+            viewModel<OnboardingViewModel>(factory = OnboardingViewModel.Factory)
         }
-
-        composable(route = Screen.OnboardingScreen.route)
+        dependency(QuestionnaireRoundScreenDestination)
         {
-            OnboardingScreen(windowSize = windowSize)
-            {
-                scope.launch {
-                    appSettings.saveShowOnboarding(false)
-                }
-                navController.popBackStack()
-                navController.navigate(Screen.HomeScreen.route)
-            }
+            viewModel<QuestionnaireRoundViewModel>(factory = QuestionnaireRoundViewModel.Factory)
         }
-
-        composable(route = Screen.HomeScreen.route)
+        dependency(SettingsScreenDestination)
         {
-            HomeScreen(navController = navController)
+            viewModel<SettingsViewModel>(factory = SettingsViewModel.Factory)
         }
-
-        composable(route = Screen.HistoryScreen.route)
+        dependency(SplashScreenDestination)
         {
-            HistoryScreen(navController)
+            viewModel<SplashViewModel>(factory = SplashViewModel.Factory)
         }
-
-        composable(route = Screen.EvolutionScreen.route)
-        {
-            EvolutionScreen(navController)
-        }
-
-        composable(route = Screen.TrendsScreen.route)
-        {
-            TrendsScreen(navController)
-        }
-
-        composable(route = Screen.SettingsScreen.route)
-        {
-            SettingsScreen(navController)
-        }
-
-        composable(route = Screen.PrivacyPolicyScreen.route)
-        {
-            PrivacyPolicyScreen(navController)
-        }
-
-        composable(route = Screen.AboutScreen.route)
-        {
-            AboutScreen(navController)
-        }
-
-        composable(route = Screen.CreditsScreen.route)
-        {
-            CreditsScreen(navController = navController, windowSize = windowSize)
-        }
-
-        composable(route = Screen.MyDataScreen.route)
-        {
-            MyDataScreen(
-                navController = navController,
-                windowSize = windowSize,
-                onError = { exception ->
-                    showExceptionSnackbar(
-                        scope,
-                        snackbarHostState,
-                        exception
-                    )
-                })
-        }
-    }
+    })
 }

@@ -1,10 +1,9 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.component
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -63,7 +62,7 @@ fun SleepSessionData.Display(windowSize: WindowSize)
 fun SleepStageRecord.Display()
 {
     Row(modifier = Modifier
-        .fillMaxWidth()
+        .fillMaxSize()
         .padding(horizontal = 16.dp))
     {
         val intervalLabel = formatDisplayTimeStartEnd(
@@ -92,7 +91,7 @@ fun SleepStageRecord.decode(): String =
         else -> stringResource(R.string.unknown)
     }
 
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun SleepSessionDataDisplayPreview()
 {
@@ -102,7 +101,7 @@ fun SleepSessionDataDisplayPreview()
     }
 }
 
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun SleepSessionDataDisplayPreviewDarkTheme()
 {
@@ -112,7 +111,7 @@ fun SleepSessionDataDisplayPreviewDarkTheme()
     }
 }
 
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun SleepSessionDataDisplayLargeScreenPreview()
 {
@@ -122,7 +121,7 @@ fun SleepSessionDataDisplayLargeScreenPreview()
     }
 }
 
-@Preview(group = "Dark Theme")
+@Preview
 @Composable
 fun SleepSessionDataDisplayLargeScreenPreviewDarkTheme()
 {
@@ -132,26 +131,22 @@ fun SleepSessionDataDisplayLargeScreenPreviewDarkTheme()
     }
 }
 
-@Preview(group = "Light Theme")
+@Preview
 @Composable
 fun SleepStageDisplayPreview()
 {
     val stage = Sleep.generateDummyData()[0].stages[0]
     BienestarEmocionalTheme {
-        Surface {
-            stage.Display()
-        }
+        stage.Display()
     }
 }
 
-@Preview(group = "Dark Theme")
+@Preview
 @Composable
 fun SleepStageDisplayPreviewDarkTheme()
 {
     val stage = Sleep.generateDummyData()[0].stages[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        Surface {
-            stage.Display()
-        }
+        stage.Display()
     }
 }
