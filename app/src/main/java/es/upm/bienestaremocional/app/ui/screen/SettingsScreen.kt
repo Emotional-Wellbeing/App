@@ -35,7 +35,9 @@ import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
 import es.upm.bienestaremocional.app.ui.screen.destinations.*
 import es.upm.bienestaremocional.app.ui.viewmodel.SettingsViewModel
-import es.upm.bienestaremocional.app.utils.*
+import es.upm.bienestaremocional.app.utils.android12OrAbove
+import es.upm.bienestaremocional.app.utils.openForeignActivity
+import es.upm.bienestaremocional.app.utils.restartApp
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
@@ -84,6 +86,9 @@ private const val HEALTH_CONNECT_ACTION = "androidx.health.ACTION_HEALTH_CONNECT
  * @param onLanguageChange: callback to react language setting changes
  * @param onThemeChange: callback to react theme setting changes
  * @param onDynamicChange: callback to react dynamic setting changes
+ * @param onSettingsApplication: executed when user press application's setting
+ * @param onSettingsNotifications: executed when user press notification's setting
+ * @param onSettingsExactNotifications: executed when user press exact notification's setting (Android 12+)
  */
 @Composable
 private fun DrawSettingsScreen(navigator: DestinationsNavigator,
@@ -97,7 +102,12 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                                onQuestionnairesChange : suspend (SettingValueState<Set<Int>>) -> Unit,
                                onLanguageChange : @Composable (SettingValueState<Int>) -> Unit,
                                onThemeChange : suspend (SettingValueState<Int>) -> Unit,
-                               onDynamicChange : suspend (SettingValueState<Boolean>) -> Unit)
+                               onDynamicChange : suspend (SettingValueState<Boolean>) -> Unit,
+                               onSettingsApplication: () -> Unit,
+                               onSettingsNotifications: () -> Unit,
+                               onSettingsExactNotifications: () -> Unit
+)
+
 {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -269,7 +279,7 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                 title = { Text(stringResource(R.string.application_settings),
                     color = MaterialTheme.colorScheme.secondary) },
                 subtitle = { Text(stringResource(R.string.application_settings_label)) },
-                onClick = { openSettingsApplication(context) },
+                onClick = onSettingsApplication,
             )
 
             SettingsMenuLink(
@@ -279,7 +289,7 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                 title = { Text(stringResource(R.string.permission_for_notifications),
                     color = MaterialTheme.colorScheme.secondary) },
                 subtitle = { Text(stringResource(R.string.permission_for_notifications_body)) },
-                onClick = { openSettingsNotifications(context) },
+                onClick = onSettingsNotifications,
             )
 
             if (android12OrAbove)
@@ -299,7 +309,7 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                         )
                     },
                     subtitle = { Text(stringResource(R.string.permission_for_exact_notifications_body)) },
-                    onClick = { openSettingsExactNotifications(context) },
+                    onClick = onSettingsExactNotifications,
                 )
             }
 
@@ -379,6 +389,11 @@ fun SettingsScreen(navigator: DestinationsNavigator, viewModel: SettingsViewMode
     val themeMode = viewModel.loadDarkMode()
     val dynamicColor = viewModel.loadDynamicColors()
 
+    val context = LocalContext.current
+
+    val onSettingsApplication : () -> Unit = { viewModel.openSettingsApplication(context) }
+    val onSettingsNotifications : () -> Unit = { viewModel.openSettingsNotifications(context) }
+    val onSettingsExactNotifications : () -> Unit = { viewModel.openSettingsExactNotifications(context) }
 
     DrawSettingsScreen(
         navigator = navigator,
@@ -392,7 +407,10 @@ fun SettingsScreen(navigator: DestinationsNavigator, viewModel: SettingsViewMode
         onQuestionnairesChange = { viewModel.changeQuestionnairesSelected(it) },
         onThemeChange = {theme -> viewModel.changeDarkMode(theme)},
         onDynamicChange = {dynamic -> viewModel.changeDynamicColors(dynamic)},
-        onLanguageChange = { viewModel.changeLanguage(LocalContext.current,it)}
+        onLanguageChange = { viewModel.changeLanguage(context,it)},
+        onSettingsApplication = onSettingsApplication,
+        onSettingsNotifications = onSettingsNotifications,
+        onSettingsExactNotifications = onSettingsExactNotifications
     )
 }
 
@@ -414,7 +432,10 @@ fun SettingsScreenNoDynamicPreview()
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},
-            onLanguageChange = {}
+            onLanguageChange = {},
+            onSettingsApplication = {},
+            onSettingsNotifications = {},
+            onSettingsExactNotifications = {}
         )
     }
 }
@@ -437,7 +458,10 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},
-            onLanguageChange = {}
+            onLanguageChange = {},
+            onSettingsApplication = {},
+            onSettingsNotifications = {},
+            onSettingsExactNotifications = {}
         )
     }
 }
@@ -460,7 +484,10 @@ fun SettingsScreenPreview()
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},
-            onLanguageChange = {}
+            onLanguageChange = {},
+            onSettingsApplication = {},
+            onSettingsNotifications = {},
+            onSettingsExactNotifications = {}
         )
     }
 }
@@ -483,7 +510,10 @@ fun SettingsScreenPreviewDarkTheme()
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},
-            onLanguageChange = {}
+            onLanguageChange = {},
+            onSettingsApplication = {},
+            onSettingsNotifications = {},
+            onSettingsExactNotifications = {}
         )
     }
 }
