@@ -263,10 +263,19 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
             GroupText(textRes = R.string.notifications)
 
             SettingsMenuLink(
+                icon = { Icon(painter = painterResource(R.drawable.settings_applications),
+                    contentDescription = null,
+                    modifier = Modifier.defaultIconModifier()) },
+                title = { Text(stringResource(R.string.application_settings),
+                    color = MaterialTheme.colorScheme.secondary) },
+                subtitle = { Text(stringResource(R.string.application_settings_label)) },
+                onClick = { openSettingsApplication(context) },
+            )
+
+            SettingsMenuLink(
                 icon = { Icon(painter = painterResource(R.drawable.notifications),
                     contentDescription = null,
-                    modifier = Modifier.defaultIconModifier(),
-                    tint = Color.Unspecified) },
+                    modifier = Modifier.defaultIconModifier()) },
                 title = { Text(stringResource(R.string.permission_for_notifications),
                     color = MaterialTheme.colorScheme.secondary) },
                 subtitle = { Text(stringResource(R.string.permission_for_notifications_body)) },
@@ -280,8 +289,7 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                         Icon(
                             painter = painterResource(R.drawable.notification_important),
                             contentDescription = null,
-                            modifier = Modifier.defaultIconModifier(),
-                            tint = Color.Unspecified
+                            modifier = Modifier.defaultIconModifier()
                         )
                     },
                     title = {
@@ -294,6 +302,7 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                     onClick = { openSettingsExactNotifications(context) },
                 )
             }
+
 
             Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
 

@@ -162,10 +162,12 @@
     <string name="exit_questionnaire">Exit questionnaire</string>
     <string name="sure_skip_questionnaire">Are you sure you want to skip the questionnaire?</string>
     <string name="score">Score</string>
-    <string name="permission_for_exact_notifications">Permission for notifications</string>
+    <string name="permission_for_exact_notifications">Permission for exact notifications</string>
     <string name="permission_for_exact_notifications_alert_body">To send notifications accurately, you need to accept the corresponding permission. Do you want to give permission now?</string>
     <string name="notifications">Notifications</string>
     <string name="permission_for_notifications">Permission for notifications</string>
     <string name="permission_for_notifications_body">Adjust app notifications</string>
     <string name="permission_for_exact_notifications_body">Adjust app exact notifications</string>
+    <string name="application_settings">General app settings</string>
+    <string name="application_settings_label">Access Android\'s app settings: Power consumption, notifications…</string>
 </resources>
