@@ -20,6 +20,11 @@ fun AppNavigation()
     val snackbarHostState = remember { SnackbarHostState() }
 
     DestinationsNavHost(navGraph = NavGraphs.root, dependenciesContainerBuilder = {
+        dependency(HistoryScreenDestination)
+        {
+            viewModel<HistoryViewModel>(factory = HistoryViewModel.Factory)
+        }
+
         dependency(MyDataScreenDestination)
         {
             viewModel<MyDataViewModel>(factory = MyDataViewModelFactory(snackbarHostState))

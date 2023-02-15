@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.devtools.ksp' version '1.8.0-1.0.8'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -62,7 +63,6 @@ kotlin {
     }
 }
 
-
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
@@ -118,5 +118,13 @@ dependencies {
     //navigation
     implementation "io.github.raamcosta.compose-destinations:core:$compose_destination_version"
     ksp "io.github.raamcosta.compose-destinations:ksp:$compose_destination_version"
+
+    //room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
+
+    //live data
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_ui_version"
 
 }

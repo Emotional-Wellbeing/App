@@ -7,6 +7,9 @@ import com.yariksoffice.lingver.Lingver
 import es.upm.bienestaremocional.app.data.alarm.AlarmReceiver
 import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.alarm.AndroidAlarmScheduler
+import es.upm.bienestaremocional.app.data.database.AppDatabase
+import es.upm.bienestaremocional.app.data.database.dao.AppDAO
+import es.upm.bienestaremocional.app.data.repository.*
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.LanguageManager
@@ -54,7 +57,24 @@ class MainApplication: Application()
             get() = AndroidAlarmScheduler(applicationContext, AlarmReceiver::class.java)
         lateinit var languageManager : LanguageManager
             private set
-        val logTag = "BienestarEmocionalApp"
+
+        private val database: AppDatabase
+            get() = AppDatabase.getInstance(applicationContext)
+        private val dao: AppDAO
+            get() = database.appDao()
+
+        val questionnaireRoundRepository : QuestionnaireRoundRepository
+            get() = QuestionnaireRoundRepositoryImpl(dao)
+        val pssRepository : PSSRepository
+            get() = PSSRepositoryImpl(dao)
+        val phqRepository : PHQRepository
+            get() = PHQRepositoryImpl(dao)
+        val uclaRepository : UCLARepository
+            get() = UCLARepositoryImpl(dao)
+        val questionnaireRoundWithQuestionnairesRepository : QuestionnaireRoundWithQuestionnairesRepository
+            get() = QuestionnaireRoundWithQuestionnairesRepositoryImpl(dao)
+
+        const val logTag = "BienestarEmocionalApp"
 
         //init at MainActivity
         var windowSize : WindowSize? = null

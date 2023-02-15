@@ -5,6 +5,7 @@ buildscript {
         material3_version = '1.0.1'
         accompanist_version = '0.28.0'
         compose_destination_version = '1.7.33-beta'
+        room_version = "2.5.0"
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
