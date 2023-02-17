@@ -15,7 +15,7 @@ import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.credits.CreditContent
 import es.upm.bienestaremocional.app.ui.component.CreditComponent
-import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
+import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
@@ -29,7 +29,7 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 fun CreditsScreen(navigator: DestinationsNavigator, windowSize: WindowSize)
 {
     AppBasicScreen(navigator = navigator,
-        entrySelected = MenuEntry.SettingsScreen,
+        entrySelected = BottomBarDestination.SettingsScreen,
         label = R.string.credits_screen_label)
     {
         Column(

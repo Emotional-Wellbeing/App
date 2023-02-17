@@ -28,7 +28,7 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.ui.healthconnect.component.Display
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.*
-import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
+import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.ui.viewmodel.MyDataViewModel
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.DrawHealthConnectSubscreen
@@ -131,7 +131,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
     val expanderElements = remember {ExpanderElements(15) }
 
     AppBasicScreen(navigator = navigator,
-        entrySelected = MenuEntry.SettingsScreen,
+        entrySelected = BottomBarDestination.SettingsScreen,
         label = R.string.my_data_label)
     {
         LazyColumn(modifier = Modifier

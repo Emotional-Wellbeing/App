@@ -33,7 +33,7 @@ import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
-import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
+import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.ui.screen.destinations.*
 import es.upm.bienestaremocional.app.ui.viewmodel.SettingsViewModel
 import es.upm.bienestaremocional.app.utils.android12OrAbove
@@ -112,7 +112,6 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
 )
 
 {
-    val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
     val windowSize = MainApplication.windowSize!!
@@ -185,9 +184,8 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
 
 
     AppBasicScreen(navigator = navigator,
-        entrySelected = MenuEntry.SettingsScreen,
-        label = MenuEntry.SettingsScreen.labelId,
-        scope = scope,
+        entrySelected = BottomBarDestination.SettingsScreen,
+        label = BottomBarDestination.SettingsScreen.label,
         snackbarHostState = snackbarHostState
     )
     {

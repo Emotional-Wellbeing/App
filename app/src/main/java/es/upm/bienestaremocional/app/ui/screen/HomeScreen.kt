@@ -16,7 +16,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
+import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.ui.viewmodel.HomeViewModel
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
@@ -42,7 +42,7 @@ private fun HomeScreen(
     onQuestionnaire: () -> Unit)
 {
     AppBasicScreen(navigator = navigator,
-        entrySelected = MenuEntry.HomeScreen,
+        entrySelected = BottomBarDestination.HomeScreen,
         label = R.string.app_name)
     {
         //https://developer.android.com/jetpack/compose/gestures for verticalScroll

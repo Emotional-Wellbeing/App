@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
+import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.ui.viewmodel.HistoryViewModel
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
@@ -38,8 +38,8 @@ fun HistoryScreen(navigator: DestinationsNavigator,
 
 
     AppBasicScreen(navigator = navigator,
-        entrySelected = MenuEntry.HistoryScreen,
-        label = MenuEntry.HistoryScreen.labelId)
+        entrySelected = BottomBarDestination.HistoryScreen,
+        label = BottomBarDestination.HistoryScreen.label)
     {
         Column(
             modifier = Modifier

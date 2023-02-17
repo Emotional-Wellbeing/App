@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
-import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
+import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
@@ -26,8 +26,8 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 fun TrendsScreen(navigator: DestinationsNavigator)
 {
     AppBasicScreen(navigator = navigator,
-        entrySelected = MenuEntry.TrendsScreen,
-        label = MenuEntry.TrendsScreen.labelId)
+        entrySelected = BottomBarDestination.TrendsScreen,
+        label = BottomBarDestination.TrendsScreen.label)
     {
         Column(
             modifier = Modifier
