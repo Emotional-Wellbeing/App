@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
@@ -64,11 +65,11 @@ fun Splash(darkTheme: Boolean)
 @Composable
 fun SplashScreen(
     navigator: DestinationsNavigator,
-    splashViewModel: SplashViewModel,
-    darkTheme: Boolean)
+    splashViewModel: SplashViewModel = hiltViewModel()
+)
 {
     //splash screen
-    Splash(darkTheme)
+    Splash(splashViewModel.getDarkTheme())
 
     when(splashViewModel.state.value)
     {

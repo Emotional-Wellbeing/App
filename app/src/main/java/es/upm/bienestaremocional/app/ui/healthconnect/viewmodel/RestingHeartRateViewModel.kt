@@ -4,34 +4,17 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.health.connect.client.records.RestingHeartRateRecord
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import es.upm.bienestaremocional.app.MainApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.healthconnect.sources.RestingHeartRate
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
+import javax.inject.Inject
 
-class RestingHeartRateViewModel(private val restingHeartRate: RestingHeartRate) :
-    HealthConnectViewModel<RestingHeartRateRecord>()
+@HiltViewModel
+class RestingHeartRateViewModel @Inject constructor(
+    private val restingHeartRate: RestingHeartRate
+): HealthConnectViewModel<RestingHeartRateRecord>()
 {
-    companion object
-    {
-        /**
-         * Factory to instance [RestingHeartRateViewModel]
-         */
-        val Factory : ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                RestingHeartRateViewModel(
-                    RestingHeartRate(
-                        healthConnectClient = MainApplication.healthConnectClient,
-                        healthConnectManager = MainApplication.healthConnectManager
-                    )
-                )
-            }
-        }
-    }
-
     private fun writeAndReadDummyData()
     {
         writeData(restingHeartRate,RestingHeartRate.generateDummyData())

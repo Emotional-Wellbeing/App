@@ -9,17 +9,18 @@ import android.os.Build
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.util.Log
 import androidx.annotation.RequiresApi
-import es.upm.bienestaremocional.app.MainApplication
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
 /**
  * Class that implement the functionality of schedule alarms
  */
-class AndroidAlarmScheduler(private val context: Context, private val receiver: Class<*>?) : AlarmScheduler
+class AndroidAlarmScheduler(private val context: Context,
+                            private val receiver: Class<*>?,
+                            private val logTag: String
+) : AlarmScheduler
 {
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
     private fun makePendingIntent(alarmCode: Int): PendingIntent?
     {
         val alarmIntent = Intent(context, receiver)
@@ -35,7 +36,7 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
 
     override fun schedule(alarm: AlarmItem)
     {
-        Log.d(MainApplication.logTag,"Setting alarm ${alarm.code}")
+        Log.d(logTag,"Setting alarm ${alarm.code}")
         //compute trigger for the next one. If the hour has passed, schedule it to the following day
         val now = ZonedDateTime.now()
 
@@ -59,7 +60,7 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
                     trigger,
                     it)
         }
-        Log.d(MainApplication.logTag, "The alarm shall be triggered at $trigger ")
+        Log.d(logTag, "The alarm shall be triggered at $trigger ")
     }
 
     override fun schedule(alarms: List<AlarmItem>)
@@ -75,7 +76,7 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
         val pendingIntent = makePendingIntent(alarm.code)
         pendingIntent?.let {
             alarmManager.cancel(it)
-            Log.d(MainApplication.logTag, "The alarm with code ${alarm.code} has been cancelled")
+            Log.d(logTag, "The alarm with code ${alarm.code} has been cancelled")
         }
     }
 
@@ -83,7 +84,7 @@ class AndroidAlarmScheduler(private val context: Context, private val receiver: 
     {
         for (alarm in alarms)
         {
-            Log.d(MainApplication.logTag,"Cancelling alarm ${alarm.code}")
+            Log.d(logTag,"Cancelling alarm ${alarm.code}")
             cancel(alarm)
         }
     }

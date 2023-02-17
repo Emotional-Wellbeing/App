@@ -3,7 +3,7 @@ package es.upm.bienestaremocional.app.data.database.entity
 import androidx.room.Embedded
 import androidx.room.Relation
 
-data class QuestionnaireRoundWithQuestionnaires(
+data class QuestionnaireRoundFull(
     @Embedded
     val questionnaireRound: QuestionnaireRound,
 

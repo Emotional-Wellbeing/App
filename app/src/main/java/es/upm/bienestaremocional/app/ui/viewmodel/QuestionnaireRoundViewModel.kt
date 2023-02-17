@@ -1,44 +1,34 @@
 package es.upm.bienestaremocional.app.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import es.upm.bienestaremocional.app.MainApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.database.entity.PHQ
 import es.upm.bienestaremocional.app.data.database.entity.PSS
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRound
 import es.upm.bienestaremocional.app.data.database.entity.UCLA
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.app.data.repository.PHQRepository
-import es.upm.bienestaremocional.app.data.repository.PSSRepository
-import es.upm.bienestaremocional.app.data.repository.QuestionnaireRoundRepository
-import es.upm.bienestaremocional.app.data.repository.UCLARepository
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.PHQRepository
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSRepository
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundRepository
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
 import es.upm.bienestaremocional.app.ui.state.QuestionnaireRoundState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
+import javax.inject.Named
 
-class QuestionnaireRoundViewModel(private val questionnaireRoundRepository: QuestionnaireRoundRepository,
-                                  private val pssRepository: PSSRepository,
-                                  private val phqRepository: PHQRepository,
-                                  private val uclaRepository: UCLARepository,
-                                  private val appSettings: AppSettingsInterface) : ViewModel()
+@HiltViewModel
+class QuestionnaireRoundViewModel @Inject constructor(
+    private val questionnaireRoundRepository: QuestionnaireRoundRepository,
+    private val pssRepository: PSSRepository,
+    private val phqRepository: PHQRepository,
+    private val uclaRepository: UCLARepository,
+    appSettings: AppSettingsInterface,
+    @Named("logTag") val logTag : String
+) : ViewModel()
 {
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                QuestionnaireRoundViewModel(
-                    questionnaireRoundRepository = MainApplication.questionnaireRoundRepository,
-                    pssRepository = MainApplication.pssRepository,
-                    phqRepository = MainApplication.phqRepository,
-                    uclaRepository = MainApplication.uclaRepository,
-                    appSettings = MainApplication.appSettings)
-            }
-        }
-    }
-
     private val _state = MutableStateFlow<QuestionnaireRoundState>(QuestionnaireRoundState.Init)
     val state: StateFlow<QuestionnaireRoundState> = _state.asStateFlow()
 

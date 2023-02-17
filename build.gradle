@@ -6,6 +6,11 @@ buildscript {
         accompanist_version = '0.28.0'
         compose_destination_version = '1.7.33-beta'
         room_version = "2.5.0"
+        dagger_hilt_version = "2.45"
+        hilt_composer_version = "1.0.0"
+    }
+    dependencies {
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_hilt_version"
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

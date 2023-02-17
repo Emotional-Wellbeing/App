@@ -4,35 +4,18 @@ package es.upm.bienestaremocional.app.ui.healthconnect.viewmodel
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import es.upm.bienestaremocional.app.MainApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Sleep
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
+import javax.inject.Inject
 
-class SleepSessionViewModel(private val sleep: Sleep) :
-    HealthConnectViewModel<SleepSessionData>()
+@HiltViewModel
+class SleepSessionViewModel @Inject constructor(
+    private val sleep: Sleep
+): HealthConnectViewModel<SleepSessionData>()
 {
-    companion object
-    {
-        /**
-         * Factory class to instance [SleepSessionViewModel]
-         */
-        val Factory : ViewModelProvider.Factory = viewModelFactory{
-            initializer {
-                SleepSessionViewModel(
-                    Sleep(
-                        healthConnectClient = MainApplication.healthConnectClient,
-                        healthConnectManager = MainApplication.healthConnectManager
-                    )
-                )
-            }
-        }
-    }
-
     private fun writeAndReadDummyData()
     {
         val data = Sleep.generateDummyData()

@@ -4,34 +4,17 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.health.connect.client.records.BodyTemperatureRecord
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import es.upm.bienestaremocional.app.MainApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.healthconnect.sources.BodyTemperature
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
+import javax.inject.Inject
 
-class BodyTemperatureViewModel(private val bodyTemperature: BodyTemperature) :
-    HealthConnectViewModel<BodyTemperatureRecord>()
+@HiltViewModel
+class BodyTemperatureViewModel @Inject constructor(
+    private val bodyTemperature: BodyTemperature
+): HealthConnectViewModel<BodyTemperatureRecord>()
 {
-    companion object
-    {
-        /**
-         * Factory to instance [BodyTemperatureViewModel]
-         */
-        val Factory : ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                BodyTemperatureViewModel(
-                    BodyTemperature(
-                        healthConnectClient = MainApplication.healthConnectClient,
-                        healthConnectManager = MainApplication.healthConnectManager
-                    )
-                )
-            }
-        }
-    }
-
     private fun writeAndReadDummyData()
     {
         writeData(bodyTemperature,BodyTemperature.generateDummyData())

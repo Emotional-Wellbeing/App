@@ -5,10 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.ramcosta.composedestinations.spec.Direction
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
@@ -18,33 +16,20 @@ import es.upm.bienestaremocional.app.ui.screen.destinations.HomeScreenDestinatio
 import es.upm.bienestaremocional.app.ui.screen.destinations.OnboardingScreenDestination
 import es.upm.bienestaremocional.app.ui.state.SplashState
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
+import javax.inject.Inject
 
-class SplashViewModel(private val notification: Notification,
-                      private val scheduler: AlarmScheduler,
-                      private val healthConnectAvailability : MutableState<HealthConnectAvailability>,
-                      appSettings: AppSettingsInterface,
+@HiltViewModel
+class SplashViewModel @Inject constructor(
+    private val notification: Notification,
+    private val scheduler: AlarmScheduler,
+    private val healthConnectAvailability : MutableState<HealthConnectAvailability>,
+    private val appSettings: AppSettingsInterface,
 ) : ViewModel()
 {
-    companion object
-    {
-        /**
-         * Factory class to instance [SettingsViewModel]
-         */
-        val Factory : ViewModelProvider.Factory = viewModelFactory{
-            initializer {
-                SplashViewModel(notification = MainApplication.notification,
-                    scheduler = MainApplication.alarmScheduler,
-                    healthConnectAvailability = MainApplication.healthConnectManager.availability,
-                    appSettings = MainApplication.appSettings)
-            }
-        }
-    }
-
-
     val state : MutableState<SplashState> = mutableStateOf(
-        if(!MainApplication.notification.hasNotificationPermission())
+        if(!notification.hasNotificationPermission())
             SplashState.NotificationsDialog
-        else if (!MainApplication.alarmScheduler.canScheduleExactly())
+        else if (!scheduler.canScheduleExactly())
             SplashState.ExactDialog
         else
             SplashState.NoDialog
@@ -53,19 +38,22 @@ class SplashViewModel(private val notification: Notification,
     private val showOnboarding = appSettings.getFirstTimeValue()
 
     @Composable
+    fun getDarkTheme() = appSettings.getThemeValue().themeIsDark()
+
+    @Composable
     fun NotificationsDialogAction()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             this.notification.RequestNotificationPermission{
                 permissionGranted ->
-                if (permissionGranted && !MainApplication.alarmScheduler.canScheduleExactly())
+                if (permissionGranted && !scheduler.canScheduleExactly())
                     state.value = SplashState.ExactDialog
                 else
                     state.value = SplashState.NoDialog
             }
         else
         {
-            if (!MainApplication.alarmScheduler.canScheduleExactly())
+            if (!scheduler.canScheduleExactly())
                 state.value = SplashState.ExactDialog
             else
                 state.value = SplashState.NoDialog

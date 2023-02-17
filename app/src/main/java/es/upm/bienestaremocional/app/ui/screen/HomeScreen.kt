@@ -11,13 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
-import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
+import es.upm.bienestaremocional.app.ui.viewmodel.HomeViewModel
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
@@ -28,7 +28,18 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 @Destination
 @Composable
-fun HomeScreen(navigator: DestinationsNavigator)
+fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hiltViewModel())
+{
+    HomeScreen(navigator = navigator,
+        onNotification = { viewModel.onNotification() },
+        onQuestionnaire = { viewModel.onQuestionnaire(navigator) })
+}
+
+@Composable
+private fun HomeScreen(
+    navigator: DestinationsNavigator,
+    onNotification: () -> Unit,
+    onQuestionnaire: () -> Unit)
 {
     AppBasicScreen(navigator = navigator,
         entrySelected = MenuEntry.HomeScreen,
@@ -76,11 +87,11 @@ fun HomeScreen(navigator: DestinationsNavigator)
                     modifier = Modifier.fillMaxWidth()
                 )
                 {
-                    Button(onClick = { MainApplication.notification.showQuestionnaireNotification() })
+                    Button(onClick = onNotification)
                     {
                         Text(text = "Notificacion")
                     }
-                    Button(onClick = { navigator.navigate(QuestionnaireRoundScreenDestination) })
+                    Button(onClick = onQuestionnaire)
                     {
                         Text(text = "Cuestionario")
                     }
@@ -99,7 +110,9 @@ fun HomeScreen(navigator: DestinationsNavigator)
 fun HomeScreenPreview()
 {
     BienestarEmocionalTheme{
-        HomeScreen(EmptyDestinationsNavigator)
+        HomeScreen(navigator = EmptyDestinationsNavigator,
+            onNotification = {},
+            onQuestionnaire = {})
     }
 }
 
@@ -112,6 +125,8 @@ fun HomeScreenPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(EmptyDestinationsNavigator)
+        HomeScreen(navigator = EmptyDestinationsNavigator,
+            onNotification = {},
+            onQuestionnaire = {})
     }
 }

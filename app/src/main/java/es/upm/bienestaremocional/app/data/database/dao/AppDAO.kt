@@ -63,7 +63,7 @@ interface AppDAO
             "LEFT JOIN pss ON pss.pss_id = qr.pss_id " +
             "LEFT JOIN phq ON phq.phq_id = qr.phq_id " +
             "LEFT JOIN ucla ON ucla.ucla_id = qr.ucla_id")
-    suspend fun getAllQuestionnaireRoundWithQuestionnaires(): List<QuestionnaireRoundWithQuestionnaires>
+    suspend fun getAllQuestionnaireRoundFull(): List<QuestionnaireRoundFull>
 
     @Transaction
     @Query("SELECT qr.*, " +
@@ -75,5 +75,5 @@ interface AppDAO
             "LEFT JOIN phq ON phq.phq_id = qr.phq_id " +
             "LEFT JOIN ucla ON ucla.ucla_id = qr.ucla_id " +
             "WHERE qr.id = :id")
-    suspend fun getQuestionnaireRoundWithQuestionnaires(id: Long): QuestionnaireRoundWithQuestionnaires
+    suspend fun getQuestionnaireRoundFull(id: Long): QuestionnaireRoundFull
 }

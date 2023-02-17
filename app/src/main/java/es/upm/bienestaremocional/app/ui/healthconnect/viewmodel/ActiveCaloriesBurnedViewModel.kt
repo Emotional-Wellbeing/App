@@ -4,34 +4,18 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.health.connect.client.records.ActiveCaloriesBurnedRecord
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import es.upm.bienestaremocional.app.MainApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.healthconnect.sources.ActiveCaloriesBurned
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
+import javax.inject.Inject
 
-class ActiveCaloriesBurnedViewModel(private val activeCaloriesBurned: ActiveCaloriesBurned) :
-    HealthConnectViewModel<ActiveCaloriesBurnedRecord>()
+
+@HiltViewModel
+class ActiveCaloriesBurnedViewModel @Inject constructor(
+    private val activeCaloriesBurned: ActiveCaloriesBurned
+): HealthConnectViewModel<ActiveCaloriesBurnedRecord>()
 {
-    companion object
-    {
-        /**
-         * Factory to instance [ActiveCaloriesBurnedViewModel]
-         */
-        val Factory : ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                ActiveCaloriesBurnedViewModel(
-                    ActiveCaloriesBurned(
-                        healthConnectClient = MainApplication.healthConnectClient,
-                        healthConnectManager = MainApplication.healthConnectManager
-                    )
-                )
-            }
-        }
-    }
-
     private fun writeAndReadDummyData()
     {
         writeData(activeCaloriesBurned,ActiveCaloriesBurned.generateDummyData())

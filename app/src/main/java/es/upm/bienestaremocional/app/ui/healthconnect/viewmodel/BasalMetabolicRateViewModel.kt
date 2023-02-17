@@ -4,33 +4,17 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.health.connect.client.records.BasalMetabolicRateRecord
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import es.upm.bienestaremocional.app.MainApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.healthconnect.sources.BasalMetabolicRate
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
+import javax.inject.Inject
 
-class BasalMetabolicRateViewModel(private val basalMetabolicRate: BasalMetabolicRate) :
-    HealthConnectViewModel<BasalMetabolicRateRecord>()
+@HiltViewModel
+class BasalMetabolicRateViewModel @Inject constructor(
+    private val basalMetabolicRate: BasalMetabolicRate
+): HealthConnectViewModel<BasalMetabolicRateRecord>()
 {
-    companion object
-    {
-        /**
-         * Factory to instance [BasalMetabolicRateViewModel]
-         */
-        val Factory : ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                BasalMetabolicRateViewModel(
-                    BasalMetabolicRate(
-                        healthConnectClient = MainApplication.healthConnectClient,
-                        healthConnectManager = MainApplication.healthConnectManager
-                    )
-                )
-            }
-        }
-    }
 
     private fun writeAndReadDummyData()
     {

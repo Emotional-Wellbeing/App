@@ -7,15 +7,12 @@ import android.os.Build
 import android.provider.Settings
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.alorma.compose.settings.storage.base.SettingValueState
 import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
 import com.alorma.compose.settings.storage.base.rememberIntSetSettingState
 import com.alorma.compose.settings.storage.base.rememberIntSettingState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.BuildConfig
-import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
@@ -25,27 +22,15 @@ import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-class SettingsViewModel(private val appSettings: AppSettingsInterface,
-                        private val languageManager: LanguageManager,
-                        private val alarmScheduler: AlarmScheduler
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val appSettings: AppSettingsInterface,
+    private val languageManager: LanguageManager,
+    private val alarmScheduler: AlarmScheduler
 ) : ViewModel()
 {
-    companion object
-    {
-        /**
-         * Factory class to instance [SettingsViewModel]
-         */
-        val Factory : ViewModelProvider.Factory = viewModelFactory{
-            initializer {
-                SettingsViewModel(appSettings = MainApplication.appSettings,
-                    languageManager = MainApplication.languageManager,
-                    alarmScheduler = MainApplication.alarmScheduler
-                )
-            }
-        }
-    }
-
     /**
      * Load dynamic color value from [AppSettingsInterface]
      */
@@ -196,4 +181,6 @@ class SettingsViewModel(private val appSettings: AppSettingsInterface,
             context.startActivity(intent)
         }
     }
+
+    fun getLanguagesAvailable() = languageManager.getSupportedLocalesLabel()
 }

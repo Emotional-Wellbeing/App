@@ -1,27 +1,23 @@
 package es.upm.bienestaremocional.app.ui.viewmodel
 
-import androidx.lifecycle.*
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import es.upm.bienestaremocional.app.MainApplication
-import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundWithQuestionnaires
-import es.upm.bienestaremocional.app.data.repository.QuestionnaireRoundWithQuestionnairesRepository
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundFull
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundFullRepository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class HistoryViewModel(private val questionnaireRoundWithQuestionnairesRepository: QuestionnaireRoundWithQuestionnairesRepository) : ViewModel()
+@HiltViewModel
+class HistoryViewModel @Inject constructor(
+    private val questionnaireRoundWithQuestionnairesRepository: QuestionnaireRoundFullRepository
+) : ViewModel()
 {
-    companion object
-    {
-        val Factory : ViewModelProvider.Factory = viewModelFactory{
-            initializer {
-                HistoryViewModel(MainApplication.questionnaireRoundWithQuestionnairesRepository)
-            }
-        }
-    }
-
-    private val _questionnaireRounds = MutableLiveData<List<QuestionnaireRoundWithQuestionnaires>>()
-    val questionnaireRounds: LiveData<List<QuestionnaireRoundWithQuestionnaires>>
+    private val _questionnaireRounds = MutableLiveData<List<QuestionnaireRoundFull>>()
+    val questionnaireRounds: LiveData<List<QuestionnaireRoundFull>>
         get() = _questionnaireRounds
 
     fun fetchQuestionnaireRounds()

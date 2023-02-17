@@ -4,34 +4,17 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.health.connect.client.records.BloodGlucoseRecord
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import es.upm.bienestaremocional.app.MainApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.healthconnect.sources.BloodGlucose
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
+import javax.inject.Inject
 
-class BloodGlucoseViewModel(private val bloodGlucose: BloodGlucose) :
-    HealthConnectViewModel<BloodGlucoseRecord>()
+@HiltViewModel
+class BloodGlucoseViewModel @Inject constructor(
+    private val bloodGlucose: BloodGlucose
+): HealthConnectViewModel<BloodGlucoseRecord>()
 {
-    companion object
-    {
-        /**
-         * Factory to instance [BloodGlucoseViewModel]
-         */
-        val Factory : ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                BloodGlucoseViewModel(
-                    BloodGlucose(
-                        healthConnectClient = MainApplication.healthConnectClient,
-                        healthConnectManager = MainApplication.healthConnectManager
-                    )
-                )
-            }
-        }
-    }
-
     private fun writeAndReadDummyData()
     {
         writeData(bloodGlucose,BloodGlucose.generateDummyData())

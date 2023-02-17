@@ -10,6 +10,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.app.ui.navigation.MenuEntry
@@ -22,7 +23,9 @@ import es.upm.bienestaremocional.core.ui.component.BasicCard
  */
 @Destination
 @Composable
-fun HistoryScreen(navigator: DestinationsNavigator, historyViewModel: HistoryViewModel)
+fun HistoryScreen(navigator: DestinationsNavigator,
+                  historyViewModel: HistoryViewModel = hiltViewModel()
+)
 {
     // State
     val questionnaireRounds = historyViewModel.questionnaireRounds.observeAsState()

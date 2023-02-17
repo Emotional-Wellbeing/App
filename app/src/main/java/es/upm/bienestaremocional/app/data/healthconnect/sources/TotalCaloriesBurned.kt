@@ -11,6 +11,7 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnec
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
 import java.time.Instant
+import javax.inject.Inject
 import kotlin.random.Random
 
 /**
@@ -20,9 +21,10 @@ import kotlin.random.Random
  */
 
 
-class TotalCaloriesBurned(private val healthConnectClient: HealthConnectClient,
-                          private val healthConnectManager: HealthConnectManagerInterface):
-    HealthConnectSource<TotalCaloriesBurnedRecord>(healthConnectClient,healthConnectManager)
+class TotalCaloriesBurned @Inject constructor(
+    private val healthConnectClient: HealthConnectClient,
+    private val healthConnectManager: HealthConnectManagerInterface
+): HealthConnectSource<TotalCaloriesBurnedRecord>(healthConnectClient,healthConnectManager)
 {
     companion object
     {

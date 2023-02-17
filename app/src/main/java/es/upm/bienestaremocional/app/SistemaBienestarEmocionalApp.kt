@@ -3,6 +3,7 @@ package es.upm.bienestaremocional.app
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.settings.AppChannels
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
@@ -12,7 +13,8 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 
 @Composable
-fun BienestarEmocionalApp(appSettings: AppSettingsInterface)
+fun BienestarEmocionalApp(appSettings: AppSettingsInterface,
+                          scheduler: AlarmScheduler)
 {
 
     //init variables
@@ -29,8 +31,7 @@ fun BienestarEmocionalApp(appSettings: AppSettingsInterface)
                 context = context,
             )
         //schedule alarms
-        val alarmScheduler = MainApplication.alarmScheduler
-        alarmScheduler.schedule(appSettings.getAlarmFrequencyValue().alarmItems)
+        scheduler.schedule(appSettings.getAlarmFrequencyValue().alarmItems)
     }
 
     //read ui settings

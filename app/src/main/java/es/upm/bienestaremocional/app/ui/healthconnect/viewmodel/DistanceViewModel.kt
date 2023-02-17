@@ -4,33 +4,17 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.health.connect.client.records.DistanceRecord
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import es.upm.bienestaremocional.app.MainApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Distance
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
+import javax.inject.Inject
 
-class DistanceViewModel(private val distance: Distance) :
-    HealthConnectViewModel<DistanceRecord>()
+@HiltViewModel
+class DistanceViewModel @Inject constructor(
+    private val distance: Distance
+): HealthConnectViewModel<DistanceRecord>()
 {
-    companion object
-    {
-        /**
-         * Factory class to instance [DistanceViewModel]
-         */
-        val Factory : ViewModelProvider.Factory = viewModelFactory{
-            initializer {
-                DistanceViewModel(
-                    Distance(
-                        healthConnectClient = MainApplication.healthConnectClient,
-                        healthConnectManager = MainApplication.healthConnectManager
-                    )
-                )
-            }
-        }
-    }
 
     private fun writeAndReadDummyData()
     {

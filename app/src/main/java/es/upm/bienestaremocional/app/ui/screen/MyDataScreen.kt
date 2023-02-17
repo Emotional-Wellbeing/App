@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.*
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
@@ -89,7 +89,9 @@ private fun CategoryText(index: Int, @StringRes stringRes: Int, expanderElements
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            modifier = Modifier.align(Alignment.CenterVertically).weight(1f),
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .weight(1f),
             text = stringResource(id = stringRes),
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
@@ -521,40 +523,24 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
 @Composable
 fun MyDataScreen(navigator: DestinationsNavigator,
                  windowSize: WindowSize,
-                 viewModel: MyDataViewModel
+                 viewModel: MyDataViewModel,
+                 sleepSessionViewModel: SleepSessionViewModel = hiltViewModel(),
+                 heartRateViewModel: HeartRateViewModel = hiltViewModel(),
+                 stepsViewModel: StepsViewModel = hiltViewModel(),
+                 basalMetabolicRateViewModel: BasalMetabolicRateViewModel = hiltViewModel(),
+                 bloodGlucoseViewModel: BloodGlucoseViewModel = hiltViewModel(),
+                 bloodPressureViewModel: BloodPressureViewModel = hiltViewModel(),
+                 distanceViewModel: DistanceViewModel = hiltViewModel(),
+                 oxygenSaturationViewModel: OxygenSaturationViewModel = hiltViewModel(),
+                 totalCaloriesBurnedViewModel: TotalCaloriesBurnedViewModel = hiltViewModel(),
+                 activeCaloriesBurnedViewModel: ActiveCaloriesBurnedViewModel = hiltViewModel(),
+                 bodyTemperatureViewModel: BodyTemperatureViewModel = hiltViewModel(),
+                 elevationGainedViewModel: ElevationGainedViewModel = hiltViewModel(),
+                 respiratoryRateViewModel: RespiratoryRateViewModel = hiltViewModel(),
+                 restingHeartRateViewModel: RestingHeartRateViewModel = hiltViewModel(),
+                 vo2MaxViewModel: Vo2MaxViewModel = hiltViewModel(),
 )
 {
-    val sleepSessionViewModel: SleepSessionViewModel =
-        viewModel(factory = SleepSessionViewModel.Factory)
-    val heartRateViewModel: HeartRateViewModel =
-        viewModel(factory = HeartRateViewModel.Factory)
-    val stepsViewModel: StepsViewModel =
-        viewModel(factory = StepsViewModel.Factory)
-    val basalMetabolicRateViewModel: BasalMetabolicRateViewModel =
-        viewModel(factory = BasalMetabolicRateViewModel.Factory)
-    val bloodGlucoseViewModel: BloodGlucoseViewModel =
-        viewModel(factory = BloodGlucoseViewModel.Factory)
-    val bloodPressureViewModel: BloodPressureViewModel =
-        viewModel(factory = BloodPressureViewModel.Factory)
-    val distanceViewModel: DistanceViewModel =
-        viewModel(factory = DistanceViewModel.Factory)
-    val oxygenSaturationViewModel: OxygenSaturationViewModel =
-        viewModel(factory = OxygenSaturationViewModel.Factory)
-    val totalCaloriesBurnedViewModel: TotalCaloriesBurnedViewModel =
-        viewModel(factory = TotalCaloriesBurnedViewModel.Factory)
-    val activeCaloriesBurnedViewModel: ActiveCaloriesBurnedViewModel =
-        viewModel(factory = ActiveCaloriesBurnedViewModel.Factory)
-    val bodyTemperatureViewModel: BodyTemperatureViewModel =
-        viewModel(factory = BodyTemperatureViewModel.Factory)
-    val elevationGainedViewModel: ElevationGainedViewModel =
-        viewModel(factory = ElevationGainedViewModel.Factory)
-    val respiratoryRateViewModel: RespiratoryRateViewModel =
-        viewModel(factory = RespiratoryRateViewModel.Factory)
-    val restingHeartRateViewModel: RestingHeartRateViewModel =
-        viewModel(factory = RestingHeartRateViewModel.Factory)
-    val vo2MaxViewModel: Vo2MaxViewModel =
-        viewModel(factory = Vo2MaxViewModel.Factory)
-
     DrawMyDataScreen(
         navigator = navigator,
         windowSize = windowSize,

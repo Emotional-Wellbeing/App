@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.data.repository
+package es.upm.bienestaremocional.app.domain.repository.questionnaire
 
 import es.upm.bienestaremocional.app.data.database.entity.UCLA
 

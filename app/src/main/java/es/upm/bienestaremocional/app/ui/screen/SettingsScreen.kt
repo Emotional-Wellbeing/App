@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.alorma.compose.settings.storage.base.SettingValueState
 import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
 import com.alorma.compose.settings.storage.base.rememberIntSetSettingState
@@ -81,6 +82,7 @@ private const val HEALTH_CONNECT_ACTION = "androidx.health.ACTION_HEALTH_CONNECT
  * @param themeMode: var that stores theme setting value
  * @param dynamicColor: var that stores dynamic setting value
  * @param android12OrAbove: boolean to print Android 12+ options
+ * @param languagesAvailable: list with the languages supported by the app
  * @param onAlarmFrequencyChange: callback to react alarm frequency setting changes
  * @param onQuestionnairesChange: callback to react questionnaires changes
  * @param onLanguageChange: callback to react language setting changes
@@ -98,6 +100,7 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                                themeMode: SettingValueState<Int>,
                                dynamicColor : SettingValueState<Boolean>,
                                android12OrAbove : Boolean,
+                               languagesAvailable : List<String>,
                                onAlarmFrequencyChange : suspend (SettingValueState<Int>) -> Unit,
                                onQuestionnairesChange : suspend (SettingValueState<Set<Int>>) -> Unit,
                                onLanguageChange : @Composable (SettingValueState<Int>) -> Unit,
@@ -241,7 +244,7 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                 title = { Text(stringResource(R.string.language),
                     color = MaterialTheme.colorScheme.secondary) },
                 state = language,
-                items = MainApplication.languageManager.getSupportedLocalesLabel()
+                items = languagesAvailable
             )
 
             if (android12OrAbove)
@@ -381,7 +384,9 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
  */
 @Destination
 @Composable
-fun SettingsScreen(navigator: DestinationsNavigator, viewModel: SettingsViewModel)
+fun SettingsScreen(navigator: DestinationsNavigator,
+                   viewModel: SettingsViewModel = hiltViewModel()
+)
 {
     val alarmFrequency = viewModel.loadAlarmFrequency()
     val questionnaire = viewModel.loadQuestionnairesSelected()
@@ -403,6 +408,7 @@ fun SettingsScreen(navigator: DestinationsNavigator, viewModel: SettingsViewMode
         themeMode = themeMode,
         dynamicColor = dynamicColor,
         android12OrAbove = android12OrAbove(),
+        languagesAvailable = viewModel.getLanguagesAvailable(),
         onAlarmFrequencyChange = { viewModel.changeAlarmFrequency(it)},
         onQuestionnairesChange = { viewModel.changeQuestionnairesSelected(it) },
         onThemeChange = {theme -> viewModel.changeDarkMode(theme)},
@@ -428,6 +434,7 @@ fun SettingsScreenNoDynamicPreview()
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = false,
+            languagesAvailable = listOf(),
             onAlarmFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
@@ -454,6 +461,7 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = false,
+            languagesAvailable = listOf(),
             onAlarmFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
@@ -480,6 +488,7 @@ fun SettingsScreenPreview()
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = true,
+            languagesAvailable = listOf(),
             onAlarmFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
@@ -506,6 +515,7 @@ fun SettingsScreenPreviewDarkTheme()
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = true,
+            languagesAvailable = listOf(),
             onAlarmFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},

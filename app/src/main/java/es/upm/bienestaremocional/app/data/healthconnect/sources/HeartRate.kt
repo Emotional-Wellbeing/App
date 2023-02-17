@@ -11,6 +11,7 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnec
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.linspace
 import java.time.Instant
+import javax.inject.Inject
 import kotlin.random.Random
 
 /**
@@ -18,9 +19,10 @@ import kotlin.random.Random
  * @param healthConnectClient: proportionate HealthConnect's read and write primitives
  * @param healthConnectManager: proportionate HealthConnect's permission primitives
  */
-class HeartRate(private val healthConnectClient: HealthConnectClient,
-                private val healthConnectManager: HealthConnectManagerInterface):
-    HealthConnectSource<HeartRateRecord>(healthConnectClient,healthConnectManager)
+class HeartRate @Inject constructor(
+    private val healthConnectClient: HealthConnectClient,
+    private val healthConnectManager: HealthConnectManagerInterface
+): HealthConnectSource<HeartRateRecord>(healthConnectClient,healthConnectManager)
 {
 
     companion object

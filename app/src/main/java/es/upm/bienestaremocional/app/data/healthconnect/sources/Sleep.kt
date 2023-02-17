@@ -16,6 +16,7 @@ import java.time.Duration
 import java.time.Instant
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
+import javax.inject.Inject
 import kotlin.random.Random
 
 /**
@@ -23,9 +24,10 @@ import kotlin.random.Random
  * @param healthConnectClient: proportionate HealthConnect's read and write primitives
  * @param healthConnectManager: proportionate HealthConnect's permission primitives
  */
-class Sleep(private val healthConnectClient: HealthConnectClient,
-            healthConnectManager: HealthConnectManagerInterface):
-    HealthConnectSource<SleepSessionData>(healthConnectClient,healthConnectManager)
+class Sleep @Inject constructor(
+    private val healthConnectClient: HealthConnectClient,
+    private val healthConnectManager: HealthConnectManagerInterface
+): HealthConnectSource<SleepSessionData>(healthConnectClient,healthConnectManager)
 {
     companion object
     {

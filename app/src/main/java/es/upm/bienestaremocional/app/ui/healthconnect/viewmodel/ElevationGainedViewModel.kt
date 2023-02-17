@@ -4,33 +4,17 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.health.connect.client.records.ElevationGainedRecord
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import es.upm.bienestaremocional.app.MainApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.healthconnect.sources.ElevationGained
 import es.upm.bienestaremocional.core.extraction.healthconnect.ui.HealthConnectViewModel
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
+import javax.inject.Inject
 
-class ElevationGainedViewModel(private val elevationGained: ElevationGained) :
-    HealthConnectViewModel<ElevationGainedRecord>()
+@HiltViewModel
+class ElevationGainedViewModel @Inject constructor(
+    private val elevationGained: ElevationGained
+): HealthConnectViewModel<ElevationGainedRecord>()
 {
-    companion object
-    {
-        /**
-         * Factory to instance [ElevationGainedViewModel]
-         */
-        val Factory : ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                ElevationGainedViewModel(
-                    ElevationGained(
-                        healthConnectClient = MainApplication.healthConnectClient,
-                        healthConnectManager = MainApplication.healthConnectManager
-                    )
-                )
-            }
-        }
-    }
 
     private fun writeAndReadDummyData()
     {
