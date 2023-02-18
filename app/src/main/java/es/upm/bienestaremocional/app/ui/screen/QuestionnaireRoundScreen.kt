@@ -7,7 +7,9 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.FULL_ROUTE_PLACEHOLDER
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
 import es.upm.bienestaremocional.app.ui.state.QuestionnaireRoundState
 import es.upm.bienestaremocional.app.ui.viewmodel.QuestionnaireRoundViewModel
 
@@ -18,13 +20,14 @@ import es.upm.bienestaremocional.app.ui.viewmodel.QuestionnaireRoundViewModel
 @Destination(
     deepLinks = [
         DeepLink(
-            uriPattern = "be://questionnaire"
+            uriPattern = "be://questionnaire/$FULL_ROUTE_PLACEHOLDER"
         )
     ]
 )
 @Composable
 fun QuestionnaireRoundScreen(navigator: DestinationsNavigator,
-                             viewModel: QuestionnaireRoundViewModel = hiltViewModel()
+                             questionnaireRoundReduced: QuestionnaireRoundReduced,
+                             viewModel: QuestionnaireRoundViewModel = hiltViewModel(),
 )
 {
     val state by viewModel.state.collectAsState()
@@ -35,10 +38,7 @@ fun QuestionnaireRoundScreen(navigator: DestinationsNavigator,
         QuestionnaireRoundState.Init ->
         {
             Log.d(logTag,"Init")
-            LaunchedEffect(Unit)
-            {
-                viewModel.initAction()
-            }
+            viewModel.initAction()
         }
         QuestionnaireRoundState.PreShow -> {
             Log.d(logTag,"Preshow")

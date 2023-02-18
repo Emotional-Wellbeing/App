@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.data.alarm
+package es.upm.bienestaremocional.app.data.receiver
 
 import android.app.AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED
 import android.content.BroadcastReceiver
@@ -6,8 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
-import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
+import es.upm.bienestaremocional.app.data.alarm.AlarmManager
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundReducedRepository
 import es.upm.bienestaremocional.app.ui.notification.Notification
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -18,13 +22,13 @@ import javax.inject.Named
 class AlarmReceiver : BroadcastReceiver()
 {
     @Inject
-    lateinit var appSettings: AppSettingsInterface
-
-    @Inject
-    lateinit var alarmScheduler: AlarmScheduler
+    lateinit var alarmManager: AlarmManager
 
     @Inject
     lateinit var notification: Notification
+
+    @Inject
+    lateinit var questionnaireRoundReducedRepository: QuestionnaireRoundReducedRepository
 
     @Inject
     @Named("logTag")
@@ -38,22 +42,17 @@ class AlarmReceiver : BroadcastReceiver()
             ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED ->
             {
                 //permission granted, so cancel previous and re-schedule all alarms
-                val alarms = appSettings.getAlarmFrequencyValue().alarmItems
-                alarmScheduler.cancel(alarms)
-                alarmScheduler.schedule(alarms)
+                alarmManager.cancelAlarms()
+                alarmManager.reScheduleAlarms()
             }
             "alarm" ->
             {
                 Log.d(logTag,"An alarm was triggered")
-                val alarmCode = intent.extras?.getInt("alarm_code")
-                alarmCode?.let { ac ->
-                    val alarmItem = AlarmsAvailable.decode(ac)
-                    alarmItem?.let { ai ->
-                        Log.d(logTag,"Re-scheduling alarm ${ai.code}")
-                        alarmScheduler.schedule(ai)
-                    }
+                intent.extras?.getInt("alarm_code")?.let { alarmManager.decodeAndSchedule(it) }
+                CoroutineScope(Dispatchers.IO).launch {
+                    val questionnaireRoundReduced = questionnaireRoundReducedRepository.insert()
+                    notification.showQuestionnaireNotification(questionnaireRoundReduced)
                 }
-                notification.showQuestionnaireNotification()
             }
         }
     }

@@ -15,6 +15,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.ui.viewmodel.HistoryViewModel
+import es.upm.bienestaremocional.app.utils.formatUnixTimeStamp
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 
@@ -32,7 +33,7 @@ fun HistoryScreen(navigator: DestinationsNavigator,
 
     // API call
     LaunchedEffect(key1 = Unit) {
-        historyViewModel.fetchQuestionnaireRounds()
+        historyViewModel.fetchIncompletedQuestionnaireRounds()
     }
 
 
@@ -57,26 +58,38 @@ fun HistoryScreen(navigator: DestinationsNavigator,
             LazyColumn {
                 questionnaireRounds.value?.let { list ->
                     items(list.size) { index ->
-                        Card(modifier = Modifier.fillMaxWidth()) {
-                            Text(text = "Ronda:")
-                            Text("Id: ${list[index].questionnaireRound.id}")
-                            Text("Creado en : ${list[index].questionnaireRound.createdAt}")
-                            Text(text = "PSS:")
-                            Text("Id: ${list[index].pss.id}")
-                            Text("Creado en : ${list[index].pss.createdAt}")
-                            Text("Score: ${list[index].pss.score}")
+
+                        Card(modifier = Modifier.fillMaxWidth())
+                        {
+                            Text(text = "Ronda: ${list[index].questionnaireRound.id}")
+                            Text("Creado en : ${formatUnixTimeStamp(list[index].questionnaireRound.createdAt)}")
+                            Text("Incompletos: ")
+                            if (!list[index].pss.completed)
+                            {
+                                Text(text = "PSS:")
+                                Text("Id: ${list[index].pss.id}")
+                                Text("Creado en : ${formatUnixTimeStamp(list[index].pss.createdAt)}")
+                                Text("Score: ${list[index].pss.score}")
+                            }
+
                             list[index].phq?.let {
-                                Text(text = "PHQ:")
-                                Text("Id: ${it.id}")
-                                Text("Creado en : ${it.createdAt}")
-                                Text("Score: ${it.score}")
+                                if (!it.completed)
+                                {
+                                    Text(text = "PHQ:")
+                                    Text("Id: ${it.id}")
+                                    Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
+                                    Text("Score: ${it.score}")
+                                }
                             }
 
                             list[index].ucla?.let {
-                                Text(text = "UCLA:")
-                                Text("Id: ${it.id}")
-                                Text("Creado en : ${it.createdAt}")
-                                Text("Score: ${it.score}")
+                                if (!it.completed)
+                                {
+                                    Text(text = "UCLA:")
+                                    Text("Id: ${it.id}")
+                                    Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
+                                    Text("Score: ${it.score}")
+                                }
                             }
                         }
                         Spacer(Modifier.size(16.dp))

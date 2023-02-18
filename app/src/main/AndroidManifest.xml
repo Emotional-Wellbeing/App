@@ -44,7 +44,7 @@
         </activity>
 
         <receiver
-            android:name="es.upm.bienestaremocional.app.data.alarm.AlarmReceiver"
+            android:name="es.upm.bienestaremocional.app.data.receiver.AlarmReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -54,7 +54,7 @@
         </receiver>
 
         <receiver
-            android:name="es.upm.bienestaremocional.app.data.alarm.BootReceiver"
+            android:name="es.upm.bienestaremocional.app.data.receiver.BootReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

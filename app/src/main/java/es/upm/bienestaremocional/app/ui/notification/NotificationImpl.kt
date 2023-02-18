@@ -20,8 +20,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.MainActivity
+import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
 import es.upm.bienestaremocional.app.data.settings.AppChannels
 import es.upm.bienestaremocional.app.data.settings.NOTIFICATION_REQUEST_CODE
+import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
 import kotlinx.coroutines.async
 
 class NotificationImpl(private val context: Context,
@@ -65,9 +67,10 @@ class NotificationImpl(private val context: Context,
      * Send a notification related to do a questionnaire
      * @see showAccionableNotification
      */
-    override fun showQuestionnaireNotification()
+    override fun showQuestionnaireNotification(questionnaireRoundReduced: QuestionnaireRoundReduced)
     {
-        val pendingIntent = "be://questionnaire".makePendingIntent()
+        val validQRR = QuestionnaireRoundScreenDestination(questionnaireRoundReduced).route
+        val pendingIntent = "be://questionnaire/$validQRR".makePendingIntent()
 
         val textTitle = context.getString(R.string.new_questionnaire_available_title)
         val textContent = context.getString(R.string.new_questionnaire_available_content)

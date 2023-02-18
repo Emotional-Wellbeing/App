@@ -1,41 +1,62 @@
 package es.upm.bienestaremocional.app.ui.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.database.entity.PHQ
 import es.upm.bienestaremocional.app.data.database.entity.PSS
-import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRound
 import es.upm.bienestaremocional.app.data.database.entity.UCLA
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PHQRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSRepository
-import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
+import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
 import es.upm.bienestaremocional.app.ui.state.QuestionnaireRoundState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Named
 
 @HiltViewModel
 class QuestionnaireRoundViewModel @Inject constructor(
-    private val questionnaireRoundRepository: QuestionnaireRoundRepository,
     private val pssRepository: PSSRepository,
     private val phqRepository: PHQRepository,
     private val uclaRepository: UCLARepository,
-    appSettings: AppSettingsInterface,
+    savedStateHandle: SavedStateHandle,
     @Named("logTag") val logTag : String
 ) : ViewModel()
 {
     private val _state = MutableStateFlow<QuestionnaireRoundState>(QuestionnaireRoundState.Init)
     val state: StateFlow<QuestionnaireRoundState> = _state.asStateFlow()
 
-    private val questionnaires = Questionnaire.getMandatory() + appSettings.getQuestionnairesSelectedValue().toList()
+    private val questionnaireRoundReduced = QuestionnaireRoundScreenDestination.argsFrom(savedStateHandle).questionnaireRoundReduced
 
-    private val questionnairesData = questionnaires.mapIndexed {
-            index, questionnaire -> QuestionnaireData(questionnaire,"${index+1}/${questionnaires.size}: ") }
+    var pss: PSS
+    var phq: PHQ? = null
+    var ucla: UCLA? = null
+
+    var questionnaires: List<Questionnaire>
+    private var questionnairesData : List<QuestionnaireData>
+
+    init {
+        runBlocking {
+            pss = pssRepository.get(questionnaireRoundReduced.pssId)
+            phq = questionnaireRoundReduced.phqId?.let { phqRepository.get(it) }
+            ucla = questionnaireRoundReduced.uclaId?.let { uclaRepository.get(it) }
+        }
+
+        val questionnairesTemp = mutableListOf(Questionnaire.PSS)
+        phq?.let { questionnairesTemp.add(Questionnaire.PHQ) }
+        ucla?.let { questionnairesTemp.add(Questionnaire.UCLA) }
+        questionnaires = questionnairesTemp.toList()
+
+        questionnairesData = questionnaires.mapIndexed {
+                index, questionnaire -> QuestionnaireData(questionnaire,"${index+1}/${questionnaires.size}: ") }
+    }
+
+
     private var actualQuestionnaire = 0
 
     fun getQuestionnaireData(): QuestionnaireData = questionnairesData[actualQuestionnaire]
@@ -60,27 +81,8 @@ class QuestionnaireRoundViewModel @Inject constructor(
             QuestionnaireRoundState.Finishing
     }
 
-    suspend fun initAction()
+    fun initAction()
     {
-        val pssId : Long = pssRepository.insert(PSS())
-        val questionnaireRound = QuestionnaireRound(pss = pssId)
-
-        var phqId : Long? = null
-        var uclaId : Long? = null
-
-        questionnaires.forEach {
-            when(it.id)
-            {
-                "pss" -> {} //added before
-                "phq" -> {phqId = phqRepository.insert(PHQ())}
-                "ucla" -> {uclaId = uclaRepository.insert(UCLA())}
-            }
-        }
-        questionnaireRound.apply {
-            phq = phqId
-            ucla = uclaId
-        }
-        questionnaireRoundRepository.insert(questionnaireRound)
         updateState(QuestionnaireRoundState.Show)
     }
 

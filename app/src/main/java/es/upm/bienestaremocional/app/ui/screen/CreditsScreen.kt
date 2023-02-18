@@ -9,13 +9,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.app.data.credits.Credit
 import es.upm.bienestaremocional.app.data.credits.CreditContent
 import es.upm.bienestaremocional.app.ui.component.CreditComponent
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
+import es.upm.bienestaremocional.app.ui.viewmodel.CreditsViewModel
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
@@ -26,7 +29,23 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 @Destination
 @Composable
-fun CreditsScreen(navigator: DestinationsNavigator, windowSize: WindowSize)
+fun CreditsScreen(navigator: DestinationsNavigator,
+                  windowSize: WindowSize,
+                  viewModel: CreditsViewModel = hiltViewModel()
+)
+{
+    CreditsScreen(navigator = navigator,
+        windowSize = windowSize,
+        importantCredits = viewModel.importantPeople,
+        notImportantCredits = viewModel.notImportantPeople)
+}
+
+@Composable
+private fun CreditsScreen(navigator: DestinationsNavigator,
+                          windowSize: WindowSize,
+                          importantCredits: List<Credit>,
+                          notImportantCredits: List<Credit>
+)
 {
     AppBasicScreen(navigator = navigator,
         entrySelected = BottomBarDestination.SettingsScreen,
@@ -42,7 +61,7 @@ fun CreditsScreen(navigator: DestinationsNavigator, windowSize: WindowSize)
         {
             LazyColumn()
             {
-                items(CreditContent.content.filter { credit -> credit.importantContribution })
+                items(importantCredits)
                 {
                     CreditComponent(credit = it, windowSize = windowSize)
                     Spacer(Modifier.size(16.dp))
@@ -50,7 +69,7 @@ fun CreditsScreen(navigator: DestinationsNavigator, windowSize: WindowSize)
                 item {
                     Divider()
                 }
-                items(CreditContent.content.filter { credit -> !credit.importantContribution })
+                items(notImportantCredits)
                 {
                     CreditComponent(credit = it, windowSize = windowSize)
                     Spacer(Modifier.size(16.dp))
@@ -70,7 +89,10 @@ fun CreditsScreenPreview()
 
     BienestarEmocionalTheme {
         CreditsScreen(navigator = EmptyDestinationsNavigator,
-            windowSize = WindowSize.COMPACT)
+            windowSize = WindowSize.COMPACT,
+            importantCredits = CreditContent.content.filter { credit -> credit.importantContribution },
+            notImportantCredits = CreditContent.content.filter { credit -> !credit.importantContribution },
+        )
     }
 }
 
@@ -84,6 +106,9 @@ fun CreditsScreenPreviewDarkTheme()
 
     BienestarEmocionalTheme(darkTheme = true) {
         CreditsScreen(navigator = EmptyDestinationsNavigator,
-            windowSize = WindowSize.COMPACT)
+            windowSize = WindowSize.COMPACT,
+            importantCredits = CreditContent.content.filter { credit -> credit.importantContribution },
+            notImportantCredits = CreditContent.content.filter { credit -> !credit.importantContribution },
+        )
     }
 }

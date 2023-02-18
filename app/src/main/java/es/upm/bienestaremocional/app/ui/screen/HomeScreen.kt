@@ -31,15 +31,13 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hiltViewModel())
 {
     HomeScreen(navigator = navigator,
-        onNotification = { viewModel.onNotification() },
-        onQuestionnaire = { viewModel.onQuestionnaire(navigator) })
+        onNotification = { viewModel.onNotification() })
 }
 
 @Composable
 private fun HomeScreen(
     navigator: DestinationsNavigator,
-    onNotification: () -> Unit,
-    onQuestionnaire: () -> Unit)
+    onNotification: () -> Unit)
 {
     AppBasicScreen(navigator = navigator,
         entrySelected = BottomBarDestination.HomeScreen,
@@ -89,11 +87,7 @@ private fun HomeScreen(
                 {
                     Button(onClick = onNotification)
                     {
-                        Text(text = "Notificacion")
-                    }
-                    Button(onClick = onQuestionnaire)
-                    {
-                        Text(text = "Cuestionario")
+                        Text(text = "Notificacion y cuestionario")
                     }
                 }
             }
@@ -111,8 +105,7 @@ fun HomeScreenPreview()
 {
     BienestarEmocionalTheme{
         HomeScreen(navigator = EmptyDestinationsNavigator,
-            onNotification = {},
-            onQuestionnaire = {})
+            onNotification = {})
     }
 }
 
@@ -126,7 +119,6 @@ fun HomeScreenPreviewDarkTheme()
     BienestarEmocionalTheme(darkTheme = true)
     {
         HomeScreen(navigator = EmptyDestinationsNavigator,
-            onNotification = {},
-            onQuestionnaire = {})
+            onNotification = {})
     }
 }

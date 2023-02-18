@@ -10,12 +10,17 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import es.upm.bienestaremocional.app.data.alarm.AlarmReceiver
+import es.upm.bienestaremocional.app.data.alarm.AlarmManager
 import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
+import es.upm.bienestaremocional.app.data.alarm.AndroidAlarmManager
 import es.upm.bienestaremocional.app.data.alarm.AndroidAlarmScheduler
+import es.upm.bienestaremocional.app.data.database.dao.AppDAO
+import es.upm.bienestaremocional.app.data.receiver.AlarmReceiver
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
 import es.upm.bienestaremocional.app.data.settings.LanguageManager
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundReducedRepository
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundReducedRepositoryImpl
 import es.upm.bienestaremocional.app.ui.notification.Notification
 import es.upm.bienestaremocional.app.ui.notification.NotificationImpl
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
@@ -63,13 +68,13 @@ object AppModule
     @Named("logTag")
     fun provideLogTag(): String = "BienestarEmocionalApp"
 
-    /*@Provides
-    @Singleton
-    fun provideLingver(application: Application): Lingver = Lingver.init(application)
 
     @Provides
     @Singleton
-    fun provideLanguageManager(lingver: Lingver) : LanguageManager = LanguageManager(lingver)*/
+    fun provideAlarmManager(scheduler: AlarmScheduler,
+                            appSettings: AppSettingsInterface,
+                            @Named("logTag") logTag: String): AlarmManager =
+        AndroidAlarmManager(scheduler,appSettings,logTag)
 
     @Provides
     @Singleton
@@ -80,4 +85,12 @@ object AppModule
     @Singleton
     fun provideHealthConnectAvailability(healthConnectManager: HealthConnectManagerInterface)
     : MutableState<HealthConnectAvailability> = healthConnectManager.availability
+
+    @Provides
+    @Singleton
+    fun provideQuestionnaireRoundReducedRepository(dao: AppDAO,
+                                                   appSettings: AppSettingsInterface,
+                                                   @Named("logTag") logTag: String
+    ): QuestionnaireRoundReducedRepository =
+        QuestionnaireRoundReducedRepositoryImpl(dao,appSettings,logTag)
 }

@@ -64,7 +64,7 @@
     <string name="ucla_label">UCLA (soledad)</string>
 
     <string name="application_settings">Ajustes generales de la aplicación</string>
-    <string name="application_settings_label">Accede a los ajustes de Android de la aplicación: Consumo de energía, notificaciones…</string>
+    <string name="application_settings_label">Accede a los ajustes de la app: Consumo de energía, notificaciones…</string>
 
     <!-- Error screen -->
     <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes instalada, por favor reinicia la aplicación.</string>

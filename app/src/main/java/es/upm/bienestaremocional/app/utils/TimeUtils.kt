@@ -22,7 +22,7 @@ fun formatDateTime(start: Instant,
 }
 
 fun formatDateTime(time: Instant,
-                   zoneOffset: ZoneOffset?): String
+                   zoneOffset: ZoneOffset? = null): String
 {
     val startTime = dateTimeWithOffsetOrDefault(time, zoneOffset)
     val dateLabel = formatDate(startTime)
@@ -35,6 +35,9 @@ fun formatDate(date: ZonedDateTime): String =
 
 fun formatTime(time: ZonedDateTime): String =
     DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM).format(time)
+
+fun formatUnixTimeStamp(time: Long) : String  =
+    formatDateTime(Instant.ofEpochMilli(time))
 
 fun generateTime(origin: ZonedDateTime = ZonedDateTime.now(), offsetDays: Long = 0): ZonedDateTime =
     origin.minusDays(offsetDays)

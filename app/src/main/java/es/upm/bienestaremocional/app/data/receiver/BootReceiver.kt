@@ -1,11 +1,11 @@
-package es.upm.bienestaremocional.app.data.alarm
+package es.upm.bienestaremocional.app.data.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
-import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
+import es.upm.bienestaremocional.app.data.alarm.AlarmManager
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -16,10 +16,7 @@ import javax.inject.Named
 class BootReceiver : BroadcastReceiver()
 {
     @Inject
-    lateinit var appSettings: AppSettingsInterface
-
-    @Inject
-    lateinit var alarmScheduler: AlarmScheduler
+    lateinit var alarmManager: AlarmManager
 
     @Inject
     @Named("logTag")
@@ -33,8 +30,7 @@ class BootReceiver : BroadcastReceiver()
         if(intent.action == Intent.ACTION_BOOT_COMPLETED)
         {
             Log.d(logTag, "Scheduling alarms after reboot")
-            val alarms = appSettings.getAlarmFrequencyValue().alarmItems
-            alarmScheduler.schedule(alarms)
+            alarmManager.reScheduleAlarms()
         }
     }
 }

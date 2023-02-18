@@ -62,7 +62,8 @@ interface AppDAO
             "FROM questionnaire_round as qr " +
             "LEFT JOIN pss ON pss.pss_id = qr.pss_id " +
             "LEFT JOIN phq ON phq.phq_id = qr.phq_id " +
-            "LEFT JOIN ucla ON ucla.ucla_id = qr.ucla_id")
+            "LEFT JOIN ucla ON ucla.ucla_id = qr.ucla_id " +
+            "ORDER BY qr.created_at DESC")
     suspend fun getAllQuestionnaireRoundFull(): List<QuestionnaireRoundFull>
 
     @Transaction
@@ -74,6 +75,22 @@ interface AppDAO
             "LEFT JOIN pss ON pss.pss_id = qr.pss_id " +
             "LEFT JOIN phq ON phq.phq_id = qr.phq_id " +
             "LEFT JOIN ucla ON ucla.ucla_id = qr.ucla_id " +
-            "WHERE qr.id = :id")
+            "WHERE qr.id = :id"
+    )
     suspend fun getQuestionnaireRoundFull(id: Long): QuestionnaireRoundFull
+
+    @Transaction
+    @Query("SELECT qr.*, " +
+            "pss.*, " +
+            "phq.*, " +
+            "ucla.* " +
+            "FROM questionnaire_round as qr " +
+            "LEFT JOIN pss ON pss.pss_id = qr.pss_id " +
+            "LEFT JOIN phq ON phq.phq_id = qr.phq_id " +
+            "LEFT JOIN ucla ON ucla.ucla_id = qr.ucla_id " +
+            "WHERE (pss.pss_id IS NOT NULL AND pss.pss_completed = 0) " +
+            "OR (phq.phq_id IS NOT NULL AND phq.phq_completed = 0) " +
+            "OR (ucla.ucla_id IS NOT NULL AND ucla.ucla_completed = 0) " +
+            "ORDER BY qr.created_at DESC")
+    suspend fun getAllQuestionnaireRoundIncompleted(): List<QuestionnaireRoundFull>
 }

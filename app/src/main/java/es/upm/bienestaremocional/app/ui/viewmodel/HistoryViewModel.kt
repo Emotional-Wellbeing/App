@@ -20,10 +20,10 @@ class HistoryViewModel @Inject constructor(
     val questionnaireRounds: LiveData<List<QuestionnaireRoundFull>>
         get() = _questionnaireRounds
 
-    fun fetchQuestionnaireRounds()
+    fun fetchIncompletedQuestionnaireRounds()
     {
         viewModelScope.launch {
-            _questionnaireRounds.value = questionnaireRoundWithQuestionnairesRepository.getAll()
+            _questionnaireRounds.value = questionnaireRoundWithQuestionnairesRepository.getAllIncompleted()
         }
     }
 }

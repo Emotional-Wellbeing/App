@@ -14,11 +14,9 @@ const val MIN_SUPPORTED_SDK = Build.VERSION_CODES.O_MR1
  * may be correct in a number of circumstances, but may also not apply in others, so is used here
  * just as an example.
  */
-fun dateTimeWithOffsetOrDefault(time: Instant, offset: ZoneOffset?): ZonedDateTime =
-    if (offset != null)
-        ZonedDateTime.ofInstant(time, offset)
-    else
-        ZonedDateTime.ofInstant(time, ZoneId.systemDefault())
+fun dateTimeWithOffsetOrDefault(time: Instant, offset: ZoneOffset? = null): ZonedDateTime =
+    offset?.let { ZonedDateTime.ofInstant(time, it) }
+        ?: run {  ZonedDateTime.ofInstant(time, ZoneId.systemDefault()) }
 
 fun Duration.formatHoursMinutes() =
     String.format("%01dh%02dm", this.toHours() % 24, this.toMinutes() % 60)
