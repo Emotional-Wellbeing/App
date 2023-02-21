@@ -1,11 +1,13 @@
 package es.upm.bienestaremocional.app.ui.screen
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.TextButton
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,11 +15,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
+import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
 import es.upm.bienestaremocional.app.ui.viewmodel.HistoryViewModel
 import es.upm.bienestaremocional.app.utils.formatUnixTimeStamp
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
-import es.upm.bienestaremocional.core.ui.component.BasicCard
 
 /**
  * Plots graphics about user's history
@@ -29,11 +32,16 @@ fun HistoryScreen(navigator: DestinationsNavigator,
 )
 {
     // State
+    val questionnaireRoundsIncompleted = historyViewModel.questionnaireRoundsIncompleted.observeAsState()
     val questionnaireRounds = historyViewModel.questionnaireRounds.observeAsState()
+
+    var showColumn by remember { mutableStateOf(true) }
+    lateinit var questionnaireRoundReduced : QuestionnaireRoundReduced
 
     // API call
     LaunchedEffect(key1 = Unit) {
         historyViewModel.fetchIncompletedQuestionnaireRounds()
+        historyViewModel.fetchAllQuestionnaireRounds()
     }
 
 
@@ -42,37 +50,36 @@ fun HistoryScreen(navigator: DestinationsNavigator,
         entrySelected = BottomBarDestination.HistoryScreen,
         label = BottomBarDestination.HistoryScreen.label)
     {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        )
+        if (showColumn)
         {
-            BasicCard{
-                Text("History placeholder")
-            }
-            Spacer(Modifier.size(16.dp))
-            // UI
-            LazyColumn {
-                questionnaireRounds.value?.let { list ->
-                    items(list.size) { index ->
-
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            )
+            {
+                // UI
+                Text(text = "Incompletos:")
+                questionnaireRoundsIncompleted.value?.let { list ->
+                    list.forEach { element ->
                         Card(modifier = Modifier.fillMaxWidth())
                         {
-                            Text(text = "Ronda: ${list[index].questionnaireRound.id}")
-                            Text("Creado en : ${formatUnixTimeStamp(list[index].questionnaireRound.createdAt)}")
+                            Text(text = "Ronda: ${element.questionnaireRound.id}")
+                            Text("Creado en : ${formatUnixTimeStamp(element.questionnaireRound.createdAt)}")
+                            Text("Modificado en : ${formatUnixTimeStamp(element.questionnaireRound.modifiedAt)}")
                             Text("Incompletos: ")
-                            if (!list[index].pss.completed)
+                            if (!element.pss.completed)
                             {
                                 Text(text = "PSS:")
-                                Text("Id: ${list[index].pss.id}")
-                                Text("Creado en : ${formatUnixTimeStamp(list[index].pss.createdAt)}")
-                                Text("Score: ${list[index].pss.score}")
+                                Text("Id: ${element.pss.id}")
+                                Text("Creado en : ${formatUnixTimeStamp(element.pss.createdAt)}")
+                                Text("Score: ${element.pss.score}")
                             }
 
-                            list[index].phq?.let {
+                            element.phq?.let {
                                 if (!it.completed)
                                 {
                                     Text(text = "PHQ:")
@@ -82,7 +89,7 @@ fun HistoryScreen(navigator: DestinationsNavigator,
                                 }
                             }
 
-                            list[index].ucla?.let {
+                            element.ucla?.let {
                                 if (!it.completed)
                                 {
                                     Text(text = "UCLA:")
@@ -91,11 +98,62 @@ fun HistoryScreen(navigator: DestinationsNavigator,
                                     Text("Score: ${it.score}")
                                 }
                             }
+
+                            TextButton(onClick = {
+                                questionnaireRoundReduced = QuestionnaireRoundReduced(
+                                    element.questionnaireRound.id,
+                                    if(element.pss.completed) null else element.pss.id,
+                                    element.phq?.let { if (it.completed) null else it.id },
+                                    element.ucla?.let { if (it.completed) null else it.id },
+                                )
+                                showColumn = false}) {
+                                Text("retomar", color = MaterialTheme.colorScheme.tertiary)
+                            }
                         }
-                        Spacer(Modifier.size(16.dp))
+                    }
+                }
+                //}
+
+                Text(text = "Todos:")
+                //LazyColumn {
+                questionnaireRounds.value?.let { list ->
+                    list.forEach { element ->
+
+                        Card(modifier = Modifier.fillMaxWidth())
+                        {
+                            Text(text = "Ronda: ${element.questionnaireRound.id}")
+                            Text("Creado en : ${formatUnixTimeStamp(element.questionnaireRound.createdAt)}")
+                            element.pss.let {
+                                Text(text = "PSS:")
+                                Text("Id: ${element.pss.id}")
+                                Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
+                                Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
+                                Text("Score: ${it.score}")
+                            }
+
+                            element.phq?.let {
+                                Text(text = "PHQ:")
+                                Text("Id: ${it.id}")
+                                Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
+                                Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
+                                Text("Score: ${it.score}")
+                            }
+
+                            element.ucla?.let {
+                                Text(text = "UCLA:")
+                                Text("Id: ${it.id}")
+                                Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
+                                Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
+                                Text("Score: ${it.score}")
+                            }
+                        }
                     }
                 }
             }
+        }
+        else
+        {
+            navigator.navigate(QuestionnaireRoundScreenDestination(questionnaireRoundReduced = questionnaireRoundReduced))
         }
     }
 }

@@ -9,7 +9,7 @@ class QuestionnaireRoundReducedNavTypeSerializer : DestinationsNavTypeSerializer
 {
     override fun fromRouteString(routeStr: String): QuestionnaireRoundReduced {
         val ids = routeStr.split(";").map { it.toLongOrNull() }
-        return QuestionnaireRoundReduced(ids[0]!!, ids[1]!!, ids[2], ids[3])
+        return QuestionnaireRoundReduced(ids[0]!!, ids[1], ids[2], ids[3])
     }
 
     override fun toRouteString(value: QuestionnaireRoundReduced): String {

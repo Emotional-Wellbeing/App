@@ -16,6 +16,9 @@ class HistoryViewModel @Inject constructor(
     private val questionnaireRoundWithQuestionnairesRepository: QuestionnaireRoundFullRepository
 ) : ViewModel()
 {
+    private val _questionnaireRoundsIncompleted = MutableLiveData<List<QuestionnaireRoundFull>>()
+    val questionnaireRoundsIncompleted: LiveData<List<QuestionnaireRoundFull>>
+        get() = _questionnaireRoundsIncompleted
     private val _questionnaireRounds = MutableLiveData<List<QuestionnaireRoundFull>>()
     val questionnaireRounds: LiveData<List<QuestionnaireRoundFull>>
         get() = _questionnaireRounds
@@ -23,7 +26,14 @@ class HistoryViewModel @Inject constructor(
     fun fetchIncompletedQuestionnaireRounds()
     {
         viewModelScope.launch {
-            _questionnaireRounds.value = questionnaireRoundWithQuestionnairesRepository.getAllIncompleted()
+            _questionnaireRoundsIncompleted.value = questionnaireRoundWithQuestionnairesRepository.getAllIncompleted()
+        }
+    }
+
+    fun fetchAllQuestionnaireRounds()
+    {
+        viewModelScope.launch {
+            _questionnaireRounds.value = questionnaireRoundWithQuestionnairesRepository.getAll()
         }
     }
 }

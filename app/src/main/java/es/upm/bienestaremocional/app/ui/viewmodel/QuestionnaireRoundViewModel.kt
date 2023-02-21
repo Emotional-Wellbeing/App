@@ -2,15 +2,19 @@ package es.upm.bienestaremocional.app.ui.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.database.entity.PHQ
 import es.upm.bienestaremocional.app.data.database.entity.PSS
+import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRound
 import es.upm.bienestaremocional.app.data.database.entity.UCLA
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PHQRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSRepository
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
 import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
+import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireScreenDestination
 import es.upm.bienestaremocional.app.ui.state.QuestionnaireRoundState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,6 +25,7 @@ import javax.inject.Named
 
 @HiltViewModel
 class QuestionnaireRoundViewModel @Inject constructor(
+    private val questionnaireRoundRepository: QuestionnaireRoundRepository,
     private val pssRepository: PSSRepository,
     private val phqRepository: PHQRepository,
     private val uclaRepository: UCLARepository,
@@ -28,66 +33,85 @@ class QuestionnaireRoundViewModel @Inject constructor(
     @Named("logTag") val logTag : String
 ) : ViewModel()
 {
+    //state
     private val _state = MutableStateFlow<QuestionnaireRoundState>(QuestionnaireRoundState.Init)
     val state: StateFlow<QuestionnaireRoundState> = _state.asStateFlow()
 
+    //from screen
     private val questionnaireRoundReduced = QuestionnaireRoundScreenDestination.argsFrom(savedStateHandle).questionnaireRoundReduced
 
-    var pss: PSS
+    //variables from round
+    private var questionnaireRound : QuestionnaireRound
+    var pss: PSS? = null
     var phq: PHQ? = null
     var ucla: UCLA? = null
 
     var questionnaires: List<Questionnaire>
-    private var questionnairesData : List<QuestionnaireData>
 
     init {
         runBlocking {
-            pss = pssRepository.get(questionnaireRoundReduced.pssId)
+            questionnaireRound = questionnaireRoundRepository.get(questionnaireRoundReduced.qrId)
+            pss = questionnaireRoundReduced.pssId?.let { pssRepository.get(it) }
             phq = questionnaireRoundReduced.phqId?.let { phqRepository.get(it) }
             ucla = questionnaireRoundReduced.uclaId?.let { uclaRepository.get(it) }
         }
 
-        val questionnairesTemp = mutableListOf(Questionnaire.PSS)
+        val questionnairesTemp = mutableListOf<Questionnaire>()
+        pss?.let { questionnairesTemp.add(Questionnaire.PSS) }
         phq?.let { questionnairesTemp.add(Questionnaire.PHQ) }
         ucla?.let { questionnairesTemp.add(Questionnaire.UCLA) }
         questionnaires = questionnairesTemp.toList()
-
-        questionnairesData = questionnaires.mapIndexed {
-                index, questionnaire -> QuestionnaireData(questionnaire,"${index+1}/${questionnaires.size}: ") }
     }
 
 
     private var actualQuestionnaire = 0
 
-    fun getQuestionnaireData(): QuestionnaireData = questionnairesData[actualQuestionnaire]
+    fun onInit()
+    {
+        _state.value = if (questionnaires.isNotEmpty())
+            QuestionnaireRoundState.Show
+        else
+            QuestionnaireRoundState.Finished
+    }
 
-    fun onFinish()
+    fun onResumeRound()
     {
         _state.value = if (actualQuestionnaire + 1 < questionnaires.size) {
             actualQuestionnaire++
-            QuestionnaireRoundState.PreShow
+            QuestionnaireRoundState.Show
         }
         else
             QuestionnaireRoundState.Finishing
     }
 
-    fun onSkip()
+    fun onShow(navigator: DestinationsNavigator)
     {
-        _state.value = if (actualQuestionnaire + 1 < questionnaires.size) {
-            actualQuestionnaire++
-            QuestionnaireRoundState.PreShow
+        val entityId = when (questionnaires[actualQuestionnaire])
+        {
+            Questionnaire.PSS -> questionnaireRoundReduced.pssId!!
+            Questionnaire.PHQ -> questionnaireRoundReduced.phqId!!
+            Questionnaire.UCLA -> questionnaireRoundReduced.uclaId!!
         }
-        else
-            QuestionnaireRoundState.Finishing
+        navigator.navigate(
+            QuestionnaireScreenDestination(
+                questionnaire = questionnaires[actualQuestionnaire],
+                questionnaireIndex = actualQuestionnaire,
+                questionnaireSize = questionnaires.size,
+                entityId = entityId)
+        )
+        _state.value = QuestionnaireRoundState.PostShow
     }
 
-    fun initAction()
+    fun onFinishing()
     {
-        updateState(QuestionnaireRoundState.Show)
+        runBlocking {
+            updateRound()
+        }
+        _state.value = QuestionnaireRoundState.Finished
     }
 
-    fun updateState(newState: QuestionnaireRoundState)
+    private suspend fun updateRound()
     {
-        _state.value = newState
+        questionnaireRoundRepository.update(questionnaireRound)
     }
 }

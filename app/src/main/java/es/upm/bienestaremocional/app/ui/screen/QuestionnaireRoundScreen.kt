@@ -1,10 +1,11 @@
 package es.upm.bienestaremocional.app.ui.screen
 
 import android.util.Log
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.rememberPagerState
+import androidx.navigation.NavBackStackEntry
 import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.FULL_ROUTE_PLACEHOLDER
@@ -12,11 +13,11 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
 import es.upm.bienestaremocional.app.ui.state.QuestionnaireRoundState
 import es.upm.bienestaremocional.app.ui.viewmodel.QuestionnaireRoundViewModel
+import es.upm.bienestaremocional.core.ui.GetOnceResult
 
 /**
  * Plots questionnaires
  */
-@OptIn(ExperimentalPagerApi::class)
 @Destination(
     deepLinks = [
         DeepLink(
@@ -26,43 +27,34 @@ import es.upm.bienestaremocional.app.ui.viewmodel.QuestionnaireRoundViewModel
 )
 @Composable
 fun QuestionnaireRoundScreen(navigator: DestinationsNavigator,
-                             questionnaireRoundReduced: QuestionnaireRoundReduced,
+                             navBackStackEntry: NavBackStackEntry,
                              viewModel: QuestionnaireRoundViewModel = hiltViewModel(),
+                             questionnaireRoundReduced: QuestionnaireRoundReduced
 )
 {
     val state by viewModel.state.collectAsState()
-    val pagerState = rememberPagerState()
     val logTag = viewModel.logTag
+
+    navBackStackEntry.GetOnceResult<Boolean>("finished"){
+        if (it)
+            viewModel.onResumeRound()
+    }
+
     when(state)
     {
-        QuestionnaireRoundState.Init ->
-        {
-            Log.d(logTag,"Init")
-            viewModel.initAction()
+        QuestionnaireRoundState.Init -> { viewModel.onInit() }
+        QuestionnaireRoundState.PostShow -> {
+            //dummy state to avoid multiple navigation for same questionnaire
         }
-        QuestionnaireRoundState.PreShow -> {
-            Log.d(logTag,"Preshow")
-            LaunchedEffect(true)
-            {
-                //if we call this previous to first page, it will never end
-                pagerState.scrollToPage(0)
-                viewModel.updateState(QuestionnaireRoundState.Show)
-            }
-        }
+
         QuestionnaireRoundState.Show -> {
-            Log.d(logTag,"Show")
-            QuestionnaireScreen(questionnaireData = viewModel.getQuestionnaireData(),
-                pagerState = pagerState,
-                onFinish = { viewModel.onFinish() },
-                onSkip = { viewModel.onSkip() })
-            }
+            Log.d(logTag,"Showing questionnaire")
+            viewModel.onShow(navigator = navigator)
+        }
         QuestionnaireRoundState.Finishing -> {//TODO add insert database
             Log.d(logTag,"Finishing")
-            viewModel.updateState(QuestionnaireRoundState.Finished) }
+            viewModel.onFinishing()
+        }
         QuestionnaireRoundState.Finished -> {navigator.popBackStack()}
     }
 }
-
-
-
-
