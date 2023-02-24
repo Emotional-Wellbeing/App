@@ -99,8 +99,8 @@ class Sleep @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.createReadPermission(SleepSessionRecord::class),
-        HealthPermission.createReadPermission(SleepStageRecord::class))
+        HealthPermission.getReadPermission(SleepSessionRecord::class),
+        HealthPermission.getReadPermission(SleepStageRecord::class))
 
     /**
      * Reads sleep sessions for the previous seven days (from yesterday) to show a week's worth of
@@ -155,8 +155,8 @@ class Sleep @Inject constructor(
         return sessions.toList()
     }
 
-    override val writePermissions: Set<HealthPermission> = setOf(
-        HealthPermission.createWritePermission(SleepSessionRecord::class),
-        HealthPermission.createWritePermission(SleepStageRecord::class))
+    override val writePermissions: Set<String> = setOf(
+        HealthPermission.getWritePermission(SleepSessionRecord::class),
+        HealthPermission.getWritePermission(SleepStageRecord::class))
 }
 

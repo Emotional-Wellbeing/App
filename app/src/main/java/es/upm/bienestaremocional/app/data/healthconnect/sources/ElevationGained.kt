@@ -51,10 +51,10 @@ class ElevationGained @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.createReadPermission(ElevationGainedRecord::class))
+        HealthPermission.getReadPermission(ElevationGainedRecord::class))
 
     override val writePermissions = setOf(
-        HealthPermission.createWritePermission(ElevationGainedRecord::class))
+        HealthPermission.getWritePermission(ElevationGainedRecord::class))
 
     override suspend fun readSource(startTime: Instant, endTime: Instant):
             List<ElevationGainedRecord>

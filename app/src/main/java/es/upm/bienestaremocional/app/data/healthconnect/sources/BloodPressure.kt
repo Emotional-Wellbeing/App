@@ -59,10 +59,10 @@ class BloodPressure @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.createReadPermission(BloodPressureRecord::class))
+        HealthPermission.getReadPermission(BloodPressureRecord::class))
 
     override val writePermissions = setOf(
-        HealthPermission.createWritePermission(BloodPressureRecord::class))
+        HealthPermission.getWritePermission(BloodPressureRecord::class))
 
     override suspend fun readSource(startTime: Instant, endTime: Instant): List<BloodPressureRecord>
     {

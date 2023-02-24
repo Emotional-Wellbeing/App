@@ -47,10 +47,10 @@ class RespiratoryRate @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.createReadPermission(RespiratoryRateRecord::class))
+        HealthPermission.getReadPermission(RespiratoryRateRecord::class))
 
     override val writePermissions = setOf(
-        HealthPermission.createWritePermission(RespiratoryRateRecord::class))
+        HealthPermission.getWritePermission(RespiratoryRateRecord::class))
 
     override suspend fun readSource(startTime: Instant, endTime: Instant):
             List<RespiratoryRateRecord>

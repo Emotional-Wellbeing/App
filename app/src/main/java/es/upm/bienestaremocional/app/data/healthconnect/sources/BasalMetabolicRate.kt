@@ -47,10 +47,10 @@ class BasalMetabolicRate @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.createReadPermission(BasalMetabolicRateRecord::class))
+        HealthPermission.getReadPermission(BasalMetabolicRateRecord::class))
 
     override val writePermissions = setOf(
-        HealthPermission.createWritePermission(BasalMetabolicRateRecord::class))
+        HealthPermission.getWritePermission(BasalMetabolicRateRecord::class))
 
     override suspend fun readSource(startTime: Instant, endTime: Instant):
             List<BasalMetabolicRateRecord>

@@ -49,10 +49,10 @@ class TotalCaloriesBurned @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.createReadPermission(TotalCaloriesBurnedRecord::class))
+        HealthPermission.getReadPermission(TotalCaloriesBurnedRecord::class))
 
     override val writePermissions = setOf(
-        HealthPermission.createWritePermission(TotalCaloriesBurnedRecord::class))
+        HealthPermission.getWritePermission(TotalCaloriesBurnedRecord::class))
 
     override suspend fun readSource(startTime: Instant, endTime: Instant):
             List<TotalCaloriesBurnedRecord>

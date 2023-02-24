@@ -51,10 +51,10 @@ class Distance @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.createReadPermission(DistanceRecord::class))
+        HealthPermission.getReadPermission(DistanceRecord::class))
 
     override val writePermissions = setOf(
-        HealthPermission.createWritePermission(DistanceRecord::class))
+        HealthPermission.getWritePermission(DistanceRecord::class))
 
     override suspend fun readSource(startTime: Instant, endTime: Instant): List<DistanceRecord>
     {

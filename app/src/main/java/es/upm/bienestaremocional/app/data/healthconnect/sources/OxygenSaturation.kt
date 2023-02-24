@@ -48,10 +48,10 @@ class OxygenSaturation @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.createReadPermission(OxygenSaturationRecord::class))
+        HealthPermission.getReadPermission(OxygenSaturationRecord::class))
 
     override val writePermissions = setOf(
-        HealthPermission.createWritePermission(OxygenSaturationRecord::class))
+        HealthPermission.getWritePermission(OxygenSaturationRecord::class))
 
     override suspend fun readSource(startTime: Instant, endTime: Instant):
             List<OxygenSaturationRecord>

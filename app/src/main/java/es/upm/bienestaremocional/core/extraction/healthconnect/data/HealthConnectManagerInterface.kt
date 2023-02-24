@@ -1,7 +1,6 @@
 package es.upm.bienestaremocional.core.extraction.healthconnect.data
 
 import androidx.compose.runtime.MutableState
-import androidx.health.connect.client.permission.HealthPermission
 
 /**
  * Interface with the Health Connect operations that are related to permissions
@@ -19,5 +18,5 @@ interface HealthConnectManagerInterface
     /**
      * Check if [permissions] are granted by user
      */
-    suspend fun hasAllPermissions(permissions: Set<HealthPermission>): Boolean
+    suspend fun hasAllPermissions(permissions: Set<String>): Boolean
 }

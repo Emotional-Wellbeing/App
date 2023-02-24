@@ -1,6 +1,5 @@
 package es.upm.bienestaremocional.core.extraction.healthconnect.data
 
-import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.Record
 import java.time.Instant
 import java.time.ZonedDateTime
@@ -13,7 +12,7 @@ interface HealthConnectSourceInterface<T: Record>
     /**
      * Set that contains permissions needed to read data
      */
-    val readPermissions : Set<HealthPermission>
+    val readPermissions : Set<String>
 
     /**
      * Checks if all permissions needed for read are granted
@@ -48,7 +47,7 @@ interface HealthConnectSourceInterface<T: Record>
     /**
      * Set that contains permissions needed to write data
      */
-    val writePermissions : Set<HealthPermission>
+    val writePermissions : Set<String>
 
     /**
      * Checks if all permissions needed for read are granted

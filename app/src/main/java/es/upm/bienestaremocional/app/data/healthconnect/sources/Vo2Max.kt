@@ -48,10 +48,10 @@ class Vo2Max @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.createReadPermission(Vo2MaxRecord::class))
+        HealthPermission.getReadPermission(Vo2MaxRecord::class))
 
     override val writePermissions = setOf(
-        HealthPermission.createWritePermission(Vo2MaxRecord::class))
+        HealthPermission.getWritePermission(Vo2MaxRecord::class))
 
     override suspend fun readSource(startTime: Instant, endTime: Instant):
             List<Vo2MaxRecord>
