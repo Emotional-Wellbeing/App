@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.health.connect.client.HealthConnectClient.Companion.ACTION_HEALTH_CONNECT_SETTINGS
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alorma.compose.settings.storage.base.SettingValueState
 import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
@@ -70,8 +71,6 @@ private suspend fun showRestartInfo(snackbarHostState: SnackbarHostState,
     if (result === SnackbarResult.ActionPerformed)
         restartApp(activity = context as Activity)
 }
-
-private const val HEALTH_CONNECT_ACTION = "androidx.health.ACTION_HEALTH_CONNECT_SETTINGS"
 
 /**
  * Renders settings menu
@@ -228,7 +227,7 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
             title = { Text(text = stringResource(id = R.string.health_connect_settings_label),
                 color = MaterialTheme.colorScheme.secondary) },
             subtitle = { Text(stringResource(id = R.string.health_connect_settings_description)) },
-            onClick = { openForeignActivity(context = context, action = HEALTH_CONNECT_ACTION) },
+            onClick = { openForeignActivity(context = context, action = ACTION_HEALTH_CONNECT_SETTINGS ) },
             )
 
             Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))

@@ -31,8 +31,6 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
 
-//TODO hacer un grafo anidado para que solo se pueda abrir desde la ronda
-
 @Destination
 @Composable
 fun QuestionnaireScreen(questionnaire: Questionnaire,

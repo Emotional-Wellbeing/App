@@ -21,10 +21,11 @@ class HealthConnectManager(private val healthConnectClient: HealthConnectClient,
 
     override fun checkAvailability()
     {
-        availability.value = when
+        availability.value = when(HealthConnectClient.sdkStatus(context))
         {
-            HealthConnectClient.isProviderAvailable(context) -> HealthConnectAvailability.INSTALLED
-            HealthConnectClient.isApiSupported() -> HealthConnectAvailability.NOT_INSTALLED
+            HealthConnectClient.SDK_UNAVAILABLE -> HealthConnectAvailability.NOT_SUPPORTED
+            HealthConnectClient.SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED -> HealthConnectAvailability.NOT_INSTALLED
+            HealthConnectClient.SDK_AVAILABLE -> HealthConnectAvailability.INSTALLED
             else -> HealthConnectAvailability.NOT_SUPPORTED
         }
     }
