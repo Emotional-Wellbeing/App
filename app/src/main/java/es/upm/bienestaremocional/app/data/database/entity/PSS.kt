@@ -19,6 +19,9 @@ data class PSS(
     @ColumnInfo(name = "pss_score")
     var score: Int? = null,
 
+    @ColumnInfo(name = "pss_score_level")
+    var scoreLevel: String? = null,
+
     @ColumnInfo(name = "pss_completed")
     var completed: Boolean = false,
 
@@ -42,5 +45,4 @@ data class PSS(
     var answer9 : Int? = null,
     @ColumnInfo(name = "pss_answer_10")
     var answer10 : Int? = null,
-
 )

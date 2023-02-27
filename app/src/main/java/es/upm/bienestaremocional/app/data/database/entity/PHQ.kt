@@ -19,6 +19,9 @@ data class PHQ(
     @ColumnInfo(name = "phq_score")
     var score: Int? = null,
 
+    @ColumnInfo(name = "phq_score_level")
+    var scoreLevel: String? = null,
+
     @ColumnInfo(name = "phq_completed")
     var completed: Boolean = false,
 

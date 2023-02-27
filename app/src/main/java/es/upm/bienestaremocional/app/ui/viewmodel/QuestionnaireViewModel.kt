@@ -12,6 +12,7 @@ import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSReposito
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
 import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireScreenDestination
 import es.upm.bienestaremocional.app.ui.state.QuestionnaireState
+import es.upm.bienestaremocional.app.utils.decodeScoreLevel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -76,6 +77,29 @@ class QuestionnaireViewModel @Inject constructor(
             else
                 null
         }
+
+    private val scoreLevel : String?
+        get()
+        {
+            return if (questionnaireFulfilled)
+            {
+                var scoreLevel: String? = null
+                for(level in questionnaire.levels)
+                {
+                    if (score in level.min .. level.max)
+                    {
+                        scoreLevel = level.internalLabel
+                        break
+                    }
+                }
+                scoreLevel
+            }
+            else
+                null
+        }
+
+    val scoreLevelRes : Int?
+        get() = decodeScoreLevel(scoreLevel,questionnaire)
 
     private fun setAnswer(questionIndex: Int, answerIndex: Int) {
         if (questionIndex < questionnaire.numberOfQuestions)
@@ -229,6 +253,7 @@ class QuestionnaireViewModel @Inject constructor(
     private fun setPSS(pss: PSS) {
         pss.apply {
             score = this@QuestionnaireViewModel.score
+            scoreLevel = this@QuestionnaireViewModel.scoreLevel
             completed = this@QuestionnaireViewModel.questionnaireFulfilled
             answer1 = this@QuestionnaireViewModel.answers.getOrNull(0)
             answer2 = this@QuestionnaireViewModel.answers.getOrNull(1)
@@ -246,6 +271,7 @@ class QuestionnaireViewModel @Inject constructor(
     private fun setPHQ(phq: PHQ) {
         phq.apply {
             score = this@QuestionnaireViewModel.score
+            scoreLevel = this@QuestionnaireViewModel.scoreLevel
             completed = this@QuestionnaireViewModel.questionnaireFulfilled
             answer1 = this@QuestionnaireViewModel.answers.getOrNull(0)
             answer2 = this@QuestionnaireViewModel.answers.getOrNull(1)
@@ -262,6 +288,7 @@ class QuestionnaireViewModel @Inject constructor(
     private fun setUCLA(ucla: UCLA) {
         ucla.apply {
             score = this@QuestionnaireViewModel.score
+            scoreLevel = this@QuestionnaireViewModel.scoreLevel
             completed = this@QuestionnaireViewModel.questionnaireFulfilled
             answer1 = this@QuestionnaireViewModel.answers.getOrNull(0)
             answer2 = this@QuestionnaireViewModel.answers.getOrNull(1)
@@ -285,5 +312,4 @@ class QuestionnaireViewModel @Inject constructor(
             answer20 = this@QuestionnaireViewModel.answers.getOrNull(19)
         }
     }
-
 }

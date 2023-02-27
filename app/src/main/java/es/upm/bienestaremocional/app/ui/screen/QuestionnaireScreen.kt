@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.screen
 
+import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
@@ -27,6 +28,7 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.ui.state.QuestionnaireState
 import es.upm.bienestaremocional.app.ui.viewmodel.QuestionnaireViewModel
+import es.upm.bienestaremocional.app.utils.decodeScoreLevel
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
@@ -49,6 +51,7 @@ fun QuestionnaireScreen(questionnaire: Questionnaire,
         answerSelected = {index -> viewModel.getAnswer(index)},
         answersRemaining = { viewModel.answersRemaining },
         getScore = {viewModel.score},
+        getScoreLevel = { viewModel.scoreLevelRes },
         onAnswer = { question, answer -> viewModel.onAnswer(question,answer) },
         onInProgress = { viewModel.onInProgress() },
         onSkippingAttempt = { viewModel.onSkippingAttempt() },
@@ -70,6 +73,7 @@ private fun QuestionnaireScreen(state: QuestionnaireState,
                                 answerSelected: (Int) -> Int?,
                                 answersRemaining: () -> List<Int>,
                                 getScore : () -> Int?,
+                                @StringRes getScoreLevel : () -> Int?,
                                 onAnswer: (Int,Int) -> Unit,
                                 onInProgress : () -> Unit,
                                 onSkippingAttempt : () -> Unit,
@@ -144,7 +148,9 @@ private fun QuestionnaireScreen(state: QuestionnaireState,
         }
         QuestionnaireState.Summary ->
         {
-            Summary(score = getScore()!!, questionnaire = questionnaire, onSucess = onSummary)
+            Summary(score = getScore()!!, scoreLevel = getScoreLevel(),
+                questionnaire = questionnaire,
+                onSucess = onSummary)
         }
         QuestionnaireState.Finished -> onExit()
 
@@ -347,19 +353,24 @@ private fun OptionCard(text : String,
 
 @Composable
 private fun Summary(score : Int,
+                    @StringRes scoreLevel: Int?,
                     questionnaire: Questionnaire,
                     onSucess : () -> Unit)
 {
     val previousLabel = stringResource(R.string.questionnaire)
     val scoreLabel = stringResource(R.string.score)
+    val levelLabel = stringResource(R.string.level)
     val questionnaireLabel = stringResource(questionnaire.labelRes)
 
     Surface(modifier = Modifier.fillMaxSize()) {
-        Column(verticalArrangement = Arrangement.Center,
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text("$previousLabel $questionnaireLabel")
             Text("$scoreLabel: $score")
+            scoreLevel?.let {
+                Text("$levelLabel: ${stringResource(scoreLevel)}")
+            }
             Button(onClick = onSucess ) {
                 Text("OK")
             }
@@ -367,6 +378,7 @@ private fun Summary(score : Int,
 
     }
 }
+
 
 
 @Preview(showBackground = true)
@@ -390,7 +402,23 @@ fun QuestionnaireScreenPreview()
         }
         else
             null
-}
+    }
+
+    val scoreLevelRes : () -> Int? =  {
+        score()?.let {
+            var scoreLevel: String? = null
+            for(level in questionnaire.levels)
+            {
+                if (it in level.min .. level.max)
+                {
+                    scoreLevel = level.internalLabel
+                    break
+                }
+            }
+            decodeScoreLevel(scoreLevel,questionnaire)
+        }
+        null
+    }
 
     BienestarEmocionalTheme {
         QuestionnaireScreen(
@@ -400,6 +428,7 @@ fun QuestionnaireScreenPreview()
             answerSelected = {index -> answers[index]},
             answersRemaining = { answers.mapIndexed{index, value -> if(value == null) index else null}.filterNotNull()},
             getScore = score,
+            getScoreLevel = scoreLevelRes,
             onAnswer = { question, answer -> answers[question] = answer },
             onInProgress = {},
             onSkippingAttempt = {},
@@ -411,7 +440,6 @@ fun QuestionnaireScreenPreview()
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Preview(showBackground = true)
 @Composable
 fun QuestionnaireScreenPreviewDarkTheme()
@@ -435,6 +463,22 @@ fun QuestionnaireScreenPreviewDarkTheme()
             null
     }
 
+    val scoreLevelRes : () -> Int? =  {
+        score()?.let {
+            var scoreLevel: String? = null
+            for(level in questionnaire.levels)
+            {
+                if (it in level.min .. level.max)
+                {
+                    scoreLevel = level.internalLabel
+                    break
+                }
+            }
+            decodeScoreLevel(scoreLevel,questionnaire)
+        }
+        null
+    }
+
     BienestarEmocionalTheme(darkTheme = true) {
         QuestionnaireScreen(
             state = QuestionnaireState.InProgress,
@@ -446,6 +490,7 @@ fun QuestionnaireScreenPreviewDarkTheme()
                     .filterNotNull()
             },
             getScore = score,
+            getScoreLevel = scoreLevelRes,
             onAnswer = { question, answer -> answers[question] = answer },
             onInProgress = {},
             onSkippingAttempt = {},
@@ -600,7 +645,10 @@ fun OptionCardSelectedDarkThemePreview()
 fun SummaryPreview()
 {
     BienestarEmocionalTheme {
-        Summary(score = 10, questionnaire = Questionnaire.PHQ, onSucess = {})
+        Summary(score = 10,
+            scoreLevel = R.string.moderate,
+            questionnaire = Questionnaire.PHQ,
+            onSucess = {})
     }
 }
 
@@ -609,6 +657,9 @@ fun SummaryPreview()
 fun SummaryDarkThemePreview()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        Summary(score = 10, questionnaire = Questionnaire.PHQ, onSucess = {})
+        Summary(score = 10,
+            scoreLevel = R.string.moderate,
+            questionnaire = Questionnaire.PHQ,
+            onSucess = {})
     }
 }

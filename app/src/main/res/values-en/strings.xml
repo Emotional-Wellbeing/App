@@ -169,4 +169,11 @@
     <string name="permission_for_exact_notifications_body">Adjust app exact notifications</string>
     <string name="application_settings">General app settings</string>
     <string name="application_settings_label">Access Android\'s app settings: Power consumption, notifications…</string>
+    <string name="minimal">Minimal</string>
+    <string name="mild">Mild</string>
+    <string name="moderate">Moderate</string>
+    <string name="moderately_severe">Moderately severe</string>
+    <string name="severe">Severe</string>
+    <string name="low">Low</string>
+    <string name="high">High</string>
 </resources>

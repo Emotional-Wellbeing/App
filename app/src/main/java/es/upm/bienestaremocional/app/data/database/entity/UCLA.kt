@@ -19,6 +19,9 @@ data class UCLA(
     @ColumnInfo(name = "ucla_score")
     var score: Int? = null,
 
+    @ColumnInfo(name = "ucla_score_level")
+    var scoreLevel: String? = null,
+
     @ColumnInfo(name = "ucla_completed")
     var completed: Boolean = false,
 

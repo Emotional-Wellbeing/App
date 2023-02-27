@@ -95,6 +95,15 @@
     <string name="new_questionnaire_available_title">Nuevo cuestionario</string>
     <string name="new_questionnaire_available_content">¡Hola! Se ha abierto un nuevo cuestionario. Haz click para realizarlo.</string>
 
+    <!-- Levels -->
+    <string name="minimal">Minimo</string>
+    <string name="mild">Leve</string>
+    <string name="moderate">Moderado</string>
+    <string name="moderately_severe">Moderadamente severa</string>
+    <string name="severe">Severa</string>
+    <string name="low">Bajo</string>
+    <string name="high">Alto</string>
+
     <!-- Credits-->
     <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>
     <string name="credit_author_description">Autor del TFM Sistema para el Bienestar Emocional y principal autor de la aplicación.</string>

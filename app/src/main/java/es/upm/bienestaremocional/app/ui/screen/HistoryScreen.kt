@@ -11,14 +11,17 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
+import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
 import es.upm.bienestaremocional.app.ui.viewmodel.HistoryViewModel
+import es.upm.bienestaremocional.app.utils.decodeScoreLevel
 import es.upm.bienestaremocional.app.utils.formatUnixTimeStamp
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 
@@ -124,27 +127,33 @@ fun HistoryScreen(navigator: DestinationsNavigator,
                             Text(text = "Ronda: ${element.questionnaireRound.id}")
                             Text("Creado en : ${formatUnixTimeStamp(element.questionnaireRound.createdAt)}")
                             element.pss.let {
+                                val category = decodeScoreLevel(it.scoreLevel,Questionnaire.PSS)
                                 Text(text = "PSS:")
                                 Text("Id: ${element.pss.id}")
                                 Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
                                 Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
                                 Text("Score: ${it.score}")
+                                category?.let { c -> Text("Categoria: ${stringResource(c)}") }
                             }
 
                             element.phq?.let {
+                                val category = decodeScoreLevel(it.scoreLevel,Questionnaire.PHQ)
                                 Text(text = "PHQ:")
                                 Text("Id: ${it.id}")
                                 Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
                                 Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
                                 Text("Score: ${it.score}")
+                                category?.let { c -> Text("Categoria: ${stringResource(c)}") }
                             }
 
                             element.ucla?.let {
+                                val category = decodeScoreLevel(it.scoreLevel,Questionnaire.UCLA)
                                 Text(text = "UCLA:")
                                 Text("Id: ${it.id}")
                                 Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
                                 Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
                                 Text("Score: ${it.score}")
+                                category?.let { c -> Text("Categoria: ${stringResource(c)}") }
                             }
                         }
                     }

@@ -13,37 +13,55 @@ enum class Questionnaire(val id: String,
                          @ArrayRes val answerRes: Int,
                          val numberOfQuestions : Int,
                          val questionScoreOffset : Int,
-                         val questionsWithInvertedScore : Set<Int> = setOf()
+                         val questionsWithInvertedScore : Set<Int> = setOf(),
+                         val levels: List<ScoreLevel>
 )
 {
-    PSS("pss",
-        true,
-        R.string.pss_label,
-        R.array.pss_questions,
-        R.array.five_answers_questionnaire,
-        10,
+    PSS(id = "pss",
+        mandatory = true,
+        labelRes = R.string.pss_label,
+        questionRes = R.array.pss_questions,
+        answerRes = R.array.five_answers_questionnaire,
+        numberOfQuestions = 10,
         //5,
-        0,
-        setOf(3,4,5,6)
+        questionScoreOffset = 0,
+        questionsWithInvertedScore = setOf(3,4,5,6),
+        levels = listOf(
+            ScoreLevel(0,13,"low",R.string.low),
+            ScoreLevel(14,26,"moderate",R.string.moderate),
+            ScoreLevel(27,40,"high",R.string.high),
+        )
     ),
-    PHQ("phq",
-        false,
-        R.string.phq_label,
-        R.array.phq_questions,
-        R.array.four_answers_questionnaire,
-        9,
+    PHQ(id = "phq",
+        mandatory = false,
+        labelRes = R.string.phq_label,
+        questionRes = R.array.phq_questions,
+        answerRes = R.array.four_answers_questionnaire,
+        numberOfQuestions = 9,
         //4,
-        0,
+        questionScoreOffset = 0,
+        levels = listOf(
+            ScoreLevel(0,4,"minimal",R.string.minimal),
+            ScoreLevel(5,9,"mild",R.string.mild),
+            ScoreLevel(10,14,"moderate",R.string.moderate),
+            ScoreLevel(15,19,"moderate_severe",R.string.moderately_severe),
+            ScoreLevel(20,27,"severe",R.string.severe),
+        )
     ),
-    UCLA("ucla",
-        false,
-        R.string.ucla_label,
-        R.array.ucla_questions,
-        R.array.four_answers_questionnaire,
-        20,
+    UCLA(id = "ucla",
+        mandatory = false,
+        labelRes = R.string.ucla_label,
+        questionRes = R.array.ucla_questions,
+        answerRes = R.array.four_answers_questionnaire,
+        numberOfQuestions = 20,
         //4,
-        1,
-        setOf(0, 4, 5, 8, 9, 14, 15, 18, 19)
+        questionScoreOffset =1,
+        questionsWithInvertedScore = setOf(0, 4, 5, 8, 9, 14, 15, 18, 19),
+        levels = listOf(
+            ScoreLevel(20,40,"low",R.string.low),
+            ScoreLevel(40,60,"moderate",R.string.moderate),
+            ScoreLevel(60,80,"high",R.string.high),
+        )
     );
 
     companion object
@@ -72,8 +90,7 @@ enum class Questionnaire(val id: String,
          */
         @Composable
         fun getOptionalLabels(): List<String> {
-            val aux = getOptional().map { stringResource(id = it.labelRes)  }
-            return aux
+            return getOptional().map { stringResource(id = it.labelRes) }
         }
 
         /**
