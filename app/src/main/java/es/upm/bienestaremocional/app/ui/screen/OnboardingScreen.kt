@@ -6,6 +6,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,7 +28,6 @@ import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalPagerApi::class)
 @Destination
 @Composable
 fun OnboardingScreen(navigator: DestinationsNavigator,
@@ -35,11 +35,7 @@ fun OnboardingScreen(navigator: DestinationsNavigator,
                      viewModel: OnboardingViewModel = hiltViewModel()
 )
 {
-    val pagerState = rememberPagerState()
     OnboardingScreen(windowSize = windowSize,
-        pagerState = pagerState,
-        onPreviousPage = {viewModel.onPreviousPage(pagerState)},
-        onNextPage =  {viewModel.onNextPage(pagerState)},
         onFinish = {
             viewModel.onFinish()
             navigator.popBackStack()
@@ -51,18 +47,18 @@ fun OnboardingScreen(navigator: DestinationsNavigator,
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun OnboardingScreen(windowSize: WindowSize,
-                             pagerState: PagerState,
-                             onNextPage: () -> Unit,
-                             onPreviousPage: () -> Unit,
                              onFinish: () -> Unit)
 {
+    val items = remember {OnboardingContent.content}
+    val pagerState = rememberPagerState()
+
     Surface()
     {
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(16.dp))
         {
-            val items = OnboardingContent.content
+
             HorizontalPager(
                 count = items.size,
                 state = pagerState,
@@ -72,8 +68,6 @@ private fun OnboardingScreen(windowSize: WindowSize,
                     page -> DrawPage(horizontalPagerContent = items[page],
                 pagerState = pagerState,
                 windowSize = windowSize,
-                onNextPage = onNextPage,
-                onPreviousPage = onPreviousPage,
                 onFinish = onFinish)
             }
         }
@@ -85,13 +79,30 @@ private fun OnboardingScreen(windowSize: WindowSize,
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
-             pagerState : PagerState,
-             windowSize: WindowSize,
-             onNextPage: () -> Unit,
-             onPreviousPage: () -> Unit,
-             onFinish: () -> Unit
+                     pagerState : PagerState,
+                     windowSize: WindowSize,
+                     onFinish: () -> Unit
 )
 {
+    val coroutineScope = rememberCoroutineScope()
+    val onPreviousPage : () -> Unit = {
+        coroutineScope.launch {
+            pagerState.animateScrollToPage(
+                pagerState.currentPage - 1,
+                pagerState.currentPageOffset
+            )
+        }
+    }
+    val onNextPage : () -> Unit = {
+        coroutineScope.launch {
+            pagerState.animateScrollToPage(
+                pagerState.currentPage + 1,
+                pagerState.currentPageOffset
+            )
+        }
+    }
+
+
     //content
     Column(modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -186,7 +197,6 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
  * shown successfully
  */
 
-@OptIn(ExperimentalPagerApi::class)
 @Preview(
     showBackground = true,
     group = "Light Theme"
@@ -194,29 +204,8 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
 @Composable
 fun OnboardingScreenPreview()
 {
-    val pagerState = rememberPagerState()
-    val coroutineScope = rememberCoroutineScope()
-    val onPreviousPage : () -> Unit = {
-        coroutineScope.launch {
-            pagerState.animateScrollToPage(
-                pagerState.currentPage - 1,
-                pagerState.currentPageOffset
-            )
-        }
-    }
-    val onNextPage : () -> Unit = {
-        coroutineScope.launch {
-            pagerState.animateScrollToPage(
-                pagerState.currentPage + 1,
-                pagerState.currentPageOffset
-            )
-        }
-    }
     BienestarEmocionalTheme {
         OnboardingScreen(windowSize = WindowSize.COMPACT,
-            pagerState = pagerState,
-            onPreviousPage = onPreviousPage,
-            onNextPage = onNextPage,
             onFinish = {})
     }
 }
@@ -229,35 +218,12 @@ fun OnboardingScreenPreview()
 @Composable
 fun OnboardingScreenPreviewDarkTheme()
 {
-    val pagerState = rememberPagerState()
-    val coroutineScope = rememberCoroutineScope()
-    val onPreviousPage : () -> Unit = {
-        coroutineScope.launch {
-            pagerState.animateScrollToPage(
-                pagerState.currentPage - 1,
-                pagerState.currentPageOffset
-            )
-        }
-    }
-    val onNextPage : () -> Unit = {
-        coroutineScope.launch {
-            pagerState.animateScrollToPage(
-                pagerState.currentPage + 1,
-                pagerState.currentPageOffset
-            )
-        }
-    }
-
     BienestarEmocionalTheme(darkTheme = true) {
         OnboardingScreen(windowSize = WindowSize.COMPACT,
-            pagerState = pagerState,
-            onPreviousPage = onPreviousPage,
-            onNextPage = onNextPage,
             onFinish = {})
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Preview(
     showBackground = true,
     group = "Light Theme"
@@ -265,35 +231,12 @@ fun OnboardingScreenPreviewDarkTheme()
 @Composable
 fun OnboardingScreenNotCompactPreview()
 {
-    val pagerState = rememberPagerState()
-    val coroutineScope = rememberCoroutineScope()
-    val onPreviousPage : () -> Unit = {
-        coroutineScope.launch {
-            pagerState.animateScrollToPage(
-                pagerState.currentPage - 1,
-                pagerState.currentPageOffset
-            )
-        }
-    }
-    val onNextPage : () -> Unit = {
-        coroutineScope.launch {
-            pagerState.animateScrollToPage(
-                pagerState.currentPage + 1,
-                pagerState.currentPageOffset
-            )
-        }
-    }
-
     BienestarEmocionalTheme {
         OnboardingScreen(windowSize = WindowSize.MEDIUM,
-            pagerState = pagerState,
-            onPreviousPage = onPreviousPage,
-            onNextPage = onNextPage,
             onFinish = {})
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Preview(
     showBackground = true,
     group = "Dark Theme"
@@ -301,29 +244,8 @@ fun OnboardingScreenNotCompactPreview()
 @Composable
 fun OnboardingScreenNotCompactPreviewDarkTheme()
 {
-    val pagerState = rememberPagerState()
-    val coroutineScope = rememberCoroutineScope()
-    val onPreviousPage : () -> Unit = {
-        coroutineScope.launch {
-            pagerState.animateScrollToPage(
-                pagerState.currentPage - 1,
-                pagerState.currentPageOffset
-            )
-        }
-    }
-    val onNextPage : () -> Unit = {
-        coroutineScope.launch {
-            pagerState.animateScrollToPage(
-                pagerState.currentPage + 1,
-                pagerState.currentPageOffset
-            )
-        }
-    }
     BienestarEmocionalTheme(darkTheme = true) {
         OnboardingScreen(windowSize = WindowSize.MEDIUM,
-            pagerState = pagerState,
-            onPreviousPage = onPreviousPage,
-            onNextPage = onNextPage,
             onFinish = {})
     }
 }
