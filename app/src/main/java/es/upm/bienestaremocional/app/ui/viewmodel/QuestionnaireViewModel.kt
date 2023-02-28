@@ -7,12 +7,12 @@ import es.upm.bienestaremocional.app.data.database.entity.PHQ
 import es.upm.bienestaremocional.app.data.database.entity.PSS
 import es.upm.bienestaremocional.app.data.database.entity.UCLA
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.app.data.questionnaire.ScoreLevel
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PHQRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
 import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireScreenDestination
 import es.upm.bienestaremocional.app.ui.state.QuestionnaireState
-import es.upm.bienestaremocional.app.utils.decodeScoreLevel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -67,9 +67,12 @@ class QuestionnaireViewModel @Inject constructor(
             {
                 var auxiliarScore = 0
                 answers.forEachIndexed { index, answer ->
-                    var tempScore = (answer?.plus(questionnaire.questionScoreOffset)!!)
+
+                    var tempScore = answer!!
                     if (questionnaire.questionsWithInvertedScore.contains(index))
-                        tempScore = questionnaire.numberOfQuestions - 1 - tempScore
+                        tempScore = questionnaire.numberOfAnswers - 1 - tempScore
+                    tempScore += questionnaire.questionScoreOffset
+
                     auxiliarScore += tempScore
                 }
                 auxiliarScore
@@ -78,17 +81,17 @@ class QuestionnaireViewModel @Inject constructor(
                 null
         }
 
-    private val scoreLevel : String?
+    val scoreLevel : ScoreLevel?
         get()
         {
             return if (questionnaireFulfilled)
             {
-                var scoreLevel: String? = null
+                var scoreLevel: ScoreLevel? = null
                 for(level in questionnaire.levels)
                 {
                     if (score in level.min .. level.max)
                     {
-                        scoreLevel = level.internalLabel
+                        scoreLevel = level
                         break
                     }
                 }
@@ -98,8 +101,6 @@ class QuestionnaireViewModel @Inject constructor(
                 null
         }
 
-    val scoreLevelRes : Int?
-        get() = decodeScoreLevel(scoreLevel,questionnaire)
 
     private fun setAnswer(questionIndex: Int, answerIndex: Int) {
         if (questionIndex < questionnaire.numberOfQuestions)
@@ -253,7 +254,7 @@ class QuestionnaireViewModel @Inject constructor(
     private fun setPSS(pss: PSS) {
         pss.apply {
             score = this@QuestionnaireViewModel.score
-            scoreLevel = this@QuestionnaireViewModel.scoreLevel
+            scoreLevel = this@QuestionnaireViewModel.scoreLevel?.levelLabel?.id
             completed = this@QuestionnaireViewModel.questionnaireFulfilled
             answer1 = this@QuestionnaireViewModel.answers.getOrNull(0)
             answer2 = this@QuestionnaireViewModel.answers.getOrNull(1)
@@ -271,7 +272,7 @@ class QuestionnaireViewModel @Inject constructor(
     private fun setPHQ(phq: PHQ) {
         phq.apply {
             score = this@QuestionnaireViewModel.score
-            scoreLevel = this@QuestionnaireViewModel.scoreLevel
+            scoreLevel = this@QuestionnaireViewModel.scoreLevel?.levelLabel?.id
             completed = this@QuestionnaireViewModel.questionnaireFulfilled
             answer1 = this@QuestionnaireViewModel.answers.getOrNull(0)
             answer2 = this@QuestionnaireViewModel.answers.getOrNull(1)
@@ -288,7 +289,7 @@ class QuestionnaireViewModel @Inject constructor(
     private fun setUCLA(ucla: UCLA) {
         ucla.apply {
             score = this@QuestionnaireViewModel.score
-            scoreLevel = this@QuestionnaireViewModel.scoreLevel
+            scoreLevel = this@QuestionnaireViewModel.scoreLevel?.levelLabel?.id
             completed = this@QuestionnaireViewModel.questionnaireFulfilled
             answer1 = this@QuestionnaireViewModel.answers.getOrNull(0)
             answer2 = this@QuestionnaireViewModel.answers.getOrNull(1)

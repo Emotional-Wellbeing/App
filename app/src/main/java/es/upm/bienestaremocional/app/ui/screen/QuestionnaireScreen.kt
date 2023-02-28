@@ -26,9 +26,9 @@ import com.google.accompanist.pager.*
 import com.ramcosta.composedestinations.annotation.Destination
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.app.data.questionnaire.ScoreLevel
 import es.upm.bienestaremocional.app.ui.state.QuestionnaireState
 import es.upm.bienestaremocional.app.ui.viewmodel.QuestionnaireViewModel
-import es.upm.bienestaremocional.app.utils.decodeScoreLevel
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
@@ -51,7 +51,7 @@ fun QuestionnaireScreen(questionnaire: Questionnaire,
         answerSelected = {index -> viewModel.getAnswer(index)},
         answersRemaining = { viewModel.answersRemaining },
         getScore = {viewModel.score},
-        getScoreLevel = { viewModel.scoreLevelRes },
+        getScoreLevel = { viewModel.scoreLevel?.levelLabel?.label },
         onAnswer = { question, answer -> viewModel.onAnswer(question,answer) },
         onInProgress = { viewModel.onInProgress() },
         onSkippingAttempt = { viewModel.onSkippingAttempt() },
@@ -406,16 +406,16 @@ fun QuestionnaireScreenPreview()
 
     val scoreLevelRes : () -> Int? =  {
         score()?.let {
-            var scoreLevel: String? = null
+            var scoreLevel: ScoreLevel? = null
             for(level in questionnaire.levels)
             {
                 if (it in level.min .. level.max)
                 {
-                    scoreLevel = level.internalLabel
+                    scoreLevel = level
                     break
                 }
             }
-            decodeScoreLevel(scoreLevel,questionnaire)
+            scoreLevel?.levelLabel?.label
         }
         null
     }
@@ -465,16 +465,16 @@ fun QuestionnaireScreenPreviewDarkTheme()
 
     val scoreLevelRes : () -> Int? =  {
         score()?.let {
-            var scoreLevel: String? = null
+            var scoreLevel: ScoreLevel? = null
             for(level in questionnaire.levels)
             {
                 if (it in level.min .. level.max)
                 {
-                    scoreLevel = level.internalLabel
+                    scoreLevel = level
                     break
                 }
             }
-            decodeScoreLevel(scoreLevel,questionnaire)
+            scoreLevel?.levelLabel?.label
         }
         null
     }

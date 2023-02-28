@@ -17,11 +17,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
-import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.app.data.questionnaire.LevelLabel
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
 import es.upm.bienestaremocional.app.ui.viewmodel.HistoryViewModel
-import es.upm.bienestaremocional.app.utils.decodeScoreLevel
 import es.upm.bienestaremocional.app.utils.formatUnixTimeStamp
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 
@@ -127,33 +126,33 @@ fun HistoryScreen(navigator: DestinationsNavigator,
                             Text(text = "Ronda: ${element.questionnaireRound.id}")
                             Text("Creado en : ${formatUnixTimeStamp(element.questionnaireRound.createdAt)}")
                             element.pss.let {
-                                val category = decodeScoreLevel(it.scoreLevel,Questionnaire.PSS)
+                                val level = LevelLabel.decodeFromId(it.scoreLevel)
                                 Text(text = "PSS:")
                                 Text("Id: ${element.pss.id}")
                                 Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
                                 Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
                                 Text("Score: ${it.score}")
-                                category?.let { c -> Text("Categoria: ${stringResource(c)}") }
+                                level?.let { l -> Text("Categoria: ${stringResource(l.label)}") }
                             }
 
                             element.phq?.let {
-                                val category = decodeScoreLevel(it.scoreLevel,Questionnaire.PHQ)
+                                val level = LevelLabel.decodeFromId(it.scoreLevel)
                                 Text(text = "PHQ:")
                                 Text("Id: ${it.id}")
                                 Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
                                 Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
                                 Text("Score: ${it.score}")
-                                category?.let { c -> Text("Categoria: ${stringResource(c)}") }
+                                level?.let { l -> Text("Categoria: ${stringResource(l.label)}") }
                             }
 
                             element.ucla?.let {
-                                val category = decodeScoreLevel(it.scoreLevel,Questionnaire.UCLA)
+                                val level = LevelLabel.decodeFromId(it.scoreLevel)
                                 Text(text = "UCLA:")
                                 Text("Id: ${it.id}")
                                 Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
                                 Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
                                 Text("Score: ${it.score}")
-                                category?.let { c -> Text("Categoria: ${stringResource(c)}") }
+                                level?.let { l -> Text("Categoria: ${stringResource(l.label)}") }
                             }
                         }
                     }
