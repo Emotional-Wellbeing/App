@@ -8,6 +8,9 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import es.upm.bienestaremocional.app.data.credits.Credit
 import es.upm.bienestaremocional.app.data.credits.CreditContent
 
+/**
+ * Contains various services used in viewmodel. These services are injected by Hilt
+ */
 @Module
 @InstallIn(ViewModelComponent::class)
 object UtilModule

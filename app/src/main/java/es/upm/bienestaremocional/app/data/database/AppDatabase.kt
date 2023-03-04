@@ -8,6 +8,9 @@ import es.upm.bienestaremocional.app.data.database.entity.PSS
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRound
 import es.upm.bienestaremocional.app.data.database.entity.UCLA
 
+/**
+ * Instance of app database
+ */
 @Database(entities = [QuestionnaireRound::class, PHQ::class, PSS::class, UCLA::class],
 version = 1,
 exportSchema = false)

@@ -12,6 +12,10 @@ import es.upm.bienestaremocional.core.ui.component.DrawPair
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
+/**
+ * Displays [ElevationGainedRecord]
+ * @param windowSize: [WindowSize] to modify the component according to the screen
+ */
 @Composable
 fun ElevationGainedRecord.Display(windowSize: WindowSize)
 {

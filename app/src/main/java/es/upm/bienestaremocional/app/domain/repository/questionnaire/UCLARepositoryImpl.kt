@@ -5,6 +5,10 @@ import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.UCLA
 import javax.inject.Inject
 
+/**
+ * Implementation of [UCLARepository]
+ * Ensures the establishment of the modifiedDate in update operations and logs all executions
+ */
 class UCLARepositoryImpl @Inject constructor (
     private val dao: AppDAO,
     private val logTag: String
@@ -29,7 +33,7 @@ class UCLARepositoryImpl @Inject constructor (
         return dao.getAllUCLA()
     }
 
-    override suspend fun get(id: Long): UCLA
+    override suspend fun get(id: Long): UCLA?
     {
         Log.d(logTag, "querying ucla with id: $id")
         return dao.getUCLA(id)

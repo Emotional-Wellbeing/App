@@ -50,7 +50,8 @@ class QuestionnaireRoundViewModel @Inject constructor(
 
     init {
         runBlocking {
-            questionnaireRound = questionnaireRoundRepository.get(questionnaireRoundReduced.qrId)
+            //we know that qrId is present in database due to we cannot delete questionnaire rounds
+            questionnaireRound = questionnaireRoundRepository.get(questionnaireRoundReduced.qrId)!!
             pss = questionnaireRoundReduced.pssId?.let { pssRepository.get(it) }
             phq = questionnaireRoundReduced.phqId?.let { phqRepository.get(it) }
             ucla = questionnaireRoundReduced.uclaId?.let { uclaRepository.get(it) }

@@ -6,6 +6,9 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.app.ui.screen.destinations.SplashScreenDestination
 
+/**
+ * Root screen of DestinationsNavigator
+ */
 @RootNavGraph(start = true)
 @Destination
 @Composable

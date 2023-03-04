@@ -21,6 +21,10 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
+/**
+ * Displays [Metadata]
+ * @param windowSize: [WindowSize] to modify the component according to the screen
+ */
 @Composable
 fun Metadata.Display(windowSize: WindowSize)
 {

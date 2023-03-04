@@ -24,6 +24,10 @@ data class SleepSessionData(
     override val metadata: Metadata = Metadata()
 ): Record
 {
+    /**
+     * Transform SleepSessionData to SleepSessionRecord
+     * @return The SleepSessionRecord created
+     */
     fun toSleepSessionRecord() : SleepSessionRecord =
         SleepSessionRecord(
             startTime = startTime,

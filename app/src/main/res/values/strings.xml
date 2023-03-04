@@ -6,6 +6,7 @@
     <string name="history_screen_label">Historial</string>
     <string name="trends_screen_label">Tendencias</string>
     <string name="settings_screen_label">Ajustes</string>
+    <string name="debug_screen_label">Debug</string>
 
     <!-- Notifications -->
     <string name="main_channel">Notificaciones generales</string>

@@ -176,4 +176,5 @@
     <string name="severe">Severe</string>
     <string name="low">Low</string>
     <string name="high">High</string>
+    <string name="debug_screen_label">Debug</string>
 </resources>

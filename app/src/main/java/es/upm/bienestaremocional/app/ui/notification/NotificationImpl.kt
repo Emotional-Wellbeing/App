@@ -21,8 +21,8 @@ import androidx.core.net.toUri
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.MainActivity
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
-import es.upm.bienestaremocional.app.data.settings.AppChannels
-import es.upm.bienestaremocional.app.data.settings.NOTIFICATION_REQUEST_CODE
+import es.upm.bienestaremocional.app.data.notification.NOTIFICATION_REQUEST_CODE
+import es.upm.bienestaremocional.app.data.notification.NotificationChannels
 import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
 import kotlinx.coroutines.async
 
@@ -33,6 +33,7 @@ class NotificationImpl(private val context: Context,
     //since we don't edit notifications, this code is id to fire and forget
     private var notificationId = 0
 
+    private val taskStackBuilder = TaskStackBuilder.create(context)
 
     override fun hasNotificationPermission(): Boolean
     {
@@ -58,7 +59,9 @@ class NotificationImpl(private val context: Context,
         Log.d(logTag,"RequestNotificationPermission")
         LaunchedEffect(true)
         {
-            val launchCall = this.async {permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)}
+            val launchCall = this.async {
+                permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
             launchCall.await()
         }
     }
@@ -77,7 +80,7 @@ class NotificationImpl(private val context: Context,
 
         if(hasNotificationPermission())
             showAccionableNotification(
-                channelId = AppChannels.Questionnaire.channelId,
+                channelId = NotificationChannels.Questionnaire.id,
                 textTitle = textTitle,
                 textContent = textContent,
                 pendingIntent = pendingIntent
@@ -166,10 +169,11 @@ class NotificationImpl(private val context: Context,
             context,
             MainActivity::class.java
         )
-        return TaskStackBuilder.create(context).run {
+        return taskStackBuilder.run {
             addNextIntentWithParentStack(intent)
             //PendingIntent.FLAG_IMMUTABLE for SDK 31 and above
-            getPendingIntent(NOTIFICATION_REQUEST_CODE, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            getPendingIntent(NOTIFICATION_REQUEST_CODE,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         }
     }
 }

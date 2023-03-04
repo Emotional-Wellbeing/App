@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Mapping of PHQ table
+ */
 @Entity(tableName = "phq")
 data class PHQ(
     @PrimaryKey(autoGenerate = true)

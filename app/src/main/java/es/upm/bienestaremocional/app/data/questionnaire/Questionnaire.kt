@@ -6,6 +6,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import es.upm.bienestaremocional.R
 
+/**
+ * Information of the available Questionnaire on the app
+ * @param id: String to identify unequivocally the questionnaire
+ * @param mandatory: Boolean to set if the user must do the questionnaire
+ * @param labelRes: StringResource with the label to present the questionnaire
+ * @param questionRes: ArrayResource with the questions available in the questionnaire
+ * @param answerRes: ArrayResource with the answers available in the questionnaire
+ * @param numberOfQuestions: Number of the questions in the questionnaire
+ * @param numberOfAnswers: Number of the answers in the questionnaire
+ * @param questionScoreOffset: Offset of the score of each question of the answer
+ * @param questionsWithInvertedScore: Set with the indexes of the inverted score questions
+ * @param levels: List of the ScoreLevel of the questionnaire
+ */
 enum class Questionnaire(val id: String,
                          val mandatory : Boolean,
                          @StringRes val labelRes: Int,
@@ -90,9 +103,8 @@ enum class Questionnaire(val id: String,
          * @return [List] of [String] with the labels
          */
         @Composable
-        fun getOptionalLabels(): List<String> {
-            return getOptional().map { stringResource(id = it.labelRes) }
-        }
+        fun getOptionalLabels(): List<String> =
+            getOptional().map { stringResource(id = it.labelRes) }
 
         /**
          * Obtain a Questionnaire from its id, or null if the string doesn't match a Questionnaire
@@ -101,6 +113,7 @@ enum class Questionnaire(val id: String,
         fun decode(id: String): Questionnaire? =
             when(id)
             {
+                PSS.id -> PSS
                 PHQ.id -> PHQ
                 UCLA.id -> UCLA
                 else -> null

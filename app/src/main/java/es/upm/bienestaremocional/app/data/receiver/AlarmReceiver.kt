@@ -16,7 +16,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 /**
- * This receiver is executed when an alarm is produced
+ * This receiver is called when an alarm is executed
  */
 @AndroidEntryPoint
 class AlarmReceiver : BroadcastReceiver()

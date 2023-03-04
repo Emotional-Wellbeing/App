@@ -51,7 +51,6 @@ fun TrendsScreen(navigator: DestinationsNavigator)
 @Composable
 fun TrendsScreenPreview()
 {
-
     BienestarEmocionalTheme {
         TrendsScreen(EmptyDestinationsNavigator)
     }
@@ -64,7 +63,6 @@ fun TrendsScreenPreview()
 @Composable
 fun TrendsScreenPreviewDarkTheme()
 {
-
     BienestarEmocionalTheme(darkTheme = true) {
         TrendsScreen(EmptyDestinationsNavigator)
     }

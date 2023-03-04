@@ -23,6 +23,11 @@ import es.upm.bienestaremocional.core.ui.component.DrawPair
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
+/**
+ * Displays [BodyTemperatureRecord]
+ * @param windowSize: [WindowSize] to modify the component according to the screen
+ */
+
 @Composable
 fun BodyTemperatureRecord.Display(windowSize: WindowSize)
 {
@@ -54,7 +59,7 @@ fun BodyTemperatureRecord.decodeMeasurementLocation(): String =
         else -> stringResource(R.string.unknown)
     }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun BodyTemperatureRecordDisplayPreview()
 {
@@ -63,7 +68,7 @@ fun BodyTemperatureRecordDisplayPreview()
         bodyTemperatureRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun BodyTemperatureRecordDisplayPreviewDarkTheme()
 {
@@ -72,7 +77,7 @@ fun BodyTemperatureRecordDisplayPreviewDarkTheme()
         bodyTemperatureRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun BodyTemperatureRecordDisplayLargeScreenPreview()
 {
@@ -81,7 +86,7 @@ fun BodyTemperatureRecordDisplayLargeScreenPreview()
         bodyTemperatureRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun BodyTemperatureRecordDisplayLargeScreenPreviewDarkTheme()
 {

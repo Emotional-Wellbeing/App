@@ -21,7 +21,9 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
  * @param animationLoop: Indicate if the animation should be animate repeatedly or once
  */
 @Composable
-fun DisplayLottieAnimation(@RawRes rawRes: Int, modifier: Modifier = Modifier, animationLoop : Boolean = true)
+fun DisplayLottieAnimation(@RawRes rawRes: Int,
+                           modifier: Modifier = Modifier,
+                           animationLoop : Boolean = true)
 {
 
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(rawRes))

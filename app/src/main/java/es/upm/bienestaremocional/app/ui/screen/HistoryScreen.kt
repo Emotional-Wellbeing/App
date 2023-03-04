@@ -12,10 +12,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
 import es.upm.bienestaremocional.app.data.questionnaire.LevelLabel
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
@@ -23,6 +25,7 @@ import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundSc
 import es.upm.bienestaremocional.app.ui.viewmodel.HistoryViewModel
 import es.upm.bienestaremocional.app.utils.formatUnixTimeStamp
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
+import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
  * Plots graphics about user's history
@@ -45,8 +48,6 @@ fun HistoryScreen(navigator: DestinationsNavigator,
         historyViewModel.fetchIncompletedQuestionnaireRounds()
         historyViewModel.fetchAllQuestionnaireRounds()
     }
-
-
 
     AppBasicScreen(navigator = navigator,
         entrySelected = BottomBarDestination.HistoryScreen,
@@ -126,33 +127,42 @@ fun HistoryScreen(navigator: DestinationsNavigator,
                             Text(text = "Ronda: ${element.questionnaireRound.id}")
                             Text("Creado en : ${formatUnixTimeStamp(element.questionnaireRound.createdAt)}")
                             element.pss.let {
-                                val level = LevelLabel.decodeFromId(it.scoreLevel)
                                 Text(text = "PSS:")
                                 Text("Id: ${element.pss.id}")
                                 Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
                                 Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
                                 Text("Score: ${it.score}")
-                                level?.let { l -> Text("Categoria: ${stringResource(l.label)}") }
+                                it.scoreLevel?.let { sl ->
+                                    LevelLabel.decodeFromId(sl)?.let { l ->
+                                        Text("Categoria: ${stringResource(l.label)}")
+                                    }
+                                }
                             }
 
                             element.phq?.let {
-                                val level = LevelLabel.decodeFromId(it.scoreLevel)
                                 Text(text = "PHQ:")
                                 Text("Id: ${it.id}")
                                 Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
                                 Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
                                 Text("Score: ${it.score}")
-                                level?.let { l -> Text("Categoria: ${stringResource(l.label)}") }
+                                it.scoreLevel?.let { sl ->
+                                    LevelLabel.decodeFromId(sl)?.let { l ->
+                                        Text("Categoria: ${stringResource(l.label)}")
+                                    }
+                                }
                             }
 
                             element.ucla?.let {
-                                val level = LevelLabel.decodeFromId(it.scoreLevel)
                                 Text(text = "UCLA:")
                                 Text("Id: ${it.id}")
                                 Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
                                 Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
                                 Text("Score: ${it.score}")
-                                level?.let { l -> Text("Categoria: ${stringResource(l.label)}") }
+                                it.scoreLevel?.let { sl ->
+                                    LevelLabel.decodeFromId(sl)?.let { l ->
+                                        Text("Categoria: ${stringResource(l.label)}")
+                                    }
+                                }
                             }
                         }
                     }
@@ -166,8 +176,6 @@ fun HistoryScreen(navigator: DestinationsNavigator,
     }
 }
 
-
-/*
 @Preview(
     showBackground = true,
     group = "Light Theme"
@@ -190,4 +198,4 @@ fun HistoryScreenPreviewDarkTheme()
     BienestarEmocionalTheme(darkTheme = true) {
         HistoryScreen(EmptyDestinationsNavigator)
     }
-}*/
+}

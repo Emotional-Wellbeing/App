@@ -29,6 +29,10 @@ import es.upm.bienestaremocional.core.ui.component.DrawPair
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
+/**
+ * Displays [SleepSessionData]
+ * @param windowSize: [WindowSize] to modify the component according to the screen
+ */
 @Composable
 fun SleepSessionData.Display(windowSize: WindowSize)
 {
@@ -91,7 +95,7 @@ fun SleepStageRecord.decode(): String =
         else -> stringResource(R.string.unknown)
     }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun SleepSessionDataDisplayPreview()
 {
@@ -101,7 +105,7 @@ fun SleepSessionDataDisplayPreview()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun SleepSessionDataDisplayPreviewDarkTheme()
 {
@@ -111,7 +115,7 @@ fun SleepSessionDataDisplayPreviewDarkTheme()
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun SleepSessionDataDisplayLargeScreenPreview()
 {
@@ -121,7 +125,7 @@ fun SleepSessionDataDisplayLargeScreenPreview()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun SleepSessionDataDisplayLargeScreenPreviewDarkTheme()
 {
@@ -131,7 +135,7 @@ fun SleepSessionDataDisplayLargeScreenPreviewDarkTheme()
     }
 }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun SleepStageDisplayPreview()
 {
@@ -141,7 +145,7 @@ fun SleepStageDisplayPreview()
     }
 }
 
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun SleepStageDisplayPreviewDarkTheme()
 {

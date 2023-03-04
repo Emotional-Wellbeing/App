@@ -5,6 +5,10 @@ import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundFull
 import javax.inject.Inject
 
+/**
+ * Implementation of [QuestionnaireRoundFullRepository]
+ * Logs all executions
+ */
 class QuestionnaireRoundFullRepositoryImpl @Inject constructor (
     private val dao: AppDAO,
     private val logTag: String

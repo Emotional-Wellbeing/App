@@ -3,6 +3,11 @@ package es.upm.bienestaremocional.app.data.questionnaire
 import androidx.annotation.StringRes
 import es.upm.bienestaremocional.R
 
+/**
+ * Contains available levels of the results of the questionnaires
+ * @param id: String with the id used to save in database
+ * @param label: StringResource with the label used to show in screens
+ */
 enum class LevelLabel(
     val id: String,
     @StringRes val label: Int
@@ -18,7 +23,12 @@ enum class LevelLabel(
 
     companion object
     {
-        fun decodeFromId(id: String?) : LevelLabel?
+        /**
+         * Obtain the LevelLabel from their id
+         * @param id: The id to query
+         * @return The LevelLabel if the id matches with any LevelLabel or null if doesn't
+         */
+        fun decodeFromId(id: String) : LevelLabel?
         {
             return when(id)
             {
@@ -33,6 +43,4 @@ enum class LevelLabel(
             }
         }
     }
-    
-    
 }

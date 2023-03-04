@@ -5,6 +5,10 @@ import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.PHQ
 import javax.inject.Inject
 
+/**
+ * Implementation of [PHQRepository]
+ * Ensures the establishment of the modifiedDate in update operations and logs all executions
+ */
 class PHQRepositoryImpl @Inject constructor(
     private val dao: AppDAO,
     private val logTag: String
@@ -29,7 +33,7 @@ class PHQRepositoryImpl @Inject constructor(
         return dao.getAllPHQ()
     }
 
-    override suspend fun get(id: Long): PHQ
+    override suspend fun get(id: Long): PHQ?
     {
         Log.d(logTag, "querying phq with id: $id")
         return dao.getPHQ(id)

@@ -29,6 +29,10 @@ import es.upm.bienestaremocional.core.ui.component.DrawPair
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
+/**
+ * Displays [BloodGlucoseRecord]
+ * @param windowSize: [WindowSize] to modify the component according to the screen
+ */
 @Composable
 fun BloodGlucoseRecord.Display(windowSize: WindowSize)
 {
@@ -81,7 +85,7 @@ fun BloodGlucoseRecord.decodeRelationToMeal(): String =
         RELATION_TO_MEAL_AFTER_MEAL -> stringResource(R.string.after_meal)
         else -> stringResource(R.string.unknown)
     }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun BloodGlucoseRecordDisplayPreview()
 {
@@ -90,7 +94,7 @@ fun BloodGlucoseRecordDisplayPreview()
         bloodGlucoseRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun BloodGlucoseRecordDisplayPreviewDarkTheme()
 {
@@ -99,7 +103,7 @@ fun BloodGlucoseRecordDisplayPreviewDarkTheme()
         bloodGlucoseRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun BloodGlucoseRecordDisplayLargeScreenPreview()
 {
@@ -108,7 +112,7 @@ fun BloodGlucoseRecordDisplayLargeScreenPreview()
         bloodGlucoseRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun BloodGlucoseRecordDisplayLargeScreenPreviewDarkTheme()
 {

@@ -1,20 +1,23 @@
-package es.upm.bienestaremocional.app.data.settings
+package es.upm.bienestaremocional.app.data.language
 
 import android.content.Context
 import com.yariksoffice.lingver.Lingver
 import java.util.*
 
-class LanguageManager(private val lingver: Lingver)
+/**
+ * Contains the operations related to language
+ */
+class LanguageManagerImpl(private val lingver: Lingver): LanguageManager
 {
     private val supportedLocale : List<Locale> = listOf(Locale("es"), Locale("en"))
 
-    fun getSupportedLocalesLabel() : List<String> =
+    override fun getSupportedLocalesLabel() : List<String> =
         supportedLocale.map { it.displayLanguage.capitalized() }
 
-    fun getLocale(): Int =
+    override fun getLocale(): Int =
         supportedLocale.indexOf(lingver.getLocale())
 
-    fun changeLocale(context: Context, index: Int) =
+    override fun changeLocale(context: Context, index: Int): Unit? =
         supportedLocale.getOrNull(index)?.let {
             lingver.setLocale(context,it)
         }

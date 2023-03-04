@@ -5,6 +5,10 @@ import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.PSS
 import javax.inject.Inject
 
+/**
+ * Implementation of [PSSRepository]
+ * Ensures the establishment of the modifiedDate in update operations and logs all executions
+ */
 class PSSRepositoryImpl @Inject constructor(
     private val dao: AppDAO,
     private val logTag: String
@@ -29,7 +33,7 @@ class PSSRepositoryImpl @Inject constructor(
         return dao.getAllPSS()
     }
 
-    override suspend fun get(id: Long): PSS
+    override suspend fun get(id: Long): PSS?
     {
         Log.d(logTag, "querying pss with id: $id")
         return dao.getPSS(id)

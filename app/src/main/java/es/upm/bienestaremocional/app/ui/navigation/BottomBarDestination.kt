@@ -31,4 +31,7 @@ enum class BottomBarDestination(val direction: DirectionDestination,
         label = R.string.settings_screen_label,
         icon = R.drawable.settings),
 
+    DebugScreen(direction = DebugScreenDestination,
+        label = R.string.debug_screen_label,
+        icon = R.drawable.developer_mode),
 }

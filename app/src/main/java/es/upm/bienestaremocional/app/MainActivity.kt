@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.window.layout.WindowMetricsCalculator
 import dagger.hilt.android.AndroidEntryPoint
 import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
-import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
+import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowSize
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity()
 {
     @Inject
-    lateinit var appSettings: AppSettingsInterface
+    lateinit var appSettings: AppSettings
     @Inject
     lateinit var scheduler: AlarmScheduler
 

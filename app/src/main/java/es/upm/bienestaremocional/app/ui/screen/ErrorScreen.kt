@@ -41,9 +41,7 @@ fun ErrorScreen(healthConnectAvailability: HealthConnectAvailability)
             }
         }
     }
-
 }
-
 
 @Preview(
     showBackground = true,

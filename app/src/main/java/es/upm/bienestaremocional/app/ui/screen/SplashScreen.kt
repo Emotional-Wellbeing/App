@@ -27,40 +27,9 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.delay
 
 /**
- * @Todo close app when we arrive this screen from other
+ * Splash screen of the app. Show the app icon and prompt runtime permissions like notifications
+ * or exact alarms
  */
-
-@Composable
-fun Splash(darkTheme: Boolean)
-{
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors =
-                    if (darkTheme)
-                        listOf(
-                            MaterialTheme.colorScheme.primaryContainer,
-                            MaterialTheme.colorScheme.onPrimary
-                        )
-                    else
-                        listOf(
-                            MaterialTheme.colorScheme.primary,
-                            MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                )
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(painter = painterResource(id = R.drawable.app_logo),
-            contentDescription = "Logo aplicación",
-            modifier = Modifier.fillMaxSize(0.66f))
-    }
-}
-
-
 @Destination
 @Composable
 fun SplashScreen(
@@ -102,11 +71,44 @@ fun SplashScreen(
             {
                 delay(1000)
 
-                navigator.popBackStack() //prevents a return to splash screen
+                navigator.popBackStack()
 
                 navigator.navigate(splashViewModel.noDialogAction())
             }
         }
+    }
+}
+
+/**
+ * Draw Splash feature (icon + background)
+ */
+@Composable
+private fun Splash(darkTheme: Boolean)
+{
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors =
+                    if (darkTheme)
+                        listOf(
+                            MaterialTheme.colorScheme.primaryContainer,
+                            MaterialTheme.colorScheme.onPrimary
+                        )
+                    else
+                        listOf(
+                            MaterialTheme.colorScheme.primary,
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                )
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(painter = painterResource(id = R.drawable.app_logo),
+            contentDescription = "Logo aplicación",
+            modifier = Modifier.fillMaxSize(0.66f))
     }
 }
 

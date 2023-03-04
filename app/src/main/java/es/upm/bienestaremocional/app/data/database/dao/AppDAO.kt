@@ -3,57 +3,125 @@ package es.upm.bienestaremocional.app.data.database.dao
 import androidx.room.*
 import es.upm.bienestaremocional.app.data.database.entity.*
 
+/**
+ * Dao with all the operations related to database
+ */
 @Dao
 interface AppDAO
 {
+    /**
+     * Insert a QuestionnaireRound in database
+     * @return The ID of QuestionnaireRound inserted
+     */
     @Insert
     suspend fun insert(questionnaireRound: QuestionnaireRound) : Long
 
+    /**
+     * Insert a PSS in database
+     * @return The ID of PSS inserted
+     */
     @Insert
     suspend fun insert(pss: PSS) : Long
 
+    /**
+     * Insert a PHQ in database
+     * @return The ID of PHQ inserted
+     */
     @Insert
     suspend fun insert(phq: PHQ) : Long
 
+    /**
+     * Insert a UCLA in database
+     * @return The ID of UCLA inserted
+     */
     @Insert
     suspend fun insert(ucla: UCLA) : Long
 
+    /**
+     * Update a QuestionnaireRound in database
+     */
     @Update
     suspend fun update(questionnaireRound: QuestionnaireRound)
 
+    /**
+     * Update a PSS in database
+     */
     @Update
     suspend fun update(pss: PSS)
 
+    /**
+     * Update a PHQ in database
+     */
     @Update
     suspend fun update(phq: PHQ)
 
+    /**
+     * Update a UCLA in database
+     */
     @Update
     suspend fun update(ucla: UCLA)
 
+    /**
+     * Query all QuestionnaireRounds in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
     @Query("SELECT * FROM questionnaire_round ORDER BY created_at DESC")
     suspend fun getAllQuestionnaireRound(): List<QuestionnaireRound>
 
+    /**
+     * Query all PSS questionnaires in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
     @Query("SELECT * FROM pss ORDER BY pss_created_at DESC")
     suspend fun getAllPSS(): List<PSS>
 
+    /**
+     * Query all PSS questionnaires in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
     @Query("SELECT * FROM phq ORDER BY phq_created_at DESC")
     suspend fun getAllPHQ(): List<PHQ>
 
+    /**
+     * Query all UCLA questionnaires in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
     @Query("SELECT * FROM ucla ORDER BY ucla_created_at DESC")
     suspend fun getAllUCLA(): List<UCLA>
 
+    /**
+     * Query the information of the QuestionnaireRound by their ID
+     * @return The QuestionnaireRound associated
+     */
     @Query("SELECT * FROM questionnaire_round WHERE id = :id")
-    suspend fun getQuestionnaireRound(id: Long): QuestionnaireRound
+    suspend fun getQuestionnaireRound(id: Long): QuestionnaireRound?
 
+    /**
+     * Query the information of the PSS questionnaire by their ID
+     * @return The PSS associated
+     */
     @Query("SELECT * FROM pss WHERE pss_id = :id")
-    suspend fun getPSS(id: Long): PSS
+    suspend fun getPSS(id: Long): PSS?
 
+    /**
+     * Query the information of the PHQ questionnaire by their ID
+     * @return The PHQ associated
+     */
     @Query("SELECT * FROM phq WHERE phq_id = :id")
-    suspend fun getPHQ(id: Long): PHQ
+    suspend fun getPHQ(id: Long): PHQ?
 
+    /**
+     * Query the information of the UCLA questionnaire by their ID
+     * @return The UCLA associated
+     */
     @Query("SELECT * FROM ucla WHERE ucla_id = :id")
-    suspend fun getUCLA(id: Long): UCLA
+    suspend fun getUCLA(id: Long): UCLA?
 
+
+    /**
+     * Query all QuestionnaireRoundFulls in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
     @Transaction
     @Query("SELECT qr.*, " +
             "pss.*, " +
@@ -66,6 +134,10 @@ interface AppDAO
             "ORDER BY qr.created_at DESC")
     suspend fun getAllQuestionnaireRoundFull(): List<QuestionnaireRoundFull>
 
+    /**
+     * Query a QuestionnaireRoundFull in database by their ID
+     * @return The associated QuestionnaireRoundFull
+     */
     @Transaction
     @Query("SELECT qr.*, " +
             "pss.*, " +
@@ -79,6 +151,10 @@ interface AppDAO
     )
     suspend fun getQuestionnaireRoundFull(id: Long): QuestionnaireRoundFull
 
+    /**
+     * Query all QuestionnaireRoundFulls uncompleted in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
     @Transaction
     @Query("SELECT qr.*, " +
             "pss.*, " +

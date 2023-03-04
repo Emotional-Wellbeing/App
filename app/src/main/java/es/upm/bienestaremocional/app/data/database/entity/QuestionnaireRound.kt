@@ -5,6 +5,12 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
+/**
+ * Mapping of Questionnaire Round table
+ * @see PSS
+ * @see PHQ
+ * @see UCLA
+ */
 @Entity(tableName = "questionnaire_round",
         foreignKeys = [
             ForeignKey(entity = PSS::class,

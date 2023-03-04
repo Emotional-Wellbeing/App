@@ -11,6 +11,9 @@ import es.upm.bienestaremocional.app.data.database.AppDatabase
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import javax.inject.Singleton
 
+/**
+ * Contains services injected by Hilt used for interact with database
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule

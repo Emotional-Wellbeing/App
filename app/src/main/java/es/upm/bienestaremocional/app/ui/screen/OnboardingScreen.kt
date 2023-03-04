@@ -28,6 +28,9 @@ import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
+/**
+ * Onboarding screen using a carrousel to display information
+ */
 @Destination
 @Composable
 fun OnboardingScreen(navigator: DestinationsNavigator,
@@ -75,7 +78,9 @@ private fun OnboardingScreen(windowSize: WindowSize,
 }
 
 
-
+/**
+ * Draws a single page of onboarding
+ */
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,

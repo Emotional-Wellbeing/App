@@ -20,6 +20,10 @@ import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import java.time.Duration
 
+/**
+ * Displays [HeartRateRecord]
+ * @param windowSize: [WindowSize] to modify the component according to the screen
+ */
 @Composable
 fun HeartRateRecord.Display(windowSize: WindowSize)
 {

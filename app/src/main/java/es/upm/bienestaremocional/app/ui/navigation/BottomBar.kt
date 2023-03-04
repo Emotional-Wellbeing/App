@@ -11,39 +11,54 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
+/**
+ * Draw the bottom bar of the application
+ * @param navigator: [DestinationsNavigator] to move between sceens
+ * @param entrySelected: [BottomBarDestination] to mark the selected entry
+ */
 @Composable
 fun BottomBar(
     navigator: DestinationsNavigator,
     entrySelected : BottomBarDestination?
-) {
+)
+{
     NavigationBar {
         BottomBarDestination.values().forEach { destination ->
-            BottomBarItem(selected = destination === entrySelected,
+            BottomBarItem(
+                icon = destination.icon,
+                label = destination.label,
+                selected = destination === entrySelected,
                 onClick = {
                     navigator.navigate(destination.direction) {
                         launchSingleTop = true
                     }},
-                icon = destination.icon,
-                label = destination.label)
+                )
         }
     }
 }
 
+/**
+ * Draw a single element inside a Row
+ * @param icon: DrawableRes with the icon of the screen
+ * @param label: StringRes with the label of the screen
+ * @param selected: If the current screen is selected or not
+ * @param onClick : fun to execute when the user presses the button
+ */
 @Composable
-fun RowScope.BottomBarItem(
+private fun RowScope.BottomBarItem(
+    @DrawableRes icon: Int,
+    @StringRes label: Int,
     selected : Boolean,
     onClick : () -> Unit,
-    @DrawableRes icon: Int,
-    @StringRes label: Int
 )
 {
-
     NavigationBarItem(
         selected = selected,
         onClick = onClick,
@@ -58,7 +73,9 @@ fun RowScope.BottomBarItem(
         label = {
             Text(
                 text = stringResource(id = label),
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
+                overflow = TextOverflow.Visible,
+                maxLines = 1
             )
         },
     )

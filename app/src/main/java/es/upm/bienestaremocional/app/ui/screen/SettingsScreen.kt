@@ -1,13 +1,14 @@
 package es.upm.bienestaremocional.app.ui.screen
 
-import android.app.Activity
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,38 +39,91 @@ import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.ui.screen.destinations.*
 import es.upm.bienestaremocional.app.ui.viewmodel.SettingsViewModel
 import es.upm.bienestaremocional.app.utils.android12OrAbove
+import es.upm.bienestaremocional.app.utils.getActivity
 import es.upm.bienestaremocional.app.utils.openForeignActivity
 import es.upm.bienestaremocional.app.utils.restartApp
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
+import kotlinx.coroutines.launch
 
+/**
+ * Public function to read SettingsScreen using [SettingsViewModel]
+ */
+@Destination
 @Composable
-private fun GroupText(@StringRes textRes : Int)
+fun SettingsScreen(navigator: DestinationsNavigator,
+                   viewModel: SettingsViewModel = hiltViewModel()
+)
 {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(start = 16.dp, bottom = 16.dp),
-        horizontalArrangement = Arrangement.Start)
-    {
-        Text(text = stringResource(textRes),
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.primary)
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    val restartToApplyChanges = stringResource(id = R.string.restart_apply_changes)
+    val restartApplyAllChanges = stringResource(id = R.string.restart_apply_all_changes)
+    val actionLabel = stringResource(id = R.string.restart)
+
+    val alarmFrequency = rememberIntSettingState(viewModel.loadAlarmFrequency())
+    val questionnaire = rememberIntSetSettingState(viewModel.loadQuestionnairesSelected())
+    val language = rememberIntSettingState(viewModel.loadLanguage())
+    val themeMode = rememberIntSettingState(viewModel.loadDarkMode())
+    val dynamicColor = rememberBooleanSettingState(viewModel.loadDynamicColors())
+
+    val android12OrAbove = android12OrAbove()
+    val languagesAvailable = viewModel.getLanguagesAvailable()
+
+    val onAlarmFrequencyChange : (Int) -> Unit  = { viewModel.changeAlarmFrequency(it)}
+    val onQuestionnairesChange : (Set<Int>) -> Unit = { viewModel.changeQuestionnairesSelected(it) }
+    val onLanguageChange : (Int) -> Unit = { lang ->
+        viewModel.changeLanguage(context, lang)
+        coroutineScope.launch {
+            showRestartInfo(snackbarHostState = snackbarHostState,
+                message = restartApplyAllChanges,
+                actionLabel = actionLabel,
+                context = context)
+        }
     }
+    val onThemeChange : (Int) -> Unit = { theme ->
+        viewModel.changeDarkMode(theme)
+        coroutineScope.launch {
+            showRestartInfo(snackbarHostState = snackbarHostState,
+                message = restartToApplyChanges,
+                actionLabel = actionLabel,
+                context = context)
+        }
+    }
+    val onDynamicChange : (Boolean) -> Unit = { dynamic ->
+        viewModel.changeDynamicColors(dynamic)
+        coroutineScope.launch {
+            showRestartInfo(snackbarHostState = snackbarHostState,
+                message = restartToApplyChanges,
+                actionLabel = actionLabel,
+                context = context)
+        }
+    }
+    val onSettingsApplication = { viewModel.openSettingsApplication(context) }
+    val onSettingsNotifications = { viewModel.openSettingsNotifications(context) }
+    val onSettingsExactNotifications = { viewModel.openSettingsExactNotifications(context) }
 
-}
-
-private fun Modifier.defaultIconModifier() = this.then(padding(all = 2.dp).size(size = 28.dp))
-
-
-private suspend fun showRestartInfo(snackbarHostState: SnackbarHostState,
-                                    message : String,
-                                    actionLabel : String,
-                                    context: Context)
-{
-    val result = snackbarHostState.showSnackbar(message = message, actionLabel = actionLabel,
-        withDismissAction = true, duration = SnackbarDuration.Long)
-    if (result === SnackbarResult.ActionPerformed)
-        restartApp(activity = context as Activity)
+    SettingsScreen(
+        navigator = navigator,
+        snackbarHostState = snackbarHostState,
+        alarmFrequency = alarmFrequency,
+        questionnaires = questionnaire,
+        language = language,
+        themeMode = themeMode,
+        dynamicColor = dynamicColor,
+        android12OrAbove = android12OrAbove,
+        languagesAvailable = languagesAvailable,
+        onAlarmFrequencyChange = onAlarmFrequencyChange,
+        onQuestionnairesChange = onQuestionnairesChange,
+        onLanguageChange = onLanguageChange,
+        onThemeChange = onThemeChange,
+        onDynamicChange = onDynamicChange,
+        onSettingsApplication = onSettingsApplication,
+        onSettingsNotifications = onSettingsNotifications,
+        onSettingsExactNotifications = onSettingsExactNotifications
+    )
 }
 
 /**
@@ -92,95 +146,30 @@ private suspend fun showRestartInfo(snackbarHostState: SnackbarHostState,
  * @param onSettingsExactNotifications: executed when user press exact notification's setting (Android 12+)
  */
 @Composable
-private fun DrawSettingsScreen(navigator: DestinationsNavigator,
-                               alarmFrequency: SettingValueState<Int>,
-                               questionnaires: SettingValueState<Set<Int>>,
-                               language: SettingValueState<Int>,
-                               themeMode: SettingValueState<Int>,
-                               dynamicColor : SettingValueState<Boolean>,
-                               android12OrAbove : Boolean,
-                               languagesAvailable : List<String>,
-                               onAlarmFrequencyChange : suspend (SettingValueState<Int>) -> Unit,
-                               onQuestionnairesChange : suspend (SettingValueState<Set<Int>>) -> Unit,
-                               onLanguageChange : @Composable (SettingValueState<Int>) -> Unit,
-                               onThemeChange : suspend (SettingValueState<Int>) -> Unit,
-                               onDynamicChange : suspend (SettingValueState<Boolean>) -> Unit,
-                               onSettingsApplication: () -> Unit,
-                               onSettingsNotifications: () -> Unit,
-                               onSettingsExactNotifications: () -> Unit
+private fun SettingsScreen(navigator: DestinationsNavigator,
+                           snackbarHostState: SnackbarHostState,
+                           alarmFrequency: SettingValueState<Int>,
+                           questionnaires: SettingValueState<Set<Int>>,
+                           language: SettingValueState<Int>,
+                           themeMode: SettingValueState<Int>,
+                           dynamicColor : SettingValueState<Boolean>,
+                           android12OrAbove : Boolean,
+                           languagesAvailable : List<String>,
+                           onAlarmFrequencyChange : (Int) -> Unit,
+                           onQuestionnairesChange :  (Set<Int>) -> Unit,
+                           onLanguageChange : (Int) -> Unit,
+                           onThemeChange : (Int) -> Unit,
+                           onDynamicChange : (Boolean) -> Unit,
+                           onSettingsApplication: () -> Unit,
+                           onSettingsNotifications: () -> Unit,
+                           onSettingsExactNotifications: () -> Unit
 )
 
 {
-    val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
     val windowSize = MainApplication.windowSize!!
 
-    //avoid undesired launch
-    val defaultAlarmFrequency : Int = remember { alarmFrequency.value }
-    val alarmFrequencyChanged : MutableState<Boolean> = remember { mutableStateOf(false) }
-    val defaultQuestionnaires : Set<Int> = remember { questionnaires.value }
-    val defaultThemeValue : Int = remember { themeMode.value }
-    val defaultDynamicValue : Boolean = remember { dynamicColor.value }
-    val defaultLanguage : Int = remember { language.value }
-
-    val restartToApplyChanges = stringResource(id = R.string.restart_apply_changes)
-    val restartApplyAllChanges = stringResource(id = R.string.restart_apply_all_changes)
-    val actionLabel = stringResource(id = R.string.restart)
-
-    if (alarmFrequency.value != defaultAlarmFrequency || alarmFrequencyChanged.value)
-    {
-        if (alarmFrequency.value != defaultAlarmFrequency)
-            alarmFrequencyChanged.value = true
-        LaunchedEffect(alarmFrequency.value)
-        {
-            onAlarmFrequencyChange(alarmFrequency)
-        }
-    }
-
-    if (questionnaires.value != defaultQuestionnaires)
-    {
-        LaunchedEffect(questionnaires.value)
-        {
-            onQuestionnairesChange(questionnaires)
-        }
-    }
-
-    if (themeMode.value != defaultThemeValue)
-    {
-        LaunchedEffect(themeMode.value)
-        {
-            onThemeChange(themeMode)
-            showRestartInfo(snackbarHostState = snackbarHostState,
-                message = restartToApplyChanges,
-                actionLabel = actionLabel,
-                context = context)
-        }
-    }
-
-    if (dynamicColor.value != defaultDynamicValue)
-    {
-        LaunchedEffect(dynamicColor.value)
-        {
-            onDynamicChange(dynamicColor)
-            showRestartInfo(snackbarHostState = snackbarHostState,
-                message = restartToApplyChanges,
-                actionLabel = actionLabel,
-                context = context)
-        }
-    }
-
-    if (language.value != defaultLanguage)
-    {
-        onLanguageChange(language)
-        LaunchedEffect(language.value)
-        {
-            showRestartInfo(snackbarHostState = snackbarHostState,
-                message = restartApplyAllChanges,
-                actionLabel = actionLabel,
-                context = context)
-        }
-    }
-
+    val questionnaireOptions : List<String> = Questionnaire.getOptionalLabels()
 
     AppBasicScreen(navigator = navigator,
         entrySelected = BottomBarDestination.SettingsScreen,
@@ -193,7 +182,7 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         )
         {
             GroupText(textRes = R.string.privacy_group)
@@ -241,7 +230,8 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                 title = { Text(stringResource(R.string.language),
                     color = MaterialTheme.colorScheme.secondary) },
                 state = language,
-                items = languagesAvailable
+                items = languagesAvailable,
+                onItemSelected = {index, _ -> onLanguageChange(index)}
             )
 
             if (android12OrAbove)
@@ -253,7 +243,8 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                     title = { Text(text = stringResource(R.string.dynamic_colors_label),
                         color = MaterialTheme.colorScheme.secondary) },
                     subtitle = { Text(text = stringResource(R.string.dynamic_colors_description)) },
-                    state = dynamicColor
+                    state = dynamicColor,
+                    onCheckedChange = { onDynamicChange(it) }
                 )
             }
 
@@ -264,7 +255,8 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                 title = { Text(stringResource(R.string.dark_mode),
                     color = MaterialTheme.colorScheme.secondary) },
                 state = themeMode,
-                items = ThemeMode.getLabels()
+                items = ThemeMode.getLabels(),
+                onItemSelected = {index, _ -> onThemeChange(index)}
             )
 
 
@@ -295,19 +287,11 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
             if (android12OrAbove)
             {
                 SettingsMenuLink(
-                    icon = {
-                        Icon(
-                            painter = painterResource(R.drawable.notification_important),
+                    icon = { Icon(painter = painterResource(R.drawable.notification_important),
                             contentDescription = null,
-                            modifier = Modifier.defaultIconModifier()
-                        )
-                    },
-                    title = {
-                        Text(
-                            stringResource(R.string.permission_for_exact_notifications),
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                    },
+                            modifier = Modifier.defaultIconModifier())},
+                    title = { Text(stringResource(R.string.permission_for_exact_notifications),
+                        color = MaterialTheme.colorScheme.secondary) },
                     subtitle = { Text(stringResource(R.string.permission_for_exact_notifications_body)) },
                     onClick = onSettingsExactNotifications,
                 )
@@ -325,7 +309,8 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                 title = { Text(stringResource(R.string.feedback_frequency),
                     color = MaterialTheme.colorScheme.secondary) },
                 state = alarmFrequency,
-                items = AlarmsFrequency.getLabels()
+                items = AlarmsFrequency.getLabels(),
+                onItemSelected = { index, _ -> onAlarmFrequencyChange(index) }
             )
 
             SettingsListMultiSelect(
@@ -335,8 +320,14 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
                 title = { Text(stringResource(R.string.additional_questionnaires),
                     color = MaterialTheme.colorScheme.secondary) },
                 state = questionnaires,
-                items = Questionnaire.getOptionalLabels(),
-                confirmButton = stringResource(R.string.accept)
+                items = questionnaireOptions,
+                confirmButton = stringResource(R.string.accept),
+                onItemsSelected = { items ->
+                    val indexes = items
+                        .map { item -> questionnaireOptions.indexOf(item) }
+                        .filter { it >= 0 }
+                    onQuestionnairesChange(indexes.toSet())
+                }
             )
 
             Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
@@ -377,44 +368,35 @@ private fun DrawSettingsScreen(navigator: DestinationsNavigator,
 }
 
 /**
- * Public function to read SettingsScreen using [SettingsViewModel]
+ * Text with custom style to split group of settings
  */
-@Destination
 @Composable
-fun SettingsScreen(navigator: DestinationsNavigator,
-                   viewModel: SettingsViewModel = hiltViewModel()
-)
+private fun GroupText(@StringRes textRes : Int) =
+    Text(text = stringResource(textRes),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, bottom = 16.dp),
+        style = MaterialTheme.typography.headlineSmall,
+        color = MaterialTheme.colorScheme.primary)
+
+/**
+ * Default icon padding and size for this screen
+ */
+private fun Modifier.defaultIconModifier() = this.then(padding(all = 2.dp).size(size = 28.dp))
+
+/**
+ * Show snackbar to restart app in order to show properly user's changes
+ */
+
+private suspend fun showRestartInfo(snackbarHostState: SnackbarHostState,
+                                    message : String,
+                                    actionLabel : String,
+                                    context: Context)
 {
-    val alarmFrequency = viewModel.loadAlarmFrequency()
-    val questionnaire = viewModel.loadQuestionnairesSelected()
-    val language = viewModel.loadLanguage()
-    val themeMode = viewModel.loadDarkMode()
-    val dynamicColor = viewModel.loadDynamicColors()
-
-    val context = LocalContext.current
-
-    val onSettingsApplication : () -> Unit = { viewModel.openSettingsApplication(context) }
-    val onSettingsNotifications : () -> Unit = { viewModel.openSettingsNotifications(context) }
-    val onSettingsExactNotifications : () -> Unit = { viewModel.openSettingsExactNotifications(context) }
-
-    DrawSettingsScreen(
-        navigator = navigator,
-        alarmFrequency = alarmFrequency,
-        questionnaires = questionnaire,
-        language = language,
-        themeMode = themeMode,
-        dynamicColor = dynamicColor,
-        android12OrAbove = android12OrAbove(),
-        languagesAvailable = viewModel.getLanguagesAvailable(),
-        onAlarmFrequencyChange = { viewModel.changeAlarmFrequency(it)},
-        onQuestionnairesChange = { viewModel.changeQuestionnairesSelected(it) },
-        onThemeChange = {theme -> viewModel.changeDarkMode(theme)},
-        onDynamicChange = {dynamic -> viewModel.changeDynamicColors(dynamic)},
-        onLanguageChange = { viewModel.changeLanguage(context,it)},
-        onSettingsApplication = onSettingsApplication,
-        onSettingsNotifications = onSettingsNotifications,
-        onSettingsExactNotifications = onSettingsExactNotifications
-    )
+    val result = snackbarHostState.showSnackbar(message = message, actionLabel = actionLabel,
+        withDismissAction = true, duration = SnackbarDuration.Long)
+    if (result === SnackbarResult.ActionPerformed)
+        restartApp(activity = context.getActivity())
 }
 
 @Preview(showBackground = true)
@@ -423,8 +405,9 @@ fun SettingsScreenNoDynamicPreview()
 {
     BienestarEmocionalTheme()
     {
-        DrawSettingsScreen(
+        SettingsScreen(
             navigator = EmptyDestinationsNavigator,
+            snackbarHostState =  remember { SnackbarHostState() },
             alarmFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
@@ -450,8 +433,9 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        DrawSettingsScreen(
+        SettingsScreen(
             navigator = EmptyDestinationsNavigator,
+            snackbarHostState =  remember { SnackbarHostState() },
             alarmFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
@@ -477,8 +461,9 @@ fun SettingsScreenPreview()
 {
     BienestarEmocionalTheme()
     {
-        DrawSettingsScreen(
+        SettingsScreen(
             navigator = EmptyDestinationsNavigator,
+            snackbarHostState =  remember { SnackbarHostState() },
             alarmFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
@@ -504,8 +489,9 @@ fun SettingsScreenPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        DrawSettingsScreen(
+        SettingsScreen(
             navigator = EmptyDestinationsNavigator,
+            snackbarHostState =  remember { SnackbarHostState() },
             alarmFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),

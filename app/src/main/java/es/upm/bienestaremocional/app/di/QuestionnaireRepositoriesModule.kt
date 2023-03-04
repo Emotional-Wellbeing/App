@@ -10,9 +10,12 @@ import es.upm.bienestaremocional.app.domain.repository.*
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.*
 import javax.inject.Named
 
+/**
+ * Contains repositories related to questionnaires injected by Hilt
+ */
 @Module
 @InstallIn(ViewModelComponent::class)
-object QuestionnaireRepositoryModule
+object QuestionnaireRepositoriesModule
 {
     @Provides
     @ViewModelScoped

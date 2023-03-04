@@ -9,6 +9,9 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import es.upm.bienestaremocional.app.data.healthconnect.sources.*
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 
+/**
+ * Contains Health Connect sources injected by Hilt
+ */
 @Module
 @InstallIn(ViewModelComponent::class)
 object HealthConnectSourcesModule

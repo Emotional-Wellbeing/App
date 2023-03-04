@@ -9,6 +9,8 @@ import es.upm.bienestaremocional.app.data.settings.ThemeMode.*
 
 /**
  * Contains the options of theming: [LIGHT_MODE], [DARK_MODE] and [DEFAULT_MODE]
+ * @param labelRes: StringResource of the label
+ * @param key: String used for store themes
  */
 enum class ThemeMode(@StringRes val labelRes: Int, val key: String)
 {

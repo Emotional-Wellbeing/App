@@ -6,7 +6,7 @@ import androidx.compose.ui.res.stringResource
 import es.upm.bienestaremocional.R
 
 /**
- * Enum with the options of frequency of alarms that user could select with the associated alarms
+ * Enum with the options of frequency of alarms that user could set with the associated alarms
  */
 enum class AlarmsFrequency(@StringRes val labelRes: Int, val alarmItems: List<AlarmItem>)
 {

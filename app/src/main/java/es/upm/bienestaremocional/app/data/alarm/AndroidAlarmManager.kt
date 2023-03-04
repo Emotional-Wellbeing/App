@@ -1,11 +1,15 @@
 package es.upm.bienestaremocional.app.data.alarm
 
 import android.util.Log
-import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
+import es.upm.bienestaremocional.app.data.settings.AppSettings
 
+/**
+ * Implementation of AlarmManager
+ * @see AlarmManager
+ */
 class AndroidAlarmManager(
     private val scheduler: AlarmScheduler,
-    private val appSettings: AppSettingsInterface,
+    private val appSettings: AppSettings,
     private val logTag : String
 ): AlarmManager
 {

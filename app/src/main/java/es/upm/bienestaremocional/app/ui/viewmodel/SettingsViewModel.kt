@@ -5,129 +5,126 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
-import com.alorma.compose.settings.storage.base.SettingValueState
-import com.alorma.compose.settings.storage.base.rememberBooleanSettingState
-import com.alorma.compose.settings.storage.base.rememberIntSetSettingState
-import com.alorma.compose.settings.storage.base.rememberIntSettingState
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.BuildConfig
 import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
+import es.upm.bienestaremocional.app.data.language.LanguageManager
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
-import es.upm.bienestaremocional.app.data.settings.LanguageManager
+import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val appSettings: AppSettingsInterface,
+    private val appSettings: AppSettings,
     private val languageManager: LanguageManager,
     private val alarmScheduler: AlarmScheduler
 ) : ViewModel()
 {
     /**
-     * Load dynamic color value from [AppSettingsInterface]
+     * Load dynamic color value from [AppSettings]
      */
-    @Composable
-    fun loadDynamicColors(): SettingValueState<Boolean>
+    fun loadDynamicColors(): Boolean
     {
         var option : Boolean
+
         runBlocking(Dispatchers.IO)
         {
             option = appSettings.getDynamicColors().first()
         }
-        return rememberBooleanSettingState(option)
+        return option
     }
 
     /**
      * Saves dynamic color value
      */
-    suspend fun changeDynamicColors(option: SettingValueState<Boolean>)
+    fun changeDynamicColors(option: Boolean)
     {
-        appSettings.saveDynamicColors(option.value)
+        viewModelScope.launch {
+            appSettings.saveDynamicColors(option)
+        }
     }
 
     /**
-     * Load theme value from [AppSettingsInterface]
+     * Load theme value from [AppSettings]
      */
-    @Composable
-    fun loadDarkMode() : SettingValueState<Int>
+    fun loadDarkMode() : Int
     {
         var option : Int
         runBlocking(Dispatchers.IO)
         {
             option = appSettings.getTheme().first().ordinal
         }
-        return rememberIntSettingState(option)
+        return option
     }
 
     /**
      * Save theme value from [LanguageManager]
      */
-     fun changeLanguage(context: Context, option: SettingValueState<Int>)
+     fun changeLanguage(context: Context, option: Int)
     {
-        languageManager.changeLocale(context,option.value)
+        languageManager.changeLocale(context,option)
     }
 
-    /**
+  /**
      * Load theme value from [LanguageManager]
      */
-    @Composable
-    fun loadLanguage() : SettingValueState<Int>
-    {
-        return rememberIntSettingState(languageManager.getLocale())
-    }
+    fun loadLanguage() : Int = languageManager.getLocale()
 
     /**
-     * Save theme value from [AppSettingsInterface]
+     * Save theme value from [AppSettings]
      */
-    suspend fun changeDarkMode(option: SettingValueState<Int>)
+    fun changeDarkMode(option: Int)
     {
         // Default to null
-        val themeMode: ThemeMode? = ThemeMode.values().getOrNull(option.value)
+        val themeMode: ThemeMode? = ThemeMode.values().getOrNull(option)
         themeMode?.let {
-            appSettings.saveTheme(themeMode)
+            viewModelScope.launch {
+                appSettings.saveTheme(themeMode)
+            }
         }
     }
-
+    
     /**
-     * Load alarm frequency from [AppSettingsInterface]
+     * Load alarm frequency from [AppSettings]
      */
-    @Composable
-    fun loadAlarmFrequency(): SettingValueState<Int>
+    fun loadAlarmFrequency(): Int
     {
         var option : Int
         runBlocking(Dispatchers.IO)
         {
             option = appSettings.getAlarmFrequency().first().ordinal
         }
-        return rememberIntSettingState(option)
+        return option
     }
 
     /**
      * Saves alarm frequency value
      */
-    suspend fun changeAlarmFrequency(option: SettingValueState<Int>)
+    fun changeAlarmFrequency(option: Int)
     {
-        val alarmsFrequency: AlarmsFrequency? = AlarmsFrequency.values().getOrNull(option.value)
+        val alarmsFrequency: AlarmsFrequency? = AlarmsFrequency.values().getOrNull(option)
         alarmsFrequency?.let {
             alarmScheduler.cancel(appSettings.getAlarmFrequencyValue().alarmItems)
             alarmScheduler.schedule(it.alarmItems)
-            appSettings.saveAlarmFrequency(it)
+            viewModelScope.launch {
+                appSettings.saveAlarmFrequency(it)
+            }
         }
     }
-
+    
+    
     /**
-     * Load questionnaires selected value from [AppSettingsInterface]
+     * Load questionnaires selected value from [AppSettings]
      */
-    @Composable
-    fun loadQuestionnairesSelected(): SettingValueState<Set<Int>>
+    fun loadQuestionnairesSelected(): Set<Int>
     {
         var option : Set<Int>
         val possibleOptions = Questionnaire.getOptional()
@@ -135,20 +132,22 @@ class SettingsViewModel @Inject constructor(
         {
             option = appSettings.getQuestionnairesSelected().first().map { possibleOptions.indexOf(it) }.toSet()
         }
-        return rememberIntSetSettingState(option)
+        return option
     }
 
     /**
      * Saves questionnaires selected value
      */
-    suspend fun changeQuestionnairesSelected(option: SettingValueState<Set<Int>>)
+    fun changeQuestionnairesSelected(option: Set<Int>)
     {
         // Default to null
-        val questionnaire: Set<Questionnaire> = option.value.mapNotNull {
+        val questionnaire: Set<Questionnaire> = option.mapNotNull {
             Questionnaire.getOptional().getOrNull(it)
         }.toSet()
 
-        appSettings.saveQuestionnairesSelected(questionnaire)
+        viewModelScope.launch {
+            appSettings.saveQuestionnairesSelected(questionnaire)
+        }
     }
 
     fun openSettingsNotifications(context: Context)

@@ -3,6 +3,14 @@ package es.upm.bienestaremocional.app.data.database.entity
 import androidx.room.Embedded
 import androidx.room.Relation
 
+/**
+ * Mapping of Questionnaire Round with the associated entities.
+ * @see QuestionnaireRound
+ * @see QuestionnaireRoundReduced
+ * @see PSS
+ * @see PHQ
+ * @see UCLA
+ */
 data class QuestionnaireRoundFull(
     @Embedded
     val questionnaireRound: QuestionnaireRound,

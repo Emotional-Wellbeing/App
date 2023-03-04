@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Mapping of PSS table
+ */
 @Entity(tableName = "pss")
 data class PSS(
     @PrimaryKey(autoGenerate = true)

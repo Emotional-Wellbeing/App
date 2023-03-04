@@ -15,10 +15,11 @@ import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.alarm.AndroidAlarmManager
 import es.upm.bienestaremocional.app.data.alarm.AndroidAlarmScheduler
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
+import es.upm.bienestaremocional.app.data.language.LanguageManager
+import es.upm.bienestaremocional.app.data.language.LanguageManagerImpl
 import es.upm.bienestaremocional.app.data.receiver.AlarmReceiver
 import es.upm.bienestaremocional.app.data.settings.AppSettings
-import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
-import es.upm.bienestaremocional.app.data.settings.LanguageManager
+import es.upm.bienestaremocional.app.data.settings.AppSettingsImpl
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundReducedRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundReducedRepositoryImpl
 import es.upm.bienestaremocional.app.ui.notification.Notification
@@ -29,6 +30,9 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnec
 import javax.inject.Named
 import javax.inject.Singleton
 
+/**
+ * Contains services injected by Hilt common to the entire application
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule
@@ -46,8 +50,8 @@ object AppModule
 
     @Provides
     @Singleton
-    fun provideAppSettings(@ApplicationContext context: Context): AppSettingsInterface =
-        AppSettings(context)
+    fun provideAppSettings(@ApplicationContext context: Context): AppSettings =
+        AppSettingsImpl(context)
 
     @Provides
     @Singleton
@@ -72,14 +76,14 @@ object AppModule
     @Provides
     @Singleton
     fun provideAlarmManager(scheduler: AlarmScheduler,
-                            appSettings: AppSettingsInterface,
+                            appSettings: AppSettings,
                             @Named("logTag") logTag: String): AlarmManager =
         AndroidAlarmManager(scheduler,appSettings,logTag)
 
     @Provides
     @Singleton
     fun provideLanguageManager(application: Application) : LanguageManager =
-        LanguageManager(Lingver.init(application))
+        LanguageManagerImpl(Lingver.init(application))
 
     @Provides
     @Singleton
@@ -89,7 +93,7 @@ object AppModule
     @Provides
     @Singleton
     fun provideQuestionnaireRoundReducedRepository(dao: AppDAO,
-                                                   appSettings: AppSettingsInterface,
+                                                   appSettings: AppSettings,
                                                    @Named("logTag") logTag: String
     ): QuestionnaireRoundReducedRepository =
         QuestionnaireRoundReducedRepositoryImpl(dao,appSettings,logTag)

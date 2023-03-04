@@ -1,8 +1,9 @@
 package es.upm.bienestaremocional.app.ui.screen
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -55,25 +56,16 @@ private fun CreditsScreen(navigator: DestinationsNavigator,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
             horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-            LazyColumn()
-            {
-                items(importantCredits)
-                {
-                    CreditComponent(credit = it, windowSize = windowSize)
-                    Spacer(Modifier.size(16.dp))
-                }
-                item {
-                    Divider()
-                }
-                items(notImportantCredits)
-                {
-                    CreditComponent(credit = it, windowSize = windowSize)
-                    Spacer(Modifier.size(16.dp))
-                }
+            importantCredits.forEach {
+                CreditComponent(credit = it, windowSize = windowSize)
+            }
+            Divider()
+            notImportantCredits.forEach {
+                CreditComponent(credit = it, windowSize = windowSize)
             }
         }
     }

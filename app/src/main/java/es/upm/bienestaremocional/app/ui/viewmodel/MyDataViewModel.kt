@@ -2,32 +2,31 @@ package es.upm.bienestaremocional.app.ui.viewmodel
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import es.upm.bienestaremocional.app.ui.state.MyDataState
 import es.upm.bienestaremocional.app.utils.showExceptionSnackbar
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
-class MyDataViewModelFactory(private val snackbarHostState: SnackbarHostState) :
-    ViewModelProvider.Factory
-{
-    override fun <T : ViewModel> create(modelClass: Class<T>): T
-    {
-        if (modelClass.isAssignableFrom(MyDataViewModel::class.java))
-        {
-            @Suppress("UNCHECKED_CAST")
-            return MyDataViewModel(snackbarHostState) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
 
-class MyDataViewModel(private val snackbarHostState: SnackbarHostState) : ViewModel()
+@HiltViewModel
+class MyDataViewModel @Inject constructor() : ViewModel()
 {
-    fun onError(exception: Throwable?)
+    //state
+    private val _state = MutableStateFlow<MyDataState>(MyDataState.NoSelection)
+    val state: StateFlow<MyDataState> = _state.asStateFlow()
+
+    fun onSelect(index: Int)
     {
-        showExceptionSnackbar(
-            viewModelScope,
-            snackbarHostState,
-            exception
-        )
+        _state.value = MyDataState.Selected(index)
     }
+
+    fun onUnselect()
+    {
+        _state.value = MyDataState.NoSelection
+    }
+    suspend fun onError(snackbarHostState: SnackbarHostState, exception: Throwable?) =
+        showExceptionSnackbar(snackbarHostState, exception)
 }

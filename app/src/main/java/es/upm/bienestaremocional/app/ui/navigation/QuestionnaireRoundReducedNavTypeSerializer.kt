@@ -4,8 +4,12 @@ import com.ramcosta.composedestinations.navargs.DestinationsNavTypeSerializer
 import com.ramcosta.composedestinations.navargs.NavTypeSerializer
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
 
+/**
+ * Serializer to pass [QuestionnaireRoundReduced] at Destinations
+ */
 @NavTypeSerializer
-class QuestionnaireRoundReducedNavTypeSerializer : DestinationsNavTypeSerializer<QuestionnaireRoundReduced>
+class QuestionnaireRoundReducedNavTypeSerializer :
+    DestinationsNavTypeSerializer<QuestionnaireRoundReduced>
 {
     override fun fromRouteString(routeStr: String): QuestionnaireRoundReduced {
         val ids = routeStr.split(";").map { it.toLongOrNull() }

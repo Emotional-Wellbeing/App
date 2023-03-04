@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.core.ui.component
 
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -13,8 +14,7 @@ import java.util.*
 
 @Composable
 fun DrawHealthConnectSubscreen(viewModelData: ViewModelData<out Record>,
-                               lazyListScope: LazyListScope,
-                               onDisplayData: () -> Unit,
+                               onDisplayData: LazyListScope.() -> Unit,
                                onError: (Throwable?) -> Unit = {})
 {
     // Remember the last error ID, such that it is possible to avoid re-launching the error
@@ -37,29 +37,29 @@ fun DrawHealthConnectSubscreen(viewModelData: ViewModelData<out Record>,
             errorId.value = viewModelData.uiState.uuid
         }
     }
-    if (viewModelData.uiState != UiState.Uninitialized)
+    LazyColumn()
     {
-        if (viewModelData.uiState == UiState.Success)
-        {
-            if (viewModelData.data.isEmpty())
-            {
-                lazyListScope.item {
-                    Button(onClick = viewModelData.onWrite)
-                    {
-                        Text(text = "Generar datos")
+        if (viewModelData.uiState != UiState.Uninitialized) {
+            if (viewModelData.uiState == UiState.Success) {
+                if (viewModelData.data.isEmpty()) {
+                    item {
+                        Button(onClick = viewModelData.onWrite)
+                        {
+                            Text(text = "Generar datos")
+                        }
                     }
                 }
+                else
+                    onDisplayData()
             }
-            else
-                onDisplayData()
-        }
-        else if (viewModelData.uiState == UiState.NotEnoughPermissions)
-        {
-            lazyListScope.item {
-                Button(onClick = {
-                    viewModelData.onRequestPermissions(viewModelData.permissions) })
-                {
-                    Text(text = "Solicita permisos")
+            else if (viewModelData.uiState == UiState.NotEnoughPermissions) {
+                item {
+                    Button(onClick = {
+                        viewModelData.onRequestPermissions(viewModelData.permissions)
+                    })
+                    {
+                        Text(text = "Solicita permisos")
+                    }
                 }
             }
         }

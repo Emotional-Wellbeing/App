@@ -5,6 +5,10 @@ import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRound
 import javax.inject.Inject
 
+/**
+ * Implementation of [QuestionnaireRoundRepository]
+ * Ensures the establishment of the modifiedDate in update operations and logs all executions
+ */
 class QuestionnaireRoundRepositoryImpl @Inject constructor(
     private val dao: AppDAO,
     private val logTag: String
@@ -29,7 +33,7 @@ class QuestionnaireRoundRepositoryImpl @Inject constructor(
         return dao.getAllQuestionnaireRound()
     }
 
-    override suspend fun get(id: Long): QuestionnaireRound
+    override suspend fun get(id: Long): QuestionnaireRound?
     {
         Log.d(logTag, "querying questionnaire round with id: $id")
         return dao.getQuestionnaireRound(id)

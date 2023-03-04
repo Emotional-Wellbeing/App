@@ -12,6 +12,10 @@ import es.upm.bienestaremocional.core.ui.component.DrawPair
 import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
+/**
+ * Displays [BloodPressureRecord]
+ * @param windowSize: [WindowSize] to modify the component according to the screen
+ */
 @Composable
 fun BloodPressureRecord.Display(windowSize: WindowSize)
 {
@@ -57,7 +61,7 @@ fun BloodPressureRecord.decodeMeasurementLocation(): String =
         else -> stringResource(R.string.unknown)
     }
 
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun BloodPressureRecordDisplayPreview()
 {
@@ -66,7 +70,7 @@ fun BloodPressureRecordDisplayPreview()
         bloodPressureRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun BloodPressureRecordDisplayPreviewDarkTheme()
 {
@@ -75,7 +79,7 @@ fun BloodPressureRecordDisplayPreviewDarkTheme()
         bloodPressureRecord.Display(windowSize = WindowSize.COMPACT)
     }
 }
-@Preview
+@Preview(group = "Light Theme")
 @Composable
 fun BloodPressureRecordDisplayLargeScreenPreview()
 {
@@ -84,7 +88,7 @@ fun BloodPressureRecordDisplayLargeScreenPreview()
         bloodPressureRecord.Display(windowSize = WindowSize.MEDIUM)
     }
 }
-@Preview
+@Preview(group = "Dark Theme")
 @Composable
 fun BloodPressureRecordDisplayLargeScreenPreviewDarkTheme()
 {

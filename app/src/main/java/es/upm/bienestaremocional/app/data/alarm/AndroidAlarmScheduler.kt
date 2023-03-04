@@ -13,7 +13,8 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 /**
- * Class that implement the functionality of schedule alarms
+ * Implementation of AlarmScheduler
+ * @see AlarmScheduler
  */
 class AndroidAlarmScheduler(private val context: Context,
                             private val receiver: Class<*>?,
@@ -66,9 +67,7 @@ class AndroidAlarmScheduler(private val context: Context,
     override fun schedule(alarms: List<AlarmItem>)
     {
         for (alarm in alarms)
-        {
             schedule(alarm)
-        }
     }
 
     override fun cancel(alarm: AlarmItem)

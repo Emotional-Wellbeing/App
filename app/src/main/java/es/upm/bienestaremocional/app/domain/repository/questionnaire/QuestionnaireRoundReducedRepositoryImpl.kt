@@ -3,12 +3,16 @@ package es.upm.bienestaremocional.app.domain.repository.questionnaire
 import android.util.Log
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.*
-import es.upm.bienestaremocional.app.data.settings.AppSettingsInterface
+import es.upm.bienestaremocional.app.data.settings.AppSettings
 import javax.inject.Inject
 
+/**
+ * Implementation of [QuestionnaireRoundReducedRepository].
+ * Logs all executions.
+ */
 class QuestionnaireRoundReducedRepositoryImpl @Inject constructor(
     private val dao: AppDAO,
-    private val appSettings: AppSettingsInterface,
+    private val appSettings: AppSettings,
     private val logTag: String
 ): QuestionnaireRoundReducedRepository
 {
