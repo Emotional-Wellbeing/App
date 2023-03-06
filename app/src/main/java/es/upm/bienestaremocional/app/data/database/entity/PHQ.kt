@@ -11,22 +11,22 @@ import androidx.room.PrimaryKey
 data class PHQ(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "phq_id")
-    val id: Long = 0,
+    override val id: Long = 0,
 
     @ColumnInfo(name = "phq_created_at")
-    val createdAt: Long = System.currentTimeMillis(),
+    override val createdAt: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "phq_modified_at")
-    var modifiedAt: Long = System.currentTimeMillis(),
+    override var modifiedAt: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "phq_score")
-    var score: Int? = null,
+    override var score: Int? = null,
 
     @ColumnInfo(name = "phq_score_level")
-    var scoreLevel: String? = null,
+    override var scoreLevel: String? = null,
 
     @ColumnInfo(name = "phq_completed")
-    var completed: Boolean = false,
+    override var completed: Boolean = false,
 
     @ColumnInfo(name = "phq_answer_1")
     var answer1 : Int? = null,
@@ -46,4 +46,4 @@ data class PHQ(
     var answer8 : Int? = null,
     @ColumnInfo(name = "phq_answer_9")
     var answer9 : Int? = null
-)
+) : QuestionnaireEntity()

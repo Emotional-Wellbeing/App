@@ -6,10 +6,10 @@ import es.upm.bienestaremocional.app.data.database.entity.UCLA
  * Repository to interact with [UCLA] entity.
  * Delete operation is not present by design.
  */
-interface UCLARepository
+interface UCLARepository: QuestionnaireRepository<UCLA>
 {
-    suspend fun insert(ucla: UCLA) : Long
-    suspend fun update(ucla: UCLA)
-    suspend fun getAll(): List<UCLA>
-    suspend fun get(id: Long): UCLA?
+    override suspend fun insert(element: UCLA) : Long
+    override suspend fun update(element: UCLA)
+    override suspend fun getAll(): List<UCLA>
+    override suspend fun get(id: Long): UCLA?
 }

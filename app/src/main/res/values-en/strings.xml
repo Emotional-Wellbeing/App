@@ -192,4 +192,6 @@
     <string name="continue_label">Continue</string>
     <string name="uncompleted">Uncompleted</string>
     <string name="developer_options">Developer options</string>
+    <string name="prepopulate_database">Prepopulate database</string>
+    <string name="database_prepopulated">Database prepopulated</string>
 </resources>

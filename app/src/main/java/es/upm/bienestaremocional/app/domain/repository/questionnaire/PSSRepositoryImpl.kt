@@ -14,17 +14,17 @@ class PSSRepositoryImpl @Inject constructor(
     private val logTag: String
 ): PSSRepository
 {
-    override suspend fun insert(pss: PSS): Long
+    override suspend fun insert(element: PSS): Long
     {
         Log.d(logTag, "inserting new pss")
-        return dao.insert(pss)
+        return dao.insert(element)
     }
 
-    override suspend fun update(pss: PSS)
+    override suspend fun update(element: PSS)
     {
-        Log.d(logTag, "updating pss with id: ${pss.id}")
-        pss.apply { modifiedAt = System.currentTimeMillis() }
-        return dao.update(pss)
+        Log.d(logTag, "updating pss with id: ${element.id}")
+        element.apply { modifiedAt = System.currentTimeMillis() }
+        return dao.update(element)
     }
 
     override suspend fun getAll(): List<PSS>

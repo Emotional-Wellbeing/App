@@ -11,22 +11,22 @@ import androidx.room.PrimaryKey
 data class PSS(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "pss_id")
-    val id: Long = 0,
+    override val id: Long = 0,
 
     @ColumnInfo(name = "pss_created_at")
-    val createdAt: Long = System.currentTimeMillis(),
+    override val createdAt: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "pss_modified_at")
-    var modifiedAt: Long = System.currentTimeMillis(),
+    override var modifiedAt: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "pss_score")
-    var score: Int? = null,
+    override var score: Int? = null,
 
     @ColumnInfo(name = "pss_score_level")
-    var scoreLevel: String? = null,
+    override var scoreLevel: String? = null,
 
     @ColumnInfo(name = "pss_completed")
-    var completed: Boolean = false,
+    override var completed: Boolean = false,
 
     @ColumnInfo(name = "pss_answer_1")
     var answer1 : Int? = null,
@@ -48,4 +48,4 @@ data class PSS(
     var answer9 : Int? = null,
     @ColumnInfo(name = "pss_answer_10")
     var answer10 : Int? = null,
-)
+) : QuestionnaireEntity()

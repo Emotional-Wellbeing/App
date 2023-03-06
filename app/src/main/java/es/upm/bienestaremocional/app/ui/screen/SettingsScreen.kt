@@ -364,6 +364,8 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
                 onClick = { navigator.navigate(CreditsScreenDestination(windowSize)) },
             )
 
+            Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
+
             GroupText(textRes = R.string.developer_options)
 
             SettingsMenuLink(

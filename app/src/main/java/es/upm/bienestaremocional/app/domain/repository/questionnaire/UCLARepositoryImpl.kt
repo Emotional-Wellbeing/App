@@ -14,17 +14,17 @@ class UCLARepositoryImpl @Inject constructor (
     private val logTag: String
 ): UCLARepository
 {
-    override suspend fun insert(ucla: UCLA): Long
+    override suspend fun insert(element: UCLA): Long
     {
         Log.d(logTag, "inserting new ucla")
-        return dao.insert(ucla)
+        return dao.insert(element)
     }
 
-    override suspend fun update(ucla: UCLA)
+    override suspend fun update(element: UCLA)
     {
-        Log.d(logTag, "updating ucla with id: ${ucla.id}")
-        ucla.apply { modifiedAt = System.currentTimeMillis() }
-        return dao.update(ucla)
+        Log.d(logTag, "updating ucla with id: ${element.id}")
+        element.apply { modifiedAt = System.currentTimeMillis() }
+        return dao.update(element)
     }
 
     override suspend fun getAll(): List<UCLA>

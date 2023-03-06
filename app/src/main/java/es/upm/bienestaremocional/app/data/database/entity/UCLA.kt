@@ -11,22 +11,22 @@ import androidx.room.PrimaryKey
 data class UCLA(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ucla_id")
-    val id: Long = 0,
+    override val id: Long = 0,
 
     @ColumnInfo(name = "ucla_created_at")
-    val createdAt: Long = System.currentTimeMillis(),
+    override val createdAt: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "ucla_modified_at")
-    var modifiedAt: Long = System.currentTimeMillis(),
+    override var modifiedAt: Long = System.currentTimeMillis(),
 
     @ColumnInfo(name = "ucla_score")
-    var score: Int? = null,
+    override var score: Int? = null,
 
     @ColumnInfo(name = "ucla_score_level")
-    var scoreLevel: String? = null,
+    override var scoreLevel: String? = null,
 
     @ColumnInfo(name = "ucla_completed")
-    var completed: Boolean = false,
+    override var completed: Boolean = false,
 
     @ColumnInfo(name = "ucla_answer_1")
     var answer1 : Int? = null,
@@ -68,4 +68,4 @@ data class UCLA(
     var answer19 : Int? = null,
     @ColumnInfo(name = "ucla_answer_20")
     var answer20 : Int? = null,
-)
+) : QuestionnaireEntity()

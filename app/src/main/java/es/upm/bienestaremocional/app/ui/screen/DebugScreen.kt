@@ -50,6 +50,7 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
     val questionnaireRoundsIncompleted by viewModel.questionnaireRoundsIncompleted.observeAsState(emptyList())
     val questionnaireRounds by viewModel.questionnaireRounds.observeAsState(emptyList())
 
+    val onPrepoulatedDatabaseMessage = stringResource(R.string.database_prepopulated)
     val onDeleteDatabaseMessage = stringResource(R.string.database_deleted)
 
     DebugScreen(navigator = navigator,
@@ -60,6 +61,12 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
         onNotification = { viewModel.onNotification() },
         onQueryAllQuestionnaireRounds = {viewModel.onQueryAllQuestionnaireRounds()},
         onQueryUncompletedQuestionnaireRounds = {viewModel.onQueryUncompletedQuestionnaireRounds()},
+        onPrepoulateDatabase = {
+            coroutineScope.launch {
+                viewModel.onPrepoulateDatabase()
+                showSnackbar(snackbarHostState, onPrepoulatedDatabaseMessage)
+            }
+        },
         onDeleteDatabase = {
             coroutineScope.launch {
                 viewModel.onDeleteDatabase()
@@ -78,6 +85,7 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                         onNotification: () -> Unit,
                         onQueryAllQuestionnaireRounds : () -> Unit,
                         onQueryUncompletedQuestionnaireRounds : () -> Unit,
+                        onPrepoulateDatabase : () -> Unit,
                         onDeleteDatabase : () -> Unit
 )
 {
@@ -114,6 +122,12 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                         title = { Text(text = stringResource(R.string.query_uncompleted_questionnaire_rounds),
                             color = MaterialTheme.colorScheme.secondary) },
                         onClick = onQueryUncompletedQuestionnaireRounds,
+                    )
+
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.prepopulate_database),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onPrepoulateDatabase,
                     )
 
                     SettingsMenuLink(
@@ -200,6 +214,7 @@ fun DebugScreenPreview()
             onNotification = {},
             onQueryAllQuestionnaireRounds = {},
             onQueryUncompletedQuestionnaireRounds = {},
+            onPrepoulateDatabase = {},
             onDeleteDatabase = {})
     }
 }
@@ -221,6 +236,7 @@ fun DebugScreenPreviewDarkTheme()
             onNotification = {},
             onQueryAllQuestionnaireRounds = {},
             onQueryUncompletedQuestionnaireRounds = {},
+            onPrepoulateDatabase = {},
             onDeleteDatabase = {})
     }
 }

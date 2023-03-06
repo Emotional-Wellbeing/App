@@ -5,8 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import es.upm.bienestaremocional.app.data.alarm.AlarmsAvailable
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
-import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundFull
+import es.upm.bienestaremocional.app.data.database.entity.*
+import es.upm.bienestaremocional.app.data.questionnaire.PHQManager
+import es.upm.bienestaremocional.app.data.questionnaire.PSSManager
+import es.upm.bienestaremocional.app.data.questionnaire.UCLAManager
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundFullRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundReducedRepository
 import es.upm.bienestaremocional.app.ui.notification.Notification
@@ -15,7 +19,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.ZoneId
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class DebugViewModel @Inject constructor(
@@ -69,6 +75,54 @@ class DebugViewModel @Inject constructor(
     {
         _state.value = DebugState.QueryUncompletedQuestionnaireRounds
         fetchIncompletedQuestionnaireRounds()
+    }
+
+    suspend fun onPrepoulateDatabase()
+    {
+        val days = 14
+        List(days) { index ->
+            AlarmsAvailable.allAlarms.forEach {
+                val createdAt = it.time.minusDays(index.toLong())
+                    .atZone(ZoneId.systemDefault())
+                    .toEpochSecond() * 1000
+
+                val pssManager = PSSManager()
+                val phqManager = PHQManager()
+                val uclaManager = UCLAManager()
+
+                val pss = PSS(createdAt = createdAt)
+                val phq = PHQ(createdAt = createdAt)
+                val ucla = UCLA(createdAt = createdAt)
+
+                for (questionIndex in 0 until pssManager.numberOfQuestions)
+                {
+                    pssManager.setAnswer(questionIndex,Random.nextInt(0,pssManager.numberOfAnswers))
+                }
+                pssManager.setEntity(pss)
+
+                for (questionIndex in 0 until phqManager.numberOfQuestions)
+                {
+                    phqManager.setAnswer(questionIndex,Random.nextInt(0,phqManager.numberOfAnswers))
+                }
+                phqManager.setEntity(phq)
+
+                for (questionIndex in 0 until uclaManager.numberOfQuestions)
+                {
+                    uclaManager.setAnswer(questionIndex,Random.nextInt(0,uclaManager.numberOfAnswers))
+                }
+                uclaManager.setEntity(ucla)
+
+                val pssId = appDAO.insert(pss)
+                val phqId = appDAO.insert(phq)
+                val uclaId = appDAO.insert(ucla)
+
+                appDAO.insert(QuestionnaireRound(
+                    createdAt = createdAt,
+                    pss = pssId,
+                    phq = phqId,
+                    ucla  = uclaId))
+            }
+        }
     }
 
     suspend fun onDeleteDatabase()

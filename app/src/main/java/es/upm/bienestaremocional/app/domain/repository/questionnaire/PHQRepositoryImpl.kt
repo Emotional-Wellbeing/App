@@ -14,17 +14,17 @@ class PHQRepositoryImpl @Inject constructor(
     private val logTag: String
 ): PHQRepository
 {
-    override suspend fun insert(phq: PHQ): Long
+    override suspend fun insert(element: PHQ): Long
     {
         Log.d(logTag, "inserting new phq")
-        return dao.insert(phq)
+        return dao.insert(element)
     }
 
-    override suspend fun update(phq: PHQ)
+    override suspend fun update(element: PHQ)
     {
-        Log.d(logTag, "updating phq with id: ${phq.id}")
-        phq.apply { modifiedAt = System.currentTimeMillis() }
-        return dao.update(phq)
+        Log.d(logTag, "updating phq with id: ${element.id}")
+        element.apply { modifiedAt = System.currentTimeMillis() }
+        return dao.update(element)
     }
 
     override suspend fun getAll(): List<PHQ>

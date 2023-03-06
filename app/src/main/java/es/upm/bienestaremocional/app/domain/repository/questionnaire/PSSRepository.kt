@@ -6,10 +6,10 @@ import es.upm.bienestaremocional.app.data.database.entity.PSS
  * Repository to interact with [PSS] entity.
  * Delete operation is not present by design.
  */
-interface PSSRepository
+interface PSSRepository : QuestionnaireRepository<PSS>
 {
-    suspend fun insert(pss: PSS) : Long
-    suspend fun update(pss: PSS)
-    suspend fun getAll(): List<PSS>
-    suspend fun get(id: Long): PSS?
+    override suspend fun insert(element: PSS) : Long
+    override suspend fun update(element: PSS)
+    override suspend fun getAll(): List<PSS>
+    override suspend fun get(id: Long): PSS?
 }
