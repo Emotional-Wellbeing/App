@@ -29,7 +29,7 @@ class QuestionnaireRoundFullRepositoryImpl @Inject constructor (
 
     override suspend fun getAllIncompleted(): List<QuestionnaireRoundFull>
     {
-        Log.d(logTag, "querying all incompleted questionnaire rounds ")
+        Log.d(logTag, "querying all uncompleted questionnaire rounds ")
         return dao.getAllQuestionnaireRoundIncompleted()
     }
 }

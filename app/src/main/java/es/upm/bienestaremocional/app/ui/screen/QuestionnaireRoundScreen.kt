@@ -11,6 +11,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.FULL_ROUTE_PLACEHOLDER
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
+import es.upm.bienestaremocional.app.ui.screen.destinations.HomeScreenDestination
 import es.upm.bienestaremocional.app.ui.state.QuestionnaireRoundState
 import es.upm.bienestaremocional.app.ui.viewmodel.QuestionnaireRoundViewModel
 import es.upm.bienestaremocional.core.ui.GetOnceResult
@@ -55,6 +56,8 @@ fun QuestionnaireRoundScreen(navigator: DestinationsNavigator,
             Log.d(logTag,"Finishing")
             viewModel.onFinishing()
         }
-        QuestionnaireRoundState.Finished -> {navigator.popBackStack()}
+        QuestionnaireRoundState.Finished -> {
+            navigator.navigate(HomeScreenDestination)
+        }
     }
 }

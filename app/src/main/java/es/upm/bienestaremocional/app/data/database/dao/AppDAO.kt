@@ -169,4 +169,23 @@ interface AppDAO
             "OR (ucla.ucla_id IS NOT NULL AND ucla.ucla_completed = 0) " +
             "ORDER BY qr.created_at DESC")
     suspend fun getAllQuestionnaireRoundIncompleted(): List<QuestionnaireRoundFull>
+
+    // Debug options
+    @Query("DELETE FROM questionnaire_round")
+    fun nukeQuestionnareRoundTable()
+    @Query("DELETE FROM phq")
+    fun nukePHQTable()
+    @Query("DELETE FROM pss")
+    fun nukePSSTable()
+    @Query("DELETE FROM ucla")
+    fun nukeUCLATable()
+
+    @Transaction
+    suspend fun nukeDatabase()
+    {
+        nukeQuestionnareRoundTable()
+        nukePHQTable()
+        nukePSSTable()
+        nukeUCLATable()
+    }
 }

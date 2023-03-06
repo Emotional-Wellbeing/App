@@ -177,4 +177,18 @@
     <string name="low">Low</string>
     <string name="high">High</string>
     <string name="debug_screen_label">Debug</string>
+    <string name="notification_start_questionnaire">Notification to start questionnaire</string>
+    <string name="query_uncompleted_questionnaire_rounds">Query uncompleted questionnaire rounds</string>
+    <string name="query_all_questionnaire_rounds">Query all questionnaire rounds</string>
+    <string name="delete_database">Delete database</string>
+    <string name="database_deleted">Database deleted</string>
+    <string name="empty_list">No data to display</string>
+    <string name="round_created_formatter">Round created at : %s</string>
+    <string name="pss_questionnaire">PSS questionnaire</string>
+    <string name="phq_questionnaire">PHQ questionnaire</string>
+    <string name="ucla_questionnaire">UCLA questionnaire</string>
+    <string name="score_formatter">Score: %d</string>
+    <string name="level_formatter">Level: %s</string>
+    <string name="continue_label">Continue</string>
+    <string name="uncompleted">Uncompleted</string>
 </resources>
