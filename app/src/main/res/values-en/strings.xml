@@ -176,7 +176,7 @@
     <string name="severe">Severe</string>
     <string name="low">Low</string>
     <string name="high">High</string>
-    <string name="debug_screen_label">Debug</string>
+    <string name="debug_screen_label">Debug menu</string>
     <string name="notification_start_questionnaire">Notification to start questionnaire</string>
     <string name="query_uncompleted_questionnaire_rounds">Query uncompleted questionnaire rounds</string>
     <string name="query_all_questionnaire_rounds">Query all questionnaire rounds</string>
@@ -191,4 +191,5 @@
     <string name="level_formatter">Level: %s</string>
     <string name="continue_label">Continue</string>
     <string name="uncompleted">Uncompleted</string>
+    <string name="developer_options">Developer options</string>
 </resources>

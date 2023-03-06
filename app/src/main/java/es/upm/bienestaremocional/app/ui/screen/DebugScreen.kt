@@ -28,7 +28,6 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundFull
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
 import es.upm.bienestaremocional.app.ui.component.ShowQuestionnaireRound
-import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
 import es.upm.bienestaremocional.app.ui.state.DebugState
 import es.upm.bienestaremocional.app.ui.viewmodel.DebugViewModel
@@ -84,8 +83,8 @@ private fun DebugScreen(navigator: DestinationsNavigator,
 {
 
     AppBasicScreen(navigator = navigator,
-        entrySelected = BottomBarDestination.DebugScreen,
-        label = BottomBarDestination.DebugScreen.label,
+        entrySelected = null,
+        label = R.string.debug_screen_label,
         snackbarHostState = snackbarHostState)
     {
         when(state)

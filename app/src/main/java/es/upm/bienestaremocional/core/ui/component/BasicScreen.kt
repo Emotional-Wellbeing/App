@@ -30,9 +30,8 @@ fun AppBasicScreen(navigator: DestinationsNavigator,
         topBar = { CenterAlignedTopAppBar(title = { Text(stringResource(id = label)) }) },
         bottomBar = { BottomBar(navigator,entrySelected) })
     {
-        paddingValues ->
         Column(modifier = Modifier
-            .padding(paddingValues)
+            .padding(it)
             .fillMaxSize())
         {
             content()

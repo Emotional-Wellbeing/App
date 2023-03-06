@@ -6,7 +6,7 @@
     <string name="history_screen_label">Historial</string>
     <string name="trends_screen_label">Tendencias</string>
     <string name="settings_screen_label">Ajustes</string>
-    <string name="debug_screen_label">Debug</string>
+    <string name="debug_screen_label">Menú de desarrolladores</string>
 
     <!-- Notifications -->
     <string name="main_channel">Notificaciones generales</string>
@@ -234,6 +234,7 @@
     <string name="rockport_fitness_test">Test de Rockport</string>
 
     <!-- Debug -->
+    <string name="developer_options">Opciones de desarrollador</string>
     <string name="notification_start_questionnaire">Notificación para crear cuestionario</string>
     <string name="query_uncompleted_questionnaire_rounds">Consultar rondas de cuestionarios incompletas</string>
     <string name="query_all_questionnaire_rounds">Consultar todas las rondas de cuestionarios</string>

@@ -363,6 +363,18 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
                 subtitle = { Text(stringResource(id = R.string.credits_screen_description)) },
                 onClick = { navigator.navigate(CreditsScreenDestination(windowSize)) },
             )
+
+            GroupText(textRes = R.string.developer_options)
+
+            SettingsMenuLink(
+                icon = { Icon(painter = painterResource(R.drawable.developer_mode),
+                    contentDescription = null,
+                    modifier = Modifier.defaultIconModifier()) },
+                title = { Text(text = stringResource(id = R.string.debug_screen_label),
+                    color = MaterialTheme.colorScheme.secondary) },
+                onClick = { navigator.navigate(DebugScreenDestination) },
+            )
+
         }
     }
 }
