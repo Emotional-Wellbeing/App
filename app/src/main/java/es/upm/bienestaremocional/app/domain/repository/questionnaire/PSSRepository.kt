@@ -11,5 +11,7 @@ interface PSSRepository : QuestionnaireRepository<PSS>
     override suspend fun insert(element: PSS) : Long
     override suspend fun update(element: PSS)
     override suspend fun getAll(): List<PSS>
+    override suspend fun getAllFromLastSevenDays(): List<PSS>
+    override suspend fun getAllCompleted(): List<PSS>
     override suspend fun get(id: Long): PSS?
 }

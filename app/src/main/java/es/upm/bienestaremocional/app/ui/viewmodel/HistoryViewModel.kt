@@ -5,35 +5,53 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundFull
-import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundFullRepository
+import es.upm.bienestaremocional.app.data.database.entity.PHQ
+import es.upm.bienestaremocional.app.data.database.entity.PSS
+import es.upm.bienestaremocional.app.data.database.entity.UCLA
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.PHQRepository
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSRepository
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
-    private val questionnaireRoundWithQuestionnairesRepository: QuestionnaireRoundFullRepository
+    private val pssRepository: PSSRepository,
+    private val phqRepository: PHQRepository,
+    private val uclaRepository: UCLARepository
 ) : ViewModel()
 {
-    private val _questionnaireRoundsIncompleted = MutableLiveData<List<QuestionnaireRoundFull>>()
-    val questionnaireRoundsIncompleted: LiveData<List<QuestionnaireRoundFull>>
-        get() = _questionnaireRoundsIncompleted
-    private val _questionnaireRounds = MutableLiveData<List<QuestionnaireRoundFull>>()
-    val questionnaireRounds: LiveData<List<QuestionnaireRoundFull>>
-        get() = _questionnaireRounds
+    private val _pssData = MutableLiveData<List<PSS>>()
+    val pssData: LiveData<List<PSS>>
+        get() = _pssData
 
-    fun fetchIncompletedQuestionnaireRounds()
+    private val _phqData = MutableLiveData<List<PHQ>>()
+    val phqData: LiveData<List<PHQ>>
+        get() = _phqData
+
+    private val _uclaData = MutableLiveData<List<UCLA>>()
+    val uclaData: LiveData<List<UCLA>>
+        get() = _uclaData
+
+    fun fetchPSSData()
     {
         viewModelScope.launch {
-            _questionnaireRoundsIncompleted.value = questionnaireRoundWithQuestionnairesRepository.getAllIncompleted()
+            _pssData.value = pssRepository.getAll()
         }
     }
 
-    fun fetchAllQuestionnaireRounds()
+    fun fetchPHQData()
     {
         viewModelScope.launch {
-            _questionnaireRounds.value = questionnaireRoundWithQuestionnairesRepository.getAll()
+            _phqData.value = phqRepository.getAllFromLastSevenDays()
+        }
+    }
+
+    fun fetchUCLAData()
+    {
+        viewModelScope.launch {
+            _uclaData.value = uclaRepository.getAllFromLastSevenDays()
         }
     }
 }

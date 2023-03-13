@@ -28,7 +28,8 @@ enum class Questionnaire(val id: String,
                          val numberOfAnswers : Int,
                          val questionScoreOffset : Int,
                          val questionsWithInvertedScore : Set<Int> = setOf(),
-                         val levels: List<ScoreLevel>
+                         val levels: List<ScoreLevel>,
+                         val maxScore : Int
 )
 {
     PSS(id = "pss",
@@ -44,7 +45,8 @@ enum class Questionnaire(val id: String,
             ScoreLevel(0,13,LevelLabel.Low),
             ScoreLevel(14,26,LevelLabel.Moderate),
             ScoreLevel(27,40,LevelLabel.High),
-        )
+        ),
+        maxScore = 40
     ),
     PHQ(id = "phq",
         mandatory = false,
@@ -60,7 +62,8 @@ enum class Questionnaire(val id: String,
             ScoreLevel(10,14,LevelLabel.Moderate),
             ScoreLevel(15,19,LevelLabel.ModeratelySevere),
             ScoreLevel(20,27,LevelLabel.Severe),
-        )
+        ),
+        maxScore = 27
     ),
     UCLA(id = "ucla",
         mandatory = false,
@@ -75,7 +78,8 @@ enum class Questionnaire(val id: String,
             ScoreLevel(20,40,LevelLabel.Low),
             ScoreLevel(40,60,LevelLabel.Moderate),
             ScoreLevel(60,80,LevelLabel.High),
-        )
+        ),
+        maxScore = 80
     );
 
     companion object

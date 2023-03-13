@@ -33,6 +33,17 @@ class PHQRepositoryImpl @Inject constructor(
         return dao.getAllPHQ()
     }
 
+    override suspend fun getAllFromLastSevenDays(): List<PHQ> {
+        Log.d(logTag, "querying all phq from last seven days")
+        return dao.getAllPHQFromLastSevenDays()
+    }
+
+    override suspend fun getAllCompleted(): List<PHQ>
+    {
+        Log.d(logTag, "querying all completed phq")
+        return dao.getAllCompletedPHQ()
+    }
+
     override suspend fun get(id: Long): PHQ?
     {
         Log.d(logTag, "querying phq with id: $id")

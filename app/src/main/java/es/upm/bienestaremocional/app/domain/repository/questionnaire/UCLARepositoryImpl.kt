@@ -33,6 +33,17 @@ class UCLARepositoryImpl @Inject constructor (
         return dao.getAllUCLA()
     }
 
+    override suspend fun getAllFromLastSevenDays(): List<UCLA> {
+        Log.d(logTag, "querying all ucla from last seven days")
+        return dao.getAllUCLAFromLastSevenDays()
+    }
+
+    override suspend fun getAllCompleted(): List<UCLA>
+    {
+        Log.d(logTag, "querying all completed ucla")
+        return dao.getAllCompletedUCLA()
+    }
+
     override suspend fun get(id: Long): UCLA?
     {
         Log.d(logTag, "querying ucla with id: $id")

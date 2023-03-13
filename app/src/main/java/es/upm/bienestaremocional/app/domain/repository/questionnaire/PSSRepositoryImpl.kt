@@ -33,6 +33,17 @@ class PSSRepositoryImpl @Inject constructor(
         return dao.getAllPSS()
     }
 
+    override suspend fun getAllFromLastSevenDays(): List<PSS> {
+        Log.d(logTag, "querying all pss from last seven days")
+        return dao.getAllPSSFromLastSevenDays()
+    }
+
+    override suspend fun getAllCompleted(): List<PSS>
+    {
+        Log.d(logTag, "querying all completed pss")
+        return dao.getAllCompletedPSS()
+    }
+
     override suspend fun get(id: Long): PSS?
     {
         Log.d(logTag, "querying pss with id: $id")

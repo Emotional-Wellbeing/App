@@ -90,6 +90,57 @@ interface AppDAO
     suspend fun getAllUCLA(): List<UCLA>
 
     /**
+     * Query all PSS questionnaires in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
+    @Query("SELECT * " +
+            "FROM pss " +
+            "WHERE pss_created_at > (SELECT (1000 * strftime('%s', datetime('now', '-7 day'))))" +
+            "ORDER BY pss_created_at DESC")
+    suspend fun getAllPSSFromLastSevenDays(): List<PSS>
+
+    /**
+     * Query all PSS questionnaires in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
+    @Query("SELECT * " +
+            "FROM phq " +
+            "WHERE phq_created_at > (SELECT (1000 * strftime('%s', datetime('now', '-7 day'))))" +
+            "ORDER BY phq_created_at DESC")
+    suspend fun getAllPHQFromLastSevenDays(): List<PHQ>
+
+    /**
+     * Query all UCLA questionnaires in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
+    @Query("SELECT * " +
+            "FROM ucla " +
+            "WHERE ucla_created_at > (SELECT (1000 * strftime('%s', datetime('now', '-7 day'))))" +
+            "ORDER BY ucla_created_at DESC")
+    suspend fun getAllUCLAFromLastSevenDays(): List<UCLA>
+
+    /**
+     * Query all completed PSS questionnaires in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
+    @Query("SELECT * FROM pss WHERE pss_completed = 1 ORDER BY pss_created_at DESC")
+    suspend fun getAllCompletedPSS(): List<PSS>
+
+    /**
+     * Query all completed PSS questionnaires in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
+    @Query("SELECT * FROM phq WHERE phq_completed = 1 ORDER BY phq_created_at DESC")
+    suspend fun getAllCompletedPHQ(): List<PHQ>
+
+    /**
+     * Query all completed UCLA questionnaires in database ordered from newest to oldest
+     * @return List with the result of the query
+     */
+    @Query("SELECT * FROM ucla WHERE ucla_completed = 1 ORDER BY ucla_created_at DESC")
+    suspend fun getAllCompletedUCLA(): List<UCLA>
+
+    /**
      * Query the information of the QuestionnaireRound by their ID
      * @return The QuestionnaireRound associated
      */

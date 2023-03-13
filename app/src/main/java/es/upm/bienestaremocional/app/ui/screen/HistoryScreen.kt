@@ -1,31 +1,40 @@
 package es.upm.bienestaremocional.app.ui.screen
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.TextButton
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
+import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
+import com.patrykandpatrick.vico.compose.chart.Chart
+import com.patrykandpatrick.vico.compose.chart.column.columnChart
+import com.patrykandpatrick.vico.compose.chart.line.lineChart
+import com.patrykandpatrick.vico.compose.component.textComponent
+import com.patrykandpatrick.vico.compose.m3.style.m3ChartStyle
+import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
+import com.patrykandpatrick.vico.core.axis.AxisPosition
+import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
+import com.patrykandpatrick.vico.core.entry.ChartEntry
+import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
-import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
-import es.upm.bienestaremocional.app.data.questionnaire.LevelLabel
+import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.app.data.database.entity.PSS
+import es.upm.bienestaremocional.app.data.questionnaire.generateBunchOfPSSEntries
+import es.upm.bienestaremocional.app.domain.processSameDayEntries
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
-import es.upm.bienestaremocional.app.ui.screen.destinations.QuestionnaireRoundScreenDestination
 import es.upm.bienestaremocional.app.ui.viewmodel.HistoryViewModel
-import es.upm.bienestaremocional.app.utils.formatUnixTimeStamp
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
+import java.time.LocalDate
+import java.time.ZoneId
 
 /**
  * Plots graphics about user's history
@@ -37,143 +46,85 @@ fun HistoryScreen(navigator: DestinationsNavigator,
 )
 {
     // State
-    val questionnaireRoundsIncompleted = historyViewModel.questionnaireRoundsIncompleted.observeAsState()
-    val questionnaireRounds = historyViewModel.questionnaireRounds.observeAsState()
-
-    var showColumn by remember { mutableStateOf(true) }
-    lateinit var questionnaireRoundReduced : QuestionnaireRoundReduced
+    val pssData = historyViewModel.pssData.observeAsState(emptyList())
 
     // API call
     LaunchedEffect(key1 = Unit) {
-        historyViewModel.fetchIncompletedQuestionnaireRounds()
-        historyViewModel.fetchAllQuestionnaireRounds()
+        historyViewModel.fetchPSSData()
     }
+
+    if (pssData.value.isNotEmpty())
+        DrawHistoryScreen(navigator = navigator, pssData = pssData.value)
+}
+@Composable
+private fun DrawHistoryScreen(navigator: DestinationsNavigator,
+                              pssData : List<PSS>)
+{
+
+    val chartStyle = m3ChartStyle()
+
+    val data = processSameDayEntries(pssData)
 
     AppBasicScreen(navigator = navigator,
         entrySelected = BottomBarDestination.HistoryScreen,
         label = BottomBarDestination.HistoryScreen.label)
     {
-        if (showColumn)
-        {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+        Column(modifier = Modifier.padding(16.dp)) {
+
+            val pssProducer = ChartEntryModelProducer(
+                data.mapIndexed {index, pair ->
+                    Entry(
+                        pair.first.atZone(ZoneId.systemDefault()).toLocalDate(),
+                        index.toFloat(),
+                        pair.second.toFloat()
+                    )
+                }
             )
+
+            val bottomAxisValueFormatter =
+                AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, chartValues ->
+                    val entry = (chartValues.chartEntryModel.entries.first().getOrNull(value.toInt())) as? Entry
+                    entry?.localDate?.let { "${it.dayOfMonth}/${it.monthValue}" } ?: ""
+                }
+
+            ProvideChartStyle(chartStyle)
             {
-                // UI
-                Text(text = "Incompletos:")
-                questionnaireRoundsIncompleted.value?.let { list ->
-                    list.forEach { element ->
-                        Card(modifier = Modifier.fillMaxWidth())
-                        {
-                            Text(text = "Ronda: ${element.questionnaireRound.id}")
-                            Text("Creado en : ${formatUnixTimeStamp(element.questionnaireRound.createdAt)}")
-                            Text("Modificado en : ${formatUnixTimeStamp(element.questionnaireRound.modifiedAt)}")
-                            Text("Incompletos: ")
-                            if (!element.pss.completed)
-                            {
-                                Text(text = "PSS:")
-                                Text("Id: ${element.pss.id}")
-                                Text("Creado en : ${formatUnixTimeStamp(element.pss.createdAt)}")
-                                Text("Score: ${element.pss.score}")
-                            }
+                Chart(
+                    chart = lineChart(),
+                    chartModelProducer = pssProducer,
+                    startAxis = startAxis(
+                        titleComponent = textComponent(
+                            /*color = Color.Black,
+                                    background = shapeComponent(Shapes.pillShape, color1),
+                                    padding = axisTitlePadding,
+                                    margins = startAxisTitleMargins,
+                                    typeface = Typeface.MONOSPACE,*/
+                        ),
+                        title = stringResource(R.string.pss_label)),
+                    bottomAxis = bottomAxis(valueFormatter = bottomAxisValueFormatter),
+                )
+            }
 
-                            element.phq?.let {
-                                if (!it.completed)
-                                {
-                                    Text(text = "PHQ:")
-                                    Text("Id: ${it.id}")
-                                    Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
-                                    Text("Score: ${it.score}")
-                                }
-                            }
-
-                            element.ucla?.let {
-                                if (!it.completed)
-                                {
-                                    Text(text = "UCLA:")
-                                    Text("Id: ${it.id}")
-                                    Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
-                                    Text("Score: ${it.score}")
-                                }
-                            }
-
-                            TextButton(onClick = {
-                                questionnaireRoundReduced = QuestionnaireRoundReduced(
-                                    element.questionnaireRound.id,
-                                    if(element.pss.completed) null else element.pss.id,
-                                    element.phq?.let { if (it.completed) null else it.id },
-                                    element.ucla?.let { if (it.completed) null else it.id },
-                                )
-                                showColumn = false}) {
-                                Text("retomar", color = MaterialTheme.colorScheme.tertiary)
-                            }
-                        }
-                    }
-                }
-                //}
-
-                Text(text = "Todos:")
-                //LazyColumn {
-                questionnaireRounds.value?.let { list ->
-                    list.forEach { element ->
-
-                        Card(modifier = Modifier.fillMaxWidth())
-                        {
-                            Text(text = "Ronda: ${element.questionnaireRound.id}")
-                            Text("Creado en : ${formatUnixTimeStamp(element.questionnaireRound.createdAt)}")
-                            element.pss.let {
-                                Text(text = "PSS:")
-                                Text("Id: ${element.pss.id}")
-                                Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
-                                Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
-                                Text("Score: ${it.score}")
-                                it.scoreLevel?.let { sl ->
-                                    LevelLabel.decodeFromId(sl)?.let { l ->
-                                        Text("Categoria: ${stringResource(l.label)}")
-                                    }
-                                }
-                            }
-
-                            element.phq?.let {
-                                Text(text = "PHQ:")
-                                Text("Id: ${it.id}")
-                                Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
-                                Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
-                                Text("Score: ${it.score}")
-                                it.scoreLevel?.let { sl ->
-                                    LevelLabel.decodeFromId(sl)?.let { l ->
-                                        Text("Categoria: ${stringResource(l.label)}")
-                                    }
-                                }
-                            }
-
-                            element.ucla?.let {
-                                Text(text = "UCLA:")
-                                Text("Id: ${it.id}")
-                                Text("Creado en : ${formatUnixTimeStamp(it.createdAt)}")
-                                Text("Modificado en : ${formatUnixTimeStamp(it.modifiedAt)}")
-                                Text("Score: ${it.score}")
-                                it.scoreLevel?.let { sl ->
-                                    LevelLabel.decodeFromId(sl)?.let { l ->
-                                        Text("Categoria: ${stringResource(l.label)}")
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+            ProvideChartStyle(chartStyle)
+            {
+                Chart(
+                    chart = columnChart(),
+                    chartModelProducer = pssProducer,
+                    startAxis = startAxis(
+                        title = stringResource(R.string.pss_label)),
+                    bottomAxis = bottomAxis(),
+                )
             }
         }
-        else
-        {
-            navigator.navigate(QuestionnaireRoundScreenDestination(questionnaireRoundReduced = questionnaireRoundReduced))
-        }
     }
+}
+
+private class Entry(
+    val localDate: LocalDate,
+    override val x: Float,
+    override val y: Float,
+) : ChartEntry {
+    override fun withY(y: Float) = Entry(localDate, x, y)
 }
 
 @Preview(
@@ -184,7 +135,7 @@ fun HistoryScreen(navigator: DestinationsNavigator,
 fun HistoryScreenPreview()
 {
     BienestarEmocionalTheme {
-        HistoryScreen(EmptyDestinationsNavigator)
+        DrawHistoryScreen(EmptyDestinationsNavigator, generateBunchOfPSSEntries())
     }
 }
 
@@ -196,6 +147,6 @@ fun HistoryScreenPreview()
 fun HistoryScreenPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        HistoryScreen(EmptyDestinationsNavigator)
+        DrawHistoryScreen(EmptyDestinationsNavigator, generateBunchOfPSSEntries())
     }
 }

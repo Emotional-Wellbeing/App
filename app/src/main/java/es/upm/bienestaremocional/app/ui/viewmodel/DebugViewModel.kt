@@ -7,10 +7,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.alarm.AlarmsAvailable
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
-import es.upm.bienestaremocional.app.data.database.entity.*
-import es.upm.bienestaremocional.app.data.questionnaire.PHQManager
-import es.upm.bienestaremocional.app.data.questionnaire.PSSManager
-import es.upm.bienestaremocional.app.data.questionnaire.UCLAManager
+import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRound
+import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundFull
+import es.upm.bienestaremocional.app.data.questionnaire.generatePHQEntry
+import es.upm.bienestaremocional.app.data.questionnaire.generatePSSEntry
+import es.upm.bienestaremocional.app.data.questionnaire.generateUCLAEntry
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundFullRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundReducedRepository
 import es.upm.bienestaremocional.app.ui.notification.Notification
@@ -21,7 +22,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.ZoneId
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class DebugViewModel @Inject constructor(
@@ -86,31 +86,9 @@ class DebugViewModel @Inject constructor(
                     .atZone(ZoneId.systemDefault())
                     .toEpochSecond() * 1000
 
-                val pssManager = PSSManager()
-                val phqManager = PHQManager()
-                val uclaManager = UCLAManager()
-
-                val pss = PSS(createdAt = createdAt)
-                val phq = PHQ(createdAt = createdAt)
-                val ucla = UCLA(createdAt = createdAt)
-
-                for (questionIndex in 0 until pssManager.numberOfQuestions)
-                {
-                    pssManager.setAnswer(questionIndex,Random.nextInt(0,pssManager.numberOfAnswers))
-                }
-                pssManager.setEntity(pss)
-
-                for (questionIndex in 0 until phqManager.numberOfQuestions)
-                {
-                    phqManager.setAnswer(questionIndex,Random.nextInt(0,phqManager.numberOfAnswers))
-                }
-                phqManager.setEntity(phq)
-
-                for (questionIndex in 0 until uclaManager.numberOfQuestions)
-                {
-                    uclaManager.setAnswer(questionIndex,Random.nextInt(0,uclaManager.numberOfAnswers))
-                }
-                uclaManager.setEntity(ucla)
+                val pss = generatePSSEntry(createdAt)
+                val phq = generatePHQEntry(createdAt)
+                val ucla = generateUCLAEntry(createdAt)
 
                 val pssId = appDAO.insert(pss)
                 val phqId = appDAO.insert(phq)

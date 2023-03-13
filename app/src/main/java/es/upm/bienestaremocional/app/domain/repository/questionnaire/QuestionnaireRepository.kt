@@ -7,5 +7,7 @@ interface QuestionnaireRepository<T> where T : QuestionnaireEntity
     suspend fun insert(element: T) : Long
     suspend fun update(element: T)
     suspend fun getAll(): List<T>
+    suspend fun getAllFromLastSevenDays(): List<T>
+    suspend fun getAllCompleted(): List<T>
     suspend fun get(id: Long): T?
 }
