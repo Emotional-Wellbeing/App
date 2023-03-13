@@ -76,8 +76,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //jetpack compose
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
+    // Kotlin extensions for 'lifecycle' artifact
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.0'
+    // Compose integration with Lifecycle
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.0'
+    // Compose integration with Lifecycle ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0'
+
     implementation 'androidx.activity:activity-compose:1.6.1'
 
     implementation "androidx.compose.ui:ui:$compose_ui_version"

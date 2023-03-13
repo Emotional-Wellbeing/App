@@ -2,9 +2,9 @@ package es.upm.bienestaremocional.app.ui.screen
 
 import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
 import com.ramcosta.composedestinations.annotation.DeepLink
 import com.ramcosta.composedestinations.annotation.Destination
@@ -33,7 +33,7 @@ fun QuestionnaireRoundScreen(navigator: DestinationsNavigator,
                              questionnaireRoundReduced: QuestionnaireRoundReduced
 )
 {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val logTag = viewModel.logTag
 
     navBackStackEntry.GetOnceResult<Boolean>("finished"){
