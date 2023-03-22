@@ -18,6 +18,8 @@ import es.upm.bienestaremocional.R
  * @param questionScoreOffset: Offset of the score of each question of the answer
  * @param questionsWithInvertedScore: Set with the indexes of the inverted score questions
  * @param levels: List of the ScoreLevel of the questionnaire
+ * @param minScore: Minimum possible score for the questionnaire
+ * @param maxScore: Maximum possible score for the questionnaire
  */
 enum class Questionnaire(val id: String,
                          val mandatory : Boolean,
@@ -29,6 +31,7 @@ enum class Questionnaire(val id: String,
                          val questionScoreOffset : Int,
                          val questionsWithInvertedScore : Set<Int> = setOf(),
                          val levels: List<ScoreLevel>,
+                         val minScore : Int,
                          val maxScore : Int
 )
 {
@@ -46,6 +49,7 @@ enum class Questionnaire(val id: String,
             ScoreLevel(14,26,LevelLabel.Moderate),
             ScoreLevel(27,40,LevelLabel.High),
         ),
+        minScore = 0,
         maxScore = 40
     ),
     PHQ(id = "phq",
@@ -63,6 +67,7 @@ enum class Questionnaire(val id: String,
             ScoreLevel(15,19,LevelLabel.ModeratelySevere),
             ScoreLevel(20,27,LevelLabel.Severe),
         ),
+        minScore = 0,
         maxScore = 27
     ),
     UCLA(id = "ucla",
@@ -76,9 +81,10 @@ enum class Questionnaire(val id: String,
         questionsWithInvertedScore = setOf(0, 4, 5, 8, 9, 14, 15, 18, 19),
         levels = listOf(
             ScoreLevel(20,40,LevelLabel.Low),
-            ScoreLevel(40,60,LevelLabel.Moderate),
-            ScoreLevel(60,80,LevelLabel.High),
+            ScoreLevel(41,60,LevelLabel.Moderate),
+            ScoreLevel(61,80,LevelLabel.High),
         ),
+        minScore = 20,
         maxScore = 80
     );
 
@@ -101,6 +107,14 @@ enum class Questionnaire(val id: String,
          * @return [List] of [Questionnaire]
          */
         fun getOptional(): List<Questionnaire> = values().filter { !it.mandatory }
+
+        /**
+         * Get all labels of all [Questionnaire] possible values
+         * @return [List] of [String] with the labels
+         */
+        @Composable
+        fun getLabels(): List<String> =
+            get().map { stringResource(id = it.labelRes) }
 
         /**
          * Get all labels of the optional [Questionnaire] possible values

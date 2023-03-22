@@ -138,6 +138,10 @@
     <string name="accept">Aceptar</string>
     <string name="exit">Salir</string>
     <string name="ok">Vale</string>
+    <string name="day">Dia</string>
+    <string name="week">Semana</string>
+    <string name="month">Mes</string>
+    <string name="granularity">Granularidad</string>
     <string name="questionnaire_not_completed">Cuestionario no completado</string>
     <string name="exit_questionnaire">Salir del cuestionario</string>
     <string name="sure_skip_questionnaire">¿Estás seguro de querer omitir el cuestionario?</string>
@@ -253,5 +257,4 @@
     <string name="level_formatter">Nivel: %s</string>
     <string name="uncompleted">Incompletado</string>
     <string name="continue_label">Continuar</string>
-
 </resources>

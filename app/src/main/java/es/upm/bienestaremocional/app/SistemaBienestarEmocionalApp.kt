@@ -10,7 +10,7 @@ import es.upm.bienestaremocional.app.data.notification.NotificationChannels
 import es.upm.bienestaremocional.app.data.notification.createNotificationChannel
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
-import es.upm.bienestaremocional.app.ui.screen.NavGraphs
+import es.upm.bienestaremocional.app.ui.screens.NavGraphs
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 

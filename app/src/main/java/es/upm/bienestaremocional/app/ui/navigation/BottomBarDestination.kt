@@ -3,7 +3,7 @@ package es.upm.bienestaremocional.app.ui.navigation
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.ui.screen.destinations.*
+import es.upm.bienestaremocional.app.ui.screens.destinations.*
 
 /**
  * This enum contains the app's menu entries
