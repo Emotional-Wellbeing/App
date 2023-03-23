@@ -1,8 +1,11 @@
 package es.upm.bienestaremocional.app.domain.repository.questionnaire
 
 import android.util.Log
+import android.util.Range
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.UCLA
+import java.time.LocalDate
+import java.time.ZoneId
 import javax.inject.Inject
 
 /**
@@ -36,6 +39,13 @@ class UCLARepositoryImpl @Inject constructor (
     override suspend fun getAllFromLastSevenDays(): List<UCLA> {
         Log.d(logTag, "querying all ucla from last seven days")
         return dao.getAllUCLAFromLastSevenDays()
+    }
+
+    override suspend fun getAllFromRange(range: Range<LocalDate>): List<UCLA> {
+        Log.d(logTag, "querying all ucla between ${range.lower} and ${range.upper}")
+        val start = range.lower.atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000
+        val end = range.upper.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000
+        return dao.getAllUCLAFromRange(start,end)
     }
 
     override suspend fun getAllCompleted(): List<UCLA>

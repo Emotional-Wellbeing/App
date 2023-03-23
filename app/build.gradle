@@ -149,9 +149,13 @@ dependencies {
     //vico
     // Includes the core logic for charts and other elements.
     implementation "com.patrykandpatrick.vico:core:$vico_version"
-
     // For Jetpack Compose.
     implementation "com.patrykandpatrick.vico:compose:$vico_version"
     // For `compose`. Creates a `ChartStyle` based on an M3 Material Theme.
     implementation "com.patrykandpatrick.vico:compose-m3:$vico_version"
+
+    //Calendar picker
+    implementation "com.maxkeppeler.sheets-compose-dialogs:core:$sheets_compose_dialogs_version"
+    implementation "com.maxkeppeler.sheets-compose-dialogs:calendar:$sheets_compose_dialogs_version"
+
 }

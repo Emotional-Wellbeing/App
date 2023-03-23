@@ -142,6 +142,7 @@
     <string name="week">Semana</string>
     <string name="month">Mes</string>
     <string name="granularity">Granularidad</string>
+    <string name="time_interval">Intervalo de tiempo</string>
     <string name="questionnaire_not_completed">Cuestionario no completado</string>
     <string name="exit_questionnaire">Salir del cuestionario</string>
     <string name="sure_skip_questionnaire">¿Estás seguro de querer omitir el cuestionario?</string>

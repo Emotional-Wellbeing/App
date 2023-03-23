@@ -1,13 +1,14 @@
 package es.upm.bienestaremocional.app.ui.screens.history
 
+import android.util.Range
+import androidx.core.util.toRange
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireEntity
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.app.domain.aggregateEntriesPerDay
-import es.upm.bienestaremocional.app.domain.aggregateEntriesPerMonth
-import es.upm.bienestaremocional.app.domain.aggregateEntriesPerWeek
+import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerDay
+import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerMonth
+import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerWeek
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PHQRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 
@@ -26,19 +28,22 @@ class HistoryViewModel @Inject constructor(
 ) : ViewModel()
 {
     //state
-    private val _state = MutableStateFlow(HistoryState(questionnaire = Questionnaire.PSS,
-        timeGranularity = TimeGranularity.Day,
-        scores = emptyList()))
+    private val _state = MutableStateFlow(
+        HistoryState(questionnaire = Questionnaire.PSS,
+            timeGranularity = TimeGranularity.Day,
+            timeRange = (LocalDate.now().minusDays(7) .. LocalDate.now()).toRange(),
+            scores = emptyList()))
     val state: StateFlow<HistoryState> = _state.asStateFlow()
-
-    var data : List<QuestionnaireEntity> = emptyList()
 
     init {
         viewModelScope.launch {
-            fetchData(_state.value.questionnaire)
             _state.value =  HistoryState(questionnaire = _state.value.questionnaire,
                 timeGranularity = _state.value.timeGranularity,
-                scores = processData(_state.value.timeGranularity))
+                timeRange = _state.value.timeRange,
+                scores = obtainData(_state.value.questionnaire,
+                    _state.value.timeGranularity,
+                    _state.value.timeRange)
+            )
         }
 
     }
@@ -46,38 +51,55 @@ class HistoryViewModel @Inject constructor(
     fun onQuestionnaireChange(questionnaire: Questionnaire)
     {
         viewModelScope.launch {
-            fetchData(questionnaire)
-            _state.value = HistoryState(questionnaire = questionnaire,
+            _state.value =  HistoryState(questionnaire = questionnaire,
                 timeGranularity = _state.value.timeGranularity,
-                scores = processData(_state.value.timeGranularity))
+                timeRange = _state.value.timeRange,
+                scores = obtainData(questionnaire,
+                    _state.value.timeGranularity,
+                    _state.value.timeRange)
+            )
         }
     }
 
     fun onTimeGranularityChange(timeGranularity: TimeGranularity)
     {
         viewModelScope.launch {
-            _state.value = HistoryState(questionnaire = _state.value.questionnaire,
+            _state.value =  HistoryState(questionnaire = _state.value.questionnaire,
                 timeGranularity = timeGranularity,
-                scores = processData(timeGranularity))
+                timeRange = _state.value.timeRange,
+                scores = obtainData(_state.value.questionnaire,
+                    timeGranularity,
+                    _state.value.timeRange)
+            )
         }
     }
 
-    private suspend fun fetchData(questionnaire: Questionnaire)
+    fun onTimeRangeChange(timeRange: Range<LocalDate>)
     {
-        data = when(questionnaire) {
-            Questionnaire.PSS -> pssRepository.getAll()
-            Questionnaire.PHQ -> phqRepository.getAll()
-            Questionnaire.UCLA -> uclaRepository.getAll()
+        viewModelScope.launch {
+            _state.value =  HistoryState(questionnaire = _state.value.questionnaire,
+                timeGranularity = _state.value.timeGranularity,
+                timeRange = timeRange,
+                scores = obtainData(_state.value.questionnaire,
+                    _state.value.timeGranularity,
+                    timeRange)
+            )
         }
     }
-
-    private fun processData(timeGranularity: TimeGranularity): List<Int>
+    private suspend fun obtainData(questionnaire: Questionnaire,
+                                   timeGranularity: TimeGranularity,
+                                   range: Range<LocalDate>): List<Int>
     {
+        val data = when(questionnaire) {
+            Questionnaire.PSS -> pssRepository.getAllFromRange(range)
+            Questionnaire.PHQ -> phqRepository.getAllFromRange(range)
+            Questionnaire.UCLA -> uclaRepository.getAllFromRange(range)
+        }
         return when(timeGranularity)
         {
-            TimeGranularity.Day -> aggregateEntriesPerDay(this.data).map { pair -> pair.second}
-            TimeGranularity.Week -> aggregateEntriesPerWeek(this.data).map { pair -> pair.second}
-            TimeGranularity.Month -> aggregateEntriesPerMonth(this.data).map { pair -> pair.second}
+            TimeGranularity.Day -> aggregateEntriesPerDay(data).map { pair -> pair.second}
+            TimeGranularity.Week -> aggregateEntriesPerWeek(data).map { pair -> pair.second}
+            TimeGranularity.Month -> aggregateEntriesPerMonth(data).map { pair -> pair.second}
         }
     }
 }

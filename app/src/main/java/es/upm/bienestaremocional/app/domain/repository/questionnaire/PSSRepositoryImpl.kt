@@ -1,8 +1,11 @@
 package es.upm.bienestaremocional.app.domain.repository.questionnaire
 
 import android.util.Log
+import android.util.Range
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.PSS
+import java.time.LocalDate
+import java.time.ZoneId
 import javax.inject.Inject
 
 /**
@@ -36,6 +39,14 @@ class PSSRepositoryImpl @Inject constructor(
     override suspend fun getAllFromLastSevenDays(): List<PSS> {
         Log.d(logTag, "querying all pss from last seven days")
         return dao.getAllPSSFromLastSevenDays()
+    }
+
+    override suspend fun getAllFromRange(range: Range<LocalDate>): List<PSS>
+    {
+        Log.d(logTag, "querying all pss between ${range.lower} and ${range.upper}")
+        val start = range.lower.atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000
+        val end = range.upper.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000
+        return dao.getAllPSSFromRange(start,end)
     }
 
     override suspend fun getAllCompleted(): List<PSS>

@@ -119,6 +119,24 @@ interface AppDAO
             "ORDER BY ucla_created_at DESC")
     suspend fun getAllUCLAFromLastSevenDays(): List<UCLA>
 
+    @Query("SELECT * " +
+            "FROM pss " +
+            "WHERE pss_created_at BETWEEN :start AND :end " +
+            "ORDER BY pss_created_at DESC")
+    suspend fun getAllPSSFromRange(start: Long, end: Long): List<PSS>
+
+    @Query("SELECT * " +
+            "FROM phq " +
+            "WHERE phq_created_at BETWEEN :start AND :end " +
+            "ORDER BY phq_created_at DESC")
+    suspend fun getAllPHQFromRange(start: Long, end: Long): List<PHQ>
+
+    @Query("SELECT * " +
+            "FROM ucla " +
+            "WHERE ucla_created_at BETWEEN :start AND :end " +
+            "ORDER BY ucla_created_at DESC")
+    suspend fun getAllUCLAFromRange(start: Long, end: Long): List<UCLA>
+
     /**
      * Query all completed PSS questionnaires in database ordered from newest to oldest
      * @return List with the result of the query

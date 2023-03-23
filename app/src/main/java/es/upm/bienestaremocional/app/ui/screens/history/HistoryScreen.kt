@@ -1,7 +1,11 @@
 package es.upm.bienestaremocional.app.ui.screens.history
 
 import android.graphics.Typeface
+import android.util.Range
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -12,6 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
+import com.maxkeppeler.sheets.calendar.CalendarDialog
+import com.maxkeppeler.sheets.calendar.models.CalendarConfig
+import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import com.patrykandpatrick.vico.compose.axis.axisGuidelineComponent
 import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
@@ -36,9 +45,11 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.*
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
+import es.upm.bienestaremocional.app.utils.formatDate
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import java.lang.Float.max
+import java.time.LocalDate
 
 /**
  * Plots graphics about user's history
@@ -72,6 +83,9 @@ fun HistoryScreen(navigator: DestinationsNavigator,
                     onChange = {timeGranularity -> viewModel.onTimeGranularityChange(timeGranularity)}
                 )
             }
+
+            DisplayCalendarPicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
+
             if(state.scores.isNotEmpty())
             {
                 DrawLineChart(state.scores, state.questionnaire, state.timeGranularity)
@@ -86,7 +100,7 @@ private fun DisplayQuestionnaireMenu(modifier: Modifier = Modifier,
 {
     DisplayMenu(
         label = stringResource(id = R.string.questionnaire),
-        options = Questionnaire.get().map { Pair(stringResource(it.labelRes), {onChange(it)}) },
+        options = Questionnaire.get().map { Pair(stringResource(it.labelRes)) { onChange(it) } },
         modifier = modifier)
 }
 
@@ -96,7 +110,7 @@ private fun DisplayGranularityOfDataMenu(modifier: Modifier = Modifier,
 {
     DisplayMenu(
         label = stringResource(id = R.string.granularity),
-        options = TimeGranularity.get().map { Pair(stringResource(it.label), {onChange(it)}) },
+        options = TimeGranularity.get().map { Pair(stringResource(it.label)) { onChange(it) } },
         modifier = modifier)
 }
 
@@ -146,6 +160,57 @@ private fun DisplayMenu(label: String,
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DisplayCalendarPicker(selectedRange : Range<LocalDate>,
+                                  onSelectedRange : (Range<LocalDate>) -> Unit
+)
+{
+    var showDialog by remember { mutableStateOf(false) }
+
+
+    TextField(
+        value = "${formatDate(selectedRange.lower)} - ${formatDate(selectedRange.upper)}",
+        modifier = Modifier.clickable { showDialog = true },
+        onValueChange = {},
+        //readOnly = true,
+        enabled = false,
+        label = { Text(stringResource(R.string.time_interval)) },
+        trailingIcon = { Icon(Icons.Default.DateRange,"") },
+        colors = TextFieldDefaults.textFieldColors(
+            disabledTextColor = MaterialTheme.colorScheme.onSurface,
+            disabledIndicatorColor =  MaterialTheme.colorScheme.onSurfaceVariant,
+            disabledLeadingIconColor =  MaterialTheme.colorScheme.onSurfaceVariant,
+            disabledTrailingIconColor =  MaterialTheme.colorScheme.onSurfaceVariant,
+            disabledLabelColor =  MaterialTheme.colorScheme.onSurfaceVariant,
+            disabledPlaceholderColor =  MaterialTheme.colorScheme.onSurface,
+            disabledSupportingTextColor =  MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    )
+
+    if (showDialog)
+    {
+        CalendarDialog(
+            state = rememberUseCaseState(visible = true,
+                embedded = true,
+                onCloseRequest = { showDialog = false },
+                onFinishedRequest = { showDialog = false },
+                onDismissRequest = { showDialog = false },
+            ),
+            config = CalendarConfig(
+                yearSelection = true,
+                monthSelection = true,
+                style = CalendarStyle.MONTH,
+            ),
+            selection = CalendarSelection.Period(
+                selectedRange = selectedRange
+            ) { startDate, endDate ->
+                onSelectedRange(Range(startDate, endDate))
+            },
+        )
+    }
+}
+
 @Composable
 private fun DrawLineChart(data : List<Int>,
                           questionnaire: Questionnaire,
@@ -182,7 +247,7 @@ private fun DrawLineChart(data : List<Int>,
                 axisValuesOverrider = AxisValuesOverrider.fixed(null,null,questionnaire.minScore.toFloat(),questionnaire.maxScore.toFloat()) ,
                 decorations = decorations
             ),
-            model = entryModelOf(data.mapIndexed{index, value -> FloatEntry(index.toFloat(),value.toFloat()) }),
+            model = entryModelOf(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat()) }),
             startAxis = startAxis(
                 guideline = axisGuidelineComponent(),
                 maxLabelCount = (questionnaire.maxScore - questionnaire.minScore + 1),

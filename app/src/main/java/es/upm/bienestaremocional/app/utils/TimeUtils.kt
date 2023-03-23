@@ -2,6 +2,7 @@ package es.upm.bienestaremocional.app.utils
 
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.dateTimeWithOffsetOrDefault
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -29,6 +30,9 @@ fun formatDateTime(time: Instant,
     val timeLabel = formatTime(startTime)
     return "$dateLabel: $timeLabel"
 }
+
+fun formatDate(date: LocalDate): String =
+    DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).format(date)
 
 fun formatDate(date: ZonedDateTime): String =
     DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).format(date)
