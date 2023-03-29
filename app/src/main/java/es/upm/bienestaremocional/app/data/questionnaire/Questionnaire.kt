@@ -11,6 +11,7 @@ import es.upm.bienestaremocional.R
  * @param id: String to identify unequivocally the questionnaire
  * @param mandatory: Boolean to set if the user must do the questionnaire
  * @param labelRes: StringResource with the label to present the questionnaire
+ * @param simpleLabelRes: StringResource with the label used to indicate the questionnaire briefly
  * @param questionRes: ArrayResource with the questions available in the questionnaire
  * @param answerRes: ArrayResource with the answers available in the questionnaire
  * @param numberOfQuestions: Number of the questions in the questionnaire
@@ -24,6 +25,7 @@ import es.upm.bienestaremocional.R
 enum class Questionnaire(val id: String,
                          val mandatory : Boolean,
                          @StringRes val labelRes: Int,
+                         @StringRes val simpleLabelRes: Int,
                          @ArrayRes val questionRes: Int,
                          @ArrayRes val answerRes: Int,
                          val numberOfQuestions : Int,
@@ -38,6 +40,7 @@ enum class Questionnaire(val id: String,
     PSS(id = "pss",
         mandatory = true,
         labelRes = R.string.pss_label,
+        simpleLabelRes = R.string.pss_simple_label,
         questionRes = R.array.pss_questions,
         answerRes = R.array.five_answers_questionnaire,
         numberOfQuestions = 10,
@@ -55,6 +58,7 @@ enum class Questionnaire(val id: String,
     PHQ(id = "phq",
         mandatory = false,
         labelRes = R.string.phq_label,
+        simpleLabelRes = R.string.phq_simple_label,
         questionRes = R.array.phq_questions,
         answerRes = R.array.four_answers_questionnaire,
         numberOfQuestions = 9,
@@ -73,6 +77,7 @@ enum class Questionnaire(val id: String,
     UCLA(id = "ucla",
         mandatory = false,
         labelRes = R.string.ucla_label,
+        simpleLabelRes = R.string.ucla_simple_label,
         questionRes = R.array.ucla_questions,
         answerRes = R.array.four_answers_questionnaire,
         numberOfQuestions = 20,

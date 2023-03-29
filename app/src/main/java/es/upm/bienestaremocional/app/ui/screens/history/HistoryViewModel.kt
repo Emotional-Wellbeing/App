@@ -12,6 +12,7 @@ import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerWeek
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PHQRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
+import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,6 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
+    val windowSize: WindowSize,
     private val pssRepository: PSSRepository,
     private val phqRepository: PHQRepository,
     private val uclaRepository: UCLARepository,

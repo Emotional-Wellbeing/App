@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.alarm.AlarmManager
 import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.alarm.AndroidAlarmManager
@@ -27,6 +28,7 @@ import es.upm.bienestaremocional.app.ui.notification.NotificationImpl
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
+import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -97,4 +99,8 @@ object AppModule
                                                    @Named("logTag") logTag: String
     ): QuestionnaireRoundReducedRepository =
         QuestionnaireRoundReducedRepositoryImpl(dao,appSettings,logTag)
+
+    @Provides
+    @Singleton
+    fun provideWindowSize() : WindowSize = MainApplication.windowSize!!
 }

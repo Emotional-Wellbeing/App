@@ -63,6 +63,9 @@
     <string name="pss_label">PSS (estrés)</string>
     <string name="phq_label">PHQ (depresión)</string>
     <string name="ucla_label">UCLA (soledad)</string>
+    <string name="pss_simple_label" translatable="false">PSS</string>
+    <string name="phq_simple_label" translatable="false">PHQ</string>
+    <string name="ucla_simple_label" translatable="false">UCLA</string>
 
     <string name="application_settings">Ajustes generales de la aplicación</string>
     <string name="application_settings_label">Accede a los ajustes de la app: Consumo de energía, notificaciones…</string>
@@ -190,6 +193,7 @@
     <string name="mmHg" translatable="false">mmHg</string>
     <string name="kcal_day">kcal/día</string>
     <string name="mg_dL" translatable="false">mg/dL</string>
+    <string name="no_data_to_display">No hay datos para mostrar</string>
 
     <!-- Decode health connect -->
     <string name="interstitial_fluid">Líquido intersticial</string>

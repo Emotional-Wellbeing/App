@@ -44,9 +44,12 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.*
+import es.upm.bienestaremocional.app.data.questionnaire.LevelLabel.Companion.getColor
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.utils.formatDate
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
+import es.upm.bienestaremocional.core.ui.component.rememberMarker
+import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import java.lang.Float.max
 import java.time.LocalDate
@@ -68,28 +71,52 @@ fun HistoryScreen(navigator: DestinationsNavigator,
         label = BottomBarDestination.HistoryScreen.label)
     {
         Column(modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top)
         ) {
 
-            Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
-            ) {
-                DisplayQuestionnaireMenu(
-                    modifier = Modifier.weight(1.5f,true),
-                    onChange = {questionnaire -> viewModel.onQuestionnaireChange(questionnaire)}
-                )
-                DisplayGranularityOfDataMenu(
-                    modifier = Modifier.weight(1f,true),
-                    onChange = {timeGranularity -> viewModel.onTimeGranularityChange(timeGranularity)}
-                )
+            if (viewModel.windowSize == WindowSize.COMPACT)
+            {
+                Row(modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
+                ) {
+                    DisplayQuestionnaireMenu(
+                        modifier = Modifier.weight(1f,true),
+                        onChange = {questionnaire -> viewModel.onQuestionnaireChange(questionnaire)}
+                    )
+                    DisplayGranularityOfDataMenu(
+                        modifier = Modifier.weight(1f,true),
+                        onChange = {timeGranularity -> viewModel.onTimeGranularityChange(timeGranularity)}
+                    )
+                }
+
+                DisplayCalendarPicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
+            }
+            else
+            {
+                Row(modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
+                ) {
+                    DisplayQuestionnaireMenu(
+                        modifier = Modifier.weight(1f,true),
+                        onChange = {questionnaire -> viewModel.onQuestionnaireChange(questionnaire)}
+                    )
+                    DisplayGranularityOfDataMenu(
+                        modifier = Modifier.weight(1f,true),
+                        onChange = {timeGranularity -> viewModel.onTimeGranularityChange(timeGranularity)}
+                    )
+                    DisplayCalendarPicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
+                }
             }
 
-            DisplayCalendarPicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
+
 
             if(state.scores.isNotEmpty())
             {
                 DrawLineChart(state.scores, state.questionnaire, state.timeGranularity)
             }
+            else
+                Text(text = stringResource(id = R.string.no_data_to_display))
         }
     }
 }
@@ -100,7 +127,7 @@ private fun DisplayQuestionnaireMenu(modifier: Modifier = Modifier,
 {
     DisplayMenu(
         label = stringResource(id = R.string.questionnaire),
-        options = Questionnaire.get().map { Pair(stringResource(it.labelRes)) { onChange(it) } },
+        options = Questionnaire.get().map { Pair(stringResource(it.simpleLabelRes)) { onChange(it) } },
         modifier = modifier)
 }
 
@@ -222,7 +249,7 @@ private fun DrawLineChart(data : List<Int>,
     val decorations = questionnaire.levels.map { rememberThresholdLine(it) }
 
     val legends = questionnaire.levels.map { verticalLegendItem(
-        icon = shapeComponent(Shapes.pillShape, it.levelLabel.color),
+        icon = shapeComponent(Shapes.pillShape, it.levelLabel.getColor()),
         label = textComponent(
             color = chartStyle.axis.axisLabelColor,
             textSize = 12.sp,
@@ -257,6 +284,7 @@ private fun DrawLineChart(data : List<Int>,
                 guideline = axisGuidelineComponent(),
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),
                 title = stringResource(timeGranularity.label)),
+            marker = rememberMarker(),
             legend = verticalLegend(
                 items = legends,
                 iconSize = 8.dp,
@@ -278,7 +306,7 @@ private fun rememberThresholdLine(scoreLevel: ScoreLevel): ThresholdLine {
         margins = dimensionsOf(4.dp),
         typeface = Typeface.MONOSPACE)*/
     val label = textComponent(textSize = (0).sp)
-    val line = shapeComponent(color = scoreLevel.levelLabel.color.copy(.05f))
+    val line = shapeComponent(color = scoreLevel.levelLabel.getColor().copy(.5f))
     val thresholdLabel = stringResource(scoreLevel.levelLabel.label)
     return remember(scoreLevel) {
         ThresholdLine(
