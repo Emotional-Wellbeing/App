@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.component
 
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -9,15 +10,14 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.OxygenSaturation
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.component.DrawPair
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
  * Displays [OxygenSaturationRecord]
- * @param windowSize: [WindowSize] to modify the component according to the screen
+ * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun OxygenSaturationRecord.Display(windowSize: WindowSize)
+fun OxygenSaturationRecord.Display(widthSize: WindowWidthSizeClass)
 {
     val unit = stringResource(id = R.string.percentage)
 
@@ -25,7 +25,7 @@ fun OxygenSaturationRecord.Display(windowSize: WindowSize)
     BasicCard {
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(R.string.saturation), value = "$percentageFormatted $unit")
-        metadata.Display(windowSize)
+        metadata.Display(widthSize)
     }
 }
 
@@ -35,7 +35,7 @@ fun OxygenSaturationRecordDisplayPreview()
 {
     val oxygenSaturationRecord = OxygenSaturation.generateDummyData()[0]
     BienestarEmocionalTheme {
-        oxygenSaturationRecord.Display(windowSize = WindowSize.COMPACT)
+        oxygenSaturationRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Dark Theme")
@@ -44,7 +44,7 @@ fun OxygenSaturationRecordDisplayPreviewDarkTheme()
 {
     val oxygenSaturationRecord = OxygenSaturation.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        oxygenSaturationRecord.Display(windowSize = WindowSize.COMPACT)
+        oxygenSaturationRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Light Theme")
@@ -53,7 +53,7 @@ fun OxygenSaturationRecordDisplayLargeScreenPreview()
 {
     val oxygenSaturationRecord = OxygenSaturation.generateDummyData()[0]
     BienestarEmocionalTheme {
-        oxygenSaturationRecord.Display(windowSize = WindowSize.MEDIUM)
+        oxygenSaturationRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
 @Preview(group = "Dark Theme")
@@ -62,6 +62,6 @@ fun OxygenSaturationRecordDisplayLargeScreenPreviewDarkTheme()
 {
     val oxygenSaturationRecord = OxygenSaturation.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        oxygenSaturationRecord.Display(windowSize = WindowSize.MEDIUM)
+        oxygenSaturationRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }

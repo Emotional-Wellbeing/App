@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.ramcosta.composedestinations.spec.Direction
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.ui.notification.Notification
@@ -73,7 +72,7 @@ class SplashViewModel @Inject constructor(
         {
             HealthConnectAvailability.INSTALLED ->
                 if (showOnboarding)
-                    OnboardingScreenDestination(MainApplication.windowSize!!)
+                    OnboardingScreenDestination
                 else
                     HomeScreenDestination
             else -> ErrorScreenDestination(healthConnectAvailability.value)

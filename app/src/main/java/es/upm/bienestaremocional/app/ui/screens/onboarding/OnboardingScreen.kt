@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -23,7 +24,8 @@ import es.upm.bienestaremocional.app.ui.component.animation.DisplayLottieAnimati
 import es.upm.bienestaremocional.app.ui.component.onboarding.HorizontalPagerContent
 import es.upm.bienestaremocional.app.ui.component.onboarding.OnboardingContent
 import es.upm.bienestaremocional.app.ui.screens.destinations.HomeScreenDestination
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
+import es.upm.bienestaremocional.core.ui.responsive.computeWindowWidthSize
+
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
@@ -33,11 +35,10 @@ import kotlinx.coroutines.launch
 @Destination
 @Composable
 fun OnboardingScreen(navigator: DestinationsNavigator,
-                     windowSize: WindowSize,
                      viewModel: OnboardingViewModel = hiltViewModel()
 )
 {
-    OnboardingScreen(windowSize = windowSize,
+    OnboardingScreen(widthSize = computeWindowWidthSize(),
         onFinish = {
             viewModel.onFinish()
             navigator.popBackStack()
@@ -48,7 +49,7 @@ fun OnboardingScreen(navigator: DestinationsNavigator,
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun OnboardingScreen(windowSize: WindowSize,
+private fun OnboardingScreen(widthSize: WindowWidthSizeClass,
                              onFinish: () -> Unit)
 {
     val items = remember {OnboardingContent.content}
@@ -69,7 +70,7 @@ private fun OnboardingScreen(windowSize: WindowSize,
             {
                     page -> DrawPage(horizontalPagerContent = items[page],
                 pagerState = pagerState,
-                windowSize = windowSize,
+                widthSize = widthSize,
                 onFinish = onFinish)
             }
         }
@@ -84,7 +85,7 @@ private fun OnboardingScreen(windowSize: WindowSize,
 @Composable
 private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
                      pagerState : PagerState,
-                     windowSize: WindowSize,
+                     widthSize: WindowWidthSizeClass,
                      onFinish: () -> Unit
 )
 {
@@ -136,7 +137,7 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
                 color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
-                style = if (windowSize == WindowSize.COMPACT)
+                style = if (widthSize == WindowWidthSizeClass.Compact)
                     MaterialTheme.typography.titleMedium
                 else
                     MaterialTheme.typography.titleLarge
@@ -148,7 +149,7 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
-                style = if (windowSize == WindowSize.COMPACT)
+                style = if (widthSize == WindowWidthSizeClass.Compact)
                     MaterialTheme.typography.bodyMedium
                 else
                     MaterialTheme.typography.bodyLarge
@@ -209,12 +210,11 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
 fun OnboardingScreenPreview()
 {
     BienestarEmocionalTheme {
-        OnboardingScreen(windowSize = WindowSize.COMPACT,
+        OnboardingScreen(widthSize = WindowWidthSizeClass.Compact,
             onFinish = {})
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Preview(
     showBackground = true,
     group = "Dark Theme"
@@ -223,7 +223,7 @@ fun OnboardingScreenPreview()
 fun OnboardingScreenPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        OnboardingScreen(windowSize = WindowSize.COMPACT,
+        OnboardingScreen(widthSize = WindowWidthSizeClass.Compact,
             onFinish = {})
     }
 }
@@ -236,7 +236,7 @@ fun OnboardingScreenPreviewDarkTheme()
 fun OnboardingScreenNotCompactPreview()
 {
     BienestarEmocionalTheme {
-        OnboardingScreen(windowSize = WindowSize.MEDIUM,
+        OnboardingScreen(widthSize = WindowWidthSizeClass.Medium,
             onFinish = {})
     }
 }
@@ -249,7 +249,7 @@ fun OnboardingScreenNotCompactPreview()
 fun OnboardingScreenNotCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        OnboardingScreen(windowSize = WindowSize.MEDIUM,
+        OnboardingScreen(widthSize = WindowWidthSizeClass.Medium,
             onFinish = {})
     }
 }

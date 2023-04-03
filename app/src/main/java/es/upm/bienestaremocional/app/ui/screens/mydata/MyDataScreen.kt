@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.*
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -29,14 +30,13 @@ import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.DrawHealthConnectSubscreen
 import es.upm.bienestaremocional.core.ui.component.ViewModelData
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
+import es.upm.bienestaremocional.core.ui.responsive.computeWindowWidthSize
 import kotlinx.coroutines.launch
 
 @Destination
 @Composable
 fun MyDataScreen(
     navigator: DestinationsNavigator,
-    windowSize: WindowSize,
     viewModel: MyDataViewModel = hiltViewModel(),
     sleepSessionViewModel: SleepSessionViewModel = hiltViewModel(),
     heartRateViewModel: HeartRateViewModel = hiltViewModel(),
@@ -60,7 +60,7 @@ fun MyDataScreen(
 
     DrawMyDataScreen(
         navigator = navigator,
-        windowSize = windowSize,
+        widthSize = computeWindowWidthSize(),
         snackbarHostState = snackbarHostState,
         state = state,
         sleepVMD = sleepSessionViewModel.getViewModelData(),
@@ -116,7 +116,7 @@ private fun CategoryText(@StringRes stringRes: Int,
 
 @Composable
 private fun DrawMyDataScreen(navigator: DestinationsNavigator,
-                             windowSize: WindowSize,
+                             widthSize: WindowWidthSizeClass,
                              snackbarHostState : SnackbarHostState,
                              state: MyDataState,
                              sleepVMD: ViewModelData<SleepSessionData>,
@@ -215,7 +215,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(sleepVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -231,7 +231,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(heartRateVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -247,7 +247,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(stepsVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -263,7 +263,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(basalMetabolicRateVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -279,7 +279,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(bloodGlucoseVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -295,7 +295,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(bloodPressureVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -311,7 +311,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(distanceVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -327,7 +327,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(oxygenSaturationVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -343,7 +343,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(totalCaloriesBurnedVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -359,7 +359,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(activeCaloriesBurnedVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -375,7 +375,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(bodyTemperatureVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -391,7 +391,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(elevationGainedVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -407,7 +407,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(respiratoryRateVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -423,7 +423,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(restingHeartRateVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}
@@ -439,7 +439,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                     items(vo2MaxVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
-                                        it.Display(windowSize)
+                                        it.Display(widthSize)
                                     }
                                 },
                                 onError = { coroutineScope.launch { onError(it) }}

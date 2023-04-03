@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.component
 
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -9,15 +10,14 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.BloodPressure
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.component.DrawPair
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
  * Displays [BloodPressureRecord]
- * @param windowSize: [WindowSize] to modify the component according to the screen
+ * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun BloodPressureRecord.Display(windowSize: WindowSize)
+fun BloodPressureRecord.Display(widthSize: WindowWidthSizeClass)
 {
     val systolicFormatted  = String.format("%.2f",systolic.inMillimetersOfMercury)
     val diastolicFormatted = String.format("%.2f",diastolic.inMillimetersOfMercury)
@@ -29,7 +29,7 @@ fun BloodPressureRecord.Display(windowSize: WindowSize)
         DrawPair(key = stringResource(R.string.diastolic), value = "$diastolicFormatted $unit")
         DrawPair(key = stringResource(R.string.body_position), value = decodeBodyPosition())
         DrawPair(key = stringResource(R.string.measurement_location), value = decodeMeasurementLocation())
-        metadata.Display(windowSize)
+        metadata.Display(widthSize)
     }
 }
 
@@ -67,7 +67,7 @@ fun BloodPressureRecordDisplayPreview()
 {
     val bloodPressureRecord = BloodPressure.generateDummyData()[0]
     BienestarEmocionalTheme {
-        bloodPressureRecord.Display(windowSize = WindowSize.COMPACT)
+        bloodPressureRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Dark Theme")
@@ -76,7 +76,7 @@ fun BloodPressureRecordDisplayPreviewDarkTheme()
 {
     val bloodPressureRecord = BloodPressure.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        bloodPressureRecord.Display(windowSize = WindowSize.COMPACT)
+        bloodPressureRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Light Theme")
@@ -85,7 +85,7 @@ fun BloodPressureRecordDisplayLargeScreenPreview()
 {
     val bloodPressureRecord = BloodPressure.generateDummyData()[0]
     BienestarEmocionalTheme {
-        bloodPressureRecord.Display(windowSize = WindowSize.MEDIUM)
+        bloodPressureRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
 @Preview(group = "Dark Theme")
@@ -94,6 +94,6 @@ fun BloodPressureRecordDisplayLargeScreenPreviewDarkTheme()
 {
     val bloodPressureRecord = BloodPressure.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        bloodPressureRecord.Display(windowSize = WindowSize.MEDIUM)
+        bloodPressureRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }

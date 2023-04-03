@@ -31,7 +31,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.MainApplication
 import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
@@ -166,8 +165,6 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
 
 {
     val context = LocalContext.current
-    val windowSize = MainApplication.windowSize!!
-
     val questionnaireOptions : List<String> = Questionnaire.getOptionalLabels()
 
     AppBasicScreen(navigator = navigator,
@@ -193,7 +190,7 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
                 title = { Text(text = stringResource(id = R.string.my_data_label),
                     color = MaterialTheme.colorScheme.secondary) },
                 subtitle = { Text(stringResource(id = R.string.my_data_description)) },
-                onClick = { navigator.navigate(MyDataScreenDestination(windowSize)) },
+                onClick = { navigator.navigate(MyDataScreenDestination()) },
             )
 
 
@@ -350,7 +347,7 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
                 title = { Text(text = stringResource(id = R.string.onboarding_screen_label),
                     color = MaterialTheme.colorScheme.secondary) },
                 subtitle = { Text(stringResource(id = R.string.onboarding_screen_description)) },
-                onClick = { navigator.navigate(OnboardingScreenDestination(windowSize)) },
+                onClick = { navigator.navigate(OnboardingScreenDestination) },
             )
 
             SettingsMenuLink(
@@ -360,7 +357,7 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
                 title = { Text(text = stringResource(id = R.string.credits_screen_label),
                     color = MaterialTheme.colorScheme.secondary) },
                 subtitle = { Text(stringResource(id = R.string.credits_screen_description)) },
-                onClick = { navigator.navigate(CreditsScreenDestination(windowSize)) },
+                onClick = { navigator.navigate(CreditsScreenDestination) },
             )
 
             Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))

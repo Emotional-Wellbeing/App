@@ -8,5 +8,5 @@ data class HistoryState (
     val questionnaire: Questionnaire,
     val timeGranularity: TimeGranularity,
     val timeRange: Range<LocalDate>,
-    val scores: List<Int>
+    val isDataNotEmpty: Boolean,
 )

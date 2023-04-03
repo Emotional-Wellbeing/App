@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.component
 
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,15 +27,14 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.BloodGlucose
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.component.DrawPair
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
  * Displays [BloodGlucoseRecord]
- * @param windowSize: [WindowSize] to modify the component according to the screen
+ * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun BloodGlucoseRecord.Display(windowSize: WindowSize)
+fun BloodGlucoseRecord.Display(widthSize: WindowWidthSizeClass)
 {
     val level = String.format("%.2f",level.inMilligramsPerDeciliter)
     val unit = stringResource(id = R.string.mg_dL)
@@ -44,7 +44,7 @@ fun BloodGlucoseRecord.Display(windowSize: WindowSize)
         DrawPair(key = stringResource(R.string.fluid_type), value = decodeSpecimenSource())
         DrawPair(key = stringResource(R.string.meal), value = decodeMealType())
         DrawPair(key = stringResource(R.string.time_measurement), value = decodeRelationToMeal())
-        metadata.Display(windowSize)
+        metadata.Display(widthSize)
     }
 }
 
@@ -91,7 +91,7 @@ fun BloodGlucoseRecordDisplayPreview()
 {
     val bloodGlucoseRecord = BloodGlucose.generateDummyData()[0]
     BienestarEmocionalTheme {
-        bloodGlucoseRecord.Display(windowSize = WindowSize.COMPACT)
+        bloodGlucoseRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Dark Theme")
@@ -100,7 +100,7 @@ fun BloodGlucoseRecordDisplayPreviewDarkTheme()
 {
     val bloodGlucoseRecord = BloodGlucose.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        bloodGlucoseRecord.Display(windowSize = WindowSize.COMPACT)
+        bloodGlucoseRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Light Theme")
@@ -109,7 +109,7 @@ fun BloodGlucoseRecordDisplayLargeScreenPreview()
 {
     val bloodGlucoseRecord = BloodGlucose.generateDummyData()[0]
     BienestarEmocionalTheme {
-        bloodGlucoseRecord.Display(windowSize = WindowSize.MEDIUM)
+        bloodGlucoseRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
 @Preview(group = "Dark Theme")
@@ -118,6 +118,6 @@ fun BloodGlucoseRecordDisplayLargeScreenPreviewDarkTheme()
 {
     val bloodGlucoseRecord = BloodGlucose.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        bloodGlucoseRecord.Display(windowSize = WindowSize.MEDIUM)
+        bloodGlucoseRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }

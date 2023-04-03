@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.component
 
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -9,22 +10,21 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.BasalMetabolicRa
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.component.DrawPair
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
  * Displays [BasalMetabolicRateRecord]
- * @param windowSize: [WindowSize] to modify the component according to the screen
+ * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun BasalMetabolicRateRecord.Display(windowSize: WindowSize)
+fun BasalMetabolicRateRecord.Display(widthSize: WindowWidthSizeClass)
 {
     val imb = String.format("%.2f",basalMetabolicRate.inKilocaloriesPerDay)
     val unit = stringResource(id = R.string.kcal_day)
     BasicCard {
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(R.string.bmr_literal), value = "$imb $unit")
-        metadata.Display(windowSize)
+        metadata.Display(widthSize)
     }
 }
 
@@ -34,7 +34,7 @@ fun BasalMetabolicRateRecordDisplayPreview()
 {
     val basalMetabolicRateRecord = BasalMetabolicRate.generateDummyData()[0]
     BienestarEmocionalTheme {
-        basalMetabolicRateRecord.Display(windowSize = WindowSize.COMPACT)
+        basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Dark Theme")
@@ -43,7 +43,7 @@ fun BasalMetabolicRateRecordDisplayPreviewDarkTheme()
 {
     val basalMetabolicRateRecord = BasalMetabolicRate.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        basalMetabolicRateRecord.Display(windowSize = WindowSize.COMPACT)
+        basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Light Theme")
@@ -52,7 +52,7 @@ fun BasalMetabolicRateRecordDisplayLargeScreenPreview()
 {
     val basalMetabolicRateRecord = BasalMetabolicRate.generateDummyData()[0]
     BienestarEmocionalTheme {
-        basalMetabolicRateRecord.Display(windowSize = WindowSize.MEDIUM)
+        basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
 @Preview(group = "Dark Theme")
@@ -61,6 +61,6 @@ fun BasalMetabolicRateRecordDisplayLargeScreenPreviewDarkTheme()
 {
     val basalMetabolicRateRecord = BasalMetabolicRate.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        basalMetabolicRateRecord.Display(windowSize = WindowSize.MEDIUM)
+        basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }

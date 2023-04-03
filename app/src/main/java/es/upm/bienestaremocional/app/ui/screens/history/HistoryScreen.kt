@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.util.toRange
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
@@ -38,8 +41,8 @@ import com.patrykandpatrick.vico.core.chart.decoration.ThresholdLine
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.chart.values.AxisValuesOverrider
 import com.patrykandpatrick.vico.core.component.shape.Shapes
+import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry
-import com.patrykandpatrick.vico.core.entry.entryModelOf
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
@@ -49,10 +52,10 @@ import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.utils.formatDate
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.rememberMarker
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
+import es.upm.bienestaremocional.core.ui.responsive.computeWindowSizeClass
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
-import java.lang.Float.max
 import java.time.LocalDate
+import kotlin.random.Random
 
 /**
  * Plots graphics about user's history
@@ -63,6 +66,10 @@ fun HistoryScreen(navigator: DestinationsNavigator,
                   viewModel: HistoryViewModel = hiltViewModel()
 )
 {
+    val windowSize = computeWindowSizeClass()
+    val widthSize = windowSize.widthSizeClass
+    val heightSize = windowSize.heightSizeClass
+
     // State
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -75,81 +82,94 @@ fun HistoryScreen(navigator: DestinationsNavigator,
             verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top)
         ) {
 
-            if (viewModel.windowSize == WindowSize.COMPACT)
-            {
-                Row(modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
-                ) {
-                    DisplayQuestionnaireMenu(
-                        modifier = Modifier.weight(1f,true),
-                        onChange = {questionnaire -> viewModel.onQuestionnaireChange(questionnaire)}
-                    )
-                    DisplayGranularityOfDataMenu(
-                        modifier = Modifier.weight(1f,true),
-                        onChange = {timeGranularity -> viewModel.onTimeGranularityChange(timeGranularity)}
-                    )
-                }
-
-                DisplayCalendarPicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
-            }
-            else
-            {
-                Row(modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
-                ) {
-                    DisplayQuestionnaireMenu(
-                        modifier = Modifier.weight(1f,true),
-                        onChange = {questionnaire -> viewModel.onQuestionnaireChange(questionnaire)}
-                    )
-                    DisplayGranularityOfDataMenu(
-                        modifier = Modifier.weight(1f,true),
-                        onChange = {timeGranularity -> viewModel.onTimeGranularityChange(timeGranularity)}
-                    )
+            Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
+            ) {
+                DisplayQuestionnaireMenu(
+                    modifier = Modifier.weight(1f,true),
+                    selected = state.questionnaire,
+                    onChange = {questionnaire -> viewModel.onQuestionnaireChange(questionnaire)}
+                )
+                DisplayGranularityOfDataMenu(
+                    modifier = Modifier.weight(1f,true),
+                    selected = state.timeGranularity,
+                    onChange = {timeGranularity -> viewModel.onTimeGranularityChange(timeGranularity)}
+                )
+                // If we have enough width space, show all options inside same row
+                if (widthSize > WindowWidthSizeClass.Compact)
                     DisplayCalendarPicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
-                }
             }
+            // If we didn't had width space, show calendar picker in other row
+            if (widthSize <= WindowWidthSizeClass.Compact)
+                DisplayCalendarPicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
 
-
-
-            if(state.scores.isNotEmpty())
-            {
-                DrawLineChart(state.scores, state.questionnaire, state.timeGranularity)
-            }
+            if(state.isDataNotEmpty)
+                DrawLineChart(heightSize = heightSize,
+                    producer = viewModel.producer,
+                    questionnaire = state.questionnaire,
+                    timeGranularity = state.timeGranularity)
             else
                 Text(text = stringResource(id = R.string.no_data_to_display))
         }
     }
 }
 
+/**
+ * Display questionnaire menu
+ * @param selected [Questionnaire] that should be displayed as selected one
+ * @param onChange Callback to execute when user changes option
+ * @param modifier Optional modifier to override visual aspects
+ * @see DisplayMenu
+ */
 @Composable
-private fun DisplayQuestionnaireMenu(modifier: Modifier = Modifier,
-                                     onChange: (Questionnaire) -> Unit)
+private fun DisplayQuestionnaireMenu(selected: Questionnaire,
+                                     onChange: (Questionnaire) -> Unit,
+                                     modifier: Modifier = Modifier
+)
 {
     DisplayMenu(
         label = stringResource(id = R.string.questionnaire),
         options = Questionnaire.get().map { Pair(stringResource(it.simpleLabelRes)) { onChange(it) } },
+        selected = stringResource(id = selected.simpleLabelRes),
         modifier = modifier)
 }
 
+/**
+ * Display granularity menu
+ * @param selected [TimeGranularity] that should be displayed as selected one
+ * @param onChange Callback to execute when user changes option
+ * @param modifier Optional modifier to override visual aspects
+ * @see DisplayMenu
+ */
 @Composable
-private fun DisplayGranularityOfDataMenu(modifier: Modifier = Modifier,
-                                         onChange: (TimeGranularity) -> Unit)
+private fun DisplayGranularityOfDataMenu(selected: TimeGranularity,
+                                         onChange: (TimeGranularity) -> Unit,
+                                         modifier: Modifier = Modifier)
 {
     DisplayMenu(
         label = stringResource(id = R.string.granularity),
         options = TimeGranularity.get().map { Pair(stringResource(it.label)) { onChange(it) } },
+        selected = stringResource(id = selected.label),
         modifier = modifier)
 }
 
+/**
+ * Display a [ExposedDropdownMenuBox] to select an option from list
+ * @param label Label of the [TextField] present as entry of the dropdown menu
+ * @param options List of options available, that consist an string to show to user and function
+ * to execute as callback
+ * @param selected String that is selected by the user or default
+ * @param modifier Optional modifier to override visual aspects
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DisplayMenu(label: String,
                         options: List<Pair<String,() -> Unit>>,
-                        modifier: Modifier
+                        selected : String,
+                        modifier: Modifier = Modifier
 )
 {
     var expanded by remember { mutableStateOf(false) }
-    var selected by remember { mutableStateOf(options[0].first) }
 
     // Point of entry of the menu
     ExposedDropdownMenuBox(
@@ -176,7 +196,6 @@ private fun DisplayMenu(label: String,
                 DropdownMenuItem(
                     text = { Text(selectionOption.first) },
                     onClick = {
-                        selected = selectionOption.first
                         expanded = false
                         selectionOption.second()
                     },
@@ -187,6 +206,12 @@ private fun DisplayMenu(label: String,
     }
 }
 
+/**
+ * Display Material Design 3 calendar picker to user using Sheets library (official
+ * Material Design 3 doesn't have it implemented yet)
+ * @param selectedRange [Range] of [LocalDate] that user has selected before or by default
+ * @param onSelectedRange: Callback to react changes on selected range
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DisplayCalendarPicker(selectedRange : Range<LocalDate>,
@@ -195,23 +220,24 @@ private fun DisplayCalendarPicker(selectedRange : Range<LocalDate>,
 {
     var showDialog by remember { mutableStateOf(false) }
 
-
+    // Due to this field is not editable (only show information about the value of picker) is
+    // disabled. Nevertheless, being these textfield disabled, these colors are changed by default,
+    // so we override them to present an homogeneous style across all components.
     TextField(
         value = "${formatDate(selectedRange.lower)} - ${formatDate(selectedRange.upper)}",
         modifier = Modifier.clickable { showDialog = true },
         onValueChange = {},
-        //readOnly = true,
         enabled = false,
         label = { Text(stringResource(R.string.time_interval)) },
         trailingIcon = { Icon(Icons.Default.DateRange,"") },
         colors = TextFieldDefaults.textFieldColors(
             disabledTextColor = MaterialTheme.colorScheme.onSurface,
-            disabledIndicatorColor =  MaterialTheme.colorScheme.onSurfaceVariant,
-            disabledLeadingIconColor =  MaterialTheme.colorScheme.onSurfaceVariant,
-            disabledTrailingIconColor =  MaterialTheme.colorScheme.onSurfaceVariant,
-            disabledLabelColor =  MaterialTheme.colorScheme.onSurfaceVariant,
-            disabledPlaceholderColor =  MaterialTheme.colorScheme.onSurface,
-            disabledSupportingTextColor =  MaterialTheme.colorScheme.onSurfaceVariant,
+            disabledIndicatorColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            disabledPlaceholderColor = MaterialTheme.colorScheme.onSurface,
+            disabledSupportingTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     )
 
@@ -238,29 +264,54 @@ private fun DisplayCalendarPicker(selectedRange : Range<LocalDate>,
     }
 }
 
+/**
+ * Draws a line chart
+ * @param heightSize Depending of the height of the screen, present more or less components
+ * @param producer Source of the data
+ * @param questionnaire [Questionnaire] whose data is being displayed
+ * @param timeGranularity [TimeGranularity] that is used in the chart
+ */
 @Composable
-private fun DrawLineChart(data : List<Int>,
+private fun DrawLineChart(heightSize: WindowHeightSizeClass,
+                          producer: ChartEntryModelProducer,
                           questionnaire: Questionnaire,
                           timeGranularity: TimeGranularity
 )
 {
     val chartStyle = m3ChartStyle()
 
-    val decorations = questionnaire.levels.map { rememberThresholdLine(it) }
-
-    val legends = questionnaire.levels.map { verticalLegendItem(
-        icon = shapeComponent(Shapes.pillShape, it.levelLabel.getColor()),
-        label = textComponent(
-            color = chartStyle.axis.axisLabelColor,
-            textSize = 12.sp,
-            typeface = Typeface.MONOSPACE,
-        ),
-        labelText = stringResource(it.levelLabel.label))
+    val decorations = questionnaire.levels.mapIndexed { index, scoreLevel ->
+        val previousMax = if(index == 0)
+            questionnaire.minScore
+        else
+            questionnaire.levels[index-1].max
+        thresholdArea(scoreLevel = scoreLevel, previousMax = previousMax.toFloat())
     }
+
+    // Legends are disabled in devices that are small in height space in order to avoid crashes
+    // related to not having space enough to display chart after legend has been drawn.
+    // Vico draws before legends and using WindowSize is needed to know if screen can plot
+    // simultaneously chart and legend; avoiding hardcoded conditionals based on test and error
+    
+    val legends = if(heightSize > WindowHeightSizeClass.Compact)
+        {
+            questionnaire.levels.map { verticalLegendItem(
+                icon = shapeComponent(Shapes.pillShape, it.levelLabel.getColor()),
+                label = textComponent(
+                    color = chartStyle.axis.axisLabelColor,
+                    textSize = 12.sp,
+                    typeface = Typeface.MONOSPACE,
+                ),
+                labelText = stringResource(it.levelLabel.label))
+            }
+        }
+        else
+            null
 
     ProvideChartStyle(chartStyle)
     {
         val defaultLines = currentChartStyle.lineChart.lines
+
         Chart(
             chart = lineChart(
                 lines = remember(defaultLines) {
@@ -274,7 +325,7 @@ private fun DrawLineChart(data : List<Int>,
                 axisValuesOverrider = AxisValuesOverrider.fixed(null,null,questionnaire.minScore.toFloat(),questionnaire.maxScore.toFloat()) ,
                 decorations = decorations
             ),
-            model = entryModelOf(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat()) }),
+            model = producer.getModel(),
             startAxis = startAxis(
                 guideline = axisGuidelineComponent(),
                 maxLabelCount = (questionnaire.maxScore - questionnaire.minScore + 1),
@@ -285,32 +336,35 @@ private fun DrawLineChart(data : List<Int>,
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),
                 title = stringResource(timeGranularity.label)),
             marker = rememberMarker(),
-            legend = verticalLegend(
-                items = legends,
-                iconSize = 8.dp,
-                iconPadding = 10.dp,
-                spacing = 4.dp,
-                padding = dimensionsOf(8.dp),
-            ),
+            legend = legends?.let {
+                verticalLegend(
+                    items = it,
+                    iconSize = 8.dp,
+                    iconPadding = 10.dp,
+                    spacing = 4.dp,
+                    padding = dimensionsOf(8.dp),
+                )
+            },
             modifier = Modifier.fillMaxSize()
         )
     }
 }
 
+/**
+ * Draws a threshold area
+ * @param scoreLevel Used to obtain color and label
+ * @param previousMax lower bound of the area
+ */
 @Composable
-private fun rememberThresholdLine(scoreLevel: ScoreLevel): ThresholdLine {
-    /*val label = textComponent(
-        color = Color.Black,
-        background = shapeComponent(Shapes.rectShape, color),
-        padding = dimensionsOf(8.dp,2.dp),
-        margins = dimensionsOf(4.dp),
-        typeface = Typeface.MONOSPACE)*/
+private fun thresholdArea(scoreLevel: ScoreLevel,
+                          previousMax: Float): ThresholdLine
+{
     val label = textComponent(textSize = (0).sp)
     val line = shapeComponent(color = scoreLevel.levelLabel.getColor().copy(.5f))
     val thresholdLabel = stringResource(scoreLevel.levelLabel.label)
     return remember(scoreLevel) {
         ThresholdLine(
-            thresholdRange = max(0f,scoreLevel.min.toFloat()-1)..scoreLevel.max.toFloat(),
+            thresholdRange = previousMax..scoreLevel.max.toFloat(),
             thresholdLabel = thresholdLabel,
             labelComponent = label,
             lineComponent = line,
@@ -330,6 +384,7 @@ fun DisplayQuestionnaireMenuPreview()
     BienestarEmocionalTheme {
         DisplayQuestionnaireMenu(
             modifier = Modifier,
+            selected = Questionnaire.PSS,
             onChange = {}
         )
     }
@@ -346,6 +401,7 @@ fun DisplayQuestionnaireMenuPreviewDarkTheme()
     BienestarEmocionalTheme(darkTheme = true) {
         DisplayQuestionnaireMenu(
             modifier = Modifier,
+            selected = Questionnaire.PSS,
             onChange = {})
     }
 }
@@ -356,11 +412,12 @@ fun DisplayQuestionnaireMenuPreviewDarkTheme()
 )
 @Composable
 
-fun DisplayGranularityOfDataMenuMenuPreview()
+fun DisplayGranularityOfDataMenuPreview()
 {
     BienestarEmocionalTheme {
         DisplayGranularityOfDataMenu(
             modifier = Modifier,
+            selected = TimeGranularity.Day,
             onChange = {})
     }
 }
@@ -376,23 +433,60 @@ fun DisplayGranularityOfDataMenuPreviewDarkTheme()
     BienestarEmocionalTheme(darkTheme = true) {
         DisplayGranularityOfDataMenu(
             modifier = Modifier,
+            selected = TimeGranularity.Day,
             onChange = {})
     }
 }
 
-/*
 @Preview(
     showBackground = true,
     group = "Light Theme"
 )
 @Composable
-fun PSSChartPreview()
+
+fun DisplayCalendarPickerPreview()
 {
+    BienestarEmocionalTheme {
+        DisplayCalendarPicker(
+            selectedRange = (LocalDate.now().minusDays(7) .. LocalDate.now()).toRange(),
+            onSelectedRange = {})
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
+@Composable
+
+fun DisplayCalendarPickerPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true) {
+        DisplayCalendarPicker(
+            selectedRange = (LocalDate.now().minusDays(7) .. LocalDate.now()).toRange(),
+            onSelectedRange = {})
+    }
+}
+
+
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
+@Composable
+fun PSSChartCompactPreview()
+{
+    val data = List(100) { Random.nextInt(Questionnaire.PSS.minScore, Questionnaire.PSS.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
     BienestarEmocionalTheme {
         Surface {
             DrawLineChart(
-                processSameDayEntries(generateBunchOfPSSEntries()).map { pair -> pair.second},
-                Questionnaire.PSS
+                heightSize = WindowHeightSizeClass.Compact,
+                producer = producer,
+                questionnaire = Questionnaire.PSS,
+                timeGranularity = TimeGranularity.Day,
             )
         }
     }
@@ -403,28 +497,43 @@ fun PSSChartPreview()
     group = "Dark Theme"
 )
 @Composable
-fun PSSChartPreviewDarkTheme()
+fun PSSChartCompactPreviewDarkTheme()
 {
+    val data = List(100) { Random.nextInt(Questionnaire.PSS.minScore, Questionnaire.PSS.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
-            DrawLineChart(processSameDayEntries(generateBunchOfPSSEntries()).map { pair -> pair.second},
-                Questionnaire.PSS)
+            DrawLineChart(
+                heightSize = WindowHeightSizeClass.Compact,
+                producer = producer,
+                questionnaire = Questionnaire.PSS,
+                timeGranularity = TimeGranularity.Day,
+            )
         }
     }
 }
+
 
 @Preview(
     showBackground = true,
     group = "Light Theme"
 )
 @Composable
-fun PHQChartPreview()
+fun PSSChartMediumPreview()
 {
+    val data = List(100) { Random.nextInt(Questionnaire.PSS.minScore, Questionnaire.PSS.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
     BienestarEmocionalTheme {
         Surface {
             DrawLineChart(
-                processSameDayEntries(generateBunchOfPHQEntries()).map { pair -> pair.second},
-                Questionnaire.PHQ
+                heightSize = WindowHeightSizeClass.Medium,
+                producer = producer,
+                questionnaire = Questionnaire.PSS,
+                timeGranularity = TimeGranularity.Day,
             )
         }
     }
@@ -435,12 +544,20 @@ fun PHQChartPreview()
     group = "Dark Theme"
 )
 @Composable
-fun PHQChartPreviewDarkTheme()
+fun PSSChartMediumPreviewDarkTheme()
 {
+    val data = List(100) { Random.nextInt(Questionnaire.PSS.minScore, Questionnaire.PSS.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
-            DrawLineChart(processSameDayEntries(generateBunchOfPHQEntries()).map { pair -> pair.second},
-                Questionnaire.PHQ)
+            DrawLineChart(
+                heightSize = WindowHeightSizeClass.Medium,
+                producer = producer,
+                questionnaire = Questionnaire.PSS,
+                timeGranularity = TimeGranularity.Day,
+            )
         }
     }
 }
@@ -450,13 +567,19 @@ fun PHQChartPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun UCLAChartPreview()
+fun PHQChartCompactPreview()
 {
+    val data = List(100) { Random.nextInt(Questionnaire.PHQ.minScore, Questionnaire.PHQ.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
     BienestarEmocionalTheme {
         Surface {
             DrawLineChart(
-                processSameDayEntries(generateBunchOfUCLAEntries()).map { pair -> pair.second},
-                Questionnaire.UCLA
+                heightSize = WindowHeightSizeClass.Compact,
+                producer = producer,
+                questionnaire = Questionnaire.PHQ,
+                timeGranularity = TimeGranularity.Day,
             )
         }
     }
@@ -467,12 +590,158 @@ fun UCLAChartPreview()
     group = "Dark Theme"
 )
 @Composable
-fun UCLAChartPreviewDarkTheme()
+fun PHQChartPreviewCompactDarkTheme()
 {
+    val data = List(100) { Random.nextInt(Questionnaire.PHQ.minScore, Questionnaire.PHQ.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
-            DrawLineChart(processSameDayEntries(generateBunchOfUCLAEntries()).map { pair -> pair.second},
-                Questionnaire.UCLA)
+            DrawLineChart(
+                heightSize = WindowHeightSizeClass.Compact,
+                producer = producer,
+                questionnaire = Questionnaire.PHQ,
+                timeGranularity = TimeGranularity.Day,
+            )
         }
     }
-}*/
+}
+
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
+@Composable
+fun PHQChartMediumPreview()
+{
+    val data = List(100) { Random.nextInt(Questionnaire.PHQ.minScore, Questionnaire.PHQ.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    BienestarEmocionalTheme {
+        Surface {
+            DrawLineChart(
+                heightSize = WindowHeightSizeClass.Medium,
+                producer = producer,
+                questionnaire = Questionnaire.PHQ,
+                timeGranularity = TimeGranularity.Day,
+            )
+        }
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
+@Composable
+fun PHQChartMediumPreviewDarkTheme()
+{
+    val data = List(100) { Random.nextInt(Questionnaire.PHQ.minScore, Questionnaire.PHQ.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    BienestarEmocionalTheme(darkTheme = true) {
+        Surface {
+            DrawLineChart(
+                heightSize = WindowHeightSizeClass.Medium,
+                producer = producer,
+                questionnaire = Questionnaire.PHQ,
+                timeGranularity = TimeGranularity.Day,
+            )
+        }
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
+@Composable
+fun UCLAChartCompactPreview()
+{
+    val data = List(100) { Random.nextInt(Questionnaire.UCLA.minScore, Questionnaire.UCLA.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    BienestarEmocionalTheme {
+        Surface {
+            DrawLineChart(
+                heightSize = WindowHeightSizeClass.Compact,
+                producer = producer,
+                questionnaire = Questionnaire.UCLA,
+                timeGranularity = TimeGranularity.Day,
+            )
+        }
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
+@Composable
+fun UCLAChartCompactPreviewDarkTheme()
+{
+    val data = List(100) { Random.nextInt(Questionnaire.UCLA.minScore, Questionnaire.UCLA.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    BienestarEmocionalTheme(darkTheme = true) {
+        Surface {
+            DrawLineChart(
+                heightSize = WindowHeightSizeClass.Compact,
+                producer = producer,
+                questionnaire = Questionnaire.UCLA,
+                timeGranularity = TimeGranularity.Day,
+            )
+        }
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
+@Composable
+fun UCLAChartMediumPreview()
+{
+    val data = List(100) { Random.nextInt(Questionnaire.UCLA.minScore, Questionnaire.UCLA.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    BienestarEmocionalTheme {
+        Surface {
+            DrawLineChart(
+                heightSize = WindowHeightSizeClass.Medium,
+                producer = producer,
+                questionnaire = Questionnaire.UCLA,
+                timeGranularity = TimeGranularity.Day,
+            )
+        }
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
+@Composable
+fun UCLAChartMediumPreviewDarkTheme()
+{
+    val data = List(100) { Random.nextInt(Questionnaire.UCLA.minScore, Questionnaire.UCLA.maxScore)}
+    val producer = ChartEntryModelProducer()
+    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    BienestarEmocionalTheme(darkTheme = true) {
+        Surface {
+            DrawLineChart(
+                heightSize = WindowHeightSizeClass.Medium,
+                producer = producer,
+                questionnaire = Questionnaire.UCLA,
+                timeGranularity = TimeGranularity.Day,
+            )
+        }
+    }
+}

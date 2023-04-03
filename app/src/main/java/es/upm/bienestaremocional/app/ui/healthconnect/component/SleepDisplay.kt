@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,15 +27,14 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatDispla
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatHoursMinutes
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.component.DrawPair
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
  * Displays [SleepSessionData]
- * @param windowSize: [WindowSize] to modify the component according to the screen
+ * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun SleepSessionData.Display(windowSize: WindowSize)
+fun SleepSessionData.Display(widthSize: WindowWidthSizeClass)
 {
     BasicCard {
         SeriesDateTimeHeading(
@@ -58,7 +58,7 @@ fun SleepSessionData.Display(windowSize: WindowSize)
         Text(text = stringResource(R.string.sleep_stages),color = MaterialTheme.colorScheme.onSurface)
         stages.forEach{it.Display()}
 
-        metadata.Display(windowSize)
+        metadata.Display(widthSize)
     }
 }
 
@@ -101,7 +101,7 @@ fun SleepSessionDataDisplayPreview()
 {
     val sleepSessionData = Sleep.generateDummyData()[0]
     BienestarEmocionalTheme {
-        sleepSessionData.Display(windowSize = WindowSize.COMPACT)
+        sleepSessionData.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 
@@ -111,7 +111,7 @@ fun SleepSessionDataDisplayPreviewDarkTheme()
 {
     val sleepSessionData = Sleep.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        sleepSessionData.Display(windowSize = WindowSize.COMPACT)
+        sleepSessionData.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 
@@ -121,7 +121,7 @@ fun SleepSessionDataDisplayLargeScreenPreview()
 {
     val sleepSessionData = Sleep.generateDummyData()[0]
     BienestarEmocionalTheme {
-        sleepSessionData.Display(windowSize = WindowSize.MEDIUM)
+        sleepSessionData.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
 
@@ -131,7 +131,7 @@ fun SleepSessionDataDisplayLargeScreenPreviewDarkTheme()
 {
     val sleepSessionData = Sleep.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        sleepSessionData.Display(windowSize = WindowSize.MEDIUM)
+        sleepSessionData.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
 

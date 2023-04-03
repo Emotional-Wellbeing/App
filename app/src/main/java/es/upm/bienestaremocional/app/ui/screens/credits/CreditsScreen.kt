@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +23,7 @@ import es.upm.bienestaremocional.app.data.credits.CreditContent
 import es.upm.bienestaremocional.app.ui.component.CreditComponent
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
+import es.upm.bienestaremocional.core.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
@@ -30,19 +33,18 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 @Destination
 @Composable
 fun CreditsScreen(navigator: DestinationsNavigator,
-                  windowSize: WindowSize,
                   viewModel: CreditsViewModel = hiltViewModel()
 )
 {
     CreditsScreen(navigator = navigator,
-        windowSize = windowSize,
+        widthSize = computeWindowWidthSize(),
         importantCredits = viewModel.importantPeople,
         notImportantCredits = viewModel.notImportantPeople)
 }
 
 @Composable
 private fun CreditsScreen(navigator: DestinationsNavigator,
-                          windowSize: WindowSize,
+                          widthSize: WindowWidthSizeClass,
                           importantCredits: List<Credit>,
                           notImportantCredits: List<Credit>
 )
@@ -54,17 +56,18 @@ private fun CreditsScreen(navigator: DestinationsNavigator,
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
             horizontalAlignment = Alignment.CenterHorizontally
         )
         {
             importantCredits.forEach {
-                CreditComponent(credit = it, windowSize = windowSize)
+                CreditComponent(credit = it, widthSize = widthSize)
             }
             Divider()
             notImportantCredits.forEach {
-                CreditComponent(credit = it, windowSize = windowSize)
+                CreditComponent(credit = it, widthSize = widthSize)
             }
         }
     }
@@ -80,7 +83,7 @@ fun CreditsScreenPreview()
 
     BienestarEmocionalTheme {
         CreditsScreen(navigator = EmptyDestinationsNavigator,
-            windowSize = WindowSize.COMPACT,
+            widthSize = WindowWidthSizeClass.Compact,
             importantCredits = CreditContent.content.filter { credit -> credit.importantContribution },
             notImportantCredits = CreditContent.content.filter { credit -> !credit.importantContribution },
         )
@@ -97,7 +100,7 @@ fun CreditsScreenPreviewDarkTheme()
 
     BienestarEmocionalTheme(darkTheme = true) {
         CreditsScreen(navigator = EmptyDestinationsNavigator,
-            windowSize = WindowSize.COMPACT,
+            widthSize = WindowWidthSizeClass.Compact,
             importantCredits = CreditContent.content.filter { credit -> credit.importantContribution },
             notImportantCredits = CreditContent.content.filter { credit -> !credit.importantContribution },
         )

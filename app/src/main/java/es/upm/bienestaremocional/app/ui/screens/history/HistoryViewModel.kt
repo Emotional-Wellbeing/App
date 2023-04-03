@@ -4,7 +4,11 @@ import android.util.Range
 import androidx.core.util.toRange
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.patrykandpatrick.vico.core.entry.ChartEntry
+import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
+import com.patrykandpatrick.vico.core.entry.FloatEntry
 import dagger.hilt.android.lifecycle.HiltViewModel
+import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireEntity
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerDay
 import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerMonth
@@ -12,7 +16,6 @@ import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerWeek
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PHQRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +26,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
-    val windowSize: WindowSize,
     private val pssRepository: PSSRepository,
     private val phqRepository: PHQRepository,
     private val uclaRepository: UCLARepository,
@@ -34,74 +36,117 @@ class HistoryViewModel @Inject constructor(
         HistoryState(questionnaire = Questionnaire.PSS,
             timeGranularity = TimeGranularity.Day,
             timeRange = (LocalDate.now().minusDays(7) .. LocalDate.now()).toRange(),
-            scores = emptyList()))
+            isDataNotEmpty = false))
     val state: StateFlow<HistoryState> = _state.asStateFlow()
+
+    // Producer used to display the data
+    val producer = ChartEntryModelProducer()
+
+    private val cachedData : MutableList<QuestionnaireEntity> = mutableListOf()
 
     init {
         viewModelScope.launch {
-            _state.value =  HistoryState(questionnaire = _state.value.questionnaire,
-                timeGranularity = _state.value.timeGranularity,
-                timeRange = _state.value.timeRange,
-                scores = obtainData(_state.value.questionnaire,
-                    _state.value.timeGranularity,
-                    _state.value.timeRange)
-            )
+            //cached data is empty at the start
+            _state.value.apply {
+                updateData(questionnaire = questionnaire, timeRange = timeRange)
+                updateChart(
+                    questionnaire = questionnaire,
+                    timeGranularity = timeGranularity,
+                    timeRange = timeRange
+                )
+            }
         }
-
     }
 
     fun onQuestionnaireChange(questionnaire: Questionnaire)
     {
-        viewModelScope.launch {
-            _state.value =  HistoryState(questionnaire = questionnaire,
-                timeGranularity = _state.value.timeGranularity,
-                timeRange = _state.value.timeRange,
-                scores = obtainData(questionnaire,
-                    _state.value.timeGranularity,
-                    _state.value.timeRange)
-            )
-        }
+        updateChart(questionnaire = questionnaire,
+            timeGranularity = _state.value.timeGranularity,
+            timeRange = _state.value.timeRange)
     }
 
     fun onTimeGranularityChange(timeGranularity: TimeGranularity)
     {
-        viewModelScope.launch {
-            _state.value =  HistoryState(questionnaire = _state.value.questionnaire,
-                timeGranularity = timeGranularity,
-                timeRange = _state.value.timeRange,
-                scores = obtainData(_state.value.questionnaire,
-                    timeGranularity,
-                    _state.value.timeRange)
-            )
-        }
+        updateChart(questionnaire = _state.value.questionnaire,
+            timeGranularity = timeGranularity,
+            timeRange = _state.value.timeRange)
     }
 
     fun onTimeRangeChange(timeRange: Range<LocalDate>)
     {
-        viewModelScope.launch {
-            _state.value =  HistoryState(questionnaire = _state.value.questionnaire,
-                timeGranularity = _state.value.timeGranularity,
-                timeRange = timeRange,
-                scores = obtainData(_state.value.questionnaire,
-                    _state.value.timeGranularity,
-                    timeRange)
-            )
-        }
+        updateChart(questionnaire = _state.value.questionnaire,
+            timeGranularity = _state.value.timeGranularity,
+            timeRange = timeRange)
     }
-    private suspend fun obtainData(questionnaire: Questionnaire,
-                                   timeGranularity: TimeGranularity,
-                                   range: Range<LocalDate>): List<Int>
+
+    private suspend fun updateData(questionnaire: Questionnaire,
+                                   timeRange: Range<LocalDate>)
     {
-        val data = when(questionnaire) {
-            Questionnaire.PSS -> pssRepository.getAllFromRange(range)
-            Questionnaire.PHQ -> phqRepository.getAllFromRange(range)
-            Questionnaire.UCLA -> uclaRepository.getAllFromRange(range)
-        }
+        cachedData.clear()
+        cachedData.addAll(
+            when (questionnaire) {
+                Questionnaire.PSS -> pssRepository.getAllFromRange(timeRange)
+                Questionnaire.PHQ -> phqRepository.getAllFromRange(timeRange)
+                Questionnaire.UCLA -> uclaRepository.getAllFromRange(timeRange)
+            }
+        )
+    }
+
+    private fun computeAggregateData(timeGranularity: TimeGranularity): List<Float>
+    {
         return when(timeGranularity)
         {
-            TimeGranularity.Day -> aggregateEntriesPerDay(data).map { pair -> pair.second}
-            TimeGranularity.Week -> aggregateEntriesPerWeek(data).map { pair -> pair.second}
-            TimeGranularity.Month -> aggregateEntriesPerMonth(data).map { pair -> pair.second}
+            TimeGranularity.Day -> aggregateEntriesPerDay(cachedData).map { pair -> pair.second}
+            TimeGranularity.Week -> aggregateEntriesPerWeek(cachedData).map { pair -> pair.second}
+            TimeGranularity.Month -> aggregateEntriesPerMonth(cachedData).map { pair -> pair.second}
+        }
+    }
+
+    private fun updateProducer(aggregateData : List<Float>)
+    {
+        if (aggregateData.isEmpty())
+        {
+            producer.setEntries(emptyList<ChartEntry>())
+        }
+        else
+        {
+            producer.setEntries(aggregateData.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value)})
+        }
+    }
+
+    private fun updateChart(questionnaire: Questionnaire,
+                            timeGranularity: TimeGranularity,
+                            timeRange: Range<LocalDate>)
+    {
+        val dataMustBeUpdated = questionnaire != _state.value.questionnaire || timeRange != _state.value.timeRange
+
+        if(dataMustBeUpdated)
+        {
+            viewModelScope.launch {
+                updateData(questionnaire = questionnaire, timeRange = timeRange)
+
+                val aggregateData = computeAggregateData(timeGranularity)
+                updateProducer(aggregateData)
+
+                _state.value = HistoryState(
+                    questionnaire = questionnaire,
+                    timeGranularity = timeGranularity,
+                    timeRange = timeRange,
+                    isDataNotEmpty = aggregateData.isNotEmpty()
+                )
+            }
+        }
+        else
+        {
+            val aggregateData = computeAggregateData(timeGranularity)
+            updateProducer(aggregateData)
+
+            _state.value = HistoryState(
+                questionnaire = questionnaire,
+                timeGranularity = timeGranularity,
+                timeRange = timeRange,
+                isDataNotEmpty = aggregateData.isNotEmpty()
+            )
         }
     }
 }

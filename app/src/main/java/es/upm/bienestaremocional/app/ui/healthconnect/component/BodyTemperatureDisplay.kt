@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.component
 
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,16 +21,15 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.BodyTemperature
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.component.DrawPair
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
  * Displays [BodyTemperatureRecord]
- * @param windowSize: [WindowSize] to modify the component according to the screen
+ * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 
 @Composable
-fun BodyTemperatureRecord.Display(windowSize: WindowSize)
+fun BodyTemperatureRecord.Display(widthSize: WindowWidthSizeClass)
 {
     val temperatureFormatted = String.format("%.2f",temperature.inCelsius)
     val unit = stringResource(id = R.string.celsius)
@@ -37,7 +37,7 @@ fun BodyTemperatureRecord.Display(windowSize: WindowSize)
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(R.string.temperature), value = "$temperatureFormatted $unit")
         DrawPair(key = stringResource(R.string.place), value = decodeMeasurementLocation())
-        metadata.Display(windowSize)
+        metadata.Display(widthSize)
     }
 }
 
@@ -65,7 +65,7 @@ fun BodyTemperatureRecordDisplayPreview()
 {
     val bodyTemperatureRecord = BodyTemperature.generateDummyData()[0]
     BienestarEmocionalTheme {
-        bodyTemperatureRecord.Display(windowSize = WindowSize.COMPACT)
+        bodyTemperatureRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Dark Theme")
@@ -74,7 +74,7 @@ fun BodyTemperatureRecordDisplayPreviewDarkTheme()
 {
     val bodyTemperatureRecord = BodyTemperature.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        bodyTemperatureRecord.Display(windowSize = WindowSize.COMPACT)
+        bodyTemperatureRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Light Theme")
@@ -83,7 +83,7 @@ fun BodyTemperatureRecordDisplayLargeScreenPreview()
 {
     val bodyTemperatureRecord = BodyTemperature.generateDummyData()[0]
     BienestarEmocionalTheme {
-        bodyTemperatureRecord.Display(windowSize = WindowSize.MEDIUM)
+        bodyTemperatureRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
 @Preview(group = "Dark Theme")
@@ -92,6 +92,6 @@ fun BodyTemperatureRecordDisplayLargeScreenPreviewDarkTheme()
 {
     val bodyTemperatureRecord = BodyTemperature.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        bodyTemperatureRecord.Display(windowSize = WindowSize.MEDIUM)
+        bodyTemperatureRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }

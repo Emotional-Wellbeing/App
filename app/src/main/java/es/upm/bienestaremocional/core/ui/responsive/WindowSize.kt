@@ -1,32 +1,32 @@
 package es.upm.bienestaremocional.core.ui.responsive
 
-import android.app.Activity
-import android.util.DisplayMetrics
-import androidx.window.layout.WindowMetricsCalculator
+import androidx.compose.material3.windowsizeclass.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import es.upm.bienestaremocional.app.utils.getActivity
 
 /**
- * Stores the screen's type to implement responsive layouts
+ * Computes [WindowSizeClass] using Material Design 3 Window Size api.
+ * This function is a superset of [computeWindowHeightSize] and [computeWindowWidthSize]
+ * @return [WindowSizeClass] of the screen
  */
-enum class WindowSize { COMPACT, MEDIUM, EXPANDED }
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Composable
+fun computeWindowSizeClass(): WindowSizeClass =
+    calculateWindowSizeClass(LocalContext.current.getActivity())
 
 /**
- * Computes window size according for their width. Threshold values are extracted from
- * https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#kotlin
+ * Computes [WindowWidthSizeClass] using Material Design 3 Window Size api
+ * @return [WindowWidthSizeClass] of the screen
  */
-fun computeWindowSize(windowMetricsCalculator: WindowMetricsCalculator,
-                      activity: Activity,
-                      displayMetrics : DisplayMetrics): WindowSize
-{
-    val metrics = windowMetricsCalculator.computeCurrentWindowMetrics(activity)
+@Composable
+fun computeWindowWidthSize(): WindowWidthSizeClass =
+    computeWindowSizeClass().widthSizeClass
 
-    val widthDp = metrics.bounds.width() / displayMetrics.density
-
-    val widthWindowSizeClass = when
-    {
-        widthDp < 600f -> WindowSize.COMPACT
-        widthDp < 840f -> WindowSize.MEDIUM
-        else -> WindowSize.EXPANDED
-    }
-
-    return widthWindowSizeClass
-}
+/**
+ * Computes [WindowHeightSizeClass] using Material Design 3 Window Size api
+ * @return [WindowHeightSizeClass] of the screen
+ */
+@Composable
+fun computeWindowHeightSize(): WindowHeightSizeClass =
+    computeWindowSizeClass().heightSizeClass

@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.healthconnect.component
 
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -9,15 +10,14 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.Vo2Max
 import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.component.DrawPair
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
  * Displays [Vo2MaxRecord]
- * @param windowSize: [WindowSize] to modify the component according to the screen
+ * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun Vo2MaxRecord.Display(windowSize: WindowSize)
+fun Vo2MaxRecord.Display(widthSize: WindowWidthSizeClass)
 {
     val vo2 = String.format("%.2f",vo2MillilitersPerMinuteKilogram)
     val unit = stringResource(id = R.string.ml_kg_min)
@@ -25,7 +25,7 @@ fun Vo2MaxRecord.Display(windowSize: WindowSize)
         SeriesDateTimeHeading(time = time, zoneOffset = zoneOffset)
         DrawPair(key = stringResource(id = R.string.vo2_max), value = "$vo2 $unit")
         DrawPair(key = stringResource(R.string.measurement_method), value = decodeMeasurementMethod())
-        metadata.Display(windowSize)
+        metadata.Display(widthSize)
     }
 }
 
@@ -51,7 +51,7 @@ fun Vo2MaxRecordDisplayPreview()
 {
     val vo2Max = Vo2Max.generateDummyData()[0]
     BienestarEmocionalTheme {
-        vo2Max.Display(windowSize = WindowSize.COMPACT)
+        vo2Max.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Dark Theme")
@@ -60,7 +60,7 @@ fun Vo2MaxRecordDisplayPreviewDarkTheme()
 {
     val vo2Max = Vo2Max.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        vo2Max.Display(windowSize = WindowSize.COMPACT)
+        vo2Max.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Light Theme")
@@ -69,7 +69,7 @@ fun Vo2MaxRecordDisplayLargeScreenPreview()
 {
     val vo2Max = Vo2Max.generateDummyData()[0]
     BienestarEmocionalTheme {
-        vo2Max.Display(windowSize = WindowSize.MEDIUM)
+        vo2Max.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
 @Preview(group = "Dark Theme")
@@ -78,6 +78,6 @@ fun Vo2MaxRecordDisplayLargeScreenPreviewDarkTheme()
 {
     val vo2Max = Vo2Max.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        vo2Max.Display(windowSize = WindowSize.MEDIUM)
+        vo2Max.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }

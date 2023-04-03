@@ -4,26 +4,26 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.credits.Credit
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 /**
- * Provides the style used for  [Credit.nameResource] depending of [WindowSize]
+ * Provides the style used for  [Credit.nameResource] depending of [WindowWidthSizeClass]
  * and [Credit.importantContribution]
- * @param windowSize: instance of [WindowSize] indicating the type of screen
+ * @param widthSize: instance of [WindowWidthSizeClass] indicating the type of screen
  * @param importantContribution: [Credit.importantContribution] value
  * @see Credit
- * @see WindowSize
+ * @see WindowWidthSizeClass
  */
 @Composable
-private fun nameStyle(windowSize: WindowSize, importantContribution: Boolean) =
-    if (windowSize == WindowSize.COMPACT)
+private fun nameStyle(widthSize: WindowWidthSizeClass, importantContribution: Boolean) =
+    if (widthSize == WindowWidthSizeClass.Compact)
     {
         if (importantContribution)
             MaterialTheme.typography.titleMedium
@@ -39,16 +39,16 @@ private fun nameStyle(windowSize: WindowSize, importantContribution: Boolean) =
     }
 
 /**
- * Provides the style used for [Credit.descriptionResource] depending of [WindowSize]
+ * Provides the style used for [Credit.descriptionResource] depending of [WindowWidthSizeClass]
  * and [Credit.importantContribution]
- * @param windowSize: instance of [WindowSize] indicating the type of screen
+ * @param widthSize: instance of [WindowWidthSizeClass] indicating the type of screen
  * @param importantContribution: [Credit.importantContribution] value
  * @see Credit
- * @see WindowSize
+ * @see WindowWidthSizeClass
  */
 @Composable
-private fun descriptionStyle(windowSize: WindowSize, importantContribution: Boolean) =
-    if (windowSize == WindowSize.COMPACT)
+private fun descriptionStyle(widthSize: WindowWidthSizeClass, importantContribution: Boolean) =
+    if (widthSize == WindowWidthSizeClass.Compact)
     {
         if (importantContribution)
             MaterialTheme.typography.bodyMedium
@@ -66,24 +66,24 @@ private fun descriptionStyle(windowSize: WindowSize, importantContribution: Bool
 /**
  * Display Credit information inside a column
  * @param credit: element to display
- * @param windowSize: Type of [WindowSize] used for calibrate Texts
+ * @param widthSize: Type of [WindowWidthSizeClass] used for calibrate Texts
  * @see Credit
- * @see WindowSize
+ * @see WindowWidthSizeClass
  */
 @Composable
-fun CreditComponent(credit: Credit, windowSize: WindowSize)
+fun CreditComponent(credit: Credit, widthSize: WindowWidthSizeClass)
 {
     Column()
     {
         Text(text = stringResource(id = credit.nameResource),
             textAlign = TextAlign.Justify,
             color = MaterialTheme.colorScheme.secondary,
-            style = nameStyle(windowSize,credit.importantContribution)
+            style = nameStyle(widthSize,credit.importantContribution)
         )
         Text(text = stringResource(id = credit.descriptionResource),
             textAlign = TextAlign.Justify,
             color = MaterialTheme.colorScheme.onBackground,
-            style = descriptionStyle(windowSize,credit.importantContribution)
+            style = descriptionStyle(widthSize,credit.importantContribution)
         )
     }
 
@@ -104,7 +104,7 @@ fun CreditImportantComponentPreview()
                     descriptionResource = R.string.credit_author_description,
                     importantContribution = true
                 ),
-                windowSize = WindowSize.COMPACT
+                widthSize = WindowWidthSizeClass.Compact
             )
         }
     }
@@ -126,7 +126,7 @@ fun CreditImportantComponentPreviewDarkTheme()
                     descriptionResource = R.string.credit_author_description,
                     importantContribution = true
                 ),
-                windowSize = WindowSize.COMPACT
+                widthSize = WindowWidthSizeClass.Compact
             )
         }
     }
@@ -147,7 +147,7 @@ fun CreditImportantComponentPreviewMediumScreen()
                     descriptionResource = R.string.credit_author_description,
                     importantContribution = true
                 ),
-                windowSize = WindowSize.MEDIUM
+                widthSize = WindowWidthSizeClass.Medium
             )
         }
     }
@@ -169,7 +169,7 @@ fun CreditImportantComponentPreviewDarkThemeMediumScreen()
                     descriptionResource = R.string.credit_author_description,
                     importantContribution = true
                 ),
-                windowSize = WindowSize.MEDIUM
+                widthSize = WindowWidthSizeClass.Medium
             )
         }
     }
@@ -190,7 +190,7 @@ fun CreditNotImportantComponentPreview()
                     descriptionResource = R.string.credit_logo1_description,
                     importantContribution = false
                 ),
-                windowSize = WindowSize.COMPACT
+                widthSize = WindowWidthSizeClass.Compact
             )
         }
     }
@@ -212,7 +212,7 @@ fun CreditNotImportantComponentPreviewDarkTheme()
                     descriptionResource = R.string.credit_logo1_description,
                     importantContribution = false
                 ),
-                windowSize = WindowSize.COMPACT
+                widthSize = WindowWidthSizeClass.Compact
             )
         }
     }
@@ -234,7 +234,7 @@ fun CreditNotImportantComponentPreviewMediumScreen()
                     descriptionResource = R.string.credit_logo1_description,
                     importantContribution = false
                 ),
-                windowSize = WindowSize.MEDIUM
+                widthSize = WindowWidthSizeClass.Medium
             )
         }
     }
@@ -256,7 +256,7 @@ fun CreditNotImportantComponentPreviewDarkThemeMediumScreen()
                     descriptionResource = R.string.credit_logo1_description,
                     importantContribution = false
                 ),
-                windowSize = WindowSize.MEDIUM
+                widthSize = WindowWidthSizeClass.Medium
             )
         }
     }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -16,16 +17,15 @@ import es.upm.bienestaremocional.app.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.formatHoursMinutes
 import es.upm.bienestaremocional.core.ui.component.BasicCard
 import es.upm.bienestaremocional.core.ui.component.DrawPair
-import es.upm.bienestaremocional.core.ui.responsive.WindowSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import java.time.Duration
 
 /**
  * Displays [HeartRateRecord]
- * @param windowSize: [WindowSize] to modify the component according to the screen
+ * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun HeartRateRecord.Display(windowSize: WindowSize)
+fun HeartRateRecord.Display(widthSize: WindowWidthSizeClass)
 {
     val unit = stringResource(id = R.string.bpm)
 
@@ -50,7 +50,7 @@ fun HeartRateRecord.Display(windowSize: WindowSize)
             }
         }
 
-        metadata.Display(windowSize)
+        metadata.Display(widthSize)
     }
 }
 
@@ -60,7 +60,7 @@ fun HeartRateRecordDisplayPreview()
 {
     val heartRateRecord = HeartRate.generateDummyData()[0]
     BienestarEmocionalTheme {
-        heartRateRecord.Display(windowSize = WindowSize.COMPACT)
+        heartRateRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Dark Theme")
@@ -69,7 +69,7 @@ fun HeartRateRecordDisplayPreviewDarkTheme()
 {
     val heartRateRecord = HeartRate.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        heartRateRecord.Display(windowSize = WindowSize.COMPACT)
+        heartRateRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
 @Preview(group = "Light Theme")
@@ -78,7 +78,7 @@ fun HeartRateRecordDisplayLargeScreenPreview()
 {
     val heartRateRecord = HeartRate.generateDummyData()[0]
     BienestarEmocionalTheme {
-        heartRateRecord.Display(windowSize = WindowSize.MEDIUM)
+        heartRateRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
 @Preview(group = "Dark Theme")
@@ -87,6 +87,6 @@ fun HeartRateRecordDisplayLargeScreenPreviewDarkTheme()
 {
     val heartRateRecord = HeartRate.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
-        heartRateRecord.Display(windowSize = WindowSize.MEDIUM)
+        heartRateRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
