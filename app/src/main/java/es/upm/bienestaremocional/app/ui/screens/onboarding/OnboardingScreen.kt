@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -24,8 +25,8 @@ import es.upm.bienestaremocional.app.ui.component.animation.DisplayLottieAnimati
 import es.upm.bienestaremocional.app.ui.component.onboarding.HorizontalPagerContent
 import es.upm.bienestaremocional.app.ui.component.onboarding.OnboardingContent
 import es.upm.bienestaremocional.app.ui.screens.destinations.HomeScreenDestination
+import es.upm.bienestaremocional.core.ui.responsive.computeWindowHeightSize
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowWidthSize
-
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
@@ -38,18 +39,19 @@ fun OnboardingScreen(navigator: DestinationsNavigator,
                      viewModel: OnboardingViewModel = hiltViewModel()
 )
 {
-    OnboardingScreen(widthSize = computeWindowWidthSize(),
-        onFinish = {
-            viewModel.onFinish()
-            navigator.popBackStack()
-            navigator.navigate(HomeScreenDestination)
-        }
-    )
+    OnboardingScreen(heigthSize = computeWindowHeightSize(),
+        widthSize = computeWindowWidthSize())
+    {
+        viewModel.onFinish()
+        navigator.popBackStack()
+        navigator.navigate(HomeScreenDestination)
+    }
 }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun OnboardingScreen(widthSize: WindowWidthSizeClass,
+private fun OnboardingScreen(heigthSize : WindowHeightSizeClass,
+                             widthSize: WindowWidthSizeClass,
                              onFinish: () -> Unit)
 {
     val items = remember {OnboardingContent.content}
@@ -61,15 +63,15 @@ private fun OnboardingScreen(widthSize: WindowWidthSizeClass,
             .fillMaxSize()
             .padding(16.dp))
         {
-
             HorizontalPager(
                 count = items.size,
                 state = pagerState,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.fillMaxSize()
             )
             {
                     page -> DrawPage(horizontalPagerContent = items[page],
                 pagerState = pagerState,
+                heigthSize = heigthSize,
                 widthSize = widthSize,
                 onFinish = onFinish)
             }
@@ -85,6 +87,7 @@ private fun OnboardingScreen(widthSize: WindowWidthSizeClass,
 @Composable
 private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
                      pagerState : PagerState,
+                     heigthSize : WindowHeightSizeClass,
                      widthSize: WindowWidthSizeClass,
                      onFinish: () -> Unit
 )
@@ -107,90 +110,80 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
         }
     }
 
-
     //content
-    Column(modifier = Modifier.fillMaxHeight(),
-        verticalArrangement = Arrangement.SpaceBetween,
+    Column(modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        //image
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .weight(2.25f),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally)
+        //Image
+        DisplayLottieAnimation(rawRes = horizontalPagerContent.animation,
+            modifier = Modifier.weight(1f),
+            animationLoop = horizontalPagerContent.animationLoop,
+        )
+
+        //label
+        Text(
+            text = stringResource(id = horizontalPagerContent.title),
+            color = MaterialTheme.colorScheme.secondary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+
+            style = if (widthSize >= WindowWidthSizeClass.Medium
+                && heigthSize >= WindowHeightSizeClass.Medium)
+                MaterialTheme.typography.titleLarge
+            else
+                MaterialTheme.typography.titleMedium
+        )
+
+        //description
+        Text(
+            text = stringResource(id = horizontalPagerContent.content),
+            color = MaterialTheme.colorScheme.onBackground,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+            style = if (widthSize >= WindowWidthSizeClass.Medium
+                && heigthSize >= WindowHeightSizeClass.Medium)
+                MaterialTheme.typography.bodyLarge
+            else
+                MaterialTheme.typography.bodyMedium
+        )
+
+        //footer
+        Row(modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically)
         {
-            DisplayLottieAnimation(rawRes = horizontalPagerContent.animation,
-                animationLoop = horizontalPagerContent.animationLoop,
-            )
-        }
-
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f),
-            verticalArrangement = Arrangement.SpaceAround)
-        {
-            //label
-            Text(
-                text = stringResource(id = horizontalPagerContent.title),
-                color = MaterialTheme.colorScheme.secondary,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
-                style = if (widthSize == WindowWidthSizeClass.Compact)
-                    MaterialTheme.typography.titleMedium
-                else
-                    MaterialTheme.typography.titleLarge
-            )
-
-            //description
-            Text(
-                text = stringResource(id = horizontalPagerContent.content),
-                color = MaterialTheme.colorScheme.onBackground,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
-                style = if (widthSize == WindowWidthSizeClass.Compact)
-                    MaterialTheme.typography.bodyMedium
-                else
-                    MaterialTheme.typography.bodyLarge
-            )
-
-            //footer
-            Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically)
+            if (pagerState.currentPage == 0)
             {
-                if (pagerState.currentPage == 0)
+                TextButton(onClick = onFinish)
                 {
-                    TextButton(onClick = onFinish)
-                    {
-                        Text(text = stringResource(id = R.string.skip))
-                    }
+                    Text(text = stringResource(id = R.string.skip))
                 }
-                else
+            }
+            else
+            {
+                TextButton(onClick = onPreviousPage)
                 {
-                    TextButton(onClick = onPreviousPage)
-                    {
-                        Text(text = stringResource(id = R.string.go_back))
-                    }
+                    Text(text = stringResource(id = R.string.go_back))
                 }
+            }
 
-                HorizontalPagerIndicator(
-                    pagerState = pagerState,
-                    activeColor = MaterialTheme.colorScheme.primary)
+            HorizontalPagerIndicator(
+                pagerState = pagerState,
+                activeColor = MaterialTheme.colorScheme.primary)
 
-                if (pagerState.currentPage == pagerState.pageCount - 1) {
-                    TextButton(onClick = onFinish)
-                    {
-                        Text(text = stringResource(id = R.string.finish))
-                    }
-                }
-                else
+            if (pagerState.currentPage == pagerState.pageCount - 1) {
+                TextButton(onClick = onFinish)
                 {
-                    TextButton(onClick = onNextPage)
-                    {
-                        Text(text = stringResource(id = R.string.next))
-                    }
+                    Text(text = stringResource(id = R.string.finish))
+                }
+            }
+            else
+            {
+                TextButton(onClick = onNextPage)
+                {
+                    Text(text = stringResource(id = R.string.next))
                 }
             }
         }
@@ -210,7 +203,8 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
 fun OnboardingScreenPreview()
 {
     BienestarEmocionalTheme {
-        OnboardingScreen(widthSize = WindowWidthSizeClass.Compact,
+        OnboardingScreen(heigthSize = WindowHeightSizeClass.Compact,
+            widthSize = WindowWidthSizeClass.Compact,
             onFinish = {})
     }
 }
@@ -223,7 +217,8 @@ fun OnboardingScreenPreview()
 fun OnboardingScreenPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        OnboardingScreen(widthSize = WindowWidthSizeClass.Compact,
+        OnboardingScreen(heigthSize = WindowHeightSizeClass.Compact,
+            widthSize = WindowWidthSizeClass.Compact,
             onFinish = {})
     }
 }
@@ -236,7 +231,8 @@ fun OnboardingScreenPreviewDarkTheme()
 fun OnboardingScreenNotCompactPreview()
 {
     BienestarEmocionalTheme {
-        OnboardingScreen(widthSize = WindowWidthSizeClass.Medium,
+        OnboardingScreen(heigthSize = WindowHeightSizeClass.Medium,
+            widthSize = WindowWidthSizeClass.Medium,
             onFinish = {})
     }
 }
@@ -249,7 +245,8 @@ fun OnboardingScreenNotCompactPreview()
 fun OnboardingScreenNotCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        OnboardingScreen(widthSize = WindowWidthSizeClass.Medium,
+        OnboardingScreen(heigthSize = WindowHeightSizeClass.Medium,
+            widthSize = WindowWidthSizeClass.Medium,
             onFinish = {})
     }
 }
