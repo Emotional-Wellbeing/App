@@ -7,12 +7,11 @@ import es.upm.bienestaremocional.app.utils.getActivity
 
 /**
  * Computes [WindowSizeClass] using Material Design 3 Window Size api.
- * This function is a superset of [computeWindowHeightSize] and [computeWindowWidthSize]
  * @return [WindowSizeClass] of the screen
  */
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun computeWindowSizeClass(): WindowSizeClass =
+private fun computeWindowSizeClass(): WindowSizeClass =
     calculateWindowSizeClass(LocalContext.current.getActivity())
 
 /**

@@ -52,7 +52,8 @@ import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.utils.formatDate
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.rememberMarker
-import es.upm.bienestaremocional.core.ui.responsive.computeWindowSizeClass
+import es.upm.bienestaremocional.core.ui.responsive.computeWindowHeightSize
+import es.upm.bienestaremocional.core.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import java.time.LocalDate
 import kotlin.random.Random
@@ -66,9 +67,8 @@ fun HistoryScreen(navigator: DestinationsNavigator,
                   viewModel: HistoryViewModel = hiltViewModel()
 )
 {
-    val windowSize = computeWindowSizeClass()
-    val widthSize = windowSize.widthSizeClass
-    val heightSize = windowSize.heightSizeClass
+    val widthSize = computeWindowWidthSize()
+    val heightSize = computeWindowHeightSize()
 
     // State
     val state by viewModel.state.collectAsStateWithLifecycle()
