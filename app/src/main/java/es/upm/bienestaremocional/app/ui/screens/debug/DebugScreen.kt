@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.screens.debug
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,15 +20,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.work.WorkInfo
 import com.alorma.compose.settings.ui.SettingsMenuLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundFull
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
@@ -35,7 +36,6 @@ import es.upm.bienestaremocional.app.ui.component.ShowQuestionnaireRound
 import es.upm.bienestaremocional.app.ui.screens.destinations.QuestionnaireRoundScreenDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
-import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
 /**
@@ -51,15 +51,19 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
     val state by viewModel.state.collectAsStateWithLifecycle()
     val questionnaireRoundsIncompleted by viewModel.questionnaireRoundsIncompleted.observeAsState(emptyList())
     val questionnaireRounds by viewModel.questionnaireRounds.observeAsState(emptyList())
+    val workInfo by viewModel.workInfo.observeAsState(emptyList())
 
     val onPrepoulatedDatabaseMessage = stringResource(R.string.database_prepopulated)
     val onDeleteDatabaseMessage = stringResource(R.string.database_deleted)
+
+    val context = LocalContext.current
 
     DebugScreen(navigator = navigator,
         state = state,
         snackbarHostState = snackbarHostState,
         questionnaireRoundsIncompleted = questionnaireRoundsIncompleted,
         questionnaireRounds = questionnaireRounds,
+        workInfo = workInfo,
         onNotification = { viewModel.onNotification() },
         onQueryAllQuestionnaireRounds = {viewModel.onQueryAllQuestionnaireRounds()},
         onQueryUncompletedQuestionnaireRounds = {viewModel.onQueryUncompletedQuestionnaireRounds()},
@@ -74,7 +78,28 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
                 viewModel.onDeleteDatabase()
                 showSnackbar(snackbarHostState, onDeleteDatabaseMessage)
             }
-        }
+        },
+        onNotificationWorker = { viewModel.onNotificationWorker(context) },
+        onUploadWorker = { viewModel.onUploadWorker(context) },
+        onGetScore = {
+            coroutineScope.launch {
+                val score = viewModel.onGetScore()
+                score?.let {
+                    val resultRequest = context.getString(R.string.result_of_request)
+                    Toast.makeText(context,"$resultRequest: $it", Toast.LENGTH_LONG).show()
+                } ?: Toast.makeText(context,context.getString(R.string.request_failed), Toast.LENGTH_LONG).show()
+            }
+        },
+        onPostUserData = {
+            coroutineScope.launch {
+                val success = viewModel.onPostUserData()
+                if (success)
+                    Toast.makeText(context,context.getString(R.string.data_sent_successfully), Toast.LENGTH_LONG).show()
+                else
+                    Toast.makeText(context,context.getString(R.string.request_failed), Toast.LENGTH_LONG).show()
+            }
+        },
+        onQueryWorkerStatus = {viewModel.onQueryWorkerStatus()}
     )
 }
 
@@ -84,11 +109,17 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                         snackbarHostState : SnackbarHostState,
                         questionnaireRoundsIncompleted: List<QuestionnaireRoundFull>,
                         questionnaireRounds: List<QuestionnaireRoundFull>,
+                        workInfo : List<WorkInfo>,
                         onNotification: () -> Unit,
                         onQueryAllQuestionnaireRounds : () -> Unit,
                         onQueryUncompletedQuestionnaireRounds : () -> Unit,
                         onPrepoulateDatabase : () -> Unit,
-                        onDeleteDatabase : () -> Unit
+                        onDeleteDatabase : () -> Unit,
+                        onNotificationWorker : () -> Unit,
+                        onUploadWorker : () -> Unit,
+                        onGetScore : () -> Unit,
+                        onPostUserData: () -> Unit,
+                        onQueryWorkerStatus: () -> Unit
 )
 {
 
@@ -136,6 +167,35 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                         title = { Text(text = stringResource(R.string.delete_database),
                             color = MaterialTheme.colorScheme.secondary) },
                         onClick = onDeleteDatabase,
+                    )
+
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.test_notification_worker),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onNotificationWorker,
+                    )
+
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.test_upload_worker),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onUploadWorker,
+                    )
+
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.test_get_score),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onGetScore
+                    )
+
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.test_post_user_data),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onPostUserData
+                    )
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.query_worker_status),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onQueryWorkerStatus
                     )
                 }
             }
@@ -194,12 +254,30 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                     }
                 }
             }
+            DebugState.QueryWorkManager ->
+            {
+                val tagsLabel = stringResource(R.string.tags)
+                val stateLabel = stringResource(R.string.state)
+
+                LazyColumn(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp))
+                {
+                    items(workInfo) { item ->
+                        BasicCard {
+                            Text("$tagsLabel: ${item.tags}")
+                            Text("$stateLabel: ${item.state}")
+                        }
+                    }
+                }
+            }
         }
     }
 }
 private suspend fun showSnackbar(snackbarHostState : SnackbarHostState, message : String) =
     snackbarHostState.showSnackbar(message = message)
 
+/*
 @Preview(
     showBackground = true,
     group = "Light Theme"
@@ -241,4 +319,4 @@ fun DebugScreenPreviewDarkTheme()
             onPrepoulateDatabase = {},
             onDeleteDatabase = {})
     }
-}
+}*/

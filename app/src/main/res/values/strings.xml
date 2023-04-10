@@ -98,6 +98,8 @@
     <!-- Notifications -->
     <string name="new_questionnaire_available_title">Nuevo cuestionario</string>
     <string name="new_questionnaire_available_content">¡Hola! Se ha abierto un nuevo cuestionario. Haz click para realizarlo.</string>
+    <string name="uploading">Subiendo datos</string>
+    <string name="uploading_in_progress">Subida de datos en progreso</string>
 
     <!-- Levels -->
     <string name="minimal">Minimo</string>
@@ -251,6 +253,16 @@
     <string name="database_prepopulated">Base de datos rellenada</string>
     <string name="delete_database">Borrar base de datos</string>
     <string name="database_deleted">Base de datos borrada</string>
+    <string name="test_notification_worker">Probar notification worker</string>
+    <string name="test_upload_worker">Probar upload worker</string>
+    <string name="test_get_score">Probar getScore</string>
+    <string name="test_post_user_data">Probar postUserData</string>
+    <string name="query_worker_status">Consultar el estado de los workers</string>
+    <string name="data_sent_successfully">Datos enviados correctamente</string>
+    <string name="request_failed">Petición fallida</string>
+    <string name="result_of_request">Resultado de la petición</string>
+    <string name="tags">Etiquetas</string>
+    <string name="state">Estado</string>
 
     <!-- Questionnaire display -->
     <string name="empty_list">No hay datos para mostrar</string>

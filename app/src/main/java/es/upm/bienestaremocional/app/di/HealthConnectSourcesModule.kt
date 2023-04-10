@@ -102,7 +102,7 @@ object HealthConnectSourcesModule
     
     @Provides
     @ViewModelScoped
-    fun proviceVo2Max(healthConnectClient: HealthConnectClient,
+    fun provideVo2Max(healthConnectClient: HealthConnectClient,
                       healthConnectManager: HealthConnectManagerInterface
     ): Vo2Max = Vo2Max(healthConnectClient, healthConnectManager)
 }

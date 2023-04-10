@@ -26,4 +26,9 @@ interface Notification
      * the notification
      */
     fun showQuestionnaireNotification(questionnaireRoundReduced: QuestionnaireRoundReduced)
+
+    /**
+     * Display uploading data notification
+     */
+    fun showUploadNotification() : android.app.Notification
 }

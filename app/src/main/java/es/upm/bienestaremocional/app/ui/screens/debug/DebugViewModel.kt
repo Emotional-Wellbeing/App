@@ -1,19 +1,27 @@
 package es.upm.bienestaremocional.app.ui.screens.debug
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.upm.bienestaremocional.app.data.alarm.AlarmsAvailable
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRound
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundFull
+import es.upm.bienestaremocional.app.data.notification.NotificationsAvailable
 import es.upm.bienestaremocional.app.data.questionnaire.generatePHQEntry
 import es.upm.bienestaremocional.app.data.questionnaire.generatePSSEntry
 import es.upm.bienestaremocional.app.data.questionnaire.generateUCLAEntry
+import es.upm.bienestaremocional.app.data.worker.NotificationWorker
+import es.upm.bienestaremocional.app.data.worker.UploadWorker
+import es.upm.bienestaremocional.app.data.worker.WorkAdministrator
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundFullRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundReducedRepository
+import es.upm.bienestaremocional.app.domain.repository.remote.RemoteRepository
 import es.upm.bienestaremocional.app.ui.notification.Notification
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +35,9 @@ class DebugViewModel @Inject constructor(
     private val notification: Notification,
     private val questionnaireRoundWithQuestionnairesRepository: QuestionnaireRoundFullRepository,
     private val questionnaireRoundReducedRepository: QuestionnaireRoundReducedRepository,
-    private val appDAO: AppDAO
+    private val appDAO: AppDAO,
+    private val remoteRepository: RemoteRepository,
+    private val workAdministrator: WorkAdministrator
 ): ViewModel()
 {
     //state
@@ -41,6 +51,9 @@ class DebugViewModel @Inject constructor(
     private val _questionnaireRounds = MutableLiveData<List<QuestionnaireRoundFull>>()
     val questionnaireRounds: LiveData<List<QuestionnaireRoundFull>>
         get() = _questionnaireRounds
+    private var _workInfo : LiveData<List<WorkInfo>> = MutableLiveData()
+    val workInfo: LiveData<List<WorkInfo>>
+        get() = _workInfo
 
     private fun fetchIncompletedQuestionnaireRounds()
     {
@@ -80,7 +93,7 @@ class DebugViewModel @Inject constructor(
     {
         val days = 180
         List(days) { index ->
-            AlarmsAvailable.allAlarms.forEach {
+            NotificationsAvailable.allNotifications.forEach {
                 val createdAt = it.time.minusDays(index.toLong())
                     .atZone(ZoneId.systemDefault())
                     .toEpochSecond() * 1000
@@ -105,5 +118,33 @@ class DebugViewModel @Inject constructor(
     suspend fun onDeleteDatabase()
     {
         appDAO.nukeDatabase()
+    }
+
+    fun onNotificationWorker(context : Context)
+    {
+        val request = OneTimeWorkRequestBuilder<NotificationWorker>().build()
+        WorkManager.getInstance(context).enqueue(request)
+    }
+
+    fun onUploadWorker(context: Context)
+    {
+        val request = OneTimeWorkRequestBuilder<UploadWorker>().build()
+        WorkManager.getInstance(context).enqueue(request)
+    }
+
+    suspend fun onGetScore(): Int?
+    {
+        return remoteRepository.getScore()
+    }
+
+    suspend fun onPostUserData(): Boolean
+    {
+        return remoteRepository.postUserData()
+    }
+
+    fun onQueryWorkerStatus()
+    {
+        _state.value = DebugState.QueryWorkManager
+        _workInfo = workAdministrator.queryWorkerStatus()
     }
 }

@@ -9,6 +9,7 @@ import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.utils.generateInterval
+import es.upm.bienestaremocional.app.utils.obtainTimestamp
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSource
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectSourceInterface
@@ -158,5 +159,34 @@ class Sleep @Inject constructor(
     override val writePermissions: Set<String> = setOf(
         HealthPermission.getWritePermission(SleepSessionRecord::class),
         HealthPermission.getWritePermission(SleepStageRecord::class))
+
+    fun jsonify(sample: SleepSessionData): HashMap<String,Any>
+    {
+        val result = hashMapOf<String,Any>()
+        result["startTime"] = obtainTimestamp(sample.startTime, sample.startZoneOffset)
+        result["endTime"] = obtainTimestamp(sample.endTime, sample.endZoneOffset)
+        result["stages"] = sample.stages.map { stage -> jsonify(stage) }
+        return result
+    }
+
+    private fun jsonify(sample: SleepStageRecord): HashMap<String,Any>
+    {
+        val result = hashMapOf<String,Any>()
+        result["startTime"] = obtainTimestamp(sample.startTime, sample.startZoneOffset)
+        result["endTime"] = obtainTimestamp(sample.endTime, sample.endZoneOffset)
+        result["stage"] = when(sample.stage)
+        {
+            SleepStageRecord.STAGE_TYPE_UNKNOWN -> "unknown"
+            SleepStageRecord.STAGE_TYPE_AWAKE -> "awake"
+            SleepStageRecord.STAGE_TYPE_SLEEPING -> "sleeping"
+            SleepStageRecord.STAGE_TYPE_OUT_OF_BED -> "out_of_bed"
+            SleepStageRecord.STAGE_TYPE_LIGHT -> "light"
+            SleepStageRecord.STAGE_TYPE_DEEP -> "deep"
+            SleepStageRecord.STAGE_TYPE_REM -> "rem"
+            else -> "unknown"
+        }
+
+        return result
+    }
 }
 

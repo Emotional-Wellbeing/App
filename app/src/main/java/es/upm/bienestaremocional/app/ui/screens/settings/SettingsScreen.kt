@@ -31,7 +31,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
+import es.upm.bienestaremocional.app.data.notification.NotificationsFrequency
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
@@ -61,7 +61,7 @@ fun SettingsScreen(navigator: DestinationsNavigator,
     val restartApplyAllChanges = stringResource(id = R.string.restart_apply_all_changes)
     val actionLabel = stringResource(id = R.string.restart)
 
-    val alarmFrequency = rememberIntSettingState(viewModel.loadAlarmFrequency())
+    val notificationFrequency = rememberIntSettingState(viewModel.loadNotificationFrequency())
     val questionnaire = rememberIntSetSettingState(viewModel.loadQuestionnairesSelected())
     val language = rememberIntSettingState(viewModel.loadLanguage())
     val themeMode = rememberIntSettingState(viewModel.loadDarkMode())
@@ -70,7 +70,7 @@ fun SettingsScreen(navigator: DestinationsNavigator,
     val android12OrAbove = android12OrAbove()
     val languagesAvailable = viewModel.getLanguagesAvailable()
 
-    val onAlarmFrequencyChange : (Int) -> Unit  = { viewModel.changeAlarmFrequency(it)}
+    val onNotificationFrequencyChange : (Int) -> Unit  = { viewModel.changeNotificationFrequency(it)}
     val onQuestionnairesChange : (Set<Int>) -> Unit = { viewModel.changeQuestionnairesSelected(it) }
     val onLanguageChange : (Int) -> Unit = { lang ->
         viewModel.changeLanguage(context, lang)
@@ -101,66 +101,61 @@ fun SettingsScreen(navigator: DestinationsNavigator,
     }
     val onSettingsApplication = { viewModel.openSettingsApplication(context) }
     val onSettingsNotifications = { viewModel.openSettingsNotifications(context) }
-    val onSettingsExactNotifications = { viewModel.openSettingsExactNotifications(context) }
 
     SettingsScreen(
         navigator = navigator,
         snackbarHostState = snackbarHostState,
-        alarmFrequency = alarmFrequency,
+        notificationFrequency = notificationFrequency,
         questionnaires = questionnaire,
         language = language,
         themeMode = themeMode,
         dynamicColor = dynamicColor,
         android12OrAbove = android12OrAbove,
         languagesAvailable = languagesAvailable,
-        onAlarmFrequencyChange = onAlarmFrequencyChange,
+        onNotificationFrequencyChange = onNotificationFrequencyChange,
         onQuestionnairesChange = onQuestionnairesChange,
         onLanguageChange = onLanguageChange,
         onThemeChange = onThemeChange,
         onDynamicChange = onDynamicChange,
         onSettingsApplication = onSettingsApplication,
         onSettingsNotifications = onSettingsNotifications,
-        onSettingsExactNotifications = onSettingsExactNotifications
     )
 }
 
 /**
  * Renders settings menu
  * @param navigator: needed for render menu
- * @param alarmFrequency: var that holds questionnaire frequency
+ * @param notificationFrequency: var that holds questionnaire frequency
  * @param questionnaires: var that stores additional questionnaires selection
  * @param language: var that stores the language of the app
  * @param themeMode: var that stores theme setting value
  * @param dynamicColor: var that stores dynamic setting value
  * @param android12OrAbove: boolean to print Android 12+ options
  * @param languagesAvailable: list with the languages supported by the app
- * @param onAlarmFrequencyChange: callback to react alarm frequency setting changes
+ * @param onNotificationFrequencyChange: callback to react notification frequency setting changes
  * @param onQuestionnairesChange: callback to react questionnaires changes
  * @param onLanguageChange: callback to react language setting changes
  * @param onThemeChange: callback to react theme setting changes
  * @param onDynamicChange: callback to react dynamic setting changes
  * @param onSettingsApplication: executed when user press application's setting
- * @param onSettingsNotifications: executed when user press notification's setting
- * @param onSettingsExactNotifications: executed when user press exact notification's setting (Android 12+)
  */
 @Composable
 private fun SettingsScreen(navigator: DestinationsNavigator,
                            snackbarHostState: SnackbarHostState,
-                           alarmFrequency: SettingValueState<Int>,
+                           notificationFrequency: SettingValueState<Int>,
                            questionnaires: SettingValueState<Set<Int>>,
                            language: SettingValueState<Int>,
                            themeMode: SettingValueState<Int>,
                            dynamicColor : SettingValueState<Boolean>,
                            android12OrAbove : Boolean,
                            languagesAvailable : List<String>,
-                           onAlarmFrequencyChange : (Int) -> Unit,
+                           onNotificationFrequencyChange : (Int) -> Unit,
                            onQuestionnairesChange :  (Set<Int>) -> Unit,
                            onLanguageChange : (Int) -> Unit,
                            onThemeChange : (Int) -> Unit,
                            onDynamicChange : (Boolean) -> Unit,
                            onSettingsApplication: () -> Unit,
                            onSettingsNotifications: () -> Unit,
-                           onSettingsExactNotifications: () -> Unit
 )
 
 {
@@ -280,20 +275,6 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
                 onClick = onSettingsNotifications,
             )
 
-            if (android12OrAbove)
-            {
-                SettingsMenuLink(
-                    icon = { Icon(painter = painterResource(R.drawable.notification_important),
-                            contentDescription = null,
-                            modifier = Modifier.defaultIconModifier())},
-                    title = { Text(stringResource(R.string.permission_for_exact_notifications),
-                        color = MaterialTheme.colorScheme.secondary) },
-                    subtitle = { Text(stringResource(R.string.permission_for_exact_notifications_body)) },
-                    onClick = onSettingsExactNotifications,
-                )
-            }
-
-
             Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
 
             GroupText(textRes = R.string.feedback_group)
@@ -304,9 +285,9 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
                     modifier = Modifier.defaultIconModifier()) },
                 title = { Text(stringResource(R.string.feedback_frequency),
                     color = MaterialTheme.colorScheme.secondary) },
-                state = alarmFrequency,
-                items = AlarmsFrequency.getLabels(),
-                onItemSelected = { index, _ -> onAlarmFrequencyChange(index) }
+                state = notificationFrequency,
+                items = NotificationsFrequency.getLabels(),
+                onItemSelected = { index, _ -> onNotificationFrequencyChange(index) }
             )
 
             SettingsListMultiSelect(
@@ -418,21 +399,20 @@ fun SettingsScreenNoDynamicPreview()
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
             snackbarHostState =  remember { SnackbarHostState() },
-            alarmFrequency = rememberIntSettingState(-1),
+            notificationFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = false,
             languagesAvailable = listOf(),
-            onAlarmFrequencyChange = {},
+            onNotificationFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {},
             onSettingsApplication = {},
             onSettingsNotifications = {},
-            onSettingsExactNotifications = {}
         )
     }
 }
@@ -446,21 +426,20 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
             snackbarHostState =  remember { SnackbarHostState() },
-            alarmFrequency = rememberIntSettingState(-1),
+            notificationFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = false,
             languagesAvailable = listOf(),
-            onAlarmFrequencyChange = {},
+            onNotificationFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {},
             onSettingsApplication = {},
             onSettingsNotifications = {},
-            onSettingsExactNotifications = {}
         )
     }
 }
@@ -474,21 +453,20 @@ fun SettingsScreenPreview()
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
             snackbarHostState =  remember { SnackbarHostState() },
-            alarmFrequency = rememberIntSettingState(-1),
+            notificationFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = true,
             languagesAvailable = listOf(),
-            onAlarmFrequencyChange = {},
+            onNotificationFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {},
             onSettingsApplication = {},
             onSettingsNotifications = {},
-            onSettingsExactNotifications = {}
         )
     }
 }
@@ -502,21 +480,20 @@ fun SettingsScreenPreviewDarkTheme()
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
             snackbarHostState =  remember { SnackbarHostState() },
-            alarmFrequency = rememberIntSettingState(-1),
+            notificationFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = true,
             languagesAvailable = listOf(),
-            onAlarmFrequencyChange = {},
+            onNotificationFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},
             onLanguageChange = {},
             onSettingsApplication = {},
             onSettingsNotifications = {},
-            onSettingsExactNotifications = {}
         )
     }
 }

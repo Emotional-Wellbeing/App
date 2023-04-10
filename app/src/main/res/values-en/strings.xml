@@ -200,4 +200,16 @@
     <string name="month">Month</string>
     <string name="time_interval">Time interval</string>
     <string name="no_data_to_display">No data to display</string>
+    <string name="uploading">Uploading…</string>
+    <string name="uploading_in_progress">Uploading data in progress…</string>
+    <string name="test_notification_worker">Test notification worker</string>
+    <string name="test_upload_worker">Test upload worker</string>
+    <string name="test_get_score">Test get score</string>
+    <string name="test_post_user_data">Test post user data</string>
+    <string name="query_worker_status">Query worker status</string>
+    <string name="data_sent_successfully">Data sent successfully</string>
+    <string name="request_failed">Request failed</string>
+    <string name="result_of_request">Result of request</string>
+    <string name="tags">Tags</string>
+    <string name="state">State</string>
 </resources>

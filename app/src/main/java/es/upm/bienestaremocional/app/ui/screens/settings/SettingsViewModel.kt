@@ -3,18 +3,17 @@ package es.upm.bienestaremocional.app.ui.screens.settings
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.provider.Settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.BuildConfig
-import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
-import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
 import es.upm.bienestaremocional.app.data.language.LanguageManager
+import es.upm.bienestaremocional.app.data.notification.NotificationsFrequency
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
+import es.upm.bienestaremocional.app.data.worker.WorkAdministrator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -25,7 +24,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val appSettings: AppSettings,
     private val languageManager: LanguageManager,
-    private val alarmScheduler: AlarmScheduler
+    private val workScheduler: WorkAdministrator
 ) : ViewModel()
 {
     /**
@@ -93,29 +92,29 @@ class SettingsViewModel @Inject constructor(
     }
     
     /**
-     * Load alarm frequency from [AppSettings]
+     * Load notification frequency from [AppSettings]
      */
-    fun loadAlarmFrequency(): Int
+    fun loadNotificationFrequency(): Int
     {
         var option : Int
         runBlocking(Dispatchers.IO)
         {
-            option = appSettings.getAlarmFrequency().first().ordinal
+            option = appSettings.getNotificationFrequency().first().ordinal
         }
         return option
     }
 
     /**
-     * Saves alarm frequency value
+     * Saves notification frequency value
      */
-    fun changeAlarmFrequency(option: Int)
+    fun changeNotificationFrequency(option: Int)
     {
-        val alarmsFrequency: AlarmsFrequency? = AlarmsFrequency.values().getOrNull(option)
-        alarmsFrequency?.let {
-            alarmScheduler.cancel(appSettings.getAlarmFrequencyValue().alarmItems)
-            alarmScheduler.schedule(it.alarmItems)
+        val notificationsFrequency: NotificationsFrequency? = NotificationsFrequency.values().getOrNull(option)
+        notificationsFrequency?.let {
+            workScheduler.cancel(appSettings.getNotificationFrequencyValue().items)
+            workScheduler.schedule(it.items)
             viewModelScope.launch {
-                appSettings.saveAlarmFrequency(it)
+                appSettings.saveNotificationFrequency(it)
             }
         }
     }
@@ -167,18 +166,6 @@ class SettingsViewModel @Inject constructor(
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         context.startActivity(intent)
-    }
-
-    fun openSettingsExactNotifications(context: Context)
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-        {
-            val intent = Intent().apply {
-                action = Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
-                putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-            }
-            context.startActivity(intent)
-        }
     }
 
     fun getLanguagesAvailable() = languageManager.getSupportedLocalesLabel()

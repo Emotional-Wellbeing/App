@@ -1,9 +1,9 @@
 package es.upm.bienestaremocional.app.data.questionnaire
 
-import es.upm.bienestaremocional.app.data.alarm.AlarmsAvailable
 import es.upm.bienestaremocional.app.data.database.entity.PHQ
 import es.upm.bienestaremocional.app.data.database.entity.PSS
 import es.upm.bienestaremocional.app.data.database.entity.UCLA
+import es.upm.bienestaremocional.app.data.notification.NotificationsAvailable
 import java.time.ZoneId
 import kotlin.random.Random
 
@@ -68,7 +68,7 @@ fun generateBunchOfPSSEntries(days: Int = 14): List<PSS>
 
     for (index in 0..days)
     {
-        AlarmsAvailable.allAlarms.forEach {
+        NotificationsAvailable.allNotifications.forEach {
             val createdAt = it.time.minusDays(index.toLong())
                 .atZone(ZoneId.systemDefault())
                 .toEpochSecond() * 1000
@@ -88,7 +88,7 @@ fun generateBunchOfPHQEntries(days: Int = 14): List<PHQ>
 
     for (index in 0..days)
     {
-        AlarmsAvailable.allAlarms.forEach {
+        NotificationsAvailable.allNotifications.forEach {
             val createdAt = it.time.minusDays(index.toLong())
                 .atZone(ZoneId.systemDefault())
                 .toEpochSecond() * 1000
@@ -108,7 +108,7 @@ fun generateBunchOfUCLAEntries(days: Int = 14): List<UCLA>
 
     for (index in 0..days)
     {
-        AlarmsAvailable.allAlarms.forEach {
+        NotificationsAvailable.allNotifications.forEach {
             val createdAt = it.time.minusDays(index.toLong())
                 .atZone(ZoneId.systemDefault())
                 .toEpochSecond() * 1000

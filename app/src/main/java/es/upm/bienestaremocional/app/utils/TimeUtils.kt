@@ -1,10 +1,7 @@
 package es.upm.bienestaremocional.app.utils
 
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.dateTimeWithOffsetOrDefault
-import java.time.Instant
-import java.time.LocalDate
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
+import java.time.*
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.random.Random
@@ -66,3 +63,6 @@ fun generateInterval(origin: ZonedDateTime = ZonedDateTime.now(),
         .withSecond(Random.nextInt(0, 60))
     return Pair(init,end)
 }
+
+fun obtainTimestamp(instant: Instant, zoneOffset: ZoneOffset?) : Long =
+    ZonedDateTime.ofInstant(instant, zoneOffset ?: ZoneId.systemDefault()).toEpochSecond()

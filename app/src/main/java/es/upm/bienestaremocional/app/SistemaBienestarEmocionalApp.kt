@@ -5,18 +5,19 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.ramcosta.composedestinations.DestinationsNavHost
-import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.notification.NotificationChannels
 import es.upm.bienestaremocional.app.data.notification.createNotificationChannel
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.settings.ThemeMode
+import es.upm.bienestaremocional.app.data.worker.WorkAdministrator
 import es.upm.bienestaremocional.app.ui.screens.NavGraphs
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 
 @Composable
 fun BienestarEmocionalApp(appSettings: AppSettings,
-                          scheduler: AlarmScheduler)
+                          scheduler: WorkAdministrator
+)
 {
 
     //init variables
@@ -32,8 +33,9 @@ fun BienestarEmocionalApp(appSettings: AppSettings,
                 notificationManager = notificationManager,
                 channel = appChannel
             )
-        //schedule alarms
-        scheduler.schedule(appSettings.getAlarmFrequencyValue().alarmItems)
+        //schedule notifications
+        scheduler.schedule(appSettings.getNotificationFrequencyValue().items)
+        scheduler.scheduleUploadWorker()
     }
 
     //read ui settings

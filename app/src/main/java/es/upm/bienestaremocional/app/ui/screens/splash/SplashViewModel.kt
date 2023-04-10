@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.ramcosta.composedestinations.spec.Direction
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.ui.notification.Notification
 import es.upm.bienestaremocional.app.ui.screens.destinations.ErrorScreenDestination
@@ -19,7 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val notification: Notification,
-    private val scheduler: AlarmScheduler,
     private val healthConnectAvailability : MutableState<HealthConnectAvailability>,
     private val appSettings: AppSettings,
 ) : ViewModel()
@@ -27,8 +25,6 @@ class SplashViewModel @Inject constructor(
     val state : MutableState<SplashState> = mutableStateOf(
         if(!notification.hasNotificationPermission())
             SplashState.NotificationsDialog
-        else if (!scheduler.canScheduleExactly())
-            SplashState.ExactDialog
         else
             SplashState.NoDialog
     )
@@ -42,27 +38,11 @@ class SplashViewModel @Inject constructor(
     fun NotificationsDialogAction()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            this.notification.RequestNotificationPermission{
-                permissionGranted ->
-                if (permissionGranted && !scheduler.canScheduleExactly())
-                    state.value = SplashState.ExactDialog
-                else
-                    state.value = SplashState.NoDialog
-            }
+            this.notification.RequestNotificationPermission { state.value = SplashState.NoDialog }
         else
         {
-            if (!scheduler.canScheduleExactly())
-                state.value = SplashState.ExactDialog
-            else
-                state.value = SplashState.NoDialog
+            state.value = SplashState.NoDialog
         }
-    }
-
-    fun exactDialogAction(confirm: Boolean)
-    {
-        if (confirm && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-            this.scheduler.requestPermissions()
-        state.value = SplashState.NoDialog
     }
 
     fun noDialogAction() : Direction

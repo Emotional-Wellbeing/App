@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import es.upm.bienestaremocional.app.data.alarm.AlarmsFrequency
+import es.upm.bienestaremocional.app.data.notification.NotificationsFrequency
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -25,40 +25,40 @@ class AppSettingsImpl(private val context: Context): AppSettings
             by preferencesDataStore(name = "settings")
 
         //preferences keys of the settings
-        private val ALARM_FREQUENCY = intPreferencesKey("alarm_frequency")
+        private val NOTIFICATION_FREQUENCY = intPreferencesKey("notification_frequency")
         private val QUESTIONNAIRES = stringSetPreferencesKey("questionnaires")
         private val FIRST_TIME = booleanPreferencesKey("first_time")
         private val THEME = stringPreferencesKey("theme")
         private val DYNAMIC_COLORS = booleanPreferencesKey("dynamic_colors")
 
         //defaults values
-        private val ALARM_FREQUENCY_DEFAULT_VALUE = AlarmsFrequency.NIGHT_ALARM
+        private val NOTIFICATION_FREQUENCY_DEFAULT_VALUE = NotificationsFrequency.ONLY_NIGHT
         private val QUESTIONNAIRES_DEFAULT_VALUE = emptySet<String>()
         private const val FIRST_TIME_DEFAULT_VALUE = true
         private val THEME_DEFAULT_VALUE = ThemeMode.DEFAULT_MODE
         private const val DYNAMIC_COLORS_DEFAULT_VALUE = false
     }
 
-    override suspend fun saveAlarmFrequency(value: AlarmsFrequency)
+    override suspend fun saveNotificationFrequency(value: NotificationsFrequency)
     {
         context.appSettingsDataStore.edit{ preferences ->
-            preferences[ALARM_FREQUENCY] = value.ordinal
+            preferences[NOTIFICATION_FREQUENCY] = value.ordinal
         }
     }
 
-    override suspend fun getAlarmFrequency(): Flow<AlarmsFrequency> =
+    override suspend fun getNotificationFrequency(): Flow<NotificationsFrequency> =
         context.appSettingsDataStore.data.map { preferences ->
-            when(preferences[ALARM_FREQUENCY])
+            when(preferences[NOTIFICATION_FREQUENCY])
             {
-                AlarmsFrequency.NIGHT_ALARM.ordinal -> AlarmsFrequency.NIGHT_ALARM
-                AlarmsFrequency.NIGHT_LUNCH_ALARM.ordinal -> AlarmsFrequency.NIGHT_LUNCH_ALARM
-                else -> ALARM_FREQUENCY_DEFAULT_VALUE
+                NotificationsFrequency.ONLY_NIGHT.ordinal -> NotificationsFrequency.ONLY_NIGHT
+                NotificationsFrequency.LUNCH_AND_NIGHT.ordinal -> NotificationsFrequency.LUNCH_AND_NIGHT
+                else -> NOTIFICATION_FREQUENCY_DEFAULT_VALUE
             }
         }
 
-    override fun getAlarmFrequencyValue(): AlarmsFrequency =
+    override fun getNotificationFrequencyValue(): NotificationsFrequency =
         runBlocking {
-            getAlarmFrequency().first()
+            getNotificationFrequency().first()
         }
 
     override suspend fun saveQuestionnairesSelected(value: Set<Questionnaire>)

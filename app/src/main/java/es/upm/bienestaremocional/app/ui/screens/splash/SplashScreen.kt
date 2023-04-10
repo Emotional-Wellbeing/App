@@ -5,17 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
@@ -26,7 +22,6 @@ import kotlinx.coroutines.delay
 
 /**
  * Splash screen of the app. Show the app icon and prompt runtime permissions like notifications
- * or exact alarms
  */
 @Destination
 @Composable
@@ -41,27 +36,6 @@ fun SplashScreen(
     when(splashViewModel.state.value)
     {
         SplashState.NotificationsDialog -> { splashViewModel.NotificationsDialogAction() }
-        SplashState.ExactDialog -> {
-
-            AlertDialog(onDismissRequest = {splashViewModel.exactDialogAction(false)},
-                confirmButton = {
-                    TextButton(onClick = { splashViewModel.exactDialogAction(true) })
-                    {
-                        Text(stringResource(R.string.ok))
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = {splashViewModel.exactDialogAction(false)}) {
-                        Text(stringResource(R.string.skip))
-                    }
-                },
-                title = {
-                    Text(stringResource(R.string.permission_for_exact_notifications))
-                },
-                text = {
-                    Text(stringResource(R.string.permission_for_exact_notifications_alert_body))
-                })
-        }
         SplashState.NoDialog ->
         {
             //init block. Delay simulate loading

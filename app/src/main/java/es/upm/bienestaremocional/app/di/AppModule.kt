@@ -10,16 +10,15 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import es.upm.bienestaremocional.app.data.alarm.AlarmManager
-import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
-import es.upm.bienestaremocional.app.data.alarm.AndroidAlarmManager
-import es.upm.bienestaremocional.app.data.alarm.AndroidAlarmScheduler
+import es.upm.bienestaremocional.app.data.AppConstants
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.language.LanguageManager
 import es.upm.bienestaremocional.app.data.language.LanguageManagerImpl
-import es.upm.bienestaremocional.app.data.receiver.AlarmReceiver
+import es.upm.bienestaremocional.app.data.remote.RemoteAPI
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.settings.AppSettingsImpl
+import es.upm.bienestaremocional.app.data.worker.WorkAdministrator
+import es.upm.bienestaremocional.app.data.worker.WorkAdministratorImpl
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundReducedRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundReducedRepositoryImpl
 import es.upm.bienestaremocional.app.ui.notification.Notification
@@ -27,6 +26,8 @@ import es.upm.bienestaremocional.app.ui.notification.NotificationImpl
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManager
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectManagerInterface
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -61,24 +62,15 @@ object AppModule
 
     @Provides
     @Singleton
-    fun provideAlarmScheduler(@ApplicationContext context: Context,
-                              @Named("logTag") logTag: String): AlarmScheduler =
-        AndroidAlarmScheduler(context,
-            AlarmReceiver::class.java,
-            logTag)
+    fun provideWorkAdministrator(@ApplicationContext context: Context,
+                             @Named("logTag") logTag: String): WorkAdministrator =
+        WorkAdministratorImpl(context, logTag)
 
     @Provides
     @Singleton
     @Named("logTag")
     fun provideLogTag(): String = "BienestarEmocionalApp"
 
-
-    @Provides
-    @Singleton
-    fun provideAlarmManager(scheduler: AlarmScheduler,
-                            appSettings: AppSettings,
-                            @Named("logTag") logTag: String): AlarmManager =
-        AndroidAlarmManager(scheduler,appSettings,logTag)
 
     @Provides
     @Singleton
@@ -97,4 +89,12 @@ object AppModule
                                                    @Named("logTag") logTag: String
     ): QuestionnaireRoundReducedRepository =
         QuestionnaireRoundReducedRepositoryImpl(dao,appSettings,logTag)
+
+    @Provides
+    @Singleton
+    fun provideRemoteAPI() : RemoteAPI = Retrofit.Builder()
+        .baseUrl(AppConstants.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(RemoteAPI::class.java)
 }

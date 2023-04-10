@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import dagger.hilt.android.AndroidEntryPoint
-import es.upm.bienestaremocional.app.data.alarm.AlarmScheduler
 import es.upm.bienestaremocional.app.data.settings.AppSettings
+import es.upm.bienestaremocional.app.data.worker.WorkAdministrator
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity()
     @Inject
     lateinit var appSettings: AppSettings
     @Inject
-    lateinit var scheduler: AlarmScheduler
+    lateinit var scheduler: WorkAdministrator
 
     override fun onCreate(savedInstanceState: Bundle?)
     {

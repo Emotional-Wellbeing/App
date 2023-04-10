@@ -87,6 +87,20 @@ class NotificationImpl(private val context: Context,
             )
     }
 
+    override fun showUploadNotification(): android.app.Notification
+    {
+        val textTitle = context.getString(R.string.uploading)
+        val textContent = context.getString(R.string.uploading_in_progress)
+
+        val builder = basicBuilder(
+            channelId = NotificationChannels.Main.id,
+            textTitle = textTitle,
+            textContent = textContent
+        ).setOngoing(true)
+
+        return builder.build()
+    }
+
     /**
      * Sends a notification that executes a pendingIntent when is pressed
      * @param channelId: Channel where the notification is sent
@@ -113,6 +127,7 @@ class NotificationImpl(private val context: Context,
 
         showNotification(builder = builder)
     }
+
 
     /**
      * Builds a notification with an icon, title and text
