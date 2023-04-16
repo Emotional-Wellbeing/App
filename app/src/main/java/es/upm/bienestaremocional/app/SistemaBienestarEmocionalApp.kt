@@ -12,12 +12,12 @@ import es.upm.bienestaremocional.app.data.settings.ThemeMode
 import es.upm.bienestaremocional.app.data.worker.WorkAdministrator
 import es.upm.bienestaremocional.app.ui.screens.NavGraphs
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
-
+import es.upm.bienestaremocional.app.data.phonecalls.PhoneInfo
 
 @Composable
 fun BienestarEmocionalApp(appSettings: AppSettings,
-                          scheduler: WorkAdministrator
-)
+                          scheduler: WorkAdministrator,
+                          userName: String)
 {
 
     //init variables
@@ -41,6 +41,11 @@ fun BienestarEmocionalApp(appSettings: AppSettings,
     //read ui settings
     val darkTheme : ThemeMode = appSettings.getThemeValue()
     val dynamicColors : Boolean = appSettings.getDynamicColorsValue()
+
+    //get background info
+    //phone calls logs
+    val phone = PhoneInfo()
+    phone.getCallLogs(context, userName)
 
     //----------------------------------------------------------------------------------------
 
