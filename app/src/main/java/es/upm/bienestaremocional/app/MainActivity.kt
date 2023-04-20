@@ -2,10 +2,11 @@ package es.upm.bienestaremocional.app
 
 import android.content.Context
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import android.provider.Settings
 import android.telephony.TelephonyManager
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import android.Manifest
 import android.annotation.SuppressLint
@@ -15,7 +16,7 @@ import javax.inject.Inject
 import androidx.core.app.ActivityCompat.requestPermissions
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity()
+class MainActivity : AppCompatActivity()
 {
     @Inject
     lateinit var appSettings: AppSettings
@@ -37,24 +38,12 @@ class MainActivity : ComponentActivity()
         //encrypt name
 
         setContent {
-            if (imei != null) {
-                BienestarEmocionalApp(
-                    appSettings = appSettings,
-                    scheduler = scheduler,
-                    userName = imei
-                )
-            }
+            BienestarEmocionalApp(
+                appSettings = appSettings,
+                scheduler = scheduler,
+                activity = this,
+                userName = imei
+            )
         }
     }
-//    @SuppressLint("HardwareIds")
-//    private fun getDeviceIMEI(): String? {
-//        var deviceUniqueIdentifier: String?
-    //      val tm = this.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-    //  deviceUniqueIdentifier = tm.imei
-    //    if (null == deviceUniqueIdentifier || deviceUniqueIdentifier.isEmpty()) {
-    //        deviceUniqueIdentifier =
-    //          Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
-    //  }
-    //  return deviceUniqueIdentifier
-    //}
 }
