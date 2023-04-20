@@ -1,15 +1,15 @@
 package es.upm.bienestaremocional.app
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.data.worker.WorkAdministrator
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity()
+class MainActivity : AppCompatActivity()
 {
     @Inject
     lateinit var appSettings: AppSettings
@@ -23,7 +23,8 @@ class MainActivity : ComponentActivity()
         setContent {
             BienestarEmocionalApp(
                 appSettings = appSettings,
-                scheduler = scheduler
+                scheduler = scheduler,
+                activity = this
             )
         }
     }
