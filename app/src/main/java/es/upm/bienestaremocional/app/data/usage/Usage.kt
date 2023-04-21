@@ -123,8 +123,7 @@ class Usage : Activity(), AdapterView.OnItemSelectedListener {
     fun requestPermissions(contexto: Context) {
         val stats = mUsageStatsManager
             ?.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, 0, System.currentTimeMillis())
-        val isEmpty = stats?.isEmpty()// aquí ya están los valores
-        if (isEmpty == true) {
+         if (stats?.isEmpty() == true) {
             contexto.startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
         }
     }
