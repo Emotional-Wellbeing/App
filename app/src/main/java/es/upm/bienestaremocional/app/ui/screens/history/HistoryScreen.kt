@@ -128,9 +128,9 @@ private fun DisplayQuestionnaireMenu(selected: Questionnaire,
 )
 {
     DisplayMenu(
-        label = stringResource(id = R.string.questionnaire),
-        options = Questionnaire.get().map { Pair(stringResource(it.simpleLabelRes)) { onChange(it) } },
-        selected = stringResource(id = selected.simpleLabelRes),
+        label = stringResource(id = R.string.measure),
+        options = Questionnaire.get().map { Pair(stringResource(it.measureRes)) { onChange(it) } },
+        selected = stringResource(id = selected.measureRes),
         modifier = modifier)
 }
 
@@ -330,7 +330,7 @@ private fun DrawLineChart(heightSize: WindowHeightSizeClass,
                 guideline = axisGuidelineComponent(),
                 maxLabelCount = (questionnaire.maxScore - questionnaire.minScore + 1),
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),
-                title = stringResource(questionnaire.labelRes)),
+                title = stringResource(questionnaire.measureRes)),
             bottomAxis = bottomAxis(
                 guideline = axisGuidelineComponent(),
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),

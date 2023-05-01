@@ -212,4 +212,8 @@
     <string name="result_of_request">Result of request</string>
     <string name="tags">Tags</string>
     <string name="state">State</string>
+    <string name="stress">Stress</string>
+    <string name="depression">Depression</string>
+    <string name="loneliness">Loneliness</string>
+    <string name="measure">Measure</string>
 </resources>

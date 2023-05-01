@@ -59,13 +59,14 @@
     <string name="questionnaire_night_lunch">Un cuestionario al mediodía y otro a la noche</string>
     <string name="additional_questionnaires">Cuestionarios adicionales</string>
     <string name="questionnaire">Cuestionario</string>
+    <string name="measure">Medida</string>
     <string name="score">Puntuación</string>
     <string name="pss_label">PSS (estrés)</string>
     <string name="phq_label">PHQ (depresión)</string>
     <string name="ucla_label">UCLA (soledad)</string>
-    <string name="pss_simple_label" translatable="false">PSS</string>
-    <string name="phq_simple_label" translatable="false">PHQ</string>
-    <string name="ucla_simple_label" translatable="false">UCLA</string>
+    <string name="stress">Estrés</string>
+    <string name="depression">Depresión</string>
+    <string name="loneliness">Soledad</string>
 
     <string name="application_settings">Ajustes generales de la aplicación</string>
     <string name="application_settings_label">Accede a los ajustes de la app: Consumo de energía, notificaciones…</string>
