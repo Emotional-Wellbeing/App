@@ -1,9 +1,14 @@
 package es.upm.bienestaremocional.app.utils
 
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.dateTimeWithOffsetOrDefault
-import java.time.*
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 
 fun formatDateTime(start: Instant,
@@ -66,3 +71,16 @@ fun generateInterval(origin: ZonedDateTime = ZonedDateTime.now(),
 
 fun obtainTimestamp(instant: Instant, zoneOffset: ZoneOffset?) : Long =
     ZonedDateTime.ofInstant(instant, zoneOffset ?: ZoneId.systemDefault()).toEpochSecond()
+
+/**
+ * Obtain the range of the last seven days in milliseconds
+ * For example, if today is 8th of May, this fun return the millisecond of 1th May at 00:00:00:000
+ * and 7th May at 23:59:59:999
+ */
+fun getLastSevenDays(): Pair<Long,Long>
+{
+    val now = ZonedDateTime.now()
+    val start = now.minusDays(7).truncatedTo(ChronoUnit.DAYS).toEpochSecond() * 1000
+    val end = (now.truncatedTo(ChronoUnit.DAYS).toEpochSecond() * 1000 ) - 1
+    return Pair(start,end)
+}
