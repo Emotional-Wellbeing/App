@@ -8,6 +8,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -18,7 +23,11 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.ui.component.BackHandlerMinimizeApp
+import es.upm.bienestaremocional.app.ui.component.DepressionStatus
+import es.upm.bienestaremocional.app.ui.component.LonelinessStatus
+import es.upm.bienestaremocional.app.ui.component.StressStatus
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.BasicCard
@@ -29,16 +38,43 @@ import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
  */
 @Destination
 @Composable
-fun HomeScreen(navigator: DestinationsNavigator, viewModel: HomeViewModel = hiltViewModel())
+fun HomeScreen(navigator: DestinationsNavigator,
+               viewModel: HomeViewModel = hiltViewModel())
 {
-    HomeScreen(navigator = navigator)
+    BackHandlerMinimizeApp(LocalContext.current)
+    HomeScreen(navigator = navigator,
+        questionnairesToShow = viewModel.questionnaires,
+        getStressScore = viewModel::getStressScore,
+        getDepressionScore = viewModel::getDepressionScore,
+        getLonelinessScore = viewModel::getLonelinessScore
+    )
 }
 
 
 @Composable
-private fun HomeScreen(navigator: DestinationsNavigator)
+private fun HomeScreen(
+    navigator: DestinationsNavigator,
+    questionnairesToShow : Set<Questionnaire>,
+    getStressScore: suspend () -> Float?,
+    getDepressionScore : suspend () -> Float?,
+    getLonelinessScore : suspend () -> Float?
+)
 {
-    BackHandlerMinimizeApp(LocalContext.current)
+    var stressScore : Float? by remember { mutableStateOf(null) }
+    var depressionScore : Float? by remember { mutableStateOf(null) }
+    var lonelinesssScore : Float? by remember { mutableStateOf(null) }
+
+    LaunchedEffect(Unit)
+    {
+        questionnairesToShow.forEach {
+            when(it)
+            {
+                Questionnaire.PSS -> stressScore = getStressScore()
+                Questionnaire.PHQ -> depressionScore = getDepressionScore()
+                Questionnaire.UCLA -> lonelinesssScore = getLonelinessScore()
+            }
+        }
+    }
 
     AppBasicScreen(navigator = navigator,
         entrySelected = BottomBarDestination.HomeScreen,
@@ -51,20 +87,22 @@ private fun HomeScreen(navigator: DestinationsNavigator)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceAround
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
         )
         {
+
             BasicCard{
                 Text("Message placeholder")
             }
 
-            BasicCard{
-                Text("Today stats placeholder")
-            }
+            if(questionnairesToShow.contains(Questionnaire.PSS))
+                StressStatus(data = stressScore)
 
-            BasicCard{
-                Text("PHQ-9 placeholder")
-            }
+            if(questionnairesToShow.contains(Questionnaire.PHQ))
+                DepressionStatus(data = depressionScore)
+
+            if(questionnairesToShow.contains(Questionnaire.UCLA))
+                LonelinessStatus(data = lonelinesssScore)
 
             BasicCard{
                 Text("Feedback placeholder")
@@ -85,7 +123,12 @@ private fun HomeScreen(navigator: DestinationsNavigator)
 fun HomeScreenPreview()
 {
     BienestarEmocionalTheme{
-        HomeScreen(navigator = EmptyDestinationsNavigator)
+        HomeScreen(navigator = EmptyDestinationsNavigator,
+            questionnairesToShow = Questionnaire.getMandatory().toSet() + Questionnaire.getOptional(),
+            getStressScore = { 27f },
+            getDepressionScore = { 14f },
+            getLonelinessScore = { 33f }
+        )
     }
 }
 
@@ -98,6 +141,11 @@ fun HomeScreenPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(navigator = EmptyDestinationsNavigator)
+        HomeScreen(navigator = EmptyDestinationsNavigator,
+            questionnairesToShow = Questionnaire.getMandatory().toSet() + Questionnaire.getOptional(),
+            getStressScore = { 27f },
+            getDepressionScore = { 14f },
+            getLonelinessScore = { 33f }
+        )
     }
 }

@@ -64,9 +64,9 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
         questionnaireRoundsIncompleted = questionnaireRoundsIncompleted,
         questionnaireRounds = questionnaireRounds,
         workInfo = workInfo,
-        onNotification = { viewModel.onNotification() },
-        onQueryAllQuestionnaireRounds = {viewModel.onQueryAllQuestionnaireRounds()},
-        onQueryUncompletedQuestionnaireRounds = {viewModel.onQueryUncompletedQuestionnaireRounds()},
+        onNotification = viewModel::onNotification,
+        onQueryAllQuestionnaireRounds = viewModel::onQueryAllQuestionnaireRounds,
+        onQueryUncompletedQuestionnaireRounds = viewModel::onQueryUncompletedQuestionnaireRounds,
         onPrepoulateDatabase = {
             coroutineScope.launch {
                 viewModel.onPrepoulateDatabase()

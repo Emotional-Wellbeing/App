@@ -21,10 +21,14 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import java.lang.Float.min
 
@@ -42,7 +46,7 @@ import java.lang.Float.min
  * https://semicolonspace.com/circular-progressbar-android-compose/
  *
  * @param data Data to show
- * @param minValue Minimum value that the data variable can take (Zero by default=
+ * @param minValue Minimum value that the data variable can take (Zero by default)
  * @param maxValue Maximum value that the data variable can take (100 by default)
  * @param size Size of the whole element
  * @param indicatorThickness Size of the indicator
@@ -54,11 +58,11 @@ import java.lang.Float.min
  */
 @Composable
 fun CircularProgressIndicator(
-    data : Float,
+    data : Float?,
     minValue : Float = 0f,
     maxValue: Float = 100f,
-    size : Dp = 260.dp,
-    indicatorThickness : Dp = 24.dp,
+    size : Dp = 250.dp,
+    indicatorThickness : Dp = 25.dp,
     animationDuration : Int = 1000,
     indicatorColor : Color = MaterialTheme.colorScheme.tertiary,
     indicatorContainerColor : Color = MaterialTheme.colorScheme.tertiaryContainer,
@@ -66,6 +70,8 @@ fun CircularProgressIndicator(
     textStyle : TextStyle = MaterialTheme.typography.displayMedium,
 )
 {
+    val unknownLabel = stringResource(id = R.string.unknown_display)
+
     // Remembers the data value to update it
     var dataRemembered by remember { mutableStateOf(minValue) }
 
@@ -79,9 +85,9 @@ fun CircularProgressIndicator(
     val sweepAngle = min(((dataUsageAnimate.value - minValue) / (maxValue - minValue)) * 360, 360f)
 
     // Start the animation
-    LaunchedEffect(Unit)
+    LaunchedEffect(data)
     {
-        dataRemembered = data
+        dataRemembered = (data ?: minValue)
     }
 
     Box(
@@ -124,14 +130,28 @@ fun CircularProgressIndicator(
         }
 
         // Display value in text in the middle of the element
+        // More info at
+        // https://medium.com/androiddevelopers/fixing-font-padding-in-compose-text-768cd232425b
         Text(
-            text = (dataUsageAnimate.value).toInt().toString(),
-            style = textStyle
+            text = data?.let { (dataUsageAnimate.value).toInt().toString() } ?: unknownLabel,
+            style = textStyle.merge(
+                TextStyle(
+                    platformStyle = PlatformTextStyle(
+                        includeFontPadding = false
+                    ),
+                    lineHeightStyle = LineHeightStyle(
+                        alignment = LineHeightStyle.Alignment.Center,
+                        trim = LineHeightStyle.Trim.None
+                    )
+                )
+            ),
         )
     }
 }
 
-@Preview
+@Preview(
+    group = "Light Theme"
+)
 @Composable
 fun CircularProgressIndicatorPreview()
 {
@@ -144,7 +164,9 @@ fun CircularProgressIndicatorPreview()
     }
 }
 
-@Preview
+@Preview(
+    group = "Dark Theme"
+)
 @Composable
 fun CircularProgressIndicatorPreviewDarkTheme()
 {
@@ -157,9 +179,41 @@ fun CircularProgressIndicatorPreviewDarkTheme()
     }
 }
 
-@Preview
+@Preview(
+    group = "Light Theme"
+)
 @Composable
-fun CircularProgressIndicatorCustomRangePreview()
+fun CircularProgressIndicatorNullPreview()
+{
+    BienestarEmocionalTheme()
+    {
+        Surface()
+        {
+            CircularProgressIndicator(data = null)
+        }
+    }
+}
+
+@Preview(
+    group = "Dark Theme"
+)
+@Composable
+fun CircularProgressIndicatorNullPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true)
+    {
+        Surface()
+        {
+            CircularProgressIndicator(data = null)
+        }
+    }
+}
+
+@Preview(
+    group = "Light Theme"
+)
+@Composable
+fun CircularProgressIndicatorCustomPreview()
 {
     BienestarEmocionalTheme()
     {
@@ -168,15 +222,19 @@ fun CircularProgressIndicatorCustomRangePreview()
             CircularProgressIndicator(
                 data = 75f,
                 minValue = 10f,
-                maxValue = 30f
+                maxValue = 30f,
+                size = 100.dp,
+                indicatorThickness = 10.dp
             )
         }
     }
 }
 
-@Preview
+@Preview(
+    group = "Dark Theme"
+)
 @Composable
-fun CircularProgressIndicatorCustomRangePreviewDarkTheme()
+fun CircularProgressIndicatorCustomPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {

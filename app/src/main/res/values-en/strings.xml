@@ -216,4 +216,7 @@
     <string name="depression">Depression</string>
     <string name="loneliness">Loneliness</string>
     <string name="measure">Measure</string>
+    <string name="level_of_stress">Level of stress</string>
+    <string name="level_of_depression">Level of depression</string>
+    <string name="level_of_loneliness">Level of loneliness</string>
 </resources>

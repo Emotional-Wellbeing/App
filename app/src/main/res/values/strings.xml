@@ -58,6 +58,10 @@
     <string name="questionnaire_only_night">Un cuestionario a la noche</string>
     <string name="questionnaire_night_lunch">Un cuestionario al mediodía y otro a la noche</string>
     <string name="additional_questionnaires">Cuestionarios adicionales</string>
+    <string name="application_settings">Ajustes generales de la aplicación</string>
+    <string name="application_settings_label">Accede a los ajustes de la app: Consumo de energía, notificaciones…</string>
+
+    <!-- Measures -->
     <string name="questionnaire">Cuestionario</string>
     <string name="measure">Medida</string>
     <string name="score">Puntuación</string>
@@ -67,9 +71,9 @@
     <string name="stress">Estrés</string>
     <string name="depression">Depresión</string>
     <string name="loneliness">Soledad</string>
-
-    <string name="application_settings">Ajustes generales de la aplicación</string>
-    <string name="application_settings_label">Accede a los ajustes de la app: Consumo de energía, notificaciones…</string>
+    <string name="level_of_stress">Nivel de estrés</string>
+    <string name="level_of_depression">Nivel de depresión</string>
+    <string name="level_of_loneliness">Nivel de soledad</string>
 
     <!-- Error screen -->
     <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes instalada, por favor reinicia la aplicación.</string>
@@ -197,6 +201,8 @@
     <string name="kcal_day">kcal/día</string>
     <string name="mg_dL" translatable="false">mg/dL</string>
     <string name="no_data_to_display">No hay datos para mostrar</string>
+
+    <string name="unknown_display" translatable="false">--</string>
 
     <!-- Decode health connect -->
     <string name="interstitial_fluid">Líquido intersticial</string>
