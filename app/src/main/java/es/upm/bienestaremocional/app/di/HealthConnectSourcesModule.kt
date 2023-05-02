@@ -16,35 +16,6 @@ import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnec
 @InstallIn(ViewModelComponent::class)
 object HealthConnectSourcesModule
 {
-    @Provides
-    @ViewModelScoped
-    fun provideActiveCaloriesBurned(healthConnectClient: HealthConnectClient, 
-                                    healthConnectManager: HealthConnectManagerInterface
-    ): ActiveCaloriesBurned = ActiveCaloriesBurned(healthConnectClient, healthConnectManager)
-    
-    @Provides
-    @ViewModelScoped
-    fun provideBasalMetabolicRate(healthConnectClient: HealthConnectClient,
-                                  healthConnectManager: HealthConnectManagerInterface
-    ): BasalMetabolicRate = BasalMetabolicRate(healthConnectClient, healthConnectManager)
-    
-    @Provides
-    @ViewModelScoped
-    fun provideBloodGlucose(healthConnectClient: HealthConnectClient,
-                            healthConnectManager: HealthConnectManagerInterface
-    ): BloodGlucose = BloodGlucose(healthConnectClient, healthConnectManager)
-    
-    @Provides
-    @ViewModelScoped
-    fun provideBloodPressure(healthConnectClient: HealthConnectClient,
-                             healthConnectManager: HealthConnectManagerInterface
-    ): BloodPressure = BloodPressure(healthConnectClient, healthConnectManager)
-    
-    @Provides
-    @ViewModelScoped
-    fun provideBodyTemperature(healthConnectClient: HealthConnectClient,
-                               healthConnectManager: HealthConnectManagerInterface
-    ): BodyTemperature = BodyTemperature(healthConnectClient, healthConnectManager)
     
     @Provides
     @ViewModelScoped
@@ -66,24 +37,6 @@ object HealthConnectSourcesModule
     
     @Provides
     @ViewModelScoped
-    fun provideOxygenSaturation(healthConnectClient: HealthConnectClient,
-                                healthConnectManager: HealthConnectManagerInterface
-    ): OxygenSaturation = OxygenSaturation(healthConnectClient, healthConnectManager)
-    
-    @Provides
-    @ViewModelScoped
-    fun provideRespiratoryRate(healthConnectClient: HealthConnectClient,
-                               healthConnectManager: HealthConnectManagerInterface
-    ): RespiratoryRate = RespiratoryRate(healthConnectClient, healthConnectManager)
-    
-    @Provides
-    @ViewModelScoped
-    fun provideRestingHeartRate(healthConnectClient: HealthConnectClient,
-                                healthConnectManager: HealthConnectManagerInterface
-    ): RestingHeartRate = RestingHeartRate(healthConnectClient, healthConnectManager)
-    
-    @Provides
-    @ViewModelScoped
     fun provideSleep(healthConnectClient: HealthConnectClient,
                      healthConnectManager: HealthConnectManagerInterface
     ): Sleep = Sleep(healthConnectClient, healthConnectManager)
@@ -99,10 +52,4 @@ object HealthConnectSourcesModule
     fun provideTotalCaloriesBurned(healthConnectClient: HealthConnectClient,
                                    healthConnectManager: HealthConnectManagerInterface
     ): TotalCaloriesBurned = TotalCaloriesBurned(healthConnectClient, healthConnectManager)
-    
-    @Provides
-    @ViewModelScoped
-    fun provideVo2Max(healthConnectClient: HealthConnectClient,
-                      healthConnectManager: HealthConnectManagerInterface
-    ): Vo2Max = Vo2Max(healthConnectClient, healthConnectManager)
 }

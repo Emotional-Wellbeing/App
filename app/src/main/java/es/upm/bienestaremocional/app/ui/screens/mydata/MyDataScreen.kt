@@ -1,12 +1,24 @@
 package es.upm.bienestaremocional.app.ui.screens.mydata
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,7 +29,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.health.connect.client.records.*
+import androidx.health.connect.client.records.DistanceRecord
+import androidx.health.connect.client.records.ElevationGainedRecord
+import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.StepsRecord
+import androidx.health.connect.client.records.TotalCaloriesBurnedRecord
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
@@ -25,7 +41,12 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.ui.healthconnect.component.Display
-import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.*
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.DistanceViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.ElevationGainedViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.HeartRateViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.SleepSessionViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.StepsViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.TotalCaloriesBurnedViewModel
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.DrawHealthConnectSubscreen
@@ -41,18 +62,12 @@ fun MyDataScreen(
     sleepSessionViewModel: SleepSessionViewModel = hiltViewModel(),
     heartRateViewModel: HeartRateViewModel = hiltViewModel(),
     stepsViewModel: StepsViewModel = hiltViewModel(),
-    basalMetabolicRateViewModel: BasalMetabolicRateViewModel = hiltViewModel(),
-    bloodGlucoseViewModel: BloodGlucoseViewModel = hiltViewModel(),
-    bloodPressureViewModel: BloodPressureViewModel = hiltViewModel(),
     distanceViewModel: DistanceViewModel = hiltViewModel(),
-    oxygenSaturationViewModel: OxygenSaturationViewModel = hiltViewModel(),
     totalCaloriesBurnedViewModel: TotalCaloriesBurnedViewModel = hiltViewModel(),
-    activeCaloriesBurnedViewModel: ActiveCaloriesBurnedViewModel = hiltViewModel(),
-    bodyTemperatureViewModel: BodyTemperatureViewModel = hiltViewModel(),
     elevationGainedViewModel: ElevationGainedViewModel = hiltViewModel(),
-    respiratoryRateViewModel: RespiratoryRateViewModel = hiltViewModel(),
-    restingHeartRateViewModel: RestingHeartRateViewModel = hiltViewModel(),
-    vo2MaxViewModel: Vo2MaxViewModel = hiltViewModel(),
+    //TODO exercise
+    //TODO floors
+    //TODO weight
 )
 {
     val snackbarHostState = remember {SnackbarHostState()}
@@ -66,18 +81,9 @@ fun MyDataScreen(
         sleepVMD = sleepSessionViewModel.getViewModelData(),
         heartRateVMD = heartRateViewModel.getViewModelData(),
         stepsVMD = stepsViewModel.getViewModelData(),
-        basalMetabolicRateVMD = basalMetabolicRateViewModel.getViewModelData(),
-        bloodGlucoseVMD = bloodGlucoseViewModel.getViewModelData(),
-        bloodPressureVMD = bloodPressureViewModel.getViewModelData(),
         distanceVMD = distanceViewModel.getViewModelData(),
-        oxygenSaturationVMD = oxygenSaturationViewModel.getViewModelData(),
         totalCaloriesBurnedVMD = totalCaloriesBurnedViewModel.getViewModelData(),
-        activeCaloriesBurnedVMD = activeCaloriesBurnedViewModel.getViewModelData(),
-        bodyTemperatureVMD = bodyTemperatureViewModel.getViewModelData(),
         elevationGainedVMD = elevationGainedViewModel.getViewModelData(),
-        respiratoryRateVMD = respiratoryRateViewModel.getViewModelData(),
-        restingHeartRateVMD = restingHeartRateViewModel.getViewModelData(),
-        vo2MaxVMD = vo2MaxViewModel.getViewModelData(),
         onSelect = {index -> viewModel.onSelect(index)},
         onUnselect = {viewModel.onUnselect()},
         onError = {exception -> viewModel.onError(snackbarHostState,exception)})
@@ -122,18 +128,9 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                              sleepVMD: ViewModelData<SleepSessionData>,
                              heartRateVMD: ViewModelData<HeartRateRecord>,
                              stepsVMD: ViewModelData<StepsRecord>,
-                             basalMetabolicRateVMD: ViewModelData<BasalMetabolicRateRecord>,
-                             bloodGlucoseVMD: ViewModelData<BloodGlucoseRecord>,
-                             bloodPressureVMD: ViewModelData<BloodPressureRecord>,
                              distanceVMD: ViewModelData<DistanceRecord>,
-                             oxygenSaturationVMD: ViewModelData<OxygenSaturationRecord>,
                              totalCaloriesBurnedVMD: ViewModelData<TotalCaloriesBurnedRecord>,
-                             activeCaloriesBurnedVMD: ViewModelData<ActiveCaloriesBurnedRecord>,
-                             bodyTemperatureVMD: ViewModelData<BodyTemperatureRecord>,
                              elevationGainedVMD: ViewModelData<ElevationGainedRecord>,
-                             respiratoryRateVMD: ViewModelData<RespiratoryRateRecord>,
-                             restingHeartRateVMD: ViewModelData<RestingHeartRateRecord>,
-                             vo2MaxVMD: ViewModelData<Vo2MaxRecord>,
                              onSelect: (Int) -> Unit,
                              onUnselect : () -> Unit,
                              onError: suspend (Throwable?) -> Unit = {})
@@ -164,42 +161,15 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                     CategoryText(stringRes = R.string.steps,
                         selected = false,
                         onClick = {onSelect(2)})
-                    CategoryText(stringRes = R.string.bmr,
-                        selected = false,
-                        onClick = {onSelect(3)})
-                    CategoryText(stringRes = R.string.blood_glucose,
-                        selected = false,
-                        onClick = {onSelect(4)})
-                    CategoryText(stringRes = R.string.blood_pressure,
-                        selected = false,
-                        onClick = {onSelect(5)})
                     CategoryText(stringRes = R.string.distance,
                         selected = false,
-                        onClick = {onSelect(6)})
-                    CategoryText(stringRes = R.string.oxygen_saturation,
-                        selected = false,
-                        onClick = {onSelect(7)})
+                        onClick = {onSelect(3)})
                     CategoryText(stringRes = R.string.total_calories_burned,
                         selected = false,
-                        onClick = {onSelect(8)})
-                    CategoryText(stringRes = R.string.active_calories_burned,
-                        selected = false,
-                        onClick = {onSelect(9)})
-                    CategoryText(stringRes = R.string.body_temperature,
-                        selected = false,
-                        onClick = {onSelect(10)})
+                        onClick = {onSelect(4)})
                     CategoryText(stringRes = R.string.elevation_gained,
                         selected = false,
-                        onClick = {onSelect(11)})
-                    CategoryText(stringRes = R.string.respiratory_rate,
-                        selected = false,
-                        onClick = {onSelect(12)})
-                    CategoryText(stringRes = R.string.resting_heart_rate,
-                        selected = false,
-                        onClick = {onSelect(13)})
-                    CategoryText(stringRes = R.string.vo2_max,
-                        selected = false,
-                        onClick = {onSelect(14)})
+                        onClick = {onSelect(5)})
                 }
                 is MyDataState.Selected ->
                 {
@@ -254,54 +224,6 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                             )
                         }
                         3 -> {
-                            CategoryText(stringRes = R.string.bmr,
-                                selected = true,
-                                onClick = onUnselect)
-                            DrawHealthConnectSubscreen(
-                                viewModelData = basalMetabolicRateVMD,
-                                onDisplayData = {
-                                    items(basalMetabolicRateVMD.data)
-                                    {
-                                        Spacer(Modifier.height(16.dp))
-                                        it.Display(widthSize)
-                                    }
-                                },
-                                onError = { coroutineScope.launch { onError(it) }}
-                            )
-                        }
-                        4 -> {
-                            CategoryText(stringRes = R.string.blood_glucose,
-                                selected = true,
-                                onClick = onUnselect)
-                            DrawHealthConnectSubscreen(
-                                viewModelData = bloodGlucoseVMD,
-                                onDisplayData = {
-                                    items(bloodGlucoseVMD.data)
-                                    {
-                                        Spacer(Modifier.height(16.dp))
-                                        it.Display(widthSize)
-                                    }
-                                },
-                                onError = { coroutineScope.launch { onError(it) }}
-                            )
-                        }
-                        5 -> {
-                            CategoryText(stringRes = R.string.blood_pressure,
-                                selected = true,
-                                onClick = onUnselect)
-                            DrawHealthConnectSubscreen(
-                                viewModelData = bloodPressureVMD,
-                                onDisplayData = {
-                                    items(bloodPressureVMD.data)
-                                    {
-                                        Spacer(Modifier.height(16.dp))
-                                        it.Display(widthSize)
-                                    }
-                                },
-                                onError = { coroutineScope.launch { onError(it) }}
-                            )
-                        }
-                        6 -> {
                             CategoryText(stringRes = R.string.distance,
                                 selected = true,
                                 onClick = onUnselect)
@@ -317,23 +239,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                 onError = { coroutineScope.launch { onError(it) }}
                             )
                         }
-                        7 -> {
-                            CategoryText(stringRes = R.string.oxygen_saturation,
-                                selected = true,
-                                onClick = onUnselect)
-                            DrawHealthConnectSubscreen(
-                                viewModelData = oxygenSaturationVMD,
-                                onDisplayData = {
-                                    items(oxygenSaturationVMD.data)
-                                    {
-                                        Spacer(Modifier.height(16.dp))
-                                        it.Display(widthSize)
-                                    }
-                                },
-                                onError = { coroutineScope.launch { onError(it) }}
-                            )
-                        }
-                        8 -> {
+                        4 -> {
                             CategoryText(stringRes = R.string.total_calories_burned,
                                 selected = true,
                                 onClick = onUnselect)
@@ -349,39 +255,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                 onError = { coroutineScope.launch { onError(it) }}
                             )
                         }
-                        9 -> {
-                            CategoryText(stringRes = R.string.active_calories_burned,
-                                selected = true,
-                                onClick = onUnselect)
-                            DrawHealthConnectSubscreen(
-                                viewModelData = activeCaloriesBurnedVMD,
-                                onDisplayData = {
-                                    items(activeCaloriesBurnedVMD.data)
-                                    {
-                                        Spacer(Modifier.height(16.dp))
-                                        it.Display(widthSize)
-                                    }
-                                },
-                                onError = { coroutineScope.launch { onError(it) }}
-                            )
-                        }
-                        10 -> {
-                            CategoryText(stringRes = R.string.body_temperature,
-                                selected = true,
-                                onClick = onUnselect)
-                            DrawHealthConnectSubscreen(
-                                viewModelData = bodyTemperatureVMD,
-                                onDisplayData = {
-                                    items(bodyTemperatureVMD.data)
-                                    {
-                                        Spacer(Modifier.height(16.dp))
-                                        it.Display(widthSize)
-                                    }
-                                },
-                                onError = { coroutineScope.launch { onError(it) }}
-                            )
-                        }
-                        11 -> {
+                        5 -> {
                             CategoryText(stringRes = R.string.elevation_gained,
                                 selected = true,
                                 onClick = onUnselect)
@@ -389,54 +263,6 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                 viewModelData = elevationGainedVMD,
                                 onDisplayData = {
                                     items(elevationGainedVMD.data)
-                                    {
-                                        Spacer(Modifier.height(16.dp))
-                                        it.Display(widthSize)
-                                    }
-                                },
-                                onError = { coroutineScope.launch { onError(it) }}
-                            )
-                        }
-                        12 -> {
-                            CategoryText(stringRes = R.string.respiratory_rate,
-                                selected = true,
-                                onClick = onUnselect)
-                            DrawHealthConnectSubscreen(
-                                viewModelData = respiratoryRateVMD,
-                                onDisplayData = {
-                                    items(respiratoryRateVMD.data)
-                                    {
-                                        Spacer(Modifier.height(16.dp))
-                                        it.Display(widthSize)
-                                    }
-                                },
-                                onError = { coroutineScope.launch { onError(it) }}
-                            )
-                        }
-                        13 -> {
-                            CategoryText(stringRes = R.string.resting_heart_rate,
-                                selected = true,
-                                onClick = onUnselect)
-                            DrawHealthConnectSubscreen(
-                                viewModelData = restingHeartRateVMD,
-                                onDisplayData = {
-                                    items(restingHeartRateVMD.data)
-                                    {
-                                        Spacer(Modifier.height(16.dp))
-                                        it.Display(widthSize)
-                                    }
-                                },
-                                onError = { coroutineScope.launch { onError(it) }}
-                            )
-                        }
-                        14 -> {
-                            CategoryText(stringRes = R.string.vo2_max,
-                                selected = true,
-                                onClick = onUnselect)
-                            DrawHealthConnectSubscreen(
-                                viewModelData = vo2MaxVMD,
-                                onDisplayData = {
-                                    items(vo2MaxVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
                                         it.Display(widthSize)
