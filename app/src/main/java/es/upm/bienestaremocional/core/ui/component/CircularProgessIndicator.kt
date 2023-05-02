@@ -49,7 +49,8 @@ import java.lang.Float.min
  * @param minValue Minimum value that the data variable can take (Zero by default)
  * @param maxValue Maximum value that the data variable can take (100 by default)
  * @param size Size of the whole element
- * @param indicatorThickness Size of the indicator
+ * @param indicatorProportion Proportion (number between 0 and 1) that indicates the size of the
+ * indicator
  * @param animationDuration Animation's duration in milliseconds
  * @param indicatorColor Color of the indicator
  * @param indicatorContainerColor Color of the container of the indicator.
@@ -62,7 +63,7 @@ fun CircularProgressIndicator(
     minValue : Float = 0f,
     maxValue: Float = 100f,
     size : Dp = 250.dp,
-    indicatorThickness : Dp = 25.dp,
+    indicatorProportion : Float = 0.1f,
     animationDuration : Int = 1000,
     indicatorColor : Color = MaterialTheme.colorScheme.tertiary,
     indicatorContainerColor : Color = MaterialTheme.colorScheme.tertiaryContainer,
@@ -70,6 +71,7 @@ fun CircularProgressIndicator(
     textStyle : TextStyle = MaterialTheme.typography.displayMedium,
 )
 {
+    val indicatorThickness = size.times(indicatorProportion)
     val unknownLabel = stringResource(id = R.string.unknown_display)
 
     // Remembers the data value to update it
@@ -224,7 +226,6 @@ fun CircularProgressIndicatorCustomPreview()
                 minValue = 10f,
                 maxValue = 30f,
                 size = 100.dp,
-                indicatorThickness = 10.dp
             )
         }
     }
