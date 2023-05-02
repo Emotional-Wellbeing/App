@@ -194,6 +194,7 @@
     <string name="test_get_score">Probar getScore</string>
     <string name="test_post_user_data">Probar postUserData</string>
     <string name="query_worker_status">Consultar el estado de los workers</string>
+    <string name="query_uid">Consultar el User ID</string>
     <string name="data_sent_successfully">Datos enviados correctamente</string>
     <string name="request_failed">Petición fallida</string>
     <string name="result_of_request">Resultado de la petición</string>

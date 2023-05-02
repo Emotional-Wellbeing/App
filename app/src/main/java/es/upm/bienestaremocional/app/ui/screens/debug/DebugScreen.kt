@@ -99,7 +99,13 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
                     Toast.makeText(context,context.getString(R.string.request_failed), Toast.LENGTH_LONG).show()
             }
         },
-        onQueryWorkerStatus = {viewModel.onQueryWorkerStatus()}
+        onQueryWorkerStatus = viewModel::onQueryWorkerStatus,
+        onGetUID = {
+            coroutineScope.launch {
+                val uid = viewModel.onGetUID()
+                Toast.makeText(context,uid, Toast.LENGTH_LONG).show()
+            }
+        }
     )
 }
 
@@ -119,7 +125,8 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                         onUploadWorker : () -> Unit,
                         onGetScore : () -> Unit,
                         onPostUserData: () -> Unit,
-                        onQueryWorkerStatus: () -> Unit
+                        onQueryWorkerStatus: () -> Unit,
+                        onGetUID: () -> Unit,
 )
 {
 
@@ -196,6 +203,11 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                         title = { Text(text = stringResource(R.string.query_worker_status),
                             color = MaterialTheme.colorScheme.secondary) },
                         onClick = onQueryWorkerStatus
+                    )
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.query_uid),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onGetUID
                     )
                 }
             }

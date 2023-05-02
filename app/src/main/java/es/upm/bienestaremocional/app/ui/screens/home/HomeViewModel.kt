@@ -8,6 +8,8 @@ import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerDay
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PHQRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,7 +20,10 @@ class HomeViewModel @Inject constructor(
     val appSettings: AppSettings
 ): ViewModel()
 {
-    val questionnaires = Questionnaire.getMandatory().toSet() + appSettings.getQuestionnairesSelectedValue()
+
+    val questionnaires = runBlocking {
+        Questionnaire.getMandatory().toSet() + appSettings.getQuestionnairesSelected().first()
+    }
 
     suspend fun getStressScore() : Float?
     {
