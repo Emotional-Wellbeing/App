@@ -171,6 +171,9 @@
     <string name="no_data_to_display">No hay datos para mostrar</string>
     <string name="unknown_display" translatable="false">--</string>
 
+    <string name="yesterday">Ayer</string>
+    <string name="last_seven_days">Últimos siete días</string>
+
     <!-- Decode health connect -->
     <string name="unknown">Desconocido</string>
     <string name="awake">Despierto</string>
