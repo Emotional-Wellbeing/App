@@ -158,4 +158,11 @@
     <string name="yesterday">Yesterday</string>
     <string name="last_seven_days">Last seven days</string>
     <string name="continue_word">Continue</string>
+    <string name="minimal_advice">Advice minimal level</string>
+    <string name="mild_advice">Advice mild level</string>
+    <string name="moderate_advice">Advice moderate level</string>
+    <string name="moderately_severe_advice">Advice moderately severe level</string>
+    <string name="severe_advice">Advice severe level</string>
+    <string name="low_advice">Advice low level</string>
+    <string name="high_advice">Advice high level</string>
 </resources>

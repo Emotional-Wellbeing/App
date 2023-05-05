@@ -378,6 +378,7 @@ private fun Summary(score : Int,
                                 indicatorColor = MaterialTheme.colorScheme.primary,
                                 indicatorContainerColor = MaterialTheme.colorScheme.primaryContainer,
                                 backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
+                                showAdvice = false,
                             )
                         Questionnaire.PHQ ->
                             DepressionStatus(data = score.toFloat(),
@@ -385,6 +386,7 @@ private fun Summary(score : Int,
                                 indicatorColor = MaterialTheme.colorScheme.primary,
                                 indicatorContainerColor = MaterialTheme.colorScheme.primaryContainer,
                                 backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
+                                showAdvice = false,
                             )
                         Questionnaire.UCLA ->
                             LonelinessStatus(data = score.toFloat(),
@@ -392,6 +394,7 @@ private fun Summary(score : Int,
                                 indicatorColor = MaterialTheme.colorScheme.primary,
                                 indicatorContainerColor = MaterialTheme.colorScheme.primaryContainer,
                                 backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
+                                showAdvice = false,
                             )
                     }
                     Button(onClick = onSucess)

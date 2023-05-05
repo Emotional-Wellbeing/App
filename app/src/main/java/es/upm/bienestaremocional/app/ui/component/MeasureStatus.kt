@@ -33,6 +33,7 @@ fun StressStatus(data: Float?,
                  indicatorColor : Color = MaterialTheme.colorScheme.secondary,
                  indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
                  backgroundColor : Color = MaterialTheme.colorScheme.background,
+                 showAdvice : Boolean = true,
 )
 {
     MeasureStatus(data = data,
@@ -44,6 +45,7 @@ fun StressStatus(data: Float?,
         backgroundColor = backgroundColor,
         minValue = Questionnaire.PSS.minScore.toFloat(),
         maxValue = Questionnaire.PSS.maxScore.toFloat(),
+        showAdvice = showAdvice,
     )
 }
 
@@ -53,6 +55,7 @@ fun DepressionStatus(data: Float?,
                      indicatorColor : Color = MaterialTheme.colorScheme.secondary,
                      indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
                      backgroundColor : Color = MaterialTheme.colorScheme.background,
+                     showAdvice : Boolean = true,
 )
 {
     MeasureStatus(data = data,
@@ -64,6 +67,7 @@ fun DepressionStatus(data: Float?,
         backgroundColor = backgroundColor,
         minValue = Questionnaire.PHQ.minScore.toFloat(),
         maxValue = Questionnaire.PHQ.maxScore.toFloat(),
+        showAdvice = showAdvice,
     )
 }
 
@@ -73,6 +77,7 @@ fun LonelinessStatus(data: Float?,
                      indicatorColor : Color = MaterialTheme.colorScheme.secondary,
                      indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
                      backgroundColor : Color = MaterialTheme.colorScheme.background,
+                     showAdvice : Boolean = true,
 )
 {
     MeasureStatus(data = data,
@@ -84,6 +89,7 @@ fun LonelinessStatus(data: Float?,
         backgroundColor = backgroundColor,
         minValue = Questionnaire.UCLA.minScore.toFloat(),
         maxValue = Questionnaire.UCLA.maxScore.toFloat(),
+        showAdvice = showAdvice,
     )
 }
 
@@ -99,6 +105,7 @@ private fun MeasureStatus(data: Float?,
                           backgroundColor : Color,
                           minValue: Float = 0f,
                           maxValue : Float = 100f,
+                          showAdvice : Boolean = true,
 )
 {
     // Scale factor to reduce the height of row in bigger screens
@@ -127,9 +134,19 @@ private fun MeasureStatus(data: Float?,
         else -> MaterialTheme.typography.titleSmall
     }
 
+    val adviceTextStyle = when(widthSize)
+    {
+        WindowWidthSizeClass.Compact -> MaterialTheme.typography.bodySmall
+        WindowWidthSizeClass.Medium -> MaterialTheme.typography.bodyMedium
+        WindowWidthSizeClass.Expanded -> MaterialTheme.typography.bodyLarge
+        else -> MaterialTheme.typography.bodySmall
+    }
+
     // Text to display
     val levelLabel = stringResource(id = (level?.label ?: R.string.unknown_display))
     val headlineText = "$introLabel : $levelLabel"
+
+    val adviceText = if (showAdvice) level?.advice?.let { stringResource(it) } else null
 
     // Composable elements
     BoxWithConstraints(modifier = Modifier
@@ -177,12 +194,11 @@ private fun MeasureStatus(data: Float?,
                 modifier = Modifier
                     .width(textWidth)
                     .padding(start = 16.dp),
-                verticalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.spacedBy(8.dp,Alignment.CenterVertically),
             )
             {
                 Text(headlineText, style = headlineTextStyle)
-                //TODO add advices
-                //Text("Advice", style = MaterialTheme.typography.bodyMedium)
+                adviceText?.let { Text(it, style = adviceTextStyle) }
             }
         }
     }
