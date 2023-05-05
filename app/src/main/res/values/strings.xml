@@ -138,6 +138,7 @@
     <string name="accept">Aceptar</string>
     <string name="exit">Salir</string>
     <string name="ok">Vale</string>
+    <string name="continue_word">Continuar</string> <!-- Continue is a reserved word in Java -->
     <string name="day">Dia</string>
     <string name="week">Semana</string>
     <string name="month">Mes</string>

@@ -157,4 +157,5 @@
     <string name="query_uid">Query User ID</string>
     <string name="yesterday">Yesterday</string>
     <string name="last_seven_days">Last seven days</string>
+    <string name="continue_word">Continue</string>
 </resources>

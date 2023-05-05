@@ -1,6 +1,5 @@
 package es.upm.bienestaremocional.app.ui.screens.questionnaire
 
-import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
@@ -10,9 +9,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringArrayResource
@@ -27,8 +26,10 @@ import com.google.accompanist.pager.*
 import com.ramcosta.composedestinations.annotation.Destination
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.app.data.questionnaire.ScoreLevel
-import es.upm.bienestaremocional.app.domain.processing.scoreToLevelLabel
+import es.upm.bienestaremocional.app.ui.component.DepressionStatus
+import es.upm.bienestaremocional.app.ui.component.LonelinessStatus
+import es.upm.bienestaremocional.app.ui.component.StressStatus
+import es.upm.bienestaremocional.core.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
@@ -44,14 +45,15 @@ fun QuestionnaireScreen(questionnaire: Questionnaire,
 )
 {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val widthSize = computeWindowWidthSize()
     QuestionnaireScreen(
         state = state,
         questionnaire = questionnaire,
+        widthSize = widthSize,
         title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${stringResource(questionnaire.labelRes)}",
         answerSelected = {index -> viewModel.manager.getAnswer(index)},
         answersRemaining = { viewModel.manager.answersRemaining },
         getScore = {viewModel.manager.score},
-        getScoreLevel = { viewModel.manager.scoreLevel?.levelLabel?.label },
         onAnswer = { question, answer -> viewModel.onAnswer(question,answer) },
         onInProgress = viewModel::onInProgress,
         onSkippingAttempt = viewModel::onSkippingAttempt,
@@ -69,11 +71,11 @@ fun QuestionnaireScreen(questionnaire: Questionnaire,
 @Composable
 private fun QuestionnaireScreen(state: QuestionnaireState,
                                 questionnaire: Questionnaire,
+                                widthSize: WindowWidthSizeClass,
                                 title: String,
                                 answerSelected: (Int) -> Int?,
                                 answersRemaining: () -> List<Int>,
                                 getScore : () -> Int?,
-                                @StringRes getScoreLevel : () -> Int?,
                                 onAnswer: (Int,Int) -> Unit,
                                 onInProgress : () -> Unit,
                                 onSkippingAttempt : () -> Unit,
@@ -120,15 +122,15 @@ private fun QuestionnaireScreen(state: QuestionnaireState,
                     count = questionnaire.numberOfQuestions,
                     state = pagerState,
                     modifier = Modifier.weight(1f)
-                )
-                {
-                        page -> QuestionnaireInternalPage(question = questions[page],
-                    answers = answers,
-                    answerSelectedPrevious = answerSelected(page),
-                    pagerState = pagerState,
-                    onAnswer = {answer -> onAnswer(page,answer)},
-                    onExit = onSkippingAttempt,
-                    onFinish = onFinishAttempt)
+                ) { page ->
+
+                    QuestionnaireInternalPage(question = questions[page],
+                        answers = answers,
+                        answerSelectedPrevious = answerSelected(page),
+                        pagerState = pagerState,
+                        onAnswer = {answer -> onAnswer(page,answer)},
+                        onExit = onSkippingAttempt,
+                        onFinish = onFinishAttempt)
                 }
             }
         }
@@ -148,8 +150,9 @@ private fun QuestionnaireScreen(state: QuestionnaireState,
         }
         QuestionnaireState.Summary ->
         {
-            Summary(score = getScore()!!, scoreLevel = getScoreLevel(),
+            Summary(score = getScore()!!,
                 questionnaire = questionnaire,
+                widthSize = widthSize,
                 onSucess = onSummary)
         }
         QuestionnaireState.Finished -> onExit()
@@ -302,7 +305,6 @@ private fun ExitDialog(onDismiss : () -> Unit, onConfirm : () -> Unit)
         })
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun AnswersRemainingDialog(answersRemaining: List<Int>,
                                    onDismiss : () -> Unit)
@@ -353,32 +355,55 @@ private fun OptionCard(text : String,
 
 @Composable
 private fun Summary(score : Int,
-                    @StringRes scoreLevel: Int?,
                     questionnaire: Questionnaire,
+                    widthSize : WindowWidthSizeClass,
                     onSucess : () -> Unit)
 {
-    val previousLabel = stringResource(R.string.questionnaire)
-    val scoreLabel = stringResource(R.string.score)
-    val levelLabel = stringResource(R.string.level)
-    val questionnaireLabel = stringResource(questionnaire.labelRes)
+    Surface(modifier = Modifier.fillMaxSize())
+    {
+        Column(verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally)
+        {
+            Card(modifier = Modifier.padding(16.dp))
+            {
+                Column(modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                )
+                {
+                    when(questionnaire)
+                    {
+                        Questionnaire.PSS ->
+                            StressStatus(data = score.toFloat(),
+                                widthSize = widthSize,
+                                indicatorColor = MaterialTheme.colorScheme.primary,
+                                indicatorContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
+                            )
+                        Questionnaire.PHQ ->
+                            DepressionStatus(data = score.toFloat(),
+                                widthSize = widthSize,
+                                indicatorColor = MaterialTheme.colorScheme.primary,
+                                indicatorContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
+                            )
+                        Questionnaire.UCLA ->
+                            LonelinessStatus(data = score.toFloat(),
+                                widthSize = widthSize,
+                                indicatorColor = MaterialTheme.colorScheme.primary,
+                                indicatorContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                backgroundColor = MaterialTheme.colorScheme.surfaceVariant,
+                            )
+                    }
+                    Button(onClick = onSucess)
+                    {
+                        Text(stringResource(R.string.continue_word))
+                    }
+                }
 
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Column(verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("$previousLabel $questionnaireLabel")
-            Text("$scoreLabel: $score")
-            scoreLevel?.let {
-                Text("$levelLabel: ${stringResource(scoreLevel)}")
-            }
-            Button(onClick = onSucess ) {
-                Text("OK")
             }
         }
-
     }
 }
-
 
 
 @Preview(showBackground = true)
@@ -404,19 +429,15 @@ fun QuestionnaireScreenPreview()
             null
     }
 
-    val scoreLevelRes : () -> Int? =  {
-        score()?.let { scoreToLevelLabel(it, questionnaire)?.label }
-    }
-
     BienestarEmocionalTheme {
         QuestionnaireScreen(
             state = QuestionnaireState.InProgress,
             questionnaire = questionnaire,
+            widthSize = WindowWidthSizeClass.Compact,
             title = "${stringResource(R.string.questionnaire)} 1/1 ${stringResource(questionnaire.labelRes)}",
             answerSelected = {index -> answers[index]},
             answersRemaining = { answers.mapIndexed{index, value -> if(value == null) index else null}.filterNotNull()},
             getScore = score,
-            getScoreLevel = scoreLevelRes,
             onAnswer = { question, answer -> answers[question] = answer },
             onInProgress = {},
             onSkippingAttempt = {},
@@ -451,26 +472,11 @@ fun QuestionnaireScreenPreviewDarkTheme()
             null
     }
 
-    val scoreLevelRes : () -> Int? =  {
-        score()?.let {
-            var scoreLevel: ScoreLevel? = null
-            for(level in questionnaire.levels)
-            {
-                if (it in level.min .. level.max)
-                {
-                    scoreLevel = level
-                    break
-                }
-            }
-            scoreLevel?.levelLabel?.label
-        }
-        null
-    }
-
     BienestarEmocionalTheme(darkTheme = true) {
         QuestionnaireScreen(
             state = QuestionnaireState.InProgress,
             questionnaire = questionnaire,
+            widthSize = WindowWidthSizeClass.Compact,
             title = "${stringResource(R.string.questionnaire)} 1/1 ${stringResource(questionnaire.labelRes)}",
             answerSelected = { index -> answers[index] },
             answersRemaining = {
@@ -478,7 +484,6 @@ fun QuestionnaireScreenPreviewDarkTheme()
                     .filterNotNull()
             },
             getScore = score,
-            getScoreLevel = scoreLevelRes,
             onAnswer = { question, answer -> answers[question] = answer },
             onInProgress = {},
             onSkippingAttempt = {},
@@ -634,8 +639,8 @@ fun SummaryPreview()
 {
     BienestarEmocionalTheme {
         Summary(score = 10,
-            scoreLevel = R.string.moderate,
             questionnaire = Questionnaire.PHQ,
+            widthSize = WindowWidthSizeClass.Compact,
             onSucess = {})
     }
 }
@@ -646,8 +651,8 @@ fun SummaryDarkThemePreview()
 {
     BienestarEmocionalTheme(darkTheme = true) {
         Summary(score = 10,
-            scoreLevel = R.string.moderate,
             questionnaire = Questionnaire.PHQ,
+            widthSize = WindowWidthSizeClass.Compact,
             onSucess = {})
     }
 }
