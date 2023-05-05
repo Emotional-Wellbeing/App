@@ -60,8 +60,14 @@ class UCLARepositoryImpl @Inject constructor (
 
     override suspend fun getAllCompleted(): List<UCLA>
     {
-        Log.d(logTag, "querying all completed ucla")
-        return dao.getAllCompletedUCLA()
+        Log.d(logTag, "querying all ucla completed")
+        return dao.getAllUCLACompleted()
+    }
+
+    override suspend fun getLastCompleted(): UCLA?
+    {
+        Log.d(logTag, "querying last ucla completed")
+        return dao.getLastUCLACompleted()
     }
 
     override suspend fun get(id: Long): UCLA?

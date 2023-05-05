@@ -13,5 +13,6 @@ interface QuestionnaireRepository<T> where T : QuestionnaireEntity
     suspend fun getAllFromYesterday(): List<T>
     suspend fun getAllFromRange(range: Range<LocalDate>): List<T>
     suspend fun getAllCompleted(): List<T>
+    suspend fun getLastCompleted(): T?
     suspend fun get(id: Long): T?
 }
