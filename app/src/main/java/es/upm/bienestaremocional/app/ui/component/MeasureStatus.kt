@@ -28,7 +28,7 @@ import es.upm.bienestaremocional.core.ui.component.CircularProgressIndicator
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 @Composable
-fun StressStatus(data: Float?,
+fun StressStatus(data: Int?,
                  widthSize : WindowWidthSizeClass,
                  indicatorColor : Color = MaterialTheme.colorScheme.secondary,
                  indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
@@ -36,21 +36,25 @@ fun StressStatus(data: Float?,
                  showAdvice : Boolean = true,
 )
 {
+    val level = data?.let { scoreToLevelLabel(it,Questionnaire.PSS) }
+    val adviceRes = if (showAdvice) Questionnaire.PSS.advices[level]?.get(0) else null
+    val advice = adviceRes?.let { stringResource(it) }
+
     MeasureStatus(data = data,
         introLabel = stringResource(id = R.string.level_of_stress),
         level = data?.let { scoreToLevelLabel(it,Questionnaire.PSS) },
+        advice = advice,
         widthSize = widthSize,
         indicatorColor = indicatorColor,
         indicatorContainerColor = indicatorContainerColor,
         backgroundColor = backgroundColor,
-        minValue = Questionnaire.PSS.minScore.toFloat(),
-        maxValue = Questionnaire.PSS.maxScore.toFloat(),
-        showAdvice = showAdvice,
+        minValue = Questionnaire.PSS.minScore,
+        maxValue = Questionnaire.PSS.maxScore,
     )
 }
 
 @Composable
-fun DepressionStatus(data: Float?,
+fun DepressionStatus(data: Int?,
                      widthSize : WindowWidthSizeClass,
                      indicatorColor : Color = MaterialTheme.colorScheme.secondary,
                      indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
@@ -58,21 +62,25 @@ fun DepressionStatus(data: Float?,
                      showAdvice : Boolean = true,
 )
 {
+    val level = data?.let { scoreToLevelLabel(it,Questionnaire.PSS) }
+    val adviceRes = if (showAdvice) Questionnaire.PSS.advices[level]?.get(0) else null
+    val advice = adviceRes?.let { stringResource(it) }
+
     MeasureStatus(data = data,
         introLabel = stringResource(id = R.string.level_of_depression),
         level = data?.let { scoreToLevelLabel(it,Questionnaire.PHQ) },
+        advice = advice,
         widthSize = widthSize,
         indicatorColor = indicatorColor,
         indicatorContainerColor = indicatorContainerColor,
         backgroundColor = backgroundColor,
-        minValue = Questionnaire.PHQ.minScore.toFloat(),
-        maxValue = Questionnaire.PHQ.maxScore.toFloat(),
-        showAdvice = showAdvice,
+        minValue = Questionnaire.PHQ.minScore,
+        maxValue = Questionnaire.PHQ.maxScore
     )
 }
 
 @Composable
-fun LonelinessStatus(data: Float?,
+fun LonelinessStatus(data: Int?,
                      widthSize : WindowWidthSizeClass,
                      indicatorColor : Color = MaterialTheme.colorScheme.secondary,
                      indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
@@ -80,32 +88,36 @@ fun LonelinessStatus(data: Float?,
                      showAdvice : Boolean = true,
 )
 {
+    val level = data?.let { scoreToLevelLabel(it,Questionnaire.PSS) }
+    val adviceRes = if (showAdvice) Questionnaire.PSS.advices[level]?.get(0) else null
+    val advice = adviceRes?.let { stringResource(it) }
+
     MeasureStatus(data = data,
         introLabel = stringResource(id = R.string.level_of_loneliness),
         level = data?.let { scoreToLevelLabel(it,Questionnaire.UCLA) },
+        advice = advice,
         widthSize = widthSize,
         indicatorColor = indicatorColor,
         indicatorContainerColor = indicatorContainerColor,
         backgroundColor = backgroundColor,
-        minValue = Questionnaire.UCLA.minScore.toFloat(),
-        maxValue = Questionnaire.UCLA.maxScore.toFloat(),
-        showAdvice = showAdvice,
+        minValue = Questionnaire.UCLA.minScore,
+        maxValue = Questionnaire.UCLA.maxScore
     )
 }
 
 
 
 @Composable
-private fun MeasureStatus(data: Float?,
+private fun MeasureStatus(data: Int?,
                           introLabel : String,
                           level: LevelLabel?,
+                          advice : String?,
                           widthSize : WindowWidthSizeClass,
                           indicatorColor : Color,
                           indicatorContainerColor : Color,
                           backgroundColor : Color,
-                          minValue: Float = 0f,
-                          maxValue : Float = 100f,
-                          showAdvice : Boolean = true,
+                          minValue: Int = 0,
+                          maxValue : Int = 100,
 )
 {
     // Scale factor to reduce the height of row in bigger screens
@@ -145,8 +157,6 @@ private fun MeasureStatus(data: Float?,
     // Text to display
     val levelLabel = stringResource(id = (level?.label ?: R.string.unknown_display))
     val headlineText = "$introLabel : $levelLabel"
-
-    val adviceText = if (showAdvice) level?.advice?.let { stringResource(it) } else null
 
     // Composable elements
     BoxWithConstraints(modifier = Modifier
@@ -198,7 +208,7 @@ private fun MeasureStatus(data: Float?,
             )
             {
                 Text(headlineText, style = headlineTextStyle)
-                adviceText?.let { Text(it, style = adviceTextStyle) }
+                advice?.let { Text(it, style = adviceTextStyle) }
             }
         }
     }
@@ -215,7 +225,7 @@ fun StressStatusCompactPreview()
     {
         Surface()
         {
-            StressStatus(data = 27f,
+            StressStatus(data = 27,
                 widthSize = WindowWidthSizeClass.Compact)
         }
     }
@@ -231,7 +241,7 @@ fun StressStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            StressStatus(data = 27f,
+            StressStatus(data = 27,
                 widthSize = WindowWidthSizeClass.Compact)
         }
     }
@@ -247,7 +257,7 @@ fun DepressionStatusCompactPreview()
     {
         Surface()
         {
-            DepressionStatus(data = 16f,
+            DepressionStatus(data = 16,
                 widthSize = WindowWidthSizeClass.Compact)
         }
     }
@@ -263,7 +273,7 @@ fun DepressionStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            DepressionStatus(data = 16f,
+            DepressionStatus(data = 16,
                 widthSize = WindowWidthSizeClass.Compact)
         }
     }
@@ -279,7 +289,7 @@ fun LonelinessStatusCompactPreview()
     {
         Surface()
         {
-            LonelinessStatus(data = 47f,
+            LonelinessStatus(data = 47,
                 widthSize = WindowWidthSizeClass.Compact)
         }
     }
@@ -295,7 +305,7 @@ fun LonelinessStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            LonelinessStatus(data = 47f,
+            LonelinessStatus(data = 47,
                 widthSize = WindowWidthSizeClass.Compact)
         }
     }
@@ -312,9 +322,10 @@ fun MeasureStatusCompactPreview()
         Surface()
         {
             MeasureStatus(
-                data = 33f,
+                data = 33,
                 introLabel = stringResource(R.string.measure),
                 level = LevelLabel.Low,
+                advice = stringResource(id = R.string.low_stress_advice),
                 widthSize = WindowWidthSizeClass.Compact,
                 indicatorColor = MaterialTheme.colorScheme.secondary,
                 indicatorContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -335,9 +346,10 @@ fun MeasureStatusCompactPreviewDarkTheme()
         Surface()
         {
             MeasureStatus(
-                data = 33f,
+                data = 33,
                 introLabel = stringResource(R.string.measure),
                 level = LevelLabel.Low,
+                advice = stringResource(id = R.string.low_stress_advice),
                 widthSize = WindowWidthSizeClass.Compact,
                 indicatorColor = MaterialTheme.colorScheme.secondary,
                 indicatorContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -361,6 +373,7 @@ fun MeasureStatusNullCompactPreview()
                 data = null,
                 introLabel = stringResource(R.string.measure),
                 level = null,
+                advice = null,
                 widthSize = WindowWidthSizeClass.Compact,
                 indicatorColor = MaterialTheme.colorScheme.secondary,
                 indicatorContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -384,6 +397,7 @@ fun MeasureStatusNullCompactPreviewDarkTheme()
                 data = null,
                 introLabel = stringResource(R.string.measure),
                 level = null,
+                advice = null,
                 widthSize = WindowWidthSizeClass.Compact,
                 indicatorColor = MaterialTheme.colorScheme.secondary,
                 indicatorContainerColor = MaterialTheme.colorScheme.secondaryContainer,

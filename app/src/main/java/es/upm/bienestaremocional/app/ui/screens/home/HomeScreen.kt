@@ -4,9 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,18 +18,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.ui.component.BackHandlerMinimizeApp
-import es.upm.bienestaremocional.app.ui.component.DepressionStatus
-import es.upm.bienestaremocional.app.ui.component.LonelinessStatus
-import es.upm.bienestaremocional.app.ui.component.StressStatus
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
-import es.upm.bienestaremocional.core.ui.component.BasicCard
+import es.upm.bienestaremocional.core.ui.responsive.computeWindowHeightSize
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
@@ -44,9 +42,11 @@ fun HomeScreen(navigator: DestinationsNavigator,
                viewModel: HomeViewModel = hiltViewModel())
 {
     BackHandlerMinimizeApp(LocalContext.current)
+
     HomeScreen(navigator = navigator,
-        widthSize = computeWindowWidthSize(),
         questionnairesToShow = viewModel.questionnaires,
+        widthSize = computeWindowWidthSize(),
+        heightSize = computeWindowHeightSize(),
         getStressScore = viewModel::getStressScore,
         getDepressionScore = viewModel::getDepressionScore,
         getLonelinessScore = viewModel::getLonelinessScore
@@ -54,19 +54,21 @@ fun HomeScreen(navigator: DestinationsNavigator,
 }
 
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun HomeScreen(
     navigator: DestinationsNavigator,
+    questionnairesToShow : List<Questionnaire>,
     widthSize : WindowWidthSizeClass,
-    questionnairesToShow : Set<Questionnaire>,
-    getStressScore: suspend () -> Float?,
-    getDepressionScore : suspend () -> Float?,
-    getLonelinessScore : suspend () -> Float?
+    heightSize : WindowHeightSizeClass,
+    getStressScore: suspend () -> Int?,
+    getDepressionScore : suspend () -> Int?,
+    getLonelinessScore : suspend () -> Int?
 )
 {
-    var stressScore : Float? by remember { mutableStateOf(null) }
-    var depressionScore : Float? by remember { mutableStateOf(null) }
-    var lonelinesssScore : Float? by remember { mutableStateOf(null) }
+    var stressScore : Int? by remember { mutableStateOf(null) }
+    var depressionScore : Int? by remember { mutableStateOf(null) }
+    var lonelinesssScore : Int? by remember { mutableStateOf(null) }
 
     LaunchedEffect(Unit)
     {
@@ -84,36 +86,53 @@ private fun HomeScreen(
         entrySelected = BottomBarDestination.HomeScreen,
         label = R.string.app_name)
     {
-        //https://developer.android.com/jetpack/compose/gestures for verticalScroll
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
+            verticalArrangement = Arrangement.Center,
         )
         {
+            if (questionnairesToShow.size > 1)
+            {
+                val pagerState = rememberPagerState()
 
-            BasicCard{
-                Text("Message placeholder")
-            }
+                HorizontalPager(
+                    count = questionnairesToShow.size,
+                    state = pagerState,
+                    modifier = Modifier.fillMaxSize()
+                ) { page ->
 
-            questionnairesToShow.forEach { questionnaire ->
-                when(questionnaire)
-                {
-                    Questionnaire.PSS -> StressStatus(data = stressScore, widthSize = widthSize)
-                    Questionnaire.PHQ -> DepressionStatus(data = depressionScore, widthSize = widthSize)
-                    Questionnaire.UCLA -> LonelinessStatus(data = lonelinesssScore, widthSize = widthSize)
+                    val score = when (questionnairesToShow[page]) {
+                        Questionnaire.PSS -> stressScore
+                        Questionnaire.PHQ -> depressionScore
+                        Questionnaire.UCLA -> lonelinesssScore
+                    }
+
+                    MeasureSummary(
+                        questionnaire = questionnairesToShow[page],
+                        score = score,
+                        pagerState = pagerState,
+                        widthSize = widthSize,
+                        heightSize = heightSize
+                    )
                 }
             }
+            else if (questionnairesToShow.size == 1)
+            {
+                val score = when (questionnairesToShow[0]) {
+                    Questionnaire.PSS -> stressScore
+                    Questionnaire.PHQ -> depressionScore
+                    Questionnaire.UCLA -> lonelinesssScore
+                }
 
-            BasicCard{
-                Text("Feedback placeholder")
-            }
-
-            BasicCard{
-                Text("Last week stats placeholder")
+                MeasureSummary(
+                    questionnaire = questionnairesToShow[0],
+                    score = score,
+                    widthSize = widthSize,
+                    heightSize = heightSize
+                )
             }
         }
     }
@@ -125,15 +144,16 @@ private fun HomeScreen(
     group = "Light Theme"
 )
 @Composable
-fun HomeScreenCompactPreview()
+fun HomeScreenOneQuestionnaireCompactPreview()
 {
     BienestarEmocionalTheme{
         HomeScreen(navigator = EmptyDestinationsNavigator,
+            questionnairesToShow = listOf(Questionnaire.PSS),
             widthSize = WindowWidthSizeClass.Compact,
-            questionnairesToShow = Questionnaire.getMandatory().toSet() + Questionnaire.getOptional(),
-            getStressScore = { 27f },
-            getDepressionScore = { 14f },
-            getLonelinessScore = { 33f }
+            heightSize = WindowHeightSizeClass.Compact,
+            getStressScore = { 27 },
+            getDepressionScore = { 14 },
+            getLonelinessScore = { 33 }
         )
     }
 }
@@ -143,16 +163,95 @@ fun HomeScreenCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun HomeScreenCompactPreviewDarkTheme()
+fun HomeScreenOneQuestionnaireCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
         HomeScreen(navigator = EmptyDestinationsNavigator,
+            questionnairesToShow = listOf(Questionnaire.PSS),
             widthSize = WindowWidthSizeClass.Compact,
-            questionnairesToShow = Questionnaire.getMandatory().toSet() + Questionnaire.getOptional(),
-            getStressScore = { 27f },
-            getDepressionScore = { 14f },
-            getLonelinessScore = { 33f }
+            heightSize = WindowHeightSizeClass.Compact,
+            getStressScore = { 27 },
+            getDepressionScore = { 14 },
+            getLonelinessScore = { 33 }
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
+@Composable
+fun HomeScreenNoQuestionnaireCompactPreview()
+{
+    BienestarEmocionalTheme{
+        HomeScreen(navigator = EmptyDestinationsNavigator,
+            questionnairesToShow = listOf(),
+            widthSize = WindowWidthSizeClass.Compact,
+            heightSize = WindowHeightSizeClass.Compact,
+            getStressScore = { 27 },
+            getDepressionScore = { 14 },
+            getLonelinessScore = { 33 }
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
+@Composable
+fun HomeScreenNoQuestionnaireCompactPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true)
+    {
+        HomeScreen(navigator = EmptyDestinationsNavigator,
+            questionnairesToShow = listOf(),
+            widthSize = WindowWidthSizeClass.Compact,
+            heightSize = WindowHeightSizeClass.Compact,
+            getStressScore = { 27 },
+            getDepressionScore = { 14 },
+            getLonelinessScore = { 33 }
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
+@Composable
+fun HomeScreenAllQuestionnairesCompactPreview()
+{
+    BienestarEmocionalTheme{
+        HomeScreen(navigator = EmptyDestinationsNavigator,
+            questionnairesToShow = Questionnaire.getMandatory() + Questionnaire.getOptional(),
+            widthSize = WindowWidthSizeClass.Compact,
+            heightSize = WindowHeightSizeClass.Compact,
+            getStressScore = { 27 },
+            getDepressionScore = { 14 },
+            getLonelinessScore = { 33 }
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
+@Composable
+fun HomeScreenAllQuestionnairesCompactPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true)
+    {
+        HomeScreen(navigator = EmptyDestinationsNavigator,
+            questionnairesToShow = Questionnaire.getMandatory() + Questionnaire.getOptional(),
+            widthSize = WindowWidthSizeClass.Compact,
+            heightSize = WindowHeightSizeClass.Compact,
+            getStressScore = { 27 },
+            getDepressionScore = { 14 },
+            getLonelinessScore = { 33 }
         )
     }
 }

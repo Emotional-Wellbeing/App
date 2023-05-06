@@ -108,13 +108,19 @@
     <string name="high">Alto</string>
 
     <!-- Advices -->
-    <string name="minimal_advice">Consejo nivel mínimo</string>
-    <string name="mild_advice">Consejo nivel level</string>
-    <string name="moderate_advice">Consejo nivel moderado</string>
-    <string name="moderately_severe_advice">Consejo nivel moderadamente severo</string>
-    <string name="severe_advice">Consejo nivel severo</string>
-    <string name="low_advice">Consejo nivel bajo</string>
-    <string name="high_advice">Consejo nivel alto</string>
+    <string name="low_stress_advice">Consejo para estrés de nivel bajo</string>
+    <string name="moderate_stress_advice">Consejo para estrés de nivel moderado</string>
+    <string name="high_stress_advice">Consejo para estrés de nivel alto</string>
+
+    <string name="minimal_depression_advice">Consejo para depresión de nivel mínimo</string>
+    <string name="mild_depression_advice">Consejo para depresión de nivel level</string>
+    <string name="moderate_depression_advice">Consejo para depresión de nivel moderado</string>
+    <string name="moderately_severe_depression_advice">Consejo para depresión de nivel moderadamente severo</string>
+    <string name="severe_depression_advice">Consejo para depresión de nivel severo</string>
+
+    <string name="low_loneliness_advice">Consejo para soledad de nivel bajo</string>
+    <string name="moderate_loneliness_advice">Consejo para soledad de nivel moderado</string>
+    <string name="high_loneliness_advice">Consejo para soledad de nivel alto</string>
 
     <!-- Credits-->
     <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>

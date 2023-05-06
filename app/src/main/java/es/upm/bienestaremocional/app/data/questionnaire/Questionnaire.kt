@@ -34,7 +34,8 @@ enum class Questionnaire(val id: String,
                          val questionsWithInvertedScore : Set<Int> = setOf(),
                          val levels: List<ScoreLevel>,
                          val minScore : Int,
-                         val maxScore : Int
+                         val maxScore : Int,
+                         val advices : Map<LevelLabel,List<Int>>
 )
 {
     PSS(id = "pss",
@@ -53,7 +54,12 @@ enum class Questionnaire(val id: String,
             ScoreLevel(27,40,LevelLabel.High),
         ),
         minScore = 0,
-        maxScore = 40
+        maxScore = 40,
+        advices = mapOf(
+            Pair(LevelLabel.Low, listOf(R.string.low_stress_advice)),
+            Pair(LevelLabel.Moderate, listOf(R.string.moderate_stress_advice)),
+            Pair(LevelLabel.High, listOf(R.string.high_stress_advice)),
+        )
     ),
     PHQ(id = "phq",
         mandatory = false,
@@ -72,7 +78,14 @@ enum class Questionnaire(val id: String,
             ScoreLevel(20,27,LevelLabel.Severe),
         ),
         minScore = 0,
-        maxScore = 27
+        maxScore = 27,
+        advices = mapOf(
+            Pair(LevelLabel.Minimal, listOf(R.string.minimal_depression_advice)),
+            Pair(LevelLabel.Mild, listOf(R.string.mild_depression_advice)),
+            Pair(LevelLabel.Moderate, listOf(R.string.moderate_depression_advice)),
+            Pair(LevelLabel.ModeratelySevere, listOf(R.string.moderately_severe_depression_advice)),
+            Pair(LevelLabel.Severe, listOf(R.string.severe_depression_advice)),
+        )
     ),
     UCLA(id = "ucla",
         mandatory = false,
@@ -90,7 +103,12 @@ enum class Questionnaire(val id: String,
             ScoreLevel(61,80,LevelLabel.High),
         ),
         minScore = 20,
-        maxScore = 80
+        maxScore = 80,
+        advices = mapOf(
+            Pair(LevelLabel.Low, listOf(R.string.low_loneliness_advice)),
+            Pair(LevelLabel.Moderate, listOf(R.string.moderate_loneliness_advice)),
+            Pair(LevelLabel.High, listOf(R.string.high_loneliness_advice)),
+        )
     );
 
     companion object

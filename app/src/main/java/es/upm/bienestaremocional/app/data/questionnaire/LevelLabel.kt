@@ -23,17 +23,16 @@ import es.upm.bienestaremocional.core.ui.theme.light_Yellowgreen
  */
 enum class LevelLabel(
     val id: String,
-    @StringRes val label: Int,
-    @StringRes val advice : Int,
+    @StringRes val label: Int
 )
 {
-    Low("low", R.string.low, R.string.low_advice),
-    Moderate("moderate",R.string.moderate, R.string.moderate_advice),
-    High("high",R.string.high, R.string.high_advice),
-    Minimal("minimal",R.string.minimal, R.string.minimal_advice),
-    Mild("mild",R.string.mild, R.string.mild_advice),
-    ModeratelySevere("moderately_severe",R.string.moderately_severe, R.string.moderately_severe_advice),
-    Severe("severe",R.string.severe, R.string.severe_advice);
+    Low("low", R.string.low),
+    Moderate("moderate",R.string.moderate),
+    High("high",R.string.high),
+    Minimal("minimal",R.string.minimal),
+    Mild("mild",R.string.mild),
+    ModeratelySevere("moderately_severe",R.string.moderately_severe),
+    Severe("severe",R.string.severe);
 
     companion object
     {
@@ -63,10 +62,10 @@ enum class LevelLabel(
             return when(this)
             {
                 Low -> {
-                   if (isSystemInDarkTheme())
-                       dark_Limegreen
-                   else
-                       light_Limegreen
+                    if (isSystemInDarkTheme())
+                        dark_Limegreen
+                    else
+                        light_Limegreen
                 }
                 Moderate -> {
                     if (isSystemInDarkTheme())
