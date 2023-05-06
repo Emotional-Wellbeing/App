@@ -31,6 +31,9 @@
     <uses-permission android:name="android.permission.health.READ_FLOORS_CLIMBED"/>
     <uses-permission android:name="android.permission.health.WRITE_FLOORS_CLIMBED"/>
 
+    <uses-permission android:name="android.permission.health.READ_EXERCISE"/>
+    <uses-permission android:name="android.permission.health.WRITE_EXERCISE"/>
+    
     <!-- TODO Remove usesCleartextTraffic in final version -->
 
     <application

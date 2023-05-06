@@ -31,6 +31,12 @@ object HealthConnectSourcesModule
 
     @Provides
     @ViewModelScoped
+    fun provideExerciseSession(healthConnectClient: HealthConnectClient,
+                               healthConnectManager: HealthConnectManagerInterface
+    ): ExerciseSession = ExerciseSession(healthConnectClient, healthConnectManager)
+
+    @Provides
+    @ViewModelScoped
     fun provideFloorsClimbed(healthConnectClient: HealthConnectClient,
                       healthConnectManager: HealthConnectManagerInterface
     ): FloorsClimbed = FloorsClimbed(healthConnectClient, healthConnectManager)

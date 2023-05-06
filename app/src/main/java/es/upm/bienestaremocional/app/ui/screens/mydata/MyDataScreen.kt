@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.DistanceRecord
 import androidx.health.connect.client.records.ElevationGainedRecord
+import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.FloorsClimbedRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.StepsRecord
@@ -45,6 +46,7 @@ import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.ui.healthconnect.component.Display
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.DistanceViewModel
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.ElevationGainedViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.ExerciseSessionViewModel
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.FloorsClimbedViewModel
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.HeartRateViewModel
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.SleepSessionViewModel
@@ -69,7 +71,7 @@ fun MyDataScreen(
     distanceViewModel: DistanceViewModel = hiltViewModel(),
     totalCaloriesBurnedViewModel: TotalCaloriesBurnedViewModel = hiltViewModel(),
     elevationGainedViewModel: ElevationGainedViewModel = hiltViewModel(),
-    //TODO exercise
+    exerciseSessionViewModel: ExerciseSessionViewModel = hiltViewModel(),
     floorsClimbedViewModel: FloorsClimbedViewModel = hiltViewModel(),
     weightViewModel: WeightViewModel = hiltViewModel()
 )
@@ -87,6 +89,7 @@ fun MyDataScreen(
         stepsVMD = stepsViewModel.getViewModelData(),
         distanceVMD = distanceViewModel.getViewModelData(),
         totalCaloriesBurnedVMD = totalCaloriesBurnedViewModel.getViewModelData(),
+        exerciseSessionVMD = exerciseSessionViewModel.getViewModelData(),
         elevationGainedVMD = elevationGainedViewModel.getViewModelData(),
         floorsClimbedVMD = floorsClimbedViewModel.getViewModelData(),
         weightVMD = weightViewModel.getViewModelData(),
@@ -136,6 +139,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                              stepsVMD: ViewModelData<StepsRecord>,
                              distanceVMD: ViewModelData<DistanceRecord>,
                              totalCaloriesBurnedVMD: ViewModelData<TotalCaloriesBurnedRecord>,
+                             exerciseSessionVMD: ViewModelData<ExerciseSessionRecord>,
                              elevationGainedVMD: ViewModelData<ElevationGainedRecord>,
                              floorsClimbedVMD: ViewModelData<FloorsClimbedRecord>,
                              weightVMD: ViewModelData<WeightRecord>,
@@ -179,12 +183,15 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                     CategoryText(stringRes = R.string.elevation_gained,
                         selected = false,
                         onClick = {onSelect(5)})
-                    CategoryText(stringRes = R.string.floors_climbed,
+                    CategoryText(stringRes = R.string.exercise,
                         selected = false,
                         onClick = {onSelect(6)})
-                    CategoryText(stringRes = R.string.weight,
+                    CategoryText(stringRes = R.string.floors_climbed,
                         selected = false,
                         onClick = {onSelect(7)})
+                    CategoryText(stringRes = R.string.weight,
+                        selected = false,
+                        onClick = {onSelect(8)})
                 }
                 is MyDataState.Selected ->
                 {
@@ -287,6 +294,22 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                             )
                         }
                         6 -> {
+                            CategoryText(stringRes = R.string.exercise,
+                                selected = true,
+                                onClick = onUnselect)
+                            DrawHealthConnectSubscreen(
+                                viewModelData = exerciseSessionVMD,
+                                onDisplayData = {
+                                    items(exerciseSessionVMD.data)
+                                    {
+                                        Spacer(Modifier.height(16.dp))
+                                        it.Display(widthSize)
+                                    }
+                                },
+                                onError = { coroutineScope.launch { onError(it) }}
+                            )
+                        }
+                        7 -> {
                             CategoryText(stringRes = R.string.floors_climbed,
                                 selected = true,
                                 onClick = onUnselect)
@@ -302,7 +325,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                 onError = { coroutineScope.launch { onError(it) }}
                             )
                         }
-                        7 -> {
+                        8 -> {
                             CategoryText(stringRes = R.string.weight,
                                 selected = true,
                                 onClick = onUnselect)
