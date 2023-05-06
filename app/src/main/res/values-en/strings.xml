@@ -11,6 +11,8 @@
     <string name="total_calories_burned">Total Calories Burned</string>
     <string name="elevation_gained">Elevation Gained</string>
     <string name="weight">Weight</string>
+    <string name="floors_climbed">Floors Climbed</string>
+    <string name="floors">Floors</string>
     <string name="privacy_group">Privacy</string>
     <string name="health_connect_settings_label">Health Connect</string>
     <string name="my_data_label">My data</string>

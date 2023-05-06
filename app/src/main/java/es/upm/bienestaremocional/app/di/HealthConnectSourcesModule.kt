@@ -28,6 +28,12 @@ object HealthConnectSourcesModule
     fun provideElevationGained(healthConnectClient: HealthConnectClient,
                                healthConnectManager: HealthConnectManagerInterface
     ): ElevationGained = ElevationGained(healthConnectClient, healthConnectManager)
+
+    @Provides
+    @ViewModelScoped
+    fun provideFloorsClimbed(healthConnectClient: HealthConnectClient,
+                      healthConnectManager: HealthConnectManagerInterface
+    ): FloorsClimbed = FloorsClimbed(healthConnectClient, healthConnectManager)
     
     @Provides
     @ViewModelScoped
