@@ -25,7 +25,7 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.app.domain.processing.scoreToLevelLabel
+import es.upm.bienestaremocional.app.domain.processing.scoreToLevel
 import es.upm.bienestaremocional.core.ui.component.CircularProgressIndicator
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
@@ -75,7 +75,7 @@ fun MeasureSummary(
     // Checks
     require(heightFraction in 0f..1f)
 
-    val level = score?.let { scoreToLevelLabel(it, questionnaire) }
+    val level = score?.let { scoreToLevel(it, questionnaire) }
 
     // Text to display
     val introLabel = stringResource(

@@ -21,7 +21,7 @@ import es.upm.bienestaremocional.core.ui.theme.light_Yellowgreen
  * @param id: String with the id used to save in database
  * @param label: StringResource with the label used to show in screens
  */
-enum class LevelLabel(
+enum class Level(
     val id: String,
     @StringRes val label: Int
 )
@@ -41,7 +41,7 @@ enum class LevelLabel(
          * @param id: The id to query
          * @return The LevelLabel if the id matches with any LevelLabel or null if doesn't
          */
-        fun decodeFromId(id: String) : LevelLabel?
+        fun decodeFromId(id: String) : Level?
         {
             return when(id)
             {
@@ -57,7 +57,7 @@ enum class LevelLabel(
         }
 
         @Composable
-        fun LevelLabel.getColor() : Color
+        fun Level.getColor() : Color
         {
             return when(this)
             {

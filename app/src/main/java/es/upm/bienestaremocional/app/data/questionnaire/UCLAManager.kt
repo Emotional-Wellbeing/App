@@ -38,7 +38,7 @@ class UCLAManager: QuestionnaireManager<UCLA>()
     override fun setEntity(element: UCLA) {
         element.apply {
             score = this@UCLAManager.score
-            scoreLevel = this@UCLAManager.scoreLevel?.levelLabel?.id
+            scoreLevel = this@UCLAManager.scoreLevel?.level?.id
             completed = this@UCLAManager.questionnaireFulfilled
             answer1 = this@UCLAManager.answers.getOrNull(0)
             answer2 = this@UCLAManager.answers.getOrNull(1)

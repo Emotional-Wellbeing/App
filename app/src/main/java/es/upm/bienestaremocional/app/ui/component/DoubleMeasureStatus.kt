@@ -21,9 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.data.questionnaire.LevelLabel
+import es.upm.bienestaremocional.app.data.questionnaire.Level
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.app.domain.processing.scoreToLevelLabel
+import es.upm.bienestaremocional.app.domain.processing.scoreToLevel
 import es.upm.bienestaremocional.core.ui.component.CircularProgressIndicator
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
@@ -37,12 +37,12 @@ fun DoubleStressStatus(data: Pair<Int?,Int?>,
     // If we have score and level label, put it. If we don't have any of them,
     // put R.string.unknown_display
     val firstSubtitle = stringResource(data.first?.let {
-        scoreToLevelLabel(it, Questionnaire.PSS)?.label
+        scoreToLevel(it, Questionnaire.PSS)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
     val secondSubtitle = stringResource(data.second?.let {
-        scoreToLevelLabel(it, Questionnaire.PSS)?.label
+        scoreToLevel(it, Questionnaire.PSS)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
@@ -65,12 +65,12 @@ fun DoubleDepressionStatus(data: Pair<Int?,Int?>,
     // If we have score and level label, put it. If we don't have any of them,
     // put R.string.unknown_display
     val firstSubtitle = stringResource(data.first?.let {
-        scoreToLevelLabel(it, Questionnaire.PHQ)?.label
+        scoreToLevel(it, Questionnaire.PHQ)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
     val secondSubtitle = stringResource(data.second?.let {
-        scoreToLevelLabel(it, Questionnaire.PHQ)?.label
+        scoreToLevel(it, Questionnaire.PHQ)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
@@ -93,12 +93,12 @@ fun DoubleLonelinessStatus(data: Pair<Int?,Int?>,
     // If we have score and level label, put it. If we don't have any of them,
     // put R.string.unknown_display
     val firstSubtitle = stringResource(data.first?.let {
-        scoreToLevelLabel(it, Questionnaire.UCLA)?.label
+        scoreToLevel(it, Questionnaire.UCLA)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
     val secondSubtitle = stringResource(data.second?.let {
-        scoreToLevelLabel(it, Questionnaire.UCLA)?.label
+        scoreToLevel(it, Questionnaire.UCLA)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
@@ -387,8 +387,8 @@ fun DoubleMeasureStatusCompactPreview()
                 measureLabel = stringResource(id = R.string.stress),
                 headers = Pair("Ayer","Semana"),
                 subtitle = Pair(
-                    stringResource(LevelLabel.Low.label),
-                    stringResource(LevelLabel.ModeratelySevere.label)
+                    stringResource(Level.Low.label),
+                    stringResource(Level.ModeratelySevere.label)
                 ),
                 widthSize = WindowWidthSizeClass.Compact,
             )
@@ -411,8 +411,8 @@ fun DoubleMeasureStatusCompactPreviewDarkTheme()
                 measureLabel = stringResource(id = R.string.stress),
                 headers = Pair("Ayer","Semana"),
                 subtitle = Pair(
-                    stringResource(LevelLabel.Low.label),
-                    stringResource(LevelLabel.ModeratelySevere.label)
+                    stringResource(Level.Low.label),
+                    stringResource(Level.ModeratelySevere.label)
                 ),
                 widthSize = WindowWidthSizeClass.Compact
             )
@@ -435,8 +435,8 @@ fun DoubleMeasureStatusNullCompactPreview()
                 measureLabel = stringResource(id = R.string.stress),
                 headers = Pair("Ayer","Semana"),
                 subtitle = Pair(
-                    stringResource(LevelLabel.Low.label),
-                    stringResource(LevelLabel.ModeratelySevere.label)
+                    stringResource(Level.Low.label),
+                    stringResource(Level.ModeratelySevere.label)
                 ),
                 widthSize = WindowWidthSizeClass.Compact
             )
@@ -459,8 +459,8 @@ fun DoubleMeasureStatusNullCompactPreviewDarkTheme()
                 measureLabel = stringResource(id = R.string.stress),
                 headers = Pair("Ayer","Semana"),
                 subtitle = Pair(
-                    stringResource(LevelLabel.Low.label),
-                    stringResource(LevelLabel.ModeratelySevere.label)
+                    stringResource(Level.Low.label),
+                    stringResource(Level.ModeratelySevere.label)
                 ),
                 widthSize = WindowWidthSizeClass.Compact
             )

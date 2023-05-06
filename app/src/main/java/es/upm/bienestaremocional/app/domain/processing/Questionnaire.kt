@@ -1,7 +1,7 @@
 package es.upm.bienestaremocional.app.domain.processing
 
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireEntity
-import es.upm.bienestaremocional.app.data.questionnaire.LevelLabel
+import es.upm.bienestaremocional.app.data.questionnaire.Level
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.data.questionnaire.ScoreLevel
 
@@ -56,7 +56,7 @@ private fun aggregateEntriesPer(records: List<QuestionnaireEntity>, truncate : (
     return result
 }
 
-fun scoreToLevelLabel(score: Int, questionnaire: Questionnaire): LevelLabel?
+fun scoreToLevel(score: Int, questionnaire: Questionnaire): Level?
 {
     var scoreLevel: ScoreLevel? = null
     for(level in questionnaire.levels)
@@ -67,19 +67,5 @@ fun scoreToLevelLabel(score: Int, questionnaire: Questionnaire): LevelLabel?
             break
         }
     }
-    return scoreLevel?.levelLabel
-}
-
-fun scoreToLevelLabel(score: Float, questionnaire: Questionnaire): LevelLabel?
-{
-    var scoreLevel: ScoreLevel? = null
-    for(level in questionnaire.levels)
-    {
-        if (score in level.min.toFloat() .. level.max.toFloat())
-        {
-            scoreLevel = level
-            break
-        }
-    }
-    return scoreLevel?.levelLabel
+    return scoreLevel?.level
 }

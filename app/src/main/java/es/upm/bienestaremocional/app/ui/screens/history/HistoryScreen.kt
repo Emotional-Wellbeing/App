@@ -47,7 +47,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.*
-import es.upm.bienestaremocional.app.data.questionnaire.LevelLabel.Companion.getColor
+import es.upm.bienestaremocional.app.data.questionnaire.Level.Companion.getColor
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.utils.formatDate
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
@@ -296,13 +296,13 @@ private fun DrawLineChart(heightSize: WindowHeightSizeClass,
     val legends = if(heightSize > WindowHeightSizeClass.Compact)
         {
             questionnaire.levels.map { verticalLegendItem(
-                icon = shapeComponent(Shapes.pillShape, it.levelLabel.getColor()),
+                icon = shapeComponent(Shapes.pillShape, it.level.getColor()),
                 label = textComponent(
                     color = chartStyle.axis.axisLabelColor,
                     textSize = 12.sp,
                     typeface = Typeface.MONOSPACE,
                 ),
-                labelText = stringResource(it.levelLabel.label))
+                labelText = stringResource(it.level.label))
             }
         }
         else
@@ -360,8 +360,8 @@ private fun thresholdArea(scoreLevel: ScoreLevel,
                           previousMax: Float): ThresholdLine
 {
     val label = textComponent(textSize = (0).sp)
-    val line = shapeComponent(color = scoreLevel.levelLabel.getColor().copy(.5f))
-    val thresholdLabel = stringResource(scoreLevel.levelLabel.label)
+    val line = shapeComponent(color = scoreLevel.level.getColor().copy(.5f))
+    val thresholdLabel = stringResource(scoreLevel.level.label)
     return remember(scoreLevel) {
         ThresholdLine(
             thresholdRange = previousMax..scoreLevel.max.toFloat(),

@@ -21,9 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.data.questionnaire.LevelLabel
+import es.upm.bienestaremocional.app.data.questionnaire.Level
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.app.domain.processing.scoreToLevelLabel
+import es.upm.bienestaremocional.app.domain.processing.scoreToLevel
 import es.upm.bienestaremocional.core.ui.component.CircularProgressIndicator
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
@@ -36,13 +36,13 @@ fun StressStatus(data: Int?,
                  showAdvice : Boolean = true,
 )
 {
-    val level = data?.let { scoreToLevelLabel(it,Questionnaire.PSS) }
+    val level = data?.let { scoreToLevel(it,Questionnaire.PSS) }
     val adviceRes = if (showAdvice) Questionnaire.PSS.advices[level]?.get(0) else null
     val advice = adviceRes?.let { stringResource(it) }
 
     MeasureStatus(data = data,
         introLabel = stringResource(id = R.string.level_of_stress),
-        level = data?.let { scoreToLevelLabel(it,Questionnaire.PSS) },
+        level = data?.let { scoreToLevel(it,Questionnaire.PSS) },
         advice = advice,
         widthSize = widthSize,
         indicatorColor = indicatorColor,
@@ -62,13 +62,13 @@ fun DepressionStatus(data: Int?,
                      showAdvice : Boolean = true,
 )
 {
-    val level = data?.let { scoreToLevelLabel(it,Questionnaire.PSS) }
+    val level = data?.let { scoreToLevel(it,Questionnaire.PSS) }
     val adviceRes = if (showAdvice) Questionnaire.PSS.advices[level]?.get(0) else null
     val advice = adviceRes?.let { stringResource(it) }
 
     MeasureStatus(data = data,
         introLabel = stringResource(id = R.string.level_of_depression),
-        level = data?.let { scoreToLevelLabel(it,Questionnaire.PHQ) },
+        level = data?.let { scoreToLevel(it,Questionnaire.PHQ) },
         advice = advice,
         widthSize = widthSize,
         indicatorColor = indicatorColor,
@@ -88,13 +88,13 @@ fun LonelinessStatus(data: Int?,
                      showAdvice : Boolean = true,
 )
 {
-    val level = data?.let { scoreToLevelLabel(it,Questionnaire.PSS) }
+    val level = data?.let { scoreToLevel(it,Questionnaire.PSS) }
     val adviceRes = if (showAdvice) Questionnaire.PSS.advices[level]?.get(0) else null
     val advice = adviceRes?.let { stringResource(it) }
 
     MeasureStatus(data = data,
         introLabel = stringResource(id = R.string.level_of_loneliness),
-        level = data?.let { scoreToLevelLabel(it,Questionnaire.UCLA) },
+        level = data?.let { scoreToLevel(it,Questionnaire.UCLA) },
         advice = advice,
         widthSize = widthSize,
         indicatorColor = indicatorColor,
@@ -110,7 +110,7 @@ fun LonelinessStatus(data: Int?,
 @Composable
 private fun MeasureStatus(data: Int?,
                           introLabel : String,
-                          level: LevelLabel?,
+                          level: Level?,
                           advice : String?,
                           widthSize : WindowWidthSizeClass,
                           indicatorColor : Color,
@@ -324,7 +324,7 @@ fun MeasureStatusCompactPreview()
             MeasureStatus(
                 data = 33,
                 introLabel = stringResource(R.string.measure),
-                level = LevelLabel.Low,
+                level = Level.Low,
                 advice = stringResource(id = R.string.low_stress_advice),
                 widthSize = WindowWidthSizeClass.Compact,
                 indicatorColor = MaterialTheme.colorScheme.secondary,
@@ -348,7 +348,7 @@ fun MeasureStatusCompactPreviewDarkTheme()
             MeasureStatus(
                 data = 33,
                 introLabel = stringResource(R.string.measure),
-                level = LevelLabel.Low,
+                level = Level.Low,
                 advice = stringResource(id = R.string.low_stress_advice),
                 widthSize = WindowWidthSizeClass.Compact,
                 indicatorColor = MaterialTheme.colorScheme.secondary,
