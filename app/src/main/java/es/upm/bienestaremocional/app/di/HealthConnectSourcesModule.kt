@@ -52,4 +52,10 @@ object HealthConnectSourcesModule
     fun provideTotalCaloriesBurned(healthConnectClient: HealthConnectClient,
                                    healthConnectManager: HealthConnectManagerInterface
     ): TotalCaloriesBurned = TotalCaloriesBurned(healthConnectClient, healthConnectManager)
+
+    @Provides
+    @ViewModelScoped
+    fun provideWeight(healthConnectClient: HealthConnectClient,
+                     healthConnectManager: HealthConnectManagerInterface
+    ): Weight = Weight(healthConnectClient, healthConnectManager)
 }

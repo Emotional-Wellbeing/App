@@ -22,6 +22,7 @@
     <string name="distance">Distancia</string>
     <string name="total_calories_burned">Calorías quemadas</string>
     <string name="elevation_gained">Elevación ganada</string>
+    <string name="weight">Peso</string>
 
     <!-- Settings-->
     <string name="privacy_group">Privacidad</string>
@@ -183,6 +184,7 @@
     <string name="kcal" translatable="false">kcal</string>
     <string name="km" translatable="false">km</string>
     <string name="m" translatable="false">m</string>
+    <string name="kg" translatable="false">kg</string>
     <string name="bpm">ppm</string>
     <string name="no_data_to_display">No hay datos para mostrar</string>
     <string name="unknown_display" translatable="false">--</string>

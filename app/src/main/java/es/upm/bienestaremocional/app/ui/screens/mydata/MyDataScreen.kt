@@ -34,6 +34,7 @@ import androidx.health.connect.client.records.ElevationGainedRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.TotalCaloriesBurnedRecord
+import androidx.health.connect.client.records.WeightRecord
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
@@ -47,6 +48,7 @@ import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.HeartRateViewMod
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.SleepSessionViewModel
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.StepsViewModel
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.TotalCaloriesBurnedViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.WeightViewModel
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.DrawHealthConnectSubscreen
@@ -67,7 +69,7 @@ fun MyDataScreen(
     elevationGainedViewModel: ElevationGainedViewModel = hiltViewModel(),
     //TODO exercise
     //TODO floors
-    //TODO weight
+    weightViewModel: WeightViewModel = hiltViewModel()
 )
 {
     val snackbarHostState = remember {SnackbarHostState()}
@@ -84,6 +86,7 @@ fun MyDataScreen(
         distanceVMD = distanceViewModel.getViewModelData(),
         totalCaloriesBurnedVMD = totalCaloriesBurnedViewModel.getViewModelData(),
         elevationGainedVMD = elevationGainedViewModel.getViewModelData(),
+        weightVMD = weightViewModel.getViewModelData(),
         onSelect = {index -> viewModel.onSelect(index)},
         onUnselect = {viewModel.onUnselect()},
         onError = {exception -> viewModel.onError(snackbarHostState,exception)})
@@ -131,6 +134,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                              distanceVMD: ViewModelData<DistanceRecord>,
                              totalCaloriesBurnedVMD: ViewModelData<TotalCaloriesBurnedRecord>,
                              elevationGainedVMD: ViewModelData<ElevationGainedRecord>,
+                             weightVMD: ViewModelData<WeightRecord>,
                              onSelect: (Int) -> Unit,
                              onUnselect : () -> Unit,
                              onError: suspend (Throwable?) -> Unit = {})
@@ -170,6 +174,9 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                     CategoryText(stringRes = R.string.elevation_gained,
                         selected = false,
                         onClick = {onSelect(5)})
+                    CategoryText(stringRes = R.string.weight,
+                        selected = false,
+                        onClick = {onSelect(6)})
                 }
                 is MyDataState.Selected ->
                 {
@@ -263,6 +270,22 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                 viewModelData = elevationGainedVMD,
                                 onDisplayData = {
                                     items(elevationGainedVMD.data)
+                                    {
+                                        Spacer(Modifier.height(16.dp))
+                                        it.Display(widthSize)
+                                    }
+                                },
+                                onError = { coroutineScope.launch { onError(it) }}
+                            )
+                        }
+                        6 -> {
+                            CategoryText(stringRes = R.string.weight,
+                                selected = true,
+                                onClick = onUnselect)
+                            DrawHealthConnectSubscreen(
+                                viewModelData = weightVMD,
+                                onDisplayData = {
+                                    items(weightVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
                                         it.Display(widthSize)

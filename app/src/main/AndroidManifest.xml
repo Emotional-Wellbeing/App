@@ -25,7 +25,10 @@
     <uses-permission android:name="android.permission.health.READ_ELEVATION_GAINED"/>
     <uses-permission android:name="android.permission.health.WRITE_ELEVATION_GAINED"/>
 
-    <!--Remove usesCleartextTraffic in final version -->
+    <uses-permission android:name="android.permission.health.READ_WEIGHT"/>
+    <uses-permission android:name="android.permission.health.WRITE_WEIGHT"/>
+
+    <!-- TODO Remove usesCleartextTraffic in final version -->
 
     <application
         android:name=".app.MainApplication"
