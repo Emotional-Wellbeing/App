@@ -56,3 +56,29 @@ fun truncateTimestampToMonth(timestamp: Long) : Long
     //return zonedDateTime epoch second
     return zonedDateTimeTruncated.toEpochSecond()
 }
+
+/**
+ * Obtain the range of the last seven days in milliseconds
+ * For example, if today is 8th of May, this fun return the millisecond of 1th May at 00:00:00:000
+ * and 7th May at 23:59:59:999
+ */
+fun getLastSevenDays(): Pair<Long,Long>
+{
+    val now = ZonedDateTime.now()
+    val start = now.minusDays(7).truncatedTo(ChronoUnit.DAYS).toEpochSecond() * 1000
+    val end = (now.truncatedTo(ChronoUnit.DAYS).toEpochSecond() * 1000 ) - 1
+    return Pair(start,end)
+}
+
+/**
+ * Obtain the range of the last seven days in milliseconds
+ * For example, if today is 8th of May, this fun return the millisecond of 7th May at 00:00:00:000
+ * and 7th May at 23:59:59:999
+ */
+fun getStartAndEndOfYesterday(): Pair<Long,Long>
+{
+    val now = ZonedDateTime.now()
+    val start = now.minusDays(1).truncatedTo(ChronoUnit.DAYS).toEpochSecond() * 1000
+    val end = (now.truncatedTo(ChronoUnit.DAYS).toEpochSecond() * 1000 ) - 1
+    return Pair(start,end)
+}

@@ -1,6 +1,9 @@
 package es.upm.bienestaremocional.app.domain.processing
 
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireEntity
+import es.upm.bienestaremocional.app.data.questionnaire.LevelLabel
+import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.app.data.questionnaire.ScoreLevel
 
 /**
  * Transform a list of [QuestionnaireEntity] into another of type [Pair]<[Long],[Float]>
@@ -31,6 +34,7 @@ private fun aggregateEntriesPer(records: List<QuestionnaireEntity>, truncate : (
     val result = mutableListOf<Pair<Long,Float>>()
     val buffer = mutableMapOf<Long,MutableList<Int>>()
 
+    // Truncate timestamp and add their scores
     records.forEach { record ->
         record.score?.let { score ->
             val timestampTruncated = truncate(record.createdAt)
@@ -50,4 +54,32 @@ private fun aggregateEntriesPer(records: List<QuestionnaireEntity>, truncate : (
     result.sortBy { it.first }
 
     return result
+}
+
+fun scoreToLevelLabel(score: Int, questionnaire: Questionnaire): LevelLabel?
+{
+    var scoreLevel: ScoreLevel? = null
+    for(level in questionnaire.levels)
+    {
+        if (score in level.min .. level.max)
+        {
+            scoreLevel = level
+            break
+        }
+    }
+    return scoreLevel?.levelLabel
+}
+
+fun scoreToLevelLabel(score: Float, questionnaire: Questionnaire): LevelLabel?
+{
+    var scoreLevel: ScoreLevel? = null
+    for(level in questionnaire.levels)
+    {
+        if (score in level.min.toFloat() .. level.max.toFloat())
+        {
+            scoreLevel = level
+            break
+        }
+    }
+    return scoreLevel?.levelLabel
 }

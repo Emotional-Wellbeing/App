@@ -16,20 +16,12 @@
     <string name="permission_for_notifications_body">Ajusta las notificaciones de la app</string>
 
     <!-- Available data -->
+    <string name="sleep">Sueño</string>
     <string name="heart_rate">Pulsaciones</string>
     <string name="steps">Pasos</string>
-    <string name="bmr">Tasa metabólica basal</string>
-    <string name="blood_glucose">Glucosa en sangre</string>
-    <string name="blood_pressure">Presión arterial</string>
     <string name="distance">Distancia</string>
-    <string name="oxygen_saturation">Oxígeno en sangre</string>
     <string name="total_calories_burned">Calorías quemadas</string>
-    <string name="active_calories_burned">Calorías quemadas en actividad</string>
-    <string name="body_temperature">Temperatura corporal</string>
     <string name="elevation_gained">Elevación ganada</string>
-    <string name="respiratory_rate">Frecuencia respiratoria</string>
-    <string name="resting_heart_rate">Pulsaciones en reposo</string>
-    <string name="vo2_max">VO2 máx</string>
 
     <!-- Settings-->
     <string name="privacy_group">Privacidad</string>
@@ -58,17 +50,22 @@
     <string name="questionnaire_only_night">Un cuestionario a la noche</string>
     <string name="questionnaire_night_lunch">Un cuestionario al mediodía y otro a la noche</string>
     <string name="additional_questionnaires">Cuestionarios adicionales</string>
+    <string name="application_settings">Ajustes generales de la aplicación</string>
+    <string name="application_settings_label">Accede a los ajustes de la app: Consumo de energía, notificaciones…</string>
+
+    <!-- Measures -->
     <string name="questionnaire">Cuestionario</string>
+    <string name="measure">Medida</string>
     <string name="score">Puntuación</string>
     <string name="pss_label">PSS (estrés)</string>
     <string name="phq_label">PHQ (depresión)</string>
     <string name="ucla_label">UCLA (soledad)</string>
-    <string name="pss_simple_label" translatable="false">PSS</string>
-    <string name="phq_simple_label" translatable="false">PHQ</string>
-    <string name="ucla_simple_label" translatable="false">UCLA</string>
-
-    <string name="application_settings">Ajustes generales de la aplicación</string>
-    <string name="application_settings_label">Accede a los ajustes de la app: Consumo de energía, notificaciones…</string>
+    <string name="stress">Estrés</string>
+    <string name="depression">Depresión</string>
+    <string name="loneliness">Soledad</string>
+    <string name="level_of_stress">Nivel de estrés</string>
+    <string name="level_of_depression">Nivel de depresión</string>
+    <string name="level_of_loneliness">Nivel de soledad</string>
 
     <!-- Error screen -->
     <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes instalada, por favor reinicia la aplicación.</string>
@@ -110,6 +107,15 @@
     <string name="low">Bajo</string>
     <string name="high">Alto</string>
 
+    <!-- Advices -->
+    <string name="minimal_advice">Consejo nivel mínimo</string>
+    <string name="mild_advice">Consejo nivel level</string>
+    <string name="moderate_advice">Consejo nivel moderado</string>
+    <string name="moderately_severe_advice">Consejo nivel moderadamente severo</string>
+    <string name="severe_advice">Consejo nivel severo</string>
+    <string name="low_advice">Consejo nivel bajo</string>
+    <string name="high_advice">Consejo nivel alto</string>
+
     <!-- Credits-->
     <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>
     <string name="credit_author_description">Autor del TFM Sistema para el Bienestar Emocional y principal autor de la aplicación.</string>
@@ -131,18 +137,17 @@
     <string name="credit_app_logo_description">"Autor original del logotipo de la aplicación, disponible en la plataforma Canvas."</string>
 
     <!-- Misc -->
-    <string name="menu">Menu</string>
     <string name="go_back">Volver atrás</string>
     <string name="back">Atrás</string>
     <string name="finish">Finalizar</string>
     <string name="skip">Omitir</string>
     <string name="next">Siguiente</string>
-    <string name="sleep">Sueño</string>
     <string name="language">Idioma</string>
     <string name="restart">Reiniciar</string>
     <string name="accept">Aceptar</string>
     <string name="exit">Salir</string>
     <string name="ok">Vale</string>
+    <string name="continue_word">Continuar</string> <!-- Continue is a reserved word in Java -->
     <string name="day">Dia</string>
     <string name="week">Semana</string>
     <string name="month">Mes</string>
@@ -151,9 +156,6 @@
     <string name="questionnaire_not_completed">Cuestionario no completado</string>
     <string name="exit_questionnaire">Salir del cuestionario</string>
     <string name="sure_skip_questionnaire">¿Estás seguro de querer omitir el cuestionario?</string>
-    <string name="permission_for_exact_notifications">Permiso de notificaciones precisas</string>
-    <string name="permission_for_exact_notifications_body">Ajusta las notificaciones precisas de la app</string>
-    <string name="permission_for_exact_notifications_alert_body">Para enviar notificaciones de forma precisa, se necesita que aceptes el permiso correspondiente. ¿Desea dar el permiso ahora?</string>
 
     <string name="light_mode_label">Desactivado</string>
     <string name="dark_mode_label">Activado</string>
@@ -161,88 +163,35 @@
     <string name="restart_apply_changes">Se aplicarán los cambios al reiniciar</string>
     <string name="restart_apply_all_changes">Reinicia para aplicar todos los cambios</string>
     <string name="calories_burnt">Calorias quemadas:</string>
-    <string name="bmr_literal">IMB</string>
     <string name="level">Nivel</string>
-    <string name="fluid_type">Tipo de fluido utilizado</string>
-    <string name="meal">Comida</string>
-    <string name="time_measurement">Momento</string>
-    <string name="systolic">Sistólica</string>
-    <string name="diastolic">Diastólica</string>
-    <string name="temperature">Temperatura</string>
-    <string name="place">Lugar</string>
     <string name="metadata">Metadata:</string>
     <string name="id">Id</string>
     <string name="data_origin">Origen de datos</string>
     <string name="instant">Instante</string>
     <string name="manufacturer">Fabricante</string>
     <string name="model">Modelo</string>
-    <string name="saturation">Saturación</string>
-    <string name="frequency">Frecuencia</string>
     <string name="title">Titulo</string>
     <string name="notes">Notas</string>
     <string name="duration">Duración</string>
     <string name="sleep_stages">Etapas del sueño:</string>
     <string name="kcal" translatable="false">kcal</string>
-    <string name="celsius" translatable="false">ºC</string>
     <string name="km" translatable="false">km</string>
     <string name="m" translatable="false">m</string>
     <string name="bpm">ppm</string>
-    <string name="percentage" translatable="false">%</string>
-    <string name="ml_kg_min" translatable="false">ml/kg/min</string>
-    <string name="body_position">Posición corporal"</string>
-    <string name="measurement_location">Lugar</string>
-    <string name="measurement_method">Método</string>
-    <string name="mmHg" translatable="false">mmHg</string>
-    <string name="kcal_day">kcal/día</string>
-    <string name="mg_dL" translatable="false">mg/dL</string>
     <string name="no_data_to_display">No hay datos para mostrar</string>
+    <string name="unknown_display" translatable="false">--</string>
+
+    <string name="yesterday">Ayer</string>
+    <string name="last_seven_days">Últimos siete días</string>
 
     <!-- Decode health connect -->
-    <string name="interstitial_fluid">Líquido intersticial</string>
-    <string name="capillary_blood">Sangre capilar</string>
-    <string name="plasma">Plasma</string>
-    <string name="serum">Serum</string>
-    <string name="tears">Lágrimas</string>
-    <string name="whole_blood">Sangre entera</string>
     <string name="unknown">Desconocido</string>
-    <string name="breakfast">Desayuno</string>
-    <string name="lunch">Almuerzo</string>
-    <string name="snack">Merienda</string>
-    <string name="dinner">Cena</string>
-    <string name="general">General</string>
-    <string name="fasting">Ayuno</string>
-    <string name="before_meal">Antes de la comida</string>
-    <string name="after_meal">Después de la comida</string>
-    <string name="standing_up">De pie</string>
-    <string name="sitting_down">Sentado</string>
-    <string name="lying_down">Tumbado</string>
-    <string name="reclining">Reclinado</string>
-    <string name="left_wrist">Muñeca izquierda</string>
-    <string name="right_wrist">Muñeca derecha</string>
-    <string name="left_upper_arm">Brazo izquierdo</string>
-    <string name="right_upper_arm">Brazo derecho</string>
-    <string name="armpit">Axila</string>
-    <string name="finger">Dedo</string>
-    <string name="forehead">Frente</string>
-    <string name="mouth">Boca</string>
-    <string name="rectum">Recto</string>
-    <string name="temporal_artery">Arteria temporal</string>
-    <string name="toe">Dedo del pie</string>
-    <string name="ear">Oído</string>
-    <string name="wrist">Muñeca</string>
-    <string name="vagina">Vagina</string>
     <string name="awake">Despierto</string>
     <string name="sleeping">Durmiendo</string>
     <string name="out_of_bed">Fuera de la cama</string>
     <string name="light">Ligero</string>
     <string name="deep">Profundo</string>
     <string name="rem" translatable="false">Rem</string>
-    <string name="other">Otro</string>
-    <string name="metabolic_cart">Carro metabólico</string>
-    <string name="heart_rate_ratio">Ratio de pulsaciones</string>
-    <string name="cooper_test">Test de Cooper</string>
-    <string name="multistage_fitness_test">Test de Course-Navette</string>
-    <string name="rockport_fitness_test">Test de Rockport</string>
 
     <!-- Debug -->
     <string name="developer_options">Opciones de desarrollador</string>
@@ -258,6 +207,7 @@
     <string name="test_get_score">Probar getScore</string>
     <string name="test_post_user_data">Probar postUserData</string>
     <string name="query_worker_status">Consultar el estado de los workers</string>
+    <string name="query_uid">Consultar el User ID</string>
     <string name="data_sent_successfully">Datos enviados correctamente</string>
     <string name="request_failed">Petición fallida</string>
     <string name="result_of_request">Resultado de la petición</string>

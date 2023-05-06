@@ -12,6 +12,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import es.upm.bienestaremocional.app.data.AppConstants
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
+import es.upm.bienestaremocional.app.data.info.AppInfo
+import es.upm.bienestaremocional.app.data.info.AppInfoImpl
 import es.upm.bienestaremocional.app.data.language.LanguageManager
 import es.upm.bienestaremocional.app.data.language.LanguageManagerImpl
 import es.upm.bienestaremocional.app.data.remote.RemoteAPI
@@ -56,6 +58,11 @@ object AppModule
 
     @Provides
     @Singleton
+    fun provideAppInfo(@ApplicationContext context: Context): AppInfo =
+        AppInfoImpl(context)
+
+    @Provides
+    @Singleton
     fun provideNotification(@ApplicationContext context: Context,
                             @Named("logTag") logTag: String): Notification =
         NotificationImpl(context,logTag)
@@ -93,7 +100,7 @@ object AppModule
     @Provides
     @Singleton
     fun provideRemoteAPI() : RemoteAPI = Retrofit.Builder()
-        .baseUrl(AppConstants.BASE_URL)
+        .baseUrl(AppConstants.DEBUG_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(RemoteAPI::class.java)

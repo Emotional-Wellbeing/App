@@ -10,6 +10,7 @@ interface QuestionnaireRepository<T> where T : QuestionnaireEntity
     suspend fun update(element: T)
     suspend fun getAll(): List<T>
     suspend fun getAllFromLastSevenDays(): List<T>
+    suspend fun getAllFromYesterday(): List<T>
     suspend fun getAllFromRange(range: Range<LocalDate>): List<T>
     suspend fun getAllCompleted(): List<T>
     suspend fun get(id: Long): T?

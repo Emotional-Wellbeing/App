@@ -4,6 +4,8 @@ import android.util.Log
 import android.util.Range
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.UCLA
+import es.upm.bienestaremocional.app.domain.processing.getLastSevenDays
+import es.upm.bienestaremocional.app.domain.processing.getStartAndEndOfYesterday
 import java.time.LocalDate
 import java.time.ZoneId
 import javax.inject.Inject
@@ -38,7 +40,15 @@ class UCLARepositoryImpl @Inject constructor (
 
     override suspend fun getAllFromLastSevenDays(): List<UCLA> {
         Log.d(logTag, "querying all ucla from last seven days")
-        return dao.getAllUCLAFromLastSevenDays()
+        val range = getLastSevenDays()
+        return dao.getAllUCLAFromRange(range.first,range.second)
+    }
+
+    override suspend fun getAllFromYesterday(): List<UCLA>
+    {
+        Log.d(logTag, "querying all ucla from yesterday")
+        val range = getStartAndEndOfYesterday()
+        return dao.getAllUCLAFromRange(range.first,range.second)
     }
 
     override suspend fun getAllFromRange(range: Range<LocalDate>): List<UCLA> {

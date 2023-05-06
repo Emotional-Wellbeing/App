@@ -8,6 +8,7 @@ import android.telephony.TelephonyManager
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import es.upm.bienestaremocional.app.data.info.AppInfo
 import android.Manifest
 import android.annotation.SuppressLint
 import es.upm.bienestaremocional.app.data.settings.AppSettings
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity()
 {
     @Inject
     lateinit var appSettings: AppSettings
+    @Inject
+    lateinit var appInfo: AppInfo
     @Inject
     lateinit var scheduler: WorkAdministrator
 
@@ -40,9 +43,9 @@ class MainActivity : AppCompatActivity()
         setContent {
             BienestarEmocionalApp(
                 appSettings = appSettings,
+                appInfo = appInfo,
                 scheduler = scheduler,
                 activity = this,
-                userName = imei
             )
         }
     }

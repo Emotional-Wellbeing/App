@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.ramcosta.composedestinations.DestinationsNavHost
+import es.upm.bienestaremocional.app.data.info.AppInfo
 import es.upm.bienestaremocional.app.data.notification.NotificationChannels
 import es.upm.bienestaremocional.app.data.notification.createNotificationChannel
 import es.upm.bienestaremocional.app.data.settings.AppSettings
@@ -15,12 +16,15 @@ import es.upm.bienestaremocional.app.data.worker.WorkAdministrator
 import es.upm.bienestaremocional.app.ui.screens.NavGraphs
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 import es.upm.bienestaremocional.app.data.phonecalls.PhoneInfo
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import kotlin.properties.Delegates
 
 @Composable
 fun BienestarEmocionalApp(appSettings: AppSettings,
+                          appInfo: AppInfo,
                           scheduler: WorkAdministrator,
-                          activity: MainActivity,
-                          userName: String)
+                          activity: MainActivity)
 {
 
     //init variables
@@ -28,22 +32,27 @@ fun BienestarEmocionalApp(appSettings: AppSettings,
     val notificationManager: NotificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    if (appSettings.getFirstTimeValue())
-    {
-        //build channel notifications
-        for (appChannel in NotificationChannels.values())
-            createNotificationChannel(
-                notificationManager = notificationManager,
-                channel = appChannel
-            )
-        //schedule notifications
-        scheduler.schedule(appSettings.getNotificationFrequencyValue().items)
-        scheduler.scheduleUploadWorker()
-    }
+    lateinit var darkTheme : ThemeMode
+    var dynamicColors by Delegates.notNull<Boolean>()
 
-    //read ui settings
-    val darkTheme : ThemeMode = appSettings.getThemeValue()
-    val dynamicColors : Boolean = appSettings.getDynamicColorsValue()
+    runBlocking {
+        if (appInfo.getFirstTime().first())
+        {
+            //build channel notifications
+            for (appChannel in NotificationChannels.values())
+                createNotificationChannel(
+                    notificationManager = notificationManager,
+                    channel = appChannel
+                )
+            //schedule notifications
+            scheduler.schedule(appSettings.getNotificationFrequency().first().items)
+            scheduler.scheduleUploadWorker()
+        }
+
+        //read ui settings
+        darkTheme = appSettings.getTheme().first()
+        dynamicColors  = appSettings.getDynamicColors().first()
+    }
 
     //get background info
     //phone calls logs

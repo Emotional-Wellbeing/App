@@ -5,7 +5,16 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.core.ui.theme.*
+import es.upm.bienestaremocional.core.ui.theme.dark_Limegreen
+import es.upm.bienestaremocional.core.ui.theme.dark_Ochre
+import es.upm.bienestaremocional.core.ui.theme.dark_Persianred
+import es.upm.bienestaremocional.core.ui.theme.dark_Xanthous
+import es.upm.bienestaremocional.core.ui.theme.dark_Yellowgreen
+import es.upm.bienestaremocional.core.ui.theme.light_Limegreen
+import es.upm.bienestaremocional.core.ui.theme.light_Ochre
+import es.upm.bienestaremocional.core.ui.theme.light_Persianred
+import es.upm.bienestaremocional.core.ui.theme.light_Xanthous
+import es.upm.bienestaremocional.core.ui.theme.light_Yellowgreen
 
 /**
  * Contains available levels of the results of the questionnaires
@@ -14,16 +23,17 @@ import es.upm.bienestaremocional.core.ui.theme.*
  */
 enum class LevelLabel(
     val id: String,
-    @StringRes val label: Int
+    @StringRes val label: Int,
+    @StringRes val advice : Int,
 )
 {
-    Low("low", R.string.low),
-    Moderate("moderate",R.string.moderate),
-    High("high",R.string.high),
-    Minimal("minimal",R.string.minimal),
-    Mild("mild",R.string.mild),
-    ModeratelySevere("moderately_severe",R.string.moderately_severe),
-    Severe("severe",R.string.severe);
+    Low("low", R.string.low, R.string.low_advice),
+    Moderate("moderate",R.string.moderate, R.string.moderate_advice),
+    High("high",R.string.high, R.string.high_advice),
+    Minimal("minimal",R.string.minimal, R.string.minimal_advice),
+    Mild("mild",R.string.mild, R.string.mild_advice),
+    ModeratelySevere("moderately_severe",R.string.moderately_severe, R.string.moderately_severe_advice),
+    Severe("severe",R.string.severe, R.string.severe_advice);
 
     companion object
     {

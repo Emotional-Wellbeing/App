@@ -111,9 +111,9 @@ class SettingsViewModel @Inject constructor(
     {
         val notificationsFrequency: NotificationsFrequency? = NotificationsFrequency.values().getOrNull(option)
         notificationsFrequency?.let {
-            workScheduler.cancel(appSettings.getNotificationFrequencyValue().items)
-            workScheduler.schedule(it.items)
             viewModelScope.launch {
+                workScheduler.cancel(appSettings.getNotificationFrequency().first().items)
+                workScheduler.schedule(it.items)
                 appSettings.saveNotificationFrequency(it)
             }
         }

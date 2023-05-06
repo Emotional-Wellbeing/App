@@ -7,12 +7,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.ramcosta.composedestinations.spec.Direction
 import dagger.hilt.android.lifecycle.HiltViewModel
+import es.upm.bienestaremocional.app.data.info.AppInfo
 import es.upm.bienestaremocional.app.data.settings.AppSettings
 import es.upm.bienestaremocional.app.ui.notification.Notification
 import es.upm.bienestaremocional.app.ui.screens.destinations.ErrorScreenDestination
 import es.upm.bienestaremocional.app.ui.screens.destinations.HomeScreenDestination
 import es.upm.bienestaremocional.app.ui.screens.destinations.OnboardingScreenDestination
 import es.upm.bienestaremocional.core.extraction.healthconnect.data.HealthConnectAvailability
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +23,7 @@ class SplashViewModel @Inject constructor(
     private val notification: Notification,
     private val healthConnectAvailability : MutableState<HealthConnectAvailability>,
     private val appSettings: AppSettings,
+    private val appInfo: AppInfo
 ) : ViewModel()
 {
     val state : MutableState<SplashState> = mutableStateOf(
@@ -29,10 +33,10 @@ class SplashViewModel @Inject constructor(
             SplashState.NoDialog
     )
 
-    private val showOnboarding = appSettings.getFirstTimeValue()
+    private val showOnboarding = runBlocking { appInfo.getFirstTime().first() }
 
     @Composable
-    fun getDarkTheme() = appSettings.getThemeValue().themeIsDark()
+    fun getDarkTheme() = runBlocking { appSettings.getTheme().first() }.themeIsDark()
 
     @Composable
     fun NotificationsDialogAction()

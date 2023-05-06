@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRound
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundFull
+import es.upm.bienestaremocional.app.data.info.AppInfo
 import es.upm.bienestaremocional.app.data.notification.NotificationsAvailable
 import es.upm.bienestaremocional.app.data.questionnaire.generatePHQEntry
 import es.upm.bienestaremocional.app.data.questionnaire.generatePSSEntry
@@ -37,7 +38,8 @@ class DebugViewModel @Inject constructor(
     private val questionnaireRoundReducedRepository: QuestionnaireRoundReducedRepository,
     private val appDAO: AppDAO,
     private val remoteRepository: RemoteRepository,
-    private val workAdministrator: WorkAdministrator
+    private val workAdministrator: WorkAdministrator,
+    private val appInfo: AppInfo
 ): ViewModel()
 {
     //state
@@ -147,4 +149,6 @@ class DebugViewModel @Inject constructor(
         _state.value = DebugState.QueryWorkManager
         _workInfo = workAdministrator.queryWorkerStatus()
     }
+
+    suspend fun onGetUID(): String =  appInfo.getUserID()
 }

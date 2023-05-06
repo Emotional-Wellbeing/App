@@ -2,8 +2,13 @@ package es.upm.bienestaremocional.app.domain.repository.questionnaire
 
 import android.util.Log
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
-import es.upm.bienestaremocional.app.data.database.entity.*
+import es.upm.bienestaremocional.app.data.database.entity.PHQ
+import es.upm.bienestaremocional.app.data.database.entity.PSS
+import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRound
+import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundReduced
+import es.upm.bienestaremocional.app.data.database.entity.UCLA
 import es.upm.bienestaremocional.app.data.settings.AppSettings
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 /**
@@ -19,7 +24,7 @@ class QuestionnaireRoundReducedRepositoryImpl @Inject constructor(
     override suspend fun insert(): QuestionnaireRoundReduced
     {
         Log.d(logTag, "inserting new questionnaire round")
-        val optionalQuestionnaires = appSettings.getQuestionnairesSelectedValue().toList()
+        val optionalQuestionnaires = appSettings.getQuestionnairesSelected().first().toList()
         val pssId : Long = dao.insert(PSS())
         var phqId : Long? = null
         var uclaId : Long? = null

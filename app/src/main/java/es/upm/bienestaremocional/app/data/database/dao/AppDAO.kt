@@ -89,36 +89,6 @@ interface AppDAO
     @Query("SELECT * FROM ucla ORDER BY ucla_created_at DESC")
     suspend fun getAllUCLA(): List<UCLA>
 
-    /**
-     * Query all PSS questionnaires in database ordered from newest to oldest
-     * @return List with the result of the query
-     */
-    @Query("SELECT * " +
-            "FROM pss " +
-            "WHERE pss_created_at > (SELECT (1000 * strftime('%s', datetime('now', '-7 day'))))" +
-            "ORDER BY pss_created_at DESC")
-    suspend fun getAllPSSFromLastSevenDays(): List<PSS>
-
-    /**
-     * Query all PSS questionnaires in database ordered from newest to oldest
-     * @return List with the result of the query
-     */
-    @Query("SELECT * " +
-            "FROM phq " +
-            "WHERE phq_created_at > (SELECT (1000 * strftime('%s', datetime('now', '-7 day'))))" +
-            "ORDER BY phq_created_at DESC")
-    suspend fun getAllPHQFromLastSevenDays(): List<PHQ>
-
-    /**
-     * Query all UCLA questionnaires in database ordered from newest to oldest
-     * @return List with the result of the query
-     */
-    @Query("SELECT * " +
-            "FROM ucla " +
-            "WHERE ucla_created_at > (SELECT (1000 * strftime('%s', datetime('now', '-7 day'))))" +
-            "ORDER BY ucla_created_at DESC")
-    suspend fun getAllUCLAFromLastSevenDays(): List<UCLA>
-
     @Query("SELECT * " +
             "FROM pss " +
             "WHERE pss_created_at BETWEEN :start AND :end " +
