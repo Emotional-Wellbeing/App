@@ -275,6 +275,16 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
                 onClick = onSettingsNotifications,
             )
 
+            SettingsMenuLink(
+                icon = { Icon(painter = painterResource(R.drawable.settings),
+                    contentDescription = null,
+                    modifier = Modifier.defaultIconModifier()) },
+                title = { Text(text = stringResource(id = R.string.permission_screen_label),
+                    color = MaterialTheme.colorScheme.secondary) },
+                subtitle = { Text(stringResource(id = R.string.permission_screen_description)) },
+                onClick = { navigator.navigate(PermissionScreenDestination) },
+            )
+
             Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
 
             GroupText(textRes = R.string.feedback_group)

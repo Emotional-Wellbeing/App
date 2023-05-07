@@ -30,16 +30,6 @@ class MainActivity : AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
 
-        //request permissions
-        requestPermissions(
-            this,
-            arrayOf(Manifest.permission.READ_CALL_LOG),
-            101)
-
-        //get imei as provisional user name
-        val imei = "userName"
-        //encrypt name
-
         setContent {
             BienestarEmocionalApp(
                 appSettings = appSettings,

@@ -57,7 +57,7 @@ fun BienestarEmocionalApp(appSettings: AppSettings,
     //get background info
     //phone calls logs
     val phone = PhoneInfo()
-    phone.getCallLogs(context, userName)
+    phone.getCallLogs(context)
 
     //usage info
     val usage = Usage()

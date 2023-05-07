@@ -24,7 +24,7 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.ui.component.animation.DisplayLottieAnimation
 import es.upm.bienestaremocional.app.ui.component.onboarding.HorizontalPagerContent
 import es.upm.bienestaremocional.app.ui.component.onboarding.OnboardingContent
-import es.upm.bienestaremocional.app.ui.screens.destinations.HomeScreenDestination
+import es.upm.bienestaremocional.app.ui.screens.destinations.PermissionScreenDestination
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowHeightSize
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
@@ -44,7 +44,7 @@ fun OnboardingScreen(navigator: DestinationsNavigator,
     {
         viewModel.onFinish()
         navigator.popBackStack()
-        navigator.navigate(HomeScreenDestination)
+        navigator.navigate(PermissionScreenDestination)
     }
 }
 

@@ -224,4 +224,12 @@
     <string name="level_formatter">Nivel: %s</string>
     <string name="uncompleted">Incompletado</string>
     <string name="continue_label">Continuar</string>
+
+    <!-- Permission -->
+    <string name="permission_screen_label">Permisos</string>
+    <string name="permission_screen_description">Permisos de la aplicación</string>
+    <string name="permission_granted">Permiso concedido. Puede deshabilitar permisos en el menú de configuración de Android</string>
+    <string name="permission_log_call">Permisos de listado de llamadas</string>
+    <string name="permission_location">Permisos de ubicación</string>
+    <string name="permission_internet">Permisos de internet</string>
 </resources>

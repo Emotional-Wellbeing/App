@@ -13,7 +13,7 @@ import com.google.gson.Gson
 
 class PhoneInfo {
 
-    fun getCallLogs(context: Context, userName: String)  {
+    fun getCallLogs(context: Context)  {
         //check permissions
         if (checkPermissions(context)) {
             val c = context.applicationContext
@@ -27,16 +27,15 @@ class PhoneInfo {
                 null,
                 null
             )
-            cursorToMatrix(cursor, userName)
+            cursorToMatrix(cursor)
         }
     }
 
-    private fun cursorToMatrix(cursor: Cursor?, userName: String): List<List<String?>> {
+    private fun cursorToMatrix(cursor: Cursor?): List<List<String?>> {
         val matrix = mutableListOf<List<String?>>()
         cursor?.use {
             while (it.moveToNext()) {
                 val list = listOf(
-                    userName,
                     it.getStringFromColumn(CACHED_NAME),
                     it.getStringFromColumn(NUMBER),
                     it.getStringFromColumn(DATE),

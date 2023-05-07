@@ -45,10 +45,12 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.BienestarEmocional">
+        android:theme="@style/Theme.BienestarEmocional"
+        tools:ignore="MissingClass">
         <activity
             android:name=".app.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            tools:ignore="MissingClass">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -62,10 +64,10 @@
             -->
             <intent-filter>
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
-                <action android:name="android.permission.PACKAGE_USAGE_STATS" />
-            </intent-filter>
+            <!-- <action android:name="android.permission.PACKAGE_USAGE_STATS" />-->
+        </intent-filter>
 
-            <!-- Required to specify which Health Connect permissions the app can request -->
+        <!-- Required to specify which Health Connect permissions the app can request -->
             <meta-data
                 android:name="health_permissions"
                 android:resource="@array/health_permissions"/>
