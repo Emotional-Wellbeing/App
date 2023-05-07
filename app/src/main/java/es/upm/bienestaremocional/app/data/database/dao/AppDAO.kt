@@ -108,25 +108,46 @@ interface AppDAO
     suspend fun getAllUCLAFromRange(start: Long, end: Long): List<UCLA>
 
     /**
-     * Query all completed PSS questionnaires in database ordered from newest to oldest
+     * Query all PSS questionnaires completed in database ordered from newest to oldest
      * @return List with the result of the query
      */
     @Query("SELECT * FROM pss WHERE pss_completed = 1 ORDER BY pss_created_at DESC")
-    suspend fun getAllCompletedPSS(): List<PSS>
+    suspend fun getAllPSSCompleted(): List<PSS>
 
     /**
-     * Query all completed PSS questionnaires in database ordered from newest to oldest
+     * Query all PSS questionnaires completed in database ordered from newest to oldest
      * @return List with the result of the query
      */
     @Query("SELECT * FROM phq WHERE phq_completed = 1 ORDER BY phq_created_at DESC")
-    suspend fun getAllCompletedPHQ(): List<PHQ>
+    suspend fun getAllPHQCompleted(): List<PHQ>
 
     /**
-     * Query all completed UCLA questionnaires in database ordered from newest to oldest
+     * Query all UCLA questionnaires completed in database ordered from newest to oldest
      * @return List with the result of the query
      */
     @Query("SELECT * FROM ucla WHERE ucla_completed = 1 ORDER BY ucla_created_at DESC")
-    suspend fun getAllCompletedUCLA(): List<UCLA>
+    suspend fun getAllUCLACompleted(): List<UCLA>
+
+    /**
+     * Query last PSS questionnaire completed in database
+     * @return The PSS questionnaire, null if no PSS has been completed.
+     */
+    @Query("SELECT * FROM pss WHERE pss_completed = 1 ORDER BY pss_created_at DESC LIMIT 1")
+    suspend fun getLastPSSCompleted(): PSS?
+
+    /**
+     * Query last PHQ questionnaire completed in database
+     * @return The PHQ questionnaire, null if no PHQ has been completed.
+     */
+    @Query("SELECT * FROM phq WHERE phq_completed = 1 ORDER BY phq_created_at DESC LIMIT 1")
+    suspend fun getLastPHQCompleted(): PHQ?
+
+    /**
+     * Query last UCLA questionnaire completed in database
+     * @return The UCLA questionnaire, null if no UCLA has been completed.
+     */
+    @Query("SELECT * FROM ucla WHERE ucla_completed = 1 ORDER BY ucla_created_at DESC LIMIT 1")
+    suspend fun getLastUCLACompleted(): UCLA?
 
     /**
      * Query the information of the QuestionnaireRound by their ID
@@ -155,7 +176,6 @@ interface AppDAO
      */
     @Query("SELECT * FROM ucla WHERE ucla_id = :id")
     suspend fun getUCLA(id: Long): UCLA?
-
 
     /**
      * Query all QuestionnaireRoundFulls in database ordered from newest to oldest

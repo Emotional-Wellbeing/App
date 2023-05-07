@@ -28,7 +28,7 @@ class PSSManager: QuestionnaireManager<PSS>()
     override fun setEntity(element: PSS) {
         element.apply {
             score = this@PSSManager.score
-            scoreLevel = this@PSSManager.scoreLevel?.levelLabel?.id
+            scoreLevel = this@PSSManager.scoreLevel?.level?.id
             completed = this@PSSManager.questionnaireFulfilled
             answer1 = this@PSSManager.answers.getOrNull(0)
             answer2 = this@PSSManager.answers.getOrNull(1)

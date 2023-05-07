@@ -60,8 +60,14 @@ class PHQRepositoryImpl @Inject constructor(
 
     override suspend fun getAllCompleted(): List<PHQ>
     {
-        Log.d(logTag, "querying all completed phq")
-        return dao.getAllCompletedPHQ()
+        Log.d(logTag, "querying all phq completed")
+        return dao.getAllPHQCompleted()
+    }
+
+    override suspend fun getLastCompleted(): PHQ?
+    {
+        Log.d(logTag, "querying last phq completed")
+        return dao.getLastPHQCompleted()
     }
 
     override suspend fun get(id: Long): PHQ?

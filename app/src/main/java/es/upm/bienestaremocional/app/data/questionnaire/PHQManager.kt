@@ -27,7 +27,7 @@ class PHQManager: QuestionnaireManager<PHQ>()
     override fun setEntity(element: PHQ) {
         element.apply {
             score = this@PHQManager.score
-            scoreLevel = this@PHQManager.scoreLevel?.levelLabel?.id
+            scoreLevel = this@PHQManager.scoreLevel?.level?.id
             completed = this@PHQManager.questionnaireFulfilled
             answer1 = this@PHQManager.answers.getOrNull(0)
             answer2 = this@PHQManager.answers.getOrNull(1)

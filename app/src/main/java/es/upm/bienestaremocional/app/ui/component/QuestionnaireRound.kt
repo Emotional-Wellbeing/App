@@ -7,7 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundFull
-import es.upm.bienestaremocional.app.data.questionnaire.LevelLabel
+import es.upm.bienestaremocional.app.data.questionnaire.Level
 import es.upm.bienestaremocional.app.utils.formatUnixTimeStamp
 
 /**
@@ -58,7 +58,7 @@ fun ShowQuestionnaireRound(element : QuestionnaireRoundFull)
 @Composable
 private fun ShowScoreLevel(context: Context, scoreLevel: String)
 {
-    LevelLabel.decodeFromId(scoreLevel)?.let {
+    Level.decodeFromId(scoreLevel)?.let {
         val label = stringResource(it.label)
         Text(context.getString(R.string.level_formatter,label))
     }

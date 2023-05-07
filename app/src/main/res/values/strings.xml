@@ -22,6 +22,9 @@
     <string name="distance">Distancia</string>
     <string name="total_calories_burned">Calorías quemadas</string>
     <string name="elevation_gained">Elevación ganada</string>
+    <string name="weight">Peso</string>
+    <string name="floors_climbed">Pisos subidos</string>
+    <string name="floors">Pisos</string>
 
     <!-- Settings-->
     <string name="privacy_group">Privacidad</string>
@@ -108,13 +111,19 @@
     <string name="high">Alto</string>
 
     <!-- Advices -->
-    <string name="minimal_advice">Consejo nivel mínimo</string>
-    <string name="mild_advice">Consejo nivel level</string>
-    <string name="moderate_advice">Consejo nivel moderado</string>
-    <string name="moderately_severe_advice">Consejo nivel moderadamente severo</string>
-    <string name="severe_advice">Consejo nivel severo</string>
-    <string name="low_advice">Consejo nivel bajo</string>
-    <string name="high_advice">Consejo nivel alto</string>
+    <string name="low_stress_advice">Consejo para estrés de nivel bajo</string>
+    <string name="moderate_stress_advice">Consejo para estrés de nivel moderado</string>
+    <string name="high_stress_advice">Consejo para estrés de nivel alto</string>
+
+    <string name="minimal_depression_advice">Consejo para depresión de nivel mínimo</string>
+    <string name="mild_depression_advice">Consejo para depresión de nivel level</string>
+    <string name="moderate_depression_advice">Consejo para depresión de nivel moderado</string>
+    <string name="moderately_severe_depression_advice">Consejo para depresión de nivel moderadamente severo</string>
+    <string name="severe_depression_advice">Consejo para depresión de nivel severo</string>
+
+    <string name="low_loneliness_advice">Consejo para soledad de nivel bajo</string>
+    <string name="moderate_loneliness_advice">Consejo para soledad de nivel moderado</string>
+    <string name="high_loneliness_advice">Consejo para soledad de nivel alto</string>
 
     <!-- Credits-->
     <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>
@@ -177,9 +186,11 @@
     <string name="kcal" translatable="false">kcal</string>
     <string name="km" translatable="false">km</string>
     <string name="m" translatable="false">m</string>
+    <string name="kg" translatable="false">kg</string>
     <string name="bpm">ppm</string>
     <string name="no_data_to_display">No hay datos para mostrar</string>
     <string name="unknown_display" translatable="false">--</string>
+    <string name="exercise">Ejercicio</string>
 
     <string name="yesterday">Ayer</string>
     <string name="last_seven_days">Últimos siete días</string>
@@ -192,6 +203,67 @@
     <string name="light">Ligero</string>
     <string name="deep">Profundo</string>
     <string name="rem" translatable="false">Rem</string>
+    <string name="other">Otro</string>
+    <string name="badminton">Bádminton</string>
+    <string name="baseball">Béisbol</string>
+    <string name="basketball">Baloncesto</string>
+    <string name="biking">Bicicleta</string>
+    <string name="biking_stationary">Bicicleta estática</string>
+    <string name="boot_camp">Boot camp</string>
+    <string name="boxing">Boxeo</string>
+    <string name="calisthenics">Calistenia</string>
+    <string name="cricket">Cricket</string>
+    <string name="dancing">Baile</string>
+    <string name="elliptical">Elíptica</string>
+    <string name="exercise_class">Clase de ejercicio</string>
+    <string name="fencing">Esgrima</string>
+    <string name="football_american">Fútbol americano</string>
+    <string name="football_australian">Fútbol australiano</string>
+    <string name="frisbee_disc">Frisbee</string>
+    <string name="golf">Golf</string>
+    <string name="guided_breathing">Respiración guiada</string>
+    <string name="gymnastics">Gimnasia</string>
+    <string name="handball">Balonmano</string>
+    <string name="high_intensity_interval_training">Entrenamiento con intervalos de alta intensidad</string>
+    <string name="hiking">Senderismo</string>
+    <string name="ice_hockey">Hockey sobre hielo</string>
+    <string name="ice_skating">Patinaje sobre hielo</string>
+    <string name="martial_arts">Artes marciales</string>
+    <string name="paddling">Paddling</string>
+    <string name="paragliding">Parapente</string>
+    <string name="pilates">Pilates</string>
+    <string name="racquetball">Raquetbol</string>
+    <string name="rock_climbing">Escalada</string>
+    <string name="roller_hockey">Hockey sobre patines</string>
+    <string name="rowing">Remo</string>
+    <string name="rowing_machine">Remo en máquina</string>
+    <string name="rugby">Rugby</string>
+    <string name="running">Correr</string>
+    <string name="running_treadmill">Correr en cinta</string>
+    <string name="sailing">Navegación</string>
+    <string name="scuba_diving">Buceo</string>
+    <string name="skating">Patinaje</string>
+    <string name="skiing">Esquí</string>
+    <string name="snowboarding">Snowboard</string>
+    <string name="snowshoeing">Raquetas de nieve</string>
+    <string name="soccer">Fútbol</string>
+    <string name="softball">Sóftbol</string>
+    <string name="squash">Squash</string>
+    <string name="stair_climbing">Subir escaleras</string>
+    <string name="stair_climbing_machine">Subir escaleras en máquina</string>
+    <string name="strength_training">Entrenamiento de fuerza</string>
+    <string name="stretching">Estiramientos</string>
+    <string name="surfing">Surfing</string>
+    <string name="swimming_open_water">Natación en aguas abiertas</string>
+    <string name="swimming_pool">Natación en piscina></string>
+    <string name="table_tennis">Ping pong</string>
+    <string name="tennis">Tenis</string>
+    <string name="volleyball">Voleibol</string>
+    <string name="walking">Pasear</string>
+    <string name="water_polo">Waterpolo</string>
+    <string name="weightlifting">Levantamiento de pesas</string>
+    <string name="wheelchair">Silla de ruedas</string>
+    <string name="yoga">Yoga</string>
 
     <!-- Debug -->
     <string name="developer_options">Opciones de desarrollador</string>

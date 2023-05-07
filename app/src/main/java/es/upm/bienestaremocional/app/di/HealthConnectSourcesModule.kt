@@ -28,6 +28,18 @@ object HealthConnectSourcesModule
     fun provideElevationGained(healthConnectClient: HealthConnectClient,
                                healthConnectManager: HealthConnectManagerInterface
     ): ElevationGained = ElevationGained(healthConnectClient, healthConnectManager)
+
+    @Provides
+    @ViewModelScoped
+    fun provideExerciseSession(healthConnectClient: HealthConnectClient,
+                               healthConnectManager: HealthConnectManagerInterface
+    ): ExerciseSession = ExerciseSession(healthConnectClient, healthConnectManager)
+
+    @Provides
+    @ViewModelScoped
+    fun provideFloorsClimbed(healthConnectClient: HealthConnectClient,
+                      healthConnectManager: HealthConnectManagerInterface
+    ): FloorsClimbed = FloorsClimbed(healthConnectClient, healthConnectManager)
     
     @Provides
     @ViewModelScoped
@@ -52,4 +64,10 @@ object HealthConnectSourcesModule
     fun provideTotalCaloriesBurned(healthConnectClient: HealthConnectClient,
                                    healthConnectManager: HealthConnectManagerInterface
     ): TotalCaloriesBurned = TotalCaloriesBurned(healthConnectClient, healthConnectManager)
+
+    @Provides
+    @ViewModelScoped
+    fun provideWeight(healthConnectClient: HealthConnectClient,
+                     healthConnectManager: HealthConnectManagerInterface
+    ): Weight = Weight(healthConnectClient, healthConnectManager)
 }

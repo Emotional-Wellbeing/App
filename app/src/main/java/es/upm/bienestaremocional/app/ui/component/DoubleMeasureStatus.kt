@@ -21,15 +21,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.data.questionnaire.LevelLabel
+import es.upm.bienestaremocional.app.data.questionnaire.Level
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.app.domain.processing.scoreToLevelLabel
+import es.upm.bienestaremocional.app.domain.processing.scoreToLevel
 import es.upm.bienestaremocional.core.ui.component.CircularProgressIndicator
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
 
 
 @Composable
-fun DoubleStressStatus(data: Pair<Float?,Float?>,
+fun DoubleStressStatus(data: Pair<Int?,Int?>,
                        headers: Pair<String, String>,
                        widthSize : WindowWidthSizeClass
 )
@@ -37,12 +37,12 @@ fun DoubleStressStatus(data: Pair<Float?,Float?>,
     // If we have score and level label, put it. If we don't have any of them,
     // put R.string.unknown_display
     val firstSubtitle = stringResource(data.first?.let {
-        scoreToLevelLabel(it, Questionnaire.PSS)?.label
+        scoreToLevel(it, Questionnaire.PSS)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
     val secondSubtitle = stringResource(data.second?.let {
-        scoreToLevelLabel(it, Questionnaire.PSS)?.label
+        scoreToLevel(it, Questionnaire.PSS)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
@@ -52,25 +52,25 @@ fun DoubleStressStatus(data: Pair<Float?,Float?>,
         headers = headers,
         subtitle = Pair(firstSubtitle,secondSubtitle),
         widthSize = widthSize,
-        minValue = Questionnaire.PSS.minScore.toFloat(),
-        maxValue = Questionnaire.PSS.maxScore.toFloat(),
+        minValue = Questionnaire.PSS.minScore,
+        maxValue = Questionnaire.PSS.maxScore,
     )
 }
 
 @Composable
-fun DoubleDepressionStatus(data: Pair<Float?,Float?>,
+fun DoubleDepressionStatus(data: Pair<Int?,Int?>,
                            headers: Pair<String, String>,
                            widthSize : WindowWidthSizeClass)
 {
     // If we have score and level label, put it. If we don't have any of them,
     // put R.string.unknown_display
     val firstSubtitle = stringResource(data.first?.let {
-        scoreToLevelLabel(it, Questionnaire.PHQ)?.label
+        scoreToLevel(it, Questionnaire.PHQ)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
     val secondSubtitle = stringResource(data.second?.let {
-        scoreToLevelLabel(it, Questionnaire.PHQ)?.label
+        scoreToLevel(it, Questionnaire.PHQ)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
@@ -80,25 +80,25 @@ fun DoubleDepressionStatus(data: Pair<Float?,Float?>,
         headers = headers,
         subtitle = Pair(firstSubtitle,secondSubtitle),
         widthSize = widthSize,
-        minValue = Questionnaire.PHQ.minScore.toFloat(),
-        maxValue = Questionnaire.PHQ.maxScore.toFloat(),
+        minValue = Questionnaire.PHQ.minScore,
+        maxValue = Questionnaire.PHQ.maxScore,
     )
 }
 
 @Composable
-fun DoubleLonelinessStatus(data: Pair<Float?,Float?>,
+fun DoubleLonelinessStatus(data: Pair<Int?,Int?>,
                            headers: Pair<String, String>,
                            widthSize : WindowWidthSizeClass)
 {
     // If we have score and level label, put it. If we don't have any of them,
     // put R.string.unknown_display
     val firstSubtitle = stringResource(data.first?.let {
-        scoreToLevelLabel(it, Questionnaire.UCLA)?.label
+        scoreToLevel(it, Questionnaire.UCLA)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
     val secondSubtitle = stringResource(data.second?.let {
-        scoreToLevelLabel(it, Questionnaire.UCLA)?.label
+        scoreToLevel(it, Questionnaire.UCLA)?.label
             ?: R.string.unknown_display }
         ?: R.string.unknown_display)
 
@@ -108,19 +108,19 @@ fun DoubleLonelinessStatus(data: Pair<Float?,Float?>,
         headers = headers,
         subtitle = Pair(firstSubtitle,secondSubtitle),
         widthSize = widthSize,
-        minValue = Questionnaire.UCLA.minScore.toFloat(),
-        maxValue = Questionnaire.UCLA.maxScore.toFloat(),
+        minValue = Questionnaire.UCLA.minScore,
+        maxValue = Questionnaire.UCLA.maxScore,
     )
 }
 
 @Composable
-private fun DoubleMeasureStatus(data: Pair<Float?, Float?>,
+private fun DoubleMeasureStatus(data: Pair<Int?, Int?>,
                                 measureLabel : String,
                                 headers : Pair<String,String>,
                                 subtitle : Pair<String,String>,
                                 widthSize : WindowWidthSizeClass,
-                                minValue: Float = 0f,
-                                maxValue : Float = 100f)
+                                minValue: Int = 0,
+                                maxValue : Int = 100)
 {
     // Scale factor to reduce the height of row in bigger screens
     val scaleFactor = when(widthSize)
@@ -219,11 +219,11 @@ private fun DoubleMeasureStatus(data: Pair<Float?, Float?>,
 @Composable
 private fun TextAndIndicator(
     header : String,
-    data: Float?,
+    data: Int?,
     subtitle: String,
     cpiHeight : Dp,
-    minValue: Float = 0f,
-    maxValue : Float = 100f,
+    minValue: Int = 0,
+    maxValue : Int = 100,
     headlineTextStyle : TextStyle,
     dataTextStyle : TextStyle,
     subtitleTextStyle : TextStyle
@@ -262,7 +262,7 @@ fun DoubleStressStatusCompactPreview()
     {
         Surface()
         {
-            DoubleStressStatus(data = Pair(17f,27f),
+            DoubleStressStatus(data = Pair(17,27),
                 headers = Pair(
                     stringResource(R.string.yesterday),
                     stringResource(R.string.last_seven_days)
@@ -282,7 +282,7 @@ fun DoubleStressStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            DoubleStressStatus(data = Pair(17f,27f),
+            DoubleStressStatus(data = Pair(17,27),
                 headers = Pair(
                     stringResource(R.string.yesterday),
                     stringResource(R.string.last_seven_days)
@@ -302,7 +302,7 @@ fun DoubleDepressionStatusCompactPreview()
     {
         Surface()
         {
-            DoubleDepressionStatus(data = Pair(6f,16f),
+            DoubleDepressionStatus(data = Pair(6,16),
                 headers = Pair(
                     stringResource(R.string.yesterday),
                     stringResource(R.string.last_seven_days)
@@ -322,7 +322,7 @@ fun DoubleDepressionStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            DoubleDepressionStatus(data = Pair(6f,16f),
+            DoubleDepressionStatus(data = Pair(6,16),
                 headers = Pair(
                     stringResource(R.string.yesterday),
                     stringResource(R.string.last_seven_days)
@@ -342,7 +342,7 @@ fun DoubleLonelinessStatusCompactPreview()
     {
         Surface()
         {
-            DoubleLonelinessStatus(data = Pair(37f,47f),
+            DoubleLonelinessStatus(data = Pair(37,47),
                 headers = Pair(
                     stringResource(R.string.yesterday),
                     stringResource(R.string.last_seven_days)
@@ -362,7 +362,7 @@ fun DoubleLonelinessStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            DoubleLonelinessStatus(data = Pair(37f,47f),
+            DoubleLonelinessStatus(data = Pair(37,47),
                 headers = Pair(
                     stringResource(R.string.yesterday),
                     stringResource(R.string.last_seven_days)
@@ -383,12 +383,12 @@ fun DoubleMeasureStatusCompactPreview()
         Surface()
         {
             DoubleMeasureStatus(
-                data = Pair(22f,33f),
+                data = Pair(22,33),
                 measureLabel = stringResource(id = R.string.stress),
                 headers = Pair("Ayer","Semana"),
                 subtitle = Pair(
-                    stringResource(LevelLabel.Low.label),
-                    stringResource(LevelLabel.ModeratelySevere.label)
+                    stringResource(Level.Low.label),
+                    stringResource(Level.ModeratelySevere.label)
                 ),
                 widthSize = WindowWidthSizeClass.Compact,
             )
@@ -407,12 +407,12 @@ fun DoubleMeasureStatusCompactPreviewDarkTheme()
         Surface()
         {
             DoubleMeasureStatus(
-                data = Pair(22f,33f),
+                data = Pair(22,33),
                 measureLabel = stringResource(id = R.string.stress),
                 headers = Pair("Ayer","Semana"),
                 subtitle = Pair(
-                    stringResource(LevelLabel.Low.label),
-                    stringResource(LevelLabel.ModeratelySevere.label)
+                    stringResource(Level.Low.label),
+                    stringResource(Level.ModeratelySevere.label)
                 ),
                 widthSize = WindowWidthSizeClass.Compact
             )
@@ -435,8 +435,8 @@ fun DoubleMeasureStatusNullCompactPreview()
                 measureLabel = stringResource(id = R.string.stress),
                 headers = Pair("Ayer","Semana"),
                 subtitle = Pair(
-                    stringResource(LevelLabel.Low.label),
-                    stringResource(LevelLabel.ModeratelySevere.label)
+                    stringResource(Level.Low.label),
+                    stringResource(Level.ModeratelySevere.label)
                 ),
                 widthSize = WindowWidthSizeClass.Compact
             )
@@ -459,8 +459,8 @@ fun DoubleMeasureStatusNullCompactPreviewDarkTheme()
                 measureLabel = stringResource(id = R.string.stress),
                 headers = Pair("Ayer","Semana"),
                 subtitle = Pair(
-                    stringResource(LevelLabel.Low.label),
-                    stringResource(LevelLabel.ModeratelySevere.label)
+                    stringResource(Level.Low.label),
+                    stringResource(Level.ModeratelySevere.label)
                 ),
                 widthSize = WindowWidthSizeClass.Compact
             )

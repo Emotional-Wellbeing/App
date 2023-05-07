@@ -61,8 +61,14 @@ class PSSRepositoryImpl @Inject constructor(
 
     override suspend fun getAllCompleted(): List<PSS>
     {
-        Log.d(logTag, "querying all completed pss")
-        return dao.getAllCompletedPSS()
+        Log.d(logTag, "querying all pss completed")
+        return dao.getAllPSSCompleted()
+    }
+
+    override suspend fun getLastCompleted(): PSS?
+    {
+        Log.d(logTag, "querying last pss completed")
+        return dao.getLastPSSCompleted()
     }
 
     override suspend fun get(id: Long): PSS?

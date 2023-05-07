@@ -373,7 +373,7 @@ private fun Summary(score : Int,
                     when(questionnaire)
                     {
                         Questionnaire.PSS ->
-                            StressStatus(data = score.toFloat(),
+                            StressStatus(data = score,
                                 widthSize = widthSize,
                                 indicatorColor = MaterialTheme.colorScheme.primary,
                                 indicatorContainerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -381,7 +381,7 @@ private fun Summary(score : Int,
                                 showAdvice = false,
                             )
                         Questionnaire.PHQ ->
-                            DepressionStatus(data = score.toFloat(),
+                            DepressionStatus(data = score,
                                 widthSize = widthSize,
                                 indicatorColor = MaterialTheme.colorScheme.primary,
                                 indicatorContainerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -389,7 +389,7 @@ private fun Summary(score : Int,
                                 showAdvice = false,
                             )
                         Questionnaire.UCLA ->
-                            LonelinessStatus(data = score.toFloat(),
+                            LonelinessStatus(data = score,
                                 widthSize = widthSize,
                                 indicatorColor = MaterialTheme.colorScheme.primary,
                                 indicatorContainerColor = MaterialTheme.colorScheme.primaryContainer,

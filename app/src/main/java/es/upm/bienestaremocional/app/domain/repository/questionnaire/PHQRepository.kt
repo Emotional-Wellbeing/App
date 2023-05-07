@@ -14,7 +14,9 @@ interface PHQRepository: QuestionnaireRepository<PHQ>
     override suspend fun update(element: PHQ)
     override suspend fun getAll(): List<PHQ>
     override suspend fun getAllFromLastSevenDays(): List<PHQ>
+    override suspend fun getAllFromYesterday(): List<PHQ>
     override suspend fun getAllFromRange(range: Range<LocalDate>): List<PHQ>
     override suspend fun getAllCompleted(): List<PHQ>
+    override suspend fun getLastCompleted(): PHQ?
     override suspend fun get(id: Long): PHQ?
 }

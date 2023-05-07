@@ -21,31 +21,31 @@ class HomeViewModel @Inject constructor(
 ): ViewModel()
 {
 
-    val questionnaires = runBlocking {
-        Questionnaire.getMandatory().toSet() + appSettings.getQuestionnairesSelected().first()
+    val questionnaires : List<Questionnaire> = runBlocking {
+        Questionnaire.getMandatory() + appSettings.getQuestionnairesSelected().first()
     }
 
-    suspend fun getStressScore() : Float?
+    suspend fun getStressScore() : Int?
     {
         val scores = pssRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
-            aggregateEntriesPerDay(scores)[0].second
+            aggregateEntriesPerDay(scores)[0].second.toInt()
         else
             null
     }
-    suspend fun getDepressionScore() : Float?
+    suspend fun getDepressionScore() : Int?
     {
         val scores = phqRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
-            aggregateEntriesPerDay(scores)[0].second
+            aggregateEntriesPerDay(scores)[0].second.toInt()
         else
             null
     }
-    suspend fun getLonelinessScore() : Float?
+    suspend fun getLonelinessScore() : Int?
     {
         val scores = uclaRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
-            aggregateEntriesPerDay(scores)[0].second
+            aggregateEntriesPerDay(scores)[0].second.toInt()
         else
             null
     }

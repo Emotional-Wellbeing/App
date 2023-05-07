@@ -31,9 +31,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.DistanceRecord
 import androidx.health.connect.client.records.ElevationGainedRecord
+import androidx.health.connect.client.records.ExerciseSessionRecord
+import androidx.health.connect.client.records.FloorsClimbedRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.TotalCaloriesBurnedRecord
+import androidx.health.connect.client.records.WeightRecord
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
@@ -43,10 +46,13 @@ import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.app.ui.healthconnect.component.Display
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.DistanceViewModel
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.ElevationGainedViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.ExerciseSessionViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.FloorsClimbedViewModel
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.HeartRateViewModel
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.SleepSessionViewModel
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.StepsViewModel
 import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.TotalCaloriesBurnedViewModel
+import es.upm.bienestaremocional.app.ui.healthconnect.viewmodel.WeightViewModel
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.DrawHealthConnectSubscreen
@@ -65,9 +71,9 @@ fun MyDataScreen(
     distanceViewModel: DistanceViewModel = hiltViewModel(),
     totalCaloriesBurnedViewModel: TotalCaloriesBurnedViewModel = hiltViewModel(),
     elevationGainedViewModel: ElevationGainedViewModel = hiltViewModel(),
-    //TODO exercise
-    //TODO floors
-    //TODO weight
+    exerciseSessionViewModel: ExerciseSessionViewModel = hiltViewModel(),
+    floorsClimbedViewModel: FloorsClimbedViewModel = hiltViewModel(),
+    weightViewModel: WeightViewModel = hiltViewModel()
 )
 {
     val snackbarHostState = remember {SnackbarHostState()}
@@ -83,7 +89,10 @@ fun MyDataScreen(
         stepsVMD = stepsViewModel.getViewModelData(),
         distanceVMD = distanceViewModel.getViewModelData(),
         totalCaloriesBurnedVMD = totalCaloriesBurnedViewModel.getViewModelData(),
+        exerciseSessionVMD = exerciseSessionViewModel.getViewModelData(),
         elevationGainedVMD = elevationGainedViewModel.getViewModelData(),
+        floorsClimbedVMD = floorsClimbedViewModel.getViewModelData(),
+        weightVMD = weightViewModel.getViewModelData(),
         onSelect = {index -> viewModel.onSelect(index)},
         onUnselect = {viewModel.onUnselect()},
         onError = {exception -> viewModel.onError(snackbarHostState,exception)})
@@ -130,7 +139,10 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                              stepsVMD: ViewModelData<StepsRecord>,
                              distanceVMD: ViewModelData<DistanceRecord>,
                              totalCaloriesBurnedVMD: ViewModelData<TotalCaloriesBurnedRecord>,
+                             exerciseSessionVMD: ViewModelData<ExerciseSessionRecord>,
                              elevationGainedVMD: ViewModelData<ElevationGainedRecord>,
+                             floorsClimbedVMD: ViewModelData<FloorsClimbedRecord>,
+                             weightVMD: ViewModelData<WeightRecord>,
                              onSelect: (Int) -> Unit,
                              onUnselect : () -> Unit,
                              onError: suspend (Throwable?) -> Unit = {})
@@ -151,7 +163,8 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
         {
             when(state)
             {
-                is MyDataState.NoSelection -> {
+                is MyDataState.NoSelection ->
+                {
                     CategoryText(stringRes = R.string.sleep,
                         selected = false,
                         onClick = {onSelect(0)})
@@ -170,6 +183,15 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                     CategoryText(stringRes = R.string.elevation_gained,
                         selected = false,
                         onClick = {onSelect(5)})
+                    CategoryText(stringRes = R.string.exercise,
+                        selected = false,
+                        onClick = {onSelect(6)})
+                    CategoryText(stringRes = R.string.floors_climbed,
+                        selected = false,
+                        onClick = {onSelect(7)})
+                    CategoryText(stringRes = R.string.weight,
+                        selected = false,
+                        onClick = {onSelect(8)})
                 }
                 is MyDataState.Selected ->
                 {
@@ -263,6 +285,54 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                 viewModelData = elevationGainedVMD,
                                 onDisplayData = {
                                     items(elevationGainedVMD.data)
+                                    {
+                                        Spacer(Modifier.height(16.dp))
+                                        it.Display(widthSize)
+                                    }
+                                },
+                                onError = { coroutineScope.launch { onError(it) }}
+                            )
+                        }
+                        6 -> {
+                            CategoryText(stringRes = R.string.exercise,
+                                selected = true,
+                                onClick = onUnselect)
+                            DrawHealthConnectSubscreen(
+                                viewModelData = exerciseSessionVMD,
+                                onDisplayData = {
+                                    items(exerciseSessionVMD.data)
+                                    {
+                                        Spacer(Modifier.height(16.dp))
+                                        it.Display(widthSize)
+                                    }
+                                },
+                                onError = { coroutineScope.launch { onError(it) }}
+                            )
+                        }
+                        7 -> {
+                            CategoryText(stringRes = R.string.floors_climbed,
+                                selected = true,
+                                onClick = onUnselect)
+                            DrawHealthConnectSubscreen(
+                                viewModelData = floorsClimbedVMD,
+                                onDisplayData = {
+                                    items(floorsClimbedVMD.data)
+                                    {
+                                        Spacer(Modifier.height(16.dp))
+                                        it.Display(widthSize)
+                                    }
+                                },
+                                onError = { coroutineScope.launch { onError(it) }}
+                            )
+                        }
+                        8 -> {
+                            CategoryText(stringRes = R.string.weight,
+                                selected = true,
+                                onClick = onUnselect)
+                            DrawHealthConnectSubscreen(
+                                viewModelData = weightVMD,
+                                onDisplayData = {
+                                    items(weightVMD.data)
                                     {
                                         Spacer(Modifier.height(16.dp))
                                         it.Display(widthSize)

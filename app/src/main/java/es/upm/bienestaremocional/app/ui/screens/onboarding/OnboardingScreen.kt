@@ -39,7 +39,7 @@ fun OnboardingScreen(navigator: DestinationsNavigator,
                      viewModel: OnboardingViewModel = hiltViewModel()
 )
 {
-    OnboardingScreen(heigthSize = computeWindowHeightSize(),
+    OnboardingScreen(heightSize = computeWindowHeightSize(),
         widthSize = computeWindowWidthSize())
     {
         viewModel.onFinish()
@@ -50,7 +50,7 @@ fun OnboardingScreen(navigator: DestinationsNavigator,
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun OnboardingScreen(heigthSize : WindowHeightSizeClass,
+private fun OnboardingScreen(heightSize : WindowHeightSizeClass,
                              widthSize: WindowWidthSizeClass,
                              onFinish: () -> Unit)
 {
@@ -67,13 +67,13 @@ private fun OnboardingScreen(heigthSize : WindowHeightSizeClass,
                 count = items.size,
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
-            )
-            {
-                    page -> DrawPage(horizontalPagerContent = items[page],
-                pagerState = pagerState,
-                heigthSize = heigthSize,
-                widthSize = widthSize,
-                onFinish = onFinish)
+            ) { page ->
+
+                DrawPage(horizontalPagerContent = items[page],
+                    pagerState = pagerState,
+                    heightSize = heightSize,
+                    widthSize = widthSize,
+                    onFinish = onFinish)
             }
         }
     }
@@ -87,7 +87,7 @@ private fun OnboardingScreen(heigthSize : WindowHeightSizeClass,
 @Composable
 private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
                      pagerState : PagerState,
-                     heigthSize : WindowHeightSizeClass,
+                     heightSize : WindowHeightSizeClass,
                      widthSize: WindowWidthSizeClass,
                      onFinish: () -> Unit
 )
@@ -130,7 +130,7 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
             modifier = Modifier.fillMaxWidth(),
 
             style = if (widthSize >= WindowWidthSizeClass.Medium
-                && heigthSize >= WindowHeightSizeClass.Medium)
+                && heightSize >= WindowHeightSizeClass.Medium)
                 MaterialTheme.typography.titleLarge
             else
                 MaterialTheme.typography.titleMedium
@@ -143,7 +143,7 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = if (widthSize >= WindowWidthSizeClass.Medium
-                && heigthSize >= WindowHeightSizeClass.Medium)
+                && heightSize >= WindowHeightSizeClass.Medium)
                 MaterialTheme.typography.bodyLarge
             else
                 MaterialTheme.typography.bodyMedium
@@ -203,7 +203,7 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
 fun OnboardingScreenPreview()
 {
     BienestarEmocionalTheme {
-        OnboardingScreen(heigthSize = WindowHeightSizeClass.Compact,
+        OnboardingScreen(heightSize = WindowHeightSizeClass.Compact,
             widthSize = WindowWidthSizeClass.Compact,
             onFinish = {})
     }
@@ -217,7 +217,7 @@ fun OnboardingScreenPreview()
 fun OnboardingScreenPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        OnboardingScreen(heigthSize = WindowHeightSizeClass.Compact,
+        OnboardingScreen(heightSize = WindowHeightSizeClass.Compact,
             widthSize = WindowWidthSizeClass.Compact,
             onFinish = {})
     }
@@ -231,7 +231,7 @@ fun OnboardingScreenPreviewDarkTheme()
 fun OnboardingScreenNotCompactPreview()
 {
     BienestarEmocionalTheme {
-        OnboardingScreen(heigthSize = WindowHeightSizeClass.Medium,
+        OnboardingScreen(heightSize = WindowHeightSizeClass.Medium,
             widthSize = WindowWidthSizeClass.Medium,
             onFinish = {})
     }
@@ -245,7 +245,7 @@ fun OnboardingScreenNotCompactPreview()
 fun OnboardingScreenNotCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        OnboardingScreen(heigthSize = WindowHeightSizeClass.Medium,
+        OnboardingScreen(heightSize = WindowHeightSizeClass.Medium,
             widthSize = WindowWidthSizeClass.Medium,
             onFinish = {})
     }
