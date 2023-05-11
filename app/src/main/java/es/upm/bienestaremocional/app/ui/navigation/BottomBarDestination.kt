@@ -2,8 +2,12 @@ package es.upm.bienestaremocional.app.ui.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import com.ramcosta.composedestinations.spec.Direction
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.app.ui.screens.destinations.*
+import es.upm.bienestaremocional.app.ui.screens.destinations.HistoryScreenDestination
+import es.upm.bienestaremocional.app.ui.screens.destinations.HomeScreenDestination
+import es.upm.bienestaremocional.app.ui.screens.destinations.SettingsScreenDestination
+import es.upm.bienestaremocional.app.ui.screens.destinations.TrendsScreenDestination
 
 /**
  * This enum contains the app's menu entries
@@ -11,7 +15,7 @@ import es.upm.bienestaremocional.app.ui.screens.destinations.*
  * @param label: Resource with the label string
  * @param icon: Resource with the icon drawable
  */
-enum class BottomBarDestination(val direction: DirectionDestination,
+enum class BottomBarDestination(val direction: Direction,
                                 @StringRes val label: Int,
                                 @DrawableRes val icon: Int)
 {
@@ -19,7 +23,7 @@ enum class BottomBarDestination(val direction: DirectionDestination,
         label = R.string.home_screen_label,
         icon = R.drawable.home),
 
-    HistoryScreen(direction = HistoryScreenDestination,
+    HistoryScreen(direction = HistoryScreenDestination(null),
         label = R.string.history_screen_label,
         icon = R.drawable.ssid_chart),
 

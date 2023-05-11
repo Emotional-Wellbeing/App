@@ -28,6 +28,7 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.ui.component.BackHandlerMinimizeApp
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
+import es.upm.bienestaremocional.app.ui.screens.destinations.MeasureScreenDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowHeightSize
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowWidthSize
@@ -86,6 +87,7 @@ private fun HomeScreen(
         entrySelected = BottomBarDestination.HomeScreen,
         label = R.string.app_name)
     {
+        //TODO check landscape
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -104,19 +106,32 @@ private fun HomeScreen(
                     modifier = Modifier.fillMaxSize()
                 ) { page ->
 
-                    val score = when (questionnairesToShow[page]) {
+                    val score = when (questionnairesToShow[page])
+                    {
                         Questionnaire.PSS -> stressScore
                         Questionnaire.PHQ -> depressionScore
                         Questionnaire.UCLA -> lonelinesssScore
                     }
 
-                    MeasureSummary(
-                        questionnaire = questionnairesToShow[page],
-                        score = score,
-                        pagerState = pagerState,
-                        widthSize = widthSize,
-                        heightSize = heightSize
+                    val onClick = {
+                        navigator.navigate(MeasureScreenDestination(
+                            questionnaire = questionnairesToShow[page]))
+                    }
+
+                    Column(modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.SpaceAround
                     )
+                    {
+                        MeasureSummary(questionnaire = questionnairesToShow[page],
+                            score = score,
+                            pagerState = pagerState,
+                            onClick = onClick,
+                            widthSize = widthSize,
+                            heightSize = heightSize,
+                        )
+
+                    }
                 }
             }
             else if (questionnairesToShow.size == 1)
@@ -127,11 +142,18 @@ private fun HomeScreen(
                     Questionnaire.UCLA -> lonelinesssScore
                 }
 
+                val onClick = {
+                    navigator.navigate(MeasureScreenDestination(
+                        questionnaire = questionnairesToShow[0]))
+                }
+
                 MeasureSummary(
                     questionnaire = questionnairesToShow[0],
                     score = score,
+                    onClick = onClick,
                     widthSize = widthSize,
-                    heightSize = heightSize
+                    heightSize = heightSize,
+                    heightFraction = 0.95f
                 )
             }
         }

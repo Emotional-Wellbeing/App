@@ -14,6 +14,7 @@ interface PSSRepository : QuestionnaireRepository<PSS>
     override suspend fun update(element: PSS)
     override suspend fun getAll(): List<PSS>
     override suspend fun getAllFromLastSevenDays(): List<PSS>
+    override suspend fun getAllFromCurrentWeek() : List<PSS>
     override suspend fun getLastCompleted(): PSS?
     override suspend fun getAllFromRange(range: Range<LocalDate>): List<PSS>
     override suspend fun getAllCompleted(): List<PSS>

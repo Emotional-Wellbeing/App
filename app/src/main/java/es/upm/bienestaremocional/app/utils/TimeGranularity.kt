@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.ui.screens.history
+package es.upm.bienestaremocional.app.utils
 
 import androidx.annotation.StringRes
 import es.upm.bienestaremocional.R

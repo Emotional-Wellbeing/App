@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.data.settings.AppSettings
-import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerDay
+import es.upm.bienestaremocional.app.domain.processing.processRecords
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PHQRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
+import es.upm.bienestaremocional.app.utils.TimeGranularity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -29,7 +30,7 @@ class HomeViewModel @Inject constructor(
     {
         val scores = pssRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
-            aggregateEntriesPerDay(scores)[0].second.toInt()
+            processRecords(scores, TimeGranularity.Day)[0].score.toInt()
         else
             null
     }
@@ -37,7 +38,7 @@ class HomeViewModel @Inject constructor(
     {
         val scores = phqRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
-            aggregateEntriesPerDay(scores)[0].second.toInt()
+            processRecords(scores, TimeGranularity.Day)[0].score.toInt()
         else
             null
     }
@@ -45,7 +46,7 @@ class HomeViewModel @Inject constructor(
     {
         val scores = uclaRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
-            aggregateEntriesPerDay(scores)[0].second.toInt()
+            processRecords(scores, TimeGranularity.Day)[0].score.toInt()
         else
             null
     }

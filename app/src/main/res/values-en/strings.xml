@@ -234,4 +234,6 @@
     <string name="moderate_loneliness_advice">Advice for moderate loneliness</string>
     <string name="high_loneliness_advice">Advice for high loneliness</string>
     <string name="exercise">Exercise</string>
+    <string name="more_details">More details</string>
+    <string name="actual_week">Actual week</string>
 </resources>

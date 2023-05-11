@@ -2,6 +2,7 @@ package es.upm.bienestaremocional.app.ui.screens.history
 
 import android.util.Range
 import androidx.core.util.toRange
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.patrykandpatrick.vico.core.entry.ChartEntry
@@ -10,12 +11,12 @@ import com.patrykandpatrick.vico.core.entry.FloatEntry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireEntity
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerDay
-import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerMonth
-import es.upm.bienestaremocional.app.domain.processing.aggregateEntriesPerWeek
+import es.upm.bienestaremocional.app.domain.processing.processRecords
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PHQRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.PSSRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.UCLARepository
+import es.upm.bienestaremocional.app.ui.screens.destinations.HistoryScreenDestination
+import es.upm.bienestaremocional.app.utils.TimeGranularity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,14 +27,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
+    val savedStateHandle: SavedStateHandle,
     private val pssRepository: PSSRepository,
     private val phqRepository: PHQRepository,
     private val uclaRepository: UCLARepository,
 ) : ViewModel()
 {
+    private val defaultQuestionnaire =
+        HistoryScreenDestination.argsFrom(savedStateHandle).preSelectedQuestionnaire
+            ?: Questionnaire.PSS
+
     //state
     private val _state = MutableStateFlow(
-        HistoryState(questionnaire = Questionnaire.PSS,
+        HistoryState(questionnaire = defaultQuestionnaire,
             timeGranularity = TimeGranularity.Day,
             timeRange = (LocalDate.now().minusDays(7) .. LocalDate.now()).toRange(),
             isDataNotEmpty = false))
@@ -96,9 +102,9 @@ class HistoryViewModel @Inject constructor(
     {
         return when(timeGranularity)
         {
-            TimeGranularity.Day -> aggregateEntriesPerDay(cachedData).map { pair -> pair.second}
-            TimeGranularity.Week -> aggregateEntriesPerWeek(cachedData).map { pair -> pair.second}
-            TimeGranularity.Month -> aggregateEntriesPerMonth(cachedData).map { pair -> pair.second}
+            TimeGranularity.Day -> processRecords(cachedData, timeGranularity).map { it.score }
+            TimeGranularity.Week -> processRecords(cachedData, timeGranularity).map { it.score }
+            TimeGranularity.Month -> processRecords(cachedData, timeGranularity).map { it.score }
         }
     }
 
