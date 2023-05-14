@@ -47,9 +47,9 @@ class DebugViewModel @Inject constructor(
     val state: StateFlow<DebugState> = _state.asStateFlow()
 
     //data
-    private val _questionnaireRoundsIncompleted = MutableLiveData<List<QuestionnaireRoundFull>>()
-    val questionnaireRoundsIncompleted: LiveData<List<QuestionnaireRoundFull>>
-        get() = _questionnaireRoundsIncompleted
+    private val _questionnaireRoundsUncompleted = MutableLiveData<List<QuestionnaireRoundFull>>()
+    val questionnaireRoundsUncompleted: LiveData<List<QuestionnaireRoundFull>>
+        get() = _questionnaireRoundsUncompleted
     private val _questionnaireRounds = MutableLiveData<List<QuestionnaireRoundFull>>()
     val questionnaireRounds: LiveData<List<QuestionnaireRoundFull>>
         get() = _questionnaireRounds
@@ -57,10 +57,10 @@ class DebugViewModel @Inject constructor(
     val workInfo: LiveData<List<WorkInfo>>
         get() = _workInfo
 
-    private fun fetchIncompletedQuestionnaireRounds()
+    private fun fetchUncompletedQuestionnaireRounds()
     {
         viewModelScope.launch {
-            _questionnaireRoundsIncompleted.value = questionnaireRoundWithQuestionnairesRepository.getAllIncompleted()
+            _questionnaireRoundsUncompleted.value = questionnaireRoundWithQuestionnairesRepository.getAllUncompleted()
         }
     }
 
@@ -88,7 +88,7 @@ class DebugViewModel @Inject constructor(
     fun onQueryUncompletedQuestionnaireRounds()
     {
         _state.value = DebugState.QueryUncompletedQuestionnaireRounds
-        fetchIncompletedQuestionnaireRounds()
+        fetchUncompletedQuestionnaireRounds()
     }
 
     suspend fun onPrepoulateDatabase()

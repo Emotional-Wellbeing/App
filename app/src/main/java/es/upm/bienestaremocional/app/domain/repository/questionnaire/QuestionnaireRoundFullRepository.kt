@@ -9,5 +9,5 @@ interface QuestionnaireRoundFullRepository
 {
     suspend fun getAll(): List<QuestionnaireRoundFull>
     suspend fun get(id: Long): QuestionnaireRoundFull
-    suspend fun getAllIncompleted(): List<QuestionnaireRoundFull>
+    suspend fun getAllUncompleted(): List<QuestionnaireRoundFull>
 }

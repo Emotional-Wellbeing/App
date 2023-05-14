@@ -7,6 +7,8 @@
     <string name="trends_screen_label">Tendencias</string>
     <string name="settings_screen_label">Ajustes</string>
     <string name="debug_screen_label">Menú de desarrolladores</string>
+    <string name="uncompleted_questionnaires_label">Cuestionarios incompletos</string>
+
 
     <!-- Notifications -->
     <string name="main_channel">Notificaciones generales</string>
@@ -169,9 +171,11 @@
 
     <string name="light_mode_label">Desactivado</string>
     <string name="dark_mode_label">Activado</string>
+    <string name="review">Revisar</string>
     <string name="default_mode_label">Usar la configuración del dispositivo</string>
     <string name="restart_apply_changes">Se aplicarán los cambios al reiniciar</string>
     <string name="restart_apply_all_changes">Reinicia para aplicar todos los cambios</string>
+    <string name="uncompleted_questionnaires_advice">Tienes cuestionarios sin completar</string>
     <string name="calories_burnt">Calorias quemadas:</string>
     <string name="level">Nivel</string>
     <string name="metadata">Metadata:</string>
@@ -289,7 +293,8 @@
 
     <!-- Questionnaire display -->
     <string name="empty_list">No hay datos para mostrar</string>
-    <string name="round_created_formatter">Ronda creada en : %s</string>
+    <string name="round_created_formatter">Ronda creada en %s</string>
+    <string name="created_formatter">Creada en: %s</string>
     <string name="pss_questionnaire">Cuestionario PSS</string>
     <string name="phq_questionnaire">Cuestionario PHQ</string>
     <string name="ucla_questionnaire">Cuestionario UCLA</string>
