@@ -227,7 +227,7 @@ interface AppDAO
             "OR (phq.phq_id IS NOT NULL AND phq.phq_completed = 0) " +
             "OR (ucla.ucla_id IS NOT NULL AND ucla.ucla_completed = 0) " +
             "ORDER BY qr.created_at DESC")
-    suspend fun getAllQuestionnaireRoundIncompleted(): List<QuestionnaireRoundFull>
+    suspend fun getAllQuestionnaireRoundUncompleted(): List<QuestionnaireRoundFull>
 
     // Debug options
     @Query("DELETE FROM questionnaire_round")

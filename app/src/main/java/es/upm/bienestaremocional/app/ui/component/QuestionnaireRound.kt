@@ -55,6 +55,38 @@ fun ShowQuestionnaireRound(element : QuestionnaireRoundFull)
     }
 }
 
+/**
+ * Display uncompleted [QuestionnaireRoundFull]: createdAt and uncompleted questionnaires
+ */
+@Composable
+fun ShowUncompletedQuestionnaireRound(element : QuestionnaireRoundFull)
+{
+    val uncompletedQuestionnairesText = stringResource(R.string.uncompleted_questionnaires_label)
+
+    val uncompleted = mutableListOf<String>()
+
+    element.pss.let {
+        if (!it.completed)
+            uncompleted.add(stringResource(id = R.string.stress))
+    }
+
+    element.phq?.let {
+        if (!it.completed)
+            uncompleted.add(stringResource(id = R.string.depression))
+    }
+
+    element.ucla?.let {
+        if (!it.completed)
+            uncompleted.add(stringResource(id = R.string.loneliness))
+    }
+
+    Text(stringResource(R.string.created_formatter,
+        formatUnixTimeStamp(element.questionnaireRound.createdAt)))
+
+    Text("$uncompletedQuestionnairesText:  ${uncompleted.joinToString()}")
+
+}
+
 @Composable
 private fun ShowScoreLevel(context: Context, scoreLevel: String)
 {

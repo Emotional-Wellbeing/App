@@ -4,6 +4,7 @@ import android.util.Log
 import android.util.Range
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
 import es.upm.bienestaremocional.app.data.database.entity.PHQ
+import es.upm.bienestaremocional.app.domain.processing.getCurrentWeek
 import es.upm.bienestaremocional.app.domain.processing.getLastSevenDays
 import es.upm.bienestaremocional.app.domain.processing.getStartAndEndOfYesterday
 import java.time.LocalDate
@@ -41,6 +42,12 @@ class PHQRepositoryImpl @Inject constructor(
     override suspend fun getAllFromLastSevenDays(): List<PHQ> {
         Log.d(logTag, "querying all phq from last seven days")
         val range = getLastSevenDays()
+        return dao.getAllPHQFromRange(range.first,range.second)
+    }
+
+    override suspend fun getAllFromCurrentWeek(): List<PHQ> {
+        Log.d(logTag, "querying all phq from current week")
+        val range = getCurrentWeek()
         return dao.getAllPHQFromRange(range.first,range.second)
     }
 

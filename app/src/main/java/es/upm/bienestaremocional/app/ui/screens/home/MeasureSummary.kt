@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -36,6 +37,7 @@ fun MeasureSummary(
     questionnaire: Questionnaire,
     score : Int?,
     pagerState: PagerState,
+    onClick : () -> Unit,
     widthSize: WindowWidthSizeClass,
     heightSize: WindowHeightSizeClass
 )
@@ -46,6 +48,7 @@ fun MeasureSummary(
     {
         MeasureSummary(questionnaire = questionnaire,
             score = score,
+            onClick = onClick,
             widthSize = widthSize,
             heightSize = heightSize,
             heightFraction = 0.9f
@@ -67,6 +70,7 @@ fun MeasureSummary(
 fun MeasureSummary(
     questionnaire: Questionnaire,
     score : Int?,
+    onClick: () -> Unit,
     widthSize: WindowWidthSizeClass,
     heightSize: WindowHeightSizeClass,
     heightFraction : Float = 1f,
@@ -148,7 +152,7 @@ fun MeasureSummary(
             .weight(1f)
             .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
+            verticalArrangement = Arrangement.SpaceAround
         )
         {
             Text(
@@ -156,6 +160,7 @@ fun MeasureSummary(
                 color = MaterialTheme.colorScheme.secondary,
                 style = titleStyle)
             advice?.let { Text(text = it, style = adviceStyle) }
+            TextButton(onClick = onClick) { Text(stringResource(R.string.more_details)) }
         }
     }
 }
@@ -170,6 +175,7 @@ fun MeasureSummaryPreview()
             MeasureSummary(
                 questionnaire = Questionnaire.PSS,
                 score = 27,
+                onClick = {},
                 heightSize = WindowHeightSizeClass.Compact,
                 widthSize = WindowWidthSizeClass.Compact,
             )
@@ -186,6 +192,7 @@ fun MeasureSummaryPreviewDarkTheme()
             MeasureSummary(
                 questionnaire = Questionnaire.PSS,
                 score = 27,
+                onClick = {},
                 heightSize = WindowHeightSizeClass.Compact,
                 widthSize = WindowWidthSizeClass.Compact,
             )
@@ -204,6 +211,7 @@ fun MeasureSummaryWithPagerPreview()
                 questionnaire = Questionnaire.PSS,
                 score = 27,
                 pagerState = rememberPagerState(),
+                onClick = {},
                 heightSize = WindowHeightSizeClass.Compact,
                 widthSize = WindowWidthSizeClass.Compact,
             )
@@ -222,6 +230,7 @@ fun MeasureSummaryWithPagerPreviewDarkTheme()
                 questionnaire = Questionnaire.PSS,
                 score = 27,
                 pagerState = rememberPagerState(),
+                onClick = {},
                 heightSize = WindowHeightSizeClass.Compact,
                 widthSize = WindowWidthSizeClass.Compact,
             )

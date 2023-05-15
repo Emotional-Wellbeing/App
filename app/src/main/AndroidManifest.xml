@@ -54,12 +54,10 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.BienestarEmocional"
-        tools:ignore="MissingClass">
+        android:theme="@style/Theme.BienestarEmocional">
         <activity
             android:name=".app.MainActivity"
-            android:exported="true"
-            tools:ignore="MissingClass">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -14,6 +14,7 @@ interface UCLARepository: QuestionnaireRepository<UCLA>
     override suspend fun update(element: UCLA)
     override suspend fun getAll(): List<UCLA>
     override suspend fun getAllFromLastSevenDays(): List<UCLA>
+    override suspend fun getAllFromCurrentWeek() : List<UCLA>
     override suspend fun getAllFromYesterday(): List<UCLA>
     override suspend fun getAllFromRange(range: Range<LocalDate>): List<UCLA>
     override suspend fun getAllCompleted(): List<UCLA>

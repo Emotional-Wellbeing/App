@@ -4,6 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -15,9 +18,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -28,6 +33,8 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.app.ui.component.BackHandlerMinimizeApp
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
+import es.upm.bienestaremocional.app.ui.screens.destinations.MeasureScreenDestination
+import es.upm.bienestaremocional.app.ui.screens.destinations.UncompletedQuestionnairesScreenDestination
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowHeightSize
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowWidthSize
@@ -43,10 +50,13 @@ fun HomeScreen(navigator: DestinationsNavigator,
 {
     BackHandlerMinimizeApp(LocalContext.current)
 
+    val uncompletedQuestionnaires by viewModel.uncompletedQuestionnaires.collectAsStateWithLifecycle()
+
     HomeScreen(navigator = navigator,
         questionnairesToShow = viewModel.questionnaires,
         widthSize = computeWindowWidthSize(),
         heightSize = computeWindowHeightSize(),
+        uncompletedQuestionnaires = uncompletedQuestionnaires,
         getStressScore = viewModel::getStressScore,
         getDepressionScore = viewModel::getDepressionScore,
         getLonelinessScore = viewModel::getLonelinessScore
@@ -61,6 +71,7 @@ private fun HomeScreen(
     questionnairesToShow : List<Questionnaire>,
     widthSize : WindowWidthSizeClass,
     heightSize : WindowHeightSizeClass,
+    uncompletedQuestionnaires : Boolean,
     getStressScore: suspend () -> Int?,
     getDepressionScore : suspend () -> Int?,
     getLonelinessScore : suspend () -> Int?
@@ -69,6 +80,11 @@ private fun HomeScreen(
     var stressScore : Int? by remember { mutableStateOf(null) }
     var depressionScore : Int? by remember { mutableStateOf(null) }
     var lonelinesssScore : Int? by remember { mutableStateOf(null) }
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    val uncompletedQuestionnairesAdviceText  = stringResource(R.string.uncompleted_questionnaires_advice)
+    val reviewText = stringResource(R.string.review)
 
     LaunchedEffect(Unit)
     {
@@ -81,11 +97,25 @@ private fun HomeScreen(
             }
         }
     }
+    LaunchedEffect(uncompletedQuestionnaires)
+    {
+        if (uncompletedQuestionnaires)
+        {
+            showQuestionnaireAlert(snackbarHostState = snackbarHostState,
+                uncompletedQuestionnairesAdviceText,
+                reviewText)
+            {
+                navigator.navigate(UncompletedQuestionnairesScreenDestination)
+            }
+        }
+    }
 
     AppBasicScreen(navigator = navigator,
         entrySelected = BottomBarDestination.HomeScreen,
+        snackbarHostState = snackbarHostState,
         label = R.string.app_name)
     {
+        //TODO check landscape
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -104,19 +134,31 @@ private fun HomeScreen(
                     modifier = Modifier.fillMaxSize()
                 ) { page ->
 
-                    val score = when (questionnairesToShow[page]) {
+                    val score = when (questionnairesToShow[page])
+                    {
                         Questionnaire.PSS -> stressScore
                         Questionnaire.PHQ -> depressionScore
                         Questionnaire.UCLA -> lonelinesssScore
                     }
 
-                    MeasureSummary(
-                        questionnaire = questionnairesToShow[page],
-                        score = score,
-                        pagerState = pagerState,
-                        widthSize = widthSize,
-                        heightSize = heightSize
+                    val onClick = {
+                        navigator.navigate(MeasureScreenDestination(
+                            questionnaire = questionnairesToShow[page]))
+                    }
+
+                    Column(modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.SpaceAround
                     )
+                    {
+                        MeasureSummary(questionnaire = questionnairesToShow[page],
+                            score = score,
+                            pagerState = pagerState,
+                            onClick = onClick,
+                            widthSize = widthSize,
+                            heightSize = heightSize,
+                        )
+                    }
                 }
             }
             else if (questionnairesToShow.size == 1)
@@ -127,16 +169,38 @@ private fun HomeScreen(
                     Questionnaire.UCLA -> lonelinesssScore
                 }
 
+                val onClick = {
+                    navigator.navigate(MeasureScreenDestination(
+                        questionnaire = questionnairesToShow[0]))
+                }
+
                 MeasureSummary(
                     questionnaire = questionnairesToShow[0],
                     score = score,
+                    onClick = onClick,
                     widthSize = widthSize,
-                    heightSize = heightSize
+                    heightSize = heightSize,
+                    heightFraction = 0.95f
                 )
             }
         }
     }
 }
+
+private suspend fun showQuestionnaireAlert(snackbarHostState: SnackbarHostState,
+                                           message : String,
+                                           actionLabel : String,
+                                           onClick : () -> Unit
+)
+{
+    val result = snackbarHostState.showSnackbar(message = message,
+        actionLabel = actionLabel,
+        withDismissAction = true,
+        duration = SnackbarDuration.Indefinite)
+    if (result === SnackbarResult.ActionPerformed)
+        onClick()
+}
+
 
 
 @Preview(
@@ -151,6 +215,7 @@ fun HomeScreenOneQuestionnaireCompactPreview()
             questionnairesToShow = listOf(Questionnaire.PSS),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
+            uncompletedQuestionnaires = false,
             getStressScore = { 27 },
             getDepressionScore = { 14 },
             getLonelinessScore = { 33 }
@@ -171,6 +236,7 @@ fun HomeScreenOneQuestionnaireCompactPreviewDarkTheme()
             questionnairesToShow = listOf(Questionnaire.PSS),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
+            uncompletedQuestionnaires = false,
             getStressScore = { 27 },
             getDepressionScore = { 14 },
             getLonelinessScore = { 33 }
@@ -190,6 +256,7 @@ fun HomeScreenNoQuestionnaireCompactPreview()
             questionnairesToShow = listOf(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
+            uncompletedQuestionnaires = false,
             getStressScore = { 27 },
             getDepressionScore = { 14 },
             getLonelinessScore = { 33 }
@@ -210,6 +277,7 @@ fun HomeScreenNoQuestionnaireCompactPreviewDarkTheme()
             questionnairesToShow = listOf(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
+            uncompletedQuestionnaires = false,
             getStressScore = { 27 },
             getDepressionScore = { 14 },
             getLonelinessScore = { 33 }
@@ -229,6 +297,7 @@ fun HomeScreenAllQuestionnairesCompactPreview()
             questionnairesToShow = Questionnaire.getMandatory() + Questionnaire.getOptional(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
+            uncompletedQuestionnaires = false,
             getStressScore = { 27 },
             getDepressionScore = { 14 },
             getLonelinessScore = { 33 }
@@ -249,6 +318,48 @@ fun HomeScreenAllQuestionnairesCompactPreviewDarkTheme()
             questionnairesToShow = Questionnaire.getMandatory() + Questionnaire.getOptional(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
+            uncompletedQuestionnaires = false,
+            getStressScore = { 27 },
+            getDepressionScore = { 14 },
+            getLonelinessScore = { 33 }
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Light Theme"
+)
+@Composable
+fun HomeScreenAllQuestionnairesShowUncompletedCompactPreview()
+{
+    BienestarEmocionalTheme{
+        HomeScreen(navigator = EmptyDestinationsNavigator,
+            questionnairesToShow = Questionnaire.getMandatory() + Questionnaire.getOptional(),
+            widthSize = WindowWidthSizeClass.Compact,
+            heightSize = WindowHeightSizeClass.Compact,
+            uncompletedQuestionnaires = true,
+            getStressScore = { 27 },
+            getDepressionScore = { 14 },
+            getLonelinessScore = { 33 }
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    group = "Dark Theme"
+)
+@Composable
+fun HomeScreenAllQuestionnairesShowUncompletedCompactPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true)
+    {
+        HomeScreen(navigator = EmptyDestinationsNavigator,
+            questionnairesToShow = Questionnaire.getMandatory() + Questionnaire.getOptional(),
+            widthSize = WindowWidthSizeClass.Compact,
+            heightSize = WindowHeightSizeClass.Compact,
+            uncompletedQuestionnaires = true,
             getStressScore = { 27 },
             getDepressionScore = { 14 },
             getLonelinessScore = { 33 }

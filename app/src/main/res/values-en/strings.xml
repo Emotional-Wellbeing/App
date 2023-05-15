@@ -5,6 +5,7 @@
     <string name="history_screen_label">History</string>
     <string name="trends_screen_label">Trends</string>
     <string name="settings_screen_label">Settings</string>
+    <string name="uncompleted_questionnaires_label">Uncompleted questionnaires</string>
     <string name="heart_rate">Heart rate</string>
     <string name="steps">Steps</string>
     <string name="distance">Distance</string>
@@ -182,7 +183,8 @@
     <string name="delete_database">Delete database</string>
     <string name="database_deleted">Database deleted</string>
     <string name="empty_list">No data to display</string>
-    <string name="round_created_formatter">Round created at : %s</string>
+    <string name="round_created_formatter">Round created at: %s</string>
+    <string name="created_formatter">Created at: %s</string>
     <string name="pss_questionnaire">PSS questionnaire</string>
     <string name="phq_questionnaire">PHQ questionnaire</string>
     <string name="ucla_questionnaire">UCLA questionnaire</string>
@@ -234,6 +236,10 @@
     <string name="moderate_loneliness_advice">Advice for moderate loneliness</string>
     <string name="high_loneliness_advice">Advice for high loneliness</string>
     <string name="exercise">Exercise</string>
+    <string name="more_details">More details</string>
+    <string name="actual_week">Actual week</string>
+    <string name="uncompleted_questionnaires_advice">You have uncompleted questionnaires</string>
+    <string name="review">Review</string>
     <string name="permission_screen_label">Permissions</string>
     <string name="permission_screen_description">App permissions</string>
     <string name="permission_granted">Permission granted. You can disable permissions in the Android settings menu</string>

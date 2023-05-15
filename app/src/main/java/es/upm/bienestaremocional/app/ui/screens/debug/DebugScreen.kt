@@ -49,7 +49,7 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
     val snackbarHostState = remember {SnackbarHostState()}
 
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val questionnaireRoundsIncompleted by viewModel.questionnaireRoundsIncompleted.observeAsState(emptyList())
+    val questionnaireRoundsUncompleted by viewModel.questionnaireRoundsUncompleted.observeAsState(emptyList())
     val questionnaireRounds by viewModel.questionnaireRounds.observeAsState(emptyList())
     val workInfo by viewModel.workInfo.observeAsState(emptyList())
 
@@ -61,7 +61,7 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
     DebugScreen(navigator = navigator,
         state = state,
         snackbarHostState = snackbarHostState,
-        questionnaireRoundsIncompleted = questionnaireRoundsIncompleted,
+        questionnaireRoundsUncompleted = questionnaireRoundsUncompleted,
         questionnaireRounds = questionnaireRounds,
         workInfo = workInfo,
         onNotification = viewModel::onNotification,
@@ -113,7 +113,7 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
 private fun DebugScreen(navigator: DestinationsNavigator,
                         state: DebugState,
                         snackbarHostState : SnackbarHostState,
-                        questionnaireRoundsIncompleted: List<QuestionnaireRoundFull>,
+                        questionnaireRoundsUncompleted: List<QuestionnaireRoundFull>,
                         questionnaireRounds: List<QuestionnaireRoundFull>,
                         workInfo : List<WorkInfo>,
                         onNotification: () -> Unit,
@@ -238,7 +238,7 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp))
                 {
-                    if(questionnaireRoundsIncompleted.isEmpty())
+                    if(questionnaireRoundsUncompleted.isEmpty())
                     {
                         item {
                             Text(stringResource(R.string.empty_list))
@@ -246,7 +246,7 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                     }
                     else
                     {
-                        items(questionnaireRoundsIncompleted) { item ->
+                        items(questionnaireRoundsUncompleted) { item ->
                             BasicCard {
                                 ShowQuestionnaireRound(item)
                                 TextButton(onClick = {
@@ -302,7 +302,7 @@ fun DebugScreenPreview()
             state = DebugState.ShowOptions,
             snackbarHostState =  remember { SnackbarHostState() },
             questionnaireRounds = emptyList(),
-            questionnaireRoundsIncompleted = emptyList(),
+            questionnaireRoundsUncompleted = emptyList(),
             onNotification = {},
             onQueryAllQuestionnaireRounds = {},
             onQueryUncompletedQuestionnaireRounds = {},
@@ -324,7 +324,7 @@ fun DebugScreenPreviewDarkTheme()
             state = DebugState.ShowOptions,
             snackbarHostState =  remember { SnackbarHostState() },
             questionnaireRounds = emptyList(),
-            questionnaireRoundsIncompleted = emptyList(),
+            questionnaireRoundsUncompleted = emptyList(),
             onNotification = {},
             onQueryAllQuestionnaireRounds = {},
             onQueryUncompletedQuestionnaireRounds = {},

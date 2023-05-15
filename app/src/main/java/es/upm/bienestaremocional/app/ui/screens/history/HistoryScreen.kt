@@ -49,6 +49,7 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.*
 import es.upm.bienestaremocional.app.data.questionnaire.Level.Companion.getColor
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
+import es.upm.bienestaremocional.app.utils.TimeGranularity
 import es.upm.bienestaremocional.app.utils.formatDate
 import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.component.rememberMarker
@@ -64,6 +65,7 @@ import kotlin.random.Random
 @Destination
 @Composable
 fun HistoryScreen(navigator: DestinationsNavigator,
+                  preSelectedQuestionnaire: Questionnaire?,
                   viewModel: HistoryViewModel = hiltViewModel()
 )
 {
