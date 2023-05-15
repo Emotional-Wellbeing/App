@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -84,7 +85,7 @@ private fun PermissionScreen(navigator: DestinationsNavigator,
                         )
                     }
                 ) {
-                    Text(text = "Permisos de listado de llamadas")
+                    Text(text = stringResource(R.string.permission_log_call))
                 }
 
                 Button(
@@ -96,7 +97,7 @@ private fun PermissionScreen(navigator: DestinationsNavigator,
                         )
                     }
                 ) {
-                    Text(text = "Permisos de ubicación")
+                    Text(text = stringResource(R.string.permission_location))
                 }
 
                 Button(
@@ -104,7 +105,7 @@ private fun PermissionScreen(navigator: DestinationsNavigator,
                         checkAndRequestPermission(context, Manifest.permission.INTERNET, launcher)
                     }
                 ) {
-                    Text(text = "Permisos de internet")
+                    Text(text = stringResource(R.string.permission_internet))
                 }
 
                 Divider(modifier = Modifier.padding(top = 150.dp, bottom = 16.dp))
@@ -128,7 +129,7 @@ fun checkAndRequestPermission(
     if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
         Toast.makeText(
             context,
-            "Permiso concedido. Puede deshabilitar permisos en el menú de configuración de Android",
+            R.string.permission_granted,
             Toast.LENGTH_LONG
         ).show()
     } else {
