@@ -114,7 +114,7 @@ class Usage() : Activity(), AdapterView.OnItemSelectedListener, CoroutineScope {
     override fun onNothingSelected(parent: AdapterView<*>?) {
         // do nothing
     }
-    //fun getAppUsage(contexto: Context, cliente: Client) {
+
     fun getAppUsage(contexto: Context) {
         mUsageStatsManager = contexto.getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
         requestPermissions(contexto)

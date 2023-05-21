@@ -48,7 +48,7 @@ class ApplicationItem(private val app: ApplicationInfo) { //por aquí no estamos
     }
 
     companion object {
-        fun create(_app: ApplicationInfo): ApplicationItem? {//por aquí pasa
+        fun create(_app: ApplicationInfo): ApplicationItem? {
             val _tx = TrafficStats.getUidTxBytes(_app.uid)
             val _rx = TrafficStats.getUidRxBytes(_app.uid)
             return if (_tx + _rx > 0) ApplicationItem(_app) else null
