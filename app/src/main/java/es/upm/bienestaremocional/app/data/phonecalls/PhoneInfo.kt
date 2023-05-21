@@ -1,17 +1,23 @@
 package es.upm.bienestaremocional.app.data.phonecalls
 
-import android.Manifest
 import android.Manifest.permission.READ_CALL_LOG
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.provider.CallLog.Calls.*
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
+import es.upm.bienestaremocional.app.data.database.entity.BackgroundDataEntity
+import es.upm.bienestaremocional.app.data.info.AppInfo
+import es.upm.bienestaremocional.app.data.securePrivateData
+import es.upm.bienestaremocional.app.domain.repository.questionnaire.BackgroundRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlin.coroutines.CoroutineContext
 
-class PhoneInfo {
+class PhoneInfo: CoroutineScope {
+
+    lateinit var entity: BackgroundDataEntity
 
     fun getCallLogs(context: Context)  {
         //check permissions
@@ -36,14 +42,14 @@ class PhoneInfo {
         cursor?.use {
             while (it.moveToNext()) {
                 val list = listOf(
-                    it.getStringFromColumn(CACHED_NAME),
-                    it.getStringFromColumn(NUMBER),
+                    securePrivateData(it.getStringFromColumn(CACHED_NAME)),
+                    securePrivateData(it.getStringFromColumn(NUMBER)),
                     it.getStringFromColumn(DATE),
                     it.getStringFromColumn(DURATION)
                 )
                 val json = Gson().toJson(list)
-                //hash personal info
-                //send json
+                entity= setEntity(json)
+                insert(entity)
 
             }
         }
@@ -60,4 +66,22 @@ class PhoneInfo {
 
         return permission == PackageManager.PERMISSION_GRANTED
         }
+
+    private fun setEntity(info: String) : BackgroundDataEntity {
+        val entity = BackgroundDataEntity()
+        entity.userid = 0
+        entity.datatype = "PhoneInfo"
+        entity.timestamp = System.currentTimeMillis()
+        entity.json = info
+
+        return entity
+    }
+
+    fun insert(entity: BackgroundDataEntity) {
+        (null as BackgroundRepository<BackgroundDataEntity>?)?.insert(entity)
+    }
+
+    override val coroutineContext: CoroutineContext
+        get() = TODO("Not yet implemented")
+
 }
