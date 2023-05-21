@@ -38,6 +38,13 @@ interface AppDAO
     suspend fun insert(ucla: UCLA) : Long
 
     /**
+     * Insert a BackgroundData in database
+     * @return The ID of BackgroundData inserted
+     */
+    @Insert
+    suspend fun insert(data: BackgroundData) : Long
+
+    /**
      * Update a QuestionnaireRound in database
      */
     @Update
