@@ -100,7 +100,7 @@ object AppModule
     @Provides
     @Singleton
     fun provideRemoteAPI() : RemoteAPI = Retrofit.Builder()
-        .baseUrl(AppConstants.DEBUG_URL)
+        .baseUrl(AppConstants.SERVER_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(RemoteAPI::class.java)
