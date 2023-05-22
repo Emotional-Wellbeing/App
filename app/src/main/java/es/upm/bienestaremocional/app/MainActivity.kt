@@ -34,8 +34,7 @@ class MainActivity : AppCompatActivity()
             BienestarEmocionalApp(
                 appSettings = appSettings,
                 appInfo = appInfo,
-                scheduler = scheduler,
-                activity = this,
+                scheduler = scheduler
             )
         }
     }
