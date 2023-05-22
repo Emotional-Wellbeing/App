@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,8 +10,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Title"
         android:id="@+id/tvAppName"
-        android:gravity="center"
-        tools:ignore="HardcodedText" />
+        android:gravity="center"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,7 +18,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="0 Kb"
         android:id="@+id/tvAppTraffic"
-        android:gravity="center"
-        tools:ignore="HardcodedText" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"/>
 
 </RelativeLayout>

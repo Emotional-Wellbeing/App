@@ -92,6 +92,11 @@ private fun PermissionScreen(navigator: DestinationsNavigator,
                     onClick = {
                         checkAndRequestPermission(
                             context,
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            launcher
+                        )
+                        checkAndRequestPermission(
+                            context,
                             Manifest.permission.ACCESS_COARSE_LOCATION,
                             launcher
                         )

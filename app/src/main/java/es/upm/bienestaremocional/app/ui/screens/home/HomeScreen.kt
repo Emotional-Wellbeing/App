@@ -31,6 +31,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.app.data.usage.Usage
 import es.upm.bienestaremocional.app.ui.component.BackHandlerMinimizeApp
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.ui.screens.destinations.MeasureScreenDestination
@@ -85,6 +86,11 @@ private fun HomeScreen(
 
     val uncompletedQuestionnairesAdviceText  = stringResource(R.string.uncompleted_questionnaires_advice)
     val reviewText = stringResource(R.string.review)
+
+    //usage info
+    val usage = Usage()
+    usage.getAppUsage(LocalContext.current)
+    println("Inserted usage info")
 
     LaunchedEffect(Unit)
     {
