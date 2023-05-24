@@ -14,5 +14,5 @@ interface RemoteAPI
     suspend fun getScore() : Response<Int>
 
     @POST("/user_data")
-    suspend fun postUserData(@Body data: HashMap<String,Any>): Response<Unit>
+    suspend fun postUserData(@Body data: UserData): Response<Unit>
 }
