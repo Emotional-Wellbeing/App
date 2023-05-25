@@ -13,11 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import com.google.gson.Gson
-import es.upm.bienestaremocional.app.data.database.entity.BackgroundDataEntity
-import es.upm.bienestaremocional.app.domain.repository.questionnaire.BackgroundRepository
-import kotlinx.coroutines.CoroutineScope
 import java.util.*
-import kotlin.coroutines.CoroutineContext
 
 data class PackageData(
     val packageName: String,
@@ -30,12 +26,11 @@ data class PackageData(
     val type: String
 )
 
-class Usage() : Activity(), AdapterView.OnItemSelectedListener, CoroutineScope {
+class Usage() : Activity(), AdapterView.OnItemSelectedListener{
     private var mUsageStatsManager: UsageStatsManager? = null
     private var mInflater: LayoutInflater? = null
     private var mAdapter: Usage.UsageStatsAdapter? = null
     private var mPm: PackageManager? = null
-    lateinit var entity: BackgroundDataEntity
 
     internal inner class UsageStatsAdapter : BaseAdapter() {
         private var mDisplayOrder = 0
@@ -93,8 +88,8 @@ class Usage() : Activity(), AdapterView.OnItemSelectedListener, CoroutineScope {
                             pkgStats.totalTimeVisible,
                             type)
                         val json = Gson().toJson(info)
-                        entity= setEntity(json)
-                        insert(entity)
+                       // entity= setEntity(json)
+                       // insert(entity)
                     }
                 }
             }
@@ -124,7 +119,7 @@ class Usage() : Activity(), AdapterView.OnItemSelectedListener, CoroutineScope {
         mAdapter = UsageStatsAdapter()
     }
 
-    fun requestPermissions(contexto: Context) {
+    private fun requestPermissions(contexto: Context) {
         val stats = mUsageStatsManager
             ?.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, 0, System.currentTimeMillis())
          if (stats?.isEmpty() == true) {
@@ -156,21 +151,5 @@ class Usage() : Activity(), AdapterView.OnItemSelectedListener, CoroutineScope {
         return type
     }
 
-    fun setEntity(info: String) : BackgroundDataEntity {
-        val entity = BackgroundDataEntity()
-        entity.userid = 0
-        entity.datatype = "Usage"
-        entity.timestamp = System.currentTimeMillis()
-        entity.json = info
-
-        return entity
-    }
-
-    fun insert(entity: BackgroundDataEntity) {
-        (null as BackgroundRepository<BackgroundDataEntity>?)?.insert(entity)
-    }
-
-    override val coroutineContext: CoroutineContext
-        get() = TODO("Not yet implemented")
 
 }
