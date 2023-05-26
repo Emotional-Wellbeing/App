@@ -141,7 +141,7 @@ class DebugViewModel @Inject constructor(
 
     suspend fun onPostUserData(): Boolean
     {
-        return remoteRepository.postUserData()
+        return remoteRepository.postUserData().timestamps != null
     }
 
     fun onQueryWorkerStatus()

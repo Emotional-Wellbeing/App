@@ -35,10 +35,15 @@ class UploadWorker @AssistedInject constructor(
 
             delay(10000L)
 
-            remoteRepository.postUserData()
+            val response = remoteRepository.postUserData()
 
             // Indicate whether the work finished successfully with the Result
-            result = Result.success()
+            result = when(response.code)
+            {
+                in 200..299 -> Result.success()
+                in 500..599 -> Result.retry()
+                else -> Result.failure()
+            }
 
         } catch (e: IllegalStateException)
         {

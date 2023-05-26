@@ -1,5 +1,7 @@
 package es.upm.bienestaremocional.app.data.remote
 
+import es.upm.bienestaremocional.app.data.remote.userdata.UserDataRequest
+import es.upm.bienestaremocional.app.data.remote.userdata.UserDataResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -14,5 +16,5 @@ interface RemoteAPI
     suspend fun getScore() : Response<Int>
 
     @POST("/user_data")
-    suspend fun postUserData(@Body data: UserData): Response<Unit>
+    suspend fun postUserData(@Body data: UserDataRequest): Response<UserDataResponse.Timestamps>
 }

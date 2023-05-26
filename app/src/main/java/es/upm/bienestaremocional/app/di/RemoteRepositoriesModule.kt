@@ -13,6 +13,7 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.Sleep
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Steps
 import es.upm.bienestaremocional.app.data.healthconnect.sources.TotalCaloriesBurned
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Weight
+import es.upm.bienestaremocional.app.data.info.AppInfo
 import es.upm.bienestaremocional.app.data.remote.RemoteAPI
 import es.upm.bienestaremocional.app.domain.repository.remote.RemoteRepository
 import es.upm.bienestaremocional.app.domain.repository.remote.RemoteRepositoryImpl
@@ -26,6 +27,7 @@ object RemoteRepositoriesModule
     @Singleton
     fun provideRemoteRepository(
         remoteAPI: RemoteAPI,
+        appInfo : AppInfo,
         distance: Distance,
         elevationGained: ElevationGained,
         exerciseSession: ExerciseSession,
@@ -38,6 +40,7 @@ object RemoteRepositoriesModule
     ): RemoteRepository =
         RemoteRepositoryImpl(
             remoteAPI = remoteAPI,
+            appInfo = appInfo,
             distance = distance,
             elevationGained = elevationGained,
             exerciseSession = exerciseSession,
@@ -46,6 +49,5 @@ object RemoteRepositoriesModule
             sleep = sleep,
             steps = steps,
             totalCaloriesBurned = totalCaloriesBurned,
-            weight = weight
-        )
+            weight = weight)
 }

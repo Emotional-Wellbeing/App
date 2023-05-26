@@ -9,29 +9,32 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.Sleep
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Steps
 import es.upm.bienestaremocional.app.data.healthconnect.sources.TotalCaloriesBurned
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Weight
-import es.upm.bienestaremocional.app.data.remote.DistanceSender
-import es.upm.bienestaremocional.app.data.remote.DistanceSender.Companion.toSender
-import es.upm.bienestaremocional.app.data.remote.ElevationGainedSender
-import es.upm.bienestaremocional.app.data.remote.ElevationGainedSender.Companion.toSender
-import es.upm.bienestaremocional.app.data.remote.ExerciseSessionSender
-import es.upm.bienestaremocional.app.data.remote.ExerciseSessionSender.Companion.toSender
-import es.upm.bienestaremocional.app.data.remote.FloorsClimbedSender
-import es.upm.bienestaremocional.app.data.remote.FloorsClimbedSender.Companion.toSender
-import es.upm.bienestaremocional.app.data.remote.HeartRateSender
-import es.upm.bienestaremocional.app.data.remote.HeartRateSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.info.AppInfo
 import es.upm.bienestaremocional.app.data.remote.RemoteAPI
-import es.upm.bienestaremocional.app.data.remote.SleepSender
-import es.upm.bienestaremocional.app.data.remote.SleepSender.Companion.toSender
-import es.upm.bienestaremocional.app.data.remote.StepsSender
-import es.upm.bienestaremocional.app.data.remote.StepsSender.Companion.toSender
-import es.upm.bienestaremocional.app.data.remote.TotalCaloriesBurnedSender
-import es.upm.bienestaremocional.app.data.remote.TotalCaloriesBurnedSender.Companion.toSender
-import es.upm.bienestaremocional.app.data.remote.UserData
-import es.upm.bienestaremocional.app.data.remote.WeightSender
-import es.upm.bienestaremocional.app.data.remote.WeightSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.remote.senders.DistanceSender
+import es.upm.bienestaremocional.app.data.remote.senders.DistanceSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.remote.senders.ElevationGainedSender
+import es.upm.bienestaremocional.app.data.remote.senders.ElevationGainedSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.remote.senders.ExerciseSessionSender
+import es.upm.bienestaremocional.app.data.remote.senders.ExerciseSessionSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.remote.senders.FloorsClimbedSender
+import es.upm.bienestaremocional.app.data.remote.senders.FloorsClimbedSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.remote.senders.HeartRateSender
+import es.upm.bienestaremocional.app.data.remote.senders.HeartRateSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.remote.senders.SleepSender
+import es.upm.bienestaremocional.app.data.remote.senders.SleepSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.remote.senders.StepsSender
+import es.upm.bienestaremocional.app.data.remote.senders.StepsSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.remote.senders.TotalCaloriesBurnedSender
+import es.upm.bienestaremocional.app.data.remote.senders.TotalCaloriesBurnedSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.remote.senders.WeightSender
+import es.upm.bienestaremocional.app.data.remote.senders.WeightSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.remote.userdata.UserDataRequest
+import es.upm.bienestaremocional.app.data.remote.userdata.UserDataResponse
 
 class RemoteRepositoryImpl(
     private val remoteAPI: RemoteAPI,
+    private val appInfo: AppInfo,
     private val distance: Distance,
     private val elevationGained: ElevationGained,
     private val exerciseSession: ExerciseSession,
@@ -56,65 +59,58 @@ class RemoteRepositoryImpl(
         }
     }
 
-    override suspend fun postUserData(): Boolean
-    {
-        var distanceData : List<DistanceSender>? = null
-        var elevationGainedData : List<ElevationGainedSender>? = null
-        var exerciseSessionData : List<ExerciseSessionSender>? = null
-        var floorsClimbedData : List<FloorsClimbedSender>? = null
-        var heartRateData : List<HeartRateSender>? = null
-        var sleepData : List<SleepSender>? = null
-        var stepsData : List<StepsSender>? = null
-        var totalCaloriesBurnedData : List<TotalCaloriesBurnedSender>? = null
-        var weightData : List<WeightSender>? = null
+    override suspend fun postUserData(): UserDataResponse {
+        var distanceData: List<DistanceSender>? = null
+        var elevationGainedData: List<ElevationGainedSender>? = null
+        var exerciseSessionData: List<ExerciseSessionSender>? = null
+        var floorsClimbedData: List<FloorsClimbedSender>? = null
+        var heartRateData: List<HeartRateSender>? = null
+        var sleepData: List<SleepSender>? = null
+        var stepsData: List<StepsSender>? = null
+        var totalCaloriesBurnedData: List<TotalCaloriesBurnedSender>? = null
+        var weightData: List<WeightSender>? = null
 
+        // Read and convert data if we have permissions
 
-        if (distance.readPermissionsCheck())
-        {
+        if (distance.readPermissionsCheck()) {
             distanceData = distance.readSource().map { it.toSender() }
         }
 
-        if (elevationGained.readPermissionsCheck())
-        {
+        if (elevationGained.readPermissionsCheck()) {
             elevationGainedData = elevationGained.readSource().map { it.toSender() }
         }
 
-        if (exerciseSession.readPermissionsCheck())
-        {
+        if (exerciseSession.readPermissionsCheck()) {
             exerciseSessionData = exerciseSession.readSource().map { it.toSender() }
         }
 
-        if (floorsClimbed.readPermissionsCheck())
-        {
+        if (floorsClimbed.readPermissionsCheck()) {
             floorsClimbedData = floorsClimbed.readSource().map { it.toSender() }
         }
 
-        if (heartRate.readPermissionsCheck())
-        {
+        if (heartRate.readPermissionsCheck()) {
             heartRateData = heartRate.readSource().map { it.toSender() }
         }
 
-        if (sleep.readPermissionsCheck())
-        {
+        if (sleep.readPermissionsCheck()) {
             sleepData = sleep.readSource().map { it.toSender() }
         }
 
-        if (steps.readPermissionsCheck())
-        {
+        if (steps.readPermissionsCheck()) {
             stepsData = steps.readSource().map { it.toSender() }
         }
 
-        if (totalCaloriesBurned.readPermissionsCheck())
-        {
+        if (totalCaloriesBurned.readPermissionsCheck()) {
             totalCaloriesBurnedData = totalCaloriesBurned.readSource().map { it.toSender() }
         }
 
-        if (weight.readPermissionsCheck())
-        {
+        if (weight.readPermissionsCheck()) {
             weightData = weight.readSource().map { it.toSender() }
         }
 
-        val userData = UserData(
+        // Send data
+
+        val userData = UserDataRequest.Data(
             distance = distanceData,
             elevationGained = elevationGainedData,
             exerciseSession = exerciseSessionData,
@@ -126,7 +122,15 @@ class RemoteRepositoryImpl(
             weight = weightData,
         )
 
-        val response = remoteAPI.postUserData(userData)
-        return response.isSuccessful
+        val userDataRequest = UserDataRequest(
+            userId = appInfo.getUserID(),
+            data = userData
+        )
+
+        val rawResponse = remoteAPI.postUserData(userDataRequest)
+        return UserDataResponse(
+            code = rawResponse.code(),
+            timestamps = rawResponse.body()
+        )
     }
 }

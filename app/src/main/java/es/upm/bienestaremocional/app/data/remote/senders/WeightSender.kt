@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.app.data.remote
+package es.upm.bienestaremocional.app.data.remote.senders
 
 import androidx.health.connect.client.records.WeightRecord
 import es.upm.bienestaremocional.app.utils.obtainTimestamp

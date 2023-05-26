@@ -1,7 +1,7 @@
-package es.upm.bienestaremocional.app.data.remote
+package es.upm.bienestaremocional.app.data.remote.senders
 
 import es.upm.bienestaremocional.app.data.healthconnect.types.SleepSessionData
-import es.upm.bienestaremocional.app.data.remote.SleepStageSender.Companion.toSender
+import es.upm.bienestaremocional.app.data.remote.senders.SleepStageSender.Companion.toSender
 import es.upm.bienestaremocional.app.utils.obtainTimestamp
 
 /**
