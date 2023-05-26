@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.domain.repository.remote
 
+import es.upm.bienestaremocional.app.data.remote.userdata.UserDataRequest
 import es.upm.bienestaremocional.app.data.remote.userdata.UserDataResponse
 
 /**
@@ -7,8 +8,6 @@ import es.upm.bienestaremocional.app.data.remote.userdata.UserDataResponse
  */
 interface RemoteRepository
 {
-    suspend fun permissionsForAnySource() : Boolean
     suspend fun getScore(): Int?
-
-    suspend fun postUserData(): UserDataResponse
+    suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse
 }

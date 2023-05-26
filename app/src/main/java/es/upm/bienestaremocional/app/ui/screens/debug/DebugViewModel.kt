@@ -10,6 +10,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.app.data.database.dao.AppDAO
+import es.upm.bienestaremocional.app.data.database.entity.LastUpload
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRound
 import es.upm.bienestaremocional.app.data.database.entity.QuestionnaireRoundFull
 import es.upm.bienestaremocional.app.data.info.AppInfo
@@ -20,9 +21,12 @@ import es.upm.bienestaremocional.app.data.questionnaire.generateUCLAEntry
 import es.upm.bienestaremocional.app.data.worker.NotificationWorker
 import es.upm.bienestaremocional.app.data.worker.UploadWorker
 import es.upm.bienestaremocional.app.data.worker.WorkAdministrator
+import es.upm.bienestaremocional.app.domain.repository.LastUploadRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundFullRepository
 import es.upm.bienestaremocional.app.domain.repository.questionnaire.QuestionnaireRoundReducedRepository
+import es.upm.bienestaremocional.app.domain.repository.remote.RemoteOperationResult
 import es.upm.bienestaremocional.app.domain.repository.remote.RemoteRepository
+import es.upm.bienestaremocional.app.domain.usecases.PostUserDataUseCase
 import es.upm.bienestaremocional.app.ui.notification.Notification
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -39,7 +43,9 @@ class DebugViewModel @Inject constructor(
     private val appDAO: AppDAO,
     private val remoteRepository: RemoteRepository,
     private val workAdministrator: WorkAdministrator,
-    private val appInfo: AppInfo
+    private val appInfo: AppInfo,
+    private val lastUploadRepository: LastUploadRepository,
+    private val postUserDataUseCase: PostUserDataUseCase,
 ): ViewModel()
 {
     //state
@@ -141,7 +147,7 @@ class DebugViewModel @Inject constructor(
 
     suspend fun onPostUserData(): Boolean
     {
-        return remoteRepository.postUserData().timestamps != null
+        return postUserDataUseCase.execute() == RemoteOperationResult.Success
     }
 
     fun onQueryWorkerStatus()
@@ -151,4 +157,17 @@ class DebugViewModel @Inject constructor(
     }
 
     suspend fun onGetUID(): String =  appInfo.getUserID()
+
+    suspend fun onResetUploadTimestamps()
+    {
+        for (type in LastUpload.Type.values())
+        {
+            lastUploadRepository.update(
+                LastUpload(
+                    type = type,
+                    timestamp = 0,
+                )
+            )
+        }
+    }
 }

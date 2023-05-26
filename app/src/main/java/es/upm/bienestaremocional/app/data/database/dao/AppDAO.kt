@@ -10,6 +10,13 @@ import es.upm.bienestaremocional.app.data.database.entity.*
 interface AppDAO
 {
     /**
+     * Insert a LastUpload value in database
+     * @return ID of inserted row
+     */
+    @Insert
+    suspend fun insert(lastUpload: LastUpload) : Long
+
+    /**
      * Insert a QuestionnaireRound in database
      * @return The ID of QuestionnaireRound inserted
      */
@@ -38,6 +45,12 @@ interface AppDAO
     suspend fun insert(ucla: UCLA) : Long
 
     /**
+     * Update a lastUpload in database
+     */
+    @Update
+    suspend fun update(lastUpload: LastUpload)
+
+    /**
      * Update a QuestionnaireRound in database
      */
     @Update
@@ -60,6 +73,14 @@ interface AppDAO
      */
     @Update
     suspend fun update(ucla: UCLA)
+
+    /**
+     * Query last upload by type
+     * @return LastUpload instance, null if no PHQ has been completed.
+     */
+    @Query("SELECT * FROM last_upload WHERE type = :type")
+    suspend fun getLastUpload(type: LastUpload.Type): LastUpload?
+
 
     /**
      * Query all QuestionnaireRounds in database ordered from newest to oldest

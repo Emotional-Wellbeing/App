@@ -14,20 +14,22 @@ import es.upm.bienestaremocional.app.data.healthconnect.sources.Steps
 import es.upm.bienestaremocional.app.data.healthconnect.sources.TotalCaloriesBurned
 import es.upm.bienestaremocional.app.data.healthconnect.sources.Weight
 import es.upm.bienestaremocional.app.data.info.AppInfo
-import es.upm.bienestaremocional.app.data.remote.RemoteAPI
+import es.upm.bienestaremocional.app.domain.repository.LastUploadRepository
 import es.upm.bienestaremocional.app.domain.repository.remote.RemoteRepository
-import es.upm.bienestaremocional.app.domain.repository.remote.RemoteRepositoryImpl
-import javax.inject.Singleton
+import es.upm.bienestaremocional.app.domain.usecases.PostUserDataUseCase
+import es.upm.bienestaremocional.app.domain.usecases.PostUserDataUseCaseImpl
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RemoteRepositoriesModule
+object UseCasesModule
 {
     @Provides
-    @Singleton
-    fun provideRemoteRepository(
-        remoteAPI: RemoteAPI,
+    fun providePostUserDataUseCase(
+        @Named("logTag") logTag: String,
         appInfo : AppInfo,
+        remoteRepository : RemoteRepository,
+        lastUploadRepository : LastUploadRepository,
         distance: Distance,
         elevationGained: ElevationGained,
         exerciseSession: ExerciseSession,
@@ -37,10 +39,12 @@ object RemoteRepositoriesModule
         steps: Steps,
         totalCaloriesBurned: TotalCaloriesBurned,
         weight: Weight
-    ): RemoteRepository =
-        RemoteRepositoryImpl(
-            remoteAPI = remoteAPI,
+    ): PostUserDataUseCase =
+        PostUserDataUseCaseImpl(
+            logTag = logTag,
             appInfo = appInfo,
+            remoteRepository = remoteRepository,
+            lastUploadRepository = lastUploadRepository,
             distance = distance,
             elevationGained = elevationGained,
             exerciseSession = exerciseSession,

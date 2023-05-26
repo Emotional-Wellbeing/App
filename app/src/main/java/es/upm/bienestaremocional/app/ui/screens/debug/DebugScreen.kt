@@ -55,6 +55,7 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
 
     val onPrepoulatedDatabaseMessage = stringResource(R.string.database_prepopulated)
     val onDeleteDatabaseMessage = stringResource(R.string.database_deleted)
+    val onUploadTimestampsReset = stringResource(R.string.upload_timestamps_reset)
 
     val context = LocalContext.current
 
@@ -99,6 +100,12 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
                     Toast.makeText(context,context.getString(R.string.request_failed), Toast.LENGTH_LONG).show()
             }
         },
+        onResetUploadTimestamps = {
+            coroutineScope.launch {
+                viewModel.onResetUploadTimestamps()
+                showSnackbar(snackbarHostState, onUploadTimestampsReset)
+            }
+        },
         onQueryWorkerStatus = viewModel::onQueryWorkerStatus,
         onGetUID = {
             coroutineScope.launch {
@@ -125,6 +132,7 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                         onUploadWorker : () -> Unit,
                         onGetScore : () -> Unit,
                         onPostUserData: () -> Unit,
+                        onResetUploadTimestamps : () -> Unit,
                         onQueryWorkerStatus: () -> Unit,
                         onGetUID: () -> Unit,
 )
@@ -199,6 +207,13 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                             color = MaterialTheme.colorScheme.secondary) },
                         onClick = onPostUserData
                     )
+
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.reset_upload_timestamps),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onResetUploadTimestamps
+                    )
+
                     SettingsMenuLink(
                         title = { Text(text = stringResource(R.string.query_worker_status),
                             color = MaterialTheme.colorScheme.secondary) },

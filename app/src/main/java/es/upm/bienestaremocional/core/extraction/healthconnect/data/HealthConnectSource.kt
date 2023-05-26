@@ -19,9 +19,9 @@ abstract class HealthConnectSource<T: Record>(
 
     override suspend fun readSource(): List<T>
     {
-        val lastDay: ZonedDateTime = ZonedDateTime.now()
-        val firstDay: ZonedDateTime = lastDay.minusDays(30)
-        return readSource(firstDay,lastDay)
+        val end: ZonedDateTime = ZonedDateTime.now()
+        val start: ZonedDateTime = end.minusDays(30)
+        return readSource(start,end)
     }
 
     override suspend fun readSource(startTime: ZonedDateTime, endTime: ZonedDateTime): List<T> =

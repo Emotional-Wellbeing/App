@@ -8,7 +8,8 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import es.upm.bienestaremocional.app.domain.repository.remote.RemoteRepository
+import es.upm.bienestaremocional.app.domain.repository.remote.RemoteOperationResult
+import es.upm.bienestaremocional.app.domain.usecases.PostUserDataUseCase
 import es.upm.bienestaremocional.app.ui.notification.Notification
 import kotlinx.coroutines.delay
 import java.time.LocalDateTime
@@ -21,7 +22,7 @@ class UploadWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     @Named("logTag") private val logTag: String,
     private val notification: Notification,
-    private val remoteRepository: RemoteRepository
+    private val postUserDataUseCase: PostUserDataUseCase
 ): CoroutineWorker(appContext, workerParams)
 {
     override suspend fun doWork(): Result
@@ -33,20 +34,20 @@ class UploadWorker @AssistedInject constructor(
         {
             setForeground(getForegroundInfo())
 
-            if (remoteRepository.permissionsForAnySource())
+            if (postUserDataUseCase.shouldExecute())
             {
                 Log.d(logTag,"We can read data so upload it")
 
                 //TODO remove this in production
                 delay(5000L)
 
-                val response = remoteRepository.postUserData()
+                val response = postUserDataUseCase.execute()
 
                 // Indicate whether the work finished successfully with the Result
-                result = when(response.code)
+                result = when(response)
                 {
-                    in 200..299 -> Result.success()
-                    in 500..599 -> Result.retry()
+                    RemoteOperationResult.Success -> Result.success()
+                    RemoteOperationResult.ServerFailure -> Result.retry()
                     else -> Result.failure()
                 }
             }
