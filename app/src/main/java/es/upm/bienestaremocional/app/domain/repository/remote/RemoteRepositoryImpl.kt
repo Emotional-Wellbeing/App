@@ -46,6 +46,19 @@ class RemoteRepositoryImpl(
     private val weight: Weight
 ): RemoteRepository
 {
+    override suspend fun permissionsForAnySource() : Boolean
+    {
+        return distance.readPermissionsCheck() ||
+                elevationGained.readPermissionsCheck() ||
+                exerciseSession.readPermissionsCheck() ||
+                floorsClimbed.readPermissionsCheck() ||
+                heartRate.readPermissionsCheck() ||
+                sleep.readPermissionsCheck() ||
+                steps.readPermissionsCheck() ||
+                totalCaloriesBurned.readPermissionsCheck() ||
+                weight.readPermissionsCheck()
+    }
+
     override suspend fun getScore(): Int?
     {
         return try {

@@ -26,25 +26,35 @@ class UploadWorker @AssistedInject constructor(
 {
     override suspend fun doWork(): Result
     {
+        Log.d(logTag,"Executing Upload Worker")
+
         var result : Result
         try
         {
             setForeground(getForegroundInfo())
 
-            Log.d(logTag,"Executing Upload Worker")
-
-            delay(10000L)
-
-            val response = remoteRepository.postUserData()
-
-            // Indicate whether the work finished successfully with the Result
-            result = when(response.code)
+            if (remoteRepository.permissionsForAnySource())
             {
-                in 200..299 -> Result.success()
-                in 500..599 -> Result.retry()
-                else -> Result.failure()
-            }
+                Log.d(logTag,"We can read data so upload it")
 
+                //TODO remove this in production
+                delay(5000L)
+
+                val response = remoteRepository.postUserData()
+
+                // Indicate whether the work finished successfully with the Result
+                result = when(response.code)
+                {
+                    in 200..299 -> Result.success()
+                    in 500..599 -> Result.retry()
+                    else -> Result.failure()
+                }
+            }
+            else
+            {
+                Log.d(logTag,"We cannot read any data so don't upload")
+                result = Result.success()
+            }
         } catch (e: IllegalStateException)
         {
             Log.d(logTag, "IllegalStateException at calling setForeground")

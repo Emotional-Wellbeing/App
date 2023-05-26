@@ -7,6 +7,7 @@ import es.upm.bienestaremocional.app.data.remote.userdata.UserDataResponse
  */
 interface RemoteRepository
 {
+    suspend fun permissionsForAnySource() : Boolean
     suspend fun getScore(): Int?
 
     suspend fun postUserData(): UserDataResponse
