@@ -7,12 +7,11 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.provider.CallLog.Calls.*
 import androidx.core.content.ContextCompat
-import com.google.gson.Gson
 import es.upm.bienestaremocional.app.data.securePrivateData
 
-class PhoneInfo(){
+class PhoneInfo {
 
-    fun getCallLogs(context: Context): List<List<String?>> {
+    fun getCallLogs(context: Context): String {
         //check permissions
         if (checkPermissions(context)) {
             val c = context.applicationContext
@@ -26,30 +25,29 @@ class PhoneInfo(){
                 null,
                 null
             )
-            return cursorToMatrix(cursor)
+            return cursorToList(cursor)
         }
-        return emptyList()
+        return "N/A"
     }
 
-    private fun cursorToMatrix(cursor: Cursor?): List<List<String?>> {
-        val matrix = mutableListOf<List<String?>>()
+    private fun cursorToList(cursor: Cursor?): String {
+        var message = "{"
         cursor?.use {
             while (it.moveToNext()) {
-                val list = listOf(
-                    securePrivateData(it.getStringFromColumn(CACHED_NAME)),
-                    securePrivateData(it.getStringFromColumn(NUMBER)),
-                    it.getStringFromColumn(DATE),
-                    it.getStringFromColumn(DURATION)
-                )
-                val json = Gson().toJson(list)
-                matrix += list
-                //postBackgroundData(json)
-               // entity= setEntity(json)
-               // insert(entity)
+                var json : String = "[\"Name\": " + securePrivateData(it.getStringFromColumn(CACHED_NAME))+
+                        ", \"Number\": "+ securePrivateData(it.getStringFromColumn(NUMBER))+
+                        ", \"Date\": "+ it.getStringFromColumn(DATE)+
+                        ", \"Duration\": "+ it.getStringFromColumn(DURATION)+
+                        "]"
 
+                if (it.moveToNext())
+                    json += ","
+
+                message += json
             }
+            message += "}"
         }
-        return matrix
+        return message
     }
 
     @SuppressLint("Range")
@@ -61,6 +59,5 @@ class PhoneInfo(){
             READ_CALL_LOG)
 
         return permission == PackageManager.PERMISSION_GRANTED
-        }
-
+    }
 }

@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.app.ui.screens.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,8 +32,12 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.app.data.AppConstants
 import es.upm.bienestaremocional.app.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.app.data.remote.RemoteAPI
 import es.upm.bienestaremocional.app.data.usage.Usage
+import es.upm.bienestaremocional.app.domain.repository.remote.RemoteRepository
+import es.upm.bienestaremocional.app.domain.repository.remote.RemoteRepositoryImpl
 import es.upm.bienestaremocional.app.ui.component.BackHandlerMinimizeApp
 import es.upm.bienestaremocional.app.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.app.ui.screens.destinations.MeasureScreenDestination
@@ -40,6 +46,9 @@ import es.upm.bienestaremocional.core.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowHeightSize
 import es.upm.bienestaremocional.core.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.core.ui.theme.BienestarEmocionalTheme
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * Home Screen has the latest news about user and is displayed when splash ends
@@ -65,6 +74,7 @@ fun HomeScreen(navigator: DestinationsNavigator,
 }
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun HomeScreen(
@@ -88,9 +98,36 @@ private fun HomeScreen(
     val reviewText = stringResource(R.string.review)
 
     //usage info
+    val coroutineScope = rememberCoroutineScope()
+
+    val remoteAPI: RemoteAPI = Retrofit.Builder()
+        .baseUrl(AppConstants.SERVER_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(RemoteAPI::class.java)
+
+    val remoteRepository: RemoteRepository = RemoteRepositoryImpl(
+        remoteAPI = remoteAPI,
+        distance = null,
+        elevationGained = null,
+        exerciseSession = null,
+        floorsClimbed = null,
+        heartRate = null,
+        sleep = null,
+        steps = null,
+        totalCaloriesBurned = null,
+        weight = null
+    )
+
     val usage = Usage()
-    usage.getAppUsage(LocalContext.current)
-    println("Inserted usage info")
+    val listApps = usage.getAppUsage(LocalContext.current)
+
+    coroutineScope.launch {
+        val message = "{ \"UserId\": 1000, \"Type\": \"UsageInfo\", \"Data\": {$listApps}}"
+        val success = remoteRepository.postBackgroundData(message)
+        if (success)
+            println("Inserted usage info")
+    }
 
     LaunchedEffect(Unit)
     {

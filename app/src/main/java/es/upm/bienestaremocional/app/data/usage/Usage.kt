@@ -12,25 +12,15 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import com.google.gson.Gson
 import java.util.*
 
-data class PackageData(
-    val packageName: String,
-    val beginTimeStamp: Long,
-    val endTimeStamp: Long,
-    val lastTimeUsed: Long,
-    val lastTimeVisible: Long,
-    val launchCount: Int,
-    val totaltimeVisible: Long,
-    val type: String
-)
-
-class Usage() : Activity(), AdapterView.OnItemSelectedListener{
+class Usage : Activity(), AdapterView.OnItemSelectedListener{
     private var mUsageStatsManager: UsageStatsManager? = null
     private var mInflater: LayoutInflater? = null
     private var mAdapter: Usage.UsageStatsAdapter? = null
     private var mPm: PackageManager? = null
+
+    var usageInfo: String =""
 
     internal inner class UsageStatsAdapter : BaseAdapter() {
         private var mDisplayOrder = 0
@@ -77,19 +67,19 @@ class Usage() : Activity(), AdapterView.OnItemSelectedListener{
                 for (i in 0 until statCount) {
                     val pkgStats = stats[i]
                     val type = findApp(pkgStats.packageName)
-                    if (type != "")
-                    {
-                        val info = PackageData(pkgStats.packageName,
-                            pkgStats.firstTimeStamp,
-                            pkgStats.lastTimeStamp,
-                            pkgStats.lastTimeUsed,
-                            pkgStats.lastTimeVisible,
-                            0,
-                            pkgStats.totalTimeVisible,
-                            type)
-                        val json = Gson().toJson(info)
-                       // entity= setEntity(json)
-                       // insert(entity)
+                    var message: String
+                    if (type != "") {
+                        if (usageInfo != "")
+                            usageInfo += ", "
+                        message = "[ \"AppName\": " + pkgStats.packageName +
+                                ", \"firstTimeStamp\": " + pkgStats.firstTimeStamp +
+                                ", \"lastTimeStamp\": " + pkgStats.lastTimeStamp +
+                                ", \"lastTimeUsed\": " + pkgStats.lastTimeUsed +
+                                ", \"lastTimeVisible\": " + pkgStats.lastTimeVisible +
+                                ", \"totalTimeVisible\": " + pkgStats.totalTimeVisible +
+                                ", \"AppType\": " + type + "]"
+
+                        usageInfo += message
                     }
                 }
             }
@@ -110,13 +100,18 @@ class Usage() : Activity(), AdapterView.OnItemSelectedListener{
         // do nothing
     }
 
-    fun getAppUsage(contexto: Context) {
+    fun getAppUsage(contexto: Context): String {
         mUsageStatsManager = contexto.getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
         requestPermissions(contexto)
         mInflater = contexto.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         mPm = contexto.packageManager
 
         mAdapter = UsageStatsAdapter()
+
+        if (usageInfo != "")
+            return usageInfo
+
+        return "[N/A]"
     }
 
     private fun requestPermissions(contexto: Context) {
