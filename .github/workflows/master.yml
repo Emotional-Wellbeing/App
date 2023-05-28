@@ -8,6 +8,8 @@ on:
       - '!*alpha*'
       - '!*beta*'
       - '!*rc*'
+permissions:
+  contents: write
 # jobs are run in parallel on different machines
 # all steps run in series
 jobs:
