@@ -1,6 +1,6 @@
-![master workflow](https://github.com/VicDominguez/SBE-App/actions/workflows/master.yml/badge.svg)
-<!--[dev workflow](https://github.com/VicDominguez/SBE-pruebas/actions/workflows/master.yml/badge.svg)
--->
+![master workflow](https://github.com/Emotional-Wellbeing/App/actions/workflows/master.yml/badge.svg)
+![dev workflow](https://github.com/Emotional-Wellbeing/App/actions/workflows/dev.yml/badge.svg)
+
 
 # SBE - App
 ## Español
