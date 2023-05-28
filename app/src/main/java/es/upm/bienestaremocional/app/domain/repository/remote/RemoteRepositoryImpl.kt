@@ -32,15 +32,15 @@ import es.upm.bienestaremocional.app.data.remote.WeightSender.Companion.toSender
 
 class RemoteRepositoryImpl(
     private val remoteAPI: RemoteAPI,
-    private val distance: Distance,
-    private val elevationGained: ElevationGained,
-    private val exerciseSession: ExerciseSession,
-    private val floorsClimbed: FloorsClimbed,
-    private val heartRate: HeartRate,
-    private val sleep: Sleep,
-    private val steps: Steps,
-    private val totalCaloriesBurned: TotalCaloriesBurned,
-    private val weight: Weight
+    private val distance: Distance?,
+    private val elevationGained: ElevationGained?,
+    private val exerciseSession: ExerciseSession?,
+    private val floorsClimbed: FloorsClimbed?,
+    private val heartRate: HeartRate?,
+    private val sleep: Sleep?,
+    private val steps: Steps?,
+    private val totalCaloriesBurned: TotalCaloriesBurned?,
+    private val weight: Weight?
 ): RemoteRepository
 {
     override suspend fun getScore(): Int?
@@ -69,47 +69,47 @@ class RemoteRepositoryImpl(
         var weightData : List<WeightSender>? = null
 
 
-        if (distance.readPermissionsCheck())
+        if (distance?.readPermissionsCheck() == true)
         {
             distanceData = distance.readSource().map { it.toSender() }
         }
 
-        if (elevationGained.readPermissionsCheck())
+        if (elevationGained?.readPermissionsCheck() == true)
         {
             elevationGainedData = elevationGained.readSource().map { it.toSender() }
         }
 
-        if (exerciseSession.readPermissionsCheck())
+        if (exerciseSession?.readPermissionsCheck() == true)
         {
             exerciseSessionData = exerciseSession.readSource().map { it.toSender() }
         }
 
-        if (floorsClimbed.readPermissionsCheck())
+        if (floorsClimbed?.readPermissionsCheck() == true)
         {
             floorsClimbedData = floorsClimbed.readSource().map { it.toSender() }
         }
 
-        if (heartRate.readPermissionsCheck())
+        if (heartRate?.readPermissionsCheck() == true)
         {
             heartRateData = heartRate.readSource().map { it.toSender() }
         }
 
-        if (sleep.readPermissionsCheck())
+        if (sleep?.readPermissionsCheck() == true)
         {
             sleepData = sleep.readSource().map { it.toSender() }
         }
 
-        if (steps.readPermissionsCheck())
+        if (steps?.readPermissionsCheck() == true)
         {
             stepsData = steps.readSource().map { it.toSender() }
         }
 
-        if (totalCaloriesBurned.readPermissionsCheck())
+        if (totalCaloriesBurned?.readPermissionsCheck() == true)
         {
             totalCaloriesBurnedData = totalCaloriesBurned.readSource().map { it.toSender() }
         }
 
-        if (weight.readPermissionsCheck())
+        if (weight?.readPermissionsCheck() == true)
         {
             weightData = weight.readSource().map { it.toSender() }
         }
@@ -129,4 +129,10 @@ class RemoteRepositoryImpl(
         val response = remoteAPI.postUserData(userData)
         return response.isSuccessful
     }
+
+     override suspend fun postBackgroundData(message:String): Boolean {
+         val response = remoteAPI.postBackgroundData(message)
+         return response.isSuccessful
+    }
+
 }

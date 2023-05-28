@@ -15,4 +15,8 @@ interface RemoteAPI
 
     @POST("/user_data")
     suspend fun postUserData(@Body data: UserData): Response<Unit>
+
+    @POST("/bg_data")
+    suspend fun postBackgroundData(@Body message: String): Response<Unit>
+
 }

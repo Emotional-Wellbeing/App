@@ -6,13 +6,14 @@ import com.google.gson.Gson
 
 class Traffic{
 
-    fun init() {
+    fun init(): String? {
         if (TrafficStats.getTotalRxBytes() != TrafficStats.UNSUPPORTED.toLong() && TrafficStats.getTotalTxBytes() != TrafficStats.UNSUPPORTED.toLong()) {
-            run()
+            return run()
         }
+        return ""
     }
         @SuppressLint("SetTextI18n")
-  fun run() {
+  fun run(): String? {
             val mobile = TrafficStats.getMobileRxBytes() + TrafficStats.getMobileTxBytes()
             val total = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes()
             val wiFi: Long = (total - mobile) / 1024
@@ -21,6 +22,7 @@ class Traffic{
             val json = Gson().toJson(info)
             //entity= setEntity(json)
             //insert(entity)
+            return json
 
         }
 

@@ -8,18 +8,11 @@ import android.database.Cursor
 import android.provider.CallLog.Calls.*
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
-import es.upm.bienestaremocional.app.data.database.entity.BackgroundDataEntity
-import es.upm.bienestaremocional.app.data.info.AppInfo
 import es.upm.bienestaremocional.app.data.securePrivateData
-import es.upm.bienestaremocional.app.domain.repository.questionnaire.BackgroundRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlin.coroutines.CoroutineContext
 
-class PhoneInfo: CoroutineScope {
+class PhoneInfo(){
 
-    lateinit var entity: BackgroundDataEntity
-
-    fun getCallLogs(context: Context)  {
+    fun getCallLogs(context: Context): List<List<String?>> {
         //check permissions
         if (checkPermissions(context)) {
             val c = context.applicationContext
@@ -33,8 +26,9 @@ class PhoneInfo: CoroutineScope {
                 null,
                 null
             )
-            cursorToMatrix(cursor)
+            return cursorToMatrix(cursor)
         }
+        return emptyList()
     }
 
     private fun cursorToMatrix(cursor: Cursor?): List<List<String?>> {
@@ -48,8 +42,10 @@ class PhoneInfo: CoroutineScope {
                     it.getStringFromColumn(DURATION)
                 )
                 val json = Gson().toJson(list)
-                entity= setEntity(json)
-                insert(entity)
+                matrix += list
+                //postBackgroundData(json)
+               // entity= setEntity(json)
+               // insert(entity)
 
             }
         }
@@ -66,22 +62,5 @@ class PhoneInfo: CoroutineScope {
 
         return permission == PackageManager.PERMISSION_GRANTED
         }
-
-    private fun setEntity(info: String) : BackgroundDataEntity {
-        val entity = BackgroundDataEntity()
-        entity.userid = 0
-        entity.datatype = "PhoneInfo"
-        entity.timestamp = System.currentTimeMillis()
-        entity.json = info
-
-        return entity
-    }
-
-    fun insert(entity: BackgroundDataEntity) {
-        (null as BackgroundRepository<BackgroundDataEntity>?)?.insert(entity)
-    }
-
-    override val coroutineContext: CoroutineContext
-        get() = TODO("Not yet implemented")
 
 }
