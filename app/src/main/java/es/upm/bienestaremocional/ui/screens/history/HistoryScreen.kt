@@ -41,15 +41,19 @@ import com.patrykandpatrick.vico.core.chart.decoration.ThresholdLine
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.chart.values.AxisValuesOverrider
 import com.patrykandpatrick.vico.core.component.shape.Shapes
+import com.patrykandpatrick.vico.core.entry.ChartEntryModel
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry
+import com.patrykandpatrick.vico.core.marker.Marker
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.*
 import es.upm.bienestaremocional.data.questionnaire.Level.Companion.getColor
 import es.upm.bienestaremocional.ui.component.AppBasicScreen
-import es.upm.bienestaremocional.ui.component.rememberMarker
+import es.upm.bienestaremocional.ui.component.chart.SimpleMarkerComponent
+import es.upm.bienestaremocional.ui.component.chart.rememberMarker
+import es.upm.bienestaremocional.ui.component.chart.rememberSimpleMarker
 import es.upm.bienestaremocional.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.ui.responsive.computeWindowHeightSize
 import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
@@ -310,6 +314,8 @@ private fun DrawLineChart(heightSize: WindowHeightSizeClass,
         else
             null
 
+    val model = producer.getModel()
+
     ProvideChartStyle(chartStyle)
     {
         val defaultLines = currentChartStyle.lineChart.lines
@@ -325,9 +331,10 @@ private fun DrawLineChart(heightSize: WindowHeightSizeClass,
                     }
                 },
                 axisValuesOverrider = AxisValuesOverrider.fixed(null,null,questionnaire.minScore.toFloat(),questionnaire.maxScore.toFloat()) ,
-                decorations = decorations
+                decorations = decorations,
+                persistentMarkers = obtainPersistentMarkers(model)
             ),
-            model = producer.getModel(),
+            model = model,
             startAxis = startAxis(
                 guideline = axisGuidelineComponent(),
                 maxLabelCount = (questionnaire.maxScore - questionnaire.minScore + 1),
@@ -372,6 +379,21 @@ private fun thresholdArea(scoreLevel: ScoreLevel,
             lineComponent = line,
         )
     }
+}
+
+/**
+ * Obtain the persistent markers from the model using [SimpleMarkerComponent]
+ * @param model Model to extract data
+ * @return Map with x values as key and marker as value
+ */
+@Composable
+private fun obtainPersistentMarkers(model: ChartEntryModel) : Map<Float, Marker>
+{
+    val result = mutableMapOf<Float, Marker>()
+    model.entries[0].forEach { entry ->
+        result[entry.x] = rememberSimpleMarker()
+    }
+    return result
 }
 
 

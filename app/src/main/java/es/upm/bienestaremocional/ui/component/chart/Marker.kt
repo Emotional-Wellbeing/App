@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.ui.component
+package es.upm.bienestaremocional.ui.component.chart
 
 import android.graphics.Typeface
 import androidx.compose.material3.MaterialTheme
@@ -113,7 +113,47 @@ fun rememberMarker(): Marker
     }
 }
 
-// Constantes del marcador
+/**
+ * Implements a simply marker, used in permanent ones
+ */
+@Composable
+fun rememberSimpleMarker(): Marker
+{
+    // Indicator elements (concentric circles)
+    // Inner ring
+    val indicatorInnerComponent = shapeComponent(
+        shape = Shapes.pillShape,
+        color = MaterialTheme.colorScheme.surface
+    )
+    // Outher ring
+    val indicatorCenterComponent = shapeComponent(
+        shape = Shapes.pillShape,
+        color = MaterialTheme.colorScheme.background
+    )
+    // Full indicator component
+    val indicator = overlayingComponent(
+        outer = indicatorCenterComponent,
+        inner = indicatorInnerComponent,
+        innerPaddingAll = indicatorInnerAndCenterComponentPaddingValue,
+    )
+
+    val indicatorSizeDp = INDICATOR_SIZE_DP - 2 * indicatorCenterAndOuterComponentPaddingValue.value
+
+    val onApplyEntryColor: (Int) -> Unit = { entryColor ->
+        indicatorCenterComponent.color = entryColor.copyColor(
+            INDICATOR_OUTER_COMPONENT_ALPHA
+        )
+        with(indicatorCenterComponent) {
+            color = entryColor
+        }
+    }
+
+    return remember(indicator, indicatorSizeDp, onApplyEntryColor) {
+        SimpleMarkerComponent(indicator, indicatorSizeDp, onApplyEntryColor)
+    }
+}
+
+// Marker consts
 
 private const val LABEL_BACKGROUND_SHADOW_RADIUS = 4f
 private const val LABEL_BACKGROUND_SHADOW_DY = 2f
