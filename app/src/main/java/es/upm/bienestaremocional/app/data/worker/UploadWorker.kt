@@ -36,7 +36,7 @@ class UploadWorker @AssistedInject constructor(
             delay(10000L)
 
             remoteRepository.postUserData()
-            remoteRepository.postBackgroundData("empty")
+            remoteRepository.postBackgroundData("")
 
             // Indicate whether the work finished successfully with the Result
             result = Result.success()
