@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.devtools.ksp' version '1.8.0-1.0.8'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -62,61 +65,113 @@ kotlin {
     }
 }
 
-
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    //jetpack compose
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
-    implementation 'androidx.activity:activity-compose:1.6.1'
+    // Jetpack compose
+    // Kotlin extensions for 'lifecycle' artifact
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    // Compose integration with Lifecycle
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.1'
+    // Compose integration with Lifecycle ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
+
+    implementation 'androidx.activity:activity-compose:1.7.1'
 
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
-    implementation "androidx.compose.material:material:1.3.1"
+
+    // Material design
+    implementation "androidx.compose.material:material:1.4.2"
     implementation "androidx.compose.material3:material3:$material3_version"
+
+    // Compose
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
-    //window bar
+    // Window
+    implementation "androidx.compose.material3:material3-window-size-class:$material3_version"
+
+    // Window bar
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
-    // pager
+    // Pager
     implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
 
-    //lottie
+    // Lottie
     implementation 'com.airbnb.android:lottie-compose:5.2.0'
 
-    //window size
+    // Window size
     implementation "androidx.window:window:1.0.0"
 
-    //preferences
+    // Preferences
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
-    //settings
-    implementation "com.github.alorma:compose-settings-ui-m3:0.13.0"
+    // Settings
+    implementation "com.github.alorma:compose-settings-ui-m3:0.22.0"
 
     // Navigation
     implementation "androidx.navigation:navigation-compose:$navigation_compose_version"
 
-    //health connect
-    //version historic https://developer.android.com/jetpack/androidx/releases/health-connect
-    implementation 'androidx.health.connect:connect-client:1.0.0-alpha09'
+    // Health Connect. Version historic: https://developer.android.com/jetpack/androidx/releases/health-connect
+    implementation 'androidx.health.connect:connect-client:1.0.0-alpha11'
 
-    //language
+    // Language
     implementation "com.github.YarikSOffice:lingver:1.3.0"
 
-    //navigation
+    // Navigation
     implementation "io.github.raamcosta.compose-destinations:core:$compose_destination_version"
     ksp "io.github.raamcosta.compose-destinations:ksp:$compose_destination_version"
 
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
+
+    // Live data
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_ui_version"
+
+    //Dagger - Hilt
+    implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$dagger_hilt_version"
+    // For instrumentation tests
+    androidTestImplementation  "com.google.dagger:hilt-android-testing:$dagger_hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-compiler:$dagger_hilt_version"
+    // For local unit tests
+    testImplementation "com.google.dagger:hilt-android-testing:$dagger_hilt_version"
+    kaptTest "com.google.dagger:hilt-compiler:$dagger_hilt_version"
+    // For navigation
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_composer_version"
+    // For worker
+    implementation "androidx.hilt:hilt-work:$hilt_composer_version"
+    // This compiler is on the top of the other compiler
+    kapt "androidx.hilt:hilt-compiler:$hilt_composer_version"
+
+    // Vico
+    // Includes the core logic for charts and other elements.
+    implementation "com.patrykandpatrick.vico:core:$vico_version"
+    // For Jetpack Compose.
+    implementation "com.patrykandpatrick.vico:compose:$vico_version"
+    // For `compose`. Creates a `ChartStyle` based on an M3 Material Theme.
+    implementation "com.patrykandpatrick.vico:compose-m3:$vico_version"
+
+    //Calendar picker
+    implementation "com.maxkeppeler.sheets-compose-dialogs:core:$sheets_compose_dialogs_version"
+    implementation "com.maxkeppeler.sheets-compose-dialogs:calendar:$sheets_compose_dialogs_version"
+
+    // Work Manager
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.5.0"
 }
