@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 
@@ -41,7 +41,7 @@ class HistoryViewModel @Inject constructor(
     private val _state = MutableStateFlow(
         HistoryState(questionnaire = defaultQuestionnaire,
             timeGranularity = TimeGranularity.Day,
-            timeRange = (LocalDate.now().minusDays(7) .. LocalDate.now()).toRange(),
+            timeRange = (ZonedDateTime.now().minusDays(7) .. ZonedDateTime.now()).toRange(),
             isDataNotEmpty = false)
     )
     val state: StateFlow<HistoryState> = _state.asStateFlow()
@@ -79,7 +79,7 @@ class HistoryViewModel @Inject constructor(
             timeRange = _state.value.timeRange)
     }
 
-    fun onTimeRangeChange(timeRange: Range<LocalDate>)
+    fun onTimeRangeChange(timeRange: Range<ZonedDateTime>)
     {
         updateChart(questionnaire = _state.value.questionnaire,
             timeGranularity = _state.value.timeGranularity,
@@ -87,7 +87,7 @@ class HistoryViewModel @Inject constructor(
     }
 
     private suspend fun updateData(questionnaire: Questionnaire,
-                                   timeRange: Range<LocalDate>)
+                                   timeRange: Range<ZonedDateTime>)
     {
         cachedData.clear()
         cachedData.addAll(
@@ -123,7 +123,7 @@ class HistoryViewModel @Inject constructor(
 
     private fun updateChart(questionnaire: Questionnaire,
                             timeGranularity: TimeGranularity,
-                            timeRange: Range<LocalDate>)
+                            timeRange: Range<ZonedDateTime>)
     {
         val dataMustBeUpdated = questionnaire != _state.value.questionnaire || timeRange != _state.value.timeRange
 

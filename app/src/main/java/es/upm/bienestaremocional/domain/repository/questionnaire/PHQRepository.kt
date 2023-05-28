@@ -2,7 +2,7 @@ package es.upm.bienestaremocional.domain.repository.questionnaire
 
 import android.util.Range
 import es.upm.bienestaremocional.data.database.entity.PHQ
-import java.time.LocalDate
+import java.time.ZonedDateTime
 
 /**
  * Repository to interact with [PHQ] entity.
@@ -16,7 +16,7 @@ interface PHQRepository: QuestionnaireRepository<PHQ>
     override suspend fun getAllFromLastSevenDays(): List<PHQ>
     override suspend fun getAllFromCurrentWeek() : List<PHQ>
     override suspend fun getAllFromYesterday(): List<PHQ>
-    override suspend fun getAllFromRange(range: Range<LocalDate>): List<PHQ>
+    override suspend fun getAllFromRange(range: Range<ZonedDateTime>): List<PHQ>
     override suspend fun getAllCompleted(): List<PHQ>
     override suspend fun getLastCompleted(): PHQ?
     override suspend fun get(id: Long): PHQ?
