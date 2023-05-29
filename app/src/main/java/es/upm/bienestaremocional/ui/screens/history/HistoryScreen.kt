@@ -19,11 +19,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.util.toRange
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
-import com.maxkeppeler.sheets.calendar.CalendarDialog
-import com.maxkeppeler.sheets.calendar.models.CalendarConfig
-import com.maxkeppeler.sheets.calendar.models.CalendarSelection
-import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import com.patrykandpatrick.vico.compose.axis.axisGuidelineComponent
 import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
@@ -50,6 +45,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.*
 import es.upm.bienestaremocional.data.questionnaire.Level.Companion.getColor
+import es.upm.bienestaremocional.domain.processing.milliSecondToZonedDateTime
+import es.upm.bienestaremocional.domain.processing.toEpochMilliSecond
 import es.upm.bienestaremocional.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.ui.component.chart.SimpleMarkerComponent
 import es.upm.bienestaremocional.ui.component.chart.rememberMarker
@@ -60,7 +57,7 @@ import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import es.upm.bienestaremocional.utils.TimeGranularity
 import es.upm.bienestaremocional.utils.formatDate
-import java.time.LocalDate
+import java.time.ZonedDateTime
 import kotlin.random.Random
 
 /**
@@ -103,11 +100,11 @@ fun HistoryScreen(navigator: DestinationsNavigator,
                 )
                 // If we have enough width space, show all options inside same row
                 if (widthSize > WindowWidthSizeClass.Compact)
-                    DisplayCalendarPicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
+                    DisplayDatePicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
             }
             // If we didn't had width space, show calendar picker in other row
             if (widthSize <= WindowWidthSizeClass.Compact)
-                DisplayCalendarPicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
+                DisplayDatePicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
 
             if(state.isDataNotEmpty)
                 DrawLineChart(heightSize = heightSize,
@@ -213,18 +210,22 @@ private fun DisplayMenu(label: String,
 }
 
 /**
- * Display Material Design 3 calendar picker to user using Sheets library (official
- * Material Design 3 doesn't have it implemented yet)
- * @param selectedRange [Range] of [LocalDate] that user has selected before or by default
+ * Display Material Design 3 Date Picker
+ * @param selectedRange [Range] of [ZonedDateTime] that user has selected before or by default
  * @param onSelectedRange: Callback to react changes on selected range
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DisplayCalendarPicker(selectedRange : Range<LocalDate>,
-                                  onSelectedRange : (Range<LocalDate>) -> Unit
+private fun DisplayDatePicker(selectedRange : Range<ZonedDateTime>,
+                              onSelectedRange : (Range<ZonedDateTime>) -> Unit
 )
 {
     var showDialog by remember { mutableStateOf(false) }
+    val dateRangePickerState = rememberDateRangePickerState(
+        initialSelectedStartDateMillis = selectedRange.lower.toEpochMilliSecond(),
+        initialSelectedEndDateMillis = selectedRange.upper.toEpochMilliSecond(),
+    )
+    val confirmEnabled by remember { derivedStateOf { dateRangePickerState.selectedEndDateMillis != null } }
 
     // Due to this field is not editable (only show information about the value of picker) is
     // disabled. Nevertheless, being these textfield disabled, these colors are changed by default,
@@ -236,7 +237,7 @@ private fun DisplayCalendarPicker(selectedRange : Range<LocalDate>,
         enabled = false,
         label = { Text(stringResource(R.string.time_interval)) },
         trailingIcon = { Icon(Icons.Default.DateRange,"") },
-        colors = TextFieldDefaults.textFieldColors(
+        colors = TextFieldDefaults.colors(
             disabledTextColor = MaterialTheme.colorScheme.onSurface,
             disabledIndicatorColor = MaterialTheme.colorScheme.onSurfaceVariant,
             disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -249,24 +250,46 @@ private fun DisplayCalendarPicker(selectedRange : Range<LocalDate>,
 
     if (showDialog)
     {
-        CalendarDialog(
-            state = rememberUseCaseState(visible = true,
-                embedded = true,
-                onCloseRequest = { showDialog = false },
-                onFinishedRequest = { showDialog = false },
-                onDismissRequest = { showDialog = false },
-            ),
-            config = CalendarConfig(
-                yearSelection = true,
-                monthSelection = true,
-                style = CalendarStyle.MONTH,
-            ),
-            selection = CalendarSelection.Period(
-                selectedRange = selectedRange
-            ) { startDate, endDate ->
-                onSelectedRange(Range(startDate, endDate))
+        DatePickerDialog(
+            onDismissRequest = {
+                // Dismiss the dialog when the user clicks outside the dialog or on the back
+                // button. If you want to disable that functionality, simply use an empty
+                // onDismissRequest.
+                showDialog = false
             },
-        )
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDialog = false
+                        dateRangePickerState.selectedStartDateMillis?.let { start ->
+                            dateRangePickerState.selectedEndDateMillis?.let { end ->
+                                onSelectedRange(
+                                    Range(
+                                        milliSecondToZonedDateTime(start),
+                                        milliSecondToZonedDateTime(end)
+                                    )
+                                )
+                            }
+                        }
+                    },
+                    enabled = confirmEnabled
+                ) {
+                    Text(stringResource(R.string.ok))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showDialog = false }
+                ) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        ) {
+            DateRangePicker(
+                state = dateRangePickerState,
+                modifier = Modifier.weight(1f),
+            )
+        }
     }
 }
 
@@ -468,11 +491,11 @@ fun DisplayGranularityOfDataMenuPreviewDarkTheme()
 )
 @Composable
 
-fun DisplayCalendarPickerPreview()
+fun DisplayDatePickerPreview()
 {
     BienestarEmocionalTheme {
-        DisplayCalendarPicker(
-            selectedRange = (LocalDate.now().minusDays(7) .. LocalDate.now()).toRange(),
+        DisplayDatePicker(
+            selectedRange = (ZonedDateTime.now().minusDays(7) .. ZonedDateTime.now()).toRange(),
             onSelectedRange = {})
     }
 }
@@ -483,11 +506,11 @@ fun DisplayCalendarPickerPreview()
 )
 @Composable
 
-fun DisplayCalendarPickerPreviewDarkTheme()
+fun DisplayDatePickerPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true) {
-        DisplayCalendarPicker(
-            selectedRange = (LocalDate.now().minusDays(7) .. LocalDate.now()).toRange(),
+        DisplayDatePicker(
+            selectedRange = (ZonedDateTime.now().minusDays(7) .. ZonedDateTime.now()).toRange(),
             onSelectedRange = {})
     }
 }

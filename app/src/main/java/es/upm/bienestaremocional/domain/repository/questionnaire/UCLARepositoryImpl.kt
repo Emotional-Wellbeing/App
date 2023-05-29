@@ -7,8 +7,7 @@ import es.upm.bienestaremocional.data.database.entity.UCLA
 import es.upm.bienestaremocional.domain.processing.getCurrentWeek
 import es.upm.bienestaremocional.domain.processing.getLastSevenDays
 import es.upm.bienestaremocional.domain.processing.getStartAndEndOfYesterday
-import java.time.LocalDate
-import java.time.ZoneId
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 /**
@@ -58,10 +57,10 @@ class UCLARepositoryImpl @Inject constructor (
         return dao.getAllUCLAFromRange(range.first,range.second)
     }
 
-    override suspend fun getAllFromRange(range: Range<LocalDate>): List<UCLA> {
+    override suspend fun getAllFromRange(range: Range<ZonedDateTime>): List<UCLA> {
         Log.d(logTag, "querying all ucla between ${range.lower} and ${range.upper}")
-        val start = range.lower.atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000
-        val end = range.upper.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000
+        val start = range.lower.toEpochSecond() * 1000
+        val end = range.upper.plusDays(1).toEpochSecond() * 1000
         return dao.getAllUCLAFromRange(start,end)
     }
 

@@ -7,8 +7,7 @@ import es.upm.bienestaremocional.data.database.entity.PHQ
 import es.upm.bienestaremocional.domain.processing.getCurrentWeek
 import es.upm.bienestaremocional.domain.processing.getLastSevenDays
 import es.upm.bienestaremocional.domain.processing.getStartAndEndOfYesterday
-import java.time.LocalDate
-import java.time.ZoneId
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 /**
@@ -58,10 +57,10 @@ class PHQRepositoryImpl @Inject constructor(
         return dao.getAllPHQFromRange(range.first,range.second)
     }
 
-    override suspend fun getAllFromRange(range: Range<LocalDate>): List<PHQ> {
+    override suspend fun getAllFromRange(range: Range<ZonedDateTime>): List<PHQ> {
         Log.d(logTag, "querying all phq between ${range.lower} and ${range.upper}")
-        val start = range.lower.atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000
-        val end = range.upper.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000
+        val start = range.lower.toEpochSecond() * 1000
+        val end = range.upper.plusDays(1).toEpochSecond() * 1000
         return dao.getAllPHQFromRange(start,end)
     }
 

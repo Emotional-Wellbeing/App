@@ -158,6 +158,7 @@
     <string name="phq_label">PHQ (depression)</string>
     <string name="ucla_label">UCLA (loneliness)</string>
     <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
     <string name="questionnaire">Questionnaire</string>
     <string name="ok">OK</string>
     <string name="questionnaire_not_completed">Questionnaire not completed</string>
