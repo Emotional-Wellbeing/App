@@ -1,5 +1,8 @@
 package es.upm.bienestaremocional.ui.screens.home
 
+import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,19 +34,28 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.data.AppConstants
 import es.upm.bienestaremocional.data.questionnaire.Questionnaire
-import es.upm.bienestaremocional.ui.component.AppBasicScreen
+import es.upm.bienestaremocional.data.remote.RemoteAPI
+import es.upm.bienestaremocional.data.usage.Usage
 import es.upm.bienestaremocional.ui.component.BackHandlerMinimizeApp
 import es.upm.bienestaremocional.ui.navigation.BottomBarDestination
+import es.upm.bienestaremocional.destinations.MeasureScreenDestination
+import es.upm.bienestaremocional.destinations.UncompletedQuestionnairesScreenDestination
+import es.upm.bienestaremocional.domain.repository.remote.RemoteRepository
+import es.upm.bienestaremocional.domain.repository.remote.RemoteRepositoryImpl
+import es.upm.bienestaremocional.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.ui.responsive.computeWindowHeightSize
 import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
-import es.upm.bienestaremocional.ui.screens.destinations.MeasureScreenDestination
-import es.upm.bienestaremocional.ui.screens.destinations.UncompletedQuestionnairesScreenDestination
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * Home Screen has the latest news about user and is displayed when splash ends
  */
+@RequiresApi(Build.VERSION_CODES.Q)
 @Destination
 @Composable
 fun HomeScreen(navigator: DestinationsNavigator,
@@ -64,6 +77,8 @@ fun HomeScreen(navigator: DestinationsNavigator,
 }
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun HomeScreen(
@@ -85,6 +100,28 @@ private fun HomeScreen(
 
     val uncompletedQuestionnairesAdviceText  = stringResource(R.string.uncompleted_questionnaires_advice)
     val reviewText = stringResource(R.string.review)
+
+    //usage info
+    val coroutineScope = rememberCoroutineScope()
+
+    val remoteAPI: RemoteAPI = Retrofit.Builder()
+        .baseUrl(AppConstants.SERVER_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(RemoteAPI::class.java)
+
+    val logTag= "logTag"
+    val remoteRepository: RemoteRepository = RemoteRepositoryImpl(logTag,remoteAPI)
+
+    val usage = Usage()
+    val listApps = usage.getAppUsage(LocalContext.current)
+
+    coroutineScope.launch {
+        val message = "{ \"UserId\": 1000, \"Type\": \"UsageInfo\", \"Data\": {$listApps}}"
+        val success = remoteRepository.postBackgroundData(message)
+        if (success)
+            println("Inserted usage info")
+    }
 
     LaunchedEffect(Unit)
     {
@@ -203,6 +240,7 @@ private suspend fun showQuestionnaireAlert(snackbarHostState: SnackbarHostState,
 
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview(
     showBackground = true,
     group = "Light Theme"
@@ -223,6 +261,7 @@ fun HomeScreenOneQuestionnaireCompactPreview()
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview(
     showBackground = true,
     group = "Dark Theme"
@@ -244,6 +283,7 @@ fun HomeScreenOneQuestionnaireCompactPreviewDarkTheme()
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview(
     showBackground = true,
     group = "Light Theme"
@@ -264,6 +304,7 @@ fun HomeScreenNoQuestionnaireCompactPreview()
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview(
     showBackground = true,
     group = "Dark Theme"
@@ -285,6 +326,7 @@ fun HomeScreenNoQuestionnaireCompactPreviewDarkTheme()
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview(
     showBackground = true,
     group = "Light Theme"
@@ -305,6 +347,7 @@ fun HomeScreenAllQuestionnairesCompactPreview()
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview(
     showBackground = true,
     group = "Dark Theme"
@@ -326,6 +369,7 @@ fun HomeScreenAllQuestionnairesCompactPreviewDarkTheme()
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview(
     showBackground = true,
     group = "Light Theme"
@@ -346,6 +390,7 @@ fun HomeScreenAllQuestionnairesShowUncompletedCompactPreview()
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview(
     showBackground = true,
     group = "Dark Theme"

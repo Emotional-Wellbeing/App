@@ -11,9 +11,9 @@ import es.upm.bienestaremocional.data.healthconnect.HealthConnectAvailability
 import es.upm.bienestaremocional.data.info.AppInfo
 import es.upm.bienestaremocional.data.settings.AppSettings
 import es.upm.bienestaremocional.ui.notification.Notification
-import es.upm.bienestaremocional.ui.screens.destinations.ErrorScreenDestination
-import es.upm.bienestaremocional.ui.screens.destinations.HomeScreenDestination
-import es.upm.bienestaremocional.ui.screens.destinations.OnboardingScreenDestination
+import es.upm.bienestaremocional.destinations.ErrorScreenDestination
+import es.upm.bienestaremocional.destinations.HomeScreenDestination
+import es.upm.bienestaremocional.destinations.OnboardingScreenDestination
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject

@@ -23,7 +23,7 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.database.entity.QuestionnaireRoundReduced
 import es.upm.bienestaremocional.data.notification.NOTIFICATION_REQUEST_CODE
 import es.upm.bienestaremocional.data.notification.NotificationChannels
-import es.upm.bienestaremocional.ui.screens.destinations.QuestionnaireRoundScreenDestination
+import es.upm.bienestaremocional.destinations.QuestionnaireRoundScreenDestination
 import kotlinx.coroutines.async
 
 class NotificationImpl(private val context: Context,

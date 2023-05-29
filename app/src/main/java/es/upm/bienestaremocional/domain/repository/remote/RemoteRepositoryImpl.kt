@@ -37,4 +37,9 @@ class RemoteRepositoryImpl(
             timestamps = rawResponse.body()
         )
     }
+
+    override suspend fun postBackgroundData(message: String): Boolean {
+        val response = remoteAPI.postBackgroundData(message)
+        return response.isSuccessful
+    }
 }

@@ -35,7 +35,7 @@ import es.upm.bienestaremocional.data.database.entity.QuestionnaireRoundReduced
 import es.upm.bienestaremocional.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.ui.component.BasicCard
 import es.upm.bienestaremocional.ui.component.ShowQuestionnaireRound
-import es.upm.bienestaremocional.ui.screens.destinations.QuestionnaireRoundScreenDestination
+import es.upm.bienestaremocional.destinations.QuestionnaireRoundScreenDestination
 import kotlinx.coroutines.launch
 
 /**

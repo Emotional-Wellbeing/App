@@ -10,4 +10,5 @@ interface RemoteRepository
 {
     suspend fun getScore(): Int?
     suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse
+    suspend fun postBackgroundData(message: String): Boolean
 }

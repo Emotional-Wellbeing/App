@@ -43,7 +43,7 @@ import es.upm.bienestaremocional.ui.component.ChartEntryWithTime
 import es.upm.bienestaremocional.ui.component.DoubleMeasureStatus
 import es.upm.bienestaremocional.ui.component.chart.rememberMarker
 import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
-import es.upm.bienestaremocional.ui.screens.destinations.HistoryScreenDestination
+import es.upm.bienestaremocional.destinations.HistoryScreenDestination
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import java.time.DayOfWeek
 import java.time.ZonedDateTime

@@ -24,9 +24,9 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.ui.component.animation.DisplayLottieAnimation
 import es.upm.bienestaremocional.ui.component.onboarding.HorizontalPagerContent
 import es.upm.bienestaremocional.ui.component.onboarding.OnboardingContent
+import es.upm.bienestaremocional.destinations.PermissionScreenDestination
 import es.upm.bienestaremocional.ui.responsive.computeWindowHeightSize
 import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
-import es.upm.bienestaremocional.ui.screens.destinations.HomeScreenDestination
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
@@ -40,12 +40,11 @@ fun OnboardingScreen(navigator: DestinationsNavigator,
 )
 {
     OnboardingScreen(heightSize = computeWindowHeightSize(),
-        widthSize = computeWindowWidthSize()
-    )
+        widthSize = computeWindowWidthSize())
     {
         viewModel.onFinish()
         navigator.popBackStack()
-        navigator.navigate(HomeScreenDestination)
+        navigator.navigate(PermissionScreenDestination)
     }
 }
 
@@ -55,7 +54,7 @@ private fun OnboardingScreen(heightSize : WindowHeightSizeClass,
                              widthSize: WindowWidthSizeClass,
                              onFinish: () -> Unit)
 {
-    val items = remember { OnboardingContent.content}
+    val items = remember {OnboardingContent.content}
     val pagerState = rememberPagerState()
 
     Surface()

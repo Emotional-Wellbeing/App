@@ -9,7 +9,7 @@ import es.upm.bienestaremocional.domain.repository.questionnaire.PHQRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.PSSRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.QuestionnaireRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.UCLARepository
-import es.upm.bienestaremocional.ui.screens.destinations.QuestionnaireScreenDestination
+import es.upm.bienestaremocional.destinations.QuestionnaireScreenDestination
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

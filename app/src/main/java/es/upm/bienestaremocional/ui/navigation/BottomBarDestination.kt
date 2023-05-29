@@ -4,10 +4,10 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.ramcosta.composedestinations.spec.Direction
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.ui.screens.destinations.HistoryScreenDestination
-import es.upm.bienestaremocional.ui.screens.destinations.HomeScreenDestination
-import es.upm.bienestaremocional.ui.screens.destinations.SettingsScreenDestination
-import es.upm.bienestaremocional.ui.screens.destinations.TrendsScreenDestination
+import es.upm.bienestaremocional.destinations.HomeScreenDestination
+import es.upm.bienestaremocional.destinations.HistoryScreenDestination
+import es.upm.bienestaremocional.destinations.SettingsScreenDestination
+import es.upm.bienestaremocional.destinations.TrendsScreenDestination
 
 /**
  * This enum contains the app's menu entries

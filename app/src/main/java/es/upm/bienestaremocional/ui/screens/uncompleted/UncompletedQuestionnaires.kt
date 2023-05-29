@@ -26,7 +26,7 @@ import es.upm.bienestaremocional.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.ui.component.BackHandlerMinimizeApp
 import es.upm.bienestaremocional.ui.component.BasicCard
 import es.upm.bienestaremocional.ui.component.ShowUncompletedQuestionnaireRound
-import es.upm.bienestaremocional.ui.screens.destinations.QuestionnaireRoundScreenDestination
+import es.upm.bienestaremocional.destinations.QuestionnaireRoundScreenDestination
 
 @Destination
 @Composable

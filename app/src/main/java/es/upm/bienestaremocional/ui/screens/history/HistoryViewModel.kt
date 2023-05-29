@@ -15,7 +15,7 @@ import es.upm.bienestaremocional.domain.processing.processRecords
 import es.upm.bienestaremocional.domain.repository.questionnaire.PHQRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.PSSRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.UCLARepository
-import es.upm.bienestaremocional.ui.screens.destinations.HistoryScreenDestination
+import es.upm.bienestaremocional.destinations.HistoryScreenDestination
 import es.upm.bienestaremocional.utils.TimeGranularity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
