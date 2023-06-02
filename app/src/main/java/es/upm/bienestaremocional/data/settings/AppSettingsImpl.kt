@@ -5,11 +5,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import es.upm.bienestaremocional.data.notification.NotificationsFrequency
 import es.upm.bienestaremocional.data.questionnaire.Questionnaire
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -28,34 +26,15 @@ class AppSettingsImpl(private val context: Context): AppSettings
             by preferencesDataStore(name = "settings")
 
         //preferences keys of the settings
-        private val NOTIFICATION_FREQUENCY = intPreferencesKey("notification_frequency")
         private val QUESTIONNAIRES = stringSetPreferencesKey("questionnaires")
         private val THEME = stringPreferencesKey("theme")
         private val DYNAMIC_COLORS = booleanPreferencesKey("dynamic_colors")
 
         //defaults values
-        private val NOTIFICATION_FREQUENCY_DEFAULT_VALUE = NotificationsFrequency.ONLY_NIGHT
         private val QUESTIONNAIRES_DEFAULT_VALUE = emptySet<String>()
         private val THEME_DEFAULT_VALUE = ThemeMode.DEFAULT_MODE
         private const val DYNAMIC_COLORS_DEFAULT_VALUE = false
     }
-
-    override suspend fun saveNotificationFrequency(value: NotificationsFrequency)
-    {
-        context.appSettingsDataStore.edit{ preferences ->
-            preferences[NOTIFICATION_FREQUENCY] = value.ordinal
-        }
-    }
-
-    override suspend fun getNotificationFrequency(): Flow<NotificationsFrequency> =
-        context.appSettingsDataStore.data.map { preferences ->
-            when(preferences[NOTIFICATION_FREQUENCY])
-            {
-                NotificationsFrequency.ONLY_NIGHT.ordinal -> NotificationsFrequency.ONLY_NIGHT
-                NotificationsFrequency.LUNCH_AND_NIGHT.ordinal -> NotificationsFrequency.LUNCH_AND_NIGHT
-                else -> NOTIFICATION_FREQUENCY_DEFAULT_VALUE
-            }
-        }
 
     override suspend fun saveQuestionnairesSelected(value: Set<Questionnaire>)
     {

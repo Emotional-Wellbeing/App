@@ -41,7 +41,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.notification.NotificationsFrequency
 import es.upm.bienestaremocional.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.data.settings.ThemeMode
 import es.upm.bienestaremocional.ui.component.AppBasicScreen
@@ -76,7 +75,6 @@ fun SettingsScreen(navigator: DestinationsNavigator,
     val restartApplyAllChanges = stringResource(id = R.string.restart_apply_all_changes)
     val actionLabel = stringResource(id = R.string.restart)
 
-    val notificationFrequency = rememberIntSettingState(viewModel.loadNotificationFrequency())
     val questionnaire = rememberIntSetSettingState(viewModel.loadQuestionnairesSelected())
     val language = rememberIntSettingState(viewModel.loadLanguage())
     val themeMode = rememberIntSettingState(viewModel.loadDarkMode())
@@ -85,7 +83,6 @@ fun SettingsScreen(navigator: DestinationsNavigator,
     val android12OrAbove = android12OrAbove()
     val languagesAvailable = viewModel.getLanguagesAvailable()
 
-    val onNotificationFrequencyChange : (Int) -> Unit  = { viewModel.changeNotificationFrequency(it)}
     val onQuestionnairesChange : (Set<Int>) -> Unit = { viewModel.changeQuestionnairesSelected(it) }
     val onLanguageChange : (Int) -> Unit = { lang ->
         viewModel.changeLanguage(context, lang)
@@ -120,14 +117,12 @@ fun SettingsScreen(navigator: DestinationsNavigator,
     SettingsScreen(
         navigator = navigator,
         snackbarHostState = snackbarHostState,
-        notificationFrequency = notificationFrequency,
         questionnaires = questionnaire,
         language = language,
         themeMode = themeMode,
         dynamicColor = dynamicColor,
         android12OrAbove = android12OrAbove,
         languagesAvailable = languagesAvailable,
-        onNotificationFrequencyChange = onNotificationFrequencyChange,
         onQuestionnairesChange = onQuestionnairesChange,
         onLanguageChange = onLanguageChange,
         onThemeChange = onThemeChange,
@@ -140,14 +135,12 @@ fun SettingsScreen(navigator: DestinationsNavigator,
 /**
  * Renders settings menu
  * @param navigator: needed for render menu
- * @param notificationFrequency: var that holds questionnaire frequency
  * @param questionnaires: var that stores additional questionnaires selection
  * @param language: var that stores the language of the app
  * @param themeMode: var that stores theme setting value
  * @param dynamicColor: var that stores dynamic setting value
  * @param android12OrAbove: boolean to print Android 12+ options
  * @param languagesAvailable: list with the languages supported by the app
- * @param onNotificationFrequencyChange: callback to react notification frequency setting changes
  * @param onQuestionnairesChange: callback to react questionnaires changes
  * @param onLanguageChange: callback to react language setting changes
  * @param onThemeChange: callback to react theme setting changes
@@ -157,14 +150,12 @@ fun SettingsScreen(navigator: DestinationsNavigator,
 @Composable
 private fun SettingsScreen(navigator: DestinationsNavigator,
                            snackbarHostState: SnackbarHostState,
-                           notificationFrequency: SettingValueState<Int>,
                            questionnaires: SettingValueState<Set<Int>>,
                            language: SettingValueState<Int>,
                            themeMode: SettingValueState<Int>,
                            dynamicColor : SettingValueState<Boolean>,
                            android12OrAbove : Boolean,
-                           languagesAvailable : List<String>,
-                           onNotificationFrequencyChange : (Int) -> Unit,
+                           languagesAvailable : List<String>, 
                            onQuestionnairesChange :  (Set<Int>) -> Unit,
                            onLanguageChange : (Int) -> Unit,
                            onThemeChange : (Int) -> Unit,
@@ -294,17 +285,6 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
 
             GroupText(textRes = R.string.feedback_group)
 
-            SettingsList(
-                icon = { Icon(painter = painterResource(R.drawable.event_repeat),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(stringResource(R.string.feedback_frequency),
-                    color = MaterialTheme.colorScheme.secondary) },
-                state = notificationFrequency,
-                items = NotificationsFrequency.getLabels(),
-                onItemSelected = { index, _ -> onNotificationFrequencyChange(index) }
-            )
-
             SettingsListMultiSelect(
                 icon = { Icon(painter = painterResource(R.drawable.question_answer),
                     contentDescription = null,
@@ -414,14 +394,12 @@ fun SettingsScreenNoDynamicPreview()
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
             snackbarHostState =  remember { SnackbarHostState() },
-            notificationFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = false,
             languagesAvailable = listOf(),
-            onNotificationFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},
@@ -441,14 +419,12 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
             snackbarHostState =  remember { SnackbarHostState() },
-            notificationFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = false,
             languagesAvailable = listOf(),
-            onNotificationFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},
@@ -468,14 +444,12 @@ fun SettingsScreenPreview()
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
             snackbarHostState =  remember { SnackbarHostState() },
-            notificationFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = true,
             languagesAvailable = listOf(),
-            onNotificationFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},
@@ -495,14 +469,12 @@ fun SettingsScreenPreviewDarkTheme()
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
             snackbarHostState =  remember { SnackbarHostState() },
-            notificationFrequency = rememberIntSettingState(-1),
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
             dynamicColor = rememberBooleanSettingState(true),
             android12OrAbove = true,
             languagesAvailable = listOf(),
-            onNotificationFrequencyChange = {},
             onQuestionnairesChange = {},
             onThemeChange = {},
             onDynamicChange = {},

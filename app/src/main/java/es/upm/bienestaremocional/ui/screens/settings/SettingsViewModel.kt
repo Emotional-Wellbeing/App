@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.BuildConfig
 import es.upm.bienestaremocional.data.language.LanguageManager
-import es.upm.bienestaremocional.data.notification.NotificationsFrequency
 import es.upm.bienestaremocional.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.data.settings.AppSettings
 import es.upm.bienestaremocional.data.settings.ThemeMode
@@ -90,35 +89,6 @@ class SettingsViewModel @Inject constructor(
             }
         }
     }
-    
-    /**
-     * Load notification frequency from [AppSettings]
-     */
-    fun loadNotificationFrequency(): Int
-    {
-        var option : Int
-        runBlocking(Dispatchers.IO)
-        {
-            option = appSettings.getNotificationFrequency().first().ordinal
-        }
-        return option
-    }
-
-    /**
-     * Saves notification frequency value
-     */
-    fun changeNotificationFrequency(option: Int)
-    {
-        val notificationsFrequency: NotificationsFrequency? = NotificationsFrequency.values().getOrNull(option)
-        notificationsFrequency?.let {
-            viewModelScope.launch {
-                workScheduler.cancel(appSettings.getNotificationFrequency().first().items)
-                workScheduler.schedule(it.items)
-                appSettings.saveNotificationFrequency(it)
-            }
-        }
-    }
-    
     
     /**
      * Load questionnaires selected value from [AppSettings]

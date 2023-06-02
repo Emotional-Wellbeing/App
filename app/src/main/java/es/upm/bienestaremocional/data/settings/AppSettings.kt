@@ -1,6 +1,5 @@
 package es.upm.bienestaremocional.data.settings
 
-import es.upm.bienestaremocional.data.notification.NotificationsFrequency
 import es.upm.bienestaremocional.data.questionnaire.Questionnaire
 import kotlinx.coroutines.flow.Flow
 
@@ -10,19 +9,6 @@ import kotlinx.coroutines.flow.Flow
  */
 interface AppSettings
 {
-
-    /**
-     * Save notification frequency preference
-     * @param value: Preference to save
-     */
-    suspend fun saveNotificationFrequency(value: NotificationsFrequency)
-
-    /**
-     * Get notification frequency preference
-     * @return [Flow] of [NotificationsFrequency] with the values
-     */
-    suspend fun getNotificationFrequency(): Flow<NotificationsFrequency>
-
     /**
      * Save questionnaires selected
      * @param value: Preference to save
