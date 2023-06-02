@@ -195,6 +195,8 @@
     <string name="kg" translatable="false">kg</string>
     <string name="bpm">ppm</string>
     <string name="no_data_to_display">No hay datos para mostrar</string>
+    <string name="request_permissions">Solicita permisos</string>
+    <string name="generate_data">Generar datos</string>
     <string name="unknown_display" translatable="false">--</string>
     <string name="exercise">Ejercicio</string>
 

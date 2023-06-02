@@ -202,6 +202,8 @@
     <string name="month">Month</string>
     <string name="time_interval">Time interval</string>
     <string name="no_data_to_display">No data to display</string>
+    <string name="request_permissions">Request permissions</string>
+    <string name="generate_data">Generate data</string>
     <string name="uploading">Uploading…</string>
     <string name="uploading_in_progress">Uploading data in progress…</string>
     <string name="test_notification_worker">Test notification worker</string>
