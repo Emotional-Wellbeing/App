@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
@@ -54,3 +55,9 @@ fun restartApp(activity: Activity)
  * Open activity from other app
  */
 fun openForeignActivity(context: Context, action: String) = context.startActivity(Intent(action))
+
+fun openDial(context: Context, phone : String)
+{
+    val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null))
+    context.startActivity(intent)
+}

@@ -5,27 +5,32 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.upm.bienestaremocional.data.database.entity.QuestionnaireRoundFull
-import es.upm.bienestaremocional.data.settings.AppSettings
-import es.upm.bienestaremocional.domain.repository.questionnaire.QuestionnaireRoundFullRepository
+import es.upm.bienestaremocional.data.database.entity.round.DailyRoundFull
+import es.upm.bienestaremocional.data.database.entity.round.OneOffRoundFull
+import es.upm.bienestaremocional.domain.repository.questionnaire.DailyRoundFullRepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.OneOffRoundFullRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class UncompletedQuestionnairesViewModel @Inject constructor(
-    private val questionnaireRoundFullRepository: QuestionnaireRoundFullRepository,
-    val appSettings: AppSettings
+    private val dailyRoundFullRepository: DailyRoundFullRepository,
+    private val oneOffRoundFullRepository: OneOffRoundFullRepository,
 ): ViewModel()
 {
 
-    private val _questionnaireRoundsUncompleted = MutableLiveData<List<QuestionnaireRoundFull>>()
-    val questionnaireRoundsUncompleted: LiveData<List<QuestionnaireRoundFull>>
-        get() = _questionnaireRoundsUncompleted
+    private val _dailyRoundsUncompleted = MutableLiveData<List<DailyRoundFull>>()
+    val dailyRoundsUncompleted: LiveData<List<DailyRoundFull>>
+        get() = _dailyRoundsUncompleted
+    private val _oneOffRoundsUncompleted = MutableLiveData<List<OneOffRoundFull>>()
+    val oneOffRoundsUncompleted: LiveData<List<OneOffRoundFull>>
+        get() = _oneOffRoundsUncompleted
+
     
     init {
         viewModelScope.launch {
-            _questionnaireRoundsUncompleted.value = questionnaireRoundFullRepository.getAllUncompleted()
-
+            _dailyRoundsUncompleted.value = dailyRoundFullRepository.getAllUncompleted()
+            _oneOffRoundsUncompleted.value = oneOffRoundFullRepository.getAllUncompleted()
         }
     }
 

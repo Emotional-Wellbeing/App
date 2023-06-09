@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="high_loneliness">
+        <item>The Red Cross listens to you is an initiative that aims to offer accompaniment and support to people who find themselves in a situation of unwanted loneliness. They will be able to provide you with guidelines to help you feel better and offer you resources in your area that can help you. You can contact them on </item>
+        <item>900 107 917</item>
+        <item>, Monday to Thursday working days from 10am to 2pm and from 4pm to 8pm (one hour less in the Canary Islands) and on Friday working days from 10am to 2pm (one hour less in the Canary Islands). The call is free and confidential.</item>
+    </string-array>
+</resources>

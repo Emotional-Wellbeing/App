@@ -12,6 +12,7 @@ import es.upm.bienestaremocional.domain.repository.remote.RemoteOperationResult
 import es.upm.bienestaremocional.domain.usecases.PostUserDataUseCase
 import es.upm.bienestaremocional.ui.notification.Notification
 import kotlinx.coroutines.delay
+import java.time.Duration
 import java.time.LocalDateTime
 import javax.inject.Named
 import kotlin.random.Random
@@ -25,6 +26,17 @@ class UploadWorker @AssistedInject constructor(
     private val postUserDataUseCase: PostUserDataUseCase
 ): CoroutineWorker(appContext, workerParams)
 {
+    companion object : Schedulable
+    {
+        override val time: LocalDateTime = LocalDateTime.now()
+            .withHour(3)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0)
+        override val tag = "upload"
+        override val repeatInterval: Duration = Duration.ofHours(24)
+    }
+
     override suspend fun doWork(): Result
     {
         Log.d(logTag,"Executing Upload Worker")
@@ -71,15 +83,5 @@ class UploadWorker @AssistedInject constructor(
             Random.nextInt(),
             notification.showUploadNotification()
         )
-    }
-
-    companion object
-    {
-        val time: LocalDateTime = LocalDateTime.now()
-            .withHour(3)
-            .withMinute(0)
-            .withSecond(0)
-            .withNano(0)
-        const val tag = "upload"
     }
 }

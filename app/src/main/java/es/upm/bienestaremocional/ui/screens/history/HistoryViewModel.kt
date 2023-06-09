@@ -9,12 +9,12 @@ import com.patrykandpatrick.vico.core.entry.ChartEntry
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.upm.bienestaremocional.data.database.entity.QuestionnaireEntity
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.database.entity.ScoredEntity
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
 import es.upm.bienestaremocional.domain.processing.processRecords
-import es.upm.bienestaremocional.domain.repository.questionnaire.PHQRepository
-import es.upm.bienestaremocional.domain.repository.questionnaire.PSSRepository
-import es.upm.bienestaremocional.domain.repository.questionnaire.UCLARepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.DailyDepressionRepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.DailyLonelinessRepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.DailyStressRepository
 import es.upm.bienestaremocional.destinations.HistoryScreenDestination
 import es.upm.bienestaremocional.utils.TimeGranularity
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,14 +28,14 @@ import javax.inject.Inject
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
-    private val pssRepository: PSSRepository,
-    private val phqRepository: PHQRepository,
-    private val uclaRepository: UCLARepository,
+    private val dailyStressRepository: DailyStressRepository,
+    private val dailyDepressionRepository: DailyDepressionRepository,
+    private val dailyLonelinessRepository: DailyLonelinessRepository,
 ) : ViewModel()
 {
     private val defaultQuestionnaire =
         HistoryScreenDestination.argsFrom(savedStateHandle).preSelectedQuestionnaire
-            ?: Questionnaire.PSS
+            ?: DailyScoredQuestionnaire.Stress
 
     //state
     private val _state = MutableStateFlow(
@@ -49,7 +49,7 @@ class HistoryViewModel @Inject constructor(
     // Producer used to display the data
     val producer = ChartEntryModelProducer()
 
-    private val cachedData : MutableList<QuestionnaireEntity> = mutableListOf()
+    private val cachedData : MutableList<ScoredEntity> = mutableListOf()
 
     init {
         viewModelScope.launch {
@@ -65,7 +65,7 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    fun onQuestionnaireChange(questionnaire: Questionnaire)
+    fun onQuestionnaireChange(questionnaire: DailyScoredQuestionnaire)
     {
         updateChart(questionnaire = questionnaire,
             timeGranularity = _state.value.timeGranularity,
@@ -86,15 +86,15 @@ class HistoryViewModel @Inject constructor(
             timeRange = timeRange)
     }
 
-    private suspend fun updateData(questionnaire: Questionnaire,
+    private suspend fun updateData(questionnaire: DailyScoredQuestionnaire,
                                    timeRange: Range<ZonedDateTime>)
     {
         cachedData.clear()
         cachedData.addAll(
             when (questionnaire) {
-                Questionnaire.PSS -> pssRepository.getAllFromRange(timeRange)
-                Questionnaire.PHQ -> phqRepository.getAllFromRange(timeRange)
-                Questionnaire.UCLA -> uclaRepository.getAllFromRange(timeRange)
+                DailyScoredQuestionnaire.Stress -> dailyStressRepository.getAllFromRange(timeRange)
+                DailyScoredQuestionnaire.Depression -> dailyDepressionRepository.getAllFromRange(timeRange)
+                DailyScoredQuestionnaire.Loneliness -> dailyLonelinessRepository.getAllFromRange(timeRange)
             }
         )
     }
@@ -121,7 +121,7 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    private fun updateChart(questionnaire: Questionnaire,
+    private fun updateChart(questionnaire: DailyScoredQuestionnaire,
                             timeGranularity: TimeGranularity,
                             timeRange: Range<ZonedDateTime>)
     {

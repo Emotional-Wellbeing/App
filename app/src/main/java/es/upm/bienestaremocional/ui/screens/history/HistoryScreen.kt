@@ -45,6 +45,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.*
 import es.upm.bienestaremocional.data.questionnaire.Level.Companion.getColor
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
 import es.upm.bienestaremocional.domain.processing.milliSecondToZonedDateTime
 import es.upm.bienestaremocional.domain.processing.toEpochMilliSecond
 import es.upm.bienestaremocional.ui.component.AppBasicScreen
@@ -66,7 +67,7 @@ import kotlin.random.Random
 @Destination
 @Composable
 fun HistoryScreen(navigator: DestinationsNavigator,
-                  preSelectedQuestionnaire: Questionnaire?,
+                  preSelectedQuestionnaire: DailyScoredQuestionnaire?,
                   viewModel: HistoryViewModel = hiltViewModel()
 )
 {
@@ -119,21 +120,21 @@ fun HistoryScreen(navigator: DestinationsNavigator,
 
 /**
  * Display questionnaire menu
- * @param selected [Questionnaire] that should be displayed as selected one
+ * @param selected [DailyScoredQuestionnaire] that should be displayed as selected one
  * @param onChange Callback to execute when user changes option
  * @param modifier Optional modifier to override visual aspects
  * @see DisplayMenu
  */
 @Composable
-private fun DisplayQuestionnaireMenu(selected: Questionnaire,
-                                     onChange: (Questionnaire) -> Unit,
+private fun DisplayQuestionnaireMenu(selected: DailyScoredQuestionnaire,
+                                     onChange: (DailyScoredQuestionnaire) -> Unit,
                                      modifier: Modifier = Modifier
 )
 {
     DisplayMenu(
         label = stringResource(id = R.string.measure),
-        options = Questionnaire.get().map { Pair(stringResource(it.measureRes)) { onChange(it) } },
-        selected = stringResource(id = selected.measureRes),
+        options = DailyScoredQuestionnaire.values().map { Pair(stringResource(it.measure.measureRes)) { onChange(it) } },
+        selected = stringResource(id = selected.measure.measureRes),
         modifier = modifier)
 }
 
@@ -297,13 +298,13 @@ private fun DisplayDatePicker(selectedRange : Range<ZonedDateTime>,
  * Draws a line chart
  * @param heightSize Depending of the height of the screen, present more or less components
  * @param producer Source of the data
- * @param questionnaire [Questionnaire] whose data is being displayed
+ * @param questionnaire [DailyScoredQuestionnaire] whose data is being displayed
  * @param timeGranularity [TimeGranularity] that is used in the chart
  */
 @Composable
 private fun DrawLineChart(heightSize: WindowHeightSizeClass,
                           producer: ChartEntryModelProducer,
-                          questionnaire: Questionnaire,
+                          questionnaire: DailyScoredQuestionnaire,
                           timeGranularity: TimeGranularity
 )
 {
@@ -362,7 +363,7 @@ private fun DrawLineChart(heightSize: WindowHeightSizeClass,
                 guideline = axisGuidelineComponent(),
                 maxLabelCount = (questionnaire.maxScore - questionnaire.minScore + 1),
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),
-                title = stringResource(questionnaire.measureRes)),
+                title = stringResource(questionnaire.measure.measureRes)),
             bottomAxis = bottomAxis(
                 guideline = axisGuidelineComponent(),
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),
@@ -431,7 +432,7 @@ fun DisplayQuestionnaireMenuPreview()
     BienestarEmocionalTheme {
         DisplayQuestionnaireMenu(
             modifier = Modifier,
-            selected = Questionnaire.PSS,
+            selected = DailyScoredQuestionnaire.Stress,
             onChange = {}
         )
     }
@@ -448,7 +449,7 @@ fun DisplayQuestionnaireMenuPreviewDarkTheme()
     BienestarEmocionalTheme(darkTheme = true) {
         DisplayQuestionnaireMenu(
             modifier = Modifier,
-            selected = Questionnaire.PSS,
+            selected = DailyScoredQuestionnaire.Stress,
             onChange = {})
     }
 }
@@ -521,9 +522,9 @@ fun DisplayDatePickerPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun PSSChartCompactPreview()
+fun StressChartCompactPreview()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.PSS.minScore, Questionnaire.PSS.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Stress.minScore, DailyScoredQuestionnaire.Stress.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -532,7 +533,7 @@ fun PSSChartCompactPreview()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Compact,
                 producer = producer,
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 timeGranularity = TimeGranularity.Day,
             )
         }
@@ -544,9 +545,9 @@ fun PSSChartCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun PSSChartCompactPreviewDarkTheme()
+fun StressChartCompactPreviewDarkTheme()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.PSS.minScore, Questionnaire.PSS.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Stress.minScore, DailyScoredQuestionnaire.Stress.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -555,7 +556,7 @@ fun PSSChartCompactPreviewDarkTheme()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Compact,
                 producer = producer,
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 timeGranularity = TimeGranularity.Day,
             )
         }
@@ -568,9 +569,9 @@ fun PSSChartCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun PSSChartMediumPreview()
+fun StressChartMediumPreview()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.PSS.minScore, Questionnaire.PSS.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Stress.minScore, DailyScoredQuestionnaire.Stress.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -579,7 +580,7 @@ fun PSSChartMediumPreview()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Medium,
                 producer = producer,
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 timeGranularity = TimeGranularity.Day,
             )
         }
@@ -591,9 +592,9 @@ fun PSSChartMediumPreview()
     group = "Dark Theme"
 )
 @Composable
-fun PSSChartMediumPreviewDarkTheme()
+fun StressChartMediumPreviewDarkTheme()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.PSS.minScore, Questionnaire.PSS.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Stress.minScore, DailyScoredQuestionnaire.Stress.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -602,7 +603,7 @@ fun PSSChartMediumPreviewDarkTheme()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Medium,
                 producer = producer,
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 timeGranularity = TimeGranularity.Day,
             )
         }
@@ -614,9 +615,9 @@ fun PSSChartMediumPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun PHQChartCompactPreview()
+fun DepressionChartCompactPreview()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.PHQ.minScore, Questionnaire.PHQ.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Depression.minScore, DailyScoredQuestionnaire.Depression.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -625,7 +626,7 @@ fun PHQChartCompactPreview()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Compact,
                 producer = producer,
-                questionnaire = Questionnaire.PHQ,
+                questionnaire = DailyScoredQuestionnaire.Depression,
                 timeGranularity = TimeGranularity.Day,
             )
         }
@@ -637,9 +638,9 @@ fun PHQChartCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun PHQChartPreviewCompactDarkTheme()
+fun DepressionChartPreviewCompactDarkTheme()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.PHQ.minScore, Questionnaire.PHQ.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Depression.minScore, DailyScoredQuestionnaire.Depression.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -648,7 +649,7 @@ fun PHQChartPreviewCompactDarkTheme()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Compact,
                 producer = producer,
-                questionnaire = Questionnaire.PHQ,
+                questionnaire = DailyScoredQuestionnaire.Depression,
                 timeGranularity = TimeGranularity.Day,
             )
         }
@@ -660,9 +661,9 @@ fun PHQChartPreviewCompactDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun PHQChartMediumPreview()
+fun DepressionChartMediumPreview()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.PHQ.minScore, Questionnaire.PHQ.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Depression.minScore, DailyScoredQuestionnaire.Depression.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -671,7 +672,7 @@ fun PHQChartMediumPreview()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Medium,
                 producer = producer,
-                questionnaire = Questionnaire.PHQ,
+                questionnaire = DailyScoredQuestionnaire.Depression,
                 timeGranularity = TimeGranularity.Day,
             )
         }
@@ -683,9 +684,9 @@ fun PHQChartMediumPreview()
     group = "Dark Theme"
 )
 @Composable
-fun PHQChartMediumPreviewDarkTheme()
+fun DepressionChartMediumPreviewDarkTheme()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.PHQ.minScore, Questionnaire.PHQ.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Depression.minScore, DailyScoredQuestionnaire.Depression.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -694,7 +695,7 @@ fun PHQChartMediumPreviewDarkTheme()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Medium,
                 producer = producer,
-                questionnaire = Questionnaire.PHQ,
+                questionnaire = DailyScoredQuestionnaire.Depression,
                 timeGranularity = TimeGranularity.Day,
             )
         }
@@ -706,9 +707,9 @@ fun PHQChartMediumPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun UCLAChartCompactPreview()
+fun LonelinessChartCompactPreview()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.UCLA.minScore, Questionnaire.UCLA.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Loneliness.minScore, DailyScoredQuestionnaire.Loneliness.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -717,7 +718,7 @@ fun UCLAChartCompactPreview()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Compact,
                 producer = producer,
-                questionnaire = Questionnaire.UCLA,
+                questionnaire = DailyScoredQuestionnaire.Loneliness,
                 timeGranularity = TimeGranularity.Day,
             )
         }
@@ -729,9 +730,9 @@ fun UCLAChartCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun UCLAChartCompactPreviewDarkTheme()
+fun LonelinessChartCompactPreviewDarkTheme()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.UCLA.minScore, Questionnaire.UCLA.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Loneliness.minScore, DailyScoredQuestionnaire.Loneliness.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -740,7 +741,7 @@ fun UCLAChartCompactPreviewDarkTheme()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Compact,
                 producer = producer,
-                questionnaire = Questionnaire.UCLA,
+                questionnaire = DailyScoredQuestionnaire.Loneliness,
                 timeGranularity = TimeGranularity.Day,
             )
         }
@@ -752,9 +753,9 @@ fun UCLAChartCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun UCLAChartMediumPreview()
+fun LonelinessChartMediumPreview()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.UCLA.minScore, Questionnaire.UCLA.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Loneliness.minScore, DailyScoredQuestionnaire.Loneliness.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -763,7 +764,7 @@ fun UCLAChartMediumPreview()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Medium,
                 producer = producer,
-                questionnaire = Questionnaire.UCLA,
+                questionnaire = DailyScoredQuestionnaire.Loneliness,
                 timeGranularity = TimeGranularity.Day,
             )
         }
@@ -775,9 +776,9 @@ fun UCLAChartMediumPreview()
     group = "Dark Theme"
 )
 @Composable
-fun UCLAChartMediumPreviewDarkTheme()
+fun LonelinessChartMediumPreviewDarkTheme()
 {
-    val data = List(100) { Random.nextInt(Questionnaire.UCLA.minScore, Questionnaire.UCLA.maxScore)}
+    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Loneliness.minScore, DailyScoredQuestionnaire.Loneliness.maxScore)}
     val producer = ChartEntryModelProducer()
     producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
 
@@ -786,7 +787,7 @@ fun UCLAChartMediumPreviewDarkTheme()
             DrawLineChart(
                 heightSize = WindowHeightSizeClass.Medium,
                 producer = producer,
-                questionnaire = Questionnaire.UCLA,
+                questionnaire = DailyScoredQuestionnaire.Loneliness,
                 timeGranularity = TimeGranularity.Day,
             )
         }

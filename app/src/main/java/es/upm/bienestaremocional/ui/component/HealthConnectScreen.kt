@@ -8,7 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.res.stringResource
 import androidx.health.connect.client.records.Record
+import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.ui.healthconnect.UiState
 import java.util.UUID
 
@@ -39,26 +41,30 @@ fun DrawHealthConnectSubscreen(viewModelData: ViewModelData<out Record>,
     }
     LazyColumn()
     {
-        if (viewModelData.uiState != UiState.Uninitialized) {
-            if (viewModelData.uiState == UiState.Success) {
-                if (viewModelData.data.isEmpty()) {
+        if (viewModelData.uiState != UiState.Uninitialized)
+        {
+            if (viewModelData.uiState == UiState.Success)
+            {
+                if (viewModelData.data.isEmpty())
+                {
                     item {
                         Button(onClick = viewModelData.onWrite)
                         {
-                            Text(text = "Generar datos")
+                            Text(text = stringResource(id = R.string.generate_data))
                         }
                     }
                 }
                 else
                     onDisplayData()
             }
-            else if (viewModelData.uiState == UiState.NotEnoughPermissions) {
+            else if (viewModelData.uiState == UiState.NotEnoughPermissions)
+            {
                 item {
                     Button(onClick = {
                         viewModelData.onRequestPermissions(viewModelData.permissions)
                     })
                     {
-                        Text(text = "Solicita permisos")
+                        Text(text = stringResource(id = R.string.request_permissions))
                     }
                 }
             }

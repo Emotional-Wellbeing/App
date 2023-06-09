@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="high_loneliness">
+        <item>Cruz Roja te escucha es una iniciativa que trata de ofrecer acompañamiento y apoyo a personas que se encuentran en una situación de soledad no deseada. Podrán facilitarte pautas para sentirte mejor y ofrecerte recursos en tu localidad que puedan servirte de apoyo. Puedes contactar en el </item>
+        <item>900 107 917</item>
+        <item>, de lunes a jueves laborales de 10h a 14h y de 16h a 20h (una hora menos en Canarias) y los viernes laborables de 10 a 14h (una hora menos en Canarias). La llamada es gratuita y confidencial.</item>
+    </string-array>
+</resources>

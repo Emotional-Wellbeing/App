@@ -30,12 +30,16 @@ import com.alorma.compose.settings.ui.SettingsMenuLink
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.database.entity.QuestionnaireRoundFull
-import es.upm.bienestaremocional.data.database.entity.QuestionnaireRoundReduced
+import es.upm.bienestaremocional.data.database.entity.round.DailyRoundFull
+import es.upm.bienestaremocional.data.database.entity.round.OneOffRoundFull
 import es.upm.bienestaremocional.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.ui.component.BasicCard
-import es.upm.bienestaremocional.ui.component.ShowQuestionnaireRound
-import es.upm.bienestaremocional.destinations.QuestionnaireRoundScreenDestination
+import es.upm.bienestaremocional.ui.component.ShowDailyRound
+import es.upm.bienestaremocional.ui.component.ShowOneOffRound
+import es.upm.bienestaremocional.ui.component.ShowUncompletedDailyRound
+import es.upm.bienestaremocional.ui.component.ShowUncompletedOneOffRound
+import es.upm.bienestaremocional.destinations.DailyRoundScreenDestination
+import es.upm.bienestaremocional.destinations.OneOffRoundScreenDestination
 import kotlinx.coroutines.launch
 
 /**
@@ -49,8 +53,10 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
     val snackbarHostState = remember {SnackbarHostState()}
 
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val questionnaireRoundsUncompleted by viewModel.questionnaireRoundsUncompleted.observeAsState(emptyList())
-    val questionnaireRounds by viewModel.questionnaireRounds.observeAsState(emptyList())
+    val dailyRoundsUncompleted by viewModel.dailyRoundsUncompleted.observeAsState(emptyList())
+    val dailyRounds by viewModel.dailyRounds.observeAsState(emptyList())
+    val oneOffRoundsUncompleted by viewModel.oneOffRoundsUncompleted.observeAsState(emptyList())
+    val oneOffRounds by viewModel.oneOffRounds.observeAsState(emptyList())
     val workInfo by viewModel.workInfo.observeAsState(emptyList())
 
     val onPrepoulatedDatabaseMessage = stringResource(R.string.database_prepopulated)
@@ -59,13 +65,18 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
 
     val context = LocalContext.current
 
-    DebugScreen(navigator = navigator,
+    DebugScreen(
+        navigator = navigator,
         state = state,
         snackbarHostState = snackbarHostState,
-        questionnaireRoundsUncompleted = questionnaireRoundsUncompleted,
-        questionnaireRounds = questionnaireRounds,
+        dailyRoundsUncompleted = dailyRoundsUncompleted,
+        dailyRounds = dailyRounds,
+        oneOffRoundsUncompleted = oneOffRoundsUncompleted,
+        oneOffRounds = oneOffRounds,
         workInfo = workInfo,
-        onNotification = viewModel::onNotification,
+        onDailyMorningNotification = viewModel::onDailyMorningNotification,
+        onDailyNightNotification = viewModel::onDailyNightNotification,
+        onOneOffNotification = viewModel::onOneOffNotification,
         onQueryAllQuestionnaireRounds = viewModel::onQueryAllQuestionnaireRounds,
         onQueryUncompletedQuestionnaireRounds = viewModel::onQueryUncompletedQuestionnaireRounds,
         onPrepoulateDatabase = {
@@ -80,7 +91,9 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
                 showSnackbar(snackbarHostState, onDeleteDatabaseMessage)
             }
         },
-        onNotificationWorker = { viewModel.onNotificationWorker(context) },
+        onDailyMorningNotificationWorker = { viewModel.onDailyMorningNotificationWorker(context) },
+        onDailyNightNotificationWorker = { viewModel.onDailyNightNotificationWorker(context) },
+        onOneOffNotificationWorker = { viewModel.onOneOffNotificationWorker(context) },
         onUploadWorker = { viewModel.onUploadWorker(context) },
         onGetScore = {
             coroutineScope.launch {
@@ -117,24 +130,31 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
 }
 
 @Composable
-private fun DebugScreen(navigator: DestinationsNavigator,
-                        state: DebugState,
-                        snackbarHostState : SnackbarHostState,
-                        questionnaireRoundsUncompleted: List<QuestionnaireRoundFull>,
-                        questionnaireRounds: List<QuestionnaireRoundFull>,
-                        workInfo : List<WorkInfo>,
-                        onNotification: () -> Unit,
-                        onQueryAllQuestionnaireRounds : () -> Unit,
-                        onQueryUncompletedQuestionnaireRounds : () -> Unit,
-                        onPrepoulateDatabase : () -> Unit,
-                        onDeleteDatabase : () -> Unit,
-                        onNotificationWorker : () -> Unit,
-                        onUploadWorker : () -> Unit,
-                        onGetScore : () -> Unit,
-                        onPostUserData: () -> Unit,
-                        onResetUploadTimestamps : () -> Unit,
-                        onQueryWorkerStatus: () -> Unit,
-                        onGetUID: () -> Unit,
+private fun DebugScreen(
+    navigator: DestinationsNavigator,
+    state: DebugState,
+    snackbarHostState : SnackbarHostState,
+    dailyRoundsUncompleted: List<DailyRoundFull>,
+    dailyRounds: List<DailyRoundFull>,
+    oneOffRoundsUncompleted: List<OneOffRoundFull>,
+    oneOffRounds: List<OneOffRoundFull>,
+    workInfo : List<WorkInfo>,
+    onDailyMorningNotification: () -> Unit,
+    onDailyNightNotification: () -> Unit,
+    onOneOffNotification: () -> Unit,
+    onQueryAllQuestionnaireRounds : () -> Unit,
+    onQueryUncompletedQuestionnaireRounds : () -> Unit,
+    onPrepoulateDatabase : () -> Unit,
+    onDeleteDatabase : () -> Unit,
+    onDailyMorningNotificationWorker : () -> Unit,
+    onDailyNightNotificationWorker : () -> Unit,
+    onOneOffNotificationWorker : () -> Unit,
+    onUploadWorker : () -> Unit,
+    onGetScore : () -> Unit,
+    onPostUserData: () -> Unit,
+    onResetUploadTimestamps : () -> Unit,
+    onQueryWorkerStatus: () -> Unit,
+    onGetUID: () -> Unit,
 )
 {
 
@@ -155,9 +175,21 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                 )
                 {
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.notification_start_questionnaire),
+                        title = { Text(text = stringResource(R.string.daily_morning_notification_start_questionnaire),
                             color = MaterialTheme.colorScheme.secondary) },
-                        onClick = onNotification,
+                        onClick = onDailyMorningNotification,
+                    )
+
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.daily_night_start_questionnaire),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onDailyNightNotification,
+                    )
+
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.one_off_start_questionnaire),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onOneOffNotification,
                     )
 
                     SettingsMenuLink(
@@ -185,9 +217,21 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.test_notification_worker),
+                        title = { Text(text = stringResource(R.string.test_daily_morning_notification_worker),
                             color = MaterialTheme.colorScheme.secondary) },
-                        onClick = onNotificationWorker,
+                        onClick = onDailyMorningNotificationWorker,
+                    )
+
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.test_daily_night_notification_worker),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onDailyNightNotificationWorker,
+                    )
+
+                    SettingsMenuLink(
+                        title = { Text(text = stringResource(R.string.test_one_off_notification_worker),
+                            color = MaterialTheme.colorScheme.secondary) },
+                        onClick = onOneOffNotificationWorker,
                     )
 
                     SettingsMenuLink(
@@ -231,7 +275,7 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp))
                 {
-                    if(questionnaireRounds.isEmpty())
+                    if(oneOffRounds.isEmpty() && dailyRounds.isEmpty())
                     {
                         item {
                             Text(stringResource(R.string.empty_list))
@@ -239,10 +283,23 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                     }
                     else
                     {
-                        items(questionnaireRounds)
+                        item {
+                            Text(text = stringResource(id = R.string.daily_rounds))
+                        }
+                        items(dailyRounds)
                         {
                             BasicCard {
-                                ShowQuestionnaireRound(it)
+                                ShowDailyRound(it)
+                            }
+                        }
+
+                        item {
+                            Text(text = stringResource(id = R.string.one_off_rounds))
+                        }
+                        items(oneOffRounds)
+                        {
+                            BasicCard {
+                                ShowOneOffRound(it)
                             }
                         }
                     }
@@ -253,7 +310,7 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp))
                 {
-                    if(questionnaireRoundsUncompleted.isEmpty())
+                    if(oneOffRoundsUncompleted.isEmpty() && dailyRounds.isEmpty())
                     {
                         item {
                             Text(stringResource(R.string.empty_list))
@@ -261,16 +318,28 @@ private fun DebugScreen(navigator: DestinationsNavigator,
                     }
                     else
                     {
-                        items(questionnaireRoundsUncompleted) { item ->
+                        items(dailyRoundsUncompleted) { item ->
                             BasicCard {
-                                ShowQuestionnaireRound(item)
+                                ShowUncompletedDailyRound(item)
                                 TextButton(onClick = {
-                                    val qrr = QuestionnaireRoundReduced(
-                                        item.questionnaireRound.id,
-                                        if(item.pss.completed) null else item.pss.id,
-                                        item.phq?.let { if (it.completed) null else it.id },
-                                        item.ucla?.let { if (it.completed) null else it.id })
-                                    navigator.navigate(QuestionnaireRoundScreenDestination(questionnaireRoundReduced = qrr))
+                                    navigator.navigate(
+                                        DailyRoundScreenDestination(
+                                            dailyRound = item.dailyRound
+                                        )
+                                    )
+                                })
+                                {
+                                    Text(stringResource(R.string.continue_label),
+                                        color = MaterialTheme.colorScheme.tertiary)
+                                }
+                            }
+                        }
+
+                        items(oneOffRoundsUncompleted) { item ->
+                            BasicCard {
+                                ShowUncompletedOneOffRound(item)
+                                TextButton(onClick = {
+                                    navigator.navigate(OneOffRoundScreenDestination(oneOffRound = item.oneOffRound))
                                 })
                                 {
                                     Text(stringResource(R.string.continue_label),
@@ -316,8 +385,8 @@ fun DebugScreenPreview()
         DebugScreen(navigator = EmptyDestinationsNavigator,
             state = DebugState.ShowOptions,
             snackbarHostState =  remember { SnackbarHostState() },
-            questionnaireRounds = emptyList(),
-            questionnaireRoundsUncompleted = emptyList(),
+            oneOffRounds = emptyList(),
+            oneOffRoundsUncompleted = emptyList(),
             onNotification = {},
             onQueryAllQuestionnaireRounds = {},
             onQueryUncompletedQuestionnaireRounds = {},
@@ -338,8 +407,8 @@ fun DebugScreenPreviewDarkTheme()
         DebugScreen(navigator = EmptyDestinationsNavigator,
             state = DebugState.ShowOptions,
             snackbarHostState =  remember { SnackbarHostState() },
-            questionnaireRounds = emptyList(),
-            questionnaireRoundsUncompleted = emptyList(),
+            oneOffRounds = emptyList(),
+            oneOffRoundsUncompleted = emptyList(),
             onNotification = {},
             onQueryAllQuestionnaireRounds = {},
             onQueryUncompletedQuestionnaireRounds = {},
