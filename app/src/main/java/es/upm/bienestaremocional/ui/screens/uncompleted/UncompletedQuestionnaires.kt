@@ -1,8 +1,6 @@
 package es.upm.bienestaremocional.ui.screens.uncompleted
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,13 +18,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.database.entity.QuestionnaireRoundFull
-import es.upm.bienestaremocional.data.database.entity.QuestionnaireRoundReduced
+import es.upm.bienestaremocional.data.database.entity.round.DailyRoundFull
+import es.upm.bienestaremocional.data.database.entity.round.OneOffRoundFull
 import es.upm.bienestaremocional.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.ui.component.BackHandlerMinimizeApp
 import es.upm.bienestaremocional.ui.component.BasicCard
-import es.upm.bienestaremocional.ui.component.ShowUncompletedQuestionnaireRound
-import es.upm.bienestaremocional.ui.screens.destinations.QuestionnaireRoundScreenDestination
+import es.upm.bienestaremocional.ui.component.ShowUncompletedDailyRound
+import es.upm.bienestaremocional.ui.component.ShowUncompletedOneOffRound
+import es.upm.bienestaremocional.ui.screens.destinations.DailyRoundScreenDestination
+import es.upm.bienestaremocional.ui.screens.destinations.OneOffRoundScreenDestination
 
 @Destination
 @Composable
@@ -37,18 +37,21 @@ fun UncompletedQuestionnairesScreen(
 {
     BackHandlerMinimizeApp(LocalContext.current)
 
-    val questionnaireRoundsUncompleted by viewModel.questionnaireRoundsUncompleted.observeAsState(emptyList())
+    val dailyRoundsUncompleted by viewModel.dailyRoundsUncompleted.observeAsState(emptyList())
+    val oneOffRoundsUncompleted by viewModel.oneOffRoundsUncompleted.observeAsState(emptyList())
 
     UncompletedQuestionnairesScreen(
         navigator = navigator,
-        questionnaireRoundsUncompleted = questionnaireRoundsUncompleted,
+        dailyRoundsUncompleted = dailyRoundsUncompleted,
+        oneOffRoundsUncompleted = oneOffRoundsUncompleted
     )
 }
 
 @Composable
 fun UncompletedQuestionnairesScreen(
     navigator: DestinationsNavigator,
-    questionnaireRoundsUncompleted : List<QuestionnaireRoundFull>)
+    dailyRoundsUncompleted : List<DailyRoundFull>,
+    oneOffRoundsUncompleted : List<OneOffRoundFull>)
 {
     AppBasicScreen(navigator = navigator,
         entrySelected = null,
@@ -58,7 +61,7 @@ fun UncompletedQuestionnairesScreen(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp))
         {
-            if(questionnaireRoundsUncompleted.isEmpty())
+            if(dailyRoundsUncompleted.isEmpty() && oneOffRoundsUncompleted.isEmpty())
             {
                 item {
                     Text(stringResource(R.string.empty_list))
@@ -66,31 +69,36 @@ fun UncompletedQuestionnairesScreen(
             }
             else
             {
-                items(questionnaireRoundsUncompleted) { item ->
+                items(dailyRoundsUncompleted) { item ->
                     BasicCard {
-                        ShowUncompletedQuestionnaireRound(item)
-                        Row(horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier.fillMaxWidth())
+                        ShowUncompletedDailyRound(item)
+                        TextButton(onClick = {
+                            navigator.navigate(
+                                DailyRoundScreenDestination(
+                                    dailyRound = item.dailyRound
+                                )
+                            )
+                        })
                         {
-                            TextButton(onClick = {
-                                val qrr = QuestionnaireRoundReduced(
-                                    item.questionnaireRound.id,
-                                    if(item.pss.completed) null else item.pss.id,
-                                    item.phq?.let { if (it.completed) null else it.id },
-                                    item.ucla?.let { if (it.completed) null else it.id })
-                                navigator.navigate(QuestionnaireRoundScreenDestination(questionnaireRoundReduced = qrr))
-                            })
-                            {
-                                Text(
-                                    stringResource(R.string.continue_label),
-                                    color = MaterialTheme.colorScheme.tertiary)
-                            }
+                            Text(stringResource(R.string.continue_label),
+                                color = MaterialTheme.colorScheme.tertiary)
                         }
+                    }
+                }
 
+                items(oneOffRoundsUncompleted) { item ->
+                    BasicCard {
+                        ShowUncompletedOneOffRound(item)
+                        TextButton(onClick = {
+                            navigator.navigate(OneOffRoundScreenDestination(oneOffRound = item.oneOffRound))
+                        })
+                        {
+                            Text(stringResource(R.string.continue_label),
+                                color = MaterialTheme.colorScheme.tertiary)
+                        }
                     }
                 }
             }
         }
     }
-
 }

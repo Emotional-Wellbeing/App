@@ -54,7 +54,7 @@
     <string name="feedback_frequency">Frecuencia de los cuestionarios</string>
     <string name="questionnaire_only_night">Un cuestionario a la noche</string>
     <string name="questionnaire_night_lunch">Un cuestionario al mediodía y otro a la noche</string>
-    <string name="additional_questionnaires">Cuestionarios adicionales</string>
+    <string name="additional_measures">Mediciones adicionales</string>
     <string name="application_settings">Ajustes generales de la aplicación</string>
     <string name="application_settings_label">Accede a los ajustes de la app: Consumo de energía, notificaciones…</string>
 
@@ -62,12 +62,11 @@
     <string name="questionnaire">Cuestionario</string>
     <string name="measure">Medida</string>
     <string name="score">Puntuación</string>
-    <string name="pss_label">PSS (estrés)</string>
-    <string name="phq_label">PHQ (depresión)</string>
-    <string name="ucla_label">UCLA (soledad)</string>
     <string name="stress">Estrés</string>
     <string name="depression">Depresión</string>
     <string name="loneliness">Soledad</string>
+    <string name="suicide">Suicidio</string>
+    <string name="symptoms">Síntomas</string>
     <string name="level_of_stress">Nivel de estrés</string>
     <string name="level_of_depression">Nivel de depresión</string>
     <string name="level_of_loneliness">Nivel de soledad</string>
@@ -98,8 +97,12 @@
     </string>
 
     <!-- Notifications -->
-    <string name="new_questionnaire_available_title">Nuevo cuestionario</string>
-    <string name="new_questionnaire_available_content">¡Hola! Se ha abierto un nuevo cuestionario. Haz click para realizarlo.</string>
+    <string name="new_daily_morning_round_available_title">Cuestionario de mañana</string>
+    <string name="new_daily_night_round_available_title">Cuestionario de noche</string>
+    <string name="new_one_off_round_available_title">Cuestionario puntual</string>
+    <string name="new_daily_morning_round_available_content">¡Hola! Está disponible el cuestionario de mañana de hoy. Haz click para realizarlo.</string>
+    <string name="new_daily_night_round_available_content">¡Hola! Está disponible el cuestionario de noche de hoy. Haz click para realizarlo.</string>
+    <string name="new_one_off_round_available_content">¡Hola! Está disponible un nuevo cuestionario puntual. Haz click para realizarlo.</string>
     <string name="uploading">Subiendo datos</string>
     <string name="uploading_in_progress">Subida de datos en progreso</string>
 
@@ -117,11 +120,9 @@
     <string name="moderate_stress_advice">Consejo para estrés de nivel moderado</string>
     <string name="high_stress_advice">Consejo para estrés de nivel alto</string>
 
-    <string name="minimal_depression_advice">Consejo para depresión de nivel mínimo</string>
-    <string name="mild_depression_advice">Consejo para depresión de nivel level</string>
+    <string name="low_depression_advice">Consejo para depresión de nivel bajo</string>
     <string name="moderate_depression_advice">Consejo para depresión de nivel moderado</string>
-    <string name="moderately_severe_depression_advice">Consejo para depresión de nivel moderadamente severo</string>
-    <string name="severe_depression_advice">Consejo para depresión de nivel severo</string>
+    <string name="high_depression_advice">Consejo para depresión de nivel alto</string>
 
     <string name="low_loneliness_advice">Consejo para soledad de nivel bajo</string>
     <string name="moderate_loneliness_advice">Consejo para soledad de nivel moderado</string>
@@ -275,15 +276,19 @@
 
     <!-- Debug -->
     <string name="developer_options">Opciones de desarrollador</string>
-    <string name="notification_start_questionnaire">Notificación para crear cuestionario</string>
+    <string name="daily_morning_notification_start_questionnaire">Notificación para crear cuestionario de mañana</string>
+    <string name="daily_night_start_questionnaire">Notificación para crear cuestionario de noche</string>
+    <string name="one_off_start_questionnaire">Notificación para crear cuestionario puntual</string>
     <string name="query_uncompleted_questionnaire_rounds">Consultar rondas de cuestionarios incompletas</string>
     <string name="query_all_questionnaire_rounds">Consultar todas las rondas de cuestionarios</string>
     <string name="prepopulate_database">Rellenar base de datos</string>
     <string name="database_prepopulated">Base de datos rellenada</string>
     <string name="delete_database">Borrar base de datos</string>
     <string name="database_deleted">Base de datos borrada</string>
-    <string name="test_notification_worker">Probar notification worker</string>
-    <string name="test_upload_worker">Probar upload worker</string>
+    <string name="test_daily_morning_notification_worker">Probar daily morning notification worker</string>
+    <string name="test_daily_night_notification_worker">Probar daily night notification worker</string>
+    <string name="test_one_off_notification_worker">Probar one off notification worker</string>
+    <string name="test_upload_worker">Probar upload worker subiendo todos los datos</string>
     <string name="test_get_score">Probar getScore</string>
     <string name="test_post_user_data">Probar postUserData</string>
     <string name="reset_upload_timestamps">Reiniciar las marcas de tiempo de las subidas</string>
@@ -298,13 +303,20 @@
 
     <!-- Questionnaire display -->
     <string name="empty_list">No hay datos para mostrar</string>
-    <string name="round_created_formatter">Ronda creada en %s</string>
+    <string name="daily">Diaria</string>
+    <string name="daily_morning">Diaria de mañana</string>
+    <string name="daily_night">Diaria de noche</string>
+    <string name="one_off">Puntual</string>
+    <string name="daily_rounds">Rondas diarias</string>
+    <string name="one_off_rounds">Rondas puntuales</string>
+    <string name="round_created_formatter">Ronda %s creada en %s</string>
     <string name="created_formatter">Creada en: %s</string>
     <string name="pss_questionnaire">Cuestionario PSS</string>
     <string name="phq_questionnaire">Cuestionario PHQ</string>
     <string name="ucla_questionnaire">Cuestionario UCLA</string>
     <string name="score_formatter">Puntuación: %d</string>
-    <string name="level_formatter">Nivel: %s</string>
+    <string name="level_formatter">Nivel %s</string>
+    <string name="completed">Completado</string>
     <string name="uncompleted">Incompletado</string>
     <string name="continue_label">Continuar</string>
 </resources>

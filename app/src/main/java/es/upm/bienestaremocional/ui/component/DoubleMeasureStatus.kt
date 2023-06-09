@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
 import es.upm.bienestaremocional.domain.processing.scoreToLevel
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
@@ -33,7 +33,7 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 @Composable
 fun DoubleMeasureStatus(data : Pair<Int?,Int?>,
                         headers : Pair<String, String>,
-                        questionnaire : Questionnaire,
+                        questionnaire : DailyScoredQuestionnaire,
                         height: Dp,
                         widthSize : WindowWidthSizeClass,
                         showHeadline : Boolean = true,
@@ -54,15 +54,7 @@ fun DoubleMeasureStatus(data : Pair<Int?,Int?>,
 
     val measureLabel =
         if (showHeadline)
-        {
-            stringResource(when (questionnaire)
-                {
-                    Questionnaire.PSS -> R.string.stress
-                    Questionnaire.PHQ -> R.string.depression
-                    Questionnaire.UCLA -> R.string.loneliness
-                }
-            )
-        }
+            stringResource(questionnaire.measure.measureRes)
     else
         null
 
@@ -254,7 +246,7 @@ fun DoubleMeasureStatusCompactPreview()
                     stringResource(R.string.last_seven_days)
                 ),
                 height = 200.dp,
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 widthSize = WindowWidthSizeClass.Compact)
         }
     }
@@ -276,7 +268,7 @@ fun DoubleMeasureStatusCompactPreviewDarkTheme()
                     stringResource(R.string.last_seven_days)
                 ),
                 height = 200.dp,
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 widthSize = WindowWidthSizeClass.Compact)
         }
     }
@@ -299,7 +291,7 @@ fun DoubleMeasureStatusNoHeadlineCompactPreview()
                 ),
                 height = 200.dp,
                 showHeadline = false,
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 widthSize = WindowWidthSizeClass.Compact)
         }
     }
@@ -322,7 +314,7 @@ fun DoubleMeasureStatusNoHeadlineCompactPreviewDarkTheme()
                 ),
                 height = 200.dp,
                 showHeadline = false,
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 widthSize = WindowWidthSizeClass.Compact)
         }
     }

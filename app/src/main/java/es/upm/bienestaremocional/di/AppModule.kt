@@ -11,7 +11,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import es.upm.bienestaremocional.data.AppConstants
-import es.upm.bienestaremocional.data.database.dao.AppDAO
 import es.upm.bienestaremocional.data.healthconnect.HealthConnectAvailability
 import es.upm.bienestaremocional.data.healthconnect.HealthConnectManager
 import es.upm.bienestaremocional.data.healthconnect.HealthConnectManagerImpl
@@ -24,8 +23,6 @@ import es.upm.bienestaremocional.data.settings.AppSettings
 import es.upm.bienestaremocional.data.settings.AppSettingsImpl
 import es.upm.bienestaremocional.data.worker.WorkAdministrator
 import es.upm.bienestaremocional.data.worker.WorkAdministratorImpl
-import es.upm.bienestaremocional.domain.repository.questionnaire.QuestionnaireRoundReducedRepository
-import es.upm.bienestaremocional.domain.repository.questionnaire.QuestionnaireRoundReducedRepositoryImpl
 import es.upm.bienestaremocional.ui.notification.Notification
 import es.upm.bienestaremocional.ui.notification.NotificationImpl
 import retrofit2.Retrofit
@@ -89,13 +86,6 @@ object AppModule
     fun provideHealthConnectAvailability(healthConnectManager: HealthConnectManager)
     : MutableState<HealthConnectAvailability> = healthConnectManager.availability
 
-    @Provides
-    @Singleton
-    fun provideQuestionnaireRoundReducedRepository(dao: AppDAO,
-                                                   appSettings: AppSettings,
-                                                   @Named("logTag") logTag: String
-    ): QuestionnaireRoundReducedRepository =
-        QuestionnaireRoundReducedRepositoryImpl(dao,appSettings,logTag)
 
     @Provides
     @Singleton

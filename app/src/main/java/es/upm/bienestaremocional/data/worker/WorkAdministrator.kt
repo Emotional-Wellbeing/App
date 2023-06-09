@@ -2,7 +2,6 @@ package es.upm.bienestaremocional.data.worker
 
 import androidx.lifecycle.LiveData
 import androidx.work.WorkInfo
-import es.upm.bienestaremocional.data.notification.NotificationItem
 
 /**
  * Manages task scheduling.
@@ -11,14 +10,34 @@ import es.upm.bienestaremocional.data.notification.NotificationItem
 interface WorkAdministrator
 {
     /**
-     * Schedule notifications
+     * Schedule upload worker
      */
-    fun schedule(notifications: List<NotificationItem>)
+    fun scheduleDailyMorningNotificationWorker()
 
     /**
-     * Cancel the display of notifications
+     * Cancel upload worker
      */
-    fun cancel(notifications: List<NotificationItem>)
+    fun cancelDailyMorningNotificationWorker()
+
+    /**
+     * Schedule upload worker
+     */
+    fun scheduleDailyNightNotificationWorker()
+
+    /**
+     * Cancel upload worker
+     */
+    fun cancelDailyNightNotificationWorker()
+
+    /**
+     * Schedule upload worker
+     */
+    fun scheduleOneOffNotificationWorker()
+
+    /**
+     * Cancel upload worker
+     */
+    fun cancelOneOffNotificationWorker()
 
     /**
      * Schedule upload worker

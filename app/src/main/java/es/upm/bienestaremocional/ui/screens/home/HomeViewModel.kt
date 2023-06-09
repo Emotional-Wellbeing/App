@@ -3,13 +3,14 @@ package es.upm.bienestaremocional.ui.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.Measure
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
 import es.upm.bienestaremocional.data.settings.AppSettings
 import es.upm.bienestaremocional.domain.processing.processRecords
-import es.upm.bienestaremocional.domain.repository.questionnaire.PHQRepository
-import es.upm.bienestaremocional.domain.repository.questionnaire.PSSRepository
-import es.upm.bienestaremocional.domain.repository.questionnaire.QuestionnaireRoundFullRepository
-import es.upm.bienestaremocional.domain.repository.questionnaire.UCLARepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.DailyDepressionRepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.DailyLonelinessRepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.DailyRoundFullRepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.DailyStressRepository
 import es.upm.bienestaremocional.utils.TimeGranularity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,10 +22,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val pssRepository: PSSRepository,
-    private val phqRepository: PHQRepository,
-    private val uclaRepository: UCLARepository,
-    private val questionnaireRoundFullRepository: QuestionnaireRoundFullRepository,
+    private val dailyStressRepository: DailyStressRepository,
+    private val dailyDepressionRepository: DailyDepressionRepository,
+    private val dailyLonelinessRepository: DailyLonelinessRepository,
+    private val dailyRoundFullRepository: DailyRoundFullRepository,
     val appSettings: AppSettings
 ): ViewModel()
 {
@@ -33,13 +34,15 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow(false)
     val uncompletedQuestionnaires : StateFlow<Boolean> = _uncompletedQuestionnaires.asStateFlow()
 
-    val questionnaires : List<Questionnaire> = runBlocking {
-        Questionnaire.getMandatory() + appSettings.getQuestionnairesSelected().first()
-    }
+    val questionnaires : List<DailyScoredQuestionnaire> =
+        runBlocking {
+            val measures = Measure.getMandatory() + appSettings.getMeasuresSelected().first()
+            measures.mapNotNull { DailyScoredQuestionnaire.fromMeasure(it) }
+        }
 
     init {
         viewModelScope.launch {
-            _uncompletedQuestionnaires.value = questionnaireRoundFullRepository
+            _uncompletedQuestionnaires.value = dailyRoundFullRepository
                 .getAllUncompleted()
                 .isNotEmpty()
         }
@@ -47,7 +50,7 @@ class HomeViewModel @Inject constructor(
 
     suspend fun getStressScore() : Int?
     {
-        val scores = pssRepository.getAllFromYesterday()
+        val scores = dailyStressRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
             processRecords(scores, TimeGranularity.Day)[0].score.toInt()
         else
@@ -55,7 +58,7 @@ class HomeViewModel @Inject constructor(
     }
     suspend fun getDepressionScore() : Int?
     {
-        val scores = phqRepository.getAllFromYesterday()
+        val scores = dailyDepressionRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
             processRecords(scores, TimeGranularity.Day)[0].score.toInt()
         else
@@ -63,7 +66,7 @@ class HomeViewModel @Inject constructor(
     }
     suspend fun getLonelinessScore() : Int?
     {
-        val scores = uclaRepository.getAllFromYesterday()
+        val scores = dailyLonelinessRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
             processRecords(scores, TimeGranularity.Day)[0].score.toInt()
         else

@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.Measure
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -26,29 +26,29 @@ class AppSettingsImpl(private val context: Context): AppSettings
             by preferencesDataStore(name = "settings")
 
         //preferences keys of the settings
-        private val QUESTIONNAIRES = stringSetPreferencesKey("questionnaires")
+        private val MEASURES = stringSetPreferencesKey("measures")
         private val THEME = stringPreferencesKey("theme")
         private val DYNAMIC_COLORS = booleanPreferencesKey("dynamic_colors")
 
         //defaults values
-        private val QUESTIONNAIRES_DEFAULT_VALUE = emptySet<String>()
+        private val MEASURES_DEFAULT_VALUE = emptySet<String>()
         private val THEME_DEFAULT_VALUE = ThemeMode.DEFAULT_MODE
         private const val DYNAMIC_COLORS_DEFAULT_VALUE = false
     }
 
-    override suspend fun saveQuestionnairesSelected(value: Set<Questionnaire>)
+    override suspend fun saveMeasuresSelected(value: Set<Measure>)
     {
         val setTransformed = value.map { it.id }.toSet()
         context.appSettingsDataStore.edit{ preferences ->
-            preferences[QUESTIONNAIRES] = setTransformed
+            preferences[MEASURES] = setTransformed
         }
     }
 
-    override suspend fun getQuestionnairesSelected(): Flow<Set<Questionnaire>> {
+    override suspend fun getMeasuresSelected(): Flow<Set<Measure>> {
         val originalFlow = context.appSettingsDataStore.data.map { preferences ->
-            preferences[QUESTIONNAIRES] ?: QUESTIONNAIRES_DEFAULT_VALUE
+            preferences[MEASURES] ?: MEASURES_DEFAULT_VALUE
         }
-        return originalFlow.map { set -> set.mapNotNull { Questionnaire.decode(it) }.toSet() }
+        return originalFlow.map { set -> set.mapNotNull { Measure.decode(it) }.toSet() }
     }
 
 

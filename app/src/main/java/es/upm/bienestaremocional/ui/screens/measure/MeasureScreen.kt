@@ -36,7 +36,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
 import es.upm.bienestaremocional.domain.processing.NullableChartRecord
 import es.upm.bienestaremocional.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.ui.component.ChartEntryWithTime
@@ -55,13 +55,14 @@ import java.util.Locale
 @Destination
 @Composable
 fun MeasureScreen(navigator : DestinationsNavigator,
-                  questionnaire: Questionnaire,
+                  questionnaire: DailyScoredQuestionnaire,
                   viewModel : MeasureViewModel = hiltViewModel()
 )
 {
     val yesterdayScore by viewModel.yesterdayScore.collectAsStateWithLifecycle()
     val lastSevenDaysScore by viewModel.lastSevenDaysScore.collectAsStateWithLifecycle()
     val currentWeekScores by viewModel.currentWeekScores.collectAsStateWithLifecycle()
+
 
     MeasureScreen(
         navigator = navigator,
@@ -76,23 +77,16 @@ fun MeasureScreen(navigator : DestinationsNavigator,
 @Composable
 private fun MeasureScreen(
     navigator: DestinationsNavigator,
-    questionnaire: Questionnaire,
+    questionnaire: DailyScoredQuestionnaire,
     yesterdayScore: Int?,
     lastSevenDaysScore: Int?,
     currentWeekScores: List<NullableChartRecord>,
     widthSize: WindowWidthSizeClass
 )
 {
-    val labelRes = when(questionnaire)
-    {
-        Questionnaire.PSS -> R.string.stress
-        Questionnaire.PHQ -> R.string.depression
-        Questionnaire.UCLA -> R.string.loneliness
-    }
-
     AppBasicScreen(navigator = navigator,
         entrySelected = null,
-        label = labelRes)
+        label = questionnaire.measure.measureRes)
     {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -134,7 +128,7 @@ private fun MeasureScreen(
 }
 
 @Composable
-private fun ActualWeekChart(questionnaire: Questionnaire,
+private fun ActualWeekChart(questionnaire: DailyScoredQuestionnaire,
                             data : List<NullableChartRecord>)
 {
     val producer = remember { ChartEntryModelProducer() }
@@ -169,7 +163,7 @@ private fun ActualWeekChart(questionnaire: Questionnaire,
             startAxis = startAxis(
                 guideline = axisGuidelineComponent(),
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),
-                title = stringResource(questionnaire.measureRes),
+                title = stringResource(questionnaire.measure.measureRes),
             ),
 
             bottomAxis = bottomAxis(
@@ -191,7 +185,7 @@ private fun ActualWeekChart(questionnaire: Questionnaire,
 private fun MeasureScreenCompactPreview()
 {
     val days = 7
-    val step = Questionnaire.PSS.run { maxScore - minScore } / days.toFloat()
+    val step = DailyScoredQuestionnaire.Stress.run { maxScore - minScore } / days.toFloat()
 
     val monday = ZonedDateTime
         .now()
@@ -202,13 +196,13 @@ private fun MeasureScreenCompactPreview()
     {
         NullableChartRecord(
             day = monday.plusDays(it.toLong()),
-            score = Questionnaire.PSS.minScore + (step * (it+1)),
+            score = DailyScoredQuestionnaire.Stress.minScore + (step * (it+1)),
         )
     }
 
     BienestarEmocionalTheme {
         MeasureScreen(navigator = EmptyDestinationsNavigator,
-            questionnaire = Questionnaire.PSS,
+            questionnaire = DailyScoredQuestionnaire.Stress,
             yesterdayScore = 20,
             lastSevenDaysScore = 40,
             currentWeekScores = currentWeekScores,
@@ -221,7 +215,7 @@ private fun MeasureScreenCompactPreview()
 private fun MeasureScreenCompactPreviewDarkTheme()
 {
     val days = 7
-    val step = Questionnaire.PSS.run { maxScore - minScore } / days.toFloat()
+    val step = DailyScoredQuestionnaire.Stress.run { maxScore - minScore } / days.toFloat()
 
     val monday = ZonedDateTime
         .now()
@@ -232,13 +226,13 @@ private fun MeasureScreenCompactPreviewDarkTheme()
     {
         NullableChartRecord(
             day = monday.plusDays(it.toLong()),
-            score = Questionnaire.PSS.minScore + (step * (it+1)),
+            score = DailyScoredQuestionnaire.Stress.minScore + (step * (it+1)),
         )
     }
 
     BienestarEmocionalTheme(darkTheme = true) {
         MeasureScreen(navigator = EmptyDestinationsNavigator,
-            questionnaire = Questionnaire.PSS,
+            questionnaire = DailyScoredQuestionnaire.Stress,
             yesterdayScore = 20,
             lastSevenDaysScore = 40,
             currentWeekScores = currentWeekScores,

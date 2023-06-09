@@ -1,7 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Questionnaires -->
-    <string-array name="pss_questions">
+    <!-- Daily questionnaires -->
+    <string-array name="daily_morning_stress_questions">
+        <item>Me siento nervioso/a</item>
+        <item>Me siento angustiado/a</item>
+        <item>Me siento activo/a</item>
+        <item>Estoy preocupado/a</item>
+    </string-array>
+    <string-array name="daily_night_stress_questions">
+        <item>Me he sentido nervioso/a</item>
+        <item>Me he sentido angustiado/a</item>
+        <item>Me he sentido activo/a</item>
+        <item>He estado preocupado/a</item>
+    </string-array>
+
+    <string-array name="daily_morning_depression_questions">
+        <item>Me siento triste</item>
+        <item>Me siento vacio/a</item>
+        <item>Me siento apático/a</item>
+    </string-array>
+    <string-array name="daily_night_depression_questions">
+        <item>Me he sentido triste</item>
+        <item>Me he sentido vacio/a</item>
+        <item>Me he sentido apático/a</item>
+    </string-array>
+
+    <string-array name="daily_morning_loneliness_questions">
+        <item>Me siento solo/a</item>
+        <item>Me siento incomprendido/a</item>
+        <item>Me siento excluido/a</item>
+        <item>Me siento poco ayudado/a</item>
+    </string-array>
+    <string-array name="daily_night_loneliness_questions">
+        <item>Me he sentido solo/a</item>
+        <item>Me he sentido incomprendido/a</item>
+        <item>Me he sentido excluido/a</item>
+        <item>Me he sentido poco ayudado/a</item>
+    </string-array>
+
+    <string-array name="daily_morning_suicide_questions">
+        <item>Tengo pensamientos de suicidio</item>
+        <item>En los últimos días, ¿has pensado seriamente en suicidarte?</item>
+        <item>¿Existe alguna posibilidad de que pienses acabar con tu vida hoy o en los próximos días?</item>
+    </string-array>
+
+    <string-array name="daily_night_suicide_questions">
+        <item>He tenido pensamientos de suicidio</item>
+        <item>En el día de hoy, ¿has pensado seriamente en suicidarte?</item>
+        <item>¿Existe alguna posibilidad de que pienses acabar con tu vida hoy o en los próximos días?</item>
+    </string-array>
+
+    <string-array name="daily_symptoms_questions">
+        <item>¿Has experimentado cambios hoy en el apetito?</item>
+        <item>¿Con cuánta energía te has notado hoy?</item>
+        <item>¿Cuál ha sido tu nivel de descanso hoy?</item>
+        <item>Tu nivel de concentración de hoy ha sido…</item>
+        <item>¿Cuál ha sido tu nivel de líbido hoy?</item>
+        <item>¿Cómo te has encontrado hoy a nivel de dolor?</item>
+    </string-array>
+
+
+    <!-- One off questionnaires -->
+    <string-array name="one_off_stress_questions">
         <item>¿Con qué frecuencia ha estado afectado por algo que ha ocurrido inesperadamente?</item>
         <item>¿Con qué frecuencia se ha sentido incapaz de controlar las cosas importantes en su vida?</item>
         <item>¿Con qué frecuencia se ha sentido nervioso o estresado?</item>
@@ -13,7 +73,7 @@
         <item>¿Con qué frecuencia ha estado enfadado porque las cosas que le han ocurrido estaban fuera de su control?</item>
         <item>¿Con qué frecuencia ha sentido que las dificultades se acumulan tanto que no puede superarlas?</item>
     </string-array>
-    <string-array name="phq_questions">
+    <string-array name="one_off_depression_questions">
         <item>Poco interés o placer en hacer cosas</item>
         <item>Se ha sentido decaído(a), deprimido(a) o sin esperanzas </item>
         <item>Ha tenido dificultad para quedarse o permanecer dormido(a), o ha dormido demasiado </item>
@@ -24,7 +84,7 @@
         <item>¿Se ha movido o hablado tan lento que otras personas podrían haberlo notado? o lo contrario – muy inquieto(a) o agitado(a) que ha estado moviéndose mucho más de lo normal</item>
         <item>Pensamientos de que estaría mejor muerto(a) o de lastimarse de alguna manera</item>
     </string-array>
-    <string-array name="ucla_questions">
+    <string-array name="one_off_loneliness_questions">
         <item>Sintonizo (me llevo bien) con la gente que me rodea</item>
         <item>Me falta compañía</item>
         <item>No tengo a nadie con quien yo pueda contar</item>
@@ -46,6 +106,44 @@
         <item>Hay personas con las que puedo charlar y comunicarme</item>
         <item>Hay personas a las que puedo recurrir</item>
     </string-array>
+
+    <!-- Answers -->
+    <string-array name="boolean_answers">
+        <item>Si</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="appetite_answers">
+        <item>Excesivamente alto</item>
+        <item>Adecuado</item>
+        <item>Excesivamente bajo</item>
+    </string-array>
+    <string-array name="felt_answers">
+        <item>Alta</item>
+        <item>Moderada</item>
+        <item>Baja</item>
+    </string-array>
+    <string-array name="rest_answers">
+        <item>Satisfactorio</item>
+        <item>Moderado</item>
+        <item>Insuficiente</item>
+    </string-array>
+    <string-array name="concentration_answers">
+        <item>Satisfactoria</item>
+        <item>Moderada</item>
+        <item>Insuficiente</item>
+    </string-array>
+    <string-array name="libido_answers">
+        <item>Satisfactoria</item>
+        <item>Moderada</item>
+        <item>Baja</item>
+    </string-array>
+    <string-array name="pain_answers">
+        <item>Sin dolor</item>
+        <item>Dolor moderado</item>
+        <item>Dolor alto</item>
+    </string-array>
+
     <string-array name="four_answers_questionnaire">
         <item>Nunca</item>
         <item>Alguna vez</item>

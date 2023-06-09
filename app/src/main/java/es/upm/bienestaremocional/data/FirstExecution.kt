@@ -3,9 +3,7 @@ package es.upm.bienestaremocional.data
 import android.app.NotificationManager
 import es.upm.bienestaremocional.data.database.entity.LastUpload
 import es.upm.bienestaremocional.data.notification.NotificationChannels
-import es.upm.bienestaremocional.data.notification.NotificationsAvailable
 import es.upm.bienestaremocional.data.notification.createNotificationChannel
-import es.upm.bienestaremocional.data.settings.AppSettings
 import es.upm.bienestaremocional.data.worker.WorkAdministrator
 import es.upm.bienestaremocional.domain.repository.LastUploadRepository
 import es.upm.bienestaremocional.utils.obtainTimestamp
@@ -14,7 +12,6 @@ import java.time.Instant
 suspend fun firstTimeExecution(
     notificationManager: NotificationManager,
     scheduler: WorkAdministrator,
-    appSettings: AppSettings,
     lastUploadRepository: LastUploadRepository
 )
 {
@@ -25,7 +22,9 @@ suspend fun firstTimeExecution(
             channel = appChannel
         )
     //schedule notifications
-    scheduler.schedule(NotificationsAvailable.allNotifications)
+    scheduler.scheduleDailyMorningNotificationWorker()
+    scheduler.scheduleDailyNightNotificationWorker()
+    scheduler.scheduleOneOffNotificationWorker()
     scheduler.scheduleUploadWorker()
 
     //insert values in last upload table

@@ -21,102 +21,196 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.data.Measure
 import es.upm.bienestaremocional.data.questionnaire.Level
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
+import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffQuestionnaire
+import es.upm.bienestaremocional.domain.processing.levelToAdvice
 import es.upm.bienestaremocional.domain.processing.scoreToLevel
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 @Composable
-fun StressStatus(data: Int?,
-                 widthSize : WindowWidthSizeClass,
-                 indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-                 indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-                 backgroundColor : Color = MaterialTheme.colorScheme.background,
-                 showAdvice : Boolean = true,
+fun DailyStressStatus(
+    data: Int?,
+    widthSize : WindowWidthSizeClass,
+    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor : Color = MaterialTheme.colorScheme.background,
+    showAdvice : Boolean = true,
 )
 {
-    val level = data?.let { scoreToLevel(it,Questionnaire.PSS) }
-    val adviceRes = if (showAdvice) Questionnaire.PSS.advices[level]?.get(0) else null
+    val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Stress) }
+    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
     val advice = adviceRes?.let { stringResource(it) }
 
-    MeasureStatus(data = data,
+    MeasureStatus(
+        data = data,
         introLabel = stringResource(id = R.string.level_of_stress),
-        level = data?.let { scoreToLevel(it,Questionnaire.PSS) },
+        level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Stress) },
         advice = advice,
         widthSize = widthSize,
         indicatorColor = indicatorColor,
         indicatorContainerColor = indicatorContainerColor,
         backgroundColor = backgroundColor,
-        minValue = Questionnaire.PSS.minScore,
-        maxValue = Questionnaire.PSS.maxScore,
+        minValue = DailyScoredQuestionnaire.Stress.minScore,
+        maxValue = DailyScoredQuestionnaire.Stress.maxScore,
     )
 }
 
 @Composable
-fun DepressionStatus(data: Int?,
-                     widthSize : WindowWidthSizeClass,
-                     indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-                     indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-                     backgroundColor : Color = MaterialTheme.colorScheme.background,
-                     showAdvice : Boolean = true,
+fun DailyDepressionStatus(
+    data: Int?,
+    widthSize : WindowWidthSizeClass,
+    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor : Color = MaterialTheme.colorScheme.background,
+    showAdvice : Boolean = true,
 )
 {
-    val level = data?.let { scoreToLevel(it,Questionnaire.PSS) }
-    val adviceRes = if (showAdvice) Questionnaire.PSS.advices[level]?.get(0) else null
+    val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Depression) }
+    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
     val advice = adviceRes?.let { stringResource(it) }
 
-    MeasureStatus(data = data,
+    MeasureStatus(
+        data = data,
         introLabel = stringResource(id = R.string.level_of_depression),
-        level = data?.let { scoreToLevel(it,Questionnaire.PHQ) },
+        level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Depression) },
         advice = advice,
         widthSize = widthSize,
         indicatorColor = indicatorColor,
         indicatorContainerColor = indicatorContainerColor,
         backgroundColor = backgroundColor,
-        minValue = Questionnaire.PHQ.minScore,
-        maxValue = Questionnaire.PHQ.maxScore
+        minValue = DailyScoredQuestionnaire.Depression.minScore,
+        maxValue = DailyScoredQuestionnaire.Depression.maxScore
     )
 }
 
 @Composable
-fun LonelinessStatus(data: Int?,
-                     widthSize : WindowWidthSizeClass,
-                     indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-                     indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-                     backgroundColor : Color = MaterialTheme.colorScheme.background,
-                     showAdvice : Boolean = true,
+fun DailyLonelinessStatus(
+    data: Int?,
+    widthSize : WindowWidthSizeClass,
+    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor : Color = MaterialTheme.colorScheme.background,
+    showAdvice : Boolean = true,
 )
 {
-    val level = data?.let { scoreToLevel(it,Questionnaire.PSS) }
-    val adviceRes = if (showAdvice) Questionnaire.PSS.advices[level]?.get(0) else null
+    val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Loneliness) }
+    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
     val advice = adviceRes?.let { stringResource(it) }
 
-    MeasureStatus(data = data,
+    MeasureStatus(
+        data = data,
         introLabel = stringResource(id = R.string.level_of_loneliness),
-        level = data?.let { scoreToLevel(it,Questionnaire.UCLA) },
+        level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) },
         advice = advice,
         widthSize = widthSize,
         indicatorColor = indicatorColor,
         indicatorContainerColor = indicatorContainerColor,
         backgroundColor = backgroundColor,
-        minValue = Questionnaire.UCLA.minScore,
-        maxValue = Questionnaire.UCLA.maxScore
+        minValue = DailyScoredQuestionnaire.Loneliness.minScore,
+        maxValue = DailyScoredQuestionnaire.Loneliness.maxScore
+    )
+}
+
+@Composable
+fun OneOffStressStatus(
+    data: Int?,
+    widthSize : WindowWidthSizeClass,
+    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor : Color = MaterialTheme.colorScheme.background,
+    showAdvice : Boolean = true,
+)
+{
+    val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Stress) }
+    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
+    val advice = adviceRes?.let { stringResource(it) }
+
+    MeasureStatus(
+        data = data,
+        introLabel = stringResource(id = R.string.level_of_stress),
+        level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Stress) },
+        advice = advice,
+        widthSize = widthSize,
+        indicatorColor = indicatorColor,
+        indicatorContainerColor = indicatorContainerColor,
+        backgroundColor = backgroundColor,
+        minValue = OneOffQuestionnaire.Stress.minScore,
+        maxValue = OneOffQuestionnaire.Stress.maxScore,
+    )
+}
+
+@Composable
+fun OneOffDepressionStatus(
+    data: Int?,
+    widthSize : WindowWidthSizeClass,
+    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor : Color = MaterialTheme.colorScheme.background,
+    showAdvice : Boolean = true,
+)
+{
+    val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Depression) }
+    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
+    val advice = adviceRes?.let { stringResource(it) }
+
+    MeasureStatus(
+        data = data,
+        introLabel = stringResource(id = R.string.level_of_depression),
+        level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Depression) },
+        advice = advice,
+        widthSize = widthSize,
+        indicatorColor = indicatorColor,
+        indicatorContainerColor = indicatorContainerColor,
+        backgroundColor = backgroundColor,
+        minValue = OneOffQuestionnaire.Depression.minScore,
+        maxValue = OneOffQuestionnaire.Depression.maxScore
+    )
+}
+
+@Composable
+fun OneOffLonelinessStatus(
+    data: Int?,
+    widthSize : WindowWidthSizeClass,
+    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor : Color = MaterialTheme.colorScheme.background,
+    showAdvice : Boolean = true,
+)
+{
+    val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) }
+    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
+    val advice = adviceRes?.let { stringResource(it) }
+
+    MeasureStatus(
+        data = data,
+        introLabel = stringResource(id = R.string.level_of_loneliness),
+        level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) },
+        advice = advice,
+        widthSize = widthSize,
+        indicatorColor = indicatorColor,
+        indicatorContainerColor = indicatorContainerColor,
+        backgroundColor = backgroundColor,
+        minValue = OneOffQuestionnaire.Loneliness.minScore,
+        maxValue = OneOffQuestionnaire.Loneliness.maxScore
     )
 }
 
 
 
 @Composable
-private fun MeasureStatus(data: Int?,
-                          introLabel : String,
-                          level: Level?,
-                          advice : String?,
-                          widthSize : WindowWidthSizeClass,
-                          indicatorColor : Color,
-                          indicatorContainerColor : Color,
-                          backgroundColor : Color,
-                          minValue: Int = 0,
-                          maxValue : Int = 100,
+private fun MeasureStatus(
+    data: Int?,
+    introLabel : String,
+    level: Level?,
+    advice : String?,
+    widthSize : WindowWidthSizeClass,
+    indicatorColor : Color,
+    indicatorContainerColor : Color,
+    backgroundColor : Color,
+    minValue: Int = 0,
+    maxValue : Int = 100,
 )
 {
     // Scale factor to reduce the height of row in bigger screens
@@ -218,14 +312,13 @@ private fun MeasureStatus(data: Int?,
     group = "Light Theme",
 )
 @Composable
-fun StressStatusCompactPreview()
+fun DailyStressStatusCompactPreview()
 {
     BienestarEmocionalTheme()
     {
         Surface()
         {
-            StressStatus(data = 27,
-                widthSize = WindowWidthSizeClass.Compact)
+            DailyStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
         }
     }
 }
@@ -234,14 +327,13 @@ fun StressStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun StressStatusCompactPreviewDarkTheme()
+fun DailyStressStatusCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
-            StressStatus(data = 27,
-                widthSize = WindowWidthSizeClass.Compact)
+            DailyStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
         }
     }
 }
@@ -250,14 +342,13 @@ fun StressStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun DepressionStatusCompactPreview()
+fun DailyDepressionStatusCompactPreview()
 {
     BienestarEmocionalTheme()
     {
         Surface()
         {
-            DepressionStatus(data = 16,
-                widthSize = WindowWidthSizeClass.Compact)
+            DailyDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
         }
     }
 }
@@ -266,14 +357,13 @@ fun DepressionStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DepressionStatusCompactPreviewDarkTheme()
+fun DailyDepressionStatusCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
-            DepressionStatus(data = 16,
-                widthSize = WindowWidthSizeClass.Compact)
+            DailyDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
         }
     }
 }
@@ -282,14 +372,13 @@ fun DepressionStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun LonelinessStatusCompactPreview()
+fun DailyLonelinessStatusCompactPreview()
 {
     BienestarEmocionalTheme()
     {
         Surface()
         {
-            LonelinessStatus(data = 47,
-                widthSize = WindowWidthSizeClass.Compact)
+            DailyLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
         }
     }
 }
@@ -298,14 +387,103 @@ fun LonelinessStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun LonelinessStatusCompactPreviewDarkTheme()
+fun DailyLonelinessStatusCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
-            LonelinessStatus(data = 47,
-                widthSize = WindowWidthSizeClass.Compact)
+            DailyLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
+        }
+    }
+}
+
+@Preview(
+    group = "Light Theme",
+)
+@Composable
+fun OneOffStressStatusCompactPreview()
+{
+    BienestarEmocionalTheme()
+    {
+        Surface()
+        {
+            OneOffStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
+        }
+    }
+}
+
+@Preview(
+    group = "Dark Theme"
+)
+@Composable
+fun OneOffStressStatusCompactPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true)
+    {
+        Surface()
+        {
+            OneOffStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
+        }
+    }
+}
+
+@Preview(
+    group = "Light Theme"
+)
+@Composable
+fun OneOffDepressionStatusCompactPreview()
+{
+    BienestarEmocionalTheme()
+    {
+        Surface()
+        {
+            OneOffDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
+        }
+    }
+}
+
+@Preview(
+    group = "Dark Theme"
+)
+@Composable
+fun OneOffDepressionStatusCompactPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true)
+    {
+        Surface()
+        {
+            OneOffDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
+        }
+    }
+}
+
+@Preview(
+    group = "Light Theme"
+)
+@Composable
+fun OneOffLonelinessStatusCompactPreview()
+{
+    BienestarEmocionalTheme()
+    {
+        Surface()
+        {
+            OneOffLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
+        }
+    }
+}
+
+@Preview(
+    group = "Dark Theme"
+)
+@Composable
+fun OneOffLonelinessStatusCompactPreviewDarkTheme()
+{
+    BienestarEmocionalTheme(darkTheme = true)
+    {
+        Surface()
+        {
+            OneOffLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
         }
     }
 }

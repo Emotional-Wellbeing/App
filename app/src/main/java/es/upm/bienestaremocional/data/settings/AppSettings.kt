@@ -1,6 +1,6 @@
 package es.upm.bienestaremocional.data.settings
 
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.Measure
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -13,13 +13,13 @@ interface AppSettings
      * Save questionnaires selected
      * @param value: Preference to save
      */
-    suspend fun saveQuestionnairesSelected(value: Set<Questionnaire>)
+    suspend fun saveMeasuresSelected(value: Set<Measure>)
 
     /**
      * Get notification frequency preference
-     * @return [Flow] of [Set] of [Questionnaire] with the values
+     * @return [Flow] of [Set] of [Measure] with the values
      */
-    suspend fun getQuestionnairesSelected(): Flow<Set<Questionnaire>>
+    suspend fun getMeasuresSelected(): Flow<Set<Measure>>
 
     /**
      * Save theme preference

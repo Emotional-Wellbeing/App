@@ -30,7 +30,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
 import es.upm.bienestaremocional.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.ui.component.BackHandlerMinimizeApp
 import es.upm.bienestaremocional.ui.navigation.BottomBarDestination
@@ -68,7 +68,7 @@ fun HomeScreen(navigator: DestinationsNavigator,
 @Composable
 private fun HomeScreen(
     navigator: DestinationsNavigator,
-    questionnairesToShow : List<Questionnaire>,
+    questionnairesToShow : List<DailyScoredQuestionnaire>,
     widthSize : WindowWidthSizeClass,
     heightSize : WindowHeightSizeClass,
     uncompletedQuestionnaires : Boolean,
@@ -91,9 +91,9 @@ private fun HomeScreen(
         questionnairesToShow.forEach { questionnaire ->
             when(questionnaire)
             {
-                Questionnaire.PSS -> stressScore = getStressScore()
-                Questionnaire.PHQ -> depressionScore = getDepressionScore()
-                Questionnaire.UCLA -> lonelinesssScore = getLonelinessScore()
+                DailyScoredQuestionnaire.Stress -> stressScore = getStressScore()
+                DailyScoredQuestionnaire.Depression -> depressionScore = getDepressionScore()
+                DailyScoredQuestionnaire.Loneliness -> lonelinesssScore = getLonelinessScore()
             }
         }
     }
@@ -136,9 +136,9 @@ private fun HomeScreen(
 
                     val score = when (questionnairesToShow[page])
                     {
-                        Questionnaire.PSS -> stressScore
-                        Questionnaire.PHQ -> depressionScore
-                        Questionnaire.UCLA -> lonelinesssScore
+                        DailyScoredQuestionnaire.Stress -> stressScore
+                        DailyScoredQuestionnaire.Depression -> depressionScore
+                        DailyScoredQuestionnaire.Loneliness -> lonelinesssScore
                     }
 
                     val onClick = {
@@ -164,9 +164,9 @@ private fun HomeScreen(
             else if (questionnairesToShow.size == 1)
             {
                 val score = when (questionnairesToShow[0]) {
-                    Questionnaire.PSS -> stressScore
-                    Questionnaire.PHQ -> depressionScore
-                    Questionnaire.UCLA -> lonelinesssScore
+                    DailyScoredQuestionnaire.Stress -> stressScore
+                    DailyScoredQuestionnaire.Depression -> depressionScore
+                    DailyScoredQuestionnaire.Loneliness -> lonelinesssScore
                 }
 
                 val onClick = {
@@ -212,7 +212,7 @@ fun HomeScreenOneQuestionnaireCompactPreview()
 {
     BienestarEmocionalTheme{
         HomeScreen(navigator = EmptyDestinationsNavigator,
-            questionnairesToShow = listOf(Questionnaire.PSS),
+            questionnairesToShow = listOf(DailyScoredQuestionnaire.Stress),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
             uncompletedQuestionnaires = false,
@@ -233,7 +233,7 @@ fun HomeScreenOneQuestionnaireCompactPreviewDarkTheme()
     BienestarEmocionalTheme(darkTheme = true)
     {
         HomeScreen(navigator = EmptyDestinationsNavigator,
-            questionnairesToShow = listOf(Questionnaire.PSS),
+            questionnairesToShow = listOf(DailyScoredQuestionnaire.Stress),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
             uncompletedQuestionnaires = false,
@@ -294,7 +294,7 @@ fun HomeScreenAllQuestionnairesCompactPreview()
 {
     BienestarEmocionalTheme{
         HomeScreen(navigator = EmptyDestinationsNavigator,
-            questionnairesToShow = Questionnaire.getMandatory() + Questionnaire.getOptional(),
+            questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
             uncompletedQuestionnaires = false,
@@ -315,7 +315,7 @@ fun HomeScreenAllQuestionnairesCompactPreviewDarkTheme()
     BienestarEmocionalTheme(darkTheme = true)
     {
         HomeScreen(navigator = EmptyDestinationsNavigator,
-            questionnairesToShow = Questionnaire.getMandatory() + Questionnaire.getOptional(),
+            questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
             uncompletedQuestionnaires = false,
@@ -335,7 +335,7 @@ fun HomeScreenAllQuestionnairesShowUncompletedCompactPreview()
 {
     BienestarEmocionalTheme{
         HomeScreen(navigator = EmptyDestinationsNavigator,
-            questionnairesToShow = Questionnaire.getMandatory() + Questionnaire.getOptional(),
+            questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
             uncompletedQuestionnaires = true,
@@ -356,7 +356,7 @@ fun HomeScreenAllQuestionnairesShowUncompletedCompactPreviewDarkTheme()
     BienestarEmocionalTheme(darkTheme = true)
     {
         HomeScreen(navigator = EmptyDestinationsNavigator,
-            questionnairesToShow = Questionnaire.getMandatory() + Questionnaire.getOptional(),
+            questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
             uncompletedQuestionnaires = true,

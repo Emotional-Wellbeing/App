@@ -1,119 +1,186 @@
 package es.upm.bienestaremocional.data.questionnaire
 
-import es.upm.bienestaremocional.data.database.entity.PHQ
-import es.upm.bienestaremocional.data.database.entity.PSS
-import es.upm.bienestaremocional.data.database.entity.UCLA
-import es.upm.bienestaremocional.data.notification.NotificationsAvailable
-import java.time.ZoneId
+import es.upm.bienestaremocional.data.database.entity.daily.DailyDepression
+import es.upm.bienestaremocional.data.database.entity.daily.DailyLoneliness
+import es.upm.bienestaremocional.data.database.entity.daily.DailyStress
+import es.upm.bienestaremocional.data.database.entity.daily.DailySuicide
+import es.upm.bienestaremocional.data.database.entity.daily.DailySymptoms
+import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffDepression
+import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffLoneliness
+import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffStress
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyDepressionManager
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyLonelinessManager
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyStressManager
+import es.upm.bienestaremocional.data.questionnaire.daily.DailySuicideManager
+import es.upm.bienestaremocional.data.questionnaire.daily.DailySymptomsManager
+import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffDepressionManager
+import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffLonelinessManager
+import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffStressManager
 import kotlin.random.Random
 
 /**
- * Generates a PSS entry with random data without inserting in database.
+ * Generates an One Off Stress Entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
  * @return Entry
  */
-fun generatePSSEntry(createdAt: Long): PSS
+fun generateOneOffStressEntry(createdAt: Long): OneOffStress
 {
-    val pssManager = PSSManager()
-    val pss = PSS(createdAt = createdAt)
-    for (questionIndex in 0 until pssManager.numberOfQuestions)
+    val oneOffStressManager = OneOffStressManager()
+    val oneOffStress = OneOffStress(createdAt = createdAt)
+    for (questionIndex in 0 until oneOffStressManager.numberOfQuestions)
     {
-        pssManager.setAnswer(questionIndex, Random.nextInt(0,pssManager.numberOfAnswers))
+        oneOffStressManager.setAnswer(questionIndex, Random.nextInt(0,oneOffStressManager.numberOfAnswers))
     }
-    pssManager.setEntity(pss)
-    return pss
+    oneOffStressManager.setEntity(oneOffStress)
+    return oneOffStress
 }
 
 /**
- * Generates a PHQ entry with random data without inserting in database.
+ * Generates am One Off Depression with random data without inserting in database.
  * @param createdAt: Entry's timestamp
  * @return Entry
  */
-fun generatePHQEntry(createdAt: Long): PHQ
+fun generateOneOffDepressionEntry(createdAt: Long): OneOffDepression
 {
-    val phqManager = PHQManager()
-    val phq = PHQ(createdAt = createdAt)
-    for (questionIndex in 0 until phqManager.numberOfQuestions)
+    val oneOffDepressionManager = OneOffDepressionManager()
+    val oneOffDepression = OneOffDepression(createdAt = createdAt)
+    for (questionIndex in 0 until oneOffDepressionManager.numberOfQuestions)
     {
-        phqManager.setAnswer(questionIndex, Random.nextInt(0,phqManager.numberOfAnswers))
+        oneOffDepressionManager.setAnswer(questionIndex, Random.nextInt(0,oneOffDepressionManager.numberOfAnswers))
     }
-    phqManager.setEntity(phq)
-    return phq
+    oneOffDepressionManager.setEntity(oneOffDepression)
+    return oneOffDepression
 }
 
 /**
- * Generates an UCLA entry with random data  without inserting in database.
+ * Generates an One Off Loneliness entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
  * @return Entry
  */
-fun generateUCLAEntry(createdAt: Long): UCLA
+fun generateOneOffLonelinessEntry(createdAt: Long): OneOffLoneliness
 {
-    val uclaManager = UCLAManager()
-    val ucla = UCLA(createdAt = createdAt)
-    for (questionIndex in 0 until uclaManager.numberOfQuestions)
+    val oneOffLonelinessManager = OneOffLonelinessManager()
+    val oneOffLoneliness = OneOffLoneliness(createdAt = createdAt)
+    for (questionIndex in 0 until oneOffLonelinessManager.numberOfQuestions)
     {
-        uclaManager.setAnswer(questionIndex, Random.nextInt(0,uclaManager.numberOfAnswers))
+        oneOffLonelinessManager.setAnswer(questionIndex, Random.nextInt(0,oneOffLonelinessManager.numberOfAnswers))
     }
-    uclaManager.setEntity(ucla)
-    return ucla
+    oneOffLonelinessManager.setEntity(oneOffLoneliness)
+    return oneOffLoneliness
 }
 
 /**
- * Generates a bunch of pss questionnaires: all available questionnaires at all hours
- * @param days: Amount of days to generate bunch (14 by default)
+ * Generates an One Off Loneliness entry with random data without inserting in database.
+ * @param createdAt: Entry's timestamp
+ * @return Entry
  */
-fun generateBunchOfPSSEntries(days: Int = 14): List<PSS>
+fun generateDailyStressEntry(createdAt: Long): DailyStress
 {
-    val result : MutableList<PSS> = mutableListOf()
-
-    for (index in 0..days)
+    val dailyStressManager = DailyStressManager()
+    val dailyStress = DailyStress(createdAt = createdAt)
+    for (questionIndex in 0 until dailyStressManager.numberOfQuestions)
     {
-        NotificationsAvailable.allNotifications.forEach {
-            val createdAt = it.time.minusDays(index.toLong())
-                .atZone(ZoneId.systemDefault())
-                .toEpochSecond() * 1000
-            result.add(generatePSSEntry(createdAt))
-        }
+        dailyStressManager.setAnswer(
+            questionIndex,
+            Random.nextInt(
+                dailyStressManager.answerRange.first,
+                dailyStressManager.answerRange.last
+            )
+        )
     }
-    return result
+    dailyStressManager.setEntity(dailyStress)
+    return dailyStress
 }
 
 /**
- * Generates a bunch of phq questionnaires: all available questionnaires at all hours
- * @param days: Amount of days to generate bunch (14 by default)
+ * Generates an One Off Loneliness entry with random data without inserting in database.
+ * @param createdAt: Entry's timestamp
+ * @return Entry
  */
-fun generateBunchOfPHQEntries(days: Int = 14): List<PHQ>
+fun generateDailyDepressionEntry(createdAt: Long): DailyDepression
 {
-    val result : MutableList<PHQ> = mutableListOf()
-
-    for (index in 0..days)
+    val dailyDepressionManager = DailyDepressionManager()
+    val dailyDepression = DailyDepression(createdAt = createdAt)
+    for (questionIndex in 0 until dailyDepressionManager.numberOfQuestions)
     {
-        NotificationsAvailable.allNotifications.forEach {
-            val createdAt = it.time.minusDays(index.toLong())
-                .atZone(ZoneId.systemDefault())
-                .toEpochSecond() * 1000
-            result.add(generatePHQEntry(createdAt))
-        }
+        dailyDepressionManager.setAnswer(
+            questionIndex,
+            Random.nextInt(
+                dailyDepressionManager.answerRange.first,
+                dailyDepressionManager.answerRange.last
+            )
+        )
     }
-    return result
+    dailyDepressionManager.setEntity(dailyDepression)
+    return dailyDepression
 }
 
 /**
- * Generates a bunch of ucla questionnaires: all available questionnaires at all hours
- * @param days: Amount of days to generate bunch (14 by default)
+ * Generates an One Off Loneliness entry with random data without inserting in database.
+ * @param createdAt: Entry's timestamp
+ * @return Entry
  */
-fun generateBunchOfUCLAEntries(days: Int = 14): List<UCLA>
+fun generateDailyLonelinessEntry(createdAt: Long): DailyLoneliness
 {
-    val result : MutableList<UCLA> = mutableListOf()
-
-    for (index in 0..days)
+    val dailyLonelinessManager = DailyLonelinessManager()
+    val dailyLoneliness = DailyLoneliness(createdAt = createdAt)
+    for (questionIndex in 0 until dailyLonelinessManager.numberOfQuestions)
     {
-        NotificationsAvailable.allNotifications.forEach {
-            val createdAt = it.time.minusDays(index.toLong())
-                .atZone(ZoneId.systemDefault())
-                .toEpochSecond() * 1000
-            result.add(generateUCLAEntry(createdAt))
-        }
+        dailyLonelinessManager.setAnswer(
+            questionIndex,
+            Random.nextInt(
+                dailyLonelinessManager.answerRange.first,
+                dailyLonelinessManager.answerRange.last
+            )
+        )
     }
-    return result
+    dailyLonelinessManager.setEntity(dailyLoneliness)
+    return dailyLoneliness
 }
+
+/**
+ * Generates an One Off Loneliness entry with random data without inserting in database.
+ * @param createdAt: Entry's timestamp
+ * @return Entry
+ */
+fun generateDailySuicideEntry(createdAt: Long): DailySuicide
+{
+    val dailySuicideManager = DailySuicideManager()
+    val dailySuicide = DailySuicide(createdAt = createdAt)
+    for (questionIndex in 0 until dailySuicideManager.numberOfQuestions)
+    {
+        dailySuicideManager.setAnswer(
+            questionIndex,
+            Random.nextInt(
+                dailySuicideManager.answerRange.first,
+                dailySuicideManager.answerRange.last
+            )
+        )
+    }
+    dailySuicideManager.setEntity(dailySuicide)
+    return dailySuicide
+}
+
+/**
+ * Generates an One Off Loneliness entry with random data without inserting in database.
+ * @param createdAt: Entry's timestamp
+ * @return Entry
+ */
+fun generateDailySymptomsEntry(createdAt: Long): DailySymptoms
+{
+    val dailySymptomsManager = DailySymptomsManager()
+    val dailySymptoms = DailySymptoms(createdAt = createdAt)
+    for (questionIndex in 0 until dailySymptomsManager.numberOfQuestions)
+    {
+        dailySymptomsManager.setAnswer(
+            questionIndex,
+            Random.nextInt(
+                dailySymptomsManager.answerRange.first,
+                dailySymptomsManager.answerRange.last
+            )
+        )
+    }
+    dailySymptomsManager.setEntity(dailySymptoms)
+    return dailySymptoms
+}
+

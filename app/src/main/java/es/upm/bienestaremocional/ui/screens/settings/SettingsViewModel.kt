@@ -8,11 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.BuildConfig
+import es.upm.bienestaremocional.data.Measure
 import es.upm.bienestaremocional.data.language.LanguageManager
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.data.settings.AppSettings
 import es.upm.bienestaremocional.data.settings.ThemeMode
-import es.upm.bienestaremocional.data.worker.WorkAdministrator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -22,8 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val appSettings: AppSettings,
-    private val languageManager: LanguageManager,
-    private val workScheduler: WorkAdministrator
+    private val languageManager: LanguageManager
 ) : ViewModel()
 {
     /**
@@ -93,13 +91,13 @@ class SettingsViewModel @Inject constructor(
     /**
      * Load questionnaires selected value from [AppSettings]
      */
-    fun loadQuestionnairesSelected(): Set<Int>
+    fun loadMeasuresSelected(): Set<Int>
     {
         var option : Set<Int>
-        val possibleOptions = Questionnaire.getOptional()
+        val possibleOptions = Measure.getOptional()
         runBlocking(Dispatchers.IO)
         {
-            option = appSettings.getQuestionnairesSelected().first().map { possibleOptions.indexOf(it) }.toSet()
+            option = appSettings.getMeasuresSelected().first().map { possibleOptions.indexOf(it) }.toSet()
         }
         return option
     }
@@ -107,15 +105,16 @@ class SettingsViewModel @Inject constructor(
     /**
      * Saves questionnaires selected value
      */
-    fun changeQuestionnairesSelected(option: Set<Int>)
+    fun changeMeasuresSelected(option: Set<Int>)
     {
-        // Default to null
-        val questionnaire: Set<Questionnaire> = option.mapNotNull {
-            Questionnaire.getOptional().getOrNull(it)
+        // Decode each measure to index in optional list and eliminate error (null) values
+        val measure: Set<Measure> = option.mapNotNull {
+            //Decode each measure to index in optional list
+            Measure.getOptional().getOrNull(it)
         }.toSet()
 
         viewModelScope.launch {
-            appSettings.saveQuestionnairesSelected(questionnaire)
+            appSettings.saveMeasuresSelected(measure)
         }
     }
 
