@@ -25,16 +25,25 @@ class RemoteRepositoryImpl(
         }
     }
 
-    override suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse
+    override suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse?
     {
         Log.d(logTag, "posting data")
-        val rawResponse = remoteAPI.postUserData(userDataRequest)
-        Log.d(logTag, "response received with " +
-                "code ${rawResponse.code()} and values ${rawResponse.body()}")
 
-        return UserDataResponse(
-            code = rawResponse.code(),
-            timestamps = rawResponse.body()
-        )
+        var response : UserDataResponse? = null
+
+        try {
+            val rawResponse = remoteAPI.postUserData(userDataRequest)
+            Log.d(logTag, "response received with " +
+                    "code ${rawResponse.code()} and values ${rawResponse.body()}")
+            response = UserDataResponse(
+                code = rawResponse.code(),
+                timestamps = rawResponse.body()
+            )
+        }
+        catch (e: Exception)
+        {
+            Log.e(logTag, "response failed with exception $e")
+        }
+        return response
     }
 }
