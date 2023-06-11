@@ -7,7 +7,7 @@ import es.upm.bienestaremocional.data.questionnaire.ScoredManager
 import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffDepressionManager
 import es.upm.bienestaremocional.domain.repository.questionnaire.OneOffDepressionRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.QuestionnaireRepository
-import es.upm.bienestaremocional.ui.screens.destinations.OneOffDepressionScreenDestination
+import es.upm.bienestaremocional.destinations.OneOffDepressionScreenDestination
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")

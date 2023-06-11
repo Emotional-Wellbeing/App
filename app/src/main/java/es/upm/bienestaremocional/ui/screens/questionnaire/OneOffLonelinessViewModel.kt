@@ -7,7 +7,7 @@ import es.upm.bienestaremocional.data.questionnaire.ScoredManager
 import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffLonelinessManager
 import es.upm.bienestaremocional.domain.repository.questionnaire.OneOffLonelinessRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.QuestionnaireRepository
-import es.upm.bienestaremocional.ui.screens.destinations.OneOffLonelinessScreenDestination
+import es.upm.bienestaremocional.destinations.OneOffLonelinessScreenDestination
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")

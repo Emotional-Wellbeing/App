@@ -7,7 +7,7 @@ import es.upm.bienestaremocional.data.questionnaire.ScoredManager
 import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffStressManager
 import es.upm.bienestaremocional.domain.repository.questionnaire.OneOffStressRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.QuestionnaireRepository
-import es.upm.bienestaremocional.ui.screens.destinations.OneOffStressScreenDestination
+import es.upm.bienestaremocional.destinations.OneOffStressScreenDestination
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")

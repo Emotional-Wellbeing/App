@@ -7,7 +7,7 @@ import es.upm.bienestaremocional.data.questionnaire.ScoredManager
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyStressManager
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyStressRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.QuestionnaireRepository
-import es.upm.bienestaremocional.ui.screens.destinations.DailyStressScreenDestination
+import es.upm.bienestaremocional.destinations.DailyStressScreenDestination
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")

@@ -7,7 +7,7 @@ import es.upm.bienestaremocional.data.questionnaire.NotScoredManager
 import es.upm.bienestaremocional.data.questionnaire.daily.DailySuicideManager
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailySuicideRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.QuestionnaireRepository
-import es.upm.bienestaremocional.ui.screens.destinations.DailySuicideScreenDestination
+import es.upm.bienestaremocional.destinations.DailySuicideScreenDestination
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")

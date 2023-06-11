@@ -12,7 +12,7 @@ import com.ramcosta.composedestinations.annotation.FULL_ROUTE_PLACEHOLDER
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.data.database.entity.round.OneOffRound
 import es.upm.bienestaremocional.ui.GetOnceResult
-import es.upm.bienestaremocional.ui.screens.destinations.HomeScreenDestination
+import es.upm.bienestaremocional.destinations.HomeScreenDestination
 
 /**
  * Plots questionnaires

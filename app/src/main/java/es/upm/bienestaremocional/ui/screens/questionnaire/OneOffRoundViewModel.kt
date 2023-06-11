@@ -7,10 +7,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.data.database.entity.round.OneOffRound
 import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffQuestionnaire
 import es.upm.bienestaremocional.domain.repository.questionnaire.OneOffRoundRepository
-import es.upm.bienestaremocional.ui.screens.destinations.OneOffDepressionScreenDestination
-import es.upm.bienestaremocional.ui.screens.destinations.OneOffLonelinessScreenDestination
-import es.upm.bienestaremocional.ui.screens.destinations.OneOffRoundScreenDestination
-import es.upm.bienestaremocional.ui.screens.destinations.OneOffStressScreenDestination
+import es.upm.bienestaremocional.destinations.OneOffDepressionScreenDestination
+import es.upm.bienestaremocional.destinations.OneOffLonelinessScreenDestination
+import es.upm.bienestaremocional.destinations.OneOffRoundScreenDestination
+import es.upm.bienestaremocional.destinations.OneOffStressScreenDestination
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
