@@ -61,6 +61,7 @@ class MainActivity : ComponentActivity()
                 BienestarEmocionalApp(
                     darkTheme = darkTheme,
                     dynamicColors = dynamicColors,
+                    appInfo = appInfo
                 )
             }
         }

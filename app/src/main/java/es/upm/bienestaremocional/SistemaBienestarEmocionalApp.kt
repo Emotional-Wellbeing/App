@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import com.ramcosta.composedestinations.DestinationsNavHost
 import es.upm.bienestaremocional.data.AppConstants
+import es.upm.bienestaremocional.data.info.AppInfo
 import es.upm.bienestaremocional.data.phonecalls.PhoneInfo
 import es.upm.bienestaremocional.data.remote.RemoteAPI
 import es.upm.bienestaremocional.data.settings.ThemeMode
@@ -27,7 +28,8 @@ import java.util.concurrent.TimeUnit
 
 @Composable
 fun BienestarEmocionalApp(darkTheme: ThemeMode,
-                          dynamicColors : Boolean
+                          dynamicColors : Boolean,
+                          appInfo: AppInfo
 )
 {
     //init variables
@@ -45,10 +47,10 @@ fun BienestarEmocionalApp(darkTheme: ThemeMode,
 
 
     val executorServicePhone = Executors.newSingleThreadScheduledExecutor()
-    executorServicePhone.scheduleAtFixedRate({ phoneInfo(context, coroutineScope, remoteRepository) }, 0, 30, TimeUnit.SECONDS)
+    executorServicePhone.scheduleAtFixedRate({ phoneInfo(context, coroutineScope, remoteRepository, appInfo) }, 0, 3600, TimeUnit.SECONDS)
 
     val executorServiceTraffic = Executors.newSingleThreadScheduledExecutor()
-    executorServiceTraffic.scheduleAtFixedRate({ trafficInfo(context, coroutineScope, remoteRepository) }, 0, 20, TimeUnit.SECONDS)
+    executorServiceTraffic.scheduleAtFixedRate({ trafficInfo(context, coroutineScope, remoteRepository, appInfo) }, 0, 3300, TimeUnit.SECONDS)
 
     //----------------------------------------------------------------------------------------
 
@@ -58,7 +60,7 @@ fun BienestarEmocionalApp(darkTheme: ThemeMode,
     }
 }
 
-fun phoneInfo(context: Context, coroutineScope: CoroutineScope, remoteRepository: RemoteRepository) {
+fun phoneInfo(context: Context, coroutineScope: CoroutineScope, remoteRepository: RemoteRepository, appInfo: AppInfo) {
     //phone calls logs
 
     val permissionCheckResult = ContextCompat.checkSelfPermission(context, READ_CALL_LOG)
@@ -67,7 +69,8 @@ fun phoneInfo(context: Context, coroutineScope: CoroutineScope, remoteRepository
         val phone = PhoneInfo()
         val listCalls = phone.getCallLogs(context)
         coroutineScope.launch {
-            val message = "{ \"UserId\": 1000, \"Type\": \"PhoneInfo\", \"Data\": $listCalls}"
+            val userId = appInfo.getUserID()
+            val message = "{ \"userId\": \"$userId\", \"databg\": { \"PhoneInfo\":$listCalls}}"
             val success = remoteRepository.postBackgroundData(message)
             if (success)
                 println("Inserted phone info")
@@ -75,7 +78,7 @@ fun phoneInfo(context: Context, coroutineScope: CoroutineScope, remoteRepository
     }
 }
 
-fun trafficInfo(context: Context, coroutineScope: CoroutineScope, remoteRepository: RemoteRepository) {
+fun trafficInfo(context: Context, coroutineScope: CoroutineScope, remoteRepository: RemoteRepository, appInfo: AppInfo) {
     //Internet calls logs
     val permissionInternet = ContextCompat.checkSelfPermission(context, INTERNET)
     val permissionCoarse = ContextCompat.checkSelfPermission(context, ACCESS_COARSE_LOCATION)
@@ -85,7 +88,8 @@ fun trafficInfo(context: Context, coroutineScope: CoroutineScope, remoteReposito
         val traffic = Traffic()
         val trafficMessage = traffic.init()
         coroutineScope.launch {
-            val message = "{ \"UserId\": 1000, \"Type\": \"InternetInfo\", \"Data\": $trafficMessage}"
+            val userId = appInfo.getUserID()
+            val message = "{ \"userId\": \"$userId\", \"databg\": { \"InternetInfo\": $trafficMessage}}"
             val success = remoteRepository.postBackgroundData(message)
             if (success)
                println("Inserted internet info")

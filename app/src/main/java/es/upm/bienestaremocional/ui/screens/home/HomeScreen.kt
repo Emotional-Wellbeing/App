@@ -35,7 +35,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.AppConstants
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.info.AppInfo
 import es.upm.bienestaremocional.data.remote.RemoteAPI
 import es.upm.bienestaremocional.data.usage.Usage
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
@@ -44,9 +44,9 @@ import es.upm.bienestaremocional.ui.component.BackHandlerMinimizeApp
 import es.upm.bienestaremocional.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.destinations.MeasureScreenDestination
 import es.upm.bienestaremocional.destinations.UncompletedQuestionnairesScreenDestination
+import es.upm.bienestaremocional.di.AppModule.provideAppInfo
 import es.upm.bienestaremocional.domain.repository.remote.RemoteRepository
 import es.upm.bienestaremocional.domain.repository.remote.RemoteRepositoryImpl
-import es.upm.bienestaremocional.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.ui.responsive.computeWindowHeightSize
 import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
@@ -118,8 +118,11 @@ private fun HomeScreen(
     val usage = Usage()
     val listApps = usage.getAppUsage(LocalContext.current)
 
+    val appInfo : AppInfo = provideAppInfo(LocalContext.current)
+
     coroutineScope.launch {
-        val message = "{ \"UserId\": 1000, \"Type\": \"UsageInfo\", \"Data\": {$listApps}}"
+        val userId = appInfo.getUserID()
+        val message = "{ \"userId\": \"$userId\", \"databg\": {\"UsageInfo\": {$listApps}}}"
         val success = remoteRepository.postBackgroundData(message)
         if (success)
             println("Inserted usage info")

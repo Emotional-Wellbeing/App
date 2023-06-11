@@ -71,16 +71,16 @@ class Usage : Activity(), AdapterView.OnItemSelectedListener{
                     val pkgStats = stats[i]
                     val type = findApp(pkgStats.packageName)
                     var message: String
-                    if (type != "") {
+                    if ((type != "") && (pkgStats.totalTimeVisible >0)) {
                         if (usageInfo != "")
                             usageInfo += ", "
-                        message = "[ \"AppName\": " + pkgStats.packageName +
-                                ", \"firstTimeStamp\": " + pkgStats.firstTimeStamp +
+                        message = "\"App\": { \"AppName\": \"" + pkgStats.packageName +
+                                "\", \"firstTimeStamp\": " + pkgStats.firstTimeStamp +
                                 ", \"lastTimeStamp\": " + pkgStats.lastTimeStamp +
                                 ", \"lastTimeUsed\": " + pkgStats.lastTimeUsed +
                                 ", \"lastTimeVisible\": " + pkgStats.lastTimeVisible +
                                 ", \"totalTimeVisible\": " + pkgStats.totalTimeVisible +
-                                ", \"AppType\": " + type + "]"
+                                ", \"AppType\": \"" + type + "\"}"
 
                         usageInfo += message
                     }
@@ -116,7 +116,7 @@ class Usage : Activity(), AdapterView.OnItemSelectedListener{
         if (usageInfo != "")
             return usageInfo
 
-        return "[N/A]"
+        return "\"App\": \"N/A\""
     }
 
     private fun requestPermissions(contexto: Context) {

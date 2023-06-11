@@ -9,7 +9,7 @@ class Traffic{
         if (TrafficStats.getTotalRxBytes() != TrafficStats.UNSUPPORTED.toLong() && TrafficStats.getTotalTxBytes() != TrafficStats.UNSUPPORTED.toLong()) {
             return run()
         }
-        return "[\"WiFI\": \"N/A Kb\", \"Mobile\": \"N/A Kb\"]"
+        return "{\"WiFI\": \"N/A Kb\", \"Mobile\": \"N/A Kb\"}"
     }
 
     @SuppressLint("SetTextI18n")
@@ -19,7 +19,7 @@ class Traffic{
         val wiFi: Long = (total - mobile) / 1024
         val mobileData: Long = mobile / 1024
 
-        return "[\"WiFI\": \"$wiFi Kb\", \"Mobile\": \"$mobileData Kb\"]"
+        return "{\"WiFI\": \"$wiFi Kb\", \"Mobile\": \"$mobileData Kb\"}"
     }
 
 }

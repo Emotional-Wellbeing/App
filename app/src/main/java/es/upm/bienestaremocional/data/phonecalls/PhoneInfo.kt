@@ -34,11 +34,11 @@ class PhoneInfo {
         var message = "{"
         cursor?.use {
             while (it.moveToNext()) {
-                var json : String = "[\"Name\": " + securePrivateData(it.getStringFromColumn(CACHED_NAME))+
-                        ", \"Number\": "+ securePrivateData(it.getStringFromColumn(NUMBER))+
-                        ", \"Date\": "+ it.getStringFromColumn(DATE)+
-                        ", \"Duration\": "+ it.getStringFromColumn(DURATION)+
-                        "]"
+                var json : String = " \"Call\": {\"Name\": \"" + securePrivateData(it.getStringFromColumn(CACHED_NAME))+
+                        "\", \"Number\": \""+ securePrivateData(it.getStringFromColumn(NUMBER))+
+                        "\", \"Date\": \""+ it.getStringFromColumn(DATE)+
+                        "\", \"Duration\": \""+ it.getStringFromColumn(DURATION)+
+                        "\"}"
 
                 if (it.moveToNext())
                     json += ","
