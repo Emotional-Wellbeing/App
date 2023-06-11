@@ -88,9 +88,16 @@ fun ShowDailyRound(element : DailyRoundFull)
 @Composable
 fun ShowUncompletedDailyRound(element : DailyRoundFull)
 {
+    val context = LocalContext.current
+
     val uncompletedQuestionnairesText = stringResource(R.string.uncompleted_questionnaires_label)
 
     val uncompleted = mutableListOf<String>()
+
+    val momentRes = if (element.dailyRound.moment == DailyRound.Moment.Morning)
+        R.string.daily_morning
+    else
+        R.string.daily_night
 
     element.dailyStress?.let {
         if (!it.completed)
@@ -117,9 +124,13 @@ fun ShowUncompletedDailyRound(element : DailyRoundFull)
             uncompleted.add(stringResource(id = R.string.symptoms))
     }
 
-    Text(stringResource(R.string.created_formatter,
-        formatUnixTimeStamp(element.dailyRound.createdAt)
-    ))
+    Text(
+        context.getString(
+            R.string.round_created_formatter,
+            stringResource(id = momentRes),
+            formatUnixTimeStamp(element.dailyRound.createdAt)
+        )
+    )
 
     Text("$uncompletedQuestionnairesText:  ${uncompleted.joinToString()}")
 

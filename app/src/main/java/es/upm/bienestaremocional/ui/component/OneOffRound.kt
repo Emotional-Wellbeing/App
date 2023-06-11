@@ -66,6 +66,8 @@ fun ShowOneOffRound(element : OneOffRoundFull)
 @Composable
 fun ShowUncompletedOneOffRound(element : OneOffRoundFull)
 {
+    val context = LocalContext.current
+
     val uncompletedQuestionnairesText = stringResource(R.string.uncompleted_questionnaires_label)
 
     val uncompleted = mutableListOf<String>()
@@ -85,11 +87,15 @@ fun ShowUncompletedOneOffRound(element : OneOffRoundFull)
             uncompleted.add(stringResource(id = R.string.loneliness))
     }
 
-    Text(stringResource(R.string.created_formatter,
-        formatUnixTimeStamp(element.oneOffRound.createdAt)
-    ))
+    Text(
+        context.getString(
+            R.string.round_created_formatter,
+            stringResource(id = R.string.one_off),
+            formatUnixTimeStamp(element.oneOffRound.createdAt)
+        )
+    )
 
-    Text("$uncompletedQuestionnairesText:  ${uncompleted.joinToString()}")
+    Text("$uncompletedQuestionnairesText: ${uncompleted.joinToString()}")
 
 }
 
