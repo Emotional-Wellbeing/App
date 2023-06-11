@@ -6,25 +6,25 @@ import es.upm.bienestaremocional.data.questionnaire.QuestionnaireScored
 import es.upm.bienestaremocional.data.questionnaire.ScoreLevel
 
 /**
- * Information of the available Questionnaire on the app
- * @param measureRes: StringResource with the label of the measure
- * @param questionRes: ArrayResource with the questions available in the questionnaire
- * @param answerRes: ArrayResource with the answers available in the questionnaire
- * @param numberOfQuestions: Number of the questions in the questionnaire
+ * Information of the available one off questionnaires of the app
+ * @param numberOfQuestions Number of the questions in the questionnaire
+ * @param answerRange Inclusive range of the valid responses on a answer
+ * @param levels List of the score levels of the questionnaire
+ * @param minScore Minimum possible score for the questionnaire
+ * @param maxScore Maximum possible score for the questionnaire
  * @param numberOfAnswers: Number of the answers in the questionnaire
  * @param questionScoreOffset: Offset of the score of each question of the answer
  * @param questionsWithInvertedScore: Set with the indexes of the inverted score questions
- * @param levels: List of the ScoreLevel of the questionnaire
  */
-enum class OneOffQuestionnaire(override val numberOfQuestions : Int,
-                               override val answerRange: IntRange,
-                               override val levels: List<ScoreLevel>,
-                               override val minScore: Int,
-                               override val maxScore: Int,
-                               val numberOfAnswers : Int,
-                               val questionScoreOffset : Int = 0,
-                               val questionsWithInvertedScore : Set<Int> = setOf(),
-
+enum class OneOffQuestionnaire(
+    override val numberOfQuestions : Int,
+    override val answerRange: IntRange,
+    override val levels: List<ScoreLevel>,
+    override val minScore: Int,
+    override val maxScore: Int,
+    val numberOfAnswers : Int,
+    val questionScoreOffset : Int = 0,
+    val questionsWithInvertedScore : Set<Int> = setOf(),
 ) : Questionnaire, QuestionnaireScored
 {
     Stress(

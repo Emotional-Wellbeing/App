@@ -28,17 +28,19 @@ class WorkAdministratorImpl(
     private val workManager = WorkManager.getInstance(context)
 
     /**
-     * Schedules a daily request
+     * Schedules a repeatable request
      * @param workerClass Class associated with the worker to request
      * @param time Time to execute the request
      * @param tag Tag of the request
+     * @param repeatInterval Duration that contains the interval between two requests
      * @param constraints Optional constraints that must be fulfilled to execute the request
      */
-    private fun scheduleRequest(workerClass : Class<out ListenableWorker>,
-                                time: LocalDateTime,
-                                tag: String,
-                                repeatInterval: Duration,
-                                constraints: Constraints? = null,
+    private fun scheduleRequest(
+        workerClass : Class<out ListenableWorker>,
+        time: LocalDateTime,
+        tag: String,
+        repeatInterval: Duration,
+        constraints: Constraints? = null,
     )
     {
         Log.d(logTag,"Setting daily request with tag: $tag")
@@ -92,16 +94,10 @@ class WorkAdministratorImpl(
         }
     }
 
-    /**
-     * Cancel upload worker
-     */
     override fun cancelDailyMorningNotificationWorker() {
         cancelRequest(DailyMorningNotificationWorker.tag)
     }
 
-    /**
-     * Schedule upload worker
-     */
     override fun scheduleDailyNightNotificationWorker() {
         with(DailyNightNotificationWorker)
         {
@@ -114,16 +110,10 @@ class WorkAdministratorImpl(
         }
     }
 
-    /**
-     * Cancel upload worker
-     */
     override fun cancelDailyNightNotificationWorker() {
         cancelRequest(DailyNightNotificationWorker.tag)
     }
 
-    /**
-     * Schedule upload worker
-     */
     override fun scheduleOneOffNotificationWorker()
     {
         with(OneOffNotificationWorker)
@@ -137,9 +127,6 @@ class WorkAdministratorImpl(
         }
     }
 
-    /**
-     * Cancel upload worker
-     */
     override fun cancelOneOffNotificationWorker() {
         cancelRequest(OneOffNotificationWorker.tag)
     }
@@ -168,8 +155,13 @@ class WorkAdministratorImpl(
 
     override fun queryWorkerStatus(): LiveData<List<WorkInfo>>
     {
-        return workManager.getWorkInfosLiveData(WorkQuery.fromUniqueWorkNames(
-            DailyMorningNotificationWorker.tag,DailyNightNotificationWorker.tag,OneOffNotificationWorker.tag,UploadWorker.tag
-        ))
+        return workManager.getWorkInfosLiveData(
+            WorkQuery.fromUniqueWorkNames(
+                DailyMorningNotificationWorker.tag,
+                DailyNightNotificationWorker.tag,
+                OneOffNotificationWorker.tag,
+                UploadWorker.tag
+            )
+        )
     }
 }

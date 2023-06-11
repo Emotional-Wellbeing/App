@@ -10,42 +10,42 @@ import androidx.work.WorkInfo
 interface WorkAdministrator
 {
     /**
-     * Schedule upload worker
+     * Schedule [DailyMorningNotificationWorker]
      */
     fun scheduleDailyMorningNotificationWorker()
 
     /**
-     * Cancel upload worker
+     * Cancel [DailyMorningNotificationWorker]
      */
     fun cancelDailyMorningNotificationWorker()
 
     /**
-     * Schedule upload worker
+     * Schedule [DailyNightNotificationWorker]
      */
     fun scheduleDailyNightNotificationWorker()
 
     /**
-     * Cancel upload worker
+     * Cancel [DailyNightNotificationWorker]
      */
     fun cancelDailyNightNotificationWorker()
 
     /**
-     * Schedule upload worker
+     * Schedule [OneOffNotificationWorker]
      */
     fun scheduleOneOffNotificationWorker()
 
     /**
-     * Cancel upload worker
+     * Cancel [OneOffNotificationWorker]
      */
     fun cancelOneOffNotificationWorker()
 
     /**
-     * Schedule upload worker
+     * Schedule [UploadWorker]
      */
     fun scheduleUploadWorker()
 
     /**
-     * Cancel upload worker
+     * Cancel [UploadWorker]
      */
     fun cancelUploadWorker()
 

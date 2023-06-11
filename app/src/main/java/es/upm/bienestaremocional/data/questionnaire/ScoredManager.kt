@@ -6,6 +6,9 @@ abstract class ScoredManager<in T>: NotScoredManager<T>() where T : MeasureEntit
 {
     abstract val levels: List<ScoreLevel>
 
+    /**
+     * Compute the score of the questionnaire if all questions has been answered, null if not
+     */
     open val score : Int?
         get()
         {
@@ -15,6 +18,9 @@ abstract class ScoredManager<in T>: NotScoredManager<T>() where T : MeasureEntit
                 null
         }
 
+    /**
+     * Compute the [ScoreLevel] of the questionnaire if all questions has been answered, null if not
+     */
     val scoreLevel : ScoreLevel?
         get()
         {

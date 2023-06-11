@@ -9,7 +9,7 @@ class DailySymptomsManager: NotScoredManager<DailySymptoms>()
     override val numberOfQuestions: Int = DailyNotScoredQuestionnaire.Symptoms.numberOfQuestions
     override val answerRange: IntRange = DailyNotScoredQuestionnaire.Symptoms.answerRange
 
-    override fun getAnswers(element: DailySymptoms)
+    override fun loadEntity(element: DailySymptoms)
     {
         answers[0] = element.appetite?.ordinal
         answers[1] = element.energy?.ordinal

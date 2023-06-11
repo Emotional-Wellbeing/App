@@ -6,6 +6,9 @@ import androidx.compose.ui.res.stringResource
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.Level
 
+/**
+ * Contain the measures that app could monitor, with the frequences, advices..
+ */
 enum class Measure(
     val id: String,
     val mandatory : Boolean,

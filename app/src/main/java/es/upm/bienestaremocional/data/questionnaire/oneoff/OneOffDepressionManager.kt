@@ -13,7 +13,7 @@ class OneOffDepressionManager: OneOffManager<OneOffDepression>()
     override val questionScoreOffset : Int = OneOffQuestionnaire.Depression.questionScoreOffset
     override val levels: List<ScoreLevel> = OneOffQuestionnaire.Depression.levels
 
-    override fun getAnswers(element: OneOffDepression)
+    override fun loadEntity(element: OneOffDepression)
     {
         answers[0] = element.answer1
         answers[1] = element.answer2

@@ -94,7 +94,7 @@ abstract class NotScoredQuestionnaireViewModel(
 
     protected fun loadAnswers()
     {
-        measureEntity?.let { manager.getAnswers(it) }
+        measureEntity?.let { manager.loadEntity(it) }
     }
 
     private suspend fun updateQuestionnaire()

@@ -1,18 +1,25 @@
 package es.upm.bienestaremocional.data.questionnaire.daily
+
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.QuestionnaireDrawableStringAnswers
 
 /**
- * Information of the available Questionnaire on the app
+ * Extend [DailyNotScoredQuestionnaire] adding the drawable resources
+ * @param numberOfQuestions: Number of the questions in the questionnaire
+ * @param answerRange: Inclusive range of the valid responses on a answer
+ * @param measureRes: StringResource with the label of the measure
  * @param questionRes: ArrayResource with the questions available in the questionnaire
+ * @param answerRes Array of ArrayResource with the answers available. Can be more than one
+ * if the answers label change across the questions
  */
-enum class DailyNotScoredQuestionnaireDrawable(override val numberOfQuestions: Int,
-                                               override val answerRange: IntRange,
-                                               @StringRes override val measureRes: Int,
-                                               @ArrayRes override val questionRes: Int,
-                                               @ArrayRes override val answerRes: Array<Int>,
+enum class DailyNotScoredQuestionnaireDrawable(
+    override val numberOfQuestions: Int,
+    override val answerRange: IntRange,
+    @StringRes override val measureRes: Int,
+    @ArrayRes override val questionRes: Int,
+    @ArrayRes override val answerRes: Array<Int>,
 ) : QuestionnaireDrawableStringAnswers
 {
     MorningSuicide(
