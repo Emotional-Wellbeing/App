@@ -9,6 +9,6 @@ import es.upm.bienestaremocional.data.remote.userdata.UserDataResponse
 interface RemoteRepository
 {
     suspend fun getScore(): Int?
-    suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse
+    suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse?
     suspend fun postBackgroundData(message: String): Boolean
 }

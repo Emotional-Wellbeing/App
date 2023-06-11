@@ -11,7 +11,7 @@ import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffStress
 import kotlinx.parcelize.Parcelize
 
 /**
- * Mapping of Questionnaire Round table
+ * Mapping of OneOffRound table
  * @see OneOffStress
  * @see OneOffDepression
  * @see OneOffLoneliness
@@ -21,13 +21,13 @@ import kotlinx.parcelize.Parcelize
         foreignKeys = [
             ForeignKey(entity = OneOffStress::class,
                 childColumns = ["stress_id"],
-                parentColumns = ["one_off_stress_id"]), //entity PSS
+                parentColumns = ["one_off_stress_id"]), //entity OneOffStress
             ForeignKey(entity = OneOffDepression::class,
                 childColumns = ["depression_id"],
-                parentColumns = ["one_off_depression_id"]), //entity PHQ
+                parentColumns = ["one_off_depression_id"]), //entity OneOffDepression
             ForeignKey(entity = OneOffLoneliness::class,
                 childColumns = ["loneliness_id"],
-                parentColumns = ["one_off_loneliness_id"]), //entity UCLA
+                parentColumns = ["one_off_loneliness_id"]), //entity OneOffLoneliness
         ])
 data class OneOffRound(
     @PrimaryKey(autoGenerate = true)

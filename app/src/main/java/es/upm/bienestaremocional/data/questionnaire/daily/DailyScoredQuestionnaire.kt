@@ -6,20 +6,23 @@ import es.upm.bienestaremocional.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.data.questionnaire.QuestionnaireScored
 import es.upm.bienestaremocional.data.questionnaire.ScoreLevel
 
-
 /**
- * Information of the available Questionnaire on the app
- * @param measureRes: StringResource with the label of the measure
- * @param numberOfQuestions: Number of the questions in the questionnaire
- * @param minScore: Minimum possible score for the questionnaire
- * @param maxScore: Maximum possible score for the questionnaire
+ * Information of the available daily questionnaires of the app with score
+ * @param measure Measure which is implemented by the questionnaire
+ * @param numberOfQuestions Number of the questions in the questionnaire
+ * @param answerRange Inclusive range of the valid responses on a answer
+ * @param levels List of the score levels of the questionnaire
+ * @param minScore Minimum possible score for the questionnaire
+ * @param maxScore Maximum possible score for the questionnaire
  */
-enum class DailyScoredQuestionnaire(val measure: Measure,
-                                    override val numberOfQuestions: Int,
-                                    override val answerRange: IntRange,
-                                    override val levels: List<ScoreLevel>,
-                                    override val minScore: Int,
-                                    override val maxScore: Int,
+
+enum class DailyScoredQuestionnaire(
+    val measure: Measure,
+    override val numberOfQuestions: Int,
+    override val answerRange: IntRange,
+    override val levels: List<ScoreLevel>,
+    override val minScore: Int,
+    override val maxScore: Int,
 ) : Questionnaire, QuestionnaireScored
 {
     Stress(
@@ -61,7 +64,11 @@ enum class DailyScoredQuestionnaire(val measure: Measure,
 
     companion object
     {
-
+        /**
+         * Obtain a [DailyScoredQuestionnaire] from a certain [Measure]
+         * @param measure to decode
+         * @return [DailyScoredQuestionnaire] related if is any
+         */
         fun fromMeasure(measure: Measure) : DailyScoredQuestionnaire?
         {
             return when(measure)

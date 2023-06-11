@@ -5,8 +5,12 @@ import androidx.annotation.StringRes
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.QuestionnaireDrawableNumericAnswers
 
+
 /**
- * Information of the available Questionnaire on the app
+ * Extend [DailyScoredQuestionnaire] adding the drawable resources
+ * @param numberOfQuestions: Number of the questions in the questionnaire
+ * @param answerRange: Inclusive range of the valid responses on a answer
+ * @param measureRes: StringResource with the label of the measure
  * @param questionRes: ArrayResource with the questions available in the questionnaire
  */
 enum class DailyScoredQuestionnaireDrawable(
@@ -53,18 +57,3 @@ enum class DailyScoredQuestionnaireDrawable(
         questionRes = R.array.daily_night_loneliness_questions,
     );
 }
-
-
-/*class DailyScoredQuestionnaireDrawableFactory()
-{
-    fun get(dailyScoredQuestionnaires: DailyScoredQuestionnaires, night : Boolean)
-    {
-        when(dailyScoredQuestionnaires)
-        {
-            DailyScoredQuestionnaires.Stress -> TODO()
-            DailyScoredQuestionnaires.Depression -> TODO()
-            DailyScoredQuestionnaires.Loneliness -> TODO()
-        }
-    }
-}*/
-

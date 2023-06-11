@@ -13,7 +13,7 @@ import es.upm.bienestaremocional.data.database.entity.daily.DailySymptoms
 import kotlinx.parcelize.Parcelize
 
 /**
- * Mapping of Daily Round table
+ * Mapping of DailyRound table
  * @see DailyStress
  * @see DailyDepression
  * @see DailyLoneliness

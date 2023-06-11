@@ -11,7 +11,7 @@ class DailyStressManager: ScoredManager<DailyStress>()
     override val answerRange: IntRange = DailyScoredQuestionnaire.Stress.answerRange
     override val levels: List<ScoreLevel> = DailyScoredQuestionnaire.Stress.levels
 
-    override fun getAnswers(element: DailyStress)
+    override fun loadEntity(element: DailyStress)
     {
         answers[0] = element.answer1
         answers[1] = element.answer2

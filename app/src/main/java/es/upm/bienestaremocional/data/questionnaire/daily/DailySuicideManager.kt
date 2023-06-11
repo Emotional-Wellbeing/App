@@ -9,7 +9,7 @@ class DailySuicideManager: NotScoredManager<DailySuicide>()
     override val numberOfQuestions: Int = DailyNotScoredQuestionnaire.Suicide.numberOfQuestions
     override val answerRange: IntRange = DailyNotScoredQuestionnaire.Suicide.answerRange
 
-    override fun getAnswers(element: DailySuicide)
+    override fun loadEntity(element: DailySuicide)
     {
         answers[0] = element.answer1
         answers[1] = element.answer2

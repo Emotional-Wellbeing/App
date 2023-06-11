@@ -282,14 +282,21 @@ class PostUserDataUseCaseImpl(
     {
         val data = prepareUserData()
         val response = remoteRepository.postUserData(data)
-        val result = when(response.code)
-        {
-            in 200..299 -> RemoteOperationResult.Success
-            in 500..599 -> RemoteOperationResult.ServerFailure
-            else -> RemoteOperationResult.Failure
+
+        // If response is null, the result is failure
+        var result = RemoteOperationResult.Failure
+
+        response?.let {
+            result = when(response.code)
+            {
+                in 200..299 -> RemoteOperationResult.Success
+                in 500..599 -> RemoteOperationResult.ServerFailure
+                else -> RemoteOperationResult.Failure
+            }
+            if (result == RemoteOperationResult.Success)
+                processSuccessfulRequest(response)
         }
-        if (result == RemoteOperationResult.Success)
-            processSuccessfulRequest(response)
+
         return result
     }
 }
