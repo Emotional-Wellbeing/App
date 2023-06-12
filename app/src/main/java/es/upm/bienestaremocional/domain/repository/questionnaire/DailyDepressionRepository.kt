@@ -12,7 +12,10 @@ interface DailyDepressionRepository : QuestionnaireRepository<DailyDepression>
     override suspend fun getAll(): List<DailyDepression>
     override suspend fun getAllFromCurrentWeek(): List<DailyDepression>
     override suspend fun getAllFromLastSevenDays(): List<DailyDepression>
-    override suspend fun getAllFromRange(range: Range<ZonedDateTime>): List<DailyDepression>
+    override suspend fun getAllFromRange(
+        range: Range<ZonedDateTime>,
+        onlyCompleted: Boolean
+    ): List<DailyDepression>
     override suspend fun getAllFromYesterday(): List<DailyDepression>
     override suspend fun getLastCompleted(): DailyDepression?
 }

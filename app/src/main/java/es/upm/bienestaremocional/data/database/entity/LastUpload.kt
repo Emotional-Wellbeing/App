@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class LastUpload(
     @PrimaryKey
     val type : Type,
-    var timestamp: Long
+    var timestamp: Long //in seconds
 )
 {
     enum class Type {
@@ -20,6 +20,14 @@ data class LastUpload(
         Steps,
         TotalCaloriesBurned,
         Weight,
+        DailyStress,
+        DailyDepression,
+        DailyLoneliness,
+        DailySuicide,
+        DailySymptoms,
+        OneOffStress,
+        OneOffDepression,
+        OneOffLoneliness
     }
 }
 

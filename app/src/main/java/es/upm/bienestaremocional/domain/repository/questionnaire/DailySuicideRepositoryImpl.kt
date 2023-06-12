@@ -59,12 +59,19 @@ class DailySuicideRepositoryImpl @Inject constructor(
         return dao.getAllDailySuicideFromRange(range.first,range.second)
     }
 
-    override suspend fun getAllFromRange(range: Range<ZonedDateTime>): List<DailySuicide>
+    override suspend fun getAllFromRange(
+        range: Range<ZonedDateTime>,
+        onlyCompleted: Boolean
+    ): List<DailySuicide>
     {
-        Log.d(logTag, "querying all DailySuicide between ${range.lower} and ${range.upper}")
+        Log.d(logTag, "querying all DailySuicide between ${range.lower} " +
+                "and ${range.upper}; only completed: $onlyCompleted")
         val start = range.lower.toEpochSecond() * 1000
         val end = range.upper.plusDays(1).toEpochSecond() * 1000
-        return dao.getAllDailySuicideFromRange(start,end)
+        return if (onlyCompleted)
+            dao.getAllDailySuicideCompletedFromRange(start,end)
+        else
+            dao.getAllDailySuicideFromRange(start,end)
     }
 
     override suspend fun getAllFromYesterday(): List<DailySuicide>

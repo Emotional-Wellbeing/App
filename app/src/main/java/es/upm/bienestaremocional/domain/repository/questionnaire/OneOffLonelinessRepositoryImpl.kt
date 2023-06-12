@@ -59,12 +59,19 @@ class OneOffLonelinessRepositoryImpl @Inject constructor(
         return dao.getAllOneOffLonelinessFromRange(range.first,range.second)
     }
 
-    override suspend fun getAllFromRange(range: Range<ZonedDateTime>): List<OneOffLoneliness>
+    override suspend fun getAllFromRange(
+        range: Range<ZonedDateTime>,
+        onlyCompleted: Boolean
+    ): List<OneOffLoneliness>
     {
-        Log.d(logTag, "querying all OneOffLoneliness between ${range.lower} and ${range.upper}")
+        Log.d(logTag, "querying all OneOffLoneliness between ${range.lower} " +
+                "and ${range.upper}; only completed: $onlyCompleted")
         val start = range.lower.toEpochSecond() * 1000
         val end = range.upper.plusDays(1).toEpochSecond() * 1000
-        return dao.getAllOneOffLonelinessFromRange(start,end)
+        return if (onlyCompleted)
+            dao.getAllOneOffLonelinessCompletedFromRange(start,end)
+        else
+            dao.getAllOneOffLonelinessFromRange(start,end)
     }
 
     override suspend fun getAllFromYesterday(): List<OneOffLoneliness>

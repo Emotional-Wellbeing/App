@@ -12,7 +12,10 @@ interface DailySymptomsRepository : QuestionnaireRepository<DailySymptoms>
     override suspend fun getAll(): List<DailySymptoms>
     override suspend fun getAllFromCurrentWeek(): List<DailySymptoms>
     override suspend fun getAllFromLastSevenDays(): List<DailySymptoms>
-    override suspend fun getAllFromRange(range: Range<ZonedDateTime>): List<DailySymptoms>
+    override suspend fun getAllFromRange(
+        range: Range<ZonedDateTime>,
+        onlyCompleted: Boolean
+    ): List<DailySymptoms>
     override suspend fun getAllFromYesterday(): List<DailySymptoms>
     override suspend fun getLastCompleted(): DailySymptoms?
 }

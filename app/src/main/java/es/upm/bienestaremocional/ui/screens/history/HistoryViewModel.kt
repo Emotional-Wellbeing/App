@@ -92,9 +92,18 @@ class HistoryViewModel @Inject constructor(
         cachedData.clear()
         cachedData.addAll(
             when (questionnaire) {
-                DailyScoredQuestionnaire.Stress -> dailyStressRepository.getAllFromRange(timeRange)
-                DailyScoredQuestionnaire.Depression -> dailyDepressionRepository.getAllFromRange(timeRange)
-                DailyScoredQuestionnaire.Loneliness -> dailyLonelinessRepository.getAllFromRange(timeRange)
+                DailyScoredQuestionnaire.Stress -> dailyStressRepository.getAllFromRange(
+                    range = timeRange,
+                    onlyCompleted = false
+                )
+                DailyScoredQuestionnaire.Depression -> dailyDepressionRepository.getAllFromRange(
+                    range = timeRange,
+                    onlyCompleted = false
+                )
+                DailyScoredQuestionnaire.Loneliness -> dailyLonelinessRepository.getAllFromRange(
+                    range = timeRange,
+                    onlyCompleted = false
+                )
             }
         )
     }
