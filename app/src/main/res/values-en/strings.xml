@@ -255,6 +255,9 @@
     <string name="low_loneliness_advice">Advice for low loneliness</string>
     <string name="moderate_loneliness_advice">Advice for moderate loneliness</string>
     <string name="high_loneliness_advice">Advice for high loneliness</string>
+    <string name="low_suicide_risk_advice">Advice for low suicide risk</string>
+    <string name="moderate_suicide_risk_advice">Advice for moderate suicide risk</string>
+    <string name="high_suicide_risk_advice">Advice for high suicide risk</string>
     <string name="exercise">Exercise</string>
     <string name="more_details">More details</string>
     <string name="actual_week">Actual week</string>

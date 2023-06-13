@@ -84,7 +84,7 @@ fun generateDailyStressEntry(createdAt: Long): DailyStress
             questionIndex,
             Random.nextInt(
                 dailyStressManager.answerRange.first,
-                dailyStressManager.answerRange.last
+                dailyStressManager.answerRange.last + 1
             )
         )
     }
@@ -107,7 +107,7 @@ fun generateDailyDepressionEntry(createdAt: Long): DailyDepression
             questionIndex,
             Random.nextInt(
                 dailyDepressionManager.answerRange.first,
-                dailyDepressionManager.answerRange.last
+                dailyDepressionManager.answerRange.last + 1
             )
         )
     }
@@ -130,7 +130,7 @@ fun generateDailyLonelinessEntry(createdAt: Long): DailyLoneliness
             questionIndex,
             Random.nextInt(
                 dailyLonelinessManager.answerRange.first,
-                dailyLonelinessManager.answerRange.last
+                dailyLonelinessManager.answerRange.last + 1
             )
         )
     }
@@ -153,10 +153,11 @@ fun generateDailySuicideEntry(createdAt: Long): DailySuicide
             questionIndex,
             Random.nextInt(
                 dailySuicideManager.answerRange.first,
-                dailySuicideManager.answerRange.last
+                dailySuicideManager.answerRange.last + 1
             )
         )
     }
+    dailySuicideManager.setCompleted()
     dailySuicideManager.setEntity(dailySuicide)
     return dailySuicide
 }
@@ -176,7 +177,7 @@ fun generateDailySymptomsEntry(createdAt: Long): DailySymptoms
             questionIndex,
             Random.nextInt(
                 dailySymptomsManager.answerRange.first,
-                dailySymptomsManager.answerRange.last
+                dailySymptomsManager.answerRange.last + 1
             )
         )
     }

@@ -54,7 +54,11 @@ enum class Measure(
         mandatory = true,
         frequency = Frequency.OnlyDaily,
         measureRes = R.string.suicide,
-        advices = null
+        advices = mapOf(
+            Pair(Level.Low, listOf(R.string.low_suicide_risk_advice)),
+            Pair(Level.Moderate, listOf(R.string.moderate_suicide_risk_advice)),
+            Pair(Level.High, listOf(R.string.high_suicide_risk_advice)),
+        )
     ),
     Symptoms(
         id = "symptoms",
