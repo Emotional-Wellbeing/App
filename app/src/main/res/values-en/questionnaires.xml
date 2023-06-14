@@ -51,12 +51,12 @@
     </string-array>
 
     <string-array name="daily_symptoms_questions">
-        <item>Have you experienced any changes in your appetite today?</item>
-        <item>How energetic have you felt today?</item>
-        <item>What was your level of rest today?</item>
-        <item>Your level of concentration today has been…</item>
-        <item>What was your level of libido today?</item>
-        <item>How did you feel today in terms of pain?</item>
+        <item>Have you experienced any changes in your appetite?</item>
+        <item>How energetic have you felt?</item>
+        <item>What was your level of rest?</item>
+        <item>Your level of concentration has been…</item>
+        <item>What was your level of libido?</item>
+        <item>How did you feel in terms of pain?</item>
     </string-array>
     
     <!-- One off questionnaires -->

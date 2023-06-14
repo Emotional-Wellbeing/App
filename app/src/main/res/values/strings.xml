@@ -323,4 +323,5 @@
     <string name="completed">Completado</string>
     <string name="uncompleted">Incompletado</string>
     <string name="continue_label">Continuar</string>
+    <string name="daily_symptoms_label">¿Cómo has estado hoy?</string>
 </resources>

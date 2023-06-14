@@ -184,9 +184,7 @@ class DailyRoundViewModel @Inject constructor(
                     )
                 DailyNotScoredQuestionnaireDrawable.Symptoms ->
                     DailySymptomsScreenDestination(
-                        entityId = dailyRound.symptomsId!!,
-                        questionnaireIndex = actualQuestionnaire,
-                        questionnaireSize = totalSize
+                        entityId = dailyRound.symptomsId!!
                     )
                 else -> null
             }

@@ -51,12 +51,12 @@
     </string-array>
 
     <string-array name="daily_symptoms_questions">
-        <item>¿Has experimentado cambios hoy en el apetito?</item>
-        <item>¿Con cuánta energía te has notado hoy?</item>
-        <item>¿Cuál ha sido tu nivel de descanso hoy?</item>
-        <item>Tu nivel de concentración de hoy ha sido…</item>
-        <item>¿Cuál ha sido tu nivel de líbido hoy?</item>
-        <item>¿Cómo te has encontrado hoy a nivel de dolor?</item>
+        <item>¿Has experimentado cambios en el apetito?</item>
+        <item>¿Con cuánta energía te has notado?</item>
+        <item>¿Cuál ha sido tu nivel de descanso?</item>
+        <item>Tu nivel de concentración ha sido…</item>
+        <item>¿Cuál ha sido tu nivel de líbido?</item>
+        <item>¿Cómo te has encontrado a nivel de dolor?</item>
     </string-array>
 
 

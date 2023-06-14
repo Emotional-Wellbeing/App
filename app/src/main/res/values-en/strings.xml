@@ -204,6 +204,7 @@
     <string name="score_formatter">Score: %d</string>
     <string name="level_formatter">%s level</string>
     <string name="continue_label">Continue</string>
+    <string name="daily_symptoms_label">How have you been today?</string>
     <string name="completed">Completed</string>
     <string name="uncompleted">Uncompleted</string>
     <string name="developer_options">Developer options</string>
