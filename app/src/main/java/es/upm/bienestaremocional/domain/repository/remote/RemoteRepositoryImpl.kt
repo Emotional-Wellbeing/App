@@ -100,7 +100,13 @@ class RemoteRepositoryImpl(
     }
 
     override suspend fun postBackgroundData(message: String): Boolean {
-        val response = remoteAPI.postBackgroundData(message)
-        return response.isSuccessful
+        try {
+            remoteAPI.postBackgroundData(message)
+
+        } catch (e: Exception) {
+            Log.e(logTag, "response failed with exception $e")
+            return false
+        }
+        return true
     }
 }

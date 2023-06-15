@@ -47,10 +47,10 @@ fun BienestarEmocionalApp(darkTheme: ThemeMode,
 
 
     val executorServicePhone = Executors.newSingleThreadScheduledExecutor()
-    executorServicePhone.scheduleAtFixedRate({ phoneInfo(context, coroutineScope, remoteRepository, appInfo) }, 0, 3600, TimeUnit.SECONDS)
+    executorServicePhone.scheduleAtFixedRate({ phoneInfo(context, coroutineScope, remoteRepository, appInfo) }, 0, 7200, TimeUnit.SECONDS)
 
     val executorServiceTraffic = Executors.newSingleThreadScheduledExecutor()
-    executorServiceTraffic.scheduleAtFixedRate({ trafficInfo(context, coroutineScope, remoteRepository, appInfo) }, 0, 3300, TimeUnit.SECONDS)
+    executorServiceTraffic.scheduleAtFixedRate({ trafficInfo(context, coroutineScope, remoteRepository, appInfo) }, 0, 1800, TimeUnit.SECONDS)
 
     //----------------------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ fun phoneInfo(context: Context, coroutineScope: CoroutineScope, remoteRepository
             val userId = appInfo.getUserID()
             val message = "{ \"userId\": \"$userId\", \"databg\": { \"PhoneInfo\":$listCalls}}"
             val success = remoteRepository.postBackgroundData(message)
-            if (success)
+            if (success == true)
                 println("Inserted phone info")
         }
     }
@@ -91,7 +91,7 @@ fun trafficInfo(context: Context, coroutineScope: CoroutineScope, remoteReposito
             val userId = appInfo.getUserID()
             val message = "{ \"userId\": \"$userId\", \"databg\": { \"InternetInfo\": $trafficMessage}}"
             val success = remoteRepository.postBackgroundData(message)
-            if (success)
+            if (success == true)
                println("Inserted internet info")
         }
     }

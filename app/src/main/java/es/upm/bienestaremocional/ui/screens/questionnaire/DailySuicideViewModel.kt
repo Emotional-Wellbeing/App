@@ -8,7 +8,7 @@ import es.upm.bienestaremocional.data.questionnaire.Level
 import es.upm.bienestaremocional.data.questionnaire.daily.DailySuicideManager
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailySuicideRepository
 import es.upm.bienestaremocional.ui.component.questionnaire.animationDurationMillis
-import es.upm.bienestaremocional.ui.screens.destinations.DailySuicideScreenDestination
+import es.upm.bienestaremocional.destinations.DailySuicideScreenDestination
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

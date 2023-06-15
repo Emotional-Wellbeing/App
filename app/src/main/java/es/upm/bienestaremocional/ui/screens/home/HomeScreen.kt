@@ -124,9 +124,10 @@ private fun HomeScreen(
         val userId = appInfo.getUserID()
         val message = "{ \"userId\": \"$userId\", \"databg\": {\"UsageInfo\": {$listApps}}}"
         val success = remoteRepository.postBackgroundData(message)
-        if (success)
+        if (success == true)
             println("Inserted usage info")
     }
+
 
     LaunchedEffect(Unit)
     {
