@@ -59,12 +59,19 @@ class OneOffStressRepositoryImpl @Inject constructor(
         return dao.getAllOneOffStressFromRange(range.first,range.second)
     }
 
-    override suspend fun getAllFromRange(range: Range<ZonedDateTime>): List<OneOffStress>
+    override suspend fun getAllFromRange(
+        range: Range<ZonedDateTime>,
+        onlyCompleted: Boolean
+    ): List<OneOffStress>
     {
-        Log.d(logTag, "querying all OneOffStress between ${range.lower} and ${range.upper}")
+        Log.d(logTag, "querying all OneOffStress between ${range.lower} " +
+                "and ${range.upper}; only completed: $onlyCompleted")
         val start = range.lower.toEpochSecond() * 1000
         val end = range.upper.plusDays(1).toEpochSecond() * 1000
-        return dao.getAllOneOffStressFromRange(start,end)
+        return if (onlyCompleted)
+            dao.getAllOneOffStressCompletedFromRange(start,end)
+        else
+            dao.getAllOneOffStressFromRange(start,end)
     }
 
     override suspend fun getAllFromYesterday(): List<OneOffStress>

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.data.database.entity.round.DailyRound
+import es.upm.bienestaremocional.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyNotScoredQuestionnaireDrawable
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaireDrawable
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyRoundRepository
@@ -39,43 +40,61 @@ class DailyRoundViewModel @Inject constructor(
         .argsFrom(savedStateHandle)
         .dailyRound
 
-    private val dailyScoredQuestionnairesDrawable = mutableListOf<DailyScoredQuestionnaireDrawable>()
-    private val dailyNotScoredQuestionnairesDrawable = mutableListOf<DailyNotScoredQuestionnaireDrawable>()
+    private val questionnaires = mutableListOf<Questionnaire>()
 
     private var totalSize = 0
-
 
     init {
         viewModelScope.launch {
             dailyRound.stressId?.let {
                 if (dailyRound.moment == DailyRound.Moment.Morning)
-                    dailyScoredQuestionnairesDrawable.add(DailyScoredQuestionnaireDrawable.MorningStress)
+                    questionnaires.add(
+                        DailyScoredQuestionnaireDrawable.MorningStress
+                    )
                 else
-                    dailyScoredQuestionnairesDrawable.add(DailyScoredQuestionnaireDrawable.NightStress)
+                    questionnaires.add(
+                        DailyScoredQuestionnaireDrawable.NightStress
+                    )
             }
             dailyRound.depressionId?.let {
                 if (dailyRound.moment == DailyRound.Moment.Morning)
-                    dailyScoredQuestionnairesDrawable.add(DailyScoredQuestionnaireDrawable.MorningDepression)
+                    questionnaires.add(
+                        DailyScoredQuestionnaireDrawable.MorningDepression
+                    )
                 else
-                    dailyScoredQuestionnairesDrawable.add(DailyScoredQuestionnaireDrawable.NightDepression)
+                    questionnaires.add(
+                        DailyScoredQuestionnaireDrawable.NightDepression
+                    )
+            }
+            //Suicide needs to be present after depression
+            dailyRound.suicideId?.let {
+                if (dailyRound.moment == DailyRound.Moment.Morning)
+                    questionnaires.add(
+                        DailyNotScoredQuestionnaireDrawable.MorningSuicide
+                    )
+                else
+                    questionnaires.add(
+                        DailyNotScoredQuestionnaireDrawable.NightSuicide
+                    )
             }
             dailyRound.lonelinessId?.let {
                 if (dailyRound.moment == DailyRound.Moment.Morning)
-                    dailyScoredQuestionnairesDrawable.add(DailyScoredQuestionnaireDrawable.MorningLoneliness)
+                    questionnaires.add(
+                        DailyScoredQuestionnaireDrawable.MorningLoneliness
+                    )
                 else
-                    dailyScoredQuestionnairesDrawable.add(DailyScoredQuestionnaireDrawable.NightLoneliness)
-            }
-            dailyRound.suicideId?.let {
-                if (dailyRound.moment == DailyRound.Moment.Morning)
-                    dailyNotScoredQuestionnairesDrawable.add(DailyNotScoredQuestionnaireDrawable.MorningSuicide)
-                else
-                    dailyNotScoredQuestionnairesDrawable.add(DailyNotScoredQuestionnaireDrawable.NightSuicide)
-            }
-            dailyRound.symptomsId?.let {
-                dailyNotScoredQuestionnairesDrawable.add(DailyNotScoredQuestionnaireDrawable.Symptoms)
+                    questionnaires.add(
+                        DailyScoredQuestionnaireDrawable.NightLoneliness
+                    )
             }
 
-            totalSize = dailyScoredQuestionnairesDrawable.size + dailyNotScoredQuestionnairesDrawable.size
+            dailyRound.symptomsId?.let {
+                questionnaires.add(
+                    DailyNotScoredQuestionnaireDrawable.Symptoms
+                )
+            }
+
+            totalSize = questionnaires.size
         }
     }
 
@@ -84,8 +103,7 @@ class DailyRoundViewModel @Inject constructor(
 
     fun onInit()
     {
-        _state.value = if (dailyScoredQuestionnairesDrawable.isNotEmpty() ||
-            dailyNotScoredQuestionnairesDrawable.isNotEmpty())
+        _state.value = if (questionnaires.isNotEmpty())
             QuestionnaireRoundState.Show
         else
             QuestionnaireRoundState.Finished
@@ -104,86 +122,74 @@ class DailyRoundViewModel @Inject constructor(
 
     fun onShow(navigator: DestinationsNavigator)
     {
-
-        if (actualQuestionnaire < dailyScoredQuestionnairesDrawable.size)
+        if (actualQuestionnaire < questionnaires.size)
         {
-            val element = dailyScoredQuestionnairesDrawable[actualQuestionnaire]
-            val direction = when (element)
+            val direction = when (questionnaires[actualQuestionnaire])
             {
                 DailyScoredQuestionnaireDrawable.MorningStress ->
                     DailyStressScreenDestination(
                         entityId = dailyRound.stressId!!,
-                        moment =  DailyRound.Moment.Morning,
+                        moment = DailyRound.Moment.Morning,
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
                 DailyScoredQuestionnaireDrawable.MorningDepression ->
                     DailyDepressionScreenDestination(
                         entityId = dailyRound.depressionId!!,
-                        moment =  DailyRound.Moment.Morning,
+                        moment = DailyRound.Moment.Morning,
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
                 DailyScoredQuestionnaireDrawable.MorningLoneliness ->
                     DailyLonelinessScreenDestination(
                         entityId = dailyRound.lonelinessId!!,
-                        moment =  DailyRound.Moment.Morning,
+                        moment = DailyRound.Moment.Morning,
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
                 DailyScoredQuestionnaireDrawable.NightStress ->
                     DailyStressScreenDestination(
                         entityId = dailyRound.stressId!!,
-                        moment =  DailyRound.Moment.Night,
+                        moment = DailyRound.Moment.Night,
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
                 DailyScoredQuestionnaireDrawable.NightDepression ->
                     DailyDepressionScreenDestination(
                         entityId = dailyRound.depressionId!!,
-                        moment =  DailyRound.Moment.Night,
+                        moment = DailyRound.Moment.Night,
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
                 DailyScoredQuestionnaireDrawable.NightLoneliness ->
                     DailyLonelinessScreenDestination(
                         entityId = dailyRound.lonelinessId!!,
-                        moment =  DailyRound.Moment.Night,
+                        moment = DailyRound.Moment.Night,
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
-            }
-            navigator.navigate(direction)
-        }
-        else
-        {
-            val element = dailyNotScoredQuestionnairesDrawable[actualQuestionnaire - dailyScoredQuestionnairesDrawable.size]
-            val direction = when (element)
-            {
                 DailyNotScoredQuestionnaireDrawable.MorningSuicide ->
                     DailySuicideScreenDestination(
                         entityId = dailyRound.suicideId!!,
-                        moment =  DailyRound.Moment.Morning,
+                        moment = DailyRound.Moment.Morning,
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
                 DailyNotScoredQuestionnaireDrawable.NightSuicide ->
                     DailySuicideScreenDestination(
                         entityId = dailyRound.suicideId!!,
-                        moment =  DailyRound.Moment.Night,
+                        moment = DailyRound.Moment.Night,
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
                 DailyNotScoredQuestionnaireDrawable.Symptoms ->
                     DailySymptomsScreenDestination(
-                        entityId = dailyRound.symptomsId!!,
-                        questionnaireIndex = actualQuestionnaire,
-                        questionnaireSize = totalSize
+                        entityId = dailyRound.symptomsId!!
                     )
+                else -> null
             }
-            navigator.navigate(direction)
+            direction?.let { navigator.navigate(it) }
         }
-
         _state.value = QuestionnaireRoundState.PostShow
     }
 

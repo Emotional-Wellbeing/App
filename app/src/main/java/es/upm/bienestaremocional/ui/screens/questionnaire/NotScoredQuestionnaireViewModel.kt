@@ -9,24 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.runBlocking
 
-/*
-private val questionnaire = QuestionnaireScreenDestination.argsFrom(savedStateHandle).questionnaire
-    private val entityId = QuestionnaireScreenDestination.argsFrom(savedStateHandle).entityId
- */
-
-/*
-@HiltViewModel
-class QuestionnaireViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    @Named("logTag") val logTag : String,
-    val measureEntity: MeasureEntity,
-    val repository: QuestionnaireRepository<MeasureEntity>,
-    val manager: NotScoredManager<MeasureEntity>,
-) : ViewModel()
- */
 abstract class NotScoredQuestionnaireViewModel(
     protected val repository: QuestionnaireRepository<MeasureEntity>,
-    protected open val manager: NotScoredManager<MeasureEntity>,
+    protected val manager: NotScoredManager<MeasureEntity>,
     protected val entityId: Long,
 ) : ViewModel()
 {
@@ -39,6 +24,14 @@ abstract class NotScoredQuestionnaireViewModel(
     init {
         runBlocking {
             measureEntity = repository.get(entityId)
+        }
+        if(measureEntity?.completed == true)
+        {
+            _state.value = QuestionnaireState.Finished
+        }
+        else
+        {
+            loadAnswers()
         }
     }
 
@@ -92,9 +85,11 @@ abstract class NotScoredQuestionnaireViewModel(
 
     fun answerSelected(question: Int) = manager.getAnswer(question)
 
-    protected fun loadAnswers()
+    private fun loadAnswers()
     {
-        measureEntity?.let { manager.loadEntity(it) }
+        measureEntity?.let {
+            manager.loadEntity(it)
+        }
     }
 
     private suspend fun updateQuestionnaire()

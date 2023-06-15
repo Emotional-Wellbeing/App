@@ -59,12 +59,19 @@ class DailySymptomsRepositoryImpl @Inject constructor(
         return dao.getAllDailySymptomsFromRange(range.first,range.second)
     }
 
-    override suspend fun getAllFromRange(range: Range<ZonedDateTime>): List<DailySymptoms>
+    override suspend fun getAllFromRange(
+        range: Range<ZonedDateTime>,
+        onlyCompleted: Boolean
+    ): List<DailySymptoms>
     {
-        Log.d(logTag, "querying all DailySymptoms between ${range.lower} and ${range.upper}")
+        Log.d(logTag, "querying all DailySymptoms between ${range.lower} " +
+                "and ${range.upper}; only completed: $onlyCompleted")
         val start = range.lower.toEpochSecond() * 1000
         val end = range.upper.plusDays(1).toEpochSecond() * 1000
-        return dao.getAllDailySymptomsFromRange(start,end)
+        return if (onlyCompleted)
+            dao.getAllDailySymptomsCompletedFromRange(start,end)
+        else
+            dao.getAllDailySymptomsFromRange(start,end)
     }
 
     override suspend fun getAllFromYesterday(): List<DailySymptoms>

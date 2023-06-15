@@ -128,6 +128,10 @@
     <string name="moderate_loneliness_advice">Consejo para soledad de nivel moderado</string>
     <string name="high_loneliness_advice">Consejo para soledad de nivel alto</string>
 
+    <string name="low_suicide_risk_advice">Consejo para riesgo de suicidio de nivel bajo</string>
+    <string name="moderate_suicide_risk_advice">Consejo para riesgo de suicidio de nivel moderado</string>
+    <string name="high_suicide_risk_advice">Consejo para riesgo de suicidio de nivel alto</string>
+
     <!-- Credits-->
     <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>
     <string name="credit_author_description">Autor del TFM Sistema para el Bienestar Emocional y principal autor de la aplicación.</string>
@@ -319,7 +323,7 @@
     <string name="completed">Completado</string>
     <string name="uncompleted">Incompletado</string>
     <string name="continue_label">Continuar</string>
-
+    <string name="daily_symptoms_label">¿Cómo has estado hoy?</string>
     <!-- Permission -->
     <string name="permission_screen_label">Permisos</string>
     <string name="permission_screen_description">Permisos de la aplicación</string>

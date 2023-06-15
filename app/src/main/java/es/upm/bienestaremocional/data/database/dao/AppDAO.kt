@@ -412,89 +412,125 @@ interface AppDAO
 
     /**
      * -------------------------------------------------------------------------------------------
-     * Get All Completed
+     * Get completed by range
      * -------------------------------------------------------------------------------------------
      */
 
     /**
-     * Get all [OneOffStress] completed, sorted from the newest to the oldest
+     * Get all [OneOffStress] completed, sorted from the newest to the oldest,
+     * sorted from the newest to the oldest from the range indicated using modification timestamp
+     * @param start Timestamp of the start of the range, expressed in milliseconds
+     * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [OneOffStress]
      */
     @Query("SELECT * " +
             "FROM one_off_stress " +
             "WHERE one_off_stress_completed = 1 " +
+            "AND one_off_stress_modified_at BETWEEN :start AND :end " +
             "ORDER BY one_off_stress_created_at DESC")
-    suspend fun getAllOneOffStressCompleted(): List<OneOffStress>
+    suspend fun getAllOneOffStressCompletedFromRange(start: Long, end: Long): List<OneOffStress>
 
     /**
-     * Get all [OneOffDepression] completed, sorted from the newest to the oldest
+     * Get all [OneOffDepression] completed, sorted from the newest to the oldest,
+     * sorted from the newest to the oldest from the range indicated using modification timestamp
+     * @param start Timestamp of the start of the range, expressed in milliseconds
+     * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [OneOffDepression]
      */
     @Query("SELECT * " +
             "FROM one_off_depression " +
             "WHERE one_off_depression_completed = 1 " +
+            "AND one_off_depression_modified_at BETWEEN :start AND :end " +
             "ORDER BY one_off_depression_created_at DESC")
-    suspend fun getAllOneOffDepressionCompleted(): List<OneOffDepression>
+    suspend fun getAllOneOffDepressionCompletedFromRange(start: Long, end: Long):
+            List<OneOffDepression>
 
     /**
-     * Get all [OneOffLoneliness] completed, sorted from the newest to the oldest
+     * Get all [OneOffLoneliness] completed, sorted from the newest to the oldest,
+     * sorted from the newest to the oldest from the range indicated using modification timestamp
+     * @param start Timestamp of the start of the range, expressed in milliseconds
+     * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [OneOffLoneliness]
      */
     @Query("SELECT * " +
             "FROM one_off_loneliness " +
             "WHERE one_off_loneliness_completed = 1 " +
+            "AND one_off_loneliness_modified_at BETWEEN :start AND :end " +
             "ORDER BY one_off_loneliness_created_at DESC")
-    suspend fun getAllOneOffLonelinessCompleted(): List<OneOffLoneliness>
+    suspend fun getAllOneOffLonelinessCompletedFromRange(start: Long, end: Long):
+            List<OneOffLoneliness>
 
     /**
-     * Get all [DailyStress] completed, sorted from the newest to the oldest
+     * Get all [DailyStress] completed, sorted from the newest to the oldest,
+     * sorted from the newest to the oldest from the range indicated using modification timestamp
+     * @param start Timestamp of the start of the range, expressed in milliseconds
+     * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailyStress]
      */
     @Query("SELECT * " +
             "FROM daily_stress " +
             "WHERE daily_stress_completed = 1 " +
+            "AND daily_stress_modified_at BETWEEN :start AND :end " +
             "ORDER BY daily_stress_created_at DESC")
-    suspend fun getAllDailyStressCompleted(): List<DailyStress>
+    suspend fun getAllDailyStressCompletedFromRange(start: Long, end: Long): List<DailyStress>
 
     /**
-     * Get all [DailyDepression] completed, sorted from the newest to the oldest
+     * Get all [DailyDepression] completed, sorted from the newest to the oldest,
+     * sorted from the newest to the oldest from the range indicated using modification timestamp
+     * @param start Timestamp of the start of the range, expressed in milliseconds
+     * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailyDepression]
      */
     @Query("SELECT * " +
             "FROM daily_depression " +
             "WHERE daily_depression_completed = 1 " +
+            "AND daily_depression_modified_at BETWEEN :start AND :end " +
             "ORDER BY daily_depression_created_at DESC")
-    suspend fun getAllDailyDepressionCompleted(): List<DailyDepression>
+    suspend fun getAllDailyDepressionCompletedFromRange(start: Long, end: Long):
+            List<DailyDepression>
 
     /**
-     * Get all [DailyLoneliness] completed, sorted from the newest to the oldest
+     * Get all [DailyLoneliness] completed, sorted from the newest to the oldest,
+     * sorted from the newest to the oldest from the range indicated using modification timestamp
+     * @param start Timestamp of the start of the range, expressed in milliseconds
+     * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailyLoneliness]
      */
     @Query("SELECT * " +
             "FROM daily_loneliness " +
             "WHERE daily_loneliness_completed = 1 " +
+            "AND daily_loneliness_modified_at BETWEEN :start AND :end " +
             "ORDER BY daily_loneliness_created_at DESC")
-    suspend fun getAllDailyLonelinessCompleted(): List<DailyLoneliness>
+    suspend fun getAllDailyLonelinessCompletedFromRange(start: Long, end: Long):
+            List<DailyLoneliness>
 
     /**
-     * Get all [DailySuicide] completed, sorted from the newest to the oldest
+     * Get all [DailySuicide] completed, sorted from the newest to the oldest,
+     * sorted from the newest to the oldest from the range indicated using modification timestamp
+     * @param start Timestamp of the start of the range, expressed in milliseconds
+     * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailySuicide]
      */
     @Query("SELECT * " +
             "FROM daily_suicide " +
             "WHERE daily_suicide_completed = 1 " +
+            "AND daily_suicide_modified_at BETWEEN :start AND :end " +
             "ORDER BY daily_suicide_created_at DESC")
-    suspend fun getAllDailySuicideCompleted(): List<DailySuicide>
+    suspend fun getAllDailySuicideCompletedFromRange(start: Long, end: Long): List<DailySuicide>
 
     /**
-     * Get all [DailySymptoms] completed, sorted from the newest to the oldest
+     * Get all [DailySymptoms] completed, sorted from the newest to the oldest,
+     * sorted from the newest to the oldest from the range indicated using modification timestamp
+     * @param start Timestamp of the start of the range, expressed in milliseconds
+     * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailySymptoms]
      */
     @Query("SELECT * " +
             "FROM daily_symptoms " +
             "WHERE daily_symptoms_completed = 1 " +
+            "AND daily_symptoms_modified_at BETWEEN :start AND :end " +
             "ORDER BY daily_symptoms_created_at DESC")
-    suspend fun getAllDailySymptomsCompleted(): List<DailySymptoms>
+    suspend fun getAllDailySymptomsCompletedFromRange(start: Long, end: Long): List<DailySymptoms>
 
     /**
      * -------------------------------------------------------------------------------------------

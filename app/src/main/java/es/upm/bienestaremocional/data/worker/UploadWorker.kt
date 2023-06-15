@@ -9,6 +9,8 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import es.upm.bienestaremocional.domain.repository.remote.RemoteOperationResult
+import es.upm.bienestaremocional.domain.usecases.PostDailyQuestionnairesUseCase
+import es.upm.bienestaremocional.domain.usecases.PostOneOffQuestionnairesUseCase
 import es.upm.bienestaremocional.domain.usecases.PostUserDataUseCase
 import es.upm.bienestaremocional.ui.notification.Notification
 import kotlinx.coroutines.delay
@@ -23,7 +25,9 @@ class UploadWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     @Named("logTag") private val logTag: String,
     private val notification: Notification,
-    private val postUserDataUseCase: PostUserDataUseCase
+    private val postUserDataUseCase: PostUserDataUseCase,
+    private val postDailyQuestionnairesUseCase: PostDailyQuestionnairesUseCase,
+    private val postOneOffQuestionnairesUseCase: PostOneOffQuestionnairesUseCase,
 ): CoroutineWorker(appContext, workerParams)
 {
     companion object : Schedulable
@@ -41,19 +45,20 @@ class UploadWorker @AssistedInject constructor(
     {
         Log.d(logTag,"Executing Upload Worker")
 
-        var result : Result
+        lateinit var result : Result
+        lateinit var response: RemoteOperationResult
         try
         {
             setForeground(getForegroundInfo())
 
             if (postUserDataUseCase.shouldExecute())
             {
-                Log.d(logTag,"We can read data so upload it")
+                Log.d(logTag,"We can read user data so upload it")
 
                 //TODO remove this in production
                 delay(5000L)
 
-                val response = postUserDataUseCase.execute()
+                response = postUserDataUseCase.execute()
 
                 // Indicate whether the work finished successfully with the Result
                 result = when(response)
@@ -68,6 +73,34 @@ class UploadWorker @AssistedInject constructor(
                 Log.d(logTag,"We cannot read any data so don't upload")
                 result = Result.success()
             }
+
+            if (result == Result.success())
+            {
+                response = postDailyQuestionnairesUseCase.execute()
+
+                // Indicate whether the work finished successfully with the Result
+                result = when(response)
+                {
+                    RemoteOperationResult.Success -> Result.success()
+                    RemoteOperationResult.ServerFailure -> Result.retry()
+                    else -> Result.failure()
+                }
+            }
+
+            if (result == Result.success())
+            {
+                response = postOneOffQuestionnairesUseCase.execute()
+
+                // Indicate whether the work finished successfully with the Result
+                result = when(response)
+                {
+                    RemoteOperationResult.Success -> Result.success()
+                    RemoteOperationResult.ServerFailure -> Result.retry()
+                    else -> Result.failure()
+                }
+            }
+
+
         } catch (e: IllegalStateException)
         {
             Log.d(logTag, "IllegalStateException at calling setForeground")

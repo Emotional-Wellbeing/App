@@ -58,7 +58,9 @@ class InsertDailyRoundUseCaseImpl(
                     lonelinessId = dailyLonelinessRepository.insert(DailyLoneliness())
                 }
                 Measure.Suicide -> {
-                    suicideId = dailySuicideRepository.insert(DailySuicide())
+                    //Only ask for suicide if depression is present
+                    if(measures.contains(Measure.Depression))
+                        suicideId = dailySuicideRepository.insert(DailySuicide())
                 }
                 else -> {}
             }
@@ -104,7 +106,9 @@ class InsertDailyRoundUseCaseImpl(
                     lonelinessId = dailyLonelinessRepository.insert(DailyLoneliness())
                 }
                 Measure.Suicide -> {
-                    suicideId = dailySuicideRepository.insert(DailySuicide())
+                    //Only ask for suicide if depression is present
+                    if(measures.contains(Measure.Depression))
+                        suicideId = dailySuicideRepository.insert(DailySuicide())
                 }
                 Measure.Symptoms -> {
                     symptomsId = dailySymptomsRepository.insert(DailySymptoms())

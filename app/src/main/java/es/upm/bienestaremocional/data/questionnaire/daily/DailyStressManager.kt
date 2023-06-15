@@ -6,7 +6,7 @@ import es.upm.bienestaremocional.data.questionnaire.ScoredManager
 
 class DailyStressManager: ScoredManager<DailyStress>()
 {
-    override val answers: Array<Int?> = Array(DailyScoredQuestionnaire.Stress.numberOfQuestions) { 0 }
+    override val answers: Array<Int?> = arrayOfNulls(DailyScoredQuestionnaire.Stress.numberOfQuestions)
     override val numberOfQuestions: Int = DailyScoredQuestionnaire.Stress.numberOfQuestions
     override val answerRange: IntRange = DailyScoredQuestionnaire.Stress.answerRange
     override val levels: List<ScoreLevel> = DailyScoredQuestionnaire.Stress.levels

@@ -31,6 +31,10 @@ import es.upm.bienestaremocional.domain.usecases.InsertDailyRoundUseCase
 import es.upm.bienestaremocional.domain.usecases.InsertDailyRoundUseCaseImpl
 import es.upm.bienestaremocional.domain.usecases.InsertOneOffRoundUseCase
 import es.upm.bienestaremocional.domain.usecases.InsertOneOffRoundUseCaseImpl
+import es.upm.bienestaremocional.domain.usecases.PostDailyQuestionnairesUseCase
+import es.upm.bienestaremocional.domain.usecases.PostDailyQuestionnairesUseCaseImpl
+import es.upm.bienestaremocional.domain.usecases.PostOneOffQuestionnairesUseCase
+import es.upm.bienestaremocional.domain.usecases.PostOneOffQuestionnairesUseCaseImpl
 import es.upm.bienestaremocional.domain.usecases.PostUserDataUseCase
 import es.upm.bienestaremocional.domain.usecases.PostUserDataUseCaseImpl
 import javax.inject.Named
@@ -112,5 +116,47 @@ object UseCasesModule
         oneOffDepressionRepository = oneOffDepressionRepository,
         oneOffLonelinessRepository = oneOffLonelinessRepository,
         oneOffRoundRepository = oneOffRoundRepository
+    )
+
+    @Provides
+    fun providePostDailyQuestionnairesUseCase(
+        @Named("logTag") logTag: String,
+        appInfo: AppInfo,
+        remoteRepository: RemoteRepository,
+        lastUploadRepository: LastUploadRepository,
+        dailyStressRepository: DailyStressRepository,
+        dailyDepressionRepository: DailyDepressionRepository,
+        dailyLonelinessRepository: DailyLonelinessRepository,
+        dailySuicideRepository: DailySuicideRepository,
+        dailySymptomsRepository: DailySymptomsRepository,
+    ): PostDailyQuestionnairesUseCase = PostDailyQuestionnairesUseCaseImpl(
+        logTag = logTag,
+        appInfo = appInfo,
+        remoteRepository = remoteRepository,
+        lastUploadRepository = lastUploadRepository,
+        dailyStressRepository = dailyStressRepository,
+        dailyDepressionRepository = dailyDepressionRepository,
+        dailyLonelinessRepository = dailyLonelinessRepository,
+        dailySuicideRepository = dailySuicideRepository,
+        dailySymptomsRepository = dailySymptomsRepository
+    )
+
+    @Provides
+    fun providePostOneOffQuestionnairesUseCase(
+        @Named("logTag") logTag: String,
+        appInfo: AppInfo,
+        remoteRepository: RemoteRepository,
+        lastUploadRepository: LastUploadRepository,
+        oneOffStressRepository: OneOffStressRepository,
+        oneOffDepressionRepository: OneOffDepressionRepository,
+        oneOffLonelinessRepository: OneOffLonelinessRepository,
+    ): PostOneOffQuestionnairesUseCase = PostOneOffQuestionnairesUseCaseImpl(
+        logTag = logTag,
+        appInfo = appInfo,
+        remoteRepository = remoteRepository,
+        lastUploadRepository = lastUploadRepository,
+        oneOffStressRepository = oneOffStressRepository,
+        oneOffDepressionRepository = oneOffDepressionRepository,
+        oneOffLonelinessRepository = oneOffLonelinessRepository,
     )
 }

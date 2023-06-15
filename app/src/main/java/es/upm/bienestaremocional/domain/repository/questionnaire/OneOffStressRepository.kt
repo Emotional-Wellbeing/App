@@ -12,7 +12,10 @@ interface OneOffStressRepository : QuestionnaireRepository<OneOffStress>
     override suspend fun getAll(): List<OneOffStress>
     override suspend fun getAllFromCurrentWeek(): List<OneOffStress>
     override suspend fun getAllFromLastSevenDays(): List<OneOffStress>
-    override suspend fun getAllFromRange(range: Range<ZonedDateTime>): List<OneOffStress>
+    override suspend fun getAllFromRange(
+        range: Range<ZonedDateTime>,
+        onlyCompleted: Boolean
+    ): List<OneOffStress>
     override suspend fun getAllFromYesterday(): List<OneOffStress>
     override suspend fun getLastCompleted(): OneOffStress?
 }

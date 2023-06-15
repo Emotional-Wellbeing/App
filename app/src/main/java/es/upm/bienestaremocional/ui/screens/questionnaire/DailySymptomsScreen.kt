@@ -15,8 +15,6 @@ import es.upm.bienestaremocional.data.questionnaire.daily.DailyNotScoredQuestion
 fun DailySymptomsScreen(
     navController: NavController,
     entityId: Long,
-    questionnaireIndex : Int = 0,
-    questionnaireSize : Int = 1,
     viewModel : DailySymptomsViewModel = hiltViewModel(),
 )
 {
@@ -27,7 +25,7 @@ fun DailySymptomsScreen(
     QuestionnaireStringAnswersScreen(
         state = state,
         questionnaire = questionnaire,
-        title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${stringResource(questionnaire.measureRes)}",
+        title = stringResource(id = R.string.daily_symptoms_label),
         answerSelected = viewModel::answerSelected,
         answersRemaining = viewModel::answersRemaining,
         onAnswer = { question, answer -> viewModel.onAnswer(question,answer) },

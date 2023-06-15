@@ -139,7 +139,7 @@ class DebugViewModel @Inject constructor(
 
     suspend fun onPrepoulateDatabase()
     {
-        val days = 180
+        val days = 30
         List(days) { index ->
             val createdAt = ZonedDateTime
                 .now()

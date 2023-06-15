@@ -6,7 +6,7 @@ import es.upm.bienestaremocional.data.questionnaire.ScoredManager
 
 class DailyLonelinessManager: ScoredManager<DailyLoneliness>()
 {
-    override val answers: Array<Int?> = Array(DailyScoredQuestionnaire.Loneliness.numberOfQuestions) { 0 }
+    override val answers: Array<Int?> = arrayOfNulls(DailyScoredQuestionnaire.Loneliness.numberOfQuestions)
     override val numberOfQuestions: Int = DailyScoredQuestionnaire.Loneliness.numberOfQuestions
     override val answerRange: IntRange = DailyScoredQuestionnaire.Loneliness.answerRange
     override val levels: List<ScoreLevel> = DailyScoredQuestionnaire.Loneliness.levels

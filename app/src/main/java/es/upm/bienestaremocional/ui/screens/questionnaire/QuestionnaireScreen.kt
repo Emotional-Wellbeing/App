@@ -1,17 +1,13 @@
 package es.upm.bienestaremocional.ui.screens.questionnaire
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -26,9 +22,14 @@ import es.upm.bienestaremocional.data.questionnaire.daily.DailyNotScoredQuestion
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaireDrawable
 import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffQuestionnaireDrawable
 import es.upm.bienestaremocional.ui.component.OneOffStressStatus
+import es.upm.bienestaremocional.ui.component.questionnaire.AnswersRemainingDialog
+import es.upm.bienestaremocional.ui.component.questionnaire.ExitDialog
+import es.upm.bienestaremocional.ui.component.questionnaire.NumericAnswer
+import es.upm.bienestaremocional.ui.component.questionnaire.QuestionnaireLayout
+import es.upm.bienestaremocional.ui.component.questionnaire.StringAnswer
+import es.upm.bienestaremocional.ui.component.questionnaire.Summary
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
 
 
 @OptIn(ExperimentalPagerApi::class)
@@ -196,44 +197,24 @@ private fun QuestionnaireScoredScreen(
 )
 {
     val pagerState = rememberPagerState()
+
+    val content : @Composable () -> Unit = {
+        HorizontalPager(
+            count = questionnaire.numberOfQuestions,
+            state = pagerState,
+            //modifier = Modifier.weight(1f)
+        ) { page ->
+            pagerContent(page,pagerState)
+        }
+    }
+
     if (state !is QuestionnaireState.Summary || state !is QuestionnaireState.Finished)
     {
-        Surface()
-        {
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp))
-            {
-                //header
-                Column(modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally)
-                {
-                    Row(modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
-                    )
-                    {
-                        Text(title,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.weight(1f))
-                        IconButton(onClick = onSkippingAttempt)
-                        {
-                            Icon(Icons.Filled.Close, contentDescription = "Finish")
-                        }
-                    }
-                }
-
-                //internal page
-                HorizontalPager(
-                    count = questionnaire.numberOfQuestions,
-                    state = pagerState,
-                    modifier = Modifier.weight(1f)
-                ) { page ->
-                    pagerContent(page,pagerState)
-                }
-            }
-        }
+        QuestionnaireLayout(
+            title = title,
+            onSkippingAttempt = onSkippingAttempt,
+            content = content
+        )
     }
     when(state)
     {
@@ -250,7 +231,7 @@ private fun QuestionnaireScoredScreen(
         }
         QuestionnaireState.Summary ->
         {
-            Summary(
+            ShowSummary(
                 score = getScore()!!,
                 widthSize = widthSize,
                 content = summaryContent,
@@ -280,44 +261,24 @@ private fun QuestionnaireNotScoredScreen(
 {
     val pagerState = rememberPagerState()
 
+    val content : @Composable () -> Unit = {
+        HorizontalPager(
+            count = questionnaire.numberOfQuestions,
+            state = pagerState,
+            //modifier = Modifier.weight(1f)
+        ) { page ->
+            pagerContent(page,pagerState)
+        }
+    }
+
+
     if (state !is QuestionnaireState.Summary || state !is QuestionnaireState.Finished)
     {
-        Surface()
-        {
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp))
-            {
-                //header
-                Column(modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally)
-                {
-                    Row(modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
-                    )
-                    {
-                        Text(title,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.weight(1f))
-                        IconButton(onClick = onSkippingAttempt)
-                        {
-                            Icon(Icons.Filled.Close, contentDescription = "Finish")
-                        }
-                    }
-                }
-
-                //internal page
-                HorizontalPager(
-                    count = questionnaire.numberOfQuestions,
-                    state = pagerState,
-                    modifier = Modifier.weight(1f)
-                ) { page ->
-                    pagerContent(page,pagerState)
-                }
-            }
-        }
+        QuestionnaireLayout(
+            title = title,
+            onSkippingAttempt = onSkippingAttempt,
+            content = content
+        )
     }
     when(state)
     {
@@ -418,12 +379,18 @@ private fun QuestionnairePage(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            verticalArrangement = Arrangement.SpaceEvenly,
+            verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-            Text("${(pagerState.currentPage + 1)}. $question", textAlign = TextAlign.Justify)
-            answerContent()
+            //question
+            Text(question, textAlign = TextAlign.Justify)
+
+            //answer
+            Column(modifier = Modifier.verticalScroll(rememberScrollState()))
+            {
+                answerContent()
+            }
         }
 
         //footer
@@ -489,180 +456,17 @@ private fun QuestionnairePage(
 }
 
 @Composable
-private fun StringAnswer(
-    answers : Array<String>,
-    answerSelectedPrevious : Int?,
-    onAnswer: (Int) -> Unit,
-)
-{
-    val answerSelected = remember { mutableStateOf(answerSelectedPrevious) }
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        answers.forEachIndexed { index, answer ->
-            OptionCard(
-                text = answer,
-                selected = index == answerSelected.value,
-                onClick = {
-                    onAnswer(index)
-                    if (answerSelected.value != index)
-                        answerSelected.value = index
-                    else
-                        answerSelected.value = null
-                }
-            )
-        }
-    }
-
-
-}
-
-@Composable
-private fun NumericAnswer(
-    answerRange : IntRange,
-    answerSelectedPrevious : Int?,
-    onAnswer: (Int) -> Unit,
-)
-{
-    val answerSelected = remember { mutableStateOf(answerSelectedPrevious) }
-    OptionSlider(
-        initialValue = answerSelected.value?.toFloat(),
-        onAnswer = {onAnswer(it.roundToInt())},
-        valueRange = answerRange.first.toFloat()..answerRange.last.toFloat()
-    )
-}
-
-@Composable
-private fun ExitDialog(
-    onDismiss : () -> Unit, 
-    onConfirm : () -> Unit
-)
-{
-    AlertDialog(onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = onConfirm) {
-                Text(stringResource(R.string.accept))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.back))
-            }
-        },
-        title = {
-            Text(stringResource(R.string.exit_questionnaire))
-        },
-        text = {
-            Text(stringResource(R.string.sure_skip_questionnaire))
-        })
-}
-
-@Composable
-private fun AnswersRemainingDialog(
-    answersRemaining: List<Int>,
-    onDismiss : () -> Unit
-)
-{
-    val textToShow = pluralStringResource(
-        R.plurals.number_of_questions_left,
-        answersRemaining.size,
-        answersRemaining.map { it+1 }.joinToString())
-
-    AlertDialog(onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.ok))
-            }
-        },
-        title = {
-            Text(stringResource(R.string.questionnaire_not_completed))
-        },
-        text = {
-            Text(textToShow)
-        })
-}
-
-@Composable
-private fun OptionCard(
-    text : String,
-    selected : Boolean,
-    onClick : () -> Unit
-)
-{
-    val color by animateColorAsState(
-        targetValue = if(selected)
-            MaterialTheme.colorScheme.inversePrimary
-        else
-            MaterialTheme.colorScheme.surfaceVariant,
-        animationSpec = tween(durationMillis = 1000)
-    )
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(containerColor = color)
-    )
-    {
-        Text(text,
-            textAlign = TextAlign.Justify,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
-    }
-}
-
-@Composable
-private fun OptionSlider(
-    initialValue : Float?,
-    onAnswer: (Float) -> Unit,
-    valueRange : ClosedFloatingPointRange<Float>
-)
-{
-    var sliderPosition by remember { mutableStateOf(initialValue ?: 0f) }
-
-    Column()
-    {
-        Text(text = sliderPosition.toString())
-        Slider(
-            value = sliderPosition,
-            onValueChange = { sliderPosition = it },
-            valueRange = valueRange,
-            onValueChangeFinished = {
-                onAnswer(sliderPosition)
-            },
-            steps = (valueRange.endInclusive - valueRange.start - 1).toInt()
-        )
-    }
-}
-
-
-@Composable
-private fun Summary(
+private fun ShowSummary(
     score : Int,
     widthSize : WindowWidthSizeClass,
     content : @Composable (Int, WindowWidthSizeClass) -> Unit,
     onSuccess : () -> Unit
 )
 {
-    Surface(modifier = Modifier.fillMaxSize())
-    {
-        Column(verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally)
-        {
-            Card(modifier = Modifier.padding(16.dp))
-            {
-                Column(modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                )
-                {
-                    content(score, widthSize)
-                    TextButton(onClick = onSuccess)
-                    {
-                        Text(stringResource(R.string.continue_word))
-                    }
-                }
-
-            }
-        }
-    }
+    Summary(
+        content = { content(score, widthSize) },
+        onSuccess = onSuccess
+    )
 }
 
 @Composable
@@ -1068,229 +872,5 @@ fun QuestionnairePageDarkThemePreview()
             )
         }
 
-    }
-}
-
-@Composable
-@Preview
-fun StringAnswerPreview()
-{
-    val answers = stringArrayResource(id = R.array.four_answers_questionnaire)
-    BienestarEmocionalTheme {
-        Surface {
-            StringAnswer(
-                answers = answers,
-                answerSelectedPrevious = null,
-                onAnswer = {}
-            )
-        }
-    }
-}
-
-@Composable
-@Preview
-fun StringAnswerDarkThemePreview()
-{
-    val answers = stringArrayResource(id = R.array.four_answers_questionnaire)
-
-    BienestarEmocionalTheme(darkTheme = true) {
-        Surface {
-            StringAnswer(
-                answers = answers,
-                answerSelectedPrevious = null,
-                onAnswer = {}
-            )
-        }
-    }
-}
-
-@Composable
-@Preview
-fun NumericAnswerPreview()
-{
-    BienestarEmocionalTheme {
-        Surface {
-            NumericAnswer(
-                answerRange = 0..10,
-                answerSelectedPrevious = null,
-                onAnswer = {}
-            )
-        }
-    }
-}
-
-@Composable
-@Preview
-fun NumericAnswerDarkThemePreview()
-{
-    BienestarEmocionalTheme(darkTheme = true) {
-        Surface {
-            NumericAnswer(
-                answerRange = 0..10,
-                answerSelectedPrevious = null,
-                onAnswer = {}
-            )
-        }
-    }
-}
-
-@Composable
-@Preview
-fun ExitDialogPreview()
-{
-    BienestarEmocionalTheme {
-        ExitDialog(onConfirm = {}, onDismiss = {})
-    }
-}
-
-@Composable
-@Preview
-fun ExitDialogDarkThemePreview()
-{
-    BienestarEmocionalTheme(darkTheme = true) {
-        ExitDialog(onConfirm = {}, onDismiss = {})
-    }
-}
-
-@Composable
-@Preview
-fun AnswersRemainingDialogPreview()
-{
-    BienestarEmocionalTheme {
-        AnswersRemainingDialog(answersRemaining = listOf(1,2,4,7,8)) {}
-    }
-}
-
-@Composable
-@Preview
-fun AnswersRemainingDialogDarkThemePreview()
-{
-    BienestarEmocionalTheme(darkTheme = true) {
-        AnswersRemainingDialog(answersRemaining = listOf(1,2,4,7)) {}
-    }
-}
-
-@Composable
-@Preview
-fun OptionCardNotSelectedPreview()
-{
-    val question = stringArrayResource(id = R.array.four_answers_questionnaire)[0]
-    BienestarEmocionalTheme {
-        OptionCard(
-            text = question,
-            selected = false,
-            onClick = {})
-    }
-}
-
-@Composable
-@Preview
-fun OptionCardNotSelectedDarkThemePreview()
-{
-    val question = stringArrayResource(id = R.array.four_answers_questionnaire)[0]
-    BienestarEmocionalTheme(darkTheme = true) {
-        OptionCard(
-            text = question,
-            selected = false,
-            onClick = {})
-    }
-}
-
-@Composable
-@Preview
-fun OptionCardSelectedPreview()
-{
-    val question = stringArrayResource(id = R.array.four_answers_questionnaire)[0]
-    BienestarEmocionalTheme {
-        OptionCard(
-            text = question,
-            selected = true,
-            onClick = {})
-    }
-}
-
-@Composable
-@Preview
-fun OptionCardSelectedDarkThemePreview()
-{
-    val question = stringArrayResource(id = R.array.four_answers_questionnaire)[0]
-    BienestarEmocionalTheme(darkTheme = true) {
-        OptionCard(
-            text = question,
-            selected = true,
-            onClick = {})
-    }
-}
-
-@Composable
-@Preview
-fun OptionSliderPreview()
-{
-    BienestarEmocionalTheme {
-        Surface {
-            OptionSlider(
-                initialValue = 2f,
-                onAnswer = {},
-                valueRange = 0f..10f
-            )
-        }
-    }
-}
-
-@Composable
-@Preview
-fun OptionSliderDarkThemePreview()
-{
-    BienestarEmocionalTheme(darkTheme = true) {
-        Surface {
-            OptionSlider(
-                initialValue = 2f,
-                onAnswer = {},
-                valueRange = 0f..10f
-            )
-        }
-    }
-}
-
-
-@Composable
-@Preview(showBackground = true)
-fun SummaryPreview()
-{
-    val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
-        OneOffStressStatus(
-            data = data,
-            widthSize = widthSize
-        )
-    }
-
-    BienestarEmocionalTheme {
-        Summary(
-            score = 10,
-            widthSize = WindowWidthSizeClass.Compact,
-            content = summaryContent,
-            onSuccess = {}
-        )
-    }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun SummaryDarkThemePreview()
-{
-    val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
-        OneOffStressStatus(
-            data = data,
-            widthSize = widthSize
-        )
-    }
-
-    BienestarEmocionalTheme(darkTheme = true) {
-        Summary(
-            score = 10,
-            widthSize = WindowWidthSizeClass.Compact,
-            content = summaryContent,
-            onSuccess = {}
-        )
     }
 }

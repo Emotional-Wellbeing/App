@@ -59,12 +59,19 @@ class OneOffDepressionRepositoryImpl @Inject constructor(
         return dao.getAllOneOffDepressionFromRange(range.first,range.second)
     }
 
-    override suspend fun getAllFromRange(range: Range<ZonedDateTime>): List<OneOffDepression>
+    override suspend fun getAllFromRange(
+        range: Range<ZonedDateTime>,
+        onlyCompleted: Boolean
+    ): List<OneOffDepression>
     {
-        Log.d(logTag, "querying all OneOffDepression between ${range.lower} and ${range.upper}")
+        Log.d(logTag, "querying all OneOffDepression between ${range.lower} " +
+                "and ${range.upper}; only completed: $onlyCompleted")
         val start = range.lower.toEpochSecond() * 1000
         val end = range.upper.plusDays(1).toEpochSecond() * 1000
-        return dao.getAllOneOffDepressionFromRange(start,end)
+        return if (onlyCompleted)
+            dao.getAllOneOffDepressionCompletedFromRange(start,end)
+        else
+            dao.getAllOneOffDepressionFromRange(start,end)
     }
 
     override suspend fun getAllFromYesterday(): List<OneOffDepression>
