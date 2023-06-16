@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.data.remote.userdata
+package es.upm.bienestaremocional.data.remote.questionnaire.daily
 
 import es.upm.bienestaremocional.data.database.entity.daily.DailyDepression
 import es.upm.bienestaremocional.data.database.entity.daily.DailyLoneliness

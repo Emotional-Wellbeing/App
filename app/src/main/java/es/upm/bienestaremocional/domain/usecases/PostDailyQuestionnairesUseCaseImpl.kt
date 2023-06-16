@@ -9,8 +9,8 @@ import es.upm.bienestaremocional.data.database.entity.daily.DailyStress
 import es.upm.bienestaremocional.data.database.entity.daily.DailySuicide
 import es.upm.bienestaremocional.data.database.entity.daily.DailySymptoms
 import es.upm.bienestaremocional.data.info.AppInfo
-import es.upm.bienestaremocional.data.remote.userdata.DailyQuestionnairesRequest
-import es.upm.bienestaremocional.data.remote.userdata.DailyQuestionnairesResponse
+import es.upm.bienestaremocional.data.remote.questionnaire.daily.DailyQuestionnairesRequest
+import es.upm.bienestaremocional.data.remote.questionnaire.daily.DailyQuestionnairesResponse
 import es.upm.bienestaremocional.domain.processing.secondToZonedDateTime
 import es.upm.bienestaremocional.domain.repository.LastUploadRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyDepressionRepository

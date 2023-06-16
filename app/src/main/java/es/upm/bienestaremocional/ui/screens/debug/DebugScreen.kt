@@ -32,8 +32,10 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.database.entity.round.DailyRoundFull
 import es.upm.bienestaremocional.data.database.entity.round.OneOffRoundFull
+import es.upm.bienestaremocional.data.remote.community.CommunityResponse
 import es.upm.bienestaremocional.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.ui.component.BasicCard
+import es.upm.bienestaremocional.ui.component.CommunityRow
 import es.upm.bienestaremocional.ui.component.ShowDailyRound
 import es.upm.bienestaremocional.ui.component.ShowOneOffRound
 import es.upm.bienestaremocional.ui.component.ShowUncompletedDailyRound
@@ -58,6 +60,7 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
     val oneOffRoundsUncompleted by viewModel.oneOffRoundsUncompleted.observeAsState(emptyList())
     val oneOffRounds by viewModel.oneOffRounds.observeAsState(emptyList())
     val workInfo by viewModel.workInfo.observeAsState(emptyList())
+    val communityData by viewModel.communityData.observeAsState()
 
     val onPrepoulatedDatabaseMessage = stringResource(R.string.database_prepopulated)
     val onDeleteDatabaseMessage = stringResource(R.string.database_deleted)
@@ -74,6 +77,7 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
         oneOffRoundsUncompleted = oneOffRoundsUncompleted,
         oneOffRounds = oneOffRounds,
         workInfo = workInfo,
+        communityData = communityData,
         onDailyMorningNotification = viewModel::onDailyMorningNotification,
         onDailyNightNotification = viewModel::onDailyNightNotification,
         onOneOffNotification = viewModel::onOneOffNotification,
@@ -95,15 +99,7 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
         onDailyNightNotificationWorker = { viewModel.onDailyNightNotificationWorker(context) },
         onOneOffNotificationWorker = { viewModel.onOneOffNotificationWorker(context) },
         onUploadWorker = { viewModel.onUploadWorker(context) },
-        onGetScore = {
-            coroutineScope.launch {
-                val score = viewModel.onGetScore()
-                score?.let {
-                    val resultRequest = context.getString(R.string.result_of_request)
-                    Toast.makeText(context,"$resultRequest: $it", Toast.LENGTH_LONG).show()
-                } ?: Toast.makeText(context,context.getString(R.string.request_failed), Toast.LENGTH_LONG).show()
-            }
-        },
+        onCommunity = viewModel::onCommunity,
         onPostUserData = {
             coroutineScope.launch {
                 val success = viewModel.onPostUserData()
@@ -139,6 +135,7 @@ private fun DebugScreen(
     oneOffRoundsUncompleted: List<OneOffRoundFull>,
     oneOffRounds: List<OneOffRoundFull>,
     workInfo : List<WorkInfo>,
+    communityData: CommunityResponse.Data?,
     onDailyMorningNotification: () -> Unit,
     onDailyNightNotification: () -> Unit,
     onOneOffNotification: () -> Unit,
@@ -150,7 +147,7 @@ private fun DebugScreen(
     onDailyNightNotificationWorker : () -> Unit,
     onOneOffNotificationWorker : () -> Unit,
     onUploadWorker : () -> Unit,
-    onGetScore : () -> Unit,
+    onCommunity : () -> Unit,
     onPostUserData: () -> Unit,
     onResetUploadTimestamps : () -> Unit,
     onQueryWorkerStatus: () -> Unit,
@@ -241,9 +238,9 @@ private fun DebugScreen(
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.test_get_score),
+                        title = { Text(text = stringResource(R.string.test_get_community),
                             color = MaterialTheme.colorScheme.secondary) },
-                        onClick = onGetScore
+                        onClick = onCommunity
                     )
 
                     SettingsMenuLink(
@@ -350,8 +347,7 @@ private fun DebugScreen(
                     }
                 }
             }
-            DebugState.QueryWorkManager ->
-            {
+            DebugState.QueryWorkManager -> {
                 val tagsLabel = stringResource(R.string.tags)
                 val stateLabel = stringResource(R.string.state)
 
@@ -363,6 +359,63 @@ private fun DebugScreen(
                         BasicCard {
                             Text("$tagsLabel: ${item.tags}")
                             Text("$stateLabel: ${item.state}")
+                        }
+                    }
+                }
+            }
+            DebugState.GetCommunity -> {
+                LazyColumn(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp))
+                {
+                    communityData?.let {
+                        item {
+                            CommunityRow(it.yesterday, stringResource(id = R.string.yesterday))
+                        }
+
+                        item {
+                            CommunityRow(it.lastSevenDays, stringResource(id = R.string.last_seven_days))
+                        }
+
+                        item {
+                            Text(text = stringResource(id = R.string.actual_week))
+                        }
+
+
+                        it.currentWeek.getOrNull(0)?.let { monday ->
+                            item {
+                                CommunityRow(monday, stringResource(id = R.string.monday))
+                            }
+                        }
+                        it.currentWeek.getOrNull(1)?.let { tuesday ->
+                            item {
+                                CommunityRow(tuesday, stringResource(id = R.string.tuesday))
+                            }
+                        }
+                        it.currentWeek.getOrNull(2)?.let { wednesday ->
+                            item {
+                                CommunityRow(wednesday, stringResource(id = R.string.wednesday))
+                            }
+                        }
+                        it.currentWeek.getOrNull(3)?.let { thursday ->
+                            item {
+                                CommunityRow(thursday, stringResource(id = R.string.thursday))
+                            }
+                        }
+                        it.currentWeek.getOrNull(4)?.let { friday ->
+                            item {
+                                CommunityRow(friday, stringResource(id = R.string.friday))
+                            }
+                        }
+                        it.currentWeek.getOrNull(5)?.let { saturday ->
+                            item {
+                                CommunityRow(saturday, stringResource(id = R.string.saturday))
+                            }
+                        }
+                        it.currentWeek.getOrNull(6)?.let { sunday ->
+                            item {
+                                CommunityRow(sunday, stringResource(id = R.string.sunday))
+                            }
                         }
                     }
                 }

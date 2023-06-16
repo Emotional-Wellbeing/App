@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.data.remote.userdata
+package es.upm.bienestaremocional.data.remote.questionnaire.daily
 
 data class DailyQuestionnairesResponse(
     val code : Int,
