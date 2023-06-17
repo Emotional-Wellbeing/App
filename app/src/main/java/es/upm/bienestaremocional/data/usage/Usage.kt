@@ -128,9 +128,12 @@ class Usage : Activity(), AdapterView.OnItemSelectedListener{
     }
     fun findApp (appName: String): String {
         val type = ""
-        val rRSS = listOf("facebook","twitter","instagram","tiktok","snapchat","whatsapp")
-        val games = listOf("candycrush","sudoku","game","pokemongo","impact")
-        val entertaining = listOf("youtube","netflix","hbo","disney","prime","video","tiktok")
+        val rRSS = listOf("facebook","twitter","instagram","tiktok","snapchat","whatsapp","messenger","telegram")
+        val dating = listOf("tinder","badoo","meetic","bumble","grindr","her")
+        val games = listOf("candy","mine","treasure","crush","sudoku","game","pokemongo","impact","scape","among","otome","madness","zombies")
+        val entertaining = listOf("youtube","netflix","hbo","disney","prime","video","tiktok","audible","book","star","crunchyroll", "firefox", "opera","chrome","9gag","los40","spotify","rtve","bbc","duolingo")
+        val house = listOf("santander","bbva","bankinter","openbank","repsol","naturgy","iberdrola","tapo","tplink","aeat","amazon","cl@ve","sodexo","zooplus","wallapop")
+        val work = listOf("office","word","excel","powerpoint","authenticator","teams","slack","zoom","moodle")
 
         val rRSSCount = rRSS.size
         for (i in 0 until rRSSCount) {
@@ -142,10 +145,25 @@ class Usage : Activity(), AdapterView.OnItemSelectedListener{
             if (appName.contains(games[i]))
                 return "games"
         }
+        val datingCount = dating.size
+        for (i in 0 until datingCount) {
+            if (appName.contains(dating[i]))
+                 return "dating"
+        }
+        val houseCount = house.size
+        for (i in 0 until houseCount) {
+            if (appName.contains(house[i]))
+                return "house"
+        }
+        val workCount = work.size
+        for (i in 0 until workCount) {
+            if (appName.contains(work[i]))
+                return "work"
+        }
         val entertainingCount = entertaining.size
         for (i in 0 until entertainingCount) {
             if (appName.contains(entertaining[i]))
-                 return "entertaining"
+                return "entertaining"
         }
 
         return type
