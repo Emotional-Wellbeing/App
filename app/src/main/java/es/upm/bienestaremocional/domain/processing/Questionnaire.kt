@@ -1,14 +1,14 @@
 package es.upm.bienestaremocional.domain.processing
 
-import es.upm.bienestaremocional.data.database.entity.QuestionnaireEntity
+import es.upm.bienestaremocional.data.Measure
+import es.upm.bienestaremocional.data.database.entity.ScoredEntity
 import es.upm.bienestaremocional.data.questionnaire.Level
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.questionnaire.QuestionnaireScored
 import es.upm.bienestaremocional.data.questionnaire.ScoreLevel
 import es.upm.bienestaremocional.utils.TimeGranularity
 import java.time.ZonedDateTime
 
-
-fun scoreToLevel(score: Int, questionnaire: Questionnaire): Level?
+fun scoreToLevel(score: Int, questionnaire: QuestionnaireScored): Level?
 {
     var scoreLevel: ScoreLevel? = null
     for(level in questionnaire.levels)
@@ -20,6 +20,17 @@ fun scoreToLevel(score: Int, questionnaire: Questionnaire): Level?
         }
     }
     return scoreLevel?.level
+}
+
+fun levelToAdvice(level: Level, measure: Measure) : Int?
+{
+    return measure.advices?.let {
+        val advices = it[level]
+        advices?.let {
+            val index = (advices.indices).random()
+            advices[index]
+        }
+    }
 }
 
 fun reduceEntries(entries : List<PureChartRecord>): Float?
@@ -37,7 +48,7 @@ fun reduceEntries(entries : List<PureChartRecord>): Float?
         null
 }
 
-fun processRecords(records: List<QuestionnaireEntity>, timeGranularity: TimeGranularity) :
+fun processRecords(records: List<ScoredEntity>, timeGranularity: TimeGranularity) :
         List<PureChartRecord>
 {
     val criteria = when(timeGranularity)
@@ -53,9 +64,10 @@ fun processRecords(records: List<QuestionnaireEntity>, timeGranularity: TimeGran
     )
 }
 
-fun processRecordsMaintainingEmpty(records: List<QuestionnaireEntity>,
-                                   dateRange: Pair<Long, Long>,
-                                   timeGranularity: TimeGranularity
+fun processRecordsMaintainingEmpty(
+    records: List<ScoredEntity>,
+    dateRange: Pair<Long, Long>,
+    timeGranularity: TimeGranularity
 ) : List<NullableChartRecord>
 {
     val updateCriteria : (ZonedDateTime) -> ZonedDateTime = when(timeGranularity)
@@ -97,7 +109,7 @@ private fun averageCriteriaNullable(list : List<Int>) : Float?
         null
 }
 
-fun processRecords(records: List<QuestionnaireEntity>,
+fun processRecords(records: List<ScoredEntity>,
                    aggregationCriteria : (Long) -> ZonedDateTime,
                    reduceCriteria : (List<Int>) -> Float,
 ) : List<PureChartRecord>
@@ -128,11 +140,12 @@ fun processRecords(records: List<QuestionnaireEntity>,
     return result
 }
 
-fun processRecordsMaintainingEmpty(records: List<QuestionnaireEntity>,
-                                   dateRange : Pair<Long, Long>,
-                                   updateCriteria : (ZonedDateTime) -> ZonedDateTime,
-                                   aggregationCriteria : (Long) -> ZonedDateTime,
-                                   reduceCriteria : (List<Int>) -> Float?,
+fun processRecordsMaintainingEmpty(
+    records: List<ScoredEntity>,
+    dateRange : Pair<Long, Long>,
+    updateCriteria : (ZonedDateTime) -> ZonedDateTime,
+    aggregationCriteria : (Long) -> ZonedDateTime,
+    reduceCriteria : (List<Int>) -> Float?,
 ) : List<NullableChartRecord>
 {
     val buffer = mutableMapOf<ZonedDateTime,MutableList<Int>>()

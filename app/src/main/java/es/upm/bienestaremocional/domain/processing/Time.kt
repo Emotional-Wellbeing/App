@@ -12,6 +12,8 @@ fun ZonedDateTime.toEpochMilliSecond() : Long = toEpochSecond() * 1000
 fun milliSecondToZonedDateTime(timestamp: Long) : ZonedDateTime =
     ZonedDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault())
 
+fun secondToZonedDateTime(timestamp: Long) : ZonedDateTime =
+    ZonedDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault())
 
 /**
  * Extract the day of the [timestamp] and return it in [ZonedDateTime] format

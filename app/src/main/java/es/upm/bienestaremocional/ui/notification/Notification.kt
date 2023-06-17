@@ -3,7 +3,8 @@ package es.upm.bienestaremocional.ui.notification
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import es.upm.bienestaremocional.data.database.entity.QuestionnaireRoundReduced
+import es.upm.bienestaremocional.data.database.entity.round.DailyRound
+import es.upm.bienestaremocional.data.database.entity.round.OneOffRound
 
 interface Notification
 {
@@ -21,11 +22,22 @@ interface Notification
     fun RequestNotificationPermission(onResult : (Boolean) -> Unit)
 
     /**
-     * Display questionnaire notification
-     * @param questionnaireRoundReduced: questionnaire round to display when the user press
-     * the notification
+     * Display one off round notification
+     * @param oneOffRound: one off round to display when the user press the notification
      */
-    fun showQuestionnaireNotification(questionnaireRoundReduced: QuestionnaireRoundReduced)
+    fun showOneOffRoundNotification(oneOffRound: OneOffRound)
+
+    /**
+     * Display daily morning round notification
+     * @param dailyRound: daily round to display when the user press the notification
+     */
+    fun showDailyMorningRoundNotification(dailyRound: DailyRound)
+
+    /**
+     * Display daily night round notification
+     * @param dailyRound: daily round to display when the user press the notification
+     */
+    fun showDailyNightRoundNotification(dailyRound: DailyRound)
 
     /**
      * Display uploading data notification

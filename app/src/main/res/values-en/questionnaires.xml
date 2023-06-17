@@ -1,7 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Questionnaires -->
-    <string-array name="pss_questions">
+    <!-- Daily questionnaires -->
+    <string-array name="daily_morning_stress_questions">
+        <item>I feel nervous</item>
+        <item>I feel anxious</item>
+        <item>I feel active</item>
+        <item>I am worried</item>
+    </string-array>
+    <string-array name="daily_night_stress_questions">
+        <item>I have felt nervous</item>
+        <item>I have felt anxious</item>
+        <item>I have felt active</item>
+        <item>I had been worried</item>
+    </string-array>
+
+    <string-array name="daily_morning_depression_questions">
+        <item>I feel sad</item>
+        <item>I feel empty</item>
+        <item>I feel apathetic</item>
+    </string-array>
+    <string-array name="daily_night_depression_questions">
+        <item>I have felt sad</item>
+        <item>I have felt empty</item>
+        <item>I have felt apathetic</item>
+    </string-array>
+
+    <string-array name="daily_morning_loneliness_questions">
+        <item>I feel lonely</item>
+        <item>I feel misunderstood</item>
+        <item>I feel excluded</item>
+        <item>I feel unhelpful</item>
+    </string-array>
+    <string-array name="daily_night_loneliness_questions">
+        <item>I have felt lonely</item>
+        <item>I have felt misunderstood</item>
+        <item>I have felt excluded</item>
+        <item>I have felt unhelpful</item>
+    </string-array>
+
+    <string-array name="daily_morning_suicide_questions">
+        <item>I have thoughts of suicide</item>
+        <item>In the last few days, have you seriously thought about committing suicide?</item>
+        <item>Is there any possibility that you are thinking of ending your life today or in the next few days?</item>
+    </string-array>
+
+    <string-array name="daily_night_suicide_questions">
+        <item>I have had thoughts of suicide</item>
+        <item>Today, have you seriously considered suicide?</item>
+        <item>Is there any possibility that you are thinking about ending your life today or in the next few days?</item>
+    </string-array>
+
+    <string-array name="daily_symptoms_questions">
+        <item>Have you experienced any changes in your appetite?</item>
+        <item>How energetic have you felt?</item>
+        <item>What was your level of rest?</item>
+        <item>Your level of concentration has been…</item>
+        <item>What was your level of libido?</item>
+        <item>How did you feel in terms of pain?</item>
+    </string-array>
+    
+    <!-- One off questionnaires -->
+    <string-array name="one_off_stress_questions">
         <item>In the last month, how often have you been upset because of something that happened unexpectedly?</item>
         <item>In the last month, how often have you felt that you were unable to control the important things in your life?</item>
         <item>In the last month, how often have you felt nervous and stressed?</item>
@@ -13,7 +72,7 @@
         <item>In the last month, how often have you been angered because of things that happened that were outside of your control?</item>
         <item>In the last month, how often have you felt difficulties were piling up so high that you could not overcome them?</item>
     </string-array>
-    <string-array name="phq_questions">
+    <string-array name="one_off_depression_questions">
         <item>Little interest or pleasure in doing things</item>
         <item>Feeling down, depressed, or hopeless</item>
         <item>Trouble falling or staying asleep, or sleeping too much</item>
@@ -24,7 +83,7 @@
         <item>Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual</item>
         <item>Thoughts that you would be better off dead or of hurting yourself in some way</item>
     </string-array>
-    <string-array name="ucla_questions">
+    <string-array name="one_off_loneliness_questions">
         <item>I feel in tune with the people around me</item>
         <item>I lack companionship</item>
         <item>There is no one I can turn to</item>
@@ -46,6 +105,44 @@
         <item>There are people I can talk to</item>
         <item>There are people I can turn to</item>
     </string-array>
+
+    <!-- Answers -->
+    <string-array name="boolean_answers">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="appetite_answers">
+        <item>Excessively high</item>
+        <item>Adequate</item>
+        <item>Excessively low</item>
+    </string-array>
+    <string-array name="felt_answers">
+        <item>High</item>
+        <item>Moderate</item>
+        <item>Low</item>
+    </string-array>
+    <string-array name="rest_answers">
+        <item>Satisfactory</item>
+        <item>Moderate</item>
+        <item>Insufficient</item>
+    </string-array>
+    <string-array name="concentration_answers">
+        <item>Satisfactory</item>
+        <item>Moderate</item>
+        <item>Insufficient</item>
+    </string-array>
+    <string-array name="libido_answers">
+        <item>Satisfactory</item>
+        <item>Moderate</item>
+        <item>Low</item>
+    </string-array>
+    <string-array name="pain_answers">
+        <item>No pain</item>
+        <item>Moderate pain</item>
+        <item>High pain</item>
+    </string-array>
+
     <string-array name="four_answers_questionnaire">
         <item>Never</item>
         <item>Rarely</item>

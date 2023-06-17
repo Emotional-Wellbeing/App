@@ -45,7 +45,6 @@ class MainActivity : ComponentActivity()
             if (appInfo.getFirstTime().first())
             {
                 firstTimeExecution(
-                    appSettings = appSettings,
                     notificationManager = notificationManager,
                     scheduler = scheduler,
                     lastUploadRepository = lastUploadRepository

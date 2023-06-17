@@ -4,17 +4,17 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.upm.bienestaremocional.data.database.entity.QuestionnaireEntity
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.database.entity.ScoredEntity
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
 import es.upm.bienestaremocional.domain.processing.NullableChartRecord
 import es.upm.bienestaremocional.domain.processing.getCurrentWeek
 import es.upm.bienestaremocional.domain.processing.processRecords
 import es.upm.bienestaremocional.domain.processing.processRecordsMaintainingEmpty
 import es.upm.bienestaremocional.domain.processing.reduceEntries
-import es.upm.bienestaremocional.domain.repository.questionnaire.PHQRepository
-import es.upm.bienestaremocional.domain.repository.questionnaire.PSSRepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.DailyDepressionRepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.DailyLonelinessRepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.DailyStressRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.QuestionnaireRepository
-import es.upm.bienestaremocional.domain.repository.questionnaire.UCLARepository
 import es.upm.bienestaremocional.ui.screens.destinations.MeasureScreenDestination
 import es.upm.bienestaremocional.utils.TimeGranularity
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,19 +27,19 @@ import javax.inject.Inject
 @HiltViewModel
 class MeasureViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    pssRepository: PSSRepository,
-    phqRepository: PHQRepository,
-    uclaRepository: UCLARepository,
+    dailyStressRepository: DailyStressRepository,
+    dailyDepressionRepository: DailyDepressionRepository,
+    dailyLonelinessRepository: DailyLonelinessRepository
 ) : ViewModel()
 {
 
     val questionnaire = MeasureScreenDestination.argsFrom(savedStateHandle).questionnaire
 
-    val repository : QuestionnaireRepository<out QuestionnaireEntity> = when(questionnaire)
+    val repository : QuestionnaireRepository<out ScoredEntity> = when(questionnaire)
     {
-        Questionnaire.PSS -> pssRepository
-        Questionnaire.PHQ -> phqRepository
-        Questionnaire.UCLA -> uclaRepository
+        DailyScoredQuestionnaire.Stress -> dailyStressRepository
+        DailyScoredQuestionnaire.Depression -> dailyDepressionRepository
+        DailyScoredQuestionnaire.Loneliness -> dailyLonelinessRepository
     }
 
     private val _yesterdayScore : MutableStateFlow<Int?> = MutableStateFlow(null)

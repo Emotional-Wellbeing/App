@@ -41,9 +41,12 @@ fun DrawHealthConnectSubscreen(viewModelData: ViewModelData<out Record>,
     }
     LazyColumn()
     {
-        if (viewModelData.uiState != UiState.Uninitialized) {
-            if (viewModelData.uiState == UiState.Success) {
-                if (viewModelData.data.isEmpty()) {
+        if (viewModelData.uiState != UiState.Uninitialized)
+        {
+            if (viewModelData.uiState == UiState.Success)
+            {
+                if (viewModelData.data.isEmpty())
+                {
                     item {
                         Text(text = stringResource(id = R.string.no_data_to_display))
                     }
@@ -51,7 +54,8 @@ fun DrawHealthConnectSubscreen(viewModelData: ViewModelData<out Record>,
                 else
                     onDisplayData()
             }
-            else if (viewModelData.uiState == UiState.NotEnoughPermissions) {
+            else if (viewModelData.uiState == UiState.NotEnoughPermissions)
+            {
                 item {
                     Button(onClick = {
                         viewModelData.onRequestPermissions(viewModelData.permissions)

@@ -20,10 +20,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import es.upm.bienestaremocional.MainActivity
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.database.entity.QuestionnaireRoundReduced
+import es.upm.bienestaremocional.data.database.entity.round.DailyRound
+import es.upm.bienestaremocional.data.database.entity.round.OneOffRound
 import es.upm.bienestaremocional.data.notification.NOTIFICATION_REQUEST_CODE
 import es.upm.bienestaremocional.data.notification.NotificationChannels
-import es.upm.bienestaremocional.ui.screens.destinations.QuestionnaireRoundScreenDestination
+import es.upm.bienestaremocional.ui.screens.destinations.DailyRoundScreenDestination
+import es.upm.bienestaremocional.ui.screens.destinations.OneOffRoundScreenDestination
 import kotlinx.coroutines.async
 
 class NotificationImpl(private val context: Context,
@@ -67,19 +69,58 @@ class NotificationImpl(private val context: Context,
     }
 
     /**
-     * Send a notification related to do a questionnaire
-     * @see showAccionableNotification
+     * Display one off round notification
+     * @param oneOffRound: one off round to display when the user press the notification
      */
-    override fun showQuestionnaireNotification(questionnaireRoundReduced: QuestionnaireRoundReduced)
-    {
-        val validQRR = QuestionnaireRoundScreenDestination(questionnaireRoundReduced).route
-        val pendingIntent = "be://questionnaire/$validQRR".makePendingIntent()
+    override fun showOneOffRoundNotification(oneOffRound: OneOffRound) {
+        val validOFR = OneOffRoundScreenDestination(oneOffRound).route
+        val pendingIntent = "be://oneOffRound/$validOFR".makePendingIntent()
 
-        val textTitle = context.getString(R.string.new_questionnaire_available_title)
-        val textContent = context.getString(R.string.new_questionnaire_available_content)
+        val textTitle = context.getString(R.string.new_one_off_round_available_title)
+        val textContent = context.getString(R.string.new_one_off_round_available_content)
 
         if(hasNotificationPermission())
-            showAccionableNotification(
+            showActionableNotification(
+                channelId = NotificationChannels.Questionnaire.id,
+                textTitle = textTitle,
+                textContent = textContent,
+                pendingIntent = pendingIntent
+            )
+    }
+
+    /**
+     * Display daily morning round notification
+     * @param dailyRound: daily round to display when the user press the notification
+     */
+    override fun showDailyMorningRoundNotification(dailyRound: DailyRound) {
+        val validDR = DailyRoundScreenDestination(dailyRound).route
+        val pendingIntent = "be://dailyRound/$validDR".makePendingIntent()
+
+        val textTitle = context.getString(R.string.new_daily_morning_round_available_title)
+        val textContent = context.getString(R.string.new_daily_morning_round_available_content)
+
+        if(hasNotificationPermission())
+            showActionableNotification(
+                channelId = NotificationChannels.Questionnaire.id,
+                textTitle = textTitle,
+                textContent = textContent,
+                pendingIntent = pendingIntent
+            )
+    }
+
+    /**
+     * Display daily night round notification
+     * @param dailyRound: daily round to display when the user press the notification
+     */
+    override fun showDailyNightRoundNotification(dailyRound: DailyRound) {
+        val validDR = DailyRoundScreenDestination(dailyRound).route
+        val pendingIntent = "be://dailyRound/$validDR".makePendingIntent()
+
+        val textTitle = context.getString(R.string.new_daily_night_round_available_title)
+        val textContent = context.getString(R.string.new_daily_night_round_available_content)
+
+        if(hasNotificationPermission())
+            showActionableNotification(
                 channelId = NotificationChannels.Questionnaire.id,
                 textTitle = textTitle,
                 textContent = textContent,
@@ -108,7 +149,7 @@ class NotificationImpl(private val context: Context,
      * @param textContent: Content of the notification
      * @param pendingIntent: action to be executed when the user press the notification
      */
-    private fun showAccionableNotification(
+    private fun showActionableNotification(
         channelId: String,
         textTitle: String,
         textContent: String,

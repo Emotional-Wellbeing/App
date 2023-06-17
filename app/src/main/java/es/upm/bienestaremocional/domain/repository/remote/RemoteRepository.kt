@@ -1,5 +1,10 @@
 package es.upm.bienestaremocional.domain.repository.remote
 
+import es.upm.bienestaremocional.data.remote.community.CommunityResponse
+import es.upm.bienestaremocional.data.remote.questionnaire.daily.DailyQuestionnairesRequest
+import es.upm.bienestaremocional.data.remote.questionnaire.daily.DailyQuestionnairesResponse
+import es.upm.bienestaremocional.data.remote.questionnaire.oneoff.OneOffQuestionnairesRequest
+import es.upm.bienestaremocional.data.remote.questionnaire.oneoff.OneOffQuestionnairesResponse
 import es.upm.bienestaremocional.data.remote.userdata.UserDataRequest
 import es.upm.bienestaremocional.data.remote.userdata.UserDataResponse
 
@@ -8,6 +13,10 @@ import es.upm.bienestaremocional.data.remote.userdata.UserDataResponse
  */
 interface RemoteRepository
 {
-    suspend fun getScore(): Int?
-    suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse
+    suspend fun getCommunity(): CommunityResponse?
+    suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse?
+    suspend fun postDailyQuestionnaires(dailyQuestionnairesRequest: DailyQuestionnairesRequest):
+            DailyQuestionnairesResponse?
+    suspend fun postOneOffQuestionnaires(oneOffQuestionnairesRequest: OneOffQuestionnairesRequest):
+            OneOffQuestionnairesResponse?
 }

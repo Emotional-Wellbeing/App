@@ -25,7 +25,7 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
 import es.upm.bienestaremocional.domain.processing.scoreToLevel
 import es.upm.bienestaremocional.ui.component.CircularProgressIndicator
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
@@ -34,7 +34,7 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun MeasureSummary(
-    questionnaire: Questionnaire,
+    questionnaire: DailyScoredQuestionnaire,
     score : Int?,
     pagerState: PagerState,
     onClick : () -> Unit,
@@ -68,7 +68,7 @@ fun MeasureSummary(
 
 @Composable
 fun MeasureSummary(
-    questionnaire: Questionnaire,
+    questionnaire: DailyScoredQuestionnaire,
     score : Int?,
     onClick: () -> Unit,
     widthSize: WindowWidthSizeClass,
@@ -85,16 +85,16 @@ fun MeasureSummary(
     val introLabel = stringResource(
         when(questionnaire)
         {
-            Questionnaire.PSS -> R.string.level_of_stress
-            Questionnaire.PHQ -> R.string.level_of_depression
-            Questionnaire.UCLA -> R.string.level_of_loneliness
+            DailyScoredQuestionnaire.Stress -> R.string.level_of_stress
+            DailyScoredQuestionnaire.Depression -> R.string.level_of_depression
+            DailyScoredQuestionnaire.Loneliness -> R.string.level_of_loneliness
         }
     )
 
     val levelLabel = stringResource(id = (level?.label ?: R.string.unknown_display))
     val headlineText = "$introLabel $levelLabel"
 
-    val adviceRes = questionnaire.advices[level]?.get(0)
+    val adviceRes = questionnaire.measure.advices?.get(level)?.get(0)
     val advice = adviceRes?.let { stringResource(it) }
 
     // Styles
@@ -173,7 +173,7 @@ fun MeasureSummaryPreview()
     BienestarEmocionalTheme {
         Surface {
             MeasureSummary(
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 score = 27,
                 onClick = {},
                 heightSize = WindowHeightSizeClass.Compact,
@@ -190,7 +190,7 @@ fun MeasureSummaryPreviewDarkTheme()
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             MeasureSummary(
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 score = 27,
                 onClick = {},
                 heightSize = WindowHeightSizeClass.Compact,
@@ -208,7 +208,7 @@ fun MeasureSummaryWithPagerPreview()
     BienestarEmocionalTheme {
         Surface {
             MeasureSummary(
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 score = 27,
                 pagerState = rememberPagerState(),
                 onClick = {},
@@ -227,7 +227,7 @@ fun MeasureSummaryWithPagerPreviewDarkTheme()
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             MeasureSummary(
-                questionnaire = Questionnaire.PSS,
+                questionnaire = DailyScoredQuestionnaire.Stress,
                 score = 27,
                 pagerState = rememberPagerState(),
                 onClick = {},

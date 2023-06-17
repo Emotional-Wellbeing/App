@@ -5,12 +5,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import es.upm.bienestaremocional.data.notification.NotificationsFrequency
-import es.upm.bienestaremocional.data.questionnaire.Questionnaire
+import es.upm.bienestaremocional.data.Measure
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -28,48 +26,29 @@ class AppSettingsImpl(private val context: Context): AppSettings
             by preferencesDataStore(name = "settings")
 
         //preferences keys of the settings
-        private val NOTIFICATION_FREQUENCY = intPreferencesKey("notification_frequency")
-        private val QUESTIONNAIRES = stringSetPreferencesKey("questionnaires")
+        private val MEASURES = stringSetPreferencesKey("measures")
         private val THEME = stringPreferencesKey("theme")
         private val DYNAMIC_COLORS = booleanPreferencesKey("dynamic_colors")
 
         //defaults values
-        private val NOTIFICATION_FREQUENCY_DEFAULT_VALUE = NotificationsFrequency.ONLY_NIGHT
-        private val QUESTIONNAIRES_DEFAULT_VALUE = emptySet<String>()
+        private val MEASURES_DEFAULT_VALUE = emptySet<String>()
         private val THEME_DEFAULT_VALUE = ThemeMode.DEFAULT_MODE
         private const val DYNAMIC_COLORS_DEFAULT_VALUE = false
     }
 
-    override suspend fun saveNotificationFrequency(value: NotificationsFrequency)
-    {
-        context.appSettingsDataStore.edit{ preferences ->
-            preferences[NOTIFICATION_FREQUENCY] = value.ordinal
-        }
-    }
-
-    override suspend fun getNotificationFrequency(): Flow<NotificationsFrequency> =
-        context.appSettingsDataStore.data.map { preferences ->
-            when(preferences[NOTIFICATION_FREQUENCY])
-            {
-                NotificationsFrequency.ONLY_NIGHT.ordinal -> NotificationsFrequency.ONLY_NIGHT
-                NotificationsFrequency.LUNCH_AND_NIGHT.ordinal -> NotificationsFrequency.LUNCH_AND_NIGHT
-                else -> NOTIFICATION_FREQUENCY_DEFAULT_VALUE
-            }
-        }
-
-    override suspend fun saveQuestionnairesSelected(value: Set<Questionnaire>)
+    override suspend fun saveMeasuresSelected(value: Set<Measure>)
     {
         val setTransformed = value.map { it.id }.toSet()
         context.appSettingsDataStore.edit{ preferences ->
-            preferences[QUESTIONNAIRES] = setTransformed
+            preferences[MEASURES] = setTransformed
         }
     }
 
-    override suspend fun getQuestionnairesSelected(): Flow<Set<Questionnaire>> {
+    override suspend fun getMeasuresSelected(): Flow<Set<Measure>> {
         val originalFlow = context.appSettingsDataStore.data.map { preferences ->
-            preferences[QUESTIONNAIRES] ?: QUESTIONNAIRES_DEFAULT_VALUE
+            preferences[MEASURES] ?: MEASURES_DEFAULT_VALUE
         }
-        return originalFlow.map { set -> set.mapNotNull { Questionnaire.decode(it) }.toSet() }
+        return originalFlow.map { set -> set.mapNotNull { Measure.decode(it) }.toSet() }
     }
 
 
