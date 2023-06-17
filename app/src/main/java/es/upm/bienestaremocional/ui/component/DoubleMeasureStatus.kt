@@ -31,14 +31,16 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 
 @Composable
-fun DoubleMeasureStatus(data : Pair<Int?,Int?>,
-                        headers : Pair<String, String>,
-                        questionnaire : DailyScoredQuestionnaire,
-                        height: Dp,
-                        widthSize : WindowWidthSizeClass,
-                        showHeadline : Boolean = true,
-                        indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-                        indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer)
+fun DoubleMeasureStatus(
+    data : Pair<Int?,Int?>,
+    headers : Pair<String, String>,
+    questionnaire : DailyScoredQuestionnaire,
+    height: Dp,
+    widthSize : WindowWidthSizeClass,
+    showHeadline : Boolean = true,
+    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer
+)
 {
     // If we have score and level label, put it. If we don't have any of them,
     // put R.string.unknown_display
@@ -73,16 +75,18 @@ fun DoubleMeasureStatus(data : Pair<Int?,Int?>,
 }
 
 @Composable
-private fun DoubleMeasureStatus(data: Pair<Int?, Int?>,
-                                measureLabel : String?,
-                                headers : Pair<String,String>,
-                                subtitle : Pair<String,String>,
-                                height : Dp,
-                                widthSize : WindowWidthSizeClass,
-                                indicatorColor : Color,
-                                indicatorContainerColor : Color,
-                                minValue : Int = 0,
-                                maxValue : Int = 100)
+private fun DoubleMeasureStatus(
+    data: Pair<Int?, Int?>,
+    measureLabel : String?,
+    headers : Pair<String,String>,
+    subtitle : Pair<String,String>,
+    height : Dp,
+    widthSize : WindowWidthSizeClass,
+    indicatorColor : Color,
+    indicatorContainerColor : Color,
+    minValue : Int = 0,
+    maxValue : Int = 100
+)
 {
 
     // Text sizes

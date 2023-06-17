@@ -54,7 +54,7 @@ class RemoteRepositoryImpl(
         }
         catch (e: Exception)
         {
-            Log.e(logTag, "response failed with exception $e")
+            Log.e(logTag, "response failed with exception ${Log.getStackTraceString(e)}")
         }
         return response
     }
@@ -78,7 +78,7 @@ class RemoteRepositoryImpl(
         }
         catch (e: Exception)
         {
-            Log.e(logTag, "response failed with exception $e")
+            Log.e(logTag, "response failed with exception ${Log.getStackTraceString(e)}")
         }
         return response
     }
@@ -102,7 +102,7 @@ class RemoteRepositoryImpl(
         }
         catch (e: Exception)
         {
-            Log.e(logTag, "response failed with exception $e")
+            Log.e(logTag, "response failed with exception  ${Log.getStackTraceString(e)}")
         }
         return response
     }

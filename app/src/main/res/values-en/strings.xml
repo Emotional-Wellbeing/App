@@ -3,7 +3,7 @@
     <string name="app_name">Emotional Wellbeing</string>
     <string name="home_screen_label">Home</string>
     <string name="history_screen_label">History</string>
-    <string name="trends_screen_label">Trends</string>
+    <string name="community_screen_label">Community</string>
     <string name="settings_screen_label">Settings</string>
     <string name="uncompleted_questionnaires_label">Uncompleted questionnaires</string>
     <string name="heart_rate">Heart rate</string>

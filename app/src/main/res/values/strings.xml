@@ -4,7 +4,7 @@
     <!-- Menu -->
     <string name="home_screen_label">Inicio</string>
     <string name="history_screen_label">Historial</string>
-    <string name="trends_screen_label">Tendencias</string>
+    <string name="community_screen_label">Comunidad</string>
     <string name="settings_screen_label">Ajustes</string>
     <string name="debug_screen_label">Menú de desarrolladores</string>
     <string name="uncompleted_questionnaires_label">Cuestionarios incompletos</string>

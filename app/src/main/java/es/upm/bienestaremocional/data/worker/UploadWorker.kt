@@ -13,7 +13,6 @@ import es.upm.bienestaremocional.domain.usecases.PostDailyQuestionnairesUseCase
 import es.upm.bienestaremocional.domain.usecases.PostOneOffQuestionnairesUseCase
 import es.upm.bienestaremocional.domain.usecases.PostUserDataUseCase
 import es.upm.bienestaremocional.ui.notification.Notification
-import kotlinx.coroutines.delay
 import java.time.Duration
 import java.time.LocalDateTime
 import javax.inject.Named
@@ -54,9 +53,6 @@ class UploadWorker @AssistedInject constructor(
             if (postUserDataUseCase.shouldExecute())
             {
                 Log.d(logTag,"We can read user data so upload it")
-
-                //TODO remove this in production
-                delay(5000L)
 
                 response = postUserDataUseCase.execute()
 
