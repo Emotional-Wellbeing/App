@@ -53,9 +53,12 @@
     <string name="onboarding_privacy_description">The app may use data such as your mobile usage or heart rate, but you have the full control of your personal data</string>
     <string name="onboarding_community_description">"You can consult anonymised statistics about your community. Moreover, you can collaborate with the development of the application.     "</string>
     <string name="privacy_policy_description">\n        This is a placeholder example. Your app should display an appropriate privacy policy for how\n        you will handle and use Health Connect data. This sample app does not store or transmit any\n        data outside of Health Connect.</string>
-    <string name="credit_author_description">Author of the MFP Emotional Wellbeing System and main author of the application.</string>
-    <string name="credit_director1_description">Co-director of MFP Emotional Wellbeing System</string>
-    <string name="credit_director2_description">Co-director of MFP Emotional Wellbeing System</string>
+    <string name="credit_author1_description">Co-author of the MFP Emotional Wellbeing System and main author of the application.</string>
+    <string name="credit_author2_description">Co-author of the MFP Emotional Wellbeing System and co-author of the application.</string>
+    <string name="credit_director1_description">Co-director of MFP Emotional Wellbeing System.</string>
+    <string name="credit_director2_description">Co-director of MFP Emotional Wellbeing System.</string>
+    <string name="credit_graphic_design_name">LevelUp Association (ETSISI)</string>
+    <string name="credit_graphic_design_description">Important collaboration in the graphic design of the application.</string>
     <string name="credit_logo1_description">Author of the illustration Health checkup, available on the Lottie platform.</string>
     <string name="credit_logo2_description">Author of the illustration How it works, available on the Lottie platform.</string>
     <string name="credit_logo3_description">Author of the illustration Mental wellbeing, available on the Lottie platform.</string>

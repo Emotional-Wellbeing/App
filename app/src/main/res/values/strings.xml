@@ -133,13 +133,17 @@
     <string name="high_suicide_risk_advice">Consejo para riesgo de suicidio de nivel alto</string>
 
     <!-- Credits-->
-    <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>
-    <string name="credit_author_description">Autor del TFM Sistema para el Bienestar Emocional y principal autor de la aplicación.</string>
+    <string name="credit_author1_name" translatable="false">Victor Manuel Domínguez Rivas</string>
+    <string name="credit_author1_description">Coautor del TFM Sistema para el Bienestar Emocional y principal autor de la aplicación.</string>
+    <string name="credit_author2_name" translatable="false">María Marco Pinar</string>
+    <string name="credit_author2_description">Coautora del TFM Sistema para el Bienestar Emocional y coautora de la aplicación.</string>
     <string name="credit_director1_name" translatable="false">Sandra Gómez Canaval</string>
     <string name="credit_director1_description">Codirectora del TFM Sistema para el Bienestar Emocional.</string>
     <string name="credit_director2_name" translatable="false">Gema Bello Orgaz</string>
     <string name="credit_director2_description">Codirectora del TFM Sistema para el Bienestar Emocional.</string>
 
+    <string name="credit_graphic_design_name">Asociación LevelUp (ETSISI)</string>
+    <string name="credit_graphic_design_description">Importante colaboración en el diseño gráfico de la aplicación.</string>
     <string name="credit_logo1_name" translatable="false">Aman Mishra</string>
     <string name="credit_logo1_description">Autor de la ilustración Health checkup, disponible en la plataforma Lottie.</string>
     <string name="credit_logo2_name" translatable="false">Echotech Engineering</string>
