@@ -7,8 +7,8 @@ import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffDepression
 import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffLoneliness
 import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffStress
 import es.upm.bienestaremocional.data.info.AppInfo
-import es.upm.bienestaremocional.data.remote.userdata.OneOffQuestionnairesRequest
-import es.upm.bienestaremocional.data.remote.userdata.OneOffQuestionnairesResponse
+import es.upm.bienestaremocional.data.remote.questionnaire.oneoff.OneOffQuestionnairesRequest
+import es.upm.bienestaremocional.data.remote.questionnaire.oneoff.OneOffQuestionnairesResponse
 import es.upm.bienestaremocional.domain.processing.secondToZonedDateTime
 import es.upm.bienestaremocional.domain.repository.LastUploadRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.OneOffDepressionRepository

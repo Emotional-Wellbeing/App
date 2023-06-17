@@ -5,4 +5,5 @@ sealed class DebugState {
     object QueryAllQuestionnaireRounds: DebugState()
     object QueryUncompletedQuestionnaireRounds: DebugState()
     object QueryWorkManager: DebugState()
+    object GetCommunity: DebugState()
 }

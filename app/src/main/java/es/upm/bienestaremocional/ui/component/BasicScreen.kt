@@ -19,11 +19,13 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBasicScreen(navigator: DestinationsNavigator,
-                   entrySelected: BottomBarDestination?,
-                   label: Int,
-                   snackbarHostState: SnackbarHostState? = null,
-                   content: @Composable (ColumnScope.() -> Unit))
+fun AppBasicScreen(
+    navigator: DestinationsNavigator,
+    entrySelected: BottomBarDestination?,
+    label: Int,
+    snackbarHostState: SnackbarHostState? = null,
+    content: @Composable (ColumnScope.() -> Unit)
+)
 {
     Scaffold(
         snackbarHost = {snackbarHostState?.let { SnackbarHost(it)}},

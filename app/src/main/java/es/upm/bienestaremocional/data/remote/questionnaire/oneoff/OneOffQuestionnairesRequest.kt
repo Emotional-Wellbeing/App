@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.data.remote.userdata
+package es.upm.bienestaremocional.data.remote.questionnaire.oneoff
 
 import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffDepression
 import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffLoneliness

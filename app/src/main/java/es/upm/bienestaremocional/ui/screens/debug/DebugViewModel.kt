@@ -25,6 +25,7 @@ import es.upm.bienestaremocional.data.questionnaire.generateDailySymptomsEntry
 import es.upm.bienestaremocional.data.questionnaire.generateOneOffDepressionEntry
 import es.upm.bienestaremocional.data.questionnaire.generateOneOffLonelinessEntry
 import es.upm.bienestaremocional.data.questionnaire.generateOneOffStressEntry
+import es.upm.bienestaremocional.data.remote.community.CommunityResponse
 import es.upm.bienestaremocional.data.worker.DailyMorningNotificationWorker
 import es.upm.bienestaremocional.data.worker.DailyNightNotificationWorker
 import es.upm.bienestaremocional.data.worker.OneOffNotificationWorker
@@ -84,6 +85,10 @@ class DebugViewModel @Inject constructor(
     private var _workInfo : LiveData<List<WorkInfo>> = MutableLiveData()
     val workInfo: LiveData<List<WorkInfo>>
         get() = _workInfo
+
+    private val _communityData = MutableLiveData<CommunityResponse.Data>()
+    val communityData: LiveData<CommunityResponse.Data>
+        get() = _communityData
 
     private fun fetchUncompletedQuestionnaireRounds()
     {
@@ -304,9 +309,12 @@ class DebugViewModel @Inject constructor(
         WorkManager.getInstance(context).enqueue(request)
     }
 
-    suspend fun onGetScore(): Int?
+    fun onCommunity()
     {
-        return remoteRepository.getScore()
+        viewModelScope.launch {
+            _communityData.value = remoteRepository.getCommunity()?.data
+            _state.value = DebugState.GetCommunity
+        }
     }
 
     suspend fun onPostUserData(): Boolean

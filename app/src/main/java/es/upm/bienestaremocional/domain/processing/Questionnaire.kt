@@ -64,9 +64,10 @@ fun processRecords(records: List<ScoredEntity>, timeGranularity: TimeGranularity
     )
 }
 
-fun processRecordsMaintainingEmpty(records: List<ScoredEntity>,
-                                   dateRange: Pair<Long, Long>,
-                                   timeGranularity: TimeGranularity
+fun processRecordsMaintainingEmpty(
+    records: List<ScoredEntity>,
+    dateRange: Pair<Long, Long>,
+    timeGranularity: TimeGranularity
 ) : List<NullableChartRecord>
 {
     val updateCriteria : (ZonedDateTime) -> ZonedDateTime = when(timeGranularity)
@@ -139,11 +140,12 @@ fun processRecords(records: List<ScoredEntity>,
     return result
 }
 
-fun processRecordsMaintainingEmpty(records: List<ScoredEntity>,
-                                   dateRange : Pair<Long, Long>,
-                                   updateCriteria : (ZonedDateTime) -> ZonedDateTime,
-                                   aggregationCriteria : (Long) -> ZonedDateTime,
-                                   reduceCriteria : (List<Int>) -> Float?,
+fun processRecordsMaintainingEmpty(
+    records: List<ScoredEntity>,
+    dateRange : Pair<Long, Long>,
+    updateCriteria : (ZonedDateTime) -> ZonedDateTime,
+    aggregationCriteria : (Long) -> ZonedDateTime,
+    reduceCriteria : (List<Int>) -> Float?,
 ) : List<NullableChartRecord>
 {
     val buffer = mutableMapOf<ZonedDateTime,MutableList<Int>>()

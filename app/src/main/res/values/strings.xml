@@ -4,7 +4,7 @@
     <!-- Menu -->
     <string name="home_screen_label">Inicio</string>
     <string name="history_screen_label">Historial</string>
-    <string name="trends_screen_label">Tendencias</string>
+    <string name="community_screen_label">Comunidad</string>
     <string name="settings_screen_label">Ajustes</string>
     <string name="debug_screen_label">Menú de desarrolladores</string>
     <string name="uncompleted_questionnaires_label">Cuestionarios incompletos</string>
@@ -293,7 +293,7 @@
     <string name="test_daily_night_notification_worker">Probar daily night notification worker</string>
     <string name="test_one_off_notification_worker">Probar one off notification worker</string>
     <string name="test_upload_worker">Probar upload worker subiendo todos los datos</string>
-    <string name="test_get_score">Probar getScore</string>
+    <string name="test_get_community">Probar getCommunity</string>
     <string name="test_post_user_data">Probar postUserData</string>
     <string name="reset_upload_timestamps">Reiniciar las marcas de tiempo de las subidas</string>
     <string name="query_worker_status">Consultar el estado de los workers</string>
@@ -324,4 +324,13 @@
     <string name="uncompleted">Incompletado</string>
     <string name="continue_label">Continuar</string>
     <string name="daily_symptoms_label">¿Cómo has estado hoy?</string>
+
+    <!-- Debug community -->
+    <string name="monday">Lunes</string>
+    <string name="tuesday">Martes</string>
+    <string name="wednesday">Miércoles</string>
+    <string name="thursday">Jueves</string>
+    <string name="friday">Viernes</string>
+    <string name="saturday">Sábado</string>
+    <string name="sunday">Domingo</string>
 </resources>

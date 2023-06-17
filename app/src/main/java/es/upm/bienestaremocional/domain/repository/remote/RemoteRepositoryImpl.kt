@@ -2,10 +2,11 @@ package es.upm.bienestaremocional.domain.repository.remote
 
 import android.util.Log
 import es.upm.bienestaremocional.data.remote.RemoteAPI
-import es.upm.bienestaremocional.data.remote.userdata.DailyQuestionnairesRequest
-import es.upm.bienestaremocional.data.remote.userdata.DailyQuestionnairesResponse
-import es.upm.bienestaremocional.data.remote.userdata.OneOffQuestionnairesRequest
-import es.upm.bienestaremocional.data.remote.userdata.OneOffQuestionnairesResponse
+import es.upm.bienestaremocional.data.remote.community.CommunityResponse
+import es.upm.bienestaremocional.data.remote.questionnaire.daily.DailyQuestionnairesRequest
+import es.upm.bienestaremocional.data.remote.questionnaire.daily.DailyQuestionnairesResponse
+import es.upm.bienestaremocional.data.remote.questionnaire.oneoff.OneOffQuestionnairesRequest
+import es.upm.bienestaremocional.data.remote.questionnaire.oneoff.OneOffQuestionnairesResponse
 import es.upm.bienestaremocional.data.remote.userdata.UserDataRequest
 import es.upm.bienestaremocional.data.remote.userdata.UserDataResponse
 
@@ -14,19 +15,26 @@ class RemoteRepositoryImpl(
     private val remoteAPI: RemoteAPI
 ): RemoteRepository
 {
-    override suspend fun getScore(): Int?
+    override suspend fun getCommunity(): CommunityResponse?
     {
-        Log.d(logTag, "calling getScore")
+        Log.d(logTag, "get community")
 
-        return try {
-            val response = remoteAPI.getScore()
-            if (response.isSuccessful)
-                response.body()
-            else
-                null
-        } catch (e:Exception) {
-            null
+        var response : CommunityResponse? = null
+
+        try {
+            val rawResponse = remoteAPI.getCommunityData()
+            Log.d(logTag, "response received with " +
+                    "code ${rawResponse.code()} and values ${rawResponse.body()}")
+            response = CommunityResponse(
+                code = rawResponse.code(),
+                data = rawResponse.body()
+            )
         }
+        catch (e: Exception)
+        {
+            Log.e(logTag, "response failed with exception $e")
+        }
+        return response
     }
 
     override suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse?
@@ -46,7 +54,7 @@ class RemoteRepositoryImpl(
         }
         catch (e: Exception)
         {
-            Log.e(logTag, "response failed with exception $e")
+            Log.e(logTag, "response failed with exception ${Log.getStackTraceString(e)}")
         }
         return response
     }
@@ -70,7 +78,7 @@ class RemoteRepositoryImpl(
         }
         catch (e: Exception)
         {
-            Log.e(logTag, "response failed with exception $e")
+            Log.e(logTag, "response failed with exception ${Log.getStackTraceString(e)}")
         }
         return response
     }
@@ -94,7 +102,7 @@ class RemoteRepositoryImpl(
         }
         catch (e: Exception)
         {
-            Log.e(logTag, "response failed with exception $e")
+            Log.e(logTag, "response failed with exception  ${Log.getStackTraceString(e)}")
         }
         return response
     }
