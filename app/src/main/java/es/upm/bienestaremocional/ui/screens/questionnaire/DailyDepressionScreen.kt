@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.database.entity.round.DailyRound
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaireDrawable
@@ -19,6 +20,7 @@ import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
 @Composable
 fun DailyDepressionScreen(
     navController: NavController,
+    navigator: DestinationsNavigator,
     entityId: Long,
     moment: DailyRound.Moment,
     questionnaireIndex : Int = 0,
@@ -35,6 +37,7 @@ fun DailyDepressionScreen(
 
     val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit  = { score, widthSize ->
         DailyDepressionStatus(
+            navigator = navigator,
             data = score,
             widthSize = widthSize,
             indicatorColor = MaterialTheme.colorScheme.primary,

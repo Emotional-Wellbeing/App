@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.data.questionnaire.QuestionnaireDrawableNumericAnswers
@@ -500,6 +501,7 @@ fun QuestionnaireStringAnswersWithScoreScreenPreview()
 
     val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
         OneOffStressStatus(
+            navigator = EmptyDestinationsNavigator,
             data = data,
             widthSize = widthSize
         )
@@ -562,6 +564,7 @@ fun QuestionnaireStringAnswersWithScoreDarkThemeScreenPreview()
 
     val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
         OneOffStressStatus(
+            navigator = EmptyDestinationsNavigator,
             data = data,
             widthSize = widthSize
         )
@@ -669,6 +672,7 @@ fun QuestionnaireNumericAnswersWithScoreScreenPreview()
 
     val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
         OneOffStressStatus(
+            navigator = EmptyDestinationsNavigator,
             data = data,
             widthSize = widthSize
         )
@@ -716,6 +720,7 @@ fun QuestionnaireNumericAnswersWithScoreDarkThemeScreenPreview()
 
     val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
         OneOffStressStatus(
+            navigator = EmptyDestinationsNavigator,
             data = data,
             widthSize = widthSize
         )

@@ -8,8 +8,9 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 
 @Composable
-fun BienestarEmocionalApp(darkTheme: ThemeMode,
-                          dynamicColors : Boolean
+fun BienestarEmocionalApp(
+    darkTheme: ThemeMode,
+    dynamicColors : Boolean
 )
 {
     BienestarEmocionalTheme(darkTheme = darkTheme.themeIsDark(), dynamicColors = dynamicColors)

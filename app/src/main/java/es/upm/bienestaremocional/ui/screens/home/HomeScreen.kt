@@ -45,14 +45,17 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  */
 @Destination
 @Composable
-fun HomeScreen(navigator: DestinationsNavigator,
-               viewModel: HomeViewModel = hiltViewModel())
+fun HomeScreen(
+    navigator: DestinationsNavigator,
+    viewModel: HomeViewModel = hiltViewModel()
+)
 {
     BackHandlerMinimizeApp(LocalContext.current)
 
     val uncompletedQuestionnaires by viewModel.uncompletedQuestionnaires.collectAsStateWithLifecycle()
 
-    HomeScreen(navigator = navigator,
+    HomeScreen(
+        navigator = navigator,
         questionnairesToShow = viewModel.questionnaires,
         widthSize = computeWindowWidthSize(),
         heightSize = computeWindowHeightSize(),
@@ -110,12 +113,13 @@ private fun HomeScreen(
         }
     }
 
-    AppBasicScreen(navigator = navigator,
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = BottomBarDestination.HomeScreen,
         snackbarHostState = snackbarHostState,
-        label = R.string.app_name)
+        label = R.string.app_name
+    )
     {
-        //TODO check landscape
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -151,7 +155,9 @@ private fun HomeScreen(
                         verticalArrangement = Arrangement.SpaceAround
                     )
                     {
-                        MeasureSummary(questionnaire = questionnairesToShow[page],
+                        MeasureSummary(
+                            navigator = navigator,
+                            questionnaire = questionnairesToShow[page],
                             score = score,
                             pagerState = pagerState,
                             onClick = onClick,
@@ -175,6 +181,7 @@ private fun HomeScreen(
                 }
 
                 MeasureSummary(
+                    navigator = navigator,
                     questionnaire = questionnairesToShow[0],
                     score = score,
                     onClick = onClick,
@@ -187,10 +194,11 @@ private fun HomeScreen(
     }
 }
 
-private suspend fun showQuestionnaireAlert(snackbarHostState: SnackbarHostState,
-                                           message : String,
-                                           actionLabel : String,
-                                           onClick : () -> Unit
+private suspend fun showQuestionnaireAlert(
+    snackbarHostState: SnackbarHostState,
+    message : String,
+    actionLabel : String,
+    onClick : () -> Unit
 )
 {
     val result = snackbarHostState.showSnackbar(message = message,
@@ -211,7 +219,8 @@ private suspend fun showQuestionnaireAlert(snackbarHostState: SnackbarHostState,
 fun HomeScreenOneQuestionnaireCompactPreview()
 {
     BienestarEmocionalTheme{
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = listOf(DailyScoredQuestionnaire.Stress),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -232,7 +241,8 @@ fun HomeScreenOneQuestionnaireCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = listOf(DailyScoredQuestionnaire.Stress),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -252,7 +262,8 @@ fun HomeScreenOneQuestionnaireCompactPreviewDarkTheme()
 fun HomeScreenNoQuestionnaireCompactPreview()
 {
     BienestarEmocionalTheme{
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = listOf(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -273,7 +284,8 @@ fun HomeScreenNoQuestionnaireCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = listOf(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -293,7 +305,8 @@ fun HomeScreenNoQuestionnaireCompactPreviewDarkTheme()
 fun HomeScreenAllQuestionnairesCompactPreview()
 {
     BienestarEmocionalTheme{
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -314,7 +327,8 @@ fun HomeScreenAllQuestionnairesCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -334,7 +348,8 @@ fun HomeScreenAllQuestionnairesCompactPreviewDarkTheme()
 fun HomeScreenAllQuestionnairesShowUncompletedCompactPreview()
 {
     BienestarEmocionalTheme{
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -355,7 +370,8 @@ fun HomeScreenAllQuestionnairesShowUncompletedCompactPreviewDarkTheme()
 {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,

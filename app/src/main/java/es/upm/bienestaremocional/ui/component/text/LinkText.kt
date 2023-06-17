@@ -55,9 +55,10 @@ fun LinkText(
 }
 
 @Composable
-private fun createAnnotatedString(data: List<LinkTextData>,
-                                  normalTextSpanStyle: SpanStyle,
-                                  clickableTextSpanStyle: SpanStyle,
+private fun createAnnotatedString(
+    data: List<LinkTextData>,
+    normalTextSpanStyle: SpanStyle,
+    clickableTextSpanStyle: SpanStyle,
 ): AnnotatedString
 {
     return buildAnnotatedString {
@@ -91,7 +92,7 @@ private fun createAnnotatedString(data: List<LinkTextData>,
 private fun LinkTextPreview()
 {
     val context = LocalContext.current
-    val pieces = stringArrayResource(id = R.array.high_loneliness)
+    val pieces = stringArrayResource(id = R.array.high_suicide_risk_advice_body)
 
     BienestarEmocionalTheme {
         Surface(modifier = Modifier.padding(16.dp))
@@ -120,7 +121,7 @@ private fun LinkTextPreview()
 private fun LinkTextPreviewDarkTheme()
 {
     val context = LocalContext.current
-    val pieces = stringArrayResource(id = R.array.high_loneliness)
+    val pieces = stringArrayResource(id = R.array.high_suicide_risk_advice_body)
 
     BienestarEmocionalTheme(darkTheme = true)
     {

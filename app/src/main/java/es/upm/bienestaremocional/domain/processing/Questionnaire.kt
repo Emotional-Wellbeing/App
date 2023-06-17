@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.domain.processing
 
+import es.upm.bienestaremocional.data.Advice
 import es.upm.bienestaremocional.data.Measure
 import es.upm.bienestaremocional.data.database.entity.ScoredEntity
 import es.upm.bienestaremocional.data.questionnaire.Level
@@ -22,7 +23,7 @@ fun scoreToLevel(score: Int, questionnaire: QuestionnaireScored): Level?
     return scoreLevel?.level
 }
 
-fun levelToAdvice(level: Level, measure: Measure) : Int?
+fun levelToAdvice(level: Level, measure: Measure) : Advice?
 {
     return measure.advices?.let {
         val advices = it[level]

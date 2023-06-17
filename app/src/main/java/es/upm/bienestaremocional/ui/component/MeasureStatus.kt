@@ -20,7 +20,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.data.Advice
 import es.upm.bienestaremocional.data.Measure
 import es.upm.bienestaremocional.data.questionnaire.Level
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
@@ -31,6 +34,7 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 @Composable
 fun DailyStressStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
     widthSize : WindowWidthSizeClass,
     indicatorColor : Color = MaterialTheme.colorScheme.secondary,
@@ -40,10 +44,10 @@ fun DailyStressStatus(
 )
 {
     val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Stress) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_stress),
         level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Stress) },
@@ -59,6 +63,7 @@ fun DailyStressStatus(
 
 @Composable
 fun DailyDepressionStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
     widthSize : WindowWidthSizeClass,
     indicatorColor : Color = MaterialTheme.colorScheme.secondary,
@@ -68,10 +73,10 @@ fun DailyDepressionStatus(
 )
 {
     val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Depression) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_depression),
         level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Depression) },
@@ -87,6 +92,7 @@ fun DailyDepressionStatus(
 
 @Composable
 fun DailyLonelinessStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
     widthSize : WindowWidthSizeClass,
     indicatorColor : Color = MaterialTheme.colorScheme.secondary,
@@ -96,10 +102,10 @@ fun DailyLonelinessStatus(
 )
 {
     val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Loneliness) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_loneliness),
         level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) },
@@ -115,6 +121,7 @@ fun DailyLonelinessStatus(
 
 @Composable
 fun OneOffStressStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
     widthSize : WindowWidthSizeClass,
     indicatorColor : Color = MaterialTheme.colorScheme.secondary,
@@ -124,10 +131,10 @@ fun OneOffStressStatus(
 )
 {
     val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Stress) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_stress),
         level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Stress) },
@@ -143,6 +150,7 @@ fun OneOffStressStatus(
 
 @Composable
 fun OneOffDepressionStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
     widthSize : WindowWidthSizeClass,
     indicatorColor : Color = MaterialTheme.colorScheme.secondary,
@@ -152,10 +160,10 @@ fun OneOffDepressionStatus(
 )
 {
     val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Depression) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_depression),
         level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Depression) },
@@ -171,6 +179,7 @@ fun OneOffDepressionStatus(
 
 @Composable
 fun OneOffLonelinessStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
     widthSize : WindowWidthSizeClass,
     indicatorColor : Color = MaterialTheme.colorScheme.secondary,
@@ -180,10 +189,10 @@ fun OneOffLonelinessStatus(
 )
 {
     val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_loneliness),
         level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) },
@@ -201,10 +210,11 @@ fun OneOffLonelinessStatus(
 
 @Composable
 private fun MeasureStatus(
+    navigator : DestinationsNavigator,
     data: Int?,
     introLabel : String,
     level: Level?,
-    advice : String?,
+    advice : Advice?,
     widthSize : WindowWidthSizeClass,
     indicatorColor : Color,
     indicatorContainerColor : Color,
@@ -249,7 +259,7 @@ private fun MeasureStatus(
 
     // Text to display
     val levelLabel = stringResource(id = (level?.label ?: R.string.unknown_display))
-    val headlineText = "$introLabel : $levelLabel"
+    val headlineText = "$introLabel: $levelLabel"
 
     // Composable elements
     BoxWithConstraints(modifier = Modifier
@@ -301,7 +311,14 @@ private fun MeasureStatus(
             )
             {
                 Text(headlineText, style = headlineTextStyle)
-                advice?.let { Text(it, style = adviceTextStyle) }
+                advice?.let {
+                    ShowAdviceHeadline(
+                        navigator = navigator,
+                        advice = it,
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        textStyle = adviceTextStyle
+                    )
+                }
             }
         }
     }
@@ -318,7 +335,11 @@ fun DailyStressStatusCompactPreview()
     {
         Surface()
         {
-            DailyStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
+            DailyStressStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 27,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -333,7 +354,11 @@ fun DailyStressStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            DailyStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
+            DailyStressStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 27,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -348,7 +373,11 @@ fun DailyDepressionStatusCompactPreview()
     {
         Surface()
         {
-            DailyDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
+            DailyDepressionStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 16,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -363,7 +392,11 @@ fun DailyDepressionStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            DailyDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
+            DailyDepressionStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 16,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -378,7 +411,11 @@ fun DailyLonelinessStatusCompactPreview()
     {
         Surface()
         {
-            DailyLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
+            DailyLonelinessStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 47,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -393,7 +430,11 @@ fun DailyLonelinessStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            DailyLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
+            DailyLonelinessStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 47,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -408,7 +449,11 @@ fun OneOffStressStatusCompactPreview()
     {
         Surface()
         {
-            OneOffStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
+            OneOffStressStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 27,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -423,7 +468,11 @@ fun OneOffStressStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            OneOffStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
+            OneOffStressStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 27,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -438,7 +487,11 @@ fun OneOffDepressionStatusCompactPreview()
     {
         Surface()
         {
-            OneOffDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
+            OneOffDepressionStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 16,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -453,7 +506,11 @@ fun OneOffDepressionStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            OneOffDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
+            OneOffDepressionStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 16,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -468,7 +525,11 @@ fun OneOffLonelinessStatusCompactPreview()
     {
         Surface()
         {
-            OneOffLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
+            OneOffLonelinessStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 47,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -483,7 +544,11 @@ fun OneOffLonelinessStatusCompactPreviewDarkTheme()
     {
         Surface()
         {
-            OneOffLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
+            OneOffLonelinessStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 47,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -499,10 +564,11 @@ fun MeasureStatusCompactPreview()
         Surface()
         {
             MeasureStatus(
+                navigator = EmptyDestinationsNavigator,
                 data = 33,
                 introLabel = stringResource(R.string.measure),
                 level = Level.Low,
-                advice = stringResource(id = R.string.low_stress_advice),
+                advice = Advice(head = R.string.low_stress_advice, body = null),
                 widthSize = WindowWidthSizeClass.Compact,
                 indicatorColor = MaterialTheme.colorScheme.secondary,
                 indicatorContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -523,10 +589,11 @@ fun MeasureStatusCompactPreviewDarkTheme()
         Surface()
         {
             MeasureStatus(
+                navigator = EmptyDestinationsNavigator,
                 data = 33,
                 introLabel = stringResource(R.string.measure),
                 level = Level.Low,
-                advice = stringResource(id = R.string.low_stress_advice),
+                advice = Advice(head = R.string.low_stress_advice, body = null),
                 widthSize = WindowWidthSizeClass.Compact,
                 indicatorColor = MaterialTheme.colorScheme.secondary,
                 indicatorContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -547,6 +614,7 @@ fun MeasureStatusNullCompactPreview()
         Surface()
         {
             MeasureStatus(
+                navigator = EmptyDestinationsNavigator,
                 data = null,
                 introLabel = stringResource(R.string.measure),
                 level = null,
@@ -571,6 +639,7 @@ fun MeasureStatusNullCompactPreviewDarkTheme()
         Surface()
         {
             MeasureStatus(
+                navigator = EmptyDestinationsNavigator,
                 data = null,
                 introLabel = stringResource(R.string.measure),
                 level = null,

@@ -18,7 +18,7 @@ import es.upm.bienestaremocional.utils.openDial
 fun DisplayHighLonelinessGuideline()
 {
     val context = LocalContext.current
-    val pieces = stringArrayResource(id = R.array.high_loneliness)
+    val pieces = stringArrayResource(id = R.array.high_loneliness_advice_body)
 
     LinkText(
         data = listOf(
