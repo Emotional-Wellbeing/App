@@ -6,12 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.data.Measure
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
 import es.upm.bienestaremocional.data.settings.AppSettings
-import es.upm.bienestaremocional.domain.processing.processRecords
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyDepressionRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyLonelinessRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyRoundFullRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyStressRepository
-import es.upm.bienestaremocional.utils.TimeGranularity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -50,27 +48,14 @@ class HomeViewModel @Inject constructor(
 
     suspend fun getStressScore() : Int?
     {
-        val scores = dailyStressRepository.getAllFromYesterday()
-        return if (scores.any { it.score != null })
-            processRecords(scores, TimeGranularity.Day)[0].score.toInt()
-        else
-            null
+        return dailyStressRepository.getLastElement()?.score
     }
     suspend fun getDepressionScore() : Int?
     {
-        val scores = dailyDepressionRepository.getAllFromYesterday()
-        return if (scores.any { it.score != null })
-            processRecords(scores, TimeGranularity.Day)[0].score.toInt()
-        else
-            null
+        return dailyDepressionRepository.getLastElement()?.score
     }
     suspend fun getLonelinessScore() : Int?
     {
-        val scores = dailyLonelinessRepository.getAllFromYesterday()
-        return if (scores.any { it.score != null })
-            processRecords(scores, TimeGranularity.Day)[0].score.toInt()
-        else
-            null
+        return dailyLonelinessRepository.getLastElement()?.score
     }
-
 }

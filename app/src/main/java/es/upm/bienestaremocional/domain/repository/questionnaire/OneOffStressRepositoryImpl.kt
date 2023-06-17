@@ -81,20 +81,9 @@ class OneOffStressRepositoryImpl @Inject constructor(
         return dao.getAllOneOffStressFromRange(range.first,range.second)
     }
 
-    override suspend fun getLastCompleted(): OneOffStress?
+    override suspend fun getLastElement(): OneOffStress?
     {
-        Log.d(logTag, "querying last OneOffStress completed")
-        return dao.getLastOneOffStressCompleted()
-    }
-
-    /*override suspend fun getAllCompleted(): List<OneOffStress>
-    {
-        Log.d(logTag, "querying all OneOffStress completed")
-        return dao.getAllOneOffStressCompleted()
-    }
-
-    override suspend fun getLast(): OneOffStress? {
         Log.d(logTag, "querying last OneOffStress")
         return dao.getLastOneOffStress()
-    }*/
+    }
 }

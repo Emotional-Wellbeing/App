@@ -81,20 +81,9 @@ class DailySymptomsRepositoryImpl @Inject constructor(
         return dao.getAllDailySymptomsFromRange(range.first,range.second)
     }
 
-    override suspend fun getLastCompleted(): DailySymptoms?
+    override suspend fun getLastElement(): DailySymptoms?
     {
-        Log.d(logTag, "querying last DailySymptoms completed")
-        return dao.getLastDailySymptomsCompleted()
-    }
-
-    /*override suspend fun getAllCompleted(): List<DailySymptoms>
-    {
-        Log.d(logTag, "querying all DailySymptoms completed")
-        return dao.getAllDailySymptomsCompleted()
-    }
-
-    override suspend fun getLast(): DailySymptoms? {
         Log.d(logTag, "querying last DailySymptoms")
         return dao.getLastDailySymptoms()
-    }*/
+    }
 }

@@ -81,20 +81,9 @@ class OneOffLonelinessRepositoryImpl @Inject constructor(
         return dao.getAllOneOffLonelinessFromRange(range.first,range.second)
     }
 
-    override suspend fun getLastCompleted(): OneOffLoneliness?
+    override suspend fun getLastElement(): OneOffLoneliness? 
     {
-        Log.d(logTag, "querying last OneOffLoneliness completed")
-        return dao.getLastOneOffLonelinessCompleted()
-    }
-
-    /*override suspend fun getAllCompleted(): List<OneOffLoneliness>
-    {
-        Log.d(logTag, "querying all OneOffLoneliness completed")
-        return dao.getAllOneOffLonelinessCompleted()
-    }
-
-    override suspend fun getLast(): OneOffLoneliness? {
         Log.d(logTag, "querying last OneOffLoneliness")
         return dao.getLastOneOffLoneliness()
-    }*/
+    }
 }

@@ -17,5 +17,5 @@ interface OneOffDepressionRepository : QuestionnaireRepository<OneOffDepression>
         onlyCompleted: Boolean
     ): List<OneOffDepression>
     override suspend fun getAllFromYesterday(): List<OneOffDepression>
-    override suspend fun getLastCompleted(): OneOffDepression?
+    override suspend fun getLastElement(): OneOffDepression?
 }

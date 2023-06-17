@@ -10,10 +10,9 @@ interface QuestionnaireRepository<T> where T : MeasureEntity
     suspend fun update(element: T)
     suspend fun get(id: Long): T?
     suspend fun getAll(): List<T>
-    //suspend fun getAllCompleted(): List<T>
     suspend fun getAllFromCurrentWeek() : List<T>
     suspend fun getAllFromLastSevenDays(): List<T>
     suspend fun getAllFromRange(range: Range<ZonedDateTime>, onlyCompleted: Boolean): List<T>
     suspend fun getAllFromYesterday(): List<T>
-    suspend fun getLastCompleted(): T?
+    suspend fun getLastElement(): T?
 }

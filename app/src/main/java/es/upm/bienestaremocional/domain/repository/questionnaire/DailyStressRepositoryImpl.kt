@@ -81,20 +81,9 @@ class DailyStressRepositoryImpl @Inject constructor(
         return dao.getAllDailyStressFromRange(range.first,range.second)
     }
 
-    override suspend fun getLastCompleted(): DailyStress?
+    override suspend fun getLastElement(): DailyStress?
     {
-        Log.d(logTag, "querying last DailyStress completed")
-        return dao.getLastDailyStressCompleted()
-    }
-
-    /*override suspend fun getAllCompleted(): List<DailyStress>
-    {
-        Log.d(logTag, "querying all DailyStress completed")
-        return dao.getAllDailyStressCompleted()
-    }
-
-    override suspend fun getLast(): DailyStress? {
         Log.d(logTag, "querying last DailyStress")
         return dao.getLastDailyStress()
-    }*/
+    }
 }

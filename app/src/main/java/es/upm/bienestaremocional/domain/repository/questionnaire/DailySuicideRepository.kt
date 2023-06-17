@@ -17,5 +17,5 @@ interface DailySuicideRepository : QuestionnaireRepository<DailySuicide>
         onlyCompleted: Boolean
     ): List<DailySuicide>
     override suspend fun getAllFromYesterday(): List<DailySuicide>
-    override suspend fun getLastCompleted(): DailySuicide?
+    override suspend fun getLastElement(): DailySuicide?
 }

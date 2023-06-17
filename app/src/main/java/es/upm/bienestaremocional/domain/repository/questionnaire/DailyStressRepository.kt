@@ -17,5 +17,5 @@ interface DailyStressRepository : QuestionnaireRepository<DailyStress>
         onlyCompleted: Boolean
     ): List<DailyStress>
     override suspend fun getAllFromYesterday(): List<DailyStress>
-    override suspend fun getLastCompleted(): DailyStress?
+    override suspend fun getLastElement(): DailyStress?
 }

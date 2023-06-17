@@ -81,20 +81,9 @@ class OneOffDepressionRepositoryImpl @Inject constructor(
         return dao.getAllOneOffDepressionFromRange(range.first,range.second)
     }
 
-    override suspend fun getLastCompleted(): OneOffDepression?
+    override suspend fun getLastElement(): OneOffDepression?
     {
-        Log.d(logTag, "querying last OneOffDepression completed")
-        return dao.getLastOneOffDepressionCompleted()
-    }
-
-    /*override suspend fun getAllCompleted(): List<OneOffDepression>
-    {
-        Log.d(logTag, "querying all OneOffDepression completed")
-        return dao.getAllOneOffDepressionCompleted()
-    }
-
-    override suspend fun getLast(): OneOffDepression? {
         Log.d(logTag, "querying last OneOffDepression")
         return dao.getLastOneOffDepression()
-    }*/
+    }
 }

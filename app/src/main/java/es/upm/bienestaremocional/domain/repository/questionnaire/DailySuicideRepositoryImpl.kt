@@ -81,20 +81,10 @@ class DailySuicideRepositoryImpl @Inject constructor(
         return dao.getAllDailySuicideFromRange(range.first,range.second)
     }
 
-    override suspend fun getLastCompleted(): DailySuicide?
+    override suspend fun getLastElement(): DailySuicide?
     {
-        Log.d(logTag, "querying last DailySuicide completed")
-        return dao.getLastDailySuicideCompleted()
-    }
-
-    /*override suspend fun getAllCompleted(): List<DailySuicide>
-    {
-        Log.d(logTag, "querying all DailySuicide completed")
-        return dao.getAllDailySuicideCompleted()
-    }
-
-    override suspend fun getLast(): DailySuicide? {
         Log.d(logTag, "querying last DailySuicide")
         return dao.getLastDailySuicide()
-    }*/
+    }
+    
 }
