@@ -145,6 +145,7 @@ class DebugViewModel @Inject constructor(
     suspend fun onPrepoulateDatabase()
     {
         val days = 30
+        val answerDoneProbability = 0.95f
         List(days) { index ->
             val createdAt = ZonedDateTime
                 .now()
@@ -167,27 +168,42 @@ class DebugViewModel @Inject constructor(
                 {
                     Measure.Stress -> {
                         dailyMorningStressId = appDAO.insert(
-                            generateDailyStressEntry(createdAt)
+                            generateDailyStressEntry(
+                                createdAt = createdAt,
+                                answerDoneProbability = answerDoneProbability
+                            )
                         )
                     }
                     Measure.Depression -> {
                         dailyMorningDepressionId = appDAO.insert(
-                            generateDailyDepressionEntry(createdAt)
+                            generateDailyDepressionEntry(
+                                createdAt = createdAt,
+                                answerDoneProbability = answerDoneProbability
+                            )
                         )
                     }
                     Measure.Loneliness -> {
                         dailyMorningLonelinessId = appDAO.insert(
-                            generateDailyLonelinessEntry(createdAt)
+                            generateDailyLonelinessEntry(
+                                createdAt = createdAt,
+                                answerDoneProbability = answerDoneProbability
+                            )
                         )
                     }
                     Measure.Suicide -> {
                         dailyMorningSuicideId = appDAO.insert(
-                            generateDailySuicideEntry(createdAt)
+                            generateDailySuicideEntry(
+                                createdAt = createdAt,
+                                answerDoneProbability = answerDoneProbability
+                            )
                         )
                     }
                     Measure.Symptoms -> {
                         dailyMorningSymptomsId = appDAO.insert(
-                            generateDailySymptomsEntry(createdAt)
+                            generateDailySymptomsEntry(
+                                createdAt = createdAt,
+                                answerDoneProbability = answerDoneProbability
+                            )
                         )
                     }
                 }
@@ -219,27 +235,42 @@ class DebugViewModel @Inject constructor(
                 {
                     Measure.Stress -> {
                         dailyNightStressId = appDAO.insert(
-                            generateDailyStressEntry(createdAt)
+                            generateDailyStressEntry(
+                                createdAt = createdAt,
+                                answerDoneProbability = answerDoneProbability
+                            )
                         )
                     }
                     Measure.Depression -> {
                         dailyNightDepressionId = appDAO.insert(
-                            generateDailyDepressionEntry(createdAt)
+                            generateDailyDepressionEntry(
+                                createdAt = createdAt,
+                                answerDoneProbability = answerDoneProbability
+                            )
                         )
                     }
                     Measure.Loneliness -> {
                         dailyNightLonelinessId = appDAO.insert(
-                            generateDailyLonelinessEntry(createdAt)
+                            generateDailyLonelinessEntry(
+                                createdAt = createdAt,
+                                answerDoneProbability = answerDoneProbability
+                            )
                         )
                     }
                     Measure.Suicide -> {
                         dailyNightSuicideId = appDAO.insert(
-                            generateDailySuicideEntry(createdAt)
+                            generateDailySuicideEntry(
+                                createdAt = createdAt,
+                                answerDoneProbability = answerDoneProbability
+                            )
                         )
                     }
                     Measure.Symptoms -> {
                         dailyNightSymptomsId = appDAO.insert(
-                            generateDailySymptomsEntry(createdAt)
+                            generateDailySymptomsEntry(
+                                createdAt = createdAt,
+                                answerDoneProbability = answerDoneProbability
+                            )
                         )
                     }
                 }
@@ -260,9 +291,18 @@ class DebugViewModel @Inject constructor(
             //Insert one off round
             if(index.toLong() % OneOffNotificationWorker.repeatInterval.toDays() == 0L)
             {
-                val oneOffStress = generateOneOffStressEntry(createdAt)
-                val oneOffDepression = generateOneOffDepressionEntry(createdAt)
-                val oneOffLoneliness = generateOneOffLonelinessEntry(createdAt)
+                val oneOffStress = generateOneOffStressEntry(
+                    createdAt = createdAt,
+                    answerDoneProbability = answerDoneProbability
+                )
+                val oneOffDepression = generateOneOffDepressionEntry(
+                    createdAt = createdAt,
+                    answerDoneProbability = answerDoneProbability
+                )
+                val oneOffLoneliness = generateOneOffLonelinessEntry(
+                    createdAt = createdAt,
+                    answerDoneProbability = answerDoneProbability
+                )
 
                 val stressId = appDAO.insert(oneOffStress)
                 val depressionId = appDAO.insert(oneOffDepression)
