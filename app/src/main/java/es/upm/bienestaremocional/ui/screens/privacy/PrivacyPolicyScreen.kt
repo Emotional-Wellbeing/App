@@ -1,23 +1,19 @@
 package es.upm.bienestaremocional.ui.screens.privacy
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.ui.component.AppBasicScreen
-import es.upm.bienestaremocional.ui.component.BasicCard
+import es.upm.bienestaremocional.ui.component.TextScreen
 import es.upm.bienestaremocional.ui.navigation.BottomBarDestination
+import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 /**
@@ -27,23 +23,33 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 @Composable
 fun PrivacyPolicyScreen(navigator: DestinationsNavigator)
 {
-    AppBasicScreen(navigator = navigator,
-        entrySelected = BottomBarDestination.SettingsScreen,
-        label = R.string.privacy_policy_screen_label)
-    {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+    PrivacyPolicyScreen(
+        navigator = navigator,
+        widthSize = computeWindowWidthSize()
+    )
+}
+
+@Composable
+private fun PrivacyPolicyScreen(
+    navigator: DestinationsNavigator,
+    widthSize: WindowWidthSizeClass,
+)
+{
+    val content : @Composable (TextStyle) -> Unit = { textStyle ->
+        Text(
+            text = stringResource(id = R.string.privacy_policy_description),
+            textAlign = TextAlign.Justify,
+            style = textStyle
         )
-        {
-            BasicCard{
-                Text(stringResource(R.string.privacy_policy_description))
-            }
-        }
     }
+
+    TextScreen(
+        navigator = navigator,
+        entrySelected = BottomBarDestination.SettingsScreen,
+        label = R.string.privacy_policy_screen_label,
+        textContent = content,
+        widthSize = widthSize
+    )
 }
 
 @Preview(
@@ -53,9 +59,11 @@ fun PrivacyPolicyScreen(navigator: DestinationsNavigator)
 @Composable
 fun PrivacyPolicyScreenPreview()
 {
-
     BienestarEmocionalTheme {
-        PrivacyPolicyScreen(EmptyDestinationsNavigator)
+        PrivacyPolicyScreen(
+            navigator = EmptyDestinationsNavigator,
+            widthSize = WindowWidthSizeClass.Compact,
+        )
     }
 }
 
@@ -66,8 +74,10 @@ fun PrivacyPolicyScreenPreview()
 @Composable
 fun PrivacyPolicyScreenPreviewDarkTheme()
 {
-
     BienestarEmocionalTheme(darkTheme = true) {
-        PrivacyPolicyScreen(EmptyDestinationsNavigator)
+        PrivacyPolicyScreen(
+            navigator = EmptyDestinationsNavigator,
+            widthSize = WindowWidthSizeClass.Compact,
+        )
     }
 }

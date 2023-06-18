@@ -1,32 +1,22 @@
 package es.upm.bienestaremocional.ui.screens.advice
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
-import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.Advice
 import es.upm.bienestaremocional.data.Measure
 import es.upm.bienestaremocional.data.questionnaire.Level
+import es.upm.bienestaremocional.ui.component.TextScreen
 import es.upm.bienestaremocional.ui.component.text.LinkText
 import es.upm.bienestaremocional.ui.component.text.LinkTextData
 import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
@@ -40,52 +30,46 @@ fun AdviceScreen(
     advice: Advice,
 )
 {
+    AdviceScreen(
+        navigator = navigator,
+        advice = advice,
+        widthSize = computeWindowWidthSize(),
+    )
+}
+
+@Composable
+private fun AdviceScreen(
+    navigator: DestinationsNavigator,
+    advice: Advice,
+    widthSize: WindowWidthSizeClass,
+)
+{
     val context = LocalContext.current
 
-    val textStyle = when(computeWindowWidthSize())
-    {
-        WindowWidthSizeClass.Compact -> MaterialTheme.typography.bodyMedium
-        WindowWidthSizeClass.Medium -> MaterialTheme.typography.bodyLarge
-        WindowWidthSizeClass.Expanded -> MaterialTheme.typography.bodyLarge
-        else -> MaterialTheme.typography.bodyMedium
-    }
+    val content : @Composable (TextStyle) -> Unit = { textStyle ->
 
-    Surface(
-        modifier = Modifier.fillMaxSize()
-    )
-    {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        advice.body?.let { bodyRes ->
+            val pieces = stringArrayResource(id = bodyRes)
 
-            advice.body?.let { bodyRes ->
-                val pieces = stringArrayResource(id = bodyRes)
-
-                val data = mutableListOf<LinkTextData>()
-
-                for(index in pieces.indices)
-                {
+            if (pieces.size > 1)
+            {
+                val data = pieces.mapIndexed { index, item ->
                     //Add space trimmed in xml-loading
                     val text = if(index > 0)
-                        " ${pieces[index]}"
+                        " $item"
                     else
-                        pieces[index]
-                    data.add(
-                        // number of phones are present in odd indexes
-                        if (index % 2 == 1)
-                            LinkTextData(
-                                text = text,
-                                tag = "number_${(index-1)/2}",
-                                annotation = pieces[index],
-                                onClick = { openDial(context, it.item) },
-                            )
-                        else
-                            LinkTextData(text = text)
-                    )
+                        item
+
+                    // number of phones are present in odd indexes
+                    if (index % 2 == 1)
+                        LinkTextData(
+                            text = text,
+                            tag = "number_${(index-1)/2}",
+                            annotation = pieces[index],
+                            onClick = { openDial(context, it.item) },
+                        )
+                    else
+                        LinkTextData(text = text)
                 }
                 LinkText(
                     data = data,
@@ -94,11 +78,22 @@ fun AdviceScreen(
                     clickableTextSpanStyle = SpanStyle(color = MaterialTheme.colorScheme.tertiary)
                 )
             }
-            FilledTonalButton(onClick = { navigator.popBackStack() }) {
-                Text(text = stringResource(id = R.string.go_back))
+            else
+            {
+                Text(
+                    text = pieces[0],
+                    textAlign = TextAlign.Justify,
+                    style = textStyle
+                )
             }
         }
     }
+
+    TextScreen(
+        navigator = navigator,
+        textContent = content,
+        widthSize = widthSize
+    )
 }
 
 @Preview
@@ -109,6 +104,7 @@ fun LowStressAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Stress.advices!![Level.Low]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -120,6 +116,7 @@ fun LowStressAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Stress.advices!![Level.Low]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -132,6 +129,7 @@ fun ModerateStressAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Stress.advices!![Level.Moderate]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -144,6 +142,7 @@ fun ModerateStressAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Stress.advices!![Level.Moderate]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -156,6 +155,7 @@ fun ModerateStressAdvice2Preview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Stress.advices!![Level.Moderate]!![1],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -168,6 +168,7 @@ fun ModerateStressAdvice2PreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Stress.advices!![Level.Moderate]!![1],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -180,6 +181,7 @@ fun HighStressAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Stress.advices!![Level.High]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -192,6 +194,7 @@ fun HighStressAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Stress.advices!![Level.High]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -204,6 +207,7 @@ fun LowDepressionAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Depression.advices!![Level.Low]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -215,6 +219,7 @@ fun LowDepressionAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Depression.advices!![Level.Low]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -227,6 +232,7 @@ fun ModerateDepressionAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Depression.advices!![Level.Moderate]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -239,6 +245,7 @@ fun ModerateDepressionAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Depression.advices!![Level.Moderate]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -251,6 +258,7 @@ fun HighDepressionAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Depression.advices!![Level.High]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -263,6 +271,7 @@ fun HighDepressionAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Depression.advices!![Level.High]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -275,6 +284,7 @@ fun LowLonelinessAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Loneliness.advices!![Level.Low]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -286,6 +296,7 @@ fun LowLonelinessAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Loneliness.advices!![Level.Low]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -298,6 +309,7 @@ fun ModerateLonelinessAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Loneliness.advices!![Level.Moderate]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -310,6 +322,7 @@ fun ModerateLonelinessAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Loneliness.advices!![Level.Moderate]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -322,6 +335,7 @@ fun HighLonelinessAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Loneliness.advices!![Level.High]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -334,6 +348,7 @@ fun HighLonelinessAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Loneliness.advices!![Level.High]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -346,6 +361,7 @@ fun LowSuicideAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Suicide.advices!![Level.Low]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -357,6 +373,7 @@ fun LowSuicideAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Suicide.advices!![Level.Low]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -369,6 +386,7 @@ fun ModerateSuicideAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Suicide.advices!![Level.Moderate]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -381,6 +399,7 @@ fun ModerateSuicideAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Suicide.advices!![Level.Moderate]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -393,6 +412,7 @@ fun HighSuicideAdvicePreview()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Suicide.advices!![Level.High]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
@@ -405,6 +425,7 @@ fun HighSuicideAdvicePreviewDarkTheme()
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
             advice = Measure.Suicide.advices!![Level.High]!![0],
+            widthSize = WindowWidthSizeClass.Compact
         )
     }
 }
