@@ -111,7 +111,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie-compose:5.2.0'
 
     // Window size
-    implementation "androidx.window:window:1.0.0"
+    implementation "androidx.window:window:1.1.0"
 
     // Preferences
     implementation "androidx.datastore:datastore-preferences:1.0.0"

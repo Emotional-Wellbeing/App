@@ -1,7 +1,7 @@
 buildscript {
     ext {
         compose_ui_version = '1.4.3'
-        navigation_compose_version = '2.5.3'
+        navigation_compose_version = '2.6.0'
         material3_version = '1.1.0'
         accompanist_version = '0.28.0'
         compose_destination_version = '1.8.42-beta'
