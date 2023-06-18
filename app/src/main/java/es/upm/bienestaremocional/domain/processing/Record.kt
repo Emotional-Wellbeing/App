@@ -12,9 +12,8 @@ data class NullableChartRecord(
     val score : Float?,
 )
 
-/* TODO implement simulated elements
-data class SimulatedChartRecord(
+data class HybridChartRecord(
     val day : ZonedDateTime,
     val score : Float,
     val simulated : Boolean = false
-) */
+)

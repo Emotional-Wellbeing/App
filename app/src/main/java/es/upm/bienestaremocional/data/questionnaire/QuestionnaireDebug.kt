@@ -21,21 +21,25 @@ import kotlin.random.Random
 /**
  * Generates an One Off Stress Entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
- * @param answerDoneProbability : Probability to simulate answers done and not done. By default is 1,
- * so all answers are done.
+ * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
  */
 fun generateOneOffStressEntry(
     createdAt: Long,
-    answerDoneProbability : Float = 1f
+    fulfilled : Boolean = true
 ): OneOffStress
 {
-    require(answerDoneProbability in 0f..1f) { "Probability must be in 0..1 range" }
     val oneOffStressManager = OneOffStressManager()
     val oneOffStress = OneOffStress(createdAt = createdAt)
+
+    val uncompletedAnswer = if (fulfilled)
+        null
+    else
+        Random.nextInt(oneOffStressManager.numberOfQuestions)
+    
     for (questionIndex in 0 until oneOffStressManager.numberOfQuestions)
     {
-        if(Random.nextFloat() <= answerDoneProbability)
+        if(questionIndex != uncompletedAnswer)
             oneOffStressManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(0,oneOffStressManager.numberOfAnswers)
@@ -48,21 +52,25 @@ fun generateOneOffStressEntry(
 /**
  * Generates am One Off Depression with random data without inserting in database.
  * @param createdAt: Entry's timestamp
- * @param answerDoneProbability : Probability to simulate answers done and not done. By default is 1,
- * so all answers are done.
+ * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
  */
 fun generateOneOffDepressionEntry(
     createdAt: Long,
-    answerDoneProbability : Float = 1f
+    fulfilled : Boolean = true
 ): OneOffDepression
 {
-    require(answerDoneProbability in 0f..1f) { "Probability must be in 0..1 range" }
     val oneOffDepressionManager = OneOffDepressionManager()
     val oneOffDepression = OneOffDepression(createdAt = createdAt)
+
+    val uncompletedAnswer = if (fulfilled)
+        null
+    else
+        Random.nextInt(oneOffDepressionManager.numberOfQuestions)
+    
     for (questionIndex in 0 until oneOffDepressionManager.numberOfQuestions)
     {
-        if(Random.nextFloat() <= answerDoneProbability)
+        if(questionIndex != uncompletedAnswer)
             oneOffDepressionManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(0,
@@ -77,21 +85,25 @@ fun generateOneOffDepressionEntry(
 /**
  * Generates an One Off Loneliness entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
- * @param answerDoneProbability : Probability to simulate answers done and not done. By default is 1,
- * so all answers are done.
+ * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
  */
 fun generateOneOffLonelinessEntry(
     createdAt: Long,
-    answerDoneProbability : Float = 1f
+    fulfilled : Boolean = true
 ): OneOffLoneliness
 {
-    require(answerDoneProbability in 0f..1f) { "Probability must be in 0..1 range" }
     val oneOffLonelinessManager = OneOffLonelinessManager()
     val oneOffLoneliness = OneOffLoneliness(createdAt = createdAt)
+
+    val uncompletedAnswer = if (fulfilled)
+        null
+    else
+        Random.nextInt(oneOffLonelinessManager.numberOfQuestions)
+    
     for (questionIndex in 0 until oneOffLonelinessManager.numberOfQuestions)
     {
-        if(Random.nextFloat() <= answerDoneProbability)
+        if(questionIndex != uncompletedAnswer)
             oneOffLonelinessManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(0,
@@ -106,21 +118,25 @@ fun generateOneOffLonelinessEntry(
 /**
  * Generates an One Off Loneliness entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
- * @param answerDoneProbability : Probability to simulate answers done and not done. By default is 1,
- * so all answers are done.
+ * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
  */
 fun generateDailyStressEntry(
     createdAt: Long,
-    answerDoneProbability : Float = 1f
+    fulfilled : Boolean = true
 ): DailyStress
 {
-    require(answerDoneProbability in 0f..1f) { "Probability must be in 0..1 range" }
     val dailyStressManager = DailyStressManager()
     val dailyStress = DailyStress(createdAt = createdAt)
+    
+    val uncompletedAnswer = if (fulfilled) 
+        null 
+    else 
+        Random.nextInt(dailyStressManager.numberOfQuestions)
+        
     for (questionIndex in 0 until dailyStressManager.numberOfQuestions)
     {
-        if(Random.nextFloat() <= answerDoneProbability)
+        if(questionIndex != uncompletedAnswer)
             dailyStressManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(
@@ -136,21 +152,25 @@ fun generateDailyStressEntry(
 /**
  * Generates an One Off Loneliness entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
- * @param answerDoneProbability : Probability to simulate answers done and not done. By default is 1,
- * so all answers are done.
+ * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
  */
 fun generateDailyDepressionEntry(
     createdAt: Long,
-    answerDoneProbability : Float = 1f
+    fulfilled : Boolean = true
 ): DailyDepression
 {
-    require(answerDoneProbability in 0f..1f) { "Probability must be in 0..1 range" }
     val dailyDepressionManager = DailyDepressionManager()
     val dailyDepression = DailyDepression(createdAt = createdAt)
+
+    val uncompletedAnswer = if (fulfilled)
+        null
+    else
+        Random.nextInt(dailyDepressionManager.numberOfQuestions)
+
     for (questionIndex in 0 until dailyDepressionManager.numberOfQuestions)
     {
-        if(Random.nextFloat() <= answerDoneProbability)
+        if(questionIndex != uncompletedAnswer)
             dailyDepressionManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(
@@ -166,21 +186,25 @@ fun generateDailyDepressionEntry(
 /**
  * Generates an One Off Loneliness entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
- * @param answerDoneProbability : Probability to simulate answers done and not done. By default is 1,
- * so all answers are done.
+ * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
  */
 fun generateDailyLonelinessEntry(
     createdAt: Long,
-    answerDoneProbability : Float = 1f
+    fulfilled : Boolean = true
 ): DailyLoneliness
 {
-    require(answerDoneProbability in 0f..1f) { "Probability must be in 0..1 range" }
     val dailyLonelinessManager = DailyLonelinessManager()
     val dailyLoneliness = DailyLoneliness(createdAt = createdAt)
+
+    val uncompletedAnswer = if (fulfilled)
+        null
+    else
+        Random.nextInt(dailyLonelinessManager.numberOfQuestions)
+    
     for (questionIndex in 0 until dailyLonelinessManager.numberOfQuestions)
     {
-        if(Random.nextFloat() <= answerDoneProbability)
+        if(questionIndex != uncompletedAnswer)
             dailyLonelinessManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(
@@ -196,21 +220,25 @@ fun generateDailyLonelinessEntry(
 /**
  * Generates an One Off Loneliness entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
- * @param answerDoneProbability : Probability to simulate answers done and not done. By default is 1,
- * so all answers are done.
+ * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
  */
 fun generateDailySuicideEntry(
     createdAt: Long,
-    answerDoneProbability : Float = 1f
+    fulfilled : Boolean = true
 ): DailySuicide
 {
-    require(answerDoneProbability in 0f..1f) { "Probability must be in 0..1 range" }
     val dailySuicideManager = DailySuicideManager()
     val dailySuicide = DailySuicide(createdAt = createdAt)
+
+    val uncompletedAnswer = if (fulfilled)
+        null
+    else
+        Random.nextInt(dailySuicideManager.numberOfQuestions)
+    
     for (questionIndex in 0 until dailySuicideManager.numberOfQuestions)
     {
-        if(Random.nextFloat() <= answerDoneProbability)
+        if(questionIndex != uncompletedAnswer)
             dailySuicideManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(
@@ -227,21 +255,25 @@ fun generateDailySuicideEntry(
 /**
  * Generates an One Off Loneliness entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
- * @param answerDoneProbability : Probability to simulate answers done and not done. By default is 1,
- * so all answers are done.
+ * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
  */
 fun generateDailySymptomsEntry(
     createdAt: Long,
-    answerDoneProbability : Float = 1f
+    fulfilled : Boolean = true
 ): DailySymptoms
 {
-    require(answerDoneProbability in 0f..1f) { "Probability must be in 0..1 range" }
     val dailySymptomsManager = DailySymptomsManager()
     val dailySymptoms = DailySymptoms(createdAt = createdAt)
+
+    val uncompletedAnswer = if (fulfilled)
+        null
+    else
+        Random.nextInt(dailySymptomsManager.numberOfQuestions)
+    
     for (questionIndex in 0 until dailySymptomsManager.numberOfQuestions)
     {
-        if(Random.nextFloat() <= answerDoneProbability)
+        if(questionIndex != uncompletedAnswer)
             dailySymptomsManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(

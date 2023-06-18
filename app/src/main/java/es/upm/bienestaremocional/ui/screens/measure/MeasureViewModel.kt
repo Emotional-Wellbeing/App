@@ -72,9 +72,9 @@ class MeasureViewModel @Inject constructor(
             }
 
             _currentWeekScores.value = processRecordsMaintainingEmpty(
-                currentWeekScoresRaw,
-                getCurrentWeek(),
-                TimeGranularity.Day
+                records = currentWeekScoresRaw,
+                dateRange = getCurrentWeek(),
+                timeGranularity = TimeGranularity.Day
             )
 
         }

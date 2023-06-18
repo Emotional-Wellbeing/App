@@ -20,7 +20,6 @@ import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
 import es.upm.bienestaremocional.domain.processing.NullableChartRecord
-import es.upm.bienestaremocional.ui.component.ChartEntryWithTime
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -61,6 +60,7 @@ fun ActualWeekChart(
             model = producer.getModel(),
             startAxis = startAxis(
                 guideline = axisGuidelineComponent(),
+                maxLabelCount = MAX_LABEL_COUNT,
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),
                 title = stringResource(questionnaire.measure.measureRes),
             ),

@@ -31,6 +31,7 @@ import es.upm.bienestaremocional.data.worker.DailyNightNotificationWorker
 import es.upm.bienestaremocional.data.worker.OneOffNotificationWorker
 import es.upm.bienestaremocional.data.worker.UploadWorker
 import es.upm.bienestaremocional.data.worker.WorkAdministrator
+import es.upm.bienestaremocional.domain.processing.toEpochMilliSecond
 import es.upm.bienestaremocional.domain.repository.LastUploadRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyRoundFullRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.OneOffRoundFullRepository
@@ -40,6 +41,7 @@ import es.upm.bienestaremocional.domain.usecases.InsertDailyRoundUseCase
 import es.upm.bienestaremocional.domain.usecases.InsertOneOffRoundUseCase
 import es.upm.bienestaremocional.domain.usecases.PostUserDataUseCase
 import es.upm.bienestaremocional.ui.notification.Notification
+import es.upm.bienestaremocional.utils.randomSequence
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -145,12 +147,26 @@ class DebugViewModel @Inject constructor(
     suspend fun onPrepoulateDatabase()
     {
         val days = 30
-        val answerDoneProbability = 0.95f
+        
+        // 20% of the days will not have all questionnaires fulfilled
+        val specialDays = randomSequence(
+            min = 0,
+            max = days - 1,
+            length = days / 10
+        )
+        
+        // Half of the specials days will come to each situation
+        val daysWithoutQuestionnairesFulfilled = specialDays.filterIndexed{ index, _ -> index % 2 == 0}
+        val daysWithoutOneQuestionnaireFulfilled = specialDays.filterIndexed{ index, _ -> index % 2 == 1}
+
         List(days) { index ->
             val createdAt = ZonedDateTime
                 .now()
                 .minusDays(index.toLong())
-                .toEpochSecond() * 1000
+                .toEpochMilliSecond()
+            
+            // If the day is not in daysWithoutQuestionnairesFulfilled, complete questionnaires
+            var fulfilled = index !in daysWithoutQuestionnairesFulfilled
 
             //Insert daily morning round
             val dailyMorningMeasures = Measure.get().filter {
@@ -162,6 +178,7 @@ class DebugViewModel @Inject constructor(
             var dailyMorningLonelinessId : Long? = null
             var dailyMorningSuicideId : Long? = null
             var dailyMorningSymptomsId : Long? = null
+            
 
             dailyMorningMeasures.forEach {
                 when(it)
@@ -170,7 +187,7 @@ class DebugViewModel @Inject constructor(
                         dailyMorningStressId = appDAO.insert(
                             generateDailyStressEntry(
                                 createdAt = createdAt,
-                                answerDoneProbability = answerDoneProbability
+                                fulfilled = fulfilled
                             )
                         )
                     }
@@ -178,7 +195,7 @@ class DebugViewModel @Inject constructor(
                         dailyMorningDepressionId = appDAO.insert(
                             generateDailyDepressionEntry(
                                 createdAt = createdAt,
-                                answerDoneProbability = answerDoneProbability
+                                fulfilled = fulfilled
                             )
                         )
                     }
@@ -186,7 +203,7 @@ class DebugViewModel @Inject constructor(
                         dailyMorningLonelinessId = appDAO.insert(
                             generateDailyLonelinessEntry(
                                 createdAt = createdAt,
-                                answerDoneProbability = answerDoneProbability
+                                fulfilled = fulfilled
                             )
                         )
                     }
@@ -194,7 +211,7 @@ class DebugViewModel @Inject constructor(
                         dailyMorningSuicideId = appDAO.insert(
                             generateDailySuicideEntry(
                                 createdAt = createdAt,
-                                answerDoneProbability = answerDoneProbability
+                                fulfilled = fulfilled
                             )
                         )
                     }
@@ -202,7 +219,7 @@ class DebugViewModel @Inject constructor(
                         dailyMorningSymptomsId = appDAO.insert(
                             generateDailySymptomsEntry(
                                 createdAt = createdAt,
-                                answerDoneProbability = answerDoneProbability
+                                fulfilled = fulfilled
                             )
                         )
                     }
@@ -221,7 +238,14 @@ class DebugViewModel @Inject constructor(
                 )
             )
 
-            //Insert daily morning round
+            //Insert daily night round
+            
+            //If this days is one of the daysWithoutOneQuestionnaireFulfilled, don't complete night 
+            //questionnaires
+            
+            if (index in daysWithoutOneQuestionnaireFulfilled)
+                fulfilled = false
+            
             val dailyNightMeasures = Measure.get()
 
             var dailyNightStressId : Long? = null
@@ -237,7 +261,7 @@ class DebugViewModel @Inject constructor(
                         dailyNightStressId = appDAO.insert(
                             generateDailyStressEntry(
                                 createdAt = createdAt,
-                                answerDoneProbability = answerDoneProbability
+                                fulfilled = fulfilled
                             )
                         )
                     }
@@ -245,7 +269,7 @@ class DebugViewModel @Inject constructor(
                         dailyNightDepressionId = appDAO.insert(
                             generateDailyDepressionEntry(
                                 createdAt = createdAt,
-                                answerDoneProbability = answerDoneProbability
+                                fulfilled = fulfilled
                             )
                         )
                     }
@@ -253,7 +277,7 @@ class DebugViewModel @Inject constructor(
                         dailyNightLonelinessId = appDAO.insert(
                             generateDailyLonelinessEntry(
                                 createdAt = createdAt,
-                                answerDoneProbability = answerDoneProbability
+                                fulfilled = fulfilled
                             )
                         )
                     }
@@ -261,7 +285,7 @@ class DebugViewModel @Inject constructor(
                         dailyNightSuicideId = appDAO.insert(
                             generateDailySuicideEntry(
                                 createdAt = createdAt,
-                                answerDoneProbability = answerDoneProbability
+                                fulfilled = fulfilled
                             )
                         )
                     }
@@ -269,7 +293,7 @@ class DebugViewModel @Inject constructor(
                         dailyNightSymptomsId = appDAO.insert(
                             generateDailySymptomsEntry(
                                 createdAt = createdAt,
-                                answerDoneProbability = answerDoneProbability
+                                fulfilled = fulfilled
                             )
                         )
                     }
@@ -293,15 +317,15 @@ class DebugViewModel @Inject constructor(
             {
                 val oneOffStress = generateOneOffStressEntry(
                     createdAt = createdAt,
-                    answerDoneProbability = answerDoneProbability
+                    fulfilled = fulfilled
                 )
                 val oneOffDepression = generateOneOffDepressionEntry(
                     createdAt = createdAt,
-                    answerDoneProbability = answerDoneProbability
+                    fulfilled = fulfilled
                 )
                 val oneOffLoneliness = generateOneOffLonelinessEntry(
                     createdAt = createdAt,
-                    answerDoneProbability = answerDoneProbability
+                    fulfilled = fulfilled
                 )
 
                 val stressId = appDAO.insert(oneOffStress)

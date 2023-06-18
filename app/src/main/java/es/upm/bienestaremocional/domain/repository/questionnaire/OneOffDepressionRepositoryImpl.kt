@@ -4,9 +4,9 @@ import android.util.Log
 import android.util.Range
 import es.upm.bienestaremocional.data.database.dao.AppDAO
 import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffDepression
-import es.upm.bienestaremocional.domain.processing.getCurrentWeek
-import es.upm.bienestaremocional.domain.processing.getLastSevenDays
-import es.upm.bienestaremocional.domain.processing.getStartAndEndOfYesterday
+import es.upm.bienestaremocional.domain.processing.getCurrentWeekMillisecondTimestamps
+import es.upm.bienestaremocional.domain.processing.getLastSevenDaysMillisecondTimestamps
+import es.upm.bienestaremocional.domain.processing.getStartAndEndOfYesterdayMillisecondTimestamps
 
 import java.time.ZonedDateTime
 import javax.inject.Inject
@@ -48,14 +48,14 @@ class OneOffDepressionRepositoryImpl @Inject constructor(
     override suspend fun getAllFromCurrentWeek(): List<OneOffDepression> 
     {
         Log.d(logTag, "querying all OneOffDepression from current week")
-        val range = getCurrentWeek()
+        val range = getCurrentWeekMillisecondTimestamps()
         return dao.getAllOneOffDepressionFromRange(range.first,range.second)
     }
 
     override suspend fun getAllFromLastSevenDays(): List<OneOffDepression> 
     {
         Log.d(logTag, "querying all OneOffDepression from last seven days")
-        val range = getLastSevenDays()
+        val range = getLastSevenDaysMillisecondTimestamps()
         return dao.getAllOneOffDepressionFromRange(range.first,range.second)
     }
 
@@ -77,7 +77,7 @@ class OneOffDepressionRepositoryImpl @Inject constructor(
     override suspend fun getAllFromYesterday(): List<OneOffDepression>
     {
         Log.d(logTag, "querying all OneOffDepression from yesterday")
-        val range = getStartAndEndOfYesterday()
+        val range = getStartAndEndOfYesterdayMillisecondTimestamps()
         return dao.getAllOneOffDepressionFromRange(range.first,range.second)
     }
 
