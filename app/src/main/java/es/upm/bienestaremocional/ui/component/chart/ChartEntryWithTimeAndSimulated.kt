@@ -9,5 +9,5 @@ class ChartEntryWithTimeAndSimulated(
     override val x: Float,
     override val y: Float,
 ) : ChartEntry {
-    override fun withY(y: Float) = ChartEntryWithTimeAndSimulated(time, simulated,  x, y)
+    override fun withY(y: Float) = ChartEntryWithTimeAndSimulated(time, simulated, x, y)
 }

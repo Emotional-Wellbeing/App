@@ -17,9 +17,8 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun FloorsClimbedRecord.Display(widthSize: WindowWidthSizeClass)
-{
-    val floorsFormatted = String.format("%.2f",floors)
+fun FloorsClimbedRecord.Display(widthSize: WindowWidthSizeClass) {
+    val floorsFormatted = String.format("%.2f", floors)
 
     BasicCard {
         SeriesDateTimeHeading(
@@ -37,35 +36,34 @@ fun FloorsClimbedRecord.Display(widthSize: WindowWidthSizeClass)
 
 @Preview(group = "Light Theme")
 @Composable
-fun FloorsClimbedRecordDisplayPreview()
-{
+fun FloorsClimbedRecordDisplayPreview() {
     val floorsClimbedRecord = FloorsClimbed.generateDummyData()[0]
     BienestarEmocionalTheme {
         floorsClimbedRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun FloorsClimbedRecordDisplayPreviewDarkTheme()
-{
+fun FloorsClimbedRecordDisplayPreviewDarkTheme() {
     val floorsClimbedRecord = FloorsClimbed.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
         floorsClimbedRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun FloorsClimbedRecordDisplayLargeScreenPreview()
-{
+fun FloorsClimbedRecordDisplayLargeScreenPreview() {
     val floorsClimbedRecord = FloorsClimbed.generateDummyData()[0]
     BienestarEmocionalTheme {
         floorsClimbedRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun FloorsClimbedRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun FloorsClimbedRecordDisplayLargeScreenPreviewDarkTheme() {
     val floorsClimbedRecord = FloorsClimbed.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
         floorsClimbedRecord.Display(widthSize = WindowWidthSizeClass.Medium)

@@ -27,10 +27,9 @@ import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
 @Destination
 @Composable
 fun CommunityScreen(
-    navigator : DestinationsNavigator,
-    viewModel : CommunityViewModel = hiltViewModel()
-)
-{
+    navigator: DestinationsNavigator,
+    viewModel: CommunityViewModel = hiltViewModel()
+) {
     val stressYesterdayScore by viewModel.stressYesterdayScore.collectAsStateWithLifecycle()
     val stressLastSevenDaysScore by viewModel.stressLastSevenDaysScore.collectAsStateWithLifecycle()
     val stressCurrentWeekScores by viewModel.stressCurrentWeekScores.collectAsStateWithLifecycle()
@@ -64,7 +63,7 @@ fun CommunityScreen(
 @Composable
 private fun CommunityScreen(
     navigator: DestinationsNavigator,
-    questionnairesToShow : List<DailyScoredQuestionnaire>,
+    questionnairesToShow: List<DailyScoredQuestionnaire>,
     stressYesterdayScore: Int?,
     stressLastSevenDaysScore: Int?,
     stressCurrentWeekScores: List<NullableChartRecord>,
@@ -75,8 +74,7 @@ private fun CommunityScreen(
     lonelinessLastSevenDaysScore: Int?,
     lonelinessCurrentWeekScores: List<NullableChartRecord>,
     widthSize: WindowWidthSizeClass
-)
-{
+) {
     AppBasicScreen(
         navigator = navigator,
         entrySelected = BottomBarDestination.CommunityScreen,
@@ -101,22 +99,19 @@ private fun CommunityScreen(
             )
             { page ->
 
-                val yesterdayScore = when(questionnairesToShow[page])
-                {
+                val yesterdayScore = when (questionnairesToShow[page]) {
                     DailyScoredQuestionnaire.Stress -> stressYesterdayScore
                     DailyScoredQuestionnaire.Depression -> depressionYesterdayScore
                     DailyScoredQuestionnaire.Loneliness -> lonelinessYesterdayScore
                 }
 
-                val lastSevenDaysScore = when(questionnairesToShow[page])
-                {
+                val lastSevenDaysScore = when (questionnairesToShow[page]) {
                     DailyScoredQuestionnaire.Stress -> stressLastSevenDaysScore
                     DailyScoredQuestionnaire.Depression -> depressionLastSevenDaysScore
                     DailyScoredQuestionnaire.Loneliness -> lonelinessLastSevenDaysScore
                 }
 
-                val currentWeekScores = when(questionnairesToShow[page])
-                {
+                val currentWeekScores = when (questionnairesToShow[page]) {
                     DailyScoredQuestionnaire.Stress -> stressCurrentWeekScores
                     DailyScoredQuestionnaire.Depression -> depressionCurrentWeekScores
                     DailyScoredQuestionnaire.Loneliness -> lonelinessCurrentWeekScores

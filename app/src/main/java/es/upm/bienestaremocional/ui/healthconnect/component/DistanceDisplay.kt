@@ -17,9 +17,8 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun DistanceRecord.Display(widthSize: WindowWidthSizeClass)
-{
-    val distanceFormatted  = String.format("%.2f",distance.inKilometers)
+fun DistanceRecord.Display(widthSize: WindowWidthSizeClass) {
+    val distanceFormatted = String.format("%.2f", distance.inKilometers)
     val unit = stringResource(id = R.string.km)
 
     BasicCard {
@@ -38,35 +37,34 @@ fun DistanceRecord.Display(widthSize: WindowWidthSizeClass)
 
 @Preview(group = "Light Theme")
 @Composable
-fun DistanceRecordDisplayPreview()
-{
+fun DistanceRecordDisplayPreview() {
     val distanceRecord = Distance.generateDummyData()[0]
     BienestarEmocionalTheme {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun DistanceRecordDisplayPreviewDarkTheme()
-{
+fun DistanceRecordDisplayPreviewDarkTheme() {
     val distanceRecord = Distance.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun DistanceRecordDisplayLargeScreenPreview()
-{
+fun DistanceRecordDisplayLargeScreenPreview() {
     val distanceRecord = Distance.generateDummyData()[0]
     BienestarEmocionalTheme {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun DistanceRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun DistanceRecordDisplayLargeScreenPreviewDarkTheme() {
     val distanceRecord = Distance.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Medium)

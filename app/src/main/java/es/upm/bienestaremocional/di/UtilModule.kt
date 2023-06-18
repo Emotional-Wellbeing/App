@@ -13,8 +13,7 @@ import es.upm.bienestaremocional.data.credits.CreditContent
  */
 @Module
 @InstallIn(ViewModelComponent::class)
-object UtilModule
-{
+object UtilModule {
     @Provides
     @ViewModelScoped
     fun provideCredits(): List<Credit> = CreditContent.content

@@ -15,10 +15,11 @@ import es.upm.bienestaremocional.ui.healthconnect.UiState
 import java.util.UUID
 
 @Composable
-fun DrawHealthConnectSubscreen(viewModelData: ViewModelData<out Record>,
-                               onDisplayData: LazyListScope.() -> Unit,
-                               onError: (Throwable?) -> Unit = {})
-{
+fun DrawHealthConnectSubscreen(
+    viewModelData: ViewModelData<out Record>,
+    onDisplayData: LazyListScope.() -> Unit,
+    onError: (Throwable?) -> Unit = {}
+) {
     // Remember the last error ID, such that it is possible to avoid re-launching the error
     // notification for the same error when the screen is recomposed, or configuration changes etc.
     val errorId = rememberSaveable { mutableStateOf(UUID.randomUUID()) }
@@ -33,20 +34,16 @@ fun DrawHealthConnectSubscreen(viewModelData: ViewModelData<out Record>,
         // success or resulted in an error. Where an error occurred, for example in reading and
         // writing to Health Connect, the user is notified, and where the error is one that can be
         // recovered from, an attempt to do so is made.
-        if (viewModelData.uiState is UiState.Error && errorId.value != viewModelData.uiState.uuid)
-        {
+        if (viewModelData.uiState is UiState.Error && errorId.value != viewModelData.uiState.uuid) {
             onError(viewModelData.uiState.exception)
             errorId.value = viewModelData.uiState.uuid
         }
     }
     LazyColumn()
     {
-        if (viewModelData.uiState != UiState.Uninitialized)
-        {
-            if (viewModelData.uiState == UiState.Success)
-            {
-                if (viewModelData.data.isEmpty())
-                {
+        if (viewModelData.uiState != UiState.Uninitialized) {
+            if (viewModelData.uiState == UiState.Success) {
+                if (viewModelData.data.isEmpty()) {
                     item {
                         Button(onClick = viewModelData.onWrite)
                         {
@@ -57,8 +54,7 @@ fun DrawHealthConnectSubscreen(viewModelData: ViewModelData<out Record>,
                 else
                     onDisplayData()
             }
-            else if (viewModelData.uiState == UiState.NotEnoughPermissions)
-            {
+            else if (viewModelData.uiState == UiState.NotEnoughPermissions) {
                 item {
                     Button(onClick = {
                         viewModelData.onRequestPermissions(viewModelData.permissions)

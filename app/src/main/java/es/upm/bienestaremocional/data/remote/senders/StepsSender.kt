@@ -10,12 +10,9 @@ data class StepsSender(
     val startTime: Long,
     val endTime: Long,
     val steps: Long
-)
-{
-    companion object
-    {
-        fun StepsRecord.toSender(): StepsSender
-        {
+) {
+    companion object {
+        fun StepsRecord.toSender(): StepsSender {
             val startTime = obtainTimestamp(startTime, startZoneOffset)
             val endTime = obtainTimestamp(endTime, endZoneOffset)
             return StepsSender(

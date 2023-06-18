@@ -13,25 +13,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 @Composable
-fun DrawPair(key: String, value: String, textStyle: TextStyle? = null)
-{
+fun DrawPair(key: String, value: String, textStyle: TextStyle? = null) {
     Row(horizontalArrangement = Arrangement.SpaceAround)
     {
-        if (textStyle != null)
-        {
-            Text(text = "$key: ",
+        if (textStyle != null) {
+            Text(
+                text = "$key: ",
                 color = MaterialTheme.colorScheme.onSurface,
-                style = textStyle)
-            Text(text = value,
+                style = textStyle
+            )
+            Text(
+                text = value,
                 color = MaterialTheme.colorScheme.tertiary,
-                style = textStyle)
+                style = textStyle
+            )
         }
-        else
-        {
-            Text(text = "$key: ",
-                color = MaterialTheme.colorScheme.onSurface)
-            Text(text = value,
-                color = MaterialTheme.colorScheme.tertiary)
+        else {
+            Text(
+                text = "$key: ",
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = value,
+                color = MaterialTheme.colorScheme.tertiary
+            )
         }
 
     }
@@ -39,8 +44,7 @@ fun DrawPair(key: String, value: String, textStyle: TextStyle? = null)
 
 @Preview(group = "Light Theme")
 @Composable
-fun DrawPairPreview()
-{
+fun DrawPairPreview() {
     val key = "Motivación"
     val value = "100%"
     BienestarEmocionalTheme {
@@ -52,8 +56,7 @@ fun DrawPairPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun DrawPairDarkThemePreview()
-{
+fun DrawPairDarkThemePreview() {
     val key = "Motivación"
     val value = "100%"
     BienestarEmocionalTheme(darkTheme = true) {

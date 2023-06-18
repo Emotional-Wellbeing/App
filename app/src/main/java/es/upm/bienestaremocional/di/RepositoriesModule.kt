@@ -29,5 +29,6 @@ object RepositoriesModule {
     ): RemoteRepository =
         RemoteRepositoryImpl(
             logTag = logTag,
-            remoteAPI = remoteAPI)
+            remoteAPI = remoteAPI
+        )
 }

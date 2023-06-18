@@ -21,8 +21,7 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  */
 @Destination
 @Composable
-fun PrivacyPolicyScreen(navigator: DestinationsNavigator)
-{
+fun PrivacyPolicyScreen(navigator: DestinationsNavigator) {
     PrivacyPolicyScreen(
         navigator = navigator,
         widthSize = computeWindowWidthSize()
@@ -33,9 +32,8 @@ fun PrivacyPolicyScreen(navigator: DestinationsNavigator)
 private fun PrivacyPolicyScreen(
     navigator: DestinationsNavigator,
     widthSize: WindowWidthSizeClass,
-)
-{
-    val content : @Composable (TextStyle) -> Unit = { textStyle ->
+) {
+    val content: @Composable (TextStyle) -> Unit = { textStyle ->
         Text(
             text = stringResource(id = R.string.privacy_policy_description),
             textAlign = TextAlign.Justify,
@@ -57,8 +55,7 @@ private fun PrivacyPolicyScreen(
     group = "Light Theme"
 )
 @Composable
-fun PrivacyPolicyScreenPreview()
-{
+fun PrivacyPolicyScreenPreview() {
     BienestarEmocionalTheme {
         PrivacyPolicyScreen(
             navigator = EmptyDestinationsNavigator,
@@ -72,8 +69,7 @@ fun PrivacyPolicyScreenPreview()
     group = "Dark Theme"
 )
 @Composable
-fun PrivacyPolicyScreenPreviewDarkTheme()
-{
+fun PrivacyPolicyScreenPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         PrivacyPolicyScreen(
             navigator = EmptyDestinationsNavigator,

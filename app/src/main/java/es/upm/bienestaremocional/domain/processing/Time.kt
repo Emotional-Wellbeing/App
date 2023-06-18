@@ -9,12 +9,12 @@ import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
 
-fun ZonedDateTime.toEpochMilliSecond() : Long = toEpochSecond() * 1000
+fun ZonedDateTime.toEpochMilliSecond(): Long = toEpochSecond() * 1000
 
-fun milliSecondToZonedDateTime(timestamp: Long) : ZonedDateTime =
+fun milliSecondToZonedDateTime(timestamp: Long): ZonedDateTime =
     ZonedDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault())
 
-fun secondToZonedDateTime(timestamp: Long) : ZonedDateTime =
+fun secondToZonedDateTime(timestamp: Long): ZonedDateTime =
     ZonedDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault())
 
 fun ZonedDateTime.toStartOfTheDay(): ZonedDateTime = this.truncatedTo(ChronoUnit.DAYS)
@@ -33,10 +33,9 @@ fun ZonedDateTime.toStartOfTheMonth(): ZonedDateTime =
  * @param timestamp to truncate in milliseconds
  * @return [ZonedDateTime] of these day at 00:00:00
  */
-fun timestampToStartOfTheDay(timestamp: Long) : ZonedDateTime
-{
+fun timestampToStartOfTheDay(timestamp: Long): ZonedDateTime {
     // Timestamp cannot be negative
-    require(timestamp > 0) {"Timestamp cannot be negative"}
+    require(timestamp > 0) { "Timestamp cannot be negative" }
 
     //Truncate to Day
     return milliSecondToZonedDateTime(timestamp).toStartOfTheDay()
@@ -47,10 +46,9 @@ fun timestampToStartOfTheDay(timestamp: Long) : ZonedDateTime
  * @param timestamp to truncate in milliseconds
  * @return [ZonedDateTime] of these start of the week (monday) at 00:00:00
  */
-fun timestampToStartOfTheWeek(timestamp: Long) : ZonedDateTime
-{
+fun timestampToStartOfTheWeek(timestamp: Long): ZonedDateTime {
     // Timestamp cannot be negative
-    require(timestamp > 0) {"Timestamp cannot be negative"}
+    require(timestamp > 0) { "Timestamp cannot be negative" }
 
     return milliSecondToZonedDateTime(timestamp).toStartOfTheWeek()
 }
@@ -60,10 +58,9 @@ fun timestampToStartOfTheWeek(timestamp: Long) : ZonedDateTime
  * @param timestamp to truncate in milliseconds
  * @return [ZonedDateTime] of the first day of the month at 00:00:00
  */
-fun timestampToStartOfTheMonth(timestamp: Long) : ZonedDateTime
-{
+fun timestampToStartOfTheMonth(timestamp: Long): ZonedDateTime {
     // Timestamp cannot be negative
-    require(timestamp > 0) {"Timestamp cannot be negative"}
+    require(timestamp > 0) { "Timestamp cannot be negative" }
 
     return milliSecondToZonedDateTime(timestamp).toStartOfTheMonth()
 }
@@ -73,12 +70,11 @@ fun timestampToStartOfTheMonth(timestamp: Long) : ZonedDateTime
  * For example, if today is 9th of May, this fun return the millisecond of 2th May at 00:00:00:000
  * and 8th May at 23:59:59:999
  */
-fun getLastSevenDays(): Range<ZonedDateTime>
-{
+fun getLastSevenDays(): Range<ZonedDateTime> {
     val now = ZonedDateTime.now()
     val start = now.minusDays(7).toStartOfTheDay()
     val end = now.minusDays(1).toEndOfTheDay()
-    return Range(start,end)
+    return Range(start, end)
 }
 
 
@@ -87,8 +83,7 @@ fun getLastSevenDays(): Range<ZonedDateTime>
  * For example, if today is 9th of May, this fun return the millisecond of 2th May at 00:00:00:000
  * and 8th May at 23:59:59:999
  */
-fun getLastSevenDaysMillisecondTimestamps(): Pair<Long,Long>
-{
+fun getLastSevenDaysMillisecondTimestamps(): Pair<Long, Long> {
     val lastSevenDays = getLastSevenDays()
     return Pair(lastSevenDays.lower.toEpochMilliSecond(), lastSevenDays.upper.toEpochMilliSecond())
 }
@@ -98,8 +93,7 @@ fun getLastSevenDaysMillisecondTimestamps(): Pair<Long,Long>
  * For example, if today is Tuesday 9th of May, this fun return the millisecond of Monday 8th May
  * at 00:00:00:000 and Sunday 14th May at 23:59:59:999
  */
-fun getCurrentWeek(): Range<ZonedDateTime>
-{
+fun getCurrentWeek(): Range<ZonedDateTime> {
     val now = ZonedDateTime.now()
 
     // Go to Monday (or stay if current day is Monday) and get the start of the day
@@ -112,7 +106,7 @@ fun getCurrentWeek(): Range<ZonedDateTime>
         .with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
         .toEndOfTheDay()
 
-    return Range(start,end)
+    return Range(start, end)
 }
 
 
@@ -121,8 +115,7 @@ fun getCurrentWeek(): Range<ZonedDateTime>
  * For example, if today is Tuesday 9th of May, this fun return the millisecond of Monday 8th May
  * at 00:00:00:000 and Sunday 14th May at 23:59:59:999
  */
-fun getCurrentWeekMillisecondTimestamps(): Pair<Long,Long>
-{
+fun getCurrentWeekMillisecondTimestamps(): Pair<Long, Long> {
     val currentWeek = getCurrentWeek()
     return Pair(currentWeek.lower.toEpochMilliSecond(), currentWeek.upper.toEpochMilliSecond())
 }
@@ -132,8 +125,7 @@ fun getCurrentWeekMillisecondTimestamps(): Pair<Long,Long>
  * For example, if today is 8th of May, this fun return the millisecond of 7th May at 00:00:00:000
  * and 7th May at 23:59:59:999
  */
-fun getStartAndEndOfYesterday(): Range<ZonedDateTime>
-{
+fun getStartAndEndOfYesterday(): Range<ZonedDateTime> {
     val yesterday = ZonedDateTime
         .now()
         .minusDays(1)
@@ -145,8 +137,7 @@ fun getStartAndEndOfYesterday(): Range<ZonedDateTime>
  * For example, if today is 8th of May, this fun return the millisecond of 7th May at 00:00:00:000
  * and 7th May at 23:59:59:999
  */
-fun getStartAndEndOfYesterdayMillisecondTimestamps(): Pair<Long,Long>
-{
+fun getStartAndEndOfYesterdayMillisecondTimestamps(): Pair<Long, Long> {
     val yesterday = getStartAndEndOfYesterday()
     return Pair(yesterday.lower.toEpochMilliSecond(), yesterday.upper.toEpochMilliSecond())
 }
@@ -158,5 +149,5 @@ fun getStartAndEndOfYesterdayMillisecondTimestamps(): Pair<Long,Long>
 fun Range<ZonedDateTime>.toPairMillisecondTimestamps(): Pair<Long, Long> =
     Pair(lower.toEpochMilliSecond(), upper.toEpochMilliSecond())
 
-fun Range<ZonedDateTime>.lowerStartDayUpperEndDay() : Range<ZonedDateTime> =
+fun Range<ZonedDateTime>.lowerStartDayUpperEndDay(): Range<ZonedDateTime> =
     Range(lower.toStartOfTheDay(), upper.toEndOfTheDay())

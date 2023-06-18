@@ -20,11 +20,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun QuestionnaireLayout(
-    title : String,
-    onSkippingAttempt : () -> Unit,
+    title: String,
+    onSkippingAttempt: () -> Unit,
     content: @Composable () -> Unit
-)
-{
+) {
     Surface()
     {
         Column(
@@ -34,16 +33,20 @@ fun QuestionnaireLayout(
         )
         {
             //header
-            Column(modifier = Modifier.fillMaxWidth(),
+            Column(
+                modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally)
+                horizontalAlignment = Alignment.CenterHorizontally
+            )
             {
-                Row(modifier = Modifier.fillMaxWidth(),
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
                 )
                 {
-                    Text(text = title,
+                    Text(
+                        text = title,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.weight(1f)
                     )

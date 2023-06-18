@@ -16,8 +16,7 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule
-{
+object DatabaseModule {
     @Provides
     fun provideAppDao(appDatabase: AppDatabase): AppDAO = appDatabase.appDao()
 
@@ -29,6 +28,6 @@ object DatabaseModule
             AppDatabase::class.java,
             "app_database.db"
         )
-        .fallbackToDestructiveMigration()
-        .build()
+            .fallbackToDestructiveMigration()
+            .build()
 }

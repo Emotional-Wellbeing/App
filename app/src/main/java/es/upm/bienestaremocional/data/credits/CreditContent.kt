@@ -6,8 +6,7 @@ import es.upm.bienestaremocional.R
  * Singleton that contains a list of all credits of the app, loaded from strings.xml
  * @see Credit
  */
-object CreditContent
-{
+object CreditContent {
     val content = listOf(
         Credit(
             nameResource = R.string.credit_author1_name,
@@ -61,5 +60,5 @@ object CreditContent
             importantContribution = false
         ),
 
-    )
+        )
 }

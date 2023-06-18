@@ -74,9 +74,8 @@ fun MyDataScreen(
     exerciseSessionViewModel: ExerciseSessionViewModel = hiltViewModel(),
     floorsClimbedViewModel: FloorsClimbedViewModel = hiltViewModel(),
     weightViewModel: WeightViewModel = hiltViewModel()
-)
-{
-    val snackbarHostState = remember {SnackbarHostState()}
+) {
+    val snackbarHostState = remember { SnackbarHostState() }
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     DrawMyDataScreen(
@@ -93,16 +92,17 @@ fun MyDataScreen(
         elevationGainedVMD = elevationGainedViewModel.getViewModelData(),
         floorsClimbedVMD = floorsClimbedViewModel.getViewModelData(),
         weightVMD = weightViewModel.getViewModelData(),
-        onSelect = {index -> viewModel.onSelect(index)},
-        onUnselect = {viewModel.onUnselect()},
-        onError = {exception -> viewModel.onError(snackbarHostState,exception)})
+        onSelect = { index -> viewModel.onSelect(index) },
+        onUnselect = { viewModel.onUnselect() },
+        onError = { exception -> viewModel.onError(snackbarHostState, exception) })
 }
 
 @Composable
-private fun CategoryText(@StringRes stringRes: Int,
-                         selected: Boolean,
-                         onClick: () -> Unit)
-{
+private fun CategoryText(
+    @StringRes stringRes: Int,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
     Row(
         modifier = Modifier
             .height(IntrinsicSize.Min)
@@ -117,90 +117,94 @@ private fun CategoryText(@StringRes stringRes: Int,
             text = stringResource(id = stringRes),
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.primary)
+            color = MaterialTheme.colorScheme.primary
+        )
         IconButton(onClick = onClick)
         {
             val icon = if (selected)
                 Icons.Default.KeyboardArrowDown
             else
                 Icons.Default.KeyboardArrowRight
-            Icon(icon,  contentDescription = "Expandir")
+            Icon(icon, contentDescription = "Expandir")
         }
     }
 }
 
 @Composable
-private fun DrawMyDataScreen(navigator: DestinationsNavigator,
-                             widthSize: WindowWidthSizeClass,
-                             snackbarHostState : SnackbarHostState,
-                             state: MyDataState,
-                             sleepVMD: ViewModelData<SleepSessionData>,
-                             heartRateVMD: ViewModelData<HeartRateRecord>,
-                             stepsVMD: ViewModelData<StepsRecord>,
-                             distanceVMD: ViewModelData<DistanceRecord>,
-                             totalCaloriesBurnedVMD: ViewModelData<TotalCaloriesBurnedRecord>,
-                             exerciseSessionVMD: ViewModelData<ExerciseSessionRecord>,
-                             elevationGainedVMD: ViewModelData<ElevationGainedRecord>,
-                             floorsClimbedVMD: ViewModelData<FloorsClimbedRecord>,
-                             weightVMD: ViewModelData<WeightRecord>,
-                             onSelect: (Int) -> Unit,
-                             onUnselect : () -> Unit,
-                             onError: suspend (Throwable?) -> Unit = {})
-{
+private fun DrawMyDataScreen(
+    navigator: DestinationsNavigator,
+    widthSize: WindowWidthSizeClass,
+    snackbarHostState: SnackbarHostState,
+    state: MyDataState,
+    sleepVMD: ViewModelData<SleepSessionData>,
+    heartRateVMD: ViewModelData<HeartRateRecord>,
+    stepsVMD: ViewModelData<StepsRecord>,
+    distanceVMD: ViewModelData<DistanceRecord>,
+    totalCaloriesBurnedVMD: ViewModelData<TotalCaloriesBurnedRecord>,
+    exerciseSessionVMD: ViewModelData<ExerciseSessionRecord>,
+    elevationGainedVMD: ViewModelData<ElevationGainedRecord>,
+    floorsClimbedVMD: ViewModelData<FloorsClimbedRecord>,
+    weightVMD: ViewModelData<WeightRecord>,
+    onSelect: (Int) -> Unit,
+    onUnselect: () -> Unit,
+    onError: suspend (Throwable?) -> Unit = {}
+) {
     val coroutineScope = rememberCoroutineScope()
-    
-    AppBasicScreen(navigator = navigator,
+
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = BottomBarDestination.SettingsScreen,
         label = R.string.my_data_label,
         snackbarHostState = snackbarHostState
     )
     {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, bottom = 24.dp),
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 16.dp, end = 16.dp, bottom = 24.dp),
             verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally)
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
         {
-            when(state)
-            {
-                is MyDataState.NoSelection ->
-                {
+            when (state) {
+                is MyDataState.NoSelection -> {
                     CategoryText(stringRes = R.string.sleep,
                         selected = false,
-                        onClick = {onSelect(0)})
+                        onClick = { onSelect(0) })
                     CategoryText(stringRes = R.string.heart_rate,
                         selected = false,
-                        onClick = {onSelect(1)})
+                        onClick = { onSelect(1) })
                     CategoryText(stringRes = R.string.steps,
                         selected = false,
-                        onClick = {onSelect(2)})
+                        onClick = { onSelect(2) })
                     CategoryText(stringRes = R.string.distance,
                         selected = false,
-                        onClick = {onSelect(3)})
+                        onClick = { onSelect(3) })
                     CategoryText(stringRes = R.string.total_calories_burned,
                         selected = false,
-                        onClick = {onSelect(4)})
+                        onClick = { onSelect(4) })
                     CategoryText(stringRes = R.string.elevation_gained,
                         selected = false,
-                        onClick = {onSelect(5)})
+                        onClick = { onSelect(5) })
                     CategoryText(stringRes = R.string.exercise,
                         selected = false,
-                        onClick = {onSelect(6)})
+                        onClick = { onSelect(6) })
                     CategoryText(stringRes = R.string.floors_climbed,
                         selected = false,
-                        onClick = {onSelect(7)})
+                        onClick = { onSelect(7) })
                     CategoryText(stringRes = R.string.weight,
                         selected = false,
-                        onClick = {onSelect(8)})
+                        onClick = { onSelect(8) })
                 }
-                is MyDataState.Selected ->
-                {
-                    when(state.index)
-                    {
+
+                is MyDataState.Selected -> {
+                    when (state.index) {
                         0 -> {
-                            CategoryText(stringRes = R.string.sleep,
+                            CategoryText(
+                                stringRes = R.string.sleep,
                                 selected = true,
-                                onClick = onUnselect)
+                                onClick = onUnselect
+                            )
                             DrawHealthConnectSubscreen(
                                 viewModelData = sleepVMD,
                                 onDisplayData = {
@@ -210,13 +214,16 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                         it.Display(widthSize)
                                     }
                                 },
-                                onError = { coroutineScope.launch { onError(it) }}
+                                onError = { coroutineScope.launch { onError(it) } }
                             )
                         }
+
                         1 -> {
-                            CategoryText(stringRes = R.string.heart_rate,
+                            CategoryText(
+                                stringRes = R.string.heart_rate,
                                 selected = true,
-                                onClick = onUnselect)
+                                onClick = onUnselect
+                            )
                             DrawHealthConnectSubscreen(
                                 viewModelData = heartRateVMD,
                                 onDisplayData = {
@@ -226,13 +233,16 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                         it.Display(widthSize)
                                     }
                                 },
-                                onError = { coroutineScope.launch { onError(it) }}
+                                onError = { coroutineScope.launch { onError(it) } }
                             )
                         }
+
                         2 -> {
-                            CategoryText(stringRes = R.string.steps,
+                            CategoryText(
+                                stringRes = R.string.steps,
                                 selected = true,
-                                onClick = onUnselect)
+                                onClick = onUnselect
+                            )
                             DrawHealthConnectSubscreen(
                                 viewModelData = stepsVMD,
                                 onDisplayData = {
@@ -242,13 +252,16 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                         it.Display(widthSize)
                                     }
                                 },
-                                onError = { coroutineScope.launch { onError(it) }}
+                                onError = { coroutineScope.launch { onError(it) } }
                             )
                         }
+
                         3 -> {
-                            CategoryText(stringRes = R.string.distance,
+                            CategoryText(
+                                stringRes = R.string.distance,
                                 selected = true,
-                                onClick = onUnselect)
+                                onClick = onUnselect
+                            )
                             DrawHealthConnectSubscreen(
                                 viewModelData = distanceVMD,
                                 onDisplayData = {
@@ -258,13 +271,16 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                         it.Display(widthSize)
                                     }
                                 },
-                                onError = { coroutineScope.launch { onError(it) }}
+                                onError = { coroutineScope.launch { onError(it) } }
                             )
                         }
+
                         4 -> {
-                            CategoryText(stringRes = R.string.total_calories_burned,
+                            CategoryText(
+                                stringRes = R.string.total_calories_burned,
                                 selected = true,
-                                onClick = onUnselect)
+                                onClick = onUnselect
+                            )
                             DrawHealthConnectSubscreen(
                                 viewModelData = totalCaloriesBurnedVMD,
                                 onDisplayData = {
@@ -274,13 +290,16 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                         it.Display(widthSize)
                                     }
                                 },
-                                onError = { coroutineScope.launch { onError(it) }}
+                                onError = { coroutineScope.launch { onError(it) } }
                             )
                         }
+
                         5 -> {
-                            CategoryText(stringRes = R.string.elevation_gained,
+                            CategoryText(
+                                stringRes = R.string.elevation_gained,
                                 selected = true,
-                                onClick = onUnselect)
+                                onClick = onUnselect
+                            )
                             DrawHealthConnectSubscreen(
                                 viewModelData = elevationGainedVMD,
                                 onDisplayData = {
@@ -290,13 +309,16 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                         it.Display(widthSize)
                                     }
                                 },
-                                onError = { coroutineScope.launch { onError(it) }}
+                                onError = { coroutineScope.launch { onError(it) } }
                             )
                         }
+
                         6 -> {
-                            CategoryText(stringRes = R.string.exercise,
+                            CategoryText(
+                                stringRes = R.string.exercise,
                                 selected = true,
-                                onClick = onUnselect)
+                                onClick = onUnselect
+                            )
                             DrawHealthConnectSubscreen(
                                 viewModelData = exerciseSessionVMD,
                                 onDisplayData = {
@@ -306,13 +328,16 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                         it.Display(widthSize)
                                     }
                                 },
-                                onError = { coroutineScope.launch { onError(it) }}
+                                onError = { coroutineScope.launch { onError(it) } }
                             )
                         }
+
                         7 -> {
-                            CategoryText(stringRes = R.string.floors_climbed,
+                            CategoryText(
+                                stringRes = R.string.floors_climbed,
                                 selected = true,
-                                onClick = onUnselect)
+                                onClick = onUnselect
+                            )
                             DrawHealthConnectSubscreen(
                                 viewModelData = floorsClimbedVMD,
                                 onDisplayData = {
@@ -322,13 +347,16 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                         it.Display(widthSize)
                                     }
                                 },
-                                onError = { coroutineScope.launch { onError(it) }}
+                                onError = { coroutineScope.launch { onError(it) } }
                             )
                         }
+
                         8 -> {
-                            CategoryText(stringRes = R.string.weight,
+                            CategoryText(
+                                stringRes = R.string.weight,
                                 selected = true,
-                                onClick = onUnselect)
+                                onClick = onUnselect
+                            )
                             DrawHealthConnectSubscreen(
                                 viewModelData = weightVMD,
                                 onDisplayData = {
@@ -338,7 +366,7 @@ private fun DrawMyDataScreen(navigator: DestinationsNavigator,
                                         it.Display(widthSize)
                                     }
                                 },
-                                onError = { coroutineScope.launch { onError(it) }}
+                                onError = { coroutineScope.launch { onError(it) } }
                             )
                         }
                     }

@@ -11,12 +11,9 @@ data class FloorsClimbedSender(
     val startTime: Long,
     val endTime: Long,
     val floors: Double
-)
-{
-    companion object
-    {
-        fun FloorsClimbedRecord.toSender(): FloorsClimbedSender
-        {
+) {
+    companion object {
+        fun FloorsClimbedRecord.toSender(): FloorsClimbedSender {
             val startTime = obtainTimestamp(startTime, startZoneOffset)
             val endTime = obtainTimestamp(endTime, endZoneOffset)
             return FloorsClimbedSender(

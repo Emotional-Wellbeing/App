@@ -13,8 +13,7 @@ suspend fun firstTimeExecution(
     notificationManager: NotificationManager,
     scheduler: WorkAdministrator,
     lastUploadRepository: LastUploadRepository
-)
-{
+) {
     //build channel notifications
     for (appChannel in NotificationChannels.values())
         createNotificationChannel(
@@ -28,10 +27,9 @@ suspend fun firstTimeExecution(
     scheduler.scheduleUploadWorker()
 
     //insert values in last upload table
-    val now = obtainTimestamp(Instant.now(),null)
+    val now = obtainTimestamp(Instant.now(), null)
 
-    for(type in LastUpload.Type.values())
-    {
+    for (type in LastUpload.Type.values()) {
         lastUploadRepository.insert(
             LastUpload(
                 type = type,

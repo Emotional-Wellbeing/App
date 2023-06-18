@@ -17,9 +17,8 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun WeightRecord.Display(widthSize: WindowWidthSizeClass)
-{
-    val weightFormatted = String.format("%.2f",weight.inKilograms)
+fun WeightRecord.Display(widthSize: WindowWidthSizeClass) {
+    val weightFormatted = String.format("%.2f", weight.inKilograms)
     val unit = stringResource(id = R.string.kg)
 
     BasicCard {
@@ -36,35 +35,34 @@ fun WeightRecord.Display(widthSize: WindowWidthSizeClass)
 
 @Preview(group = "Light Theme")
 @Composable
-fun WeightRecordDisplayPreview()
-{
+fun WeightRecordDisplayPreview() {
     val weightRecord = Weight.generateDummyData()[0]
     BienestarEmocionalTheme {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun WeightRecordDisplayPreviewDarkTheme()
-{
+fun WeightRecordDisplayPreviewDarkTheme() {
     val weightRecord = Weight.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun WeightRecordDisplayLargeScreenPreview()
-{
+fun WeightRecordDisplayLargeScreenPreview() {
     val weightRecord = Weight.generateDummyData()[0]
     BienestarEmocionalTheme {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun WeightRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun WeightRecordDisplayLargeScreenPreviewDarkTheme() {
     val weightRecord = Weight.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Medium)

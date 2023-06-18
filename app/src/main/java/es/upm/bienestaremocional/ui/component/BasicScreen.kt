@@ -25,16 +25,17 @@ fun AppBasicScreen(
     label: Int,
     snackbarHostState: SnackbarHostState? = null,
     content: @Composable (ColumnScope.() -> Unit)
-)
-{
+) {
     Scaffold(
-        snackbarHost = {snackbarHostState?.let { SnackbarHost(it)}},
+        snackbarHost = { snackbarHostState?.let { SnackbarHost(it) } },
         topBar = { CenterAlignedTopAppBar(title = { Text(stringResource(id = label)) }) },
-        bottomBar = { BottomBar(navigator,entrySelected) })
+        bottomBar = { BottomBar(navigator, entrySelected) })
     {
-        Column(modifier = Modifier
-            .padding(it)
-            .fillMaxSize())
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize()
+        )
         {
             content()
         }
@@ -43,8 +44,7 @@ fun AppBasicScreen(
 
 @Preview(group = "Light Theme")
 @Composable
-fun AppBasicScreenPreview()
-{
+fun AppBasicScreenPreview() {
     BienestarEmocionalTheme()
     {
         AppBasicScreen(navigator = EmptyDestinationsNavigator,
@@ -57,8 +57,7 @@ fun AppBasicScreenPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun AppBasicScreenPreviewDarkTheme()
-{
+fun AppBasicScreenPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         AppBasicScreen(navigator = EmptyDestinationsNavigator,

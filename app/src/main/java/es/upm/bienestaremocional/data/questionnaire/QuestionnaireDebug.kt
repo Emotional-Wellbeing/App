@@ -26,9 +26,8 @@ import kotlin.random.Random
  */
 fun generateOneOffStressEntry(
     createdAt: Long,
-    fulfilled : Boolean = true
-): OneOffStress
-{
+    fulfilled: Boolean = true
+): OneOffStress {
     val oneOffStressManager = OneOffStressManager()
     val oneOffStress = OneOffStress(createdAt = createdAt)
 
@@ -36,13 +35,12 @@ fun generateOneOffStressEntry(
         null
     else
         Random.nextInt(oneOffStressManager.numberOfQuestions)
-    
-    for (questionIndex in 0 until oneOffStressManager.numberOfQuestions)
-    {
-        if(questionIndex != uncompletedAnswer)
+
+    for (questionIndex in 0 until oneOffStressManager.numberOfQuestions) {
+        if (questionIndex != uncompletedAnswer)
             oneOffStressManager.setAnswer(
                 questionIndex = questionIndex,
-                answer = Random.nextInt(0,oneOffStressManager.numberOfAnswers)
+                answer = Random.nextInt(0, oneOffStressManager.numberOfAnswers)
             )
     }
     oneOffStressManager.setEntity(oneOffStress)
@@ -57,9 +55,8 @@ fun generateOneOffStressEntry(
  */
 fun generateOneOffDepressionEntry(
     createdAt: Long,
-    fulfilled : Boolean = true
-): OneOffDepression
-{
+    fulfilled: Boolean = true
+): OneOffDepression {
     val oneOffDepressionManager = OneOffDepressionManager()
     val oneOffDepression = OneOffDepression(createdAt = createdAt)
 
@@ -67,13 +64,13 @@ fun generateOneOffDepressionEntry(
         null
     else
         Random.nextInt(oneOffDepressionManager.numberOfQuestions)
-    
-    for (questionIndex in 0 until oneOffDepressionManager.numberOfQuestions)
-    {
-        if(questionIndex != uncompletedAnswer)
+
+    for (questionIndex in 0 until oneOffDepressionManager.numberOfQuestions) {
+        if (questionIndex != uncompletedAnswer)
             oneOffDepressionManager.setAnswer(
                 questionIndex = questionIndex,
-                answer = Random.nextInt(0,
+                answer = Random.nextInt(
+                    0,
                     oneOffDepressionManager.numberOfAnswers
                 )
             )
@@ -90,9 +87,8 @@ fun generateOneOffDepressionEntry(
  */
 fun generateOneOffLonelinessEntry(
     createdAt: Long,
-    fulfilled : Boolean = true
-): OneOffLoneliness
-{
+    fulfilled: Boolean = true
+): OneOffLoneliness {
     val oneOffLonelinessManager = OneOffLonelinessManager()
     val oneOffLoneliness = OneOffLoneliness(createdAt = createdAt)
 
@@ -100,13 +96,13 @@ fun generateOneOffLonelinessEntry(
         null
     else
         Random.nextInt(oneOffLonelinessManager.numberOfQuestions)
-    
-    for (questionIndex in 0 until oneOffLonelinessManager.numberOfQuestions)
-    {
-        if(questionIndex != uncompletedAnswer)
+
+    for (questionIndex in 0 until oneOffLonelinessManager.numberOfQuestions) {
+        if (questionIndex != uncompletedAnswer)
             oneOffLonelinessManager.setAnswer(
                 questionIndex = questionIndex,
-                answer = Random.nextInt(0,
+                answer = Random.nextInt(
+                    0,
                     oneOffLonelinessManager.numberOfAnswers
                 )
             )
@@ -123,20 +119,18 @@ fun generateOneOffLonelinessEntry(
  */
 fun generateDailyStressEntry(
     createdAt: Long,
-    fulfilled : Boolean = true
-): DailyStress
-{
+    fulfilled: Boolean = true
+): DailyStress {
     val dailyStressManager = DailyStressManager()
     val dailyStress = DailyStress(createdAt = createdAt)
-    
-    val uncompletedAnswer = if (fulfilled) 
-        null 
-    else 
+
+    val uncompletedAnswer = if (fulfilled)
+        null
+    else
         Random.nextInt(dailyStressManager.numberOfQuestions)
-        
-    for (questionIndex in 0 until dailyStressManager.numberOfQuestions)
-    {
-        if(questionIndex != uncompletedAnswer)
+
+    for (questionIndex in 0 until dailyStressManager.numberOfQuestions) {
+        if (questionIndex != uncompletedAnswer)
             dailyStressManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(
@@ -157,9 +151,8 @@ fun generateDailyStressEntry(
  */
 fun generateDailyDepressionEntry(
     createdAt: Long,
-    fulfilled : Boolean = true
-): DailyDepression
-{
+    fulfilled: Boolean = true
+): DailyDepression {
     val dailyDepressionManager = DailyDepressionManager()
     val dailyDepression = DailyDepression(createdAt = createdAt)
 
@@ -168,9 +161,8 @@ fun generateDailyDepressionEntry(
     else
         Random.nextInt(dailyDepressionManager.numberOfQuestions)
 
-    for (questionIndex in 0 until dailyDepressionManager.numberOfQuestions)
-    {
-        if(questionIndex != uncompletedAnswer)
+    for (questionIndex in 0 until dailyDepressionManager.numberOfQuestions) {
+        if (questionIndex != uncompletedAnswer)
             dailyDepressionManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(
@@ -191,9 +183,8 @@ fun generateDailyDepressionEntry(
  */
 fun generateDailyLonelinessEntry(
     createdAt: Long,
-    fulfilled : Boolean = true
-): DailyLoneliness
-{
+    fulfilled: Boolean = true
+): DailyLoneliness {
     val dailyLonelinessManager = DailyLonelinessManager()
     val dailyLoneliness = DailyLoneliness(createdAt = createdAt)
 
@@ -201,10 +192,9 @@ fun generateDailyLonelinessEntry(
         null
     else
         Random.nextInt(dailyLonelinessManager.numberOfQuestions)
-    
-    for (questionIndex in 0 until dailyLonelinessManager.numberOfQuestions)
-    {
-        if(questionIndex != uncompletedAnswer)
+
+    for (questionIndex in 0 until dailyLonelinessManager.numberOfQuestions) {
+        if (questionIndex != uncompletedAnswer)
             dailyLonelinessManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(
@@ -225,9 +215,8 @@ fun generateDailyLonelinessEntry(
  */
 fun generateDailySuicideEntry(
     createdAt: Long,
-    fulfilled : Boolean = true
-): DailySuicide
-{
+    fulfilled: Boolean = true
+): DailySuicide {
     val dailySuicideManager = DailySuicideManager()
     val dailySuicide = DailySuicide(createdAt = createdAt)
 
@@ -235,17 +224,16 @@ fun generateDailySuicideEntry(
         null
     else
         Random.nextInt(dailySuicideManager.numberOfQuestions)
-    
-    for (questionIndex in 0 until dailySuicideManager.numberOfQuestions)
-    {
-        if(questionIndex != uncompletedAnswer)
+
+    for (questionIndex in 0 until dailySuicideManager.numberOfQuestions) {
+        if (questionIndex != uncompletedAnswer)
             dailySuicideManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(
                     dailySuicideManager.answerRange.first,
-                dailySuicideManager.answerRange.last + 1
+                    dailySuicideManager.answerRange.last + 1
+                )
             )
-        )
     }
     dailySuicideManager.setCompleted()
     dailySuicideManager.setEntity(dailySuicide)
@@ -260,9 +248,8 @@ fun generateDailySuicideEntry(
  */
 fun generateDailySymptomsEntry(
     createdAt: Long,
-    fulfilled : Boolean = true
-): DailySymptoms
-{
+    fulfilled: Boolean = true
+): DailySymptoms {
     val dailySymptomsManager = DailySymptomsManager()
     val dailySymptoms = DailySymptoms(createdAt = createdAt)
 
@@ -270,10 +257,9 @@ fun generateDailySymptomsEntry(
         null
     else
         Random.nextInt(dailySymptomsManager.numberOfQuestions)
-    
-    for (questionIndex in 0 until dailySymptomsManager.numberOfQuestions)
-    {
-        if(questionIndex != uncompletedAnswer)
+
+    for (questionIndex in 0 until dailySymptomsManager.numberOfQuestions) {
+        if (questionIndex != uncompletedAnswer)
             dailySymptomsManager.setAnswer(
                 questionIndex = questionIndex,
                 answer = Random.nextInt(

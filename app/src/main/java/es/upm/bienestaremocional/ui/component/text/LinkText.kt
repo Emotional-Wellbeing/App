@@ -58,12 +58,10 @@ private fun createAnnotatedString(
     data: List<LinkTextData>,
     normalTextSpanStyle: SpanStyle,
     clickableTextSpanStyle: SpanStyle,
-): AnnotatedString
-{
+): AnnotatedString {
     return buildAnnotatedString {
         data.forEach { linkTextData ->
-            if (linkTextData.tag != null && linkTextData.annotation != null)
-            {
+            if (linkTextData.tag != null && linkTextData.annotation != null) {
                 //push annotation and stylish text with linkTextData
                 pushStringAnnotation(
                     tag = linkTextData.tag,
@@ -71,8 +69,7 @@ private fun createAnnotatedString(
                 )
                 pushStyle(style = clickableTextSpanStyle)
             }
-            else
-            {
+            else {
                 //Apply normal styles
                 pushStyle(style = normalTextSpanStyle)
             }
@@ -84,17 +81,15 @@ private fun createAnnotatedString(
 
 @Preview
 @Composable
-private fun LinkTextPreview()
-{
+private fun LinkTextPreview() {
     val context = LocalContext.current
     val pieces = stringArrayResource(id = R.array.high_suicide_risk_advice_body)
 
     val data = mutableListOf<LinkTextData>()
 
-    for(index in pieces.indices)
-    {
+    for (index in pieces.indices) {
         //Add space trimmed in xml-loading
-        val text = if(index > 0)
+        val text = if (index > 0)
             " ${pieces[index]}"
         else
             pieces[index]
@@ -103,7 +98,7 @@ private fun LinkTextPreview()
             if (index % 2 == 1)
                 LinkTextData(
                     text = text,
-                    tag = "number_${(index-1)/2}",
+                    tag = "number_${(index - 1) / 2}",
                     annotation = pieces[index],
                     onClick = { openDial(context, it.item) },
                 )
@@ -127,17 +122,15 @@ private fun LinkTextPreview()
 
 @Preview
 @Composable
-private fun LinkTextPreviewDarkTheme()
-{
+private fun LinkTextPreviewDarkTheme() {
     val context = LocalContext.current
     val pieces = stringArrayResource(id = R.array.high_suicide_risk_advice_body)
 
     val data = mutableListOf<LinkTextData>()
 
-    for(index in pieces.indices)
-    {
+    for (index in pieces.indices) {
         //Add space trimmed in xml-loading
-        val text = if(index > 0)
+        val text = if (index > 0)
             " ${pieces[index]}"
         else
             pieces[index]
@@ -146,7 +139,7 @@ private fun LinkTextPreviewDarkTheme()
             if (index % 2 == 1)
                 LinkTextData(
                     text = text,
-                    tag = "number_${(index-1)/2}",
+                    tag = "number_${(index - 1) / 2}",
                     annotation = pieces[index],
                     onClick = { openDial(context, it.item) },
                 )

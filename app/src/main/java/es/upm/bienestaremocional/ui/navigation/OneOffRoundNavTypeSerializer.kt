@@ -9,8 +9,7 @@ import es.upm.bienestaremocional.data.database.entity.round.OneOffRound
  */
 @NavTypeSerializer
 class OneOffRoundNavTypeSerializer :
-    DestinationsNavTypeSerializer<OneOffRound>
-{
+    DestinationsNavTypeSerializer<OneOffRound> {
     override fun fromRouteString(routeStr: String): OneOffRound {
         val values = routeStr.split(";").map { it.toLongOrNull() }
         return OneOffRound(

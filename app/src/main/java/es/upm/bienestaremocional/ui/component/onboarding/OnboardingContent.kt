@@ -8,8 +8,7 @@ import es.upm.bienestaremocional.R
  * @see OnboardingContent
  */
 
-object OnboardingContent
-{
+object OnboardingContent {
     val content = listOf(
         HorizontalPagerContent(
             animation = R.raw.mental_wellbeing,

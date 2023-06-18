@@ -34,8 +34,7 @@ fun TextScreen(
     label: Int,
     textContent: @Composable (TextStyle) -> Unit,
     widthSize: WindowWidthSizeClass,
-)
-{
+) {
     AppBasicScreen(
         navigator = navigator,
         entrySelected = entrySelected,
@@ -52,11 +51,10 @@ fun TextScreen(
 
 @Composable
 fun TextScreen(
-    navigator : DestinationsNavigator,
-    textContent : @Composable (TextStyle) -> Unit,
+    navigator: DestinationsNavigator,
+    textContent: @Composable (TextStyle) -> Unit,
     widthSize: WindowWidthSizeClass,
-)
-{
+) {
     Surface()
     {
         TextScreen(
@@ -69,13 +67,11 @@ fun TextScreen(
 
 @Composable
 private fun TextScreen(
-    textContent : @Composable (TextStyle) -> Unit,
-    onClick : () -> Unit,
+    textContent: @Composable (TextStyle) -> Unit,
+    onClick: () -> Unit,
     widthSize: WindowWidthSizeClass,
-)
-{
-    val textStyle = when(widthSize)
-    {
+) {
+    val textStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.bodyMedium
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.bodyLarge
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.bodyLarge
@@ -101,9 +97,8 @@ private fun TextScreen(
 
 @Preview(group = "Light Theme")
 @Composable
-fun TextScreenFullPreview()
-{
-    val content : @Composable (TextStyle) -> Unit =  { textStyle ->
+fun TextScreenFullPreview() {
+    val content: @Composable (TextStyle) -> Unit = { textStyle ->
         Text(
             text = stringResource(id = R.string.about_screen_description),
             style = textStyle
@@ -123,9 +118,8 @@ fun TextScreenFullPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun TextScreenFullPreviewDarkTheme()
-{
-    val content : @Composable (TextStyle) -> Unit =  { textStyle ->
+fun TextScreenFullPreviewDarkTheme() {
+    val content: @Composable (TextStyle) -> Unit = { textStyle ->
         Text(
             text = stringResource(id = R.string.about_screen_description),
             style = textStyle
@@ -145,9 +139,8 @@ fun TextScreenFullPreviewDarkTheme()
 
 @Preview(group = "Light Theme")
 @Composable
-fun TextScreenPreview()
-{
-    val content : @Composable (TextStyle) -> Unit =  { textStyle ->
+fun TextScreenPreview() {
+    val content: @Composable (TextStyle) -> Unit = { textStyle ->
         Text(
             text = stringResource(id = R.string.about_screen_description),
             style = textStyle
@@ -165,9 +158,8 @@ fun TextScreenPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun TextScreenPreviewDarkTheme()
-{
-    val content : @Composable (TextStyle) -> Unit =  { textStyle ->
+fun TextScreenPreviewDarkTheme() {
+    val content: @Composable (TextStyle) -> Unit = { textStyle ->
         Text(
             text = stringResource(id = R.string.about_screen_description),
             style = textStyle

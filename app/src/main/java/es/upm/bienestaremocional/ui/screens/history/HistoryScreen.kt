@@ -77,35 +77,42 @@ fun HistoryScreen(
     navigator: DestinationsNavigator,
     preSelectedQuestionnaire: DailyScoredQuestionnaire?,
     viewModel: HistoryViewModel = hiltViewModel()
-)
-{
+) {
     val widthSize = computeWindowWidthSize()
     val heightSize = computeWindowHeightSize()
 
     // State
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    AppBasicScreen(navigator = navigator,
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = BottomBarDestination.HistoryScreen,
-        label = BottomBarDestination.HistoryScreen.label)
+        label = BottomBarDestination.HistoryScreen.label
+    )
     {
-        Column(modifier = Modifier.padding(16.dp),
+        Column(
+            modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top)
         ) {
 
-            Row(modifier = Modifier.fillMaxWidth(),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
             ) {
                 DisplayQuestionnaireMenu(
-                    modifier = Modifier.weight(1f,true),
+                    modifier = Modifier.weight(1f, true),
                     selected = state.questionnaire,
-                    onChange = {questionnaire -> viewModel.onQuestionnaireChange(questionnaire)}
+                    onChange = { questionnaire -> viewModel.onQuestionnaireChange(questionnaire) }
                 )
                 DisplayGranularityOfDataMenu(
-                    modifier = Modifier.weight(1f,true),
+                    modifier = Modifier.weight(1f, true),
                     selected = state.timeGranularity,
-                    onChange = {timeGranularity -> viewModel.onTimeGranularityChange(timeGranularity)}
+                    onChange = { timeGranularity ->
+                        viewModel.onTimeGranularityChange(
+                            timeGranularity
+                        )
+                    }
                 )
                 // If we have enough width space, show all options inside same row
                 if (widthSize > WindowWidthSizeClass.Compact)
@@ -115,11 +122,13 @@ fun HistoryScreen(
             if (widthSize <= WindowWidthSizeClass.Compact)
                 DisplayDatePicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
 
-            if(state.isDataNotEmpty)
-                DrawLineChart(heightSize = heightSize,
+            if (state.isDataNotEmpty)
+                DrawLineChart(
+                    heightSize = heightSize,
                     producer = viewModel.producer,
                     questionnaire = state.questionnaire,
-                    timeGranularity = state.timeGranularity)
+                    timeGranularity = state.timeGranularity
+                )
             else
                 Text(text = stringResource(id = R.string.no_data_to_display))
         }
@@ -138,13 +147,14 @@ private fun DisplayQuestionnaireMenu(
     selected: DailyScoredQuestionnaire,
     onChange: (DailyScoredQuestionnaire) -> Unit,
     modifier: Modifier = Modifier
-)
-{
+) {
     DisplayMenu(
         label = stringResource(id = R.string.measure),
-        options = DailyScoredQuestionnaire.values().map { Pair(stringResource(it.measure.measureRes)) { onChange(it) } },
+        options = DailyScoredQuestionnaire.values()
+            .map { Pair(stringResource(it.measure.measureRes)) { onChange(it) } },
         selected = stringResource(id = selected.measure.measureRes),
-        modifier = modifier)
+        modifier = modifier
+    )
 }
 
 /**
@@ -159,13 +169,13 @@ private fun DisplayGranularityOfDataMenu(
     selected: TimeGranularity,
     onChange: (TimeGranularity) -> Unit,
     modifier: Modifier = Modifier
-)
-{
+) {
     DisplayMenu(
         label = stringResource(id = R.string.granularity),
         options = TimeGranularity.get().map { Pair(stringResource(it.label)) { onChange(it) } },
         selected = stringResource(id = selected.label),
-        modifier = modifier)
+        modifier = modifier
+    )
 }
 
 /**
@@ -180,11 +190,10 @@ private fun DisplayGranularityOfDataMenu(
 @Composable
 private fun DisplayMenu(
     label: String,
-    options: List<Pair<String,() -> Unit>>,
-    selected : String,
+    options: List<Pair<String, () -> Unit>>,
+    selected: String,
     modifier: Modifier = Modifier
-)
-{
+) {
     var expanded by remember { mutableStateOf(false) }
 
     // Point of entry of the menu
@@ -230,10 +239,9 @@ private fun DisplayMenu(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DisplayDatePicker(
-    selectedRange : Range<ZonedDateTime>,
-    onSelectedRange : (Range<ZonedDateTime>) -> Unit
-)
-{
+    selectedRange: Range<ZonedDateTime>,
+    onSelectedRange: (Range<ZonedDateTime>) -> Unit
+) {
     var showDialog by remember { mutableStateOf(false) }
     val dateRangePickerState = rememberDateRangePickerState(
         initialSelectedStartDateMillis = selectedRange.lower.toEpochMilliSecond(),
@@ -250,7 +258,7 @@ private fun DisplayDatePicker(
         onValueChange = {},
         enabled = false,
         label = { Text(stringResource(R.string.time_interval)) },
-        trailingIcon = { Icon(Icons.Default.DateRange,"") },
+        trailingIcon = { Icon(Icons.Default.DateRange, "") },
         colors = TextFieldDefaults.colors(
             disabledTextColor = MaterialTheme.colorScheme.onSurface,
             disabledIndicatorColor = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -262,8 +270,7 @@ private fun DisplayDatePicker(
         )
     )
 
-    if (showDialog)
-    {
+    if (showDialog) {
         DatePickerDialog(
             onDismissRequest = {
                 // Dismiss the dialog when the user clicks outside the dialog or on the back
@@ -320,15 +327,14 @@ private fun DrawLineChart(
     producer: ChartEntryModelProducer,
     questionnaire: DailyScoredQuestionnaire,
     timeGranularity: TimeGranularity
-)
-{
+) {
     val chartStyle = m3ChartStyle()
 
     val decorations = questionnaire.levels.mapIndexed { index, scoreLevel ->
-        val previousMax = if(index == 0)
+        val previousMax = if (index == 0)
             questionnaire.minScore
         else
-            questionnaire.levels[index-1].max
+            questionnaire.levels[index - 1].max
         thresholdArea(scoreLevel = scoreLevel, previousMax = previousMax.toFloat())
     }
 
@@ -337,46 +343,47 @@ private fun DrawLineChart(
     // Vico draws before legends and using WindowSize is needed to know if screen can plot
     // simultaneously chart and legend; avoiding hardcoded conditionals based on test and error
 
-    val legends = if(heightSize > WindowHeightSizeClass.Compact)
-        {
-            questionnaire.levels.map { verticalLegendItem(
+    val legends = if (heightSize > WindowHeightSizeClass.Compact) {
+        questionnaire.levels.map {
+            verticalLegendItem(
                 icon = shapeComponent(Shapes.pillShape, it.level.getColor()),
                 label = textComponent(
                     color = chartStyle.axis.axisLabelColor,
                     textSize = 12.sp,
                     typeface = Typeface.MONOSPACE,
                 ),
-                labelText = stringResource(it.level.label))
-            }
+                labelText = stringResource(it.level.label)
+            )
         }
-        else
-            null
+    }
+    else
+        null
 
     val model = producer.getModel()
 
     val valueFormatter = AxisValueFormatter<AxisPosition.Horizontal.Bottom> { index, chartValues ->
 
-        val criteria : (ZonedDateTime) -> String = when(timeGranularity)
-        {
+        val criteria: (ZonedDateTime) -> String = when (timeGranularity) {
             TimeGranularity.Day -> { zdt ->
                 val month = zdt.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
                 "${zdt.dayOfMonth} $month"
             }
+
             TimeGranularity.Week -> { start ->
                 val end = start.plusDays(6)
 
-                if(start.month == end.month)
-                {
+                if (start.month == end.month) {
                     val month = start.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
                     "${start.dayOfMonth}-${end.dayOfMonth} $month"
                 }
-                else
-                {
-                    val startMonth = start.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+                else {
+                    val startMonth =
+                        start.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
                     val endMonth = end.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
                     "${start.dayOfMonth} $startMonth - ${end.dayOfMonth} $endMonth"
                 }
             }
+
             TimeGranularity.Month -> { zdt ->
                 val month = zdt.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
                 "$month ${zdt.year}"
@@ -385,9 +392,10 @@ private fun DrawLineChart(
 
         // Access to the first list of entries (in our case only one chart is plotted)
         // Get actual element and extract day of the week from time
-        (chartValues.chartEntryModel.entries.first().getOrNull(index.toInt()) as? ChartEntryWithTimeAndSimulated)
+        (chartValues.chartEntryModel.entries.first()
+            .getOrNull(index.toInt()) as? ChartEntryWithTimeAndSimulated)
             ?.time
-            ?.run { criteria(this)  }
+            ?.run { criteria(this) }
             .orEmpty()
     }
 
@@ -406,7 +414,12 @@ private fun DrawLineChart(
                     }
                 },
                 spacing = LINE_SPACING,
-                axisValuesOverrider = AxisValuesOverrider.fixed(null,null,questionnaire.minScore.toFloat(),questionnaire.maxScore.toFloat()) ,
+                axisValuesOverrider = AxisValuesOverrider.fixed(
+                    null,
+                    null,
+                    questionnaire.minScore.toFloat(),
+                    questionnaire.maxScore.toFloat()
+                ),
                 decorations = decorations,
                 persistentMarkers = obtainPersistentMarkers(model)
             ),
@@ -415,12 +428,14 @@ private fun DrawLineChart(
                 guideline = axisGuidelineComponent(),
                 maxLabelCount = MAX_LABEL_COUNT,
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),
-                title = stringResource(questionnaire.measure.measureRes)),
+                title = stringResource(questionnaire.measure.measureRes)
+            ),
             bottomAxis = bottomAxis(
                 guideline = axisGuidelineComponent(),
                 valueFormatter = valueFormatter,
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),
-                title = stringResource(timeGranularity.label)),
+                title = stringResource(timeGranularity.label)
+            ),
             marker = rememberMarker(),
             legend = legends?.let {
                 verticalLegend(
@@ -445,8 +460,7 @@ private fun DrawLineChart(
 private fun thresholdArea(
     scoreLevel: ScoreLevel,
     previousMax: Float
-): ThresholdLine
-{
+): ThresholdLine {
     val label = textComponent(textSize = (0).sp)
     val line = shapeComponent(color = scoreLevel.level.getColor().copy(.5f))
     val thresholdLabel = stringResource(scoreLevel.level.label)
@@ -466,8 +480,7 @@ private fun thresholdArea(
  * @return Map with x values as key and marker as value
  */
 @Composable
-private fun obtainPersistentMarkers(model: ChartEntryModel) : Map<Float, Marker>
-{
+private fun obtainPersistentMarkers(model: ChartEntryModel): Map<Float, Marker> {
     val result = mutableMapOf<Float, Marker>()
     model.entries[0].forEach { entry ->
         val fullEntry = entry as ChartEntryWithTimeAndSimulated
@@ -484,8 +497,7 @@ private fun obtainPersistentMarkers(model: ChartEntryModel) : Map<Float, Marker>
 )
 @Composable
 
-fun DisplayQuestionnaireMenuPreview()
-{
+fun DisplayQuestionnaireMenuPreview() {
     BienestarEmocionalTheme {
         DisplayQuestionnaireMenu(
             modifier = Modifier,
@@ -501,8 +513,7 @@ fun DisplayQuestionnaireMenuPreview()
 )
 @Composable
 
-fun DisplayQuestionnaireMenuPreviewDarkTheme()
-{
+fun DisplayQuestionnaireMenuPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         DisplayQuestionnaireMenu(
             modifier = Modifier,
@@ -517,8 +528,7 @@ fun DisplayQuestionnaireMenuPreviewDarkTheme()
 )
 @Composable
 
-fun DisplayGranularityOfDataMenuPreview()
-{
+fun DisplayGranularityOfDataMenuPreview() {
     BienestarEmocionalTheme {
         DisplayGranularityOfDataMenu(
             modifier = Modifier,
@@ -533,8 +543,7 @@ fun DisplayGranularityOfDataMenuPreview()
 )
 @Composable
 
-fun DisplayGranularityOfDataMenuPreviewDarkTheme()
-{
+fun DisplayGranularityOfDataMenuPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         DisplayGranularityOfDataMenu(
             modifier = Modifier,
@@ -549,11 +558,10 @@ fun DisplayGranularityOfDataMenuPreviewDarkTheme()
 )
 @Composable
 
-fun DisplayDatePickerPreview()
-{
+fun DisplayDatePickerPreview() {
     BienestarEmocionalTheme {
         DisplayDatePicker(
-            selectedRange = (ZonedDateTime.now().minusDays(7) .. ZonedDateTime.now()).toRange(),
+            selectedRange = (ZonedDateTime.now().minusDays(7)..ZonedDateTime.now()).toRange(),
             onSelectedRange = {})
     }
 }
@@ -564,11 +572,10 @@ fun DisplayDatePickerPreview()
 )
 @Composable
 
-fun DisplayDatePickerPreviewDarkTheme()
-{
+fun DisplayDatePickerPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         DisplayDatePicker(
-            selectedRange = (ZonedDateTime.now().minusDays(7) .. ZonedDateTime.now()).toRange(),
+            selectedRange = (ZonedDateTime.now().minusDays(7)..ZonedDateTime.now()).toRange(),
             onSelectedRange = {})
     }
 }
@@ -579,8 +586,7 @@ fun DisplayDatePickerPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun StressChartCompactPreview()
-{
+fun StressChartCompactPreview() {
     val days = 10
 
     val data = List(days) { index ->
@@ -591,7 +597,7 @@ fun StressChartCompactPreview()
         generateDailyStressEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 
@@ -628,8 +634,7 @@ fun StressChartCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun StressChartCompactPreviewDarkTheme()
-{
+fun StressChartCompactPreviewDarkTheme() {
     val days = 10
 
     val data = List(days) { index ->
@@ -640,7 +645,7 @@ fun StressChartCompactPreviewDarkTheme()
         generateDailyStressEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 
@@ -678,8 +683,7 @@ fun StressChartCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun StressChartMediumPreview()
-{
+fun StressChartMediumPreview() {
     val days = 10
 
     val data = List(days) { index ->
@@ -690,7 +694,7 @@ fun StressChartMediumPreview()
         generateDailyStressEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 
@@ -727,8 +731,7 @@ fun StressChartMediumPreview()
     group = "Dark Theme"
 )
 @Composable
-fun StressChartMediumPreviewDarkTheme()
-{
+fun StressChartMediumPreviewDarkTheme() {
     val days = 10
 
     val data = List(days) { index ->
@@ -739,7 +742,7 @@ fun StressChartMediumPreviewDarkTheme()
         generateDailyStressEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 
@@ -776,8 +779,7 @@ fun StressChartMediumPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun DepressionChartCompactPreview()
-{
+fun DepressionChartCompactPreview() {
     val days = 10
 
     val data = List(days) { index ->
@@ -788,7 +790,7 @@ fun DepressionChartCompactPreview()
         generateDailyDepressionEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 
@@ -825,8 +827,7 @@ fun DepressionChartCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DepressionChartPreviewCompactDarkTheme()
-{
+fun DepressionChartPreviewCompactDarkTheme() {
     val days = 10
 
     val data = List(days) { index ->
@@ -837,7 +838,7 @@ fun DepressionChartPreviewCompactDarkTheme()
         generateDailyDepressionEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 
@@ -874,8 +875,7 @@ fun DepressionChartPreviewCompactDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun DepressionChartMediumPreview()
-{
+fun DepressionChartMediumPreview() {
     val days = 10
 
     val data = List(days) { index ->
@@ -886,7 +886,7 @@ fun DepressionChartMediumPreview()
         generateDailyDepressionEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 
@@ -923,8 +923,7 @@ fun DepressionChartMediumPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DepressionChartMediumPreviewDarkTheme()
-{
+fun DepressionChartMediumPreviewDarkTheme() {
     val days = 10
 
     val data = List(days) { index ->
@@ -935,7 +934,7 @@ fun DepressionChartMediumPreviewDarkTheme()
         generateDailyDepressionEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 
@@ -972,8 +971,7 @@ fun DepressionChartMediumPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun LonelinessChartCompactPreview()
-{
+fun LonelinessChartCompactPreview() {
     val days = 10
 
     val data = List(days) { index ->
@@ -984,7 +982,7 @@ fun LonelinessChartCompactPreview()
         generateDailyLonelinessEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 
@@ -1021,8 +1019,7 @@ fun LonelinessChartCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun LonelinessChartCompactPreviewDarkTheme()
-{
+fun LonelinessChartCompactPreviewDarkTheme() {
     val days = 10
 
     val data = List(days) { index ->
@@ -1033,7 +1030,7 @@ fun LonelinessChartCompactPreviewDarkTheme()
         generateDailyLonelinessEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 
@@ -1070,8 +1067,7 @@ fun LonelinessChartCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun LonelinessChartMediumPreview()
-{
+fun LonelinessChartMediumPreview() {
     val days = 10
 
     val data = List(days) { index ->
@@ -1082,7 +1078,7 @@ fun LonelinessChartMediumPreview()
         generateDailyLonelinessEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 
@@ -1119,8 +1115,7 @@ fun LonelinessChartMediumPreview()
     group = "Dark Theme"
 )
 @Composable
-fun LonelinessChartMediumPreviewDarkTheme()
-{
+fun LonelinessChartMediumPreviewDarkTheme() {
     val days = 10
 
     val data = List(days) { index ->
@@ -1131,7 +1126,7 @@ fun LonelinessChartMediumPreviewDarkTheme()
         generateDailyLonelinessEntry(createdAt)
     }
 
-    val timeRange = (ZonedDateTime.now().minusDays((days-1).toLong()) .. ZonedDateTime.now())
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
         .toRange()
         .lowerStartDayUpperEndDay()
 

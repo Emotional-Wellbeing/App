@@ -10,12 +10,9 @@ import es.upm.bienestaremocional.utils.obtainTimestamp
 data class WeightSender(
     val timestamp: Long,
     val weight: Double
-)
-{
-    companion object
-    {
-        fun WeightRecord.toSender(): WeightSender
-        {
+) {
+    companion object {
+        fun WeightRecord.toSender(): WeightSender {
             val time = obtainTimestamp(time, zoneOffset)
             return WeightSender(
                 timestamp = time,

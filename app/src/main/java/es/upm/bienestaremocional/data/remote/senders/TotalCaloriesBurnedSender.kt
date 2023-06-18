@@ -11,12 +11,9 @@ data class TotalCaloriesBurnedSender(
     val startTime: Long,
     val endTime: Long,
     val energy: Double
-)
-{
-    companion object
-    {
-        fun TotalCaloriesBurnedRecord.toSender(): TotalCaloriesBurnedSender
-        {
+) {
+    companion object {
+        fun TotalCaloriesBurnedRecord.toSender(): TotalCaloriesBurnedSender {
             val startTime = obtainTimestamp(startTime, startZoneOffset)
             val endTime = obtainTimestamp(endTime, endZoneOffset)
             return TotalCaloriesBurnedSender(

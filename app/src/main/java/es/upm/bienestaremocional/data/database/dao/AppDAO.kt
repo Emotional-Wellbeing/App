@@ -19,8 +19,7 @@ import es.upm.bienestaremocional.data.database.entity.round.OneOffRoundFull
  * Dao with all the operations related to database
  */
 @Dao
-interface AppDAO
-{
+interface AppDAO {
     /**
      * -------------------------------------------------------------------------------------------
      * Inserts
@@ -32,77 +31,77 @@ interface AppDAO
      * @return ID of inserted row
      */
     @Insert
-    suspend fun insert(lastUpload: LastUpload) : Long
+    suspend fun insert(lastUpload: LastUpload): Long
 
     /**
      * Insert a [OneOffRound] in database
      * @return The ID of [OneOffRound] inserted
      */
     @Insert
-    suspend fun insert(oneOffRound: OneOffRound) : Long
+    suspend fun insert(oneOffRound: OneOffRound): Long
 
     /**
      * Insert a [DailyRound] in database
      * @return The ID of [DailyRound] inserted
      */
     @Insert
-    suspend fun insert(dailyRound: DailyRound) : Long
+    suspend fun insert(dailyRound: DailyRound): Long
 
     /**
      * Insert a [OneOffStress] in database
      * @return The ID of [OneOffStress] inserted
      */
     @Insert
-    suspend fun insert(oneOffStress: OneOffStress) : Long
+    suspend fun insert(oneOffStress: OneOffStress): Long
 
     /**
      * Insert a [OneOffDepression] in database
      * @return The ID of [OneOffDepression] inserted
      */
     @Insert
-    suspend fun insert(oneOffDepression: OneOffDepression) : Long
+    suspend fun insert(oneOffDepression: OneOffDepression): Long
 
     /**
      * Insert a [OneOffLoneliness] in database
      * @return The ID of [OneOffLoneliness] inserted
      */
     @Insert
-    suspend fun insert(oneOffLoneliness: OneOffLoneliness) : Long
+    suspend fun insert(oneOffLoneliness: OneOffLoneliness): Long
 
     /**
      * Insert a [DailyStress] in database
      * @return The ID of [DailyStress] inserted
      */
     @Insert
-    suspend fun insert(dailyStress: DailyStress) : Long
+    suspend fun insert(dailyStress: DailyStress): Long
 
     /**
      * Insert a [DailyDepression] in database
      * @return The ID of [DailyDepression] inserted
      */
     @Insert
-    suspend fun insert(dailyDepression: DailyDepression) : Long
+    suspend fun insert(dailyDepression: DailyDepression): Long
 
     /**
      * Insert a [DailyLoneliness] in database
      * @return The ID of [DailyLoneliness] inserted
      */
     @Insert
-    suspend fun insert(dailyLoneliness: DailyLoneliness) : Long
+    suspend fun insert(dailyLoneliness: DailyLoneliness): Long
 
     /**
      * Insert a [DailySuicide] in database
      * @return The ID of [DailySuicide] inserted
      */
     @Insert
-    suspend fun insert(dailySuicide: DailySuicide) : Long
+    suspend fun insert(dailySuicide: DailySuicide): Long
 
     /**
      * Insert a [DailySymptoms] in database
      * @return The ID of [DailySymptoms] inserted
      */
     @Insert
-    suspend fun insert(dailySymptoms: DailySymptoms) : Long
+    suspend fun insert(dailySymptoms: DailySymptoms): Long
 
     /**
      * -------------------------------------------------------------------------------------------
@@ -202,15 +201,17 @@ interface AppDAO
      * @return The [OneOffRound] associated, null if id doesn't match any row
      */
     @Transaction
-    @Query("SELECT one_off_round.*, " +
-            "one_off_stress.*, " +
-            "one_off_depression.*, " +
-            "one_off_loneliness.* " +
-            "FROM one_off_round " +
-            "LEFT JOIN one_off_stress ON one_off_round.stress_id = one_off_stress.one_off_stress_id " +
-            "LEFT JOIN one_off_depression ON one_off_round.depression_id = one_off_depression.one_off_depression_id " +
-            "LEFT JOIN one_off_loneliness ON one_off_round.loneliness_id = one_off_loneliness.one_off_loneliness_id " +
-            "WHERE one_off_round.id = :id")
+    @Query(
+        "SELECT one_off_round.*, " +
+                "one_off_stress.*, " +
+                "one_off_depression.*, " +
+                "one_off_loneliness.* " +
+                "FROM one_off_round " +
+                "LEFT JOIN one_off_stress ON one_off_round.stress_id = one_off_stress.one_off_stress_id " +
+                "LEFT JOIN one_off_depression ON one_off_round.depression_id = one_off_depression.one_off_depression_id " +
+                "LEFT JOIN one_off_loneliness ON one_off_round.loneliness_id = one_off_loneliness.one_off_loneliness_id " +
+                "WHERE one_off_round.id = :id"
+    )
     suspend fun getOneOffRoundFull(id: Long): OneOffRoundFull?
 
     /**
@@ -226,19 +227,21 @@ interface AppDAO
      * @return The [DailyRound] associated, null if id doesn't match any row
      */
     @Transaction
-    @Query("SELECT daily_round.*, " +
-            "daily_stress.*, " +
-            "daily_depression.*, " +
-            "daily_loneliness.*, " +
-            "daily_suicide.*, " +
-            "daily_symptoms.* " +
-            "FROM daily_round " +
-            "LEFT JOIN daily_stress ON daily_round.stress_id = daily_stress.daily_stress_id " +
-            "LEFT JOIN daily_depression ON daily_round.depression_id = daily_depression.daily_depression_id " +
-            "LEFT JOIN daily_loneliness ON daily_round.loneliness_id = daily_loneliness.daily_loneliness_id " +
-            "LEFT JOIN daily_suicide ON daily_round.suicide_id = daily_suicide.daily_suicide_id " +
-            "LEFT JOIN daily_symptoms ON daily_round.symptoms_id = daily_symptoms.daily_symptoms_id " +
-            "WHERE daily_round.id = :id")
+    @Query(
+        "SELECT daily_round.*, " +
+                "daily_stress.*, " +
+                "daily_depression.*, " +
+                "daily_loneliness.*, " +
+                "daily_suicide.*, " +
+                "daily_symptoms.* " +
+                "FROM daily_round " +
+                "LEFT JOIN daily_stress ON daily_round.stress_id = daily_stress.daily_stress_id " +
+                "LEFT JOIN daily_depression ON daily_round.depression_id = daily_depression.daily_depression_id " +
+                "LEFT JOIN daily_loneliness ON daily_round.loneliness_id = daily_loneliness.daily_loneliness_id " +
+                "LEFT JOIN daily_suicide ON daily_round.suicide_id = daily_suicide.daily_suicide_id " +
+                "LEFT JOIN daily_symptoms ON daily_round.symptoms_id = daily_symptoms.daily_symptoms_id " +
+                "WHERE daily_round.id = :id"
+    )
     suspend fun getDailyRoundFull(id: Long): DailyRoundFull?
 
     /**
@@ -316,15 +319,17 @@ interface AppDAO
      * @return List of [OneOffRoundFull]
      */
     @Transaction
-    @Query("SELECT one_off_round.*, " +
-            "one_off_stress.*, " +
-            "one_off_depression.*, " +
-            "one_off_loneliness.* " +
-            "FROM one_off_round " +
-            "LEFT JOIN one_off_stress ON one_off_round.stress_id = one_off_stress.one_off_stress_id " +
-            "LEFT JOIN one_off_depression ON one_off_round.depression_id = one_off_depression.one_off_depression_id " +
-            "LEFT JOIN one_off_loneliness ON one_off_round.loneliness_id = one_off_loneliness.one_off_loneliness_id " +
-            "ORDER BY one_off_round.created_at DESC")
+    @Query(
+        "SELECT one_off_round.*, " +
+                "one_off_stress.*, " +
+                "one_off_depression.*, " +
+                "one_off_loneliness.* " +
+                "FROM one_off_round " +
+                "LEFT JOIN one_off_stress ON one_off_round.stress_id = one_off_stress.one_off_stress_id " +
+                "LEFT JOIN one_off_depression ON one_off_round.depression_id = one_off_depression.one_off_depression_id " +
+                "LEFT JOIN one_off_loneliness ON one_off_round.loneliness_id = one_off_loneliness.one_off_loneliness_id " +
+                "ORDER BY one_off_round.created_at DESC"
+    )
     suspend fun getAllOneOffRoundFull(): List<OneOffRoundFull>
 
     /**
@@ -339,19 +344,21 @@ interface AppDAO
      * @return List of [DailyRoundFull]
      */
     @Transaction
-    @Query("SELECT daily_round.*, " +
-            "daily_stress.*, " +
-            "daily_depression.*, " +
-            "daily_loneliness.*, " +
-            "daily_suicide.*, " +
-            "daily_symptoms.* " +
-            "FROM daily_round " +
-            "LEFT JOIN daily_stress ON daily_round.stress_id = daily_stress.daily_stress_id " +
-            "LEFT JOIN daily_depression ON daily_round.depression_id = daily_depression.daily_depression_id " +
-            "LEFT JOIN daily_loneliness ON daily_round.loneliness_id = daily_loneliness.daily_loneliness_id " +
-            "LEFT JOIN daily_suicide ON daily_round.suicide_id = daily_suicide.daily_suicide_id " +
-            "LEFT JOIN daily_symptoms ON daily_round.symptoms_id = daily_symptoms.daily_symptoms_id " +
-            "ORDER BY daily_round.created_at DESC")
+    @Query(
+        "SELECT daily_round.*, " +
+                "daily_stress.*, " +
+                "daily_depression.*, " +
+                "daily_loneliness.*, " +
+                "daily_suicide.*, " +
+                "daily_symptoms.* " +
+                "FROM daily_round " +
+                "LEFT JOIN daily_stress ON daily_round.stress_id = daily_stress.daily_stress_id " +
+                "LEFT JOIN daily_depression ON daily_round.depression_id = daily_depression.daily_depression_id " +
+                "LEFT JOIN daily_loneliness ON daily_round.loneliness_id = daily_loneliness.daily_loneliness_id " +
+                "LEFT JOIN daily_suicide ON daily_round.suicide_id = daily_suicide.daily_suicide_id " +
+                "LEFT JOIN daily_symptoms ON daily_round.symptoms_id = daily_symptoms.daily_symptoms_id " +
+                "ORDER BY daily_round.created_at DESC"
+    )
     suspend fun getAllDailyRoundFull(): List<DailyRoundFull>
 
     /**
@@ -423,11 +430,13 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [OneOffStress]
      */
-    @Query("SELECT * " +
-            "FROM one_off_stress " +
-            "WHERE one_off_stress_completed = 1 " +
-            "AND one_off_stress_modified_at BETWEEN :start AND :end " +
-            "ORDER BY one_off_stress_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM one_off_stress " +
+                "WHERE one_off_stress_completed = 1 " +
+                "AND one_off_stress_modified_at BETWEEN :start AND :end " +
+                "ORDER BY one_off_stress_created_at DESC"
+    )
     suspend fun getAllOneOffStressCompletedFromRange(start: Long, end: Long): List<OneOffStress>
 
     /**
@@ -437,11 +446,13 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [OneOffDepression]
      */
-    @Query("SELECT * " +
-            "FROM one_off_depression " +
-            "WHERE one_off_depression_completed = 1 " +
-            "AND one_off_depression_modified_at BETWEEN :start AND :end " +
-            "ORDER BY one_off_depression_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM one_off_depression " +
+                "WHERE one_off_depression_completed = 1 " +
+                "AND one_off_depression_modified_at BETWEEN :start AND :end " +
+                "ORDER BY one_off_depression_created_at DESC"
+    )
     suspend fun getAllOneOffDepressionCompletedFromRange(start: Long, end: Long):
             List<OneOffDepression>
 
@@ -452,11 +463,13 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [OneOffLoneliness]
      */
-    @Query("SELECT * " +
-            "FROM one_off_loneliness " +
-            "WHERE one_off_loneliness_completed = 1 " +
-            "AND one_off_loneliness_modified_at BETWEEN :start AND :end " +
-            "ORDER BY one_off_loneliness_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM one_off_loneliness " +
+                "WHERE one_off_loneliness_completed = 1 " +
+                "AND one_off_loneliness_modified_at BETWEEN :start AND :end " +
+                "ORDER BY one_off_loneliness_created_at DESC"
+    )
     suspend fun getAllOneOffLonelinessCompletedFromRange(start: Long, end: Long):
             List<OneOffLoneliness>
 
@@ -467,11 +480,13 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailyStress]
      */
-    @Query("SELECT * " +
-            "FROM daily_stress " +
-            "WHERE daily_stress_completed = 1 " +
-            "AND daily_stress_modified_at BETWEEN :start AND :end " +
-            "ORDER BY daily_stress_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM daily_stress " +
+                "WHERE daily_stress_completed = 1 " +
+                "AND daily_stress_modified_at BETWEEN :start AND :end " +
+                "ORDER BY daily_stress_created_at DESC"
+    )
     suspend fun getAllDailyStressCompletedFromRange(start: Long, end: Long): List<DailyStress>
 
     /**
@@ -481,11 +496,13 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailyDepression]
      */
-    @Query("SELECT * " +
-            "FROM daily_depression " +
-            "WHERE daily_depression_completed = 1 " +
-            "AND daily_depression_modified_at BETWEEN :start AND :end " +
-            "ORDER BY daily_depression_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM daily_depression " +
+                "WHERE daily_depression_completed = 1 " +
+                "AND daily_depression_modified_at BETWEEN :start AND :end " +
+                "ORDER BY daily_depression_created_at DESC"
+    )
     suspend fun getAllDailyDepressionCompletedFromRange(start: Long, end: Long):
             List<DailyDepression>
 
@@ -496,11 +513,13 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailyLoneliness]
      */
-    @Query("SELECT * " +
-            "FROM daily_loneliness " +
-            "WHERE daily_loneliness_completed = 1 " +
-            "AND daily_loneliness_modified_at BETWEEN :start AND :end " +
-            "ORDER BY daily_loneliness_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM daily_loneliness " +
+                "WHERE daily_loneliness_completed = 1 " +
+                "AND daily_loneliness_modified_at BETWEEN :start AND :end " +
+                "ORDER BY daily_loneliness_created_at DESC"
+    )
     suspend fun getAllDailyLonelinessCompletedFromRange(start: Long, end: Long):
             List<DailyLoneliness>
 
@@ -511,11 +530,13 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailySuicide]
      */
-    @Query("SELECT * " +
-            "FROM daily_suicide " +
-            "WHERE daily_suicide_completed = 1 " +
-            "AND daily_suicide_modified_at BETWEEN :start AND :end " +
-            "ORDER BY daily_suicide_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM daily_suicide " +
+                "WHERE daily_suicide_completed = 1 " +
+                "AND daily_suicide_modified_at BETWEEN :start AND :end " +
+                "ORDER BY daily_suicide_created_at DESC"
+    )
     suspend fun getAllDailySuicideCompletedFromRange(start: Long, end: Long): List<DailySuicide>
 
     /**
@@ -525,11 +546,13 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailySymptoms]
      */
-    @Query("SELECT * " +
-            "FROM daily_symptoms " +
-            "WHERE daily_symptoms_completed = 1 " +
-            "AND daily_symptoms_modified_at BETWEEN :start AND :end " +
-            "ORDER BY daily_symptoms_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM daily_symptoms " +
+                "WHERE daily_symptoms_completed = 1 " +
+                "AND daily_symptoms_modified_at BETWEEN :start AND :end " +
+                "ORDER BY daily_symptoms_created_at DESC"
+    )
     suspend fun getAllDailySymptomsCompletedFromRange(start: Long, end: Long): List<DailySymptoms>
 
     /**
@@ -544,10 +567,12 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [OneOffStress]
      */
-    @Query("SELECT * " +
-            "FROM one_off_stress " +
-            "WHERE one_off_stress_created_at BETWEEN :start AND :end " +
-            "ORDER BY one_off_stress_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM one_off_stress " +
+                "WHERE one_off_stress_created_at BETWEEN :start AND :end " +
+                "ORDER BY one_off_stress_created_at DESC"
+    )
     suspend fun getAllOneOffStressFromRange(start: Long, end: Long): List<OneOffStress>
 
     /**
@@ -556,10 +581,12 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [OneOffDepression]
      */
-    @Query("SELECT * " +
-            "FROM one_off_depression " +
-            "WHERE one_off_depression_created_at BETWEEN :start AND :end " +
-            "ORDER BY one_off_depression_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM one_off_depression " +
+                "WHERE one_off_depression_created_at BETWEEN :start AND :end " +
+                "ORDER BY one_off_depression_created_at DESC"
+    )
     suspend fun getAllOneOffDepressionFromRange(start: Long, end: Long): List<OneOffDepression>
 
     /**
@@ -568,10 +595,12 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [OneOffLoneliness]
      */
-    @Query("SELECT * " +
-            "FROM one_off_loneliness " +
-            "WHERE one_off_loneliness_created_at BETWEEN :start AND :end " +
-            "ORDER BY one_off_loneliness_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM one_off_loneliness " +
+                "WHERE one_off_loneliness_created_at BETWEEN :start AND :end " +
+                "ORDER BY one_off_loneliness_created_at DESC"
+    )
     suspend fun getAllOneOffLonelinessFromRange(start: Long, end: Long): List<OneOffLoneliness>
 
     /**
@@ -580,10 +609,12 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailyStress]
      */
-    @Query("SELECT * " +
-            "FROM daily_stress " +
-            "WHERE daily_stress_created_at BETWEEN :start AND :end " +
-            "ORDER BY daily_stress_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM daily_stress " +
+                "WHERE daily_stress_created_at BETWEEN :start AND :end " +
+                "ORDER BY daily_stress_created_at DESC"
+    )
     suspend fun getAllDailyStressFromRange(start: Long, end: Long): List<DailyStress>
 
     /**
@@ -592,10 +623,12 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailyDepression]
      */
-    @Query("SELECT * " +
-            "FROM daily_depression " +
-            "WHERE daily_depression_created_at BETWEEN :start AND :end " +
-            "ORDER BY daily_depression_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM daily_depression " +
+                "WHERE daily_depression_created_at BETWEEN :start AND :end " +
+                "ORDER BY daily_depression_created_at DESC"
+    )
     suspend fun getAllDailyDepressionFromRange(start: Long, end: Long): List<DailyDepression>
 
     /**
@@ -604,10 +637,12 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailyLoneliness]
      */
-    @Query("SELECT * " +
-            "FROM daily_loneliness " +
-            "WHERE daily_loneliness_created_at BETWEEN :start AND :end " +
-            "ORDER BY daily_loneliness_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM daily_loneliness " +
+                "WHERE daily_loneliness_created_at BETWEEN :start AND :end " +
+                "ORDER BY daily_loneliness_created_at DESC"
+    )
     suspend fun getAllDailyLonelinessFromRange(start: Long, end: Long): List<DailyLoneliness>
 
     /**
@@ -616,10 +651,12 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailySuicide]
      */
-    @Query("SELECT * " +
-            "FROM daily_suicide " +
-            "WHERE daily_suicide_created_at BETWEEN :start AND :end " +
-            "ORDER BY daily_suicide_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM daily_suicide " +
+                "WHERE daily_suicide_created_at BETWEEN :start AND :end " +
+                "ORDER BY daily_suicide_created_at DESC"
+    )
     suspend fun getAllDailySuicideFromRange(start: Long, end: Long): List<DailySuicide>
 
     /**
@@ -628,10 +665,12 @@ interface AppDAO
      * @param end Timestamp of the end of the range, expressed in milliseconds
      * @return List of [DailySymptoms]
      */
-    @Query("SELECT * " +
-            "FROM daily_symptoms " +
-            "WHERE daily_symptoms_created_at BETWEEN :start AND :end " +
-            "ORDER BY daily_symptoms_created_at DESC")
+    @Query(
+        "SELECT * " +
+                "FROM daily_symptoms " +
+                "WHERE daily_symptoms_created_at BETWEEN :start AND :end " +
+                "ORDER BY daily_symptoms_created_at DESC"
+    )
     suspend fun getAllDailySymptomsFromRange(start: Long, end: Long): List<DailySymptoms>
 
     /**
@@ -646,18 +685,20 @@ interface AppDAO
      * @return List of [OneOffRoundFull]
      */
     @Transaction
-    @Query("SELECT one_off_round.*, " +
-            "one_off_stress.*, " +
-            "one_off_depression.*, " +
-            "one_off_loneliness.* " +
-            "FROM one_off_round " +
-            "LEFT JOIN one_off_stress ON one_off_round.stress_id = one_off_stress.one_off_stress_id " +
-            "LEFT JOIN one_off_depression ON one_off_round.depression_id = one_off_depression.one_off_depression_id " +
-            "LEFT JOIN one_off_loneliness ON one_off_round.loneliness_id = one_off_loneliness.one_off_loneliness_id " +
-            "WHERE (one_off_stress.one_off_stress_id IS NOT NULL AND one_off_stress.one_off_stress_completed = 0) " +
-            "OR (one_off_depression.one_off_depression_id IS NOT NULL AND one_off_depression.one_off_depression_completed = 0) " +
-            "OR (one_off_loneliness.one_off_loneliness_id IS NOT NULL AND one_off_loneliness.one_off_loneliness_completed  = 0) " +
-            "ORDER BY one_off_round.created_at DESC")
+    @Query(
+        "SELECT one_off_round.*, " +
+                "one_off_stress.*, " +
+                "one_off_depression.*, " +
+                "one_off_loneliness.* " +
+                "FROM one_off_round " +
+                "LEFT JOIN one_off_stress ON one_off_round.stress_id = one_off_stress.one_off_stress_id " +
+                "LEFT JOIN one_off_depression ON one_off_round.depression_id = one_off_depression.one_off_depression_id " +
+                "LEFT JOIN one_off_loneliness ON one_off_round.loneliness_id = one_off_loneliness.one_off_loneliness_id " +
+                "WHERE (one_off_stress.one_off_stress_id IS NOT NULL AND one_off_stress.one_off_stress_completed = 0) " +
+                "OR (one_off_depression.one_off_depression_id IS NOT NULL AND one_off_depression.one_off_depression_completed = 0) " +
+                "OR (one_off_loneliness.one_off_loneliness_id IS NOT NULL AND one_off_loneliness.one_off_loneliness_completed  = 0) " +
+                "ORDER BY one_off_round.created_at DESC"
+    )
     suspend fun getAllOneOffRoundFullUncompleted(): List<OneOffRoundFull>
 
     /**
@@ -666,26 +707,27 @@ interface AppDAO
      * @return List of [DailyRoundFull]
      */
     @Transaction
-    @Query("SELECT daily_round.*, " +
-            "daily_stress.*, " +
-            "daily_depression.*, " +
-            "daily_loneliness.*, " +
-            "daily_suicide.*, " +
-            "daily_symptoms.* " +
-            "FROM daily_round " +
-            "LEFT JOIN daily_stress ON daily_round.stress_id = daily_stress.daily_stress_id " +
-            "LEFT JOIN daily_depression ON daily_round.depression_id = daily_depression.daily_depression_id " +
-            "LEFT JOIN daily_loneliness ON daily_round.loneliness_id = daily_loneliness.daily_loneliness_id " +
-            "LEFT JOIN daily_suicide ON daily_round.suicide_id = daily_suicide.daily_suicide_id " +
-            "LEFT JOIN daily_symptoms ON daily_round.symptoms_id = daily_symptoms.daily_symptoms_id " +
-            "WHERE (daily_stress.daily_stress_id IS NOT NULL AND daily_stress.daily_stress_completed = 0) " +
-            "OR (daily_depression.daily_depression_id IS NOT NULL AND daily_depression.daily_depression_completed = 0) " +
-            "OR (daily_loneliness.daily_loneliness_id IS NOT NULL AND daily_loneliness.daily_loneliness_completed  = 0) " +
-            "OR (daily_suicide.daily_suicide_id IS NOT NULL AND daily_suicide.daily_suicide_completed = 0) " +
-            "OR (daily_symptoms.daily_symptoms_id IS NOT NULL AND daily_symptoms.daily_symptoms_completed  = 0) " +
-            "ORDER BY daily_round.created_at DESC")
+    @Query(
+        "SELECT daily_round.*, " +
+                "daily_stress.*, " +
+                "daily_depression.*, " +
+                "daily_loneliness.*, " +
+                "daily_suicide.*, " +
+                "daily_symptoms.* " +
+                "FROM daily_round " +
+                "LEFT JOIN daily_stress ON daily_round.stress_id = daily_stress.daily_stress_id " +
+                "LEFT JOIN daily_depression ON daily_round.depression_id = daily_depression.daily_depression_id " +
+                "LEFT JOIN daily_loneliness ON daily_round.loneliness_id = daily_loneliness.daily_loneliness_id " +
+                "LEFT JOIN daily_suicide ON daily_round.suicide_id = daily_suicide.daily_suicide_id " +
+                "LEFT JOIN daily_symptoms ON daily_round.symptoms_id = daily_symptoms.daily_symptoms_id " +
+                "WHERE (daily_stress.daily_stress_id IS NOT NULL AND daily_stress.daily_stress_completed = 0) " +
+                "OR (daily_depression.daily_depression_id IS NOT NULL AND daily_depression.daily_depression_completed = 0) " +
+                "OR (daily_loneliness.daily_loneliness_id IS NOT NULL AND daily_loneliness.daily_loneliness_completed  = 0) " +
+                "OR (daily_suicide.daily_suicide_id IS NOT NULL AND daily_suicide.daily_suicide_completed = 0) " +
+                "OR (daily_symptoms.daily_symptoms_id IS NOT NULL AND daily_symptoms.daily_symptoms_completed  = 0) " +
+                "ORDER BY daily_round.created_at DESC"
+    )
     suspend fun getAllDailyRoundFullUncompleted(): List<DailyRoundFull>
-
 
 
     /**
@@ -698,80 +740,96 @@ interface AppDAO
      * Get last [OneOffStress]
      * @return [OneOffStress], null if id doesn't match any row
      */
-    @Query("SELECT * " +
-            "FROM one_off_stress " +
-            "ORDER BY one_off_stress_created_at DESC " +
-            "LIMIT 1")
+    @Query(
+        "SELECT * " +
+                "FROM one_off_stress " +
+                "ORDER BY one_off_stress_created_at DESC " +
+                "LIMIT 1"
+    )
     suspend fun getLastOneOffStress(): OneOffStress?
 
     /**
      * Get last [OneOffDepression]
      * @return [OneOffDepression], null if id doesn't match any row
      */
-    @Query("SELECT * " +
-            "FROM one_off_depression " +
-            "ORDER BY one_off_depression_created_at DESC " +
-            "LIMIT 1")
+    @Query(
+        "SELECT * " +
+                "FROM one_off_depression " +
+                "ORDER BY one_off_depression_created_at DESC " +
+                "LIMIT 1"
+    )
     suspend fun getLastOneOffDepression(): OneOffDepression?
 
     /**
      * Get last [OneOffLoneliness]
      * @return [OneOffLoneliness], null if id doesn't match any row
      */
-    @Query("SELECT * " +
-            "FROM one_off_loneliness " +
-            "ORDER BY one_off_loneliness_created_at DESC " +
-            "LIMIT 1")
+    @Query(
+        "SELECT * " +
+                "FROM one_off_loneliness " +
+                "ORDER BY one_off_loneliness_created_at DESC " +
+                "LIMIT 1"
+    )
     suspend fun getLastOneOffLoneliness(): OneOffLoneliness?
 
     /**
      * Get last [DailyStress]
      * @return [DailyStress], null if id doesn't match any row
      */
-    @Query("SELECT * " +
-            "FROM daily_stress " +
-            "ORDER BY daily_stress_created_at DESC " +
-            "LIMIT 1")
+    @Query(
+        "SELECT * " +
+                "FROM daily_stress " +
+                "ORDER BY daily_stress_created_at DESC " +
+                "LIMIT 1"
+    )
     suspend fun getLastDailyStress(): DailyStress?
 
     /**
      * Get last [DailyDepression]
      * @return [DailyDepression], null if id doesn't match any row
      */
-    @Query("SELECT * " +
-            "FROM daily_depression " +
-            "ORDER BY daily_depression_created_at DESC " +
-            "LIMIT 1")
+    @Query(
+        "SELECT * " +
+                "FROM daily_depression " +
+                "ORDER BY daily_depression_created_at DESC " +
+                "LIMIT 1"
+    )
     suspend fun getLastDailyDepression(): DailyDepression?
 
     /**
      * Get last [DailyLoneliness]
      * @return [DailyLoneliness], null if id doesn't match any row
      */
-    @Query("SELECT * " +
-            "FROM daily_loneliness " +
-            "ORDER BY daily_loneliness_created_at DESC " +
-            "LIMIT 1")
+    @Query(
+        "SELECT * " +
+                "FROM daily_loneliness " +
+                "ORDER BY daily_loneliness_created_at DESC " +
+                "LIMIT 1"
+    )
     suspend fun getLastDailyLoneliness(): DailyLoneliness?
 
     /**
      * Get last [DailySuicide]
      * @return [DailySuicide], null if id doesn't match any row
      */
-    @Query("SELECT * " +
-            "FROM daily_suicide " +
-            "ORDER BY daily_suicide_created_at DESC " +
-            "LIMIT 1")
+    @Query(
+        "SELECT * " +
+                "FROM daily_suicide " +
+                "ORDER BY daily_suicide_created_at DESC " +
+                "LIMIT 1"
+    )
     suspend fun getLastDailySuicide(): DailySuicide?
 
     /**
      * Get last [DailySymptoms]
      * @return [DailySymptoms], null if id doesn't match any row
      */
-    @Query("SELECT * " +
-            "FROM daily_symptoms " +
-            "ORDER BY daily_symptoms_created_at DESC " +
-            "LIMIT 1")
+    @Query(
+        "SELECT * " +
+                "FROM daily_symptoms " +
+                "ORDER BY daily_symptoms_created_at DESC " +
+                "LIMIT 1"
+    )
     suspend fun getLastDailySymptoms(): DailySymptoms?
 
 
@@ -782,31 +840,40 @@ interface AppDAO
      */
     @Query("DELETE FROM last_upload")
     fun nukeLastUploadTable()
+
     @Query("DELETE FROM one_off_round")
     fun nukeOneOffRoundTable()
+
     @Query("DELETE FROM daily_round")
     fun nukeDailyRoundTable()
+
     @Query("DELETE FROM one_off_depression")
     fun nukeOneOffDepressionTable()
+
     @Query("DELETE FROM one_off_stress")
     fun nukeOneOffStressTable()
+
     @Query("DELETE FROM one_off_loneliness")
     fun nukeOneOffLonelinessTable()
+
     @Query("DELETE FROM daily_stress")
     fun nukeDailyStressTable()
+
     @Query("DELETE FROM daily_depression")
     fun nukeDailyDepressionTable()
+
     @Query("DELETE FROM daily_loneliness")
     fun nukeDailyLonelinessTable()
+
     @Query("DELETE FROM daily_suicide")
     fun nukeDailySuicideTable()
+
     @Query("DELETE FROM daily_symptoms")
     fun nukeDailySymptomsTable()
 
 
     @Transaction
-    suspend fun nukeDatabase()
-    {
+    suspend fun nukeDatabase() {
         nukeLastUploadTable()
         nukeOneOffRoundTable()
         nukeDailyRoundTable()

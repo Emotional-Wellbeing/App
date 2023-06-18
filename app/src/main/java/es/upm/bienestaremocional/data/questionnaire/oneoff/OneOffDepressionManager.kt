@@ -3,18 +3,18 @@ package es.upm.bienestaremocional.data.questionnaire.oneoff
 import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffDepression
 import es.upm.bienestaremocional.data.questionnaire.ScoreLevel
 
-class OneOffDepressionManager: OneOffManager<OneOffDepression>()
-{
-    override val answers: Array<Int?> = arrayOfNulls(OneOffQuestionnaire.Depression.numberOfQuestions)
-    override val questionsWithInvertedScore : Set<Int> = OneOffQuestionnaire.Depression.questionsWithInvertedScore
+class OneOffDepressionManager : OneOffManager<OneOffDepression>() {
+    override val answers: Array<Int?> =
+        arrayOfNulls(OneOffQuestionnaire.Depression.numberOfQuestions)
+    override val questionsWithInvertedScore: Set<Int> =
+        OneOffQuestionnaire.Depression.questionsWithInvertedScore
     override val answerRange: IntRange = OneOffQuestionnaire.Depression.answerRange
-    override val numberOfAnswers : Int = OneOffQuestionnaire.Depression.numberOfAnswers
+    override val numberOfAnswers: Int = OneOffQuestionnaire.Depression.numberOfAnswers
     override val numberOfQuestions: Int = OneOffQuestionnaire.Depression.numberOfQuestions
-    override val questionScoreOffset : Int = OneOffQuestionnaire.Depression.questionScoreOffset
+    override val questionScoreOffset: Int = OneOffQuestionnaire.Depression.questionScoreOffset
     override val levels: List<ScoreLevel> = OneOffQuestionnaire.Depression.levels
 
-    override fun loadEntity(element: OneOffDepression)
-    {
+    override fun loadEntity(element: OneOffDepression) {
         answers[0] = element.answer1
         answers[1] = element.answer2
         answers[2] = element.answer3

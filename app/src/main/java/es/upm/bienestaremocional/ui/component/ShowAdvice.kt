@@ -19,12 +19,11 @@ import es.upm.bienestaremocional.ui.screens.destinations.AdviceScreenDestination
 @Composable
 fun ShowAdviceHeadline(
     navigator: DestinationsNavigator,
-    advice : Advice,
+    advice: Advice,
     verticalArrangement: Arrangement.Vertical,
-    modifier : Modifier = Modifier,
+    modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current
-)
-{
+) {
     Column(
         modifier = modifier,
         verticalArrangement = verticalArrangement,
@@ -36,7 +35,8 @@ fun ShowAdviceHeadline(
             style = textStyle
         )
         advice.body?.let {
-            TextButton(onClick = { navigator.navigate(
+            TextButton(onClick = {
+                navigator.navigate(
                     AdviceScreenDestination(
                         advice = advice
                     )

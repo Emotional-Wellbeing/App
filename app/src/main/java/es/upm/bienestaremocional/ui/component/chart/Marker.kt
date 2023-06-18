@@ -27,8 +27,7 @@ import com.patrykandpatrick.vico.core.marker.Marker
  * Implements Marker to use in Charts when user taps screen, based on the official example
  */
 @Composable
-fun rememberMarker(): Marker
-{
+fun rememberMarker(): Marker {
     // Bubble background
     // Color background
     val labelBackgroundColor = MaterialTheme.colorScheme.surface
@@ -97,17 +96,25 @@ fun rememberMarker(): Marker
                     )
                     with(indicatorCenterComponent) {
                         color = entryColor
-                        setShadow(radius = INDICATOR_CENTER_COMPONENT_SHADOW_RADIUS, color = entryColor)
+                        setShadow(
+                            radius = INDICATOR_CENTER_COMPONENT_SHADOW_RADIUS,
+                            color = entryColor
+                        )
                     }
                 }
             }
 
             // Set indicator in the top of the chart, near upper axis
-            override fun getInsets(context: MeasureContext, outInsets: Insets, segmentProperties: SegmentProperties) =
+            override fun getInsets(
+                context: MeasureContext,
+                outInsets: Insets,
+                segmentProperties: SegmentProperties
+            ) =
                 with(context) {
-                    outInsets.top = label.getHeight(context) + labelBackgroundShape.tickSizeDp.pixels +
-                            LABEL_BACKGROUND_SHADOW_RADIUS.pixels * SHADOW_RADIUS_MULTIPLIER -
-                            LABEL_BACKGROUND_SHADOW_DY.pixels
+                    outInsets.top =
+                        label.getHeight(context) + labelBackgroundShape.tickSizeDp.pixels +
+                                LABEL_BACKGROUND_SHADOW_RADIUS.pixels * SHADOW_RADIUS_MULTIPLIER -
+                                LABEL_BACKGROUND_SHADOW_DY.pixels
                 }
         }
     }
@@ -117,8 +124,7 @@ fun rememberMarker(): Marker
  * Implements a simply marker, used in permanent ones
  */
 @Composable
-fun rememberSimpleMarker(): Marker
-{
+fun rememberSimpleMarker(): Marker {
     // Indicator elements (concentric circles)
     // Inner ring
     val indicatorInnerComponent = shapeComponent(
@@ -173,4 +179,5 @@ private val labelPadding = dimensionsOf(labelHorizontalPaddingValue, labelVertic
 private val indicatorInnerAndCenterComponentPaddingValue = 5.dp
 private val indicatorCenterAndOuterComponentPaddingValue = 10.dp
 private val guidelineThickness = 2.dp
-private val guidelineShape = DashedShape(Shapes.pillShape, GUIDELINE_DASH_LENGTH_DP, GUIDELINE_GAP_LENGTH_DP)
+private val guidelineShape =
+    DashedShape(Shapes.pillShape, GUIDELINE_DASH_LENGTH_DP, GUIDELINE_GAP_LENGTH_DP)

@@ -42,11 +42,10 @@ fun DailySuicideScreen(
     navigator: DestinationsNavigator,
     entityId: Long,
     moment: DailyRound.Moment,
-    questionnaireIndex : Int = 0,
-    questionnaireSize : Int = 1,
-    viewModel : DailySuicideViewModel = hiltViewModel(),
-)
-{
+    questionnaireIndex: Int = 0,
+    questionnaireSize: Int = 1,
+    viewModel: DailySuicideViewModel = hiltViewModel(),
+) {
     val questionnaire = if (moment == DailyRound.Moment.Morning)
         DailyNotScoredQuestionnaireDrawable.MorningSuicide
     else
@@ -66,12 +65,16 @@ fun DailySuicideScreen(
         questionNumber = questionNumber,
         questions = questions,
         answers = answers,
-        title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${stringResource(questionnaire.measureRes)}",
+        title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${
+            stringResource(
+                questionnaire.measureRes
+            )
+        }",
         level = viewModel.level,
         answerSelected = viewModel::answerSelected,
         onAnswer = { question, answer ->
             coroutineScope.launch {
-                viewModel.onAnswer(question,answer)
+                viewModel.onAnswer(question, answer)
             }
         },
         onInProgress = viewModel::onInProgress,
@@ -89,53 +92,50 @@ fun DailySuicideScreen(
 private fun DailySuicideScreen(
     navigator: DestinationsNavigator,
     state: SuicideScreenState,
-    questionNumber : Int,
-    questions : Array<String>,
-    answers : List<Array<String>>,
+    questionNumber: Int,
+    questions: Array<String>,
+    answers: List<Array<String>>,
     title: String,
     level: Level,
     answerSelected: (Int) -> Int?,
-    onAnswer: (Int,Int) -> Unit,
-    onInProgress : () -> Unit,
-    onSkippingAttempt : () -> Unit,
+    onAnswer: (Int, Int) -> Unit,
+    onInProgress: () -> Unit,
+    onSkippingAttempt: () -> Unit,
     onSkipped: () -> Unit,
     onSummary: () -> Unit,
     onExit: () -> Unit,
-)
-{
-    val content : @Composable () -> Unit = {
+) {
+    val content: @Composable () -> Unit = {
         ShowPage(
             question = questions[questionNumber],
-            answers = if(answers.size == 1) answers[0] else answers[questionNumber],
+            answers = if (answers.size == 1) answers[0] else answers[questionNumber],
             answerSelectedPrevious = answerSelected(questionNumber),
-            onAnswer = {answer -> onAnswer(questionNumber,answer)}
+            onAnswer = { answer -> onAnswer(questionNumber, answer) }
         )
     }
 
-    if (state !is SuicideScreenState.Summary || state !is SuicideScreenState.Finished)
-    {
+    if (state !is SuicideScreenState.Summary || state !is SuicideScreenState.Finished) {
         QuestionnaireLayout(
             title = title,
             onSkippingAttempt = onSkippingAttempt,
             content = content
         )
     }
-    when(state)
-    {
+    when (state) {
         SuicideScreenState.InProgress -> {}
-        SuicideScreenState.SkipAttempt ->
-        {
+        SuicideScreenState.SkipAttempt -> {
             ExitDialog(onDismiss = onInProgress, onConfirm = onSkipped)
         }
+
         SuicideScreenState.Skipped -> onExit()
-        SuicideScreenState.Summary ->
-        {
+        SuicideScreenState.Summary -> {
             ShowSummary(
                 navigator = navigator,
                 level = level,
                 onSuccess = onSummary
             )
         }
+
         SuicideScreenState.Finished -> onExit()
     }
 }
@@ -144,10 +144,9 @@ private fun DailySuicideScreen(
 private fun ShowPage(
     question: String,
     answers: Array<String>,
-    answerSelectedPrevious : Int?,
+    answerSelectedPrevious: Int?,
     onAnswer: (Int) -> Unit
-)
-{
+) {
     val answerContent = @Composable {
         StringAnswer(
             answers = answers,
@@ -167,10 +166,10 @@ private fun ShowPage(
 private fun ShowQuestion(
     question: String,
     answerContent: @Composable (() -> Unit),
-)
-{
+) {
     //content
-    Column(modifier = Modifier.fillMaxHeight(),
+    Column(
+        modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     )
@@ -203,21 +202,20 @@ private fun ShowQuestion(
 private fun ShowSummary(
     navigator: DestinationsNavigator,
     level: Level,
-    onSuccess : () -> Unit
-)
-{
+    onSuccess: () -> Unit
+) {
     val advice = levelToAdvice(level, Measure.Suicide)
 
     Summary(
         content = {
-          advice?.let {
-              ShowAdviceHeadline(
-                  navigator = navigator,
-                  advice = it,
-                  verticalArrangement = Arrangement.spacedBy(16.dp),
-                  modifier = Modifier.padding(16.dp)
-              )
-          }
+            advice?.let {
+                ShowAdviceHeadline(
+                    navigator = navigator,
+                    advice = it,
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
         },
         onSuccess = onSuccess
     )

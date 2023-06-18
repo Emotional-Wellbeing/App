@@ -17,40 +17,38 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class CommunityViewModel @Inject constructor(remoteRepository: RemoteRepository) : ViewModel()
-{
+class CommunityViewModel @Inject constructor(remoteRepository: RemoteRepository) : ViewModel() {
     // Stress
-    private val _stressYesterdayScore : MutableStateFlow<Int?> = MutableStateFlow(null)
-    val stressYesterdayScore : StateFlow<Int?> = _stressYesterdayScore.asStateFlow()
-    private val _stressLastSevenDaysScore : MutableStateFlow<Int?> = MutableStateFlow(null)
-    val stressLastSevenDaysScore : StateFlow<Int?> = _stressLastSevenDaysScore.asStateFlow()
-    private val _stressCurrentWeekScores : MutableStateFlow<List<NullableChartRecord>> =
+    private val _stressYesterdayScore: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val stressYesterdayScore: StateFlow<Int?> = _stressYesterdayScore.asStateFlow()
+    private val _stressLastSevenDaysScore: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val stressLastSevenDaysScore: StateFlow<Int?> = _stressLastSevenDaysScore.asStateFlow()
+    private val _stressCurrentWeekScores: MutableStateFlow<List<NullableChartRecord>> =
         MutableStateFlow(listOf())
-    val stressCurrentWeekScores : StateFlow<List<NullableChartRecord>> =
+    val stressCurrentWeekScores: StateFlow<List<NullableChartRecord>> =
         _stressCurrentWeekScores.asStateFlow()
 
     // Depression
-    private val _depressionYesterdayScore : MutableStateFlow<Int?> = MutableStateFlow(null)
-    val depressionYesterdayScore : StateFlow<Int?> = _depressionYesterdayScore.asStateFlow()
-    private val _depressionLastSevenDaysScore : MutableStateFlow<Int?> = MutableStateFlow(null)
-    val depressionLastSevenDaysScore : StateFlow<Int?> = _depressionLastSevenDaysScore.asStateFlow()
-    private val _depressionCurrentWeekScores : MutableStateFlow<List<NullableChartRecord>> =
+    private val _depressionYesterdayScore: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val depressionYesterdayScore: StateFlow<Int?> = _depressionYesterdayScore.asStateFlow()
+    private val _depressionLastSevenDaysScore: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val depressionLastSevenDaysScore: StateFlow<Int?> = _depressionLastSevenDaysScore.asStateFlow()
+    private val _depressionCurrentWeekScores: MutableStateFlow<List<NullableChartRecord>> =
         MutableStateFlow(listOf())
-    val depressionCurrentWeekScores : StateFlow<List<NullableChartRecord>> =
+    val depressionCurrentWeekScores: StateFlow<List<NullableChartRecord>> =
         _depressionCurrentWeekScores.asStateFlow()
 
     // Loneliness
-    private val _lonelinessYesterdayScore : MutableStateFlow<Int?> = MutableStateFlow(null)
-    val lonelinessYesterdayScore : StateFlow<Int?> = _lonelinessYesterdayScore.asStateFlow()
-    private val _lonelinessLastSevenDaysScore : MutableStateFlow<Int?> = MutableStateFlow(null)
-    val lonelinessLastSevenDaysScore : StateFlow<Int?> = _lonelinessLastSevenDaysScore.asStateFlow()
-    private val _lonelinessCurrentWeekScores : MutableStateFlow<List<NullableChartRecord>> =
+    private val _lonelinessYesterdayScore: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val lonelinessYesterdayScore: StateFlow<Int?> = _lonelinessYesterdayScore.asStateFlow()
+    private val _lonelinessLastSevenDaysScore: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val lonelinessLastSevenDaysScore: StateFlow<Int?> = _lonelinessLastSevenDaysScore.asStateFlow()
+    private val _lonelinessCurrentWeekScores: MutableStateFlow<List<NullableChartRecord>> =
         MutableStateFlow(listOf())
-    val lonelinessCurrentWeekScores : StateFlow<List<NullableChartRecord>> =
+    val lonelinessCurrentWeekScores: StateFlow<List<NullableChartRecord>> =
         _lonelinessCurrentWeekScores.asStateFlow()
 
-    init
-    {
+    init {
         viewModelScope.launch {
             val result = remoteRepository.getCommunity()
             val yesterdayScores = result?.data?.yesterday
@@ -79,8 +77,7 @@ class CommunityViewModel @Inject constructor(remoteRepository: RemoteRepository)
                 val depressionBuffer = mutableListOf<NullableChartRecord>()
                 val lonelinessBuffer = mutableListOf<NullableChartRecord>()
 
-                for (index in 0..6)
-                {
+                for (index in 0..6) {
                     val day = firstDay.plusDays(index.toLong())
 
                     stressBuffer.add(

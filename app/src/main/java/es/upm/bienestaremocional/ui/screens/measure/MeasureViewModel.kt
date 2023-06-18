@@ -30,42 +30,37 @@ class MeasureViewModel @Inject constructor(
     dailyStressRepository: DailyStressRepository,
     dailyDepressionRepository: DailyDepressionRepository,
     dailyLonelinessRepository: DailyLonelinessRepository
-) : ViewModel()
-{
+) : ViewModel() {
 
     val questionnaire = MeasureScreenDestination.argsFrom(savedStateHandle).questionnaire
 
-    val repository : QuestionnaireRepository<out ScoredEntity> = when(questionnaire)
-    {
+    val repository: QuestionnaireRepository<out ScoredEntity> = when (questionnaire) {
         DailyScoredQuestionnaire.Stress -> dailyStressRepository
         DailyScoredQuestionnaire.Depression -> dailyDepressionRepository
         DailyScoredQuestionnaire.Loneliness -> dailyLonelinessRepository
     }
 
-    private val _yesterdayScore : MutableStateFlow<Int?> = MutableStateFlow(null)
-    val yesterdayScore : StateFlow<Int?> = _yesterdayScore.asStateFlow()
-    private val _lastSevenDaysScore : MutableStateFlow<Int?> = MutableStateFlow(null)
-    val lastSevenDaysScore : StateFlow<Int?> = _lastSevenDaysScore.asStateFlow()
-    private val _currentWeekScores : MutableStateFlow<List<NullableChartRecord>> =
+    private val _yesterdayScore: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val yesterdayScore: StateFlow<Int?> = _yesterdayScore.asStateFlow()
+    private val _lastSevenDaysScore: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val lastSevenDaysScore: StateFlow<Int?> = _lastSevenDaysScore.asStateFlow()
+    private val _currentWeekScores: MutableStateFlow<List<NullableChartRecord>> =
         MutableStateFlow(listOf())
-    val currentWeekScores : StateFlow<List<NullableChartRecord>> =
+    val currentWeekScores: StateFlow<List<NullableChartRecord>> =
         _currentWeekScores.asStateFlow()
 
-    init
-    {
+    init {
         viewModelScope.launch {
             val yesterdayScores = repository.getAllFromYesterday()
             val lastSevenDayScores = repository.getAllFromLastSevenDays()
             val currentWeekScoresRaw = repository.getAllFromCurrentWeek()
 
-            if (yesterdayScores.any { it.score != null })
-            {
-               _yesterdayScore.value = processRecords(yesterdayScores, TimeGranularity.Day)[0]
-                   .score
-                   .toInt()
+            if (yesterdayScores.any { it.score != null }) {
+                _yesterdayScore.value = processRecords(yesterdayScores, TimeGranularity.Day)[0]
+                    .score
+                    .toInt()
             }
-            if (lastSevenDayScores.any { it.score != null })
-            {
+            if (lastSevenDayScores.any { it.score != null }) {
                 _lastSevenDaysScore.value = reduceEntries(
                     processRecords(lastSevenDayScores, TimeGranularity.Day)
                 )?.toInt()

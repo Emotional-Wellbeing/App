@@ -9,8 +9,7 @@ import es.upm.bienestaremocional.data.Advice
  */
 @NavTypeSerializer
 class AdviceNavTypeSerializer :
-    DestinationsNavTypeSerializer<Advice>
-{
+    DestinationsNavTypeSerializer<Advice> {
     override fun fromRouteString(routeStr: String): Advice {
         val values = routeStr.split(";").map { it.toIntOrNull() }
         return Advice(

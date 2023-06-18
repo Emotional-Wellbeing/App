@@ -7,8 +7,7 @@ import androidx.work.WorkInfo
  * Manages task scheduling.
  * @see WorkAdministratorImpl
  */
-interface WorkAdministrator
-{
+interface WorkAdministrator {
     /**
      * Schedule [DailyMorningNotificationWorker]
      */

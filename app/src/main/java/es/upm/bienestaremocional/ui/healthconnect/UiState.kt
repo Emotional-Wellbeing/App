@@ -5,8 +5,7 @@ import java.util.UUID
 /**
  * Contains states used for display HealthConnect data
  */
-sealed class UiState
-{
+sealed class UiState {
     object Uninitialized : UiState()
     object Success : UiState()
     object NotEnoughPermissions : UiState()

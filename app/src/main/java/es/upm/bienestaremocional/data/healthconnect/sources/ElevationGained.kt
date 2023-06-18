@@ -23,20 +23,17 @@ import kotlin.random.Random
 class ElevationGained @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<ElevationGainedRecord>(healthConnectClient,healthConnectManager)
-{
-    companion object
-    {
+) : HealthConnectSource<ElevationGainedRecord>(healthConnectClient, healthConnectManager) {
+    companion object {
         /**
          * Make demo data
          */
-        fun generateDummyData() : List<ElevationGainedRecord>
-        {
+        fun generateDummyData(): List<ElevationGainedRecord> {
             return List(5)
             { index ->
                 val (init, end) = generateInterval(offsetDays = index.toLong())
 
-                val elevation = Length.meters(Random.nextDouble(0.0,2500.0))
+                val elevation = Length.meters(Random.nextDouble(0.0, 2500.0))
 
                 ElevationGainedRecord(
                     startTime = init.toInstant(),
@@ -50,14 +47,15 @@ class ElevationGained @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(ElevationGainedRecord::class))
+        HealthPermission.getReadPermission(ElevationGainedRecord::class)
+    )
 
     override val writePermissions = setOf(
-        HealthPermission.getWritePermission(ElevationGainedRecord::class))
+        HealthPermission.getWritePermission(ElevationGainedRecord::class)
+    )
 
     override suspend fun readSource(startTime: Instant, endTime: Instant):
-            List<ElevationGainedRecord>
-    {
+            List<ElevationGainedRecord> {
         val request = ReadRecordsRequest(
             recordType = ElevationGainedRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

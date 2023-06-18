@@ -28,8 +28,7 @@ import es.upm.bienestaremocional.utils.openDial
 fun AdviceScreen(
     navigator: DestinationsNavigator,
     advice: Advice,
-)
-{
+) {
     AdviceScreen(
         navigator = navigator,
         advice = advice,
@@ -42,20 +41,18 @@ private fun AdviceScreen(
     navigator: DestinationsNavigator,
     advice: Advice,
     widthSize: WindowWidthSizeClass,
-)
-{
+) {
     val context = LocalContext.current
 
-    val content : @Composable (TextStyle) -> Unit = { textStyle ->
+    val content: @Composable (TextStyle) -> Unit = { textStyle ->
 
         advice.body?.let { bodyRes ->
             val pieces = stringArrayResource(id = bodyRes)
 
-            if (pieces.size > 1)
-            {
+            if (pieces.size > 1) {
                 val data = pieces.mapIndexed { index, item ->
                     //Add space trimmed in xml-loading
-                    val text = if(index > 0)
+                    val text = if (index > 0)
                         " $item"
                     else
                         item
@@ -64,7 +61,7 @@ private fun AdviceScreen(
                     if (index % 2 == 1)
                         LinkTextData(
                             text = text,
-                            tag = "number_${(index-1)/2}",
+                            tag = "number_${(index - 1) / 2}",
                             annotation = pieces[index],
                             onClick = { openDial(context, it.item) },
                         )
@@ -78,8 +75,7 @@ private fun AdviceScreen(
                     clickableTextSpanStyle = SpanStyle(color = MaterialTheme.colorScheme.tertiary)
                 )
             }
-            else
-            {
+            else {
                 Text(
                     text = pieces[0],
                     textAlign = TextAlign.Justify,
@@ -98,8 +94,7 @@ private fun AdviceScreen(
 
 @Preview
 @Composable
-fun LowStressAdvicePreview()
-{
+fun LowStressAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -108,10 +103,10 @@ fun LowStressAdvicePreview()
         )
     }
 }
+
 @Preview
 @Composable
-fun LowStressAdvicePreviewDarkTheme()
-{
+fun LowStressAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -123,8 +118,7 @@ fun LowStressAdvicePreviewDarkTheme()
 
 @Preview
 @Composable
-fun ModerateStressAdvicePreview()
-{
+fun ModerateStressAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -136,8 +130,7 @@ fun ModerateStressAdvicePreview()
 
 @Preview
 @Composable
-fun ModerateStressAdvicePreviewDarkTheme()
-{
+fun ModerateStressAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -149,8 +142,7 @@ fun ModerateStressAdvicePreviewDarkTheme()
 
 @Preview
 @Composable
-fun ModerateStressAdvice2Preview()
-{
+fun ModerateStressAdvice2Preview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -162,8 +154,7 @@ fun ModerateStressAdvice2Preview()
 
 @Preview
 @Composable
-fun ModerateStressAdvice2PreviewDarkTheme()
-{
+fun ModerateStressAdvice2PreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -175,8 +166,7 @@ fun ModerateStressAdvice2PreviewDarkTheme()
 
 @Preview
 @Composable
-fun HighStressAdvicePreview()
-{
+fun HighStressAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -188,8 +178,7 @@ fun HighStressAdvicePreview()
 
 @Preview
 @Composable
-fun HighStressAdvicePreviewDarkTheme()
-{
+fun HighStressAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -201,8 +190,7 @@ fun HighStressAdvicePreviewDarkTheme()
 
 @Preview
 @Composable
-fun LowDepressionAdvicePreview()
-{
+fun LowDepressionAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -211,10 +199,10 @@ fun LowDepressionAdvicePreview()
         )
     }
 }
+
 @Preview
 @Composable
-fun LowDepressionAdvicePreviewDarkTheme()
-{
+fun LowDepressionAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -226,8 +214,7 @@ fun LowDepressionAdvicePreviewDarkTheme()
 
 @Preview
 @Composable
-fun ModerateDepressionAdvicePreview()
-{
+fun ModerateDepressionAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -239,8 +226,7 @@ fun ModerateDepressionAdvicePreview()
 
 @Preview
 @Composable
-fun ModerateDepressionAdvicePreviewDarkTheme()
-{
+fun ModerateDepressionAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -252,8 +238,7 @@ fun ModerateDepressionAdvicePreviewDarkTheme()
 
 @Preview
 @Composable
-fun HighDepressionAdvicePreview()
-{
+fun HighDepressionAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -265,8 +250,7 @@ fun HighDepressionAdvicePreview()
 
 @Preview
 @Composable
-fun HighDepressionAdvicePreviewDarkTheme()
-{
+fun HighDepressionAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -278,8 +262,7 @@ fun HighDepressionAdvicePreviewDarkTheme()
 
 @Preview
 @Composable
-fun LowLonelinessAdvicePreview()
-{
+fun LowLonelinessAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -288,10 +271,10 @@ fun LowLonelinessAdvicePreview()
         )
     }
 }
+
 @Preview
 @Composable
-fun LowLonelinessAdvicePreviewDarkTheme()
-{
+fun LowLonelinessAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -303,8 +286,7 @@ fun LowLonelinessAdvicePreviewDarkTheme()
 
 @Preview
 @Composable
-fun ModerateLonelinessAdvicePreview()
-{
+fun ModerateLonelinessAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -316,8 +298,7 @@ fun ModerateLonelinessAdvicePreview()
 
 @Preview
 @Composable
-fun ModerateLonelinessAdvicePreviewDarkTheme()
-{
+fun ModerateLonelinessAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -329,8 +310,7 @@ fun ModerateLonelinessAdvicePreviewDarkTheme()
 
 @Preview
 @Composable
-fun HighLonelinessAdvicePreview()
-{
+fun HighLonelinessAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -342,8 +322,7 @@ fun HighLonelinessAdvicePreview()
 
 @Preview
 @Composable
-fun HighLonelinessAdvicePreviewDarkTheme()
-{
+fun HighLonelinessAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -355,8 +334,7 @@ fun HighLonelinessAdvicePreviewDarkTheme()
 
 @Preview
 @Composable
-fun LowSuicideAdvicePreview()
-{
+fun LowSuicideAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -365,10 +343,10 @@ fun LowSuicideAdvicePreview()
         )
     }
 }
+
 @Preview
 @Composable
-fun LowSuicideAdvicePreviewDarkTheme()
-{
+fun LowSuicideAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -380,8 +358,7 @@ fun LowSuicideAdvicePreviewDarkTheme()
 
 @Preview
 @Composable
-fun ModerateSuicideAdvicePreview()
-{
+fun ModerateSuicideAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -393,8 +370,7 @@ fun ModerateSuicideAdvicePreview()
 
 @Preview
 @Composable
-fun ModerateSuicideAdvicePreviewDarkTheme()
-{
+fun ModerateSuicideAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -406,8 +382,7 @@ fun ModerateSuicideAdvicePreviewDarkTheme()
 
 @Preview
 @Composable
-fun HighSuicideAdvicePreview()
-{
+fun HighSuicideAdvicePreview() {
     BienestarEmocionalTheme {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,
@@ -419,8 +394,7 @@ fun HighSuicideAdvicePreview()
 
 @Preview
 @Composable
-fun HighSuicideAdvicePreviewDarkTheme()
-{
+fun HighSuicideAdvicePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AdviceScreen(
             navigator = EmptyDestinationsNavigator,

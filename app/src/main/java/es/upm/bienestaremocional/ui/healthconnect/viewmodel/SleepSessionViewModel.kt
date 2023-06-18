@@ -1,4 +1,3 @@
-
 package es.upm.bienestaremocional.ui.healthconnect.viewmodel
 
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -13,10 +12,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SleepSessionViewModel @Inject constructor(
     private val sleep: Sleep
-): HealthConnectViewModel<SleepSessionData>()
-{
-    private fun writeAndReadDummyData()
-    {
+) : HealthConnectViewModel<SleepSessionData>() {
+    private fun writeAndReadDummyData() {
         val data = Sleep.generateDummyData()
         super.writeData(sleep, data.map { it.toSleepSessionRecord() })
         data.forEach {
@@ -26,10 +23,9 @@ class SleepSessionViewModel @Inject constructor(
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData<SleepSessionData>
-    {
+    override fun getViewModelData(): ViewModelData<SleepSessionData> {
         val data by elements
-        val onPermissionsResult = {readData(sleep)}
+        val onPermissionsResult = { readData(sleep) }
 
         val permissionsLauncher =
             rememberLauncherForActivityResult(permissionLauncher) { onPermissionsResult() }
@@ -39,8 +35,8 @@ class SleepSessionViewModel @Inject constructor(
             uiState = uiState,
             permissions = sleep.readPermissions + sleep.writePermissions,
             onPermissionsResult = onPermissionsResult,
-            onRequestPermissions = { values -> permissionsLauncher.launch(values)},
-            onWrite = {writeAndReadDummyData()}
+            onRequestPermissions = { values -> permissionsLauncher.launch(values) },
+            onWrite = { writeAndReadDummyData() }
         )
     }
 }

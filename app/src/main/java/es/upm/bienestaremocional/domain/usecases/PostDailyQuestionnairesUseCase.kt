@@ -4,5 +4,5 @@ import es.upm.bienestaremocional.domain.repository.remote.RemoteOperationResult
 
 
 interface PostDailyQuestionnairesUseCase {
-    suspend fun execute() : RemoteOperationResult
+    suspend fun execute(): RemoteOperationResult
 }

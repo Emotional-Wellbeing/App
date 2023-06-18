@@ -13,12 +13,7 @@ import androidx.compose.ui.unit.dp
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 @Composable
-fun BasicCard(content: @Composable (ColumnScope.() -> Unit))
-{
-    /**
-     * @Todo implement card colour
-     * https://m3.material.io/components/cards/guidelines
-     */
+fun BasicCard(content: @Composable (ColumnScope.() -> Unit)) {
     Card(modifier = Modifier.fillMaxWidth())
     {
         Column(modifier = Modifier.padding(16.dp))
@@ -30,10 +25,9 @@ fun BasicCard(content: @Composable (ColumnScope.() -> Unit))
 
 @Preview(group = "Light Theme")
 @Composable
-fun BasicCardPreview()
-{
+fun BasicCardPreview() {
     BienestarEmocionalTheme {
-        BasicCard{
+        BasicCard {
             Text(text = "Hello world!")
         }
     }
@@ -41,10 +35,9 @@ fun BasicCardPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun BasicCardPreviewDarkTheme()
-{
+fun BasicCardPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
-        BasicCard{
+        BasicCard {
             Text(text = "Hello world!")
         }
     }

@@ -12,5 +12,5 @@ package es.upm.bienestaremocional.data.credits
 data class Credit(
     val nameResource: Int,
     val descriptionResource: Int,
-    val importantContribution : Boolean = true
+    val importantContribution: Boolean = true
 )

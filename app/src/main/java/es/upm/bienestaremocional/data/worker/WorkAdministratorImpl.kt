@@ -23,8 +23,7 @@ import java.time.ZonedDateTime
 class WorkAdministratorImpl(
     context: Context,
     private val logTag: String
-) : WorkAdministrator
-{
+) : WorkAdministrator {
     private val workManager = WorkManager.getInstance(context)
 
     /**
@@ -36,14 +35,13 @@ class WorkAdministratorImpl(
      * @param constraints Optional constraints that must be fulfilled to execute the request
      */
     private fun scheduleRequest(
-        workerClass : Class<out ListenableWorker>,
+        workerClass: Class<out ListenableWorker>,
         time: LocalDateTime,
         tag: String,
         repeatInterval: Duration,
         constraints: Constraints? = null,
-    )
-    {
-        Log.d(logTag,"Setting daily request with tag: $tag")
+    ) {
+        Log.d(logTag, "Setting daily request with tag: $tag")
 
         // Compute trigger for the next one. If the hour has passed, schedule it to the following day
         val now = ZonedDateTime.now()
@@ -53,12 +51,13 @@ class WorkAdministratorImpl(
         if (timeOfFirstExecution.isBefore(now))
             timeOfFirstExecution = timeOfFirstExecution.plusDays(1)
 
-        val offset = Duration.between(now,timeOfFirstExecution)
+        val offset = Duration.between(now, timeOfFirstExecution)
 
         // Build request. If we have received constants, set them
         val requestBuilder = PeriodicWorkRequest.Builder(
-                workerClass = workerClass,
-                repeatInterval = repeatInterval)
+            workerClass = workerClass,
+            repeatInterval = repeatInterval
+        )
             .addTag(tag)
             .setInitialDelay(offset)
 
@@ -72,17 +71,18 @@ class WorkAdministratorImpl(
             requestBuilder.build()
         )
 
-        Log.d(logTag, "The daily request shall be triggered at $timeOfFirstExecution for first time")
+        Log.d(
+            logTag,
+            "The daily request shall be triggered at $timeOfFirstExecution for first time"
+        )
     }
 
-    private fun cancelRequest(tag: String)
-    {
+    private fun cancelRequest(tag: String) {
         workManager.cancelUniqueWork(tag)
         Log.d(logTag, "The daily request with tag $tag has been cancelled")
     }
 
-    override fun scheduleDailyMorningNotificationWorker()
-    {
+    override fun scheduleDailyMorningNotificationWorker() {
         with(DailyMorningNotificationWorker)
         {
             scheduleRequest(
@@ -114,8 +114,7 @@ class WorkAdministratorImpl(
         cancelRequest(DailyNightNotificationWorker.tag)
     }
 
-    override fun scheduleOneOffNotificationWorker()
-    {
+    override fun scheduleOneOffNotificationWorker() {
         with(OneOffNotificationWorker)
         {
             scheduleRequest(
@@ -131,8 +130,7 @@ class WorkAdministratorImpl(
         cancelRequest(OneOffNotificationWorker.tag)
     }
 
-    override fun scheduleUploadWorker()
-    {
+    override fun scheduleUploadWorker() {
         //Only execute upload job when battery is not low and network is available
         val constraints = Constraints.Builder()
             .setRequiresBatteryNotLow(true)
@@ -141,7 +139,8 @@ class WorkAdministratorImpl(
 
         with(UploadWorker)
         {
-            scheduleRequest(workerClass = UploadWorker::class.java,
+            scheduleRequest(
+                workerClass = UploadWorker::class.java,
                 time = time,
                 tag = tag,
                 repeatInterval = repeatInterval,
@@ -153,8 +152,7 @@ class WorkAdministratorImpl(
 
     override fun cancelUploadWorker() = cancelRequest(UploadWorker.tag)
 
-    override fun queryWorkerStatus(): LiveData<List<WorkInfo>>
-    {
+    override fun queryWorkerStatus(): LiveData<List<WorkInfo>> {
         return workManager.getWorkInfosLiveData(
             WorkQuery.fromUniqueWorkNames(
                 DailyMorningNotificationWorker.tag,

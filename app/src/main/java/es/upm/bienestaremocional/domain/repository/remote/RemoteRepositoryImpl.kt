@@ -13,47 +13,46 @@ import es.upm.bienestaremocional.data.remote.userdata.UserDataResponse
 class RemoteRepositoryImpl(
     private val logTag: String,
     private val remoteAPI: RemoteAPI
-): RemoteRepository
-{
-    override suspend fun getCommunity(): CommunityResponse?
-    {
+) : RemoteRepository {
+    override suspend fun getCommunity(): CommunityResponse? {
         Log.d(logTag, "get community")
 
-        var response : CommunityResponse? = null
+        var response: CommunityResponse? = null
 
         try {
             val rawResponse = remoteAPI.getCommunityData()
-            Log.d(logTag, "response received with " +
-                    "code ${rawResponse.code()} and values ${rawResponse.body()}")
+            Log.d(
+                logTag, "response received with " +
+                        "code ${rawResponse.code()} and values ${rawResponse.body()}"
+            )
             response = CommunityResponse(
                 code = rawResponse.code(),
                 data = rawResponse.body()
             )
         }
-        catch (e: Exception)
-        {
+        catch (e: Exception) {
             Log.e(logTag, "response failed with exception $e")
         }
         return response
     }
 
-    override suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse?
-    {
+    override suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse? {
         Log.d(logTag, "posting user data")
 
-        var response : UserDataResponse? = null
+        var response: UserDataResponse? = null
 
         try {
             val rawResponse = remoteAPI.postUserData(userDataRequest)
-            Log.d(logTag, "response received with " +
-                    "code ${rawResponse.code()} and values ${rawResponse.body()}")
+            Log.d(
+                logTag, "response received with " +
+                        "code ${rawResponse.code()} and values ${rawResponse.body()}"
+            )
             response = UserDataResponse(
                 code = rawResponse.code(),
                 timestamps = rawResponse.body()
             )
         }
-        catch (e: Exception)
-        {
+        catch (e: Exception) {
             Log.e(logTag, "response failed with exception ${Log.getStackTraceString(e)}")
         }
         return response
@@ -61,23 +60,23 @@ class RemoteRepositoryImpl(
 
     override suspend fun postDailyQuestionnaires(
         dailyQuestionnairesRequest: DailyQuestionnairesRequest
-    ): DailyQuestionnairesResponse?
-    {
+    ): DailyQuestionnairesResponse? {
         Log.d(logTag, "posting daily questionnaires data")
 
-        var response : DailyQuestionnairesResponse? = null
+        var response: DailyQuestionnairesResponse? = null
 
         try {
             val rawResponse = remoteAPI.postDailyQuestionnaires(dailyQuestionnairesRequest)
-            Log.d(logTag, "response received with " +
-                    "code ${rawResponse.code()} and values ${rawResponse.body()}")
+            Log.d(
+                logTag, "response received with " +
+                        "code ${rawResponse.code()} and values ${rawResponse.body()}"
+            )
             response = DailyQuestionnairesResponse(
                 code = rawResponse.code(),
                 timestamps = rawResponse.body()
             )
         }
-        catch (e: Exception)
-        {
+        catch (e: Exception) {
             Log.e(logTag, "response failed with exception ${Log.getStackTraceString(e)}")
         }
         return response
@@ -85,23 +84,23 @@ class RemoteRepositoryImpl(
 
     override suspend fun postOneOffQuestionnaires(
         oneOffQuestionnairesRequest: OneOffQuestionnairesRequest
-    ): OneOffQuestionnairesResponse?
-    {
+    ): OneOffQuestionnairesResponse? {
         Log.d(logTag, "posting one off questionnaires data")
 
-        var response : OneOffQuestionnairesResponse? = null
+        var response: OneOffQuestionnairesResponse? = null
 
         try {
             val rawResponse = remoteAPI.postOneOffQuestionnaires(oneOffQuestionnairesRequest)
-            Log.d(logTag, "response received with " +
-                    "code ${rawResponse.code()} and values ${rawResponse.body()}")
+            Log.d(
+                logTag, "response received with " +
+                        "code ${rawResponse.code()} and values ${rawResponse.body()}"
+            )
             response = OneOffQuestionnairesResponse(
                 code = rawResponse.code(),
                 timestamps = rawResponse.body()
             )
         }
-        catch (e: Exception)
-        {
+        catch (e: Exception) {
             Log.e(logTag, "response failed with exception  ${Log.getStackTraceString(e)}")
         }
         return response

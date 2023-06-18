@@ -12,20 +12,17 @@ import javax.inject.Inject
 @HiltViewModel
 class DistanceViewModel @Inject constructor(
     private val distance: Distance
-): HealthConnectViewModel<DistanceRecord>()
-{
+) : HealthConnectViewModel<DistanceRecord>() {
 
-    private fun writeAndReadDummyData()
-    {
+    private fun writeAndReadDummyData() {
         writeData(distance, Distance.generateDummyData())
         readData(distance)
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData<DistanceRecord>
-    {
+    override fun getViewModelData(): ViewModelData<DistanceRecord> {
         val data by elements
-        val onPermissionsResult = {readData(distance)}
+        val onPermissionsResult = { readData(distance) }
 
         //launcher is a special case
         val permissionsLauncher =
@@ -36,8 +33,8 @@ class DistanceViewModel @Inject constructor(
             uiState = uiState,
             permissions = distance.readPermissions + distance.writePermissions,
             onPermissionsResult = onPermissionsResult,
-            onRequestPermissions = { values -> permissionsLauncher.launch(values)},
-            onWrite = {writeAndReadDummyData()}
+            onRequestPermissions = { values -> permissionsLauncher.launch(values) },
+            onWrite = { writeAndReadDummyData() }
         )
     }
 }

@@ -21,24 +21,36 @@ import kotlinx.parcelize.Parcelize
  * @see DailySymptoms
  */
 @Parcelize
-@Entity(tableName = "daily_round",
-        foreignKeys = [
-            ForeignKey(entity = DailyStress::class,
-                childColumns = ["stress_id"],
-                parentColumns = ["daily_stress_id"]), //entity DailyStress
-            ForeignKey(entity = DailyDepression::class,
-                childColumns = ["depression_id"],
-                parentColumns = ["daily_depression_id"]), //entity DailyDepression
-            ForeignKey(entity = DailyLoneliness::class,
-                childColumns = ["loneliness_id"],
-                parentColumns = ["daily_loneliness_id"]), //entity DailyLoneliness
-            ForeignKey(entity = DailySuicide::class,
-                childColumns = ["suicide_id"],
-                parentColumns = ["daily_suicide_id"]), //entity DailySuicide
-            ForeignKey(entity = DailySymptoms::class,
-                childColumns = ["symptoms_id"],
-                parentColumns = ["daily_symptoms_id"]), //entity DailySymptoms
-        ])
+@Entity(
+    tableName = "daily_round",
+    foreignKeys = [
+        ForeignKey(
+            entity = DailyStress::class,
+            childColumns = ["stress_id"],
+            parentColumns = ["daily_stress_id"]
+        ), //entity DailyStress
+        ForeignKey(
+            entity = DailyDepression::class,
+            childColumns = ["depression_id"],
+            parentColumns = ["daily_depression_id"]
+        ), //entity DailyDepression
+        ForeignKey(
+            entity = DailyLoneliness::class,
+            childColumns = ["loneliness_id"],
+            parentColumns = ["daily_loneliness_id"]
+        ), //entity DailyLoneliness
+        ForeignKey(
+            entity = DailySuicide::class,
+            childColumns = ["suicide_id"],
+            parentColumns = ["daily_suicide_id"]
+        ), //entity DailySuicide
+        ForeignKey(
+            entity = DailySymptoms::class,
+            childColumns = ["symptoms_id"],
+            parentColumns = ["daily_symptoms_id"]
+        ), //entity DailySymptoms
+    ]
+)
 data class DailyRound(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -67,14 +79,12 @@ data class DailyRound(
 
     @ColumnInfo(name = "symptoms_id", index = true)
     var symptomsId: Long? = null,
-) : Parcelable
-{
-    enum class Moment
-    {
+) : Parcelable {
+    enum class Moment {
         Morning,
         Night;
-        companion object
-        {
+
+        companion object {
             private val values: Array<Moment> = values()
 
             operator fun get(ordinal: Int): Moment? {

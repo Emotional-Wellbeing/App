@@ -15,15 +15,17 @@ import retrofit2.http.POST
 /**
  * Operations established on the API
  */
-interface RemoteAPI
-{
+interface RemoteAPI {
     @GET("/community")
-    suspend fun getCommunityData() : Response<CommunityResponse.Data>
+    suspend fun getCommunityData(): Response<CommunityResponse.Data>
+
     @POST("/user_data")
     suspend fun postUserData(@Body data: UserDataRequest): Response<UserDataResponse.Timestamps>
+
     @POST("/daily_questionnaires")
     suspend fun postDailyQuestionnaires(@Body data: DailyQuestionnairesRequest):
             Response<DailyQuestionnairesResponse.Timestamps>
+
     @POST("/one_off_questionnaires")
     suspend fun postOneOffQuestionnaires(@Body data: OneOffQuestionnairesRequest):
             Response<OneOffQuestionnairesResponse.Timestamps>

@@ -30,11 +30,11 @@ data class DailyLoneliness(
     override var completed: Boolean = false,
 
     @ColumnInfo(name = "daily_loneliness_answer_1")
-    var answer1 : Int? = null,
+    var answer1: Int? = null,
     @ColumnInfo(name = "daily_loneliness_answer_2")
-    var answer2 : Int? = null,
+    var answer2: Int? = null,
     @ColumnInfo(name = "daily_loneliness_answer_3")
-    var answer3 : Int? = null,
+    var answer3: Int? = null,
     @ColumnInfo(name = "daily_loneliness_answer_4")
-    var answer4 : Int? = null,
-): ScoredEntity
+    var answer4: Int? = null,
+) : ScoredEntity

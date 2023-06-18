@@ -9,6 +9,7 @@ import androidx.annotation.StringRes
 interface QuestionnaireDrawableNumericAnswers : Questionnaire {
     @get:StringRes
     val measureRes: Int
+
     @get:ArrayRes
     val questionRes: Int
 }

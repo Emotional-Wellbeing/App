@@ -21,21 +21,19 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  */
 @Destination
 @Composable
-fun AboutScreen(navigator: DestinationsNavigator)
-{
-   AboutScreen(
-       navigator = navigator,
-       widthSize = computeWindowWidthSize()
-   )
+fun AboutScreen(navigator: DestinationsNavigator) {
+    AboutScreen(
+        navigator = navigator,
+        widthSize = computeWindowWidthSize()
+    )
 }
 
 @Composable
 private fun AboutScreen(
     navigator: DestinationsNavigator,
     widthSize: WindowWidthSizeClass,
-)
-{
-    val content : @Composable (TextStyle) -> Unit = { textStyle ->
+) {
+    val content: @Composable (TextStyle) -> Unit = { textStyle ->
         Text(
             text = stringResource(id = R.string.about_screen_description),
             textAlign = TextAlign.Justify,
@@ -57,8 +55,7 @@ private fun AboutScreen(
     group = "Light Theme"
 )
 @Composable
-fun AboutScreenPreview()
-{
+fun AboutScreenPreview() {
     BienestarEmocionalTheme {
         AboutScreen(
             navigator = EmptyDestinationsNavigator,
@@ -72,8 +69,7 @@ fun AboutScreenPreview()
     group = "Dark Theme"
 )
 @Composable
-fun AboutScreenPreviewDarkTheme()
-{
+fun AboutScreenPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AboutScreen(
             navigator = EmptyDestinationsNavigator,

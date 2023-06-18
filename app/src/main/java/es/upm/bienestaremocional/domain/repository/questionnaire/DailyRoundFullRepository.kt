@@ -5,8 +5,7 @@ import es.upm.bienestaremocional.data.database.entity.round.DailyRoundFull
 /**
  * Repository to interact with [DailyRoundFull] (only queries)
  */
-interface DailyRoundFullRepository
-{
+interface DailyRoundFullRepository {
     suspend fun get(id: Long): DailyRoundFull?
     suspend fun getAll(): List<DailyRoundFull>
     suspend fun getAllUncompleted(): List<DailyRoundFull>

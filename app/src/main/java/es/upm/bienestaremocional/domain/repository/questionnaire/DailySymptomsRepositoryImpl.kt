@@ -18,71 +18,63 @@ import javax.inject.Inject
 class DailySymptomsRepositoryImpl @Inject constructor(
     private val dao: AppDAO,
     private val logTag: String
-): DailySymptomsRepository
-{
-    override suspend fun insert(element: DailySymptoms): Long
-    {
+) : DailySymptomsRepository {
+    override suspend fun insert(element: DailySymptoms): Long {
         Log.d(logTag, "inserting new DailySymptoms")
         return dao.insert(element)
     }
 
-    override suspend fun update(element: DailySymptoms)
-    {
+    override suspend fun update(element: DailySymptoms) {
         Log.d(logTag, "updating DailySymptoms with id: ${element.id}")
         element.apply { modifiedAt = System.currentTimeMillis() }
         return dao.update(element)
     }
 
-    override suspend fun get(id: Long): DailySymptoms?
-    {
+    override suspend fun get(id: Long): DailySymptoms? {
         Log.d(logTag, "querying DailySymptoms with id: $id")
         return dao.getDailySymptoms(id)
     }
 
-    override suspend fun getAll(): List<DailySymptoms>
-    {
+    override suspend fun getAll(): List<DailySymptoms> {
         Log.d(logTag, "querying all DailySymptoms")
         return dao.getAllDailySymptoms()
     }
 
-    override suspend fun getAllFromCurrentWeek(): List<DailySymptoms>
-    {
+    override suspend fun getAllFromCurrentWeek(): List<DailySymptoms> {
         Log.d(logTag, "querying all DailySymptoms from current week")
         val range = getCurrentWeekMillisecondTimestamps()
-        return dao.getAllDailySymptomsFromRange(range.first,range.second)
+        return dao.getAllDailySymptomsFromRange(range.first, range.second)
     }
 
-    override suspend fun getAllFromLastSevenDays(): List<DailySymptoms>
-    {
+    override suspend fun getAllFromLastSevenDays(): List<DailySymptoms> {
         Log.d(logTag, "querying all DailySymptoms from last seven days")
         val range = getLastSevenDaysMillisecondTimestamps()
-        return dao.getAllDailySymptomsFromRange(range.first,range.second)
+        return dao.getAllDailySymptomsFromRange(range.first, range.second)
     }
 
     override suspend fun getAllFromRange(
         range: Range<ZonedDateTime>,
         onlyCompleted: Boolean
-    ): List<DailySymptoms>
-    {
-        Log.d(logTag, "querying all DailySymptoms between ${range.lower} " +
-                "and ${range.upper}; only completed: $onlyCompleted")
+    ): List<DailySymptoms> {
+        Log.d(
+            logTag, "querying all DailySymptoms between ${range.lower} " +
+                    "and ${range.upper}; only completed: $onlyCompleted"
+        )
         val start = range.lower.toEpochSecond() * 1000
         val end = range.upper.plusDays(1).toEpochSecond() * 1000
         return if (onlyCompleted)
-            dao.getAllDailySymptomsCompletedFromRange(start,end)
+            dao.getAllDailySymptomsCompletedFromRange(start, end)
         else
-            dao.getAllDailySymptomsFromRange(start,end)
+            dao.getAllDailySymptomsFromRange(start, end)
     }
 
-    override suspend fun getAllFromYesterday(): List<DailySymptoms>
-    {
+    override suspend fun getAllFromYesterday(): List<DailySymptoms> {
         Log.d(logTag, "querying all DailySymptoms from yesterday")
         val range = getStartAndEndOfYesterdayMillisecondTimestamps()
-        return dao.getAllDailySymptomsFromRange(range.first,range.second)
+        return dao.getAllDailySymptomsFromRange(range.first, range.second)
     }
 
-    override suspend fun getLastElement(): DailySymptoms?
-    {
+    override suspend fun getLastElement(): DailySymptoms? {
         Log.d(logTag, "querying last DailySymptoms")
         return dao.getLastDailySymptoms()
     }

@@ -18,11 +18,10 @@ fun linspace(start: Long, stop: Long, num: Int) =
     (start..stop step (stop - start) / (num - 1)).toList()
 
 fun randomSequence(
-    min : Int,
-    max : Int,
-    length : Int,
-) : Set<Int>
-{
+    min: Int,
+    max: Int,
+    length: Int,
+): Set<Int> {
     return generateSequence {
         // this lambda is the source of the sequence's values
         Random.nextInt(min..max)
@@ -38,13 +37,13 @@ fun randomSequence(
         .toSet()
 }
 
-fun android12OrAbove() : Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+fun android12OrAbove(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
 /**
  * Shows details of a given throwable in the snackbar
  */
 suspend fun showExceptionSnackbar(
-    snackbarHostState : SnackbarHostState,
+    snackbarHostState: SnackbarHostState,
     throwable: Throwable?
 ) {
     snackbarHostState.showSnackbar(
@@ -58,8 +57,7 @@ suspend fun showExceptionSnackbar(
  */
 fun Context.getActivity(): Activity {
     var context = this
-    while (context is ContextWrapper)
-    {
+    while (context is ContextWrapper) {
         if (context is Activity) return context
         context = context.baseContext
     }
@@ -67,11 +65,10 @@ fun Context.getActivity(): Activity {
 
 }
 
-fun restartApp(activity: Activity)
-{
+fun restartApp(activity: Activity) {
     activity.finish()
     activity.startActivity(activity.intent)
-    activity.overridePendingTransition(0,0)
+    activity.overridePendingTransition(0, 0)
 }
 
 /**
@@ -79,8 +76,7 @@ fun restartApp(activity: Activity)
  */
 fun openForeignActivity(context: Context, action: String) = context.startActivity(Intent(action))
 
-fun openDial(context: Context, phone : String)
-{
+fun openDial(context: Context, phone: String) {
     val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null))
     context.startActivity(intent)
 }

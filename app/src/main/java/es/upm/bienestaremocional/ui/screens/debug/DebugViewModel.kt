@@ -62,8 +62,7 @@ class DebugViewModel @Inject constructor(
     private val postUserDataUseCase: PostUserDataUseCase,
     private val insertDailyRoundUseCase: InsertDailyRoundUseCase,
     private val insertOneOffRoundUseCase: InsertOneOffRoundUseCase
-): ViewModel()
-{
+) : ViewModel() {
     //state
     private val _state = MutableStateFlow<DebugState>(DebugState.ShowOptions)
     val state: StateFlow<DebugState> = _state.asStateFlow()
@@ -84,7 +83,7 @@ class DebugViewModel @Inject constructor(
         get() = _oneOffRounds
 
 
-    private var _workInfo : LiveData<List<WorkInfo>> = MutableLiveData()
+    private var _workInfo: LiveData<List<WorkInfo>> = MutableLiveData()
     val workInfo: LiveData<List<WorkInfo>>
         get() = _workInfo
 
@@ -92,79 +91,73 @@ class DebugViewModel @Inject constructor(
     val communityData: LiveData<CommunityResponse.Data>
         get() = _communityData
 
-    private fun fetchUncompletedQuestionnaireRounds()
-    {
+    private fun fetchUncompletedQuestionnaireRounds() {
         viewModelScope.launch {
             _dailyRoundsUncompleted.value = dailyRoundFullRepository.getAllUncompleted()
             _oneOffRoundsUncompleted.value = oneOffRoundFullRepository.getAllUncompleted()
         }
     }
 
-    private fun fetchAllQuestionnaireRounds()
-    {
+    private fun fetchAllQuestionnaireRounds() {
         viewModelScope.launch {
             _dailyRounds.value = dailyRoundFullRepository.getAll()
             _oneOffRounds.value = oneOffRoundFullRepository.getAll()
         }
     }
 
-    fun onDailyMorningNotification()
-    {
+    fun onDailyMorningNotification() {
         viewModelScope.launch {
             val dailyMorningRound = insertDailyRoundUseCase.insertDailyMorningRound()
             notification.showDailyMorningRoundNotification(dailyMorningRound)
         }
     }
 
-    fun onDailyNightNotification()
-    {
+    fun onDailyNightNotification() {
         viewModelScope.launch {
             val dailyNightRound = insertDailyRoundUseCase.insertDailyNightRound()
             notification.showDailyNightRoundNotification(dailyNightRound)
         }
     }
 
-    fun onOneOffNotification()
-    {
+    fun onOneOffNotification() {
         viewModelScope.launch {
             val oneOffRound = insertOneOffRoundUseCase.insertOneOffRound()
             notification.showOneOffRoundNotification(oneOffRound)
         }
     }
 
-    fun onQueryAllQuestionnaireRounds()
-    {
+    fun onQueryAllQuestionnaireRounds() {
         _state.value = DebugState.QueryAllQuestionnaireRounds
         fetchAllQuestionnaireRounds()
     }
 
-    fun onQueryUncompletedQuestionnaireRounds()
-    {
+    fun onQueryUncompletedQuestionnaireRounds() {
         _state.value = DebugState.QueryUncompletedQuestionnaireRounds
         fetchUncompletedQuestionnaireRounds()
     }
 
-    suspend fun onPrepoulateDatabase()
-    {
+    suspend fun onPrepoulateDatabase() {
         val days = 30
-        
+
         // 20% of the days will not have all questionnaires fulfilled
         val specialDays = randomSequence(
             min = 0,
             max = days - 1,
             length = days / 10
         )
-        
+
         // Half of the specials days will come to each situation
-        val daysWithoutQuestionnairesFulfilled = specialDays.filterIndexed{ index, _ -> index % 2 == 0}
-        val daysWithoutOneQuestionnaireFulfilled = specialDays.filterIndexed{ index, _ -> index % 2 == 1}
+        val daysWithoutQuestionnairesFulfilled =
+            specialDays.filterIndexed { index, _ -> index % 2 == 0 }
+        val daysWithoutOneQuestionnaireFulfilled =
+            specialDays.filterIndexed { index, _ -> index % 2 == 1 }
 
         List(days) { index ->
             val createdAt = ZonedDateTime
                 .now()
                 .minusDays(index.toLong())
                 .toEpochMilliSecond()
-            
+
             // If the day is not in daysWithoutQuestionnairesFulfilled, complete questionnaires
             var fulfilled = index !in daysWithoutQuestionnairesFulfilled
 
@@ -173,16 +166,15 @@ class DebugViewModel @Inject constructor(
                 it.frequency != Measure.Frequency.OnlyDailyAtNight
             }
 
-            var dailyMorningStressId : Long? = null
-            var dailyMorningDepressionId : Long? = null
-            var dailyMorningLonelinessId : Long? = null
-            var dailyMorningSuicideId : Long? = null
-            var dailyMorningSymptomsId : Long? = null
-            
+            var dailyMorningStressId: Long? = null
+            var dailyMorningDepressionId: Long? = null
+            var dailyMorningLonelinessId: Long? = null
+            var dailyMorningSuicideId: Long? = null
+            var dailyMorningSymptomsId: Long? = null
+
 
             dailyMorningMeasures.forEach {
-                when(it)
-                {
+                when (it) {
                     Measure.Stress -> {
                         dailyMorningStressId = appDAO.insert(
                             generateDailyStressEntry(
@@ -191,6 +183,7 @@ class DebugViewModel @Inject constructor(
                             )
                         )
                     }
+
                     Measure.Depression -> {
                         dailyMorningDepressionId = appDAO.insert(
                             generateDailyDepressionEntry(
@@ -199,6 +192,7 @@ class DebugViewModel @Inject constructor(
                             )
                         )
                     }
+
                     Measure.Loneliness -> {
                         dailyMorningLonelinessId = appDAO.insert(
                             generateDailyLonelinessEntry(
@@ -207,6 +201,7 @@ class DebugViewModel @Inject constructor(
                             )
                         )
                     }
+
                     Measure.Suicide -> {
                         dailyMorningSuicideId = appDAO.insert(
                             generateDailySuicideEntry(
@@ -215,6 +210,7 @@ class DebugViewModel @Inject constructor(
                             )
                         )
                     }
+
                     Measure.Symptoms -> {
                         dailyMorningSymptomsId = appDAO.insert(
                             generateDailySymptomsEntry(
@@ -239,24 +235,23 @@ class DebugViewModel @Inject constructor(
             )
 
             //Insert daily night round
-            
+
             //If this days is one of the daysWithoutOneQuestionnaireFulfilled, don't complete night 
             //questionnaires
-            
+
             if (index in daysWithoutOneQuestionnaireFulfilled)
                 fulfilled = false
-            
+
             val dailyNightMeasures = Measure.get()
 
-            var dailyNightStressId : Long? = null
-            var dailyNightDepressionId : Long? = null
-            var dailyNightLonelinessId : Long? = null
-            var dailyNightSuicideId : Long? = null
-            var dailyNightSymptomsId : Long? = null
+            var dailyNightStressId: Long? = null
+            var dailyNightDepressionId: Long? = null
+            var dailyNightLonelinessId: Long? = null
+            var dailyNightSuicideId: Long? = null
+            var dailyNightSymptomsId: Long? = null
 
             dailyNightMeasures.forEach {
-                when(it)
-                {
+                when (it) {
                     Measure.Stress -> {
                         dailyNightStressId = appDAO.insert(
                             generateDailyStressEntry(
@@ -265,6 +260,7 @@ class DebugViewModel @Inject constructor(
                             )
                         )
                     }
+
                     Measure.Depression -> {
                         dailyNightDepressionId = appDAO.insert(
                             generateDailyDepressionEntry(
@@ -273,6 +269,7 @@ class DebugViewModel @Inject constructor(
                             )
                         )
                     }
+
                     Measure.Loneliness -> {
                         dailyNightLonelinessId = appDAO.insert(
                             generateDailyLonelinessEntry(
@@ -281,6 +278,7 @@ class DebugViewModel @Inject constructor(
                             )
                         )
                     }
+
                     Measure.Suicide -> {
                         dailyNightSuicideId = appDAO.insert(
                             generateDailySuicideEntry(
@@ -289,6 +287,7 @@ class DebugViewModel @Inject constructor(
                             )
                         )
                     }
+
                     Measure.Symptoms -> {
                         dailyNightSymptomsId = appDAO.insert(
                             generateDailySymptomsEntry(
@@ -313,8 +312,7 @@ class DebugViewModel @Inject constructor(
             )
 
             //Insert one off round
-            if(index.toLong() % OneOffNotificationWorker.repeatInterval.toDays() == 0L)
-            {
+            if (index.toLong() % OneOffNotificationWorker.repeatInterval.toDays() == 0L) {
                 val oneOffStress = generateOneOffStressEntry(
                     createdAt = createdAt,
                     fulfilled = fulfilled
@@ -337,67 +335,57 @@ class DebugViewModel @Inject constructor(
                         createdAt = createdAt,
                         stressId = stressId,
                         depressionId = depressionId,
-                        lonelinessId  = lonelinessId
+                        lonelinessId = lonelinessId
                     )
                 )
             }
         }
     }
 
-    suspend fun onDeleteDatabase()
-    {
+    suspend fun onDeleteDatabase() {
         appDAO.nukeDatabase()
     }
 
-    fun onDailyMorningNotificationWorker(context : Context)
-    {
+    fun onDailyMorningNotificationWorker(context: Context) {
         val request = OneTimeWorkRequestBuilder<DailyMorningNotificationWorker>().build()
         WorkManager.getInstance(context).enqueue(request)
     }
 
-    fun onDailyNightNotificationWorker(context : Context)
-    {
+    fun onDailyNightNotificationWorker(context: Context) {
         val request = OneTimeWorkRequestBuilder<DailyNightNotificationWorker>().build()
         WorkManager.getInstance(context).enqueue(request)
     }
 
-    fun onOneOffNotificationWorker(context : Context)
-    {
+    fun onOneOffNotificationWorker(context: Context) {
         val request = OneTimeWorkRequestBuilder<OneOffNotificationWorker>().build()
         WorkManager.getInstance(context).enqueue(request)
     }
 
-    fun onUploadWorker(context: Context)
-    {
+    fun onUploadWorker(context: Context) {
         val request = OneTimeWorkRequestBuilder<UploadWorker>().build()
         WorkManager.getInstance(context).enqueue(request)
     }
 
-    fun onCommunity()
-    {
+    fun onCommunity() {
         viewModelScope.launch {
             _communityData.value = remoteRepository.getCommunity()?.data
             _state.value = DebugState.GetCommunity
         }
     }
 
-    suspend fun onPostUserData(): Boolean
-    {
+    suspend fun onPostUserData(): Boolean {
         return postUserDataUseCase.execute() == RemoteOperationResult.Success
     }
 
-    fun onQueryWorkerStatus()
-    {
+    fun onQueryWorkerStatus() {
         _state.value = DebugState.QueryWorkManager
         _workInfo = workAdministrator.queryWorkerStatus()
     }
 
-    suspend fun onGetUID(): String =  appInfo.getUserID()
+    suspend fun onGetUID(): String = appInfo.getUserID()
 
-    suspend fun onResetUploadTimestamps()
-    {
-        for (type in LastUpload.Type.values())
-        {
+    suspend fun onResetUploadTimestamps() {
+        for (type in LastUpload.Type.values()) {
             lastUploadRepository.update(
                 LastUpload(
                     type = type,

@@ -28,19 +28,17 @@ import es.upm.bienestaremocional.ui.screens.destinations.DailyRoundScreenDestina
 import es.upm.bienestaremocional.ui.screens.destinations.OneOffRoundScreenDestination
 import kotlinx.coroutines.async
 
-class NotificationImpl(private val context: Context,
-                       private val logTag : String
-) : Notification
-{
+class NotificationImpl(
+    private val context: Context,
+    private val logTag: String
+) : Notification {
     //since we don't edit notifications, this code is id to fire and forget
     private var notificationId = 0
 
     private val taskStackBuilder = TaskStackBuilder.create(context)
 
-    override fun hasNotificationPermission(): Boolean
-    {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-        {
+    override fun hasNotificationPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.POST_NOTIFICATIONS
@@ -52,13 +50,13 @@ class NotificationImpl(private val context: Context,
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @Composable
-    override fun RequestNotificationPermission(onResult : (Boolean) -> Unit)
-    {
+    override fun RequestNotificationPermission(onResult: (Boolean) -> Unit) {
         val permissionLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.RequestPermission(),
-            onResult = onResult)
+            onResult = onResult
+        )
 
-        Log.d(logTag,"RequestNotificationPermission")
+        Log.d(logTag, "RequestNotificationPermission")
         LaunchedEffect(true)
         {
             val launchCall = this.async {
@@ -79,7 +77,7 @@ class NotificationImpl(private val context: Context,
         val textTitle = context.getString(R.string.new_one_off_round_available_title)
         val textContent = context.getString(R.string.new_one_off_round_available_content)
 
-        if(hasNotificationPermission())
+        if (hasNotificationPermission())
             showActionableNotification(
                 channelId = NotificationChannels.Questionnaire.id,
                 textTitle = textTitle,
@@ -99,7 +97,7 @@ class NotificationImpl(private val context: Context,
         val textTitle = context.getString(R.string.new_daily_morning_round_available_title)
         val textContent = context.getString(R.string.new_daily_morning_round_available_content)
 
-        if(hasNotificationPermission())
+        if (hasNotificationPermission())
             showActionableNotification(
                 channelId = NotificationChannels.Questionnaire.id,
                 textTitle = textTitle,
@@ -119,7 +117,7 @@ class NotificationImpl(private val context: Context,
         val textTitle = context.getString(R.string.new_daily_night_round_available_title)
         val textContent = context.getString(R.string.new_daily_night_round_available_content)
 
-        if(hasNotificationPermission())
+        if (hasNotificationPermission())
             showActionableNotification(
                 channelId = NotificationChannels.Questionnaire.id,
                 textTitle = textTitle,
@@ -128,8 +126,7 @@ class NotificationImpl(private val context: Context,
             )
     }
 
-    override fun showUploadNotification(): android.app.Notification
-    {
+    override fun showUploadNotification(): android.app.Notification {
         val textTitle = context.getString(R.string.uploading)
         val textContent = context.getString(R.string.uploading_in_progress)
 
@@ -154,8 +151,7 @@ class NotificationImpl(private val context: Context,
         textTitle: String,
         textContent: String,
         pendingIntent: PendingIntent
-    )
-    {
+    ) {
         val builder = basicBuilder(
             channelId = channelId,
             textTitle = textTitle,
@@ -180,8 +176,7 @@ class NotificationImpl(private val context: Context,
         channelId: String,
         textTitle: String,
         textContent: String,
-    ) : NotificationCompat.Builder
-    {
+    ): NotificationCompat.Builder {
         return NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.app_logo)
             .setContentTitle(textTitle)
@@ -192,8 +187,7 @@ class NotificationImpl(private val context: Context,
      * Shows a notification
      * @param builder: Builder with the notification itself
      */
-    private fun showNotification(builder : NotificationCompat.Builder)
-    {
+    private fun showNotification(builder: NotificationCompat.Builder) {
         with(NotificationManagerCompat.from(context))
         {
             if (ActivityCompat.checkSelfPermission(
@@ -217,8 +211,7 @@ class NotificationImpl(private val context: Context,
     /**
      * Obtains a pending intent from pattern associated with the related screen of the app
      */
-    private fun String.makePendingIntent(): PendingIntent
-    {
+    private fun String.makePendingIntent(): PendingIntent {
         val intent = Intent(
             Intent.ACTION_VIEW,
             toUri(),
@@ -230,7 +223,8 @@ class NotificationImpl(private val context: Context,
             //PendingIntent.FLAG_IMMUTABLE for SDK 31 and above
             getPendingIntent(
                 NOTIFICATION_REQUEST_CODE,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
         }
     }
 }

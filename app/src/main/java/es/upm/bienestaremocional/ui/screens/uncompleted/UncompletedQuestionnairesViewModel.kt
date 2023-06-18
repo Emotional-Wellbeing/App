@@ -16,8 +16,7 @@ import javax.inject.Inject
 class UncompletedQuestionnairesViewModel @Inject constructor(
     private val dailyRoundFullRepository: DailyRoundFullRepository,
     private val oneOffRoundFullRepository: OneOffRoundFullRepository,
-): ViewModel()
-{
+) : ViewModel() {
 
     private val _dailyRoundsUncompleted = MutableLiveData<List<DailyRoundFull>>()
     val dailyRoundsUncompleted: LiveData<List<DailyRoundFull>>
@@ -26,7 +25,7 @@ class UncompletedQuestionnairesViewModel @Inject constructor(
     val oneOffRoundsUncompleted: LiveData<List<OneOffRoundFull>>
         get() = _oneOffRoundsUncompleted
 
-    
+
     init {
         viewModelScope.launch {
             _dailyRoundsUncompleted.value = dailyRoundFullRepository.getAllUncompleted()

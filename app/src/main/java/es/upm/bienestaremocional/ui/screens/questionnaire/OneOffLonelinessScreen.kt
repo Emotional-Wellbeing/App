@@ -21,16 +21,15 @@ fun OneOffLonelinessScreen(
     navController: NavController,
     navigator: DestinationsNavigator,
     entityId: Long,
-    questionnaireIndex : Int = 0,
-    questionnaireSize : Int = 1,
-    viewModel : OneOffLonelinessViewModel = hiltViewModel(),
-)
-{
+    questionnaireIndex: Int = 0,
+    questionnaireSize: Int = 1,
+    viewModel: OneOffLonelinessViewModel = hiltViewModel(),
+) {
     val questionnaire = OneOffQuestionnaireDrawable.Loneliness
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit  = { score, widthSize ->
+    val summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit = { score, widthSize ->
         OneOffLonelinessStatus(
             navigator = navigator,
             data = score,
@@ -46,11 +45,15 @@ fun OneOffLonelinessScreen(
         state = state,
         questionnaire = questionnaire,
         widthSize = computeWindowWidthSize(),
-        title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${stringResource(questionnaire.measureRes)}",
+        title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${
+            stringResource(
+                questionnaire.measureRes
+            )
+        }",
         answerSelected = viewModel::answerSelected,
         answersRemaining = viewModel::answersRemaining,
         getScore = viewModel::score,
-        onAnswer = { question, answer -> viewModel.onAnswer(question,answer) },
+        onAnswer = { question, answer -> viewModel.onAnswer(question, answer) },
         onInProgress = viewModel::onInProgress,
         onSkippingAttempt = viewModel::onSkippingAttempt,
         onSkipped = viewModel::onSkipped,

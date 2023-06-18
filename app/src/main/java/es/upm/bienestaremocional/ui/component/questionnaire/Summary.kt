@@ -23,14 +23,15 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 @Composable
 fun Summary(
-    content : @Composable () -> Unit,
-    onSuccess : () -> Unit
-)
-{
+    content: @Composable () -> Unit,
+    onSuccess: () -> Unit
+) {
     Surface(modifier = Modifier.fillMaxSize())
     {
-        Column(verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally)
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
         {
             Card(modifier = Modifier.padding(16.dp))
             {
@@ -52,9 +53,8 @@ fun Summary(
 
 @Composable
 @Preview(showBackground = true)
-fun ShowSummaryPreview()
-{
-    val summaryContent : @Composable () -> Unit = {
+fun ShowSummaryPreview() {
+    val summaryContent: @Composable () -> Unit = {
         OneOffStressStatus(
             navigator = EmptyDestinationsNavigator,
             data = 10,
@@ -72,9 +72,8 @@ fun ShowSummaryPreview()
 
 @Composable
 @Preview(showBackground = true)
-fun ShowSummaryDarkThemePreview()
-{
-    val summaryContent : @Composable () -> Unit = {
+fun ShowSummaryDarkThemePreview() {
+    val summaryContent: @Composable () -> Unit = {
         OneOffStressStatus(
             navigator = EmptyDestinationsNavigator,
             data = 10,

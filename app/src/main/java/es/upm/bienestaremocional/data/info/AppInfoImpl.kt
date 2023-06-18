@@ -15,15 +15,13 @@ import kotlinx.coroutines.flow.map
 /**
  * Implementation of [AppInfo] using DataStore
  */
-class AppInfoImpl(private val context: Context): AppInfo
-{
-    companion object
-    {
+class AppInfoImpl(private val context: Context) : AppInfo {
+    companion object {
         /**
          * DataStore object used for ACID operations
          */
-        private val Context.appInfoDataStore : DataStore<Preferences>
-            by preferencesDataStore(name = "info")
+        private val Context.appInfoDataStore: DataStore<Preferences>
+                by preferencesDataStore(name = "info")
 
         //preferences keys of the settings
         private val FIRST_TIME = booleanPreferencesKey("first_time")
@@ -33,8 +31,7 @@ class AppInfoImpl(private val context: Context): AppInfo
         private const val FIRST_TIME_DEFAULT_VALUE = true
     }
 
-    override suspend fun saveFirstTime(value: Boolean)
-    {
+    override suspend fun saveFirstTime(value: Boolean) {
         context.appInfoDataStore.edit { preferences ->
             preferences[FIRST_TIME] = value
         }
@@ -46,19 +43,16 @@ class AppInfoImpl(private val context: Context): AppInfo
         }
 
 
-    private suspend fun setUserID(uid: String)
-    {
+    private suspend fun setUserID(uid: String) {
         context.appInfoDataStore.edit { preferences ->
             preferences[USER_ID] = uid
         }
     }
 
-    override suspend fun getUserID(): String
-    {
+    override suspend fun getUserID(): String {
         val uid = context.appInfoDataStore.data.first()[USER_ID]
 
-        return if (uid == null)
-        {
+        return if (uid == null) {
             val newUid = generateUID()
             setUserID(newUid)
             newUid

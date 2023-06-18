@@ -15,11 +15,10 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 @Composable
 fun StringAnswer(
-    answers : Array<String>,
-    answerSelectedPrevious : Int?,
+    answers: Array<String>,
+    answerSelectedPrevious: Int?,
     onAnswer: (Int) -> Unit,
-)
-{
+) {
     val answerSelected = remember { mutableStateOf(answerSelectedPrevious) }
     // Refresh answerSelected if answers change
     LaunchedEffect(answers)
@@ -50,11 +49,10 @@ fun StringAnswer(
 
 @Composable
 fun NumericAnswer(
-    answerRange : IntRange,
-    answerSelectedPrevious : Int?,
+    answerRange: IntRange,
+    answerSelectedPrevious: Int?,
     onAnswer: (Int) -> Unit,
-)
-{
+) {
     OptionSlider(
         initialValue = answerSelectedPrevious,
         onAnswer = onAnswer,
@@ -64,8 +62,7 @@ fun NumericAnswer(
 
 @Composable
 @Preview
-fun StringAnswerPreview()
-{
+fun StringAnswerPreview() {
     val answers = stringArrayResource(id = R.array.four_answers_questionnaire)
     BienestarEmocionalTheme {
         Surface {
@@ -80,8 +77,7 @@ fun StringAnswerPreview()
 
 @Composable
 @Preview
-fun StringAnswerDarkThemePreview()
-{
+fun StringAnswerDarkThemePreview() {
     val answers = stringArrayResource(id = R.array.four_answers_questionnaire)
 
     BienestarEmocionalTheme(darkTheme = true) {
@@ -97,8 +93,7 @@ fun StringAnswerDarkThemePreview()
 
 @Composable
 @Preview
-fun NumericAnswerPreview()
-{
+fun NumericAnswerPreview() {
     BienestarEmocionalTheme {
         Surface {
             NumericAnswer(
@@ -112,8 +107,7 @@ fun NumericAnswerPreview()
 
 @Composable
 @Preview
-fun NumericAnswerDarkThemePreview()
-{
+fun NumericAnswerDarkThemePreview() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             NumericAnswer(

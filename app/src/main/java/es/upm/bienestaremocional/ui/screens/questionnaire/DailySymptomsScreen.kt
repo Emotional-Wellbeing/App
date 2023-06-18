@@ -15,9 +15,8 @@ import es.upm.bienestaremocional.data.questionnaire.daily.DailyNotScoredQuestion
 fun DailySymptomsScreen(
     navController: NavController,
     entityId: Long,
-    viewModel : DailySymptomsViewModel = hiltViewModel(),
-)
-{
+    viewModel: DailySymptomsViewModel = hiltViewModel(),
+) {
     val questionnaire = DailyNotScoredQuestionnaireDrawable.Symptoms
 
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -28,7 +27,7 @@ fun DailySymptomsScreen(
         title = stringResource(id = R.string.daily_symptoms_label),
         answerSelected = viewModel::answerSelected,
         answersRemaining = viewModel::answersRemaining,
-        onAnswer = { question, answer -> viewModel.onAnswer(question,answer) },
+        onAnswer = { question, answer -> viewModel.onAnswer(question, answer) },
         onInProgress = viewModel::onInProgress,
         onSkippingAttempt = viewModel::onSkippingAttempt,
         onSkipped = viewModel::onSkipped,

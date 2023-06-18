@@ -24,83 +24,81 @@ data class DailySymptoms(
     override var completed: Boolean = false,
 
     @ColumnInfo(name = "daily_symptoms_appetite")
-    var appetite : Appetite? = null,
+    var appetite: Appetite? = null,
     @ColumnInfo(name = "daily_symptoms_energy")
-    var energy : Energy? = null,
+    var energy: Energy? = null,
     @ColumnInfo(name = "daily_symptoms_rest")
-    var rest : Rest? = null,
+    var rest: Rest? = null,
     @ColumnInfo(name = "daily_symptoms_focus")
-    var focus : Focus? = null,
+    var focus: Focus? = null,
     @ColumnInfo(name = "daily_symptoms_libido")
-    var libido : Libido? = null,
+    var libido: Libido? = null,
     @ColumnInfo(name = "daily_symptoms_pain")
-    var pain : Pain? = null,
-): MeasureEntity
-{
+    var pain: Pain? = null,
+) : MeasureEntity {
     enum class Appetite {
         ExcessivelyHigh,
         Appropriate,
         ExcessivelyLow;
 
-        companion object
-        {
+        companion object {
             val values = Appetite.values()
-            fun get(ordinal: Int) : Appetite? = values.getOrNull(ordinal)
+            fun get(ordinal: Int): Appetite? = values.getOrNull(ordinal)
         }
     }
+
     enum class Energy {
         High,
         Moderate,
         Low;
 
-        companion object
-        {
+        companion object {
             val values = Energy.values()
-            fun get(ordinal: Int) : Energy? = values.getOrNull(ordinal)
+            fun get(ordinal: Int): Energy? = values.getOrNull(ordinal)
         }
     }
+
     enum class Rest {
         Satisfactory,
         Moderate,
         Poor;
 
-        companion object
-        {
+        companion object {
             val values = Rest.values()
-            fun get(ordinal: Int) : Rest? = values.getOrNull(ordinal)
+            fun get(ordinal: Int): Rest? = values.getOrNull(ordinal)
         }
     }
+
     enum class Focus {
         Satisfactory,
         Moderate,
         Poor;
 
-        companion object
-        {
+        companion object {
             val values = Focus.values()
-            fun get(ordinal: Int) : Focus? = values.getOrNull(ordinal)
+            fun get(ordinal: Int): Focus? = values.getOrNull(ordinal)
         }
     }
+
     enum class Libido {
         Satisfactory,
         Moderate,
         Low;
 
-        companion object
-        {
+        companion object {
             val values = Libido.values()
-            fun get(ordinal: Int) : Libido? = values.getOrNull(ordinal)
+            fun get(ordinal: Int): Libido? = values.getOrNull(ordinal)
         }
     }
+
     enum class Pain {
         NoPain,
         ModeratePain,
         HighPain;
 
-        companion object
-        {
+        companion object {
             val values = Pain.values()
-            fun get(ordinal: Int) : Pain? = values.getOrNull(ordinal)
+            fun get(ordinal: Int): Pain? = values.getOrNull(ordinal)
         }
     }
 }

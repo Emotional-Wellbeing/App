@@ -11,12 +11,12 @@ import es.upm.bienestaremocional.data.remote.userdata.UserDataResponse
 /**
  * Repository to interact with the Remote API
  */
-interface RemoteRepository
-{
+interface RemoteRepository {
     suspend fun getCommunity(): CommunityResponse?
     suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse?
     suspend fun postDailyQuestionnaires(dailyQuestionnairesRequest: DailyQuestionnairesRequest):
             DailyQuestionnairesResponse?
+
     suspend fun postOneOffQuestionnaires(oneOffQuestionnairesRequest: OneOffQuestionnairesRequest):
             OneOffQuestionnairesResponse?
 }

@@ -23,20 +23,17 @@ import kotlin.random.Random
 class Distance @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<DistanceRecord>(healthConnectClient,healthConnectManager)
-{
-    companion object
-    {
+) : HealthConnectSource<DistanceRecord>(healthConnectClient, healthConnectManager) {
+    companion object {
         /**
          * Make demo data
          */
-        fun generateDummyData() : List<DistanceRecord>
-        {
+        fun generateDummyData(): List<DistanceRecord> {
             return List(5)
             { index ->
                 val (init, end) = generateInterval(offsetDays = index.toLong())
 
-                val distance = Length.kilometers(Random.nextDouble(0.0,10.0))
+                val distance = Length.kilometers(Random.nextDouble(0.0, 10.0))
 
                 DistanceRecord(
                     startTime = init.toInstant(),
@@ -50,13 +47,14 @@ class Distance @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(DistanceRecord::class))
+        HealthPermission.getReadPermission(DistanceRecord::class)
+    )
 
     override val writePermissions = setOf(
-        HealthPermission.getWritePermission(DistanceRecord::class))
+        HealthPermission.getWritePermission(DistanceRecord::class)
+    )
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<DistanceRecord>
-    {
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<DistanceRecord> {
         val request = ReadRecordsRequest(
             recordType = DistanceRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

@@ -6,8 +6,7 @@ import androidx.compose.runtime.Composable
 import es.upm.bienestaremocional.data.database.entity.round.DailyRound
 import es.upm.bienestaremocional.data.database.entity.round.OneOffRound
 
-interface Notification
-{
+interface Notification {
     /**
      * Check if notification permission has been granted
      */
@@ -19,7 +18,7 @@ interface Notification
      */
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @Composable
-    fun RequestNotificationPermission(onResult : (Boolean) -> Unit)
+    fun RequestNotificationPermission(onResult: (Boolean) -> Unit)
 
     /**
      * Display one off round notification
@@ -42,5 +41,5 @@ interface Notification
     /**
      * Display uploading data notification
      */
-    fun showUploadNotification() : android.app.Notification
+    fun showUploadNotification(): android.app.Notification
 }

@@ -49,10 +49,9 @@ import kotlinx.coroutines.launch
  */
 @Destination
 @Composable
-fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hiltViewModel())
-{
+fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hiltViewModel()) {
     val coroutineScope = rememberCoroutineScope()
-    val snackbarHostState = remember {SnackbarHostState()}
+    val snackbarHostState = remember { SnackbarHostState() }
 
     val state by viewModel.state.collectAsStateWithLifecycle()
     val dailyRoundsUncompleted by viewModel.dailyRoundsUncompleted.observeAsState(emptyList())
@@ -104,9 +103,17 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
             coroutineScope.launch {
                 val success = viewModel.onPostUserData()
                 if (success)
-                    Toast.makeText(context,context.getString(R.string.data_sent_successfully), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.data_sent_successfully),
+                        Toast.LENGTH_LONG
+                    ).show()
                 else
-                    Toast.makeText(context,context.getString(R.string.request_failed), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.request_failed),
+                        Toast.LENGTH_LONG
+                    ).show()
             }
         },
         onResetUploadTimestamps = {
@@ -119,7 +126,7 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
         onGetUID = {
             coroutineScope.launch {
                 val uid = viewModel.onGetUID()
-                Toast.makeText(context,uid, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, uid, Toast.LENGTH_LONG).show()
             }
         }
     )
@@ -129,39 +136,39 @@ fun DebugScreen(navigator: DestinationsNavigator, viewModel: DebugViewModel = hi
 private fun DebugScreen(
     navigator: DestinationsNavigator,
     state: DebugState,
-    snackbarHostState : SnackbarHostState,
+    snackbarHostState: SnackbarHostState,
     dailyRoundsUncompleted: List<DailyRoundFull>,
     dailyRounds: List<DailyRoundFull>,
     oneOffRoundsUncompleted: List<OneOffRoundFull>,
     oneOffRounds: List<OneOffRoundFull>,
-    workInfo : List<WorkInfo>,
+    workInfo: List<WorkInfo>,
     communityData: CommunityResponse.Data?,
     onDailyMorningNotification: () -> Unit,
     onDailyNightNotification: () -> Unit,
     onOneOffNotification: () -> Unit,
-    onQueryAllQuestionnaireRounds : () -> Unit,
-    onQueryUncompletedQuestionnaireRounds : () -> Unit,
-    onPrepoulateDatabase : () -> Unit,
-    onDeleteDatabase : () -> Unit,
-    onDailyMorningNotificationWorker : () -> Unit,
-    onDailyNightNotificationWorker : () -> Unit,
-    onOneOffNotificationWorker : () -> Unit,
-    onUploadWorker : () -> Unit,
-    onCommunity : () -> Unit,
+    onQueryAllQuestionnaireRounds: () -> Unit,
+    onQueryUncompletedQuestionnaireRounds: () -> Unit,
+    onPrepoulateDatabase: () -> Unit,
+    onDeleteDatabase: () -> Unit,
+    onDailyMorningNotificationWorker: () -> Unit,
+    onDailyNightNotificationWorker: () -> Unit,
+    onOneOffNotificationWorker: () -> Unit,
+    onUploadWorker: () -> Unit,
+    onCommunity: () -> Unit,
     onPostUserData: () -> Unit,
-    onResetUploadTimestamps : () -> Unit,
+    onResetUploadTimestamps: () -> Unit,
     onQueryWorkerStatus: () -> Unit,
     onGetUID: () -> Unit,
-)
-{
+) {
 
-    AppBasicScreen(navigator = navigator,
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = null,
         label = R.string.debug_screen_label,
-        snackbarHostState = snackbarHostState)
+        snackbarHostState = snackbarHostState
+    )
     {
-        when(state)
-        {
+        when (state) {
             DebugState.ShowOptions -> {
                 Column(
                     modifier = Modifier
@@ -172,114 +179,178 @@ private fun DebugScreen(
                 )
                 {
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.daily_morning_notification_start_questionnaire),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.daily_morning_notification_start_questionnaire),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onDailyMorningNotification,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.daily_night_start_questionnaire),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.daily_night_start_questionnaire),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onDailyNightNotification,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.one_off_start_questionnaire),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.one_off_start_questionnaire),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onOneOffNotification,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.query_all_questionnaire_rounds),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.query_all_questionnaire_rounds),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onQueryAllQuestionnaireRounds,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.query_uncompleted_questionnaire_rounds),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.query_uncompleted_questionnaire_rounds),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onQueryUncompletedQuestionnaireRounds,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.prepopulate_database),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.prepopulate_database),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onPrepoulateDatabase,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.delete_database),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.delete_database),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onDeleteDatabase,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.test_daily_morning_notification_worker),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.test_daily_morning_notification_worker),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onDailyMorningNotificationWorker,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.test_daily_night_notification_worker),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.test_daily_night_notification_worker),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onDailyNightNotificationWorker,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.test_one_off_notification_worker),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.test_one_off_notification_worker),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onOneOffNotificationWorker,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.test_upload_worker),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.test_upload_worker),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onUploadWorker,
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.test_get_community),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.test_get_community),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onCommunity
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.test_post_user_data),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.test_post_user_data),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onPostUserData
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.reset_upload_timestamps),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.reset_upload_timestamps),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onResetUploadTimestamps
                     )
 
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.query_worker_status),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.query_worker_status),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onQueryWorkerStatus
                     )
                     SettingsMenuLink(
-                        title = { Text(text = stringResource(R.string.query_uid),
-                            color = MaterialTheme.colorScheme.secondary) },
+                        title = {
+                            Text(
+                                text = stringResource(R.string.query_uid),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        },
                         onClick = onGetUID
                     )
                 }
             }
+
             DebugState.QueryAllQuestionnaireRounds -> {
                 LazyColumn(
                     modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp))
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                )
                 {
-                    if(oneOffRounds.isEmpty() && dailyRounds.isEmpty())
-                    {
+                    if (oneOffRounds.isEmpty() && dailyRounds.isEmpty()) {
                         item {
                             Text(stringResource(R.string.empty_list))
                         }
                     }
-                    else
-                    {
+                    else {
                         item {
                             Text(text = stringResource(id = R.string.daily_rounds))
                         }
@@ -302,19 +373,19 @@ private fun DebugScreen(
                     }
                 }
             }
+
             DebugState.QueryUncompletedQuestionnaireRounds -> {
                 LazyColumn(
                     modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp))
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                )
                 {
-                    if(oneOffRoundsUncompleted.isEmpty() && dailyRounds.isEmpty())
-                    {
+                    if (oneOffRoundsUncompleted.isEmpty() && dailyRounds.isEmpty()) {
                         item {
                             Text(stringResource(R.string.empty_list))
                         }
                     }
-                    else
-                    {
+                    else {
                         items(dailyRoundsUncompleted) { item ->
                             BasicCard {
                                 ShowUncompletedDailyRound(item)
@@ -326,8 +397,10 @@ private fun DebugScreen(
                                     )
                                 })
                                 {
-                                    Text(stringResource(R.string.continue_label),
-                                        color = MaterialTheme.colorScheme.tertiary)
+                                    Text(
+                                        stringResource(R.string.continue_label),
+                                        color = MaterialTheme.colorScheme.tertiary
+                                    )
                                 }
                             }
                         }
@@ -339,21 +412,25 @@ private fun DebugScreen(
                                     navigator.navigate(OneOffRoundScreenDestination(oneOffRound = item.oneOffRound))
                                 })
                                 {
-                                    Text(stringResource(R.string.continue_label),
-                                        color = MaterialTheme.colorScheme.tertiary)
+                                    Text(
+                                        stringResource(R.string.continue_label),
+                                        color = MaterialTheme.colorScheme.tertiary
+                                    )
                                 }
                             }
                         }
                     }
                 }
             }
+
             DebugState.QueryWorkManager -> {
                 val tagsLabel = stringResource(R.string.tags)
                 val stateLabel = stringResource(R.string.state)
 
                 LazyColumn(
                     modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp))
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                )
                 {
                     items(workInfo) { item ->
                         BasicCard {
@@ -363,10 +440,12 @@ private fun DebugScreen(
                     }
                 }
             }
+
             DebugState.GetCommunity -> {
                 LazyColumn(
                     modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp))
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                )
                 {
                     communityData?.let {
                         item {
@@ -374,7 +453,10 @@ private fun DebugScreen(
                         }
 
                         item {
-                            CommunityRow(it.lastSevenDays, stringResource(id = R.string.last_seven_days))
+                            CommunityRow(
+                                it.lastSevenDays,
+                                stringResource(id = R.string.last_seven_days)
+                            )
                         }
 
                         item {
@@ -423,7 +505,8 @@ private fun DebugScreen(
         }
     }
 }
-private suspend fun showSnackbar(snackbarHostState : SnackbarHostState, message : String) =
+
+private suspend fun showSnackbar(snackbarHostState: SnackbarHostState, message: String) =
     snackbarHostState.showSnackbar(message = message)
 
 /*

@@ -4,8 +4,7 @@ import android.util.Range
 import es.upm.bienestaremocional.data.database.entity.daily.DailyLoneliness
 import java.time.ZonedDateTime
 
-interface DailyLonelinessRepository : QuestionnaireRepository<DailyLoneliness>
-{
+interface DailyLonelinessRepository : QuestionnaireRepository<DailyLoneliness> {
     override suspend fun insert(element: DailyLoneliness): Long
     override suspend fun update(element: DailyLoneliness)
     override suspend fun get(id: Long): DailyLoneliness?
@@ -16,6 +15,7 @@ interface DailyLonelinessRepository : QuestionnaireRepository<DailyLoneliness>
         range: Range<ZonedDateTime>,
         onlyCompleted: Boolean
     ): List<DailyLoneliness>
+
     override suspend fun getAllFromYesterday(): List<DailyLoneliness>
     override suspend fun getLastElement(): DailyLoneliness?
 }
