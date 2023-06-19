@@ -17,8 +17,7 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun StepsRecord.Display(widthSize: WindowWidthSizeClass)
-{
+fun StepsRecord.Display(widthSize: WindowWidthSizeClass) {
     BasicCard {
         SeriesDateTimeHeading(
             start = startTime,
@@ -35,35 +34,34 @@ fun StepsRecord.Display(widthSize: WindowWidthSizeClass)
 
 @Preview(group = "Light Theme")
 @Composable
-fun StepsRecordDisplayPreview()
-{
+fun StepsRecordDisplayPreview() {
     val stepsRecord = Steps.generateDummyData()[0]
     BienestarEmocionalTheme {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun StepsRecordDisplayPreviewDarkTheme()
-{
+fun StepsRecordDisplayPreviewDarkTheme() {
     val stepsRecord = Steps.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun StepsRecordDisplayLargeScreenPreview()
-{
+fun StepsRecordDisplayLargeScreenPreview() {
     val stepsRecord = Steps.generateDummyData()[0]
     BienestarEmocionalTheme {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun StepsRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun StepsRecordDisplayLargeScreenPreviewDarkTheme() {
     val stepsRecord = Steps.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Medium)

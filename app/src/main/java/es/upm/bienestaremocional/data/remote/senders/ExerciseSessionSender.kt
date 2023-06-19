@@ -9,19 +9,15 @@ import es.upm.bienestaremocional.utils.obtainTimestamp
 data class ExerciseSessionSender(
     val startTime: Long,
     val endTime: Long,
-    val title : String?,
-    val notes : String?,
+    val title: String?,
+    val notes: String?,
     val exerciseType: String
-)
-{
-    companion object
-    {
-        fun ExerciseSessionRecord.toSender(): ExerciseSessionSender
-        {
+) {
+    companion object {
+        fun ExerciseSessionRecord.toSender(): ExerciseSessionSender {
             val startTime = obtainTimestamp(startTime, startZoneOffset)
             val endTime = obtainTimestamp(endTime, endZoneOffset)
-            val exerciseType = when(exerciseType)
-            {
+            val exerciseType = when (exerciseType) {
                 ExerciseSessionRecord.EXERCISE_TYPE_OTHER_WORKOUT -> "other"
                 ExerciseSessionRecord.EXERCISE_TYPE_BADMINTON -> "badminton"
                 ExerciseSessionRecord.EXERCISE_TYPE_BASEBALL -> "baseball"
@@ -85,7 +81,7 @@ data class ExerciseSessionSender(
                 ExerciseSessionRecord.EXERCISE_TYPE_YOGA -> "yoga"
                 else -> "unknown"
             }
-            
+
             return ExerciseSessionSender(
                 startTime = startTime,
                 endTime = endTime,

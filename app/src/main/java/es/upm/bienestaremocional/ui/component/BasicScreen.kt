@@ -19,20 +19,23 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBasicScreen(navigator: DestinationsNavigator,
-                   entrySelected: BottomBarDestination?,
-                   label: Int,
-                   snackbarHostState: SnackbarHostState? = null,
-                   content: @Composable (ColumnScope.() -> Unit))
-{
+fun AppBasicScreen(
+    navigator: DestinationsNavigator,
+    entrySelected: BottomBarDestination?,
+    label: Int,
+    snackbarHostState: SnackbarHostState? = null,
+    content: @Composable (ColumnScope.() -> Unit)
+) {
     Scaffold(
-        snackbarHost = {snackbarHostState?.let { SnackbarHost(it)}},
+        snackbarHost = { snackbarHostState?.let { SnackbarHost(it) } },
         topBar = { CenterAlignedTopAppBar(title = { Text(stringResource(id = label)) }) },
-        bottomBar = { BottomBar(navigator,entrySelected) })
+        bottomBar = { BottomBar(navigator, entrySelected) })
     {
-        Column(modifier = Modifier
-            .padding(it)
-            .fillMaxSize())
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize()
+        )
         {
             content()
         }
@@ -41,8 +44,7 @@ fun AppBasicScreen(navigator: DestinationsNavigator,
 
 @Preview(group = "Light Theme")
 @Composable
-fun AppBasicScreenPreview()
-{
+fun AppBasicScreenPreview() {
     BienestarEmocionalTheme()
     {
         AppBasicScreen(navigator = EmptyDestinationsNavigator,
@@ -55,8 +57,7 @@ fun AppBasicScreenPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun AppBasicScreenPreviewDarkTheme()
-{
+fun AppBasicScreenPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         AppBasicScreen(navigator = EmptyDestinationsNavigator,

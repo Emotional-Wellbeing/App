@@ -8,15 +8,12 @@ import es.upm.bienestaremocional.utils.obtainTimestamp
  */
 data class HeartRateSampleSender(
     val timestamp: Long,
-    val beatsPerMinute : Long
-)
-{
-    companion object
-    {
-        fun HeartRateRecord.Sample.toSender(): HeartRateSampleSender
-        {
+    val beatsPerMinute: Long
+) {
+    companion object {
+        fun HeartRateRecord.Sample.toSender(): HeartRateSampleSender {
             return HeartRateSampleSender(
-                timestamp = obtainTimestamp(time,null),
+                timestamp = obtainTimestamp(time, null),
                 beatsPerMinute = beatsPerMinute
             )
         }

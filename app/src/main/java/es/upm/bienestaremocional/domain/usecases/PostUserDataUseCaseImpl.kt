@@ -52,10 +52,8 @@ class PostUserDataUseCaseImpl(
     private val steps: Steps,
     private val totalCaloriesBurned: TotalCaloriesBurned,
     private val weight: Weight
-) : PostUserDataUseCase
-{
-    override suspend fun shouldExecute(): Boolean
-    {
+) : PostUserDataUseCase {
+    override suspend fun shouldExecute(): Boolean {
         return distance.readPermissionsCheck() ||
                 elevationGained.readPermissionsCheck() ||
                 exerciseSession.readPermissionsCheck() ||
@@ -67,8 +65,7 @@ class PostUserDataUseCaseImpl(
                 weight.readPermissionsCheck()
     }
 
-    private suspend fun prepareUserData() : UserDataRequest
-    {
+    private suspend fun prepareUserData(): UserDataRequest {
         var distanceData: List<DistanceSender>? = null
         var elevationGainedData: List<ElevationGainedSender>? = null
         var exerciseSessionData: List<ExerciseSessionSender>? = null
@@ -84,16 +81,14 @@ class PostUserDataUseCaseImpl(
         // Read and convert data if we have permissions
         val now = ZonedDateTime.now().toInstant()
 
-        if (distance.readPermissionsCheck())
-        {
+        if (distance.readPermissionsCheck()) {
             val lastUpload = lastUploadRepository.get(LastUpload.Type.Distance)
             val from = lastUpload?.let { Instant.ofEpochSecond(it.timestamp + 1) }
             distanceData = (from?.let { distance.readSource(it, now) } ?: distance.readSource())
                 .map { it.toSender() }
         }
 
-        if (elevationGained.readPermissionsCheck())
-        {
+        if (elevationGained.readPermissionsCheck()) {
             val lastUpload = lastUploadRepository.get(LastUpload.Type.ElevationGained)
             val from = lastUpload?.let { Instant.ofEpochSecond(it.timestamp + 1) }
             elevationGainedData = (
@@ -103,8 +98,7 @@ class PostUserDataUseCaseImpl(
                 .map { it.toSender() }
         }
 
-        if (exerciseSession.readPermissionsCheck())
-        {
+        if (exerciseSession.readPermissionsCheck()) {
             val lastUpload = lastUploadRepository.get(LastUpload.Type.ExerciseSession)
             val from = lastUpload?.let { Instant.ofEpochSecond(it.timestamp + 1) }
             exerciseSessionData = (
@@ -114,8 +108,7 @@ class PostUserDataUseCaseImpl(
                 .map { it.toSender() }
         }
 
-        if (floorsClimbed.readPermissionsCheck())
-        {
+        if (floorsClimbed.readPermissionsCheck()) {
             val lastUpload = lastUploadRepository.get(LastUpload.Type.FloorsClimbed)
             val from = lastUpload?.let { Instant.ofEpochSecond(it.timestamp + 1) }
             floorsClimbedData = (
@@ -125,8 +118,7 @@ class PostUserDataUseCaseImpl(
                 .map { it.toSender() }
         }
 
-        if (heartRate.readPermissionsCheck())
-        {
+        if (heartRate.readPermissionsCheck()) {
             val lastUpload = lastUploadRepository.get(LastUpload.Type.HeartRate)
             val from = lastUpload?.let { Instant.ofEpochSecond(it.timestamp + 1) }
             heartRateData = (
@@ -136,24 +128,21 @@ class PostUserDataUseCaseImpl(
                 .map { it.toSender() }
         }
 
-        if (sleep.readPermissionsCheck())
-        {
+        if (sleep.readPermissionsCheck()) {
             val lastUpload = lastUploadRepository.get(LastUpload.Type.Sleep)
             val from = lastUpload?.let { Instant.ofEpochSecond(it.timestamp + 1) }
             sleepData = (from?.let { sleep.readSource(it, now) } ?: sleep.readSource())
                 .map { it.toSender() }
         }
 
-        if (steps.readPermissionsCheck())
-        {
+        if (steps.readPermissionsCheck()) {
             val lastUpload = lastUploadRepository.get(LastUpload.Type.Steps)
             val from = lastUpload?.let { Instant.ofEpochSecond(it.timestamp + 1) }
             stepsData = (from?.let { steps.readSource(it, now) } ?: steps.readSource())
                 .map { it.toSender() }
         }
 
-        if (totalCaloriesBurned.readPermissionsCheck())
-        {
+        if (totalCaloriesBurned.readPermissionsCheck()) {
             val lastUpload = lastUploadRepository.get(LastUpload.Type.TotalCaloriesBurned)
             val from = lastUpload?.let { Instant.ofEpochSecond(it.timestamp + 1) }
             totalCaloriesBurnedData = (
@@ -163,8 +152,7 @@ class PostUserDataUseCaseImpl(
                 .map { it.toSender() }
         }
 
-        if (weight.readPermissionsCheck())
-        {
+        if (weight.readPermissionsCheck()) {
             val lastUpload = lastUploadRepository.get(LastUpload.Type.Weight)
             val from = lastUpload?.let { Instant.ofEpochSecond(it.timestamp + 1) }
             weightData = (from?.let { weight.readSource(it, now) } ?: weight.readSource())
@@ -189,8 +177,7 @@ class PostUserDataUseCaseImpl(
         )
     }
 
-    private suspend fun processSuccessfulRequest(response : UserDataResponse)
-    {
+    private suspend fun processSuccessfulRequest(response: UserDataResponse) {
         // If we have a valid response from the server, update timestamps on database
         response.timestamps?.let { timestamps ->
             Log.d(logTag, "updating timestamps")
@@ -278,8 +265,7 @@ class PostUserDataUseCaseImpl(
         }
     }
 
-    override suspend fun execute() : RemoteOperationResult
-    {
+    override suspend fun execute(): RemoteOperationResult {
         val data = prepareUserData()
         val response = remoteRepository.postUserData(data)
 
@@ -287,8 +273,7 @@ class PostUserDataUseCaseImpl(
         var result = RemoteOperationResult.Failure
 
         response?.let {
-            result = when(response.code)
-            {
+            result = when (response.code) {
                 in 200..299 -> RemoteOperationResult.Success
                 in 500..599 -> RemoteOperationResult.ServerFailure
                 else -> RemoteOperationResult.Failure

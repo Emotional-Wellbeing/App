@@ -21,22 +21,18 @@ import javax.inject.Inject
 class ExerciseSession @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<ExerciseSessionRecord>(healthConnectClient,healthConnectManager)
-{
-    companion object
-    {
+) : HealthConnectSource<ExerciseSessionRecord>(healthConnectClient, healthConnectManager) {
+    companion object {
         /**
          * Make demo data
          */
-        fun generateDummyData() : List<ExerciseSessionRecord>
-        {
+        fun generateDummyData(): List<ExerciseSessionRecord> {
             val differentExercises = 61
             return List(differentExercises)
             { index ->
                 val (init, end) = generateInterval(offsetDays = index.toLong())
 
-                val exerciseType = when(index)
-                {
+                val exerciseType = when (index) {
                     0 -> ExerciseSessionRecord.EXERCISE_TYPE_OTHER_WORKOUT
                     1 -> ExerciseSessionRecord.EXERCISE_TYPE_BADMINTON
                     2 -> ExerciseSessionRecord.EXERCISE_TYPE_BASEBALL
@@ -115,13 +111,17 @@ class ExerciseSession @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(ExerciseSessionRecord::class))
+        HealthPermission.getReadPermission(ExerciseSessionRecord::class)
+    )
 
     override val writePermissions = setOf(
-        HealthPermission.getWritePermission(ExerciseSessionRecord::class))
+        HealthPermission.getWritePermission(ExerciseSessionRecord::class)
+    )
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<ExerciseSessionRecord>
-    {
+    override suspend fun readSource(
+        startTime: Instant,
+        endTime: Instant
+    ): List<ExerciseSessionRecord> {
         val request = ReadRecordsRequest(
             recordType = ExerciseSessionRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

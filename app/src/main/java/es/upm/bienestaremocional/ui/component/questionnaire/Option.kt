@@ -40,13 +40,12 @@ const val animationDurationMillis = 1000
 
 @Composable
 fun OptionCard(
-    text : String,
-    selected : Boolean,
-    onClick : () -> Unit
-)
-{
+    text: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
     val color by animateColorAsState(
-        targetValue = if(selected)
+        targetValue = if (selected)
             MaterialTheme.colorScheme.inversePrimary
         else
             MaterialTheme.colorScheme.surfaceVariant,
@@ -60,21 +59,21 @@ fun OptionCard(
     )
     {
         Text(
-            text =text,
+            text = text,
             textAlign = TextAlign.Justify,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
     }
 }
+
 @Composable
 fun OptionSlider(
-    initialValue : Int?,
+    initialValue: Int?,
     onAnswer: (Int) -> Unit,
-    range : IntRange,
-    textStyle : TextStyle = MaterialTheme.typography.labelMedium,
-    textColor : Color = MaterialTheme.colorScheme.onBackground
-)
-{
+    range: IntRange,
+    textStyle: TextStyle = MaterialTheme.typography.labelMedium,
+    textColor: Color = MaterialTheme.colorScheme.onBackground
+) {
     // Mutable state that stores the float position of the slider
     var sliderPosition by remember { mutableStateOf(initialValue?.toFloat() ?: 0f) }
 
@@ -133,13 +132,12 @@ fun OptionSlider(
 
 @Composable
 private fun OptionSliderWithLine(
-    initialValue : Int?,
+    initialValue: Int?,
     onAnswer: (Int) -> Unit,
-    range : IntRange,
-    textStyle : TextStyle = MaterialTheme.typography.labelMedium,
-    textColor : Color = MaterialTheme.colorScheme.onBackground
-)
-{
+    range: IntRange,
+    textStyle: TextStyle = MaterialTheme.typography.labelMedium,
+    textColor: Color = MaterialTheme.colorScheme.onBackground
+) {
     // Mutable state that stores the float position of the slider
     var sliderPosition by remember { mutableStateOf(initialValue?.toFloat() ?: 0f) }
 
@@ -229,8 +227,7 @@ private fun OptionSliderWithLine(
 
 @Composable
 @Preview
-fun OptionCardNotSelectedPreview()
-{
+fun OptionCardNotSelectedPreview() {
     val question = stringArrayResource(id = R.array.four_answers_questionnaire)[0]
     BienestarEmocionalTheme {
         OptionCard(
@@ -242,8 +239,7 @@ fun OptionCardNotSelectedPreview()
 
 @Composable
 @Preview
-fun OptionCardNotSelectedDarkThemePreview()
-{
+fun OptionCardNotSelectedDarkThemePreview() {
     val question = stringArrayResource(id = R.array.four_answers_questionnaire)[0]
     BienestarEmocionalTheme(darkTheme = true) {
         OptionCard(
@@ -255,8 +251,7 @@ fun OptionCardNotSelectedDarkThemePreview()
 
 @Composable
 @Preview
-fun OptionCardSelectedPreview()
-{
+fun OptionCardSelectedPreview() {
     val question = stringArrayResource(id = R.array.four_answers_questionnaire)[0]
     BienestarEmocionalTheme {
         OptionCard(
@@ -268,8 +263,7 @@ fun OptionCardSelectedPreview()
 
 @Composable
 @Preview
-fun OptionCardSelectedDarkThemePreview()
-{
+fun OptionCardSelectedDarkThemePreview() {
     val question = stringArrayResource(id = R.array.four_answers_questionnaire)[0]
     BienestarEmocionalTheme(darkTheme = true) {
         OptionCard(
@@ -281,8 +275,7 @@ fun OptionCardSelectedDarkThemePreview()
 
 @Composable
 @Preview
-fun OptionSliderPreview()
-{
+fun OptionSliderPreview() {
     BienestarEmocionalTheme {
         Surface {
             OptionSlider(
@@ -296,8 +289,7 @@ fun OptionSliderPreview()
 
 @Composable
 @Preview
-fun OptionSliderDarkThemePreview()
-{
+fun OptionSliderDarkThemePreview() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             OptionSlider(
@@ -311,8 +303,7 @@ fun OptionSliderDarkThemePreview()
 
 @Composable
 @Preview
-fun OptionSliderWithLinePreview()
-{
+fun OptionSliderWithLinePreview() {
     BienestarEmocionalTheme {
         Surface {
             OptionSliderWithLine(
@@ -326,8 +317,7 @@ fun OptionSliderWithLinePreview()
 
 @Composable
 @Preview
-fun OptionSliderWithLineDarkThemePreview()
-{
+fun OptionSliderWithLineDarkThemePreview() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             OptionSliderWithLine(

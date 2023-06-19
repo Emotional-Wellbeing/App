@@ -1,8 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="high_loneliness">
-        <item>The Red Cross listens to you is an initiative that aims to offer accompaniment and support to people who find themselves in a situation of unwanted loneliness. They will be able to provide you with guidelines to help you feel better and offer you resources in your area that can help you. You can contact them on </item>
-        <item>900 107 917</item>
-        <item>, Monday to Thursday working days from 10am to 2pm and from 4pm to 8pm (one hour less in the Canary Islands) and on Friday working days from 10am to 2pm (one hour less in the Canary Islands). The call is free and confidential.</item>
+    <!-- Stress advices -->
+    <string name="low_stress_advice">
+        Great, keep it up!
+    </string>
+
+    <string name="moderate_stress_advice_1_head">
+        We recommend that you plan a space in today\'s schedule for physical exercise.
+    </string>
+
+    <string name="moderate_stress_advice_2_head">
+         We propose a number of alternatives in case you are short of time.
+    </string>
+
+    <string-array name="moderate_stress_advice_1_body">
+        <item>
+            Physical exercise can reduce stress for several reasons:
+            \n\n-    Release of endorphins: During exercise, body releases endorphins, which are hormones that act as natural painkillers and generate feelings of well-being.
+            \n\n-    Stress hormone reduction: Regular exercise can lower levels cortisol, the stress hormone.
+            \n\n-    Improved sleep: Regular exercise can promote deeper, more restful sleep.
+            \n\n-    Distraction and focus: Engaging in physical activity can distract the mind from everyday worries and stresses. When you concentrate on exercise, your mind focuses on physical activity rather than problems, which can help reduce stress and provide a mental break.
+            \n\n-    Increased confidence and self-esteem: Regular exercise can help improve confidence and self-esteem. By setting goals and achieving exercise objectives, you can develop a greater sense of accomplishment and personal strength. This can help reduce stress by providing a sense of control and empowerment over your life.
+        </item>
     </string-array>
+
+    <string-array name="moderate_stress_advice_2_body">
+        <item>
+        Try to find a moment for yourself, free of stressful stimulus. You can go for a short walk, take a relaxing shower, put on some music and focus on listening to it for a few minutes, practice some body stretches…
+        \n\nThe aim is to quickly lower anxiety levels to be able to resume tasks from a more appropriate emotional state.
+        \n\nTry to eliminate some stimulus that may be increasing your anxiety: turn off your mobile phone from a certain time at night to have a few hours free of notifications before going to sleep, put on headphones with relaxing music to not hear the noise around you, if you have to make a decision or discuss something with someone, postpone it for a few hours or days and allow yourself to postpone your thoughts about it, etc.
+        \n\nThe aim is to eliminate the stimulus that are producing stress in order to lower anxiety levels and thus face our problems or difficulties in a more appropriate way.
+        </item>
+    </string-array>
+
+    <string name="high_stress_advice_head">
+        We suggest you do an abdominal breathing exercise.
+    </string>
+    <string-array name="high_stress_advice_body">
+        <item>
+            The aim of this technique is to regulate your breathing and, as a result, decrease your physiological arousal response and feelings of anxiety.
+            \n\nTo do this, try to draw air into your abdomen on each breath in to fill your lungs deeply. Visually, you should see your belly swell as it fills with air. As you expel the air during exhalation, your abdomen should return to its normal position. Avoid moving your chest, shoulders or collarbones, as this indicates that air is reaching only the top of your lungs.
+            \n\nBreathe in on the ascent of the curve and breathe out on the descent. Try not to exhale too deeply. You can mentally repeat a word to yourself such as calm or relax, you can imagine that you are in a quiet place, or focus your attention on how the air flows in and out and how the tension escapes with each exhalation.
+        </item>
+    </string-array>
+
+    <!-- Depression advices -->
+    <string name="low_depression_advice">
+        Great, keep it up!
+    </string>
+    <string name="moderate_depression_advice_head">
+        We suggest that you include some pleasant or enjoyable activity in your day today.
+    </string>
+
+    <string-array name="moderate_depression_advice_body">
+        <item>
+            You may feel that you don\'t have the desire or energy to do them, or even that even if you do them you won\'t enjoy them. However, it is important to understand that "the desire is created".
+            \n\nThis means that when our mood is a little low, if we wait until we feel like doing things, we will probably never do them. This in turn will cause our mood to drop even further, and we enter a vicious circle where we won\'t do anything because we don\'t feel like it because we are sad, and because we don\'t do anything we will be even sadder.
+            \n\nTo avoid falling into this problem, we suggest that you do some pleasant, inexpensive activity that allows you to feel better. They can be activities that you do alone or with company.
+            \n\nHere are some suggestions.
+            \n-   Take a walk outdoors.
+            \n-   Go shopping at the supermarket and cook a recipe that you like.
+            \n-   Watch a series or film that you like.
+            \n-   Meet a friend for a drink or a walk.
+            \n-   Read a book, listen to music, draw…
+        </item>
+    </string-array>
+
+    <string name="high_depression_advice_head">
+        We suggest you seek support from the people around you.
+    </string>
+    <string-array name="high_depression_advice_body">
+        <item>
+            It is very beneficial if you can express how you are feeling to others. The act of talking about it will give you an emotional relief that will make you feel better.
+            \n\nIn addition, people who listen to you will be able to understand what you are going through and show empathy and support. They may also try to help you or offer advice.
+            \n\nTo make things go smoothly, try to choose the right person at the right time. Look for someone who is well, who is not too stressed or busy, who has shown you affection on occasion…
+            \n\nIf you need to vent frequently, try to do it with different people and not just focus on one, as providing emotional support can sometimes be tiring.
+            \n\nFinally, be careful not to fall into complaining - communicate your emotions by trying to find solutions and ways to feel better, rather than dwelling on the problem that has happened.
+        </item>
+    </string-array>
+
+    <!-- Loneliness advices -->
+    <string name="low_loneliness_advice">
+        Great, keep it up!
+    </string>
+    <string name="moderate_loneliness_advice_head">
+        We suggest you seek support from the people around you.
+    </string>
+    <string-array name="moderate_loneliness_advice_body">
+        <item>
+            You may feel that you have no one to talk to. However, if you try, you are sure to find people who are willing to talk to you.
+            \n\nLook around you: a neighbour you\'ve had contact with, the waiter at the bar or restaurant you sometimes go to, a work colleague… You can try to strike up a conversation by asking them how they are doing and commenting on the environment (weather, prices, opening hours, etc.).
+            \n\nAfterwards, you can try to tell a recent anecdote or personal experience. For example, a TV programme that you liked, something curious that you have recently seen on social networks, a plan that you are looking forward to attending or that you enjoyed if you have already done so, etc.
+            \n\nGradually, you will be able to progress in the conversation and talk more often with these people.
+        </item>
+    </string-array>
+    <string name="high_loneliness_advice_head">
+        We recommend that you call the Red Cross Listens To You (900 107 917).
+    </string>
+    <string-array name="high_loneliness_advice_body">
+        <item>
+            The Red Cross listens to you is an initiative that aims to offer accompaniment and support to people who find themselves in a situation of unwanted loneliness.
+            \n\nThey will be able to provide you with guidelines to help you feel better and offer you resources in your area that can help you.
+            \n\nYou can contact them on
+        </item>
+        <item>
+            900 107 917
+        </item>
+        <item>
+            , Monday to Thursday working days from 10am to 2pm and from 4pm to 8pm (one hour less in the Canary Islands) and on Friday working days from 10am to 2pm (one hour less in the Canary Islands). The call is free and confidential.
+        </item>
+    </string-array>
+
+    <!-- Suicide advices -->
+    <string name="low_suicide_risk_advice">
+        Great, keep it up!
+    </string>
+    <string name="moderate_suicide_risk_advice">
+        Remember, if at any time you have thoughts of suicide, it is important to ask for help.
+    </string>
+    <string name="high_suicide_risk_advice_head">
+        From what you have told us, we believe that the risk that you may harm yourself or end your life is high.
+    </string>
+    <string-array name="high_suicide_risk_advice_body">
+        <item>
+            Please go to an emergency service as soon as possible or call the following numbers
+        </item>
+        <item>
+            112
+        </item>
+        <item>
+            or
+        </item>
+        <item>
+            024
+        </item>
+        <item>
+            .\n\nThere you will find people who can understand how you feel and help you feel better.
+            \n\nRemember that suicide is the only option with no way back. Try to exhaust other possible solutions and ask for help to achieve it.
+        </item>
+    </string-array>
+
 </resources>

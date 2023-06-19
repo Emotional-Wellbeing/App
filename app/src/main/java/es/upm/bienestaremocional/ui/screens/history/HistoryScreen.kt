@@ -32,13 +32,14 @@ import com.patrykandpatrick.vico.compose.legend.verticalLegendItem
 import com.patrykandpatrick.vico.compose.m3.style.m3ChartStyle
 import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
 import com.patrykandpatrick.vico.compose.style.currentChartStyle
+import com.patrykandpatrick.vico.core.axis.AxisPosition
+import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
 import com.patrykandpatrick.vico.core.chart.decoration.ThresholdLine
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.chart.values.AxisValuesOverrider
 import com.patrykandpatrick.vico.core.component.shape.Shapes
 import com.patrykandpatrick.vico.core.entry.ChartEntryModel
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
-import com.patrykandpatrick.vico.core.entry.FloatEntry
 import com.patrykandpatrick.vico.core.marker.Marker
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -46,9 +47,14 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.*
 import es.upm.bienestaremocional.data.questionnaire.Level.Companion.getColor
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
+import es.upm.bienestaremocional.domain.processing.lowerStartDayUpperEndDay
 import es.upm.bienestaremocional.domain.processing.milliSecondToZonedDateTime
+import es.upm.bienestaremocional.domain.processing.processRecordsSimulatingEmpty
 import es.upm.bienestaremocional.domain.processing.toEpochMilliSecond
 import es.upm.bienestaremocional.ui.component.AppBasicScreen
+import es.upm.bienestaremocional.ui.component.chart.ChartEntryWithTimeAndSimulated
+import es.upm.bienestaremocional.ui.component.chart.LINE_SPACING
+import es.upm.bienestaremocional.ui.component.chart.MAX_LABEL_COUNT
 import es.upm.bienestaremocional.ui.component.chart.SimpleMarkerComponent
 import es.upm.bienestaremocional.ui.component.chart.rememberMarker
 import es.upm.bienestaremocional.ui.component.chart.rememberSimpleMarker
@@ -59,45 +65,54 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import es.upm.bienestaremocional.utils.TimeGranularity
 import es.upm.bienestaremocional.utils.formatDate
 import java.time.ZonedDateTime
-import kotlin.random.Random
+import java.time.format.TextStyle
+import java.util.Locale
 
 /**
  * Plots graphics about user's history
  */
 @Destination
 @Composable
-fun HistoryScreen(navigator: DestinationsNavigator,
-                  preSelectedQuestionnaire: DailyScoredQuestionnaire?,
-                  viewModel: HistoryViewModel = hiltViewModel()
-)
-{
+fun HistoryScreen(
+    navigator: DestinationsNavigator,
+    preSelectedQuestionnaire: DailyScoredQuestionnaire?,
+    viewModel: HistoryViewModel = hiltViewModel()
+) {
     val widthSize = computeWindowWidthSize()
     val heightSize = computeWindowHeightSize()
 
     // State
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    AppBasicScreen(navigator = navigator,
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = BottomBarDestination.HistoryScreen,
-        label = BottomBarDestination.HistoryScreen.label)
+        label = BottomBarDestination.HistoryScreen.label
+    )
     {
-        Column(modifier = Modifier.padding(16.dp),
+        Column(
+            modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top)
         ) {
 
-            Row(modifier = Modifier.fillMaxWidth(),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)
             ) {
                 DisplayQuestionnaireMenu(
-                    modifier = Modifier.weight(1f,true),
+                    modifier = Modifier.weight(1f, true),
                     selected = state.questionnaire,
-                    onChange = {questionnaire -> viewModel.onQuestionnaireChange(questionnaire)}
+                    onChange = { questionnaire -> viewModel.onQuestionnaireChange(questionnaire) }
                 )
                 DisplayGranularityOfDataMenu(
-                    modifier = Modifier.weight(1f,true),
+                    modifier = Modifier.weight(1f, true),
                     selected = state.timeGranularity,
-                    onChange = {timeGranularity -> viewModel.onTimeGranularityChange(timeGranularity)}
+                    onChange = { timeGranularity ->
+                        viewModel.onTimeGranularityChange(
+                            timeGranularity
+                        )
+                    }
                 )
                 // If we have enough width space, show all options inside same row
                 if (widthSize > WindowWidthSizeClass.Compact)
@@ -107,11 +122,13 @@ fun HistoryScreen(navigator: DestinationsNavigator,
             if (widthSize <= WindowWidthSizeClass.Compact)
                 DisplayDatePicker(state.timeRange) { range -> viewModel.onTimeRangeChange(range) }
 
-            if(state.isDataNotEmpty)
-                DrawLineChart(heightSize = heightSize,
+            if (state.isDataNotEmpty)
+                DrawLineChart(
+                    heightSize = heightSize,
                     producer = viewModel.producer,
                     questionnaire = state.questionnaire,
-                    timeGranularity = state.timeGranularity)
+                    timeGranularity = state.timeGranularity
+                )
             else
                 Text(text = stringResource(id = R.string.no_data_to_display))
         }
@@ -126,16 +143,18 @@ fun HistoryScreen(navigator: DestinationsNavigator,
  * @see DisplayMenu
  */
 @Composable
-private fun DisplayQuestionnaireMenu(selected: DailyScoredQuestionnaire,
-                                     onChange: (DailyScoredQuestionnaire) -> Unit,
-                                     modifier: Modifier = Modifier
-)
-{
+private fun DisplayQuestionnaireMenu(
+    selected: DailyScoredQuestionnaire,
+    onChange: (DailyScoredQuestionnaire) -> Unit,
+    modifier: Modifier = Modifier
+) {
     DisplayMenu(
         label = stringResource(id = R.string.measure),
-        options = DailyScoredQuestionnaire.values().map { Pair(stringResource(it.measure.measureRes)) { onChange(it) } },
+        options = DailyScoredQuestionnaire.values()
+            .map { Pair(stringResource(it.measure.measureRes)) { onChange(it) } },
         selected = stringResource(id = selected.measure.measureRes),
-        modifier = modifier)
+        modifier = modifier
+    )
 }
 
 /**
@@ -146,15 +165,17 @@ private fun DisplayQuestionnaireMenu(selected: DailyScoredQuestionnaire,
  * @see DisplayMenu
  */
 @Composable
-private fun DisplayGranularityOfDataMenu(selected: TimeGranularity,
-                                         onChange: (TimeGranularity) -> Unit,
-                                         modifier: Modifier = Modifier)
-{
+private fun DisplayGranularityOfDataMenu(
+    selected: TimeGranularity,
+    onChange: (TimeGranularity) -> Unit,
+    modifier: Modifier = Modifier
+) {
     DisplayMenu(
         label = stringResource(id = R.string.granularity),
         options = TimeGranularity.get().map { Pair(stringResource(it.label)) { onChange(it) } },
         selected = stringResource(id = selected.label),
-        modifier = modifier)
+        modifier = modifier
+    )
 }
 
 /**
@@ -167,12 +188,12 @@ private fun DisplayGranularityOfDataMenu(selected: TimeGranularity,
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DisplayMenu(label: String,
-                        options: List<Pair<String,() -> Unit>>,
-                        selected : String,
-                        modifier: Modifier = Modifier
-)
-{
+private fun DisplayMenu(
+    label: String,
+    options: List<Pair<String, () -> Unit>>,
+    selected: String,
+    modifier: Modifier = Modifier
+) {
     var expanded by remember { mutableStateOf(false) }
 
     // Point of entry of the menu
@@ -217,10 +238,10 @@ private fun DisplayMenu(label: String,
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DisplayDatePicker(selectedRange : Range<ZonedDateTime>,
-                              onSelectedRange : (Range<ZonedDateTime>) -> Unit
-)
-{
+private fun DisplayDatePicker(
+    selectedRange: Range<ZonedDateTime>,
+    onSelectedRange: (Range<ZonedDateTime>) -> Unit
+) {
     var showDialog by remember { mutableStateOf(false) }
     val dateRangePickerState = rememberDateRangePickerState(
         initialSelectedStartDateMillis = selectedRange.lower.toEpochMilliSecond(),
@@ -237,7 +258,7 @@ private fun DisplayDatePicker(selectedRange : Range<ZonedDateTime>,
         onValueChange = {},
         enabled = false,
         label = { Text(stringResource(R.string.time_interval)) },
-        trailingIcon = { Icon(Icons.Default.DateRange,"") },
+        trailingIcon = { Icon(Icons.Default.DateRange, "") },
         colors = TextFieldDefaults.colors(
             disabledTextColor = MaterialTheme.colorScheme.onSurface,
             disabledIndicatorColor = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -249,8 +270,7 @@ private fun DisplayDatePicker(selectedRange : Range<ZonedDateTime>,
         )
     )
 
-    if (showDialog)
-    {
+    if (showDialog) {
         DatePickerDialog(
             onDismissRequest = {
                 // Dismiss the dialog when the user clicks outside the dialog or on the back
@@ -302,19 +322,19 @@ private fun DisplayDatePicker(selectedRange : Range<ZonedDateTime>,
  * @param timeGranularity [TimeGranularity] that is used in the chart
  */
 @Composable
-private fun DrawLineChart(heightSize: WindowHeightSizeClass,
-                          producer: ChartEntryModelProducer,
-                          questionnaire: DailyScoredQuestionnaire,
-                          timeGranularity: TimeGranularity
-)
-{
+private fun DrawLineChart(
+    heightSize: WindowHeightSizeClass,
+    producer: ChartEntryModelProducer,
+    questionnaire: DailyScoredQuestionnaire,
+    timeGranularity: TimeGranularity
+) {
     val chartStyle = m3ChartStyle()
 
     val decorations = questionnaire.levels.mapIndexed { index, scoreLevel ->
-        val previousMax = if(index == 0)
+        val previousMax = if (index == 0)
             questionnaire.minScore
         else
-            questionnaire.levels[index-1].max
+            questionnaire.levels[index - 1].max
         thresholdArea(scoreLevel = scoreLevel, previousMax = previousMax.toFloat())
     }
 
@@ -322,23 +342,62 @@ private fun DrawLineChart(heightSize: WindowHeightSizeClass,
     // related to not having space enough to display chart after legend has been drawn.
     // Vico draws before legends and using WindowSize is needed to know if screen can plot
     // simultaneously chart and legend; avoiding hardcoded conditionals based on test and error
-    
-    val legends = if(heightSize > WindowHeightSizeClass.Compact)
-        {
-            questionnaire.levels.map { verticalLegendItem(
+
+    val legends = if (heightSize > WindowHeightSizeClass.Compact) {
+        questionnaire.levels.map {
+            verticalLegendItem(
                 icon = shapeComponent(Shapes.pillShape, it.level.getColor()),
                 label = textComponent(
                     color = chartStyle.axis.axisLabelColor,
                     textSize = 12.sp,
                     typeface = Typeface.MONOSPACE,
                 ),
-                labelText = stringResource(it.level.label))
-            }
+                labelText = stringResource(it.level.label)
+            )
         }
-        else
-            null
+    }
+    else
+        null
 
     val model = producer.getModel()
+
+    val valueFormatter = AxisValueFormatter<AxisPosition.Horizontal.Bottom> { index, chartValues ->
+
+        val criteria: (ZonedDateTime) -> String = when (timeGranularity) {
+            TimeGranularity.Day -> { zdt ->
+                val month = zdt.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+                "${zdt.dayOfMonth} $month"
+            }
+
+            TimeGranularity.Week -> { start ->
+                val end = start.plusDays(6)
+
+                if (start.month == end.month) {
+                    val month = start.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+                    "${start.dayOfMonth}-${end.dayOfMonth} $month"
+                }
+                else {
+                    val startMonth =
+                        start.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+                    val endMonth = end.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+                    "${start.dayOfMonth} $startMonth - ${end.dayOfMonth} $endMonth"
+                }
+            }
+
+            TimeGranularity.Month -> { zdt ->
+                val month = zdt.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+                "$month ${zdt.year}"
+            }
+        }
+
+        // Access to the first list of entries (in our case only one chart is plotted)
+        // Get actual element and extract day of the week from time
+        (chartValues.chartEntryModel.entries.first()
+            .getOrNull(index.toInt()) as? ChartEntryWithTimeAndSimulated)
+            ?.time
+            ?.run { criteria(this) }
+            .orEmpty()
+    }
 
     ProvideChartStyle(chartStyle)
     {
@@ -354,20 +413,29 @@ private fun DrawLineChart(heightSize: WindowHeightSizeClass,
                         )
                     }
                 },
-                axisValuesOverrider = AxisValuesOverrider.fixed(null,null,questionnaire.minScore.toFloat(),questionnaire.maxScore.toFloat()) ,
+                spacing = LINE_SPACING,
+                axisValuesOverrider = AxisValuesOverrider.fixed(
+                    null,
+                    null,
+                    questionnaire.minScore.toFloat(),
+                    questionnaire.maxScore.toFloat()
+                ),
                 decorations = decorations,
                 persistentMarkers = obtainPersistentMarkers(model)
             ),
             model = model,
             startAxis = startAxis(
                 guideline = axisGuidelineComponent(),
-                maxLabelCount = (questionnaire.maxScore - questionnaire.minScore + 1),
+                maxLabelCount = MAX_LABEL_COUNT,
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),
-                title = stringResource(questionnaire.measure.measureRes)),
+                title = stringResource(questionnaire.measure.measureRes)
+            ),
             bottomAxis = bottomAxis(
                 guideline = axisGuidelineComponent(),
+                valueFormatter = valueFormatter,
                 titleComponent = textComponent(color = chartStyle.axis.axisLabelColor),
-                title = stringResource(timeGranularity.label)),
+                title = stringResource(timeGranularity.label)
+            ),
             marker = rememberMarker(),
             legend = legends?.let {
                 verticalLegend(
@@ -389,9 +457,10 @@ private fun DrawLineChart(heightSize: WindowHeightSizeClass,
  * @param previousMax lower bound of the area
  */
 @Composable
-private fun thresholdArea(scoreLevel: ScoreLevel,
-                          previousMax: Float): ThresholdLine
-{
+private fun thresholdArea(
+    scoreLevel: ScoreLevel,
+    previousMax: Float
+): ThresholdLine {
     val label = textComponent(textSize = (0).sp)
     val line = shapeComponent(color = scoreLevel.level.getColor().copy(.5f))
     val thresholdLabel = stringResource(scoreLevel.level.label)
@@ -411,11 +480,12 @@ private fun thresholdArea(scoreLevel: ScoreLevel,
  * @return Map with x values as key and marker as value
  */
 @Composable
-private fun obtainPersistentMarkers(model: ChartEntryModel) : Map<Float, Marker>
-{
+private fun obtainPersistentMarkers(model: ChartEntryModel): Map<Float, Marker> {
     val result = mutableMapOf<Float, Marker>()
     model.entries[0].forEach { entry ->
-        result[entry.x] = rememberSimpleMarker()
+        val fullEntry = entry as ChartEntryWithTimeAndSimulated
+        if (!fullEntry.simulated)
+            result[entry.x] = rememberSimpleMarker()
     }
     return result
 }
@@ -427,8 +497,7 @@ private fun obtainPersistentMarkers(model: ChartEntryModel) : Map<Float, Marker>
 )
 @Composable
 
-fun DisplayQuestionnaireMenuPreview()
-{
+fun DisplayQuestionnaireMenuPreview() {
     BienestarEmocionalTheme {
         DisplayQuestionnaireMenu(
             modifier = Modifier,
@@ -444,8 +513,7 @@ fun DisplayQuestionnaireMenuPreview()
 )
 @Composable
 
-fun DisplayQuestionnaireMenuPreviewDarkTheme()
-{
+fun DisplayQuestionnaireMenuPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         DisplayQuestionnaireMenu(
             modifier = Modifier,
@@ -460,8 +528,7 @@ fun DisplayQuestionnaireMenuPreviewDarkTheme()
 )
 @Composable
 
-fun DisplayGranularityOfDataMenuPreview()
-{
+fun DisplayGranularityOfDataMenuPreview() {
     BienestarEmocionalTheme {
         DisplayGranularityOfDataMenu(
             modifier = Modifier,
@@ -476,8 +543,7 @@ fun DisplayGranularityOfDataMenuPreview()
 )
 @Composable
 
-fun DisplayGranularityOfDataMenuPreviewDarkTheme()
-{
+fun DisplayGranularityOfDataMenuPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         DisplayGranularityOfDataMenu(
             modifier = Modifier,
@@ -492,11 +558,10 @@ fun DisplayGranularityOfDataMenuPreviewDarkTheme()
 )
 @Composable
 
-fun DisplayDatePickerPreview()
-{
+fun DisplayDatePickerPreview() {
     BienestarEmocionalTheme {
         DisplayDatePicker(
-            selectedRange = (ZonedDateTime.now().minusDays(7) .. ZonedDateTime.now()).toRange(),
+            selectedRange = (ZonedDateTime.now().minusDays(7)..ZonedDateTime.now()).toRange(),
             onSelectedRange = {})
     }
 }
@@ -507,11 +572,10 @@ fun DisplayDatePickerPreview()
 )
 @Composable
 
-fun DisplayDatePickerPreviewDarkTheme()
-{
+fun DisplayDatePickerPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         DisplayDatePicker(
-            selectedRange = (ZonedDateTime.now().minusDays(7) .. ZonedDateTime.now()).toRange(),
+            selectedRange = (ZonedDateTime.now().minusDays(7)..ZonedDateTime.now()).toRange(),
             onSelectedRange = {})
     }
 }
@@ -522,11 +586,36 @@ fun DisplayDatePickerPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun StressChartCompactPreview()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Stress.minScore, DailyScoredQuestionnaire.Stress.maxScore)}
+fun StressChartCompactPreview() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyStressEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme {
         Surface {
@@ -534,7 +623,7 @@ fun StressChartCompactPreview()
                 heightSize = WindowHeightSizeClass.Compact,
                 producer = producer,
                 questionnaire = DailyScoredQuestionnaire.Stress,
-                timeGranularity = TimeGranularity.Day,
+                timeGranularity = timeGranularity
             )
         }
     }
@@ -545,11 +634,36 @@ fun StressChartCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun StressChartCompactPreviewDarkTheme()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Stress.minScore, DailyScoredQuestionnaire.Stress.maxScore)}
+fun StressChartCompactPreviewDarkTheme() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyStressEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
@@ -569,11 +683,36 @@ fun StressChartCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun StressChartMediumPreview()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Stress.minScore, DailyScoredQuestionnaire.Stress.maxScore)}
+fun StressChartMediumPreview() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyStressEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme {
         Surface {
@@ -592,11 +731,36 @@ fun StressChartMediumPreview()
     group = "Dark Theme"
 )
 @Composable
-fun StressChartMediumPreviewDarkTheme()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Stress.minScore, DailyScoredQuestionnaire.Stress.maxScore)}
+fun StressChartMediumPreviewDarkTheme() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyStressEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
@@ -615,11 +779,36 @@ fun StressChartMediumPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun DepressionChartCompactPreview()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Depression.minScore, DailyScoredQuestionnaire.Depression.maxScore)}
+fun DepressionChartCompactPreview() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyDepressionEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme {
         Surface {
@@ -638,11 +827,36 @@ fun DepressionChartCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DepressionChartPreviewCompactDarkTheme()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Depression.minScore, DailyScoredQuestionnaire.Depression.maxScore)}
+fun DepressionChartPreviewCompactDarkTheme() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyDepressionEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
@@ -661,11 +875,36 @@ fun DepressionChartPreviewCompactDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun DepressionChartMediumPreview()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Depression.minScore, DailyScoredQuestionnaire.Depression.maxScore)}
+fun DepressionChartMediumPreview() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyDepressionEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme {
         Surface {
@@ -684,11 +923,36 @@ fun DepressionChartMediumPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DepressionChartMediumPreviewDarkTheme()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Depression.minScore, DailyScoredQuestionnaire.Depression.maxScore)}
+fun DepressionChartMediumPreviewDarkTheme() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyDepressionEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
@@ -707,11 +971,36 @@ fun DepressionChartMediumPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun LonelinessChartCompactPreview()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Loneliness.minScore, DailyScoredQuestionnaire.Loneliness.maxScore)}
+fun LonelinessChartCompactPreview() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyLonelinessEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme {
         Surface {
@@ -730,11 +1019,36 @@ fun LonelinessChartCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun LonelinessChartCompactPreviewDarkTheme()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Loneliness.minScore, DailyScoredQuestionnaire.Loneliness.maxScore)}
+fun LonelinessChartCompactPreviewDarkTheme() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyLonelinessEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
@@ -753,11 +1067,36 @@ fun LonelinessChartCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun LonelinessChartMediumPreview()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Loneliness.minScore, DailyScoredQuestionnaire.Loneliness.maxScore)}
+fun LonelinessChartMediumPreview() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyLonelinessEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme {
         Surface {
@@ -776,11 +1115,36 @@ fun LonelinessChartMediumPreview()
     group = "Dark Theme"
 )
 @Composable
-fun LonelinessChartMediumPreviewDarkTheme()
-{
-    val data = List(100) { Random.nextInt(DailyScoredQuestionnaire.Loneliness.minScore, DailyScoredQuestionnaire.Loneliness.maxScore)}
+fun LonelinessChartMediumPreviewDarkTheme() {
+    val days = 10
+
+    val data = List(days) { index ->
+        val createdAt = ZonedDateTime
+            .now()
+            .minusDays(index.toLong())
+            .toEpochMilliSecond()
+        generateDailyLonelinessEntry(createdAt)
+    }
+
+    val timeRange = (ZonedDateTime.now().minusDays((days - 1).toLong())..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
+    val timeGranularity = TimeGranularity.Day
+
+    val aggregateData = processRecordsSimulatingEmpty(
+        records = data,
+        dateRange = timeRange,
+        timeGranularity = timeGranularity
+    )
+
     val producer = ChartEntryModelProducer()
-    producer.setEntries(data.mapIndexed{index, value -> FloatEntry((index+1).toFloat(),value.toFloat())})
+
+    producer.setEntries(
+        aggregateData.mapIndexed { index, value ->
+            ChartEntryWithTimeAndSimulated(value.day, value.simulated, index.toFloat(), value.score)
+        }
+    )
 
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {

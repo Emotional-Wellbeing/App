@@ -3,14 +3,13 @@ package es.upm.bienestaremocional.data.questionnaire.daily
 import es.upm.bienestaremocional.data.database.entity.daily.DailySymptoms
 import es.upm.bienestaremocional.data.questionnaire.NotScoredManager
 
-class DailySymptomsManager: NotScoredManager<DailySymptoms>()
-{
-    override val answers: Array<Int?> = arrayOfNulls(DailyNotScoredQuestionnaire.Symptoms.numberOfQuestions)
+class DailySymptomsManager : NotScoredManager<DailySymptoms>() {
+    override val answers: Array<Int?> =
+        arrayOfNulls(DailyNotScoredQuestionnaire.Symptoms.numberOfQuestions)
     override val numberOfQuestions: Int = DailyNotScoredQuestionnaire.Symptoms.numberOfQuestions
     override val answerRange: IntRange = DailyNotScoredQuestionnaire.Symptoms.answerRange
 
-    override fun loadEntity(element: DailySymptoms)
-    {
+    override fun loadEntity(element: DailySymptoms) {
         answers[0] = element.appetite?.ordinal
         answers[1] = element.energy?.ordinal
         answers[2] = element.rest?.ordinal

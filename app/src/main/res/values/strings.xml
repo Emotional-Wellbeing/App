@@ -4,7 +4,7 @@
     <!-- Menu -->
     <string name="home_screen_label">Inicio</string>
     <string name="history_screen_label">Historial</string>
-    <string name="trends_screen_label">Tendencias</string>
+    <string name="community_screen_label">Comunidad</string>
     <string name="settings_screen_label">Ajustes</string>
     <string name="debug_screen_label">Menú de desarrolladores</string>
     <string name="uncompleted_questionnaires_label">Cuestionarios incompletos</string>
@@ -115,31 +115,18 @@
     <string name="low">Bajo</string>
     <string name="high">Alto</string>
 
-    <!-- Advices -->
-    <string name="low_stress_advice">Consejo para estrés de nivel bajo</string>
-    <string name="moderate_stress_advice">Consejo para estrés de nivel moderado</string>
-    <string name="high_stress_advice">Consejo para estrés de nivel alto</string>
-
-    <string name="low_depression_advice">Consejo para depresión de nivel bajo</string>
-    <string name="moderate_depression_advice">Consejo para depresión de nivel moderado</string>
-    <string name="high_depression_advice">Consejo para depresión de nivel alto</string>
-
-    <string name="low_loneliness_advice">Consejo para soledad de nivel bajo</string>
-    <string name="moderate_loneliness_advice">Consejo para soledad de nivel moderado</string>
-    <string name="high_loneliness_advice">Consejo para soledad de nivel alto</string>
-
-    <string name="low_suicide_risk_advice">Consejo para riesgo de suicidio de nivel bajo</string>
-    <string name="moderate_suicide_risk_advice">Consejo para riesgo de suicidio de nivel moderado</string>
-    <string name="high_suicide_risk_advice">Consejo para riesgo de suicidio de nivel alto</string>
-
     <!-- Credits-->
-    <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>
-    <string name="credit_author_description">Autor del TFM Sistema para el Bienestar Emocional y principal autor de la aplicación.</string>
+    <string name="credit_author1_name" translatable="false">Victor Manuel Domínguez Rivas</string>
+    <string name="credit_author1_description">Coautor del TFM Sistema para el Bienestar Emocional y principal autor de la aplicación.</string>
+    <string name="credit_author2_name" translatable="false">María Marco Pinar</string>
+    <string name="credit_author2_description">Coautora del TFM Sistema para el Bienestar Emocional y coautora de la aplicación.</string>
     <string name="credit_director1_name" translatable="false">Sandra Gómez Canaval</string>
     <string name="credit_director1_description">Codirectora del TFM Sistema para el Bienestar Emocional.</string>
     <string name="credit_director2_name" translatable="false">Gema Bello Orgaz</string>
     <string name="credit_director2_description">Codirectora del TFM Sistema para el Bienestar Emocional.</string>
 
+    <string name="credit_graphic_design_name">Asociación LevelUp (ETSISI)</string>
+    <string name="credit_graphic_design_description">Importante colaboración en el diseño gráfico de la aplicación.</string>
     <string name="credit_logo1_name" translatable="false">Aman Mishra</string>
     <string name="credit_logo1_description">Autor de la ilustración Health checkup, disponible en la plataforma Lottie.</string>
     <string name="credit_logo2_name" translatable="false">Echotech Engineering</string>
@@ -164,6 +151,8 @@
     <string name="cancel">Cancelar</string>
     <string name="exit">Salir</string>
     <string name="ok">Vale</string>
+    <string name="view_more_information">Ver más información</string>
+    <string name="stats">Estadísticas</string>
     <string name="more_details">Más detalles</string>
     <string name="continue_word">Continuar</string> <!-- Continue is a reserved word in Java -->
     <string name="day">Dia</string>
@@ -293,7 +282,7 @@
     <string name="test_daily_night_notification_worker">Probar daily night notification worker</string>
     <string name="test_one_off_notification_worker">Probar one off notification worker</string>
     <string name="test_upload_worker">Probar upload worker subiendo todos los datos</string>
-    <string name="test_get_score">Probar getScore</string>
+    <string name="test_get_community">Probar getCommunity</string>
     <string name="test_post_user_data">Probar postUserData</string>
     <string name="reset_upload_timestamps">Reiniciar las marcas de tiempo de las subidas</string>
     <string name="query_worker_status">Consultar el estado de los workers</string>
@@ -324,6 +313,15 @@
     <string name="uncompleted">Incompletado</string>
     <string name="continue_label">Continuar</string>
     <string name="daily_symptoms_label">¿Cómo has estado hoy?</string>
+
+    <!-- Debug community -->
+    <string name="monday">Lunes</string>
+    <string name="tuesday">Martes</string>
+    <string name="wednesday">Miércoles</string>
+    <string name="thursday">Jueves</string>
+    <string name="friday">Viernes</string>
+    <string name="saturday">Sábado</string>
+    <string name="sunday">Domingo</string>
     <!-- Permission -->
     <string name="permission_screen_label">Permisos</string>
     <string name="permission_screen_description">Permisos de la aplicación</string>

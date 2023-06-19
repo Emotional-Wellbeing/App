@@ -21,20 +21,17 @@ import kotlin.random.Random
 class Steps @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<StepsRecord>(healthConnectClient,healthConnectManager)
-{
-    companion object
-    {
+) : HealthConnectSource<StepsRecord>(healthConnectClient, healthConnectManager) {
+    companion object {
         /**
          * Make demo data
          */
-        fun generateDummyData() : List<StepsRecord>
-        {
+        fun generateDummyData(): List<StepsRecord> {
 
             return List(5)
             { index ->
                 val (init, end) = generateInterval(offsetDays = index.toLong())
-                val count = Random.nextLong(0,20000)
+                val count = Random.nextLong(0, 20000)
                 StepsRecord(
                     startTime = init.toInstant(),
                     startZoneOffset = init.offset,
@@ -47,13 +44,14 @@ class Steps @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(StepsRecord::class))
+        HealthPermission.getReadPermission(StepsRecord::class)
+    )
 
     override val writePermissions = setOf(
-        HealthPermission.getWritePermission(StepsRecord::class))
+        HealthPermission.getWritePermission(StepsRecord::class)
+    )
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<StepsRecord>
-    {
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<StepsRecord> {
         val stepsRequest = ReadRecordsRequest(
             recordType = StepsRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

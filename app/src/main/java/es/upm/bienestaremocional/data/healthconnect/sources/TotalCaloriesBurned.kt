@@ -23,19 +23,16 @@ import kotlin.random.Random
 class TotalCaloriesBurned @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<TotalCaloriesBurnedRecord>(healthConnectClient,healthConnectManager)
-{
-    companion object
-    {
+) : HealthConnectSource<TotalCaloriesBurnedRecord>(healthConnectClient, healthConnectManager) {
+    companion object {
         /**
          * Make demo data
          */
-        fun generateDummyData() : List<TotalCaloriesBurnedRecord>
-        {
+        fun generateDummyData(): List<TotalCaloriesBurnedRecord> {
             return List(5)
             { index ->
                 val (init, end) = generateInterval(offsetDays = index.toLong())
-                val energy = Energy.kilocalories(Random.nextDouble(1000.0,5000.0))
+                val energy = Energy.kilocalories(Random.nextDouble(1000.0, 5000.0))
                 TotalCaloriesBurnedRecord(
                     startTime = init.toInstant(),
                     startZoneOffset = init.offset,
@@ -48,14 +45,15 @@ class TotalCaloriesBurned @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(TotalCaloriesBurnedRecord::class))
+        HealthPermission.getReadPermission(TotalCaloriesBurnedRecord::class)
+    )
 
     override val writePermissions = setOf(
-        HealthPermission.getWritePermission(TotalCaloriesBurnedRecord::class))
+        HealthPermission.getWritePermission(TotalCaloriesBurnedRecord::class)
+    )
 
     override suspend fun readSource(startTime: Instant, endTime: Instant):
-            List<TotalCaloriesBurnedRecord>
-    {
+            List<TotalCaloriesBurnedRecord> {
         val request = ReadRecordsRequest(
             recordType = TotalCaloriesBurnedRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

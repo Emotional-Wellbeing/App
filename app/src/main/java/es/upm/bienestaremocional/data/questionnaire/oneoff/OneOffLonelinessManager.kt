@@ -3,18 +3,18 @@ package es.upm.bienestaremocional.data.questionnaire.oneoff
 import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffLoneliness
 import es.upm.bienestaremocional.data.questionnaire.ScoreLevel
 
-class OneOffLonelinessManager: OneOffManager<OneOffLoneliness>()
-{
-    override val answers: Array<Int?> = arrayOfNulls(OneOffQuestionnaire.Loneliness.numberOfQuestions)
-    override val questionsWithInvertedScore : Set<Int> = OneOffQuestionnaire.Loneliness.questionsWithInvertedScore
+class OneOffLonelinessManager : OneOffManager<OneOffLoneliness>() {
+    override val answers: Array<Int?> =
+        arrayOfNulls(OneOffQuestionnaire.Loneliness.numberOfQuestions)
+    override val questionsWithInvertedScore: Set<Int> =
+        OneOffQuestionnaire.Loneliness.questionsWithInvertedScore
     override val answerRange: IntRange = OneOffQuestionnaire.Loneliness.answerRange
-    override val numberOfAnswers : Int = OneOffQuestionnaire.Loneliness.numberOfAnswers
+    override val numberOfAnswers: Int = OneOffQuestionnaire.Loneliness.numberOfAnswers
     override val numberOfQuestions: Int = OneOffQuestionnaire.Loneliness.numberOfQuestions
-    override val questionScoreOffset : Int = OneOffQuestionnaire.Loneliness.questionScoreOffset
+    override val questionScoreOffset: Int = OneOffQuestionnaire.Loneliness.questionScoreOffset
     override val levels: List<ScoreLevel> = OneOffQuestionnaire.Loneliness.levels
 
-    override fun loadEntity(element: OneOffLoneliness)
-    {
+    override fun loadEntity(element: OneOffLoneliness) {
         answers[0] = element.answer1
         answers[1] = element.answer2
         answers[2] = element.answer3

@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.data.remote.userdata
+package es.upm.bienestaremocional.data.remote.questionnaire.daily
 
 import es.upm.bienestaremocional.data.database.entity.daily.DailyDepression
 import es.upm.bienestaremocional.data.database.entity.daily.DailyLoneliness
@@ -7,10 +7,9 @@ import es.upm.bienestaremocional.data.database.entity.daily.DailySuicide
 import es.upm.bienestaremocional.data.database.entity.daily.DailySymptoms
 
 data class DailyQuestionnairesRequest(
-    val userId : String,
-    val data : Data
-)
-{
+    val userId: String,
+    val data: Data
+) {
     data class Data(
         val stress: List<DailyStress>?,
         val depression: List<DailyDepression>?,

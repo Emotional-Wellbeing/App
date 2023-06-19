@@ -21,20 +21,17 @@ import kotlin.random.Random
 class Weight @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<WeightRecord>(healthConnectClient,healthConnectManager)
-{
-    companion object
-    {
+) : HealthConnectSource<WeightRecord>(healthConnectClient, healthConnectManager) {
+    companion object {
         /**
          * Make demo data
          */
-        fun generateDummyData() : List<WeightRecord>
-        {
+        fun generateDummyData(): List<WeightRecord> {
             return List(5)
             { index ->
                 val time = generateTime(offsetDays = index.toLong())
 
-                val weight = Mass.kilograms(Random.nextDouble(0.0,200.0))
+                val weight = Mass.kilograms(Random.nextDouble(0.0, 200.0))
 
                 WeightRecord(
                     time = time.toInstant(),
@@ -46,13 +43,14 @@ class Weight @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(WeightRecord::class))
+        HealthPermission.getReadPermission(WeightRecord::class)
+    )
 
     override val writePermissions = setOf(
-        HealthPermission.getWritePermission(WeightRecord::class))
+        HealthPermission.getWritePermission(WeightRecord::class)
+    )
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<WeightRecord>
-    {
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<WeightRecord> {
         val request = ReadRecordsRequest(
             recordType = WeightRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

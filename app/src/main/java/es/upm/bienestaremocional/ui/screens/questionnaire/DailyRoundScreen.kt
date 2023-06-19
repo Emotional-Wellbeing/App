@@ -25,35 +25,39 @@ import es.upm.bienestaremocional.destinations.HomeScreenDestination
     ]
 )
 @Composable
-fun DailyRoundScreen(navigator: DestinationsNavigator,
-                     navBackStackEntry: NavBackStackEntry,
-                     viewModel: DailyRoundViewModel = hiltViewModel(),
-                     dailyRound: DailyRound
-)
-{
+fun DailyRoundScreen(
+    navigator: DestinationsNavigator,
+    navBackStackEntry: NavBackStackEntry,
+    viewModel: DailyRoundViewModel = hiltViewModel(),
+    dailyRound: DailyRound
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val logTag = viewModel.logTag
 
-    navBackStackEntry.GetOnceResult<Boolean>("finished"){
+    navBackStackEntry.GetOnceResult<Boolean>("finished") {
         if (it)
             viewModel.onResumeRound()
     }
 
-    when(state)
-    {
-        QuestionnaireRoundState.Init -> { viewModel.onInit() }
+    when (state) {
+        QuestionnaireRoundState.Init -> {
+            viewModel.onInit()
+        }
+
         QuestionnaireRoundState.PostShow -> {
             //dummy state to avoid multiple navigation for same questionnaire
         }
 
         QuestionnaireRoundState.Show -> {
-            Log.d(logTag,"Showing questionnaire")
+            Log.d(logTag, "Showing questionnaire")
             viewModel.onShow(navigator = navigator)
         }
+
         QuestionnaireRoundState.Finishing -> {//TODO add insert database
-            Log.d(logTag,"Finishing")
+            Log.d(logTag, "Finishing")
             viewModel.onFinishing()
         }
+
         QuestionnaireRoundState.Finished -> {
             navigator.navigate(HomeScreenDestination)
         }

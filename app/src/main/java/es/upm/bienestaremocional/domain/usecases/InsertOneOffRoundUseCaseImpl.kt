@@ -19,34 +19,35 @@ class InsertOneOffRoundUseCaseImpl(
     private val oneOffDepressionRepository: OneOffDepressionRepository,
     private val oneOffLonelinessRepository: OneOffLonelinessRepository,
     private val oneOffRoundRepository: OneOffRoundRepository
-) : InsertOneOffRoundUseCase
-{
-    override suspend fun insertOneOffRound(): OneOffRound
-    {
-        val mandatoryMeasures = Measure.get().filter { it.mandatory &&
-                it.frequency == Measure.Frequency.DailyAndOneOff
+) : InsertOneOffRoundUseCase {
+    override suspend fun insertOneOffRound(): OneOffRound {
+        val mandatoryMeasures = Measure.get().filter {
+            it.mandatory &&
+                    it.frequency == Measure.Frequency.DailyAndOneOff
         }
         val optionalMeasures = appSettings.getMeasuresSelected().first().filter {
             it.frequency == Measure.Frequency.DailyAndOneOff
         }
         val measures = mandatoryMeasures + optionalMeasures
 
-        var stressId : Long? = null
-        var depressionId : Long? = null
-        var lonelinessId : Long? = null
+        var stressId: Long? = null
+        var depressionId: Long? = null
+        var lonelinessId: Long? = null
 
         measures.forEach {
-            when(it)
-            {
+            when (it) {
                 Measure.Stress -> {
                     stressId = oneOffStressRepository.insert(OneOffStress())
                 }
+
                 Measure.Depression -> {
                     depressionId = oneOffDepressionRepository.insert(OneOffDepression())
                 }
+
                 Measure.Loneliness -> {
                     lonelinessId = oneOffLonelinessRepository.insert(OneOffLoneliness())
                 }
+
                 else -> {}
             }
         }

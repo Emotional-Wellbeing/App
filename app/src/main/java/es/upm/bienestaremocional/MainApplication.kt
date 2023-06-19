@@ -11,8 +11,7 @@ import javax.inject.Inject
  * This class is needed to instantiate Hilt.
  */
 @HiltAndroidApp
-class MainApplication: Application(), Configuration.Provider
-{
+class MainApplication : Application(), Configuration.Provider {
     // Work Manager with Hilt
     @Inject
     lateinit var workerFactory: HiltWorkerFactory

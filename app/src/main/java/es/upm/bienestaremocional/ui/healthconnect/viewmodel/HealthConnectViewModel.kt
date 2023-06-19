@@ -19,27 +19,24 @@ import java.io.IOException
 /**
  * Implements [HealthConnectViewModel] and add some shared variables
  */
-abstract class HealthConnectViewModel<T: Record>: ViewModel()
-{
+abstract class HealthConnectViewModel<T : Record> : ViewModel() {
     /**
      * Holds UiState to show (or not) data, request permission button, exceptions...
      */
     var uiState: UiState by mutableStateOf(UiState.Uninitialized)
         protected set
 
-    protected val elements : MutableState<List<T>> = mutableStateOf(listOf())
+    protected val elements: MutableState<List<T>> = mutableStateOf(listOf())
 
     /**
      * Launcher to request permissions
      */
     val permissionLauncher = PermissionController.createRequestPermissionResultContract()
 
-    fun readData(HealthConnectSource: HealthConnectSource<T>)
-    {
+    fun readData(HealthConnectSource: HealthConnectSource<T>) {
         viewModelScope.launch {
             uiState = try {
-                if (HealthConnectSource.readPermissionsCheck())
-                {
+                if (HealthConnectSource.readPermissionsCheck()) {
                     elements.value = HealthConnectSource.readSource()
                     UiState.Success
                 }
@@ -61,8 +58,7 @@ abstract class HealthConnectViewModel<T: Record>: ViewModel()
         }
     }
 
-    fun writeData(HealthConnectSource: HealthConnectSource<T>, data: List<Record>)
-    {
+    fun writeData(HealthConnectSource: HealthConnectSource<T>, data: List<Record>) {
         viewModelScope.launch {
             if (HealthConnectSource.writePermissionsCheck())
                 HealthConnectSource.writeSource(data)

@@ -12,20 +12,17 @@ import javax.inject.Inject
 @HiltViewModel
 class ExerciseSessionViewModel @Inject constructor(
     private val exerciseSession: ExerciseSession
-): HealthConnectViewModel<ExerciseSessionRecord>()
-{
+) : HealthConnectViewModel<ExerciseSessionRecord>() {
 
-    private fun writeAndReadDummyData()
-    {
+    private fun writeAndReadDummyData() {
         writeData(exerciseSession, ExerciseSession.generateDummyData())
         readData(exerciseSession)
     }
 
     @Composable
-    override fun getViewModelData(): ViewModelData<ExerciseSessionRecord>
-    {
+    override fun getViewModelData(): ViewModelData<ExerciseSessionRecord> {
         val data by elements
-        val onPermissionsResult = {readData(exerciseSession)}
+        val onPermissionsResult = { readData(exerciseSession) }
 
         //launcher is a special case
         val permissionsLauncher =
@@ -36,8 +33,8 @@ class ExerciseSessionViewModel @Inject constructor(
             uiState = uiState,
             permissions = exerciseSession.readPermissions + exerciseSession.writePermissions,
             onPermissionsResult = onPermissionsResult,
-            onRequestPermissions = { values -> permissionsLauncher.launch(values)},
-            onWrite = {writeAndReadDummyData()}
+            onRequestPermissions = { values -> permissionsLauncher.launch(values) },
+            onWrite = { writeAndReadDummyData() }
         )
     }
 }

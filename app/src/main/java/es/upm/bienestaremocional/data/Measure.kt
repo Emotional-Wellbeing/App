@@ -7,14 +7,14 @@ import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.Level
 
 /**
- * Contain the measures that app could monitor, with the frequences, advices..
+ * Contain the measures that app could monitor, with the frequencies, advices..
  */
 enum class Measure(
     val id: String,
-    val mandatory : Boolean,
+    val mandatory: Boolean,
     val frequency: Frequency,
     @StringRes val measureRes: Int,
-    val advices : Map<Level,List<Int>>?
+    val advices: Map<Level, List<Advice>>?
 ) {
     Stress(
         id = "stress",
@@ -22,9 +22,34 @@ enum class Measure(
         frequency = Frequency.DailyAndOneOff,
         measureRes = R.string.stress,
         advices = mapOf(
-            Pair(Level.Low, listOf(R.string.low_stress_advice)),
-            Pair(Level.Moderate, listOf(R.string.moderate_stress_advice)),
-            Pair(Level.High, listOf(R.string.high_stress_advice)),
+            Pair(
+                Level.Low, listOf(
+                    Advice(
+                        head = R.string.low_stress_advice,
+                        body = null
+                    )
+                )
+            ),
+            Pair(
+                Level.Moderate, listOf(
+                    Advice(
+                        head = R.string.moderate_stress_advice_1_head,
+                        body = R.array.moderate_stress_advice_1_body
+                    ),
+                    Advice(
+                        head = R.string.moderate_stress_advice_2_head,
+                        body = R.array.moderate_stress_advice_2_body
+                    )
+                )
+            ),
+            Pair(
+                Level.High, listOf(
+                    Advice(
+                        head = R.string.high_stress_advice_head,
+                        body = R.array.high_stress_advice_body
+                    )
+                )
+            )
         )
     ),
     Depression(
@@ -33,9 +58,30 @@ enum class Measure(
         frequency = Frequency.DailyAndOneOff,
         measureRes = R.string.depression,
         advices = mapOf(
-            Pair(Level.Low, listOf(R.string.low_depression_advice)),
-            Pair(Level.Moderate, listOf(R.string.moderate_depression_advice)),
-            Pair(Level.High, listOf(R.string.high_depression_advice)),
+            Pair(
+                Level.Low, listOf(
+                    Advice(
+                        head = R.string.low_depression_advice,
+                        body = null
+                    )
+                )
+            ),
+            Pair(
+                Level.Moderate, listOf(
+                    Advice(
+                        head = R.string.moderate_depression_advice_head,
+                        body = R.array.moderate_depression_advice_body
+                    )
+                )
+            ),
+            Pair(
+                Level.High, listOf(
+                    Advice(
+                        head = R.string.high_depression_advice_head,
+                        body = R.array.high_depression_advice_body,
+                    )
+                )
+            ),
         )
     ),
     Loneliness(
@@ -44,9 +90,30 @@ enum class Measure(
         frequency = Frequency.DailyAndOneOff,
         measureRes = R.string.loneliness,
         advices = mapOf(
-            Pair(Level.Low, listOf(R.string.low_loneliness_advice)),
-            Pair(Level.Moderate, listOf(R.string.moderate_loneliness_advice)),
-            Pair(Level.High, listOf(R.string.high_loneliness_advice)),
+            Pair(
+                Level.Low, listOf(
+                    Advice(
+                        head = R.string.low_loneliness_advice,
+                        body = null
+                    )
+                )
+            ),
+            Pair(
+                Level.Moderate, listOf(
+                    Advice(
+                        head = R.string.moderate_loneliness_advice_head,
+                        body = R.array.moderate_loneliness_advice_body
+                    )
+                )
+            ),
+            Pair(
+                Level.High, listOf(
+                    Advice(
+                        head = R.string.high_loneliness_advice_head,
+                        body = R.array.high_loneliness_advice_body,
+                    )
+                )
+            ),
         )
     ),
     Suicide(
@@ -55,9 +122,30 @@ enum class Measure(
         frequency = Frequency.OnlyDaily,
         measureRes = R.string.suicide,
         advices = mapOf(
-            Pair(Level.Low, listOf(R.string.low_suicide_risk_advice)),
-            Pair(Level.Moderate, listOf(R.string.moderate_suicide_risk_advice)),
-            Pair(Level.High, listOf(R.string.high_suicide_risk_advice)),
+            Pair(
+                Level.Low, listOf(
+                    Advice(
+                        head = R.string.low_suicide_risk_advice,
+                        body = null
+                    )
+                )
+            ),
+            Pair(
+                Level.Moderate, listOf(
+                    Advice(
+                        head = R.string.moderate_suicide_risk_advice,
+                        body = null
+                    )
+                )
+            ),
+            Pair(
+                Level.High, listOf(
+                    Advice(
+                        head = R.string.high_suicide_risk_advice_head,
+                        body = R.array.high_suicide_risk_advice_body,
+                    )
+                )
+            ),
         )
     ),
     Symptoms(
@@ -68,15 +156,13 @@ enum class Measure(
         advices = null
     );
 
-    enum class Frequency
-    {
+    enum class Frequency {
         OnlyDailyAtNight,
         OnlyDaily,
         DailyAndOneOff
     }
-    
-    companion object
-    {
+
+    companion object {
         /**
          * Get all [Measure]
          * @return [List] of [Measure]
@@ -108,8 +194,7 @@ enum class Measure(
          * @param id to decode
          */
         fun decode(id: String): Measure? =
-            when(id)
-            {
+            when (id) {
                 Stress.id -> Stress
                 Depression.id -> Depression
                 Loneliness.id -> Loneliness

@@ -11,21 +11,19 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class MyDataViewModel @Inject constructor() : ViewModel()
-{
+class MyDataViewModel @Inject constructor() : ViewModel() {
     //state
     private val _state = MutableStateFlow<MyDataState>(MyDataState.NoSelection)
     val state: StateFlow<MyDataState> = _state.asStateFlow()
 
-    fun onSelect(index: Int)
-    {
+    fun onSelect(index: Int) {
         _state.value = MyDataState.Selected(index)
     }
 
-    fun onUnselect()
-    {
+    fun onUnselect() {
         _state.value = MyDataState.NoSelection
     }
+
     suspend fun onError(snackbarHostState: SnackbarHostState, exception: Throwable?) =
         showExceptionSnackbar(snackbarHostState, exception)
 }

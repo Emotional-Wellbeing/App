@@ -1,8 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="high_loneliness">
-        <item>Cruz Roja te escucha es una iniciativa que trata de ofrecer acompañamiento y apoyo a personas que se encuentran en una situación de soledad no deseada. Podrán facilitarte pautas para sentirte mejor y ofrecerte recursos en tu localidad que puedan servirte de apoyo. Puedes contactar en el </item>
-        <item>900 107 917</item>
-        <item>, de lunes a jueves laborales de 10h a 14h y de 16h a 20h (una hora menos en Canarias) y los viernes laborables de 10 a 14h (una hora menos en Canarias). La llamada es gratuita y confidencial.</item>
+    <!-- Stress advices -->
+    <string name="low_stress_advice">
+        Estupendo, ¡sigue así!
+    </string>
+
+    <string name="moderate_stress_advice_1_head">
+        Te recomendamos que planifiques un espacio en el día de hoy para hacer ejercicio físico.
+    </string>
+
+    <string name="moderate_stress_advice_2_head">
+        Te proponemos una serie de alternativas, en caso de que no dispongas de mucho tiempo.
+    </string>
+
+    <string-array name="moderate_stress_advice_1_body">
+        <item>
+            El ejercicio físico puede disminuir el estrés por varias razones:
+            \n\n-    Liberación de endorfinas: Durante el ejercicio, el cuerpo libera endorfinas, que son hormonas que actúan como analgésicos naturales y generan sensaciones de bienestar.
+            \n\n-    Reducción de la hormona del estrés: El ejercicio regular puede disminuir los niveles de cortisol, la hormona del estrés.
+            \n\n-    Mejora del sueño: El ejercicio regular puede promover un sueño más profundo y reparador.
+            \n\n-    Distracción y enfoque: Participar en actividades físicas puede distraer la mente de las preocupaciones y tensiones diarias. Cuando te concentras en el ejercicio, tu mente se enfoca en la actividad física en lugar de en los problemas, lo que puede ayudar a reducir el estrés y proporcionar un descanso mental.
+            \n\n-    Aumento de la confianza y la autoestima: El ejercicio regular puede ayudar a mejorar la confianza y la autoestima. Al establecer metas y lograr objetivos en el ámbito del ejercicio, puedes desarrollar una mayor sensación de logro y fortaleza personal. Esto puede ayudar a reducir el estrés al proporcionar una sensación de control y empoderamiento sobre tu vida.
+        </item>
     </string-array>
+
+    <string-array name="moderate_stress_advice_2_body">
+        <item>
+        Trata de buscar un momento para ti, libre de estímulos estresantes. Puedes salir a dar un pequeño paseo, darte una ducha relajante, poner música y centrarte en escucharla durante unos minutos, practica unos estiramientos corporales…
+        \n\nEl objetivo es rebajar de forma rápida los niveles de ansiedad para poder retomar las tareas desde un estado emocional más adecuado.
+        \n\nTrata de eliminar algunos estímulos que puedan estar aumentando tu ansiedad: apaga el móvil a partir de determinada hora en la noche para tener unas horas libres de notificaciones antes de dormir, ponte unos cascos con música relajante para no escuchar el ruido de alrededor, si tienes pendiente tomar una decisión o discutir algo con alguien, aplázalo durante unas horas o días y permítete postponer los pensamientos al respecto, etc.
+        \n\nEl objetivo es eliminar los estímulos que están produciendo estrés para poder rebajar los niveles de ansiedad y así enfrentarnos de forma más adecuada a nuestros problemas o dificultades.
+        </item>
+    </string-array>
+
+    <string name="high_stress_advice_head">
+        Te proponemos que realices un ejercicio de respiración abdominal.
+    </string>
+    <string-array name="high_stress_advice_body">
+        <item>
+            El objetivo de esta técnica es regular la respiración y, en consecuencia, disminuir la respuesta de activación fisiológica y la sensación de ansiedad.
+            \n\nPara ello, trata de llevar el aire hasta tu abdomen en cada inspiración para llenar tus pulmones en profundidad. Visualmente, deberías observar cómo tu tripa se hincha al llenarse de aire. Al expulsar el aire durante la espiración, el abdomen debería retornar a su posición habitual. Evita mover el pecho, los hombros o las clavículas, pues esto indica que el aire está llegando únicamente a la parte superior de los pulmones.
+            \n\nInhala durante la ascensión de la curva y exhala durante el descenso. Trata de no hacerlo de forma demasiado profunda. Puedes repetirte mentalmente una palabra como calma o relax, puedes imaginar que estás en un lugar tranquilo, o centrar tu atención en cómo el aire entra y sale y cómo la tensión se escapa con cada exhalación.
+        </item>
+    </string-array>
+
+    <!-- Depression advices -->
+    <string name="low_depression_advice">
+        Estupendo, ¡sigue así!
+    </string>
+    <string name="moderate_depression_advice_head">
+        Te proponemos que incluyas en tu día de hoy alguna actividad agradable o placentera.
+    </string>
+
+    <string-array name="moderate_depression_advice_body">
+        <item>
+            Es posible que sientas que no tienes ganas o energía para hacerlas o, incluso, que aunque las hagas no lo disfrutarás. No obstante, es importante que entiendas que “las ganas se hacen”.
+            \n\nEsto significa que cuando nuestro estado de ánimo está un poquito bajo, si esperamos a experimentar ganas para hacer las cosas, probablemente nunca las hagamos. Esto a su vez hará que nuestro estado de ánimo disminuya todavía más, y entremos en un circulo vicioso en el que no haremos nada porque no tenemos ganas porque estamos tristes, y como no hacemos nada estaremos aún más tristes.
+            \n\nPara no caer en esta problemática te sugerimos que realices alguna actividad agradable, que no sea muy costosa y que te permita sentirte mejor. Pueden ser actividades que hagas tú solo/a o acompañado/a.
+            \n\nAquí te dejamos algunas sugerencias.
+            \n-   Dar un paseo al aire libre.
+            \n-   Ir a comprar al supermercado y cocinar una receta que te guste.
+            \n-   Ver una serie o película que te apetezca.
+            \n-   Quedar con un amigo/a tomar algo o pasear.
+            \n-   Leer un libro, escuchar música, dibujar…
+        </item>
+    </string-array>
+
+    <string name="high_depression_advice_head">
+        Te sugerimos que busques apoyo en las personas de tu alrededor.
+    </string>
+    <string-array name="high_depression_advice_body">
+        <item>
+            Es muy beneficioso que puedas expresar cómo te estás sintiendo a otras personas. El mero hecho de contarlo supondrá un desahogo emocional que te hará sentirte mejor.
+            \n\nAdemás, las personas que te escuchen podrán comprender por lo que estás pasando y mostrar su empatía y apoyo. Es posible también que puedan tratar de ayudarte u ofrecerte consejos.
+            \n\nPara que todo vaya bien, trata de elegir a la persona adecuada en el momento adecuado. Busca a una persona que se encuentre bien, que no esté muy estresada u ocupada, que te haya mostrado su afecto en alguna ocasión…
+            \n\nSi necesitas desahogarte con frecuencia, trata de hacerlo con diferentes personas y no focalizarte solo en una, ya que prestar apoyo emocional en ocasiones puede resultar algo cansado.
+            \n\nPor último, ten cuidado de no caer en la queja: comunica tus emociones tratando de buscar soluciones y formas de sentirte mejor, en lugar de anclarte en el problema que ha sucedido.
+        </item>
+    </string-array>
+
+    <!-- Loneliness advices -->
+    <string name="low_loneliness_advice">
+        Estupendo, ¡sigue así!
+    </string>
+    <string name="moderate_loneliness_advice_head">
+        Te sugerimos que busques apoyo en las personas de tu alrededor.
+    </string>
+    <string-array name="moderate_loneliness_advice_body">
+        <item>
+            Es posible que consideres que no tienes a nadie con quién hablar. Sin embargo, si lo intentas, seguro que puedes encontrar personas deseosas de conversar contigo.
+            \n\nBusca a tu alrededor: un vecino con quien hayas tenido contacto, el camarero del bar o el restaurante al que vas en ocasiones, un compañero de trabajo…Puedes tratar de entablar una conversación preguntándoles cómo se encuentran y comentando cosas sobre el ambiente (el tiempo, los precios, los horarios, etc.).
+            \n\nDespués, puedes intentar contar alguna anécdota o experiencia personal reciente. Por ejemplo, un programa de TV que te haya gustado, algo curioso que hayas visto recientemente en redes sociales, un plan al que tengas ganas de asistir o que hayas disfrutado si ya lo has hecho, etc.
+            \n\nPoco a poco, podrás progresar en la conversación y hablar más a menudo con estas personas.
+        </item>
+    </string-array>
+    <string name="high_loneliness_advice_head">
+        Te recomendamos que llames a Cruz Roja Te Escucha (900 107 917)
+    </string>
+    <string-array name="high_loneliness_advice_body">
+        <item>
+            Cruz Roja te escucha es una iniciativa que trata de ofrecer acompañamiento y apoyo a personas que se encuentran en una situación de soledad no deseada.
+            \n\nPodrán facilitarte pautas para sentirte mejor y ofrecerte recursos en tu localidad que puedan servirte de apoyo.
+            \n\nPuedes contactar en el
+        </item>
+        <item>
+            900 107 917
+        </item>
+        <item>
+            , de lunes a jueves laborales de 10h a 14h y de 16h a 20h (una hora menos en Canarias) y los viernes laborables de 10 a 14h (una hora menos en Canarias). La llamada es gratuita y confidencial.
+        </item>
+    </string-array>
+
+    <!-- Suicide advices -->
+    <string name="low_suicide_risk_advice">
+        Estupendo, ¡sigue así!
+    </string>
+    <string name="moderate_suicide_risk_advice">
+        Recuerda que, si en algún momento tienes pensamientos relacionados con el suicidio, es importante que pidas ayuda.
+    </string>
+    <string name="high_suicide_risk_advice_head">
+        Por lo que nos has contado, creemos que el riesgo de que puedas hacerte daño o de que acabes con tu vida es alto.
+    </string>
+    <string-array name="high_suicide_risk_advice_body">
+        <item>
+            Por favor, acude cuanto antes a un servicio de emergencias o llama a los teléfonos
+        </item>
+        <item>
+            112
+        </item>
+        <item>
+            o
+        </item>
+        <item>
+            024
+        </item>
+        <item>
+            .\n\nAllí encontrarás personas que podrán comprender cómo te sientes y ayudarte a sentirte mejor.
+            \n\nRecuerda que el suicidio es la única opción que no tiene vuelta atrás. Trata de agotar otras posibles soluciones y pide ayuda para conseguirlo.
+        </item>
+    </string-array>
+
 </resources>

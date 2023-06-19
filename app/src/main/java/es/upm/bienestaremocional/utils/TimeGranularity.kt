@@ -8,8 +8,7 @@ enum class TimeGranularity(@StringRes val label: Int) {
     Week(R.string.week),
     Month(R.string.month);
 
-    companion object
-    {
+    companion object {
         /**
          * Get all [TimeGranularity]
          * @return [List] of [TimeGranularity]

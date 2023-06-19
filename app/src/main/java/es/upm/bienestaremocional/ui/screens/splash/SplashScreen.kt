@@ -28,16 +28,16 @@ import kotlinx.coroutines.delay
 fun SplashScreen(
     navigator: DestinationsNavigator,
     splashViewModel: SplashViewModel = hiltViewModel()
-)
-{
+) {
     //splash screen
     Splash(splashViewModel.getDarkTheme())
 
-    when(splashViewModel.state.value)
-    {
-        SplashState.NotificationsDialog -> { splashViewModel.NotificationsDialogAction() }
-        SplashState.NoDialog ->
-        {
+    when (splashViewModel.state.value) {
+        SplashState.NotificationsDialog -> {
+            splashViewModel.NotificationsDialogAction()
+        }
+
+        SplashState.NoDialog -> {
             //init block. Delay simulate loading
             LaunchedEffect(true)
             {
@@ -55,8 +55,7 @@ fun SplashScreen(
  * Draw Splash feature (icon + background)
  */
 @Composable
-private fun Splash(darkTheme: Boolean)
-{
+private fun Splash(darkTheme: Boolean) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -78,9 +77,11 @@ private fun Splash(darkTheme: Boolean)
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Image(painter = painterResource(id = R.drawable.app_logo),
+        Image(
+            painter = painterResource(id = R.drawable.app_logo),
             contentDescription = "Logo aplicación",
-            modifier = Modifier.fillMaxSize(0.66f))
+            modifier = Modifier.fillMaxSize(0.66f)
+        )
     }
 }
 
@@ -89,8 +90,7 @@ private fun Splash(darkTheme: Boolean)
     group = "Light Theme"
 )
 @Composable
-fun SplashPreview()
-{
+fun SplashPreview() {
     BienestarEmocionalTheme {
         Splash(darkTheme = false)
     }
@@ -101,8 +101,7 @@ fun SplashPreview()
     group = "Dark Theme"
 )
 @Composable
-fun SplashPreviewDarkTheme()
-{
+fun SplashPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         Splash(darkTheme = true)
     }

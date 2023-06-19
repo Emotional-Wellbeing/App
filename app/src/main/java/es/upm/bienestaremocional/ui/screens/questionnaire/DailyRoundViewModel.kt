@@ -28,15 +28,14 @@ import javax.inject.Named
 class DailyRoundViewModel @Inject constructor(
     private val dailyRoundRepository: DailyRoundRepository,
     savedStateHandle: SavedStateHandle,
-    @Named("logTag") val logTag : String
-) : ViewModel()
-{
+    @Named("logTag") val logTag: String
+) : ViewModel() {
     //state
     private val _state = MutableStateFlow<QuestionnaireRoundState>(QuestionnaireRoundState.Init)
     val state: StateFlow<QuestionnaireRoundState> = _state.asStateFlow()
 
     //from screen
-    private val dailyRound : DailyRound = DailyRoundScreenDestination
+    private val dailyRound: DailyRound = DailyRoundScreenDestination
         .argsFrom(savedStateHandle)
         .dailyRound
 
@@ -101,18 +100,15 @@ class DailyRoundViewModel @Inject constructor(
 
     private var actualQuestionnaire = 0
 
-    fun onInit()
-    {
+    fun onInit() {
         _state.value = if (questionnaires.isNotEmpty())
             QuestionnaireRoundState.Show
         else
             QuestionnaireRoundState.Finished
     }
 
-    fun onResumeRound()
-    {
-        _state.value = if (actualQuestionnaire + 1 < totalSize)
-        {
+    fun onResumeRound() {
+        _state.value = if (actualQuestionnaire + 1 < totalSize) {
             actualQuestionnaire++
             QuestionnaireRoundState.Show
         }
@@ -120,12 +116,9 @@ class DailyRoundViewModel @Inject constructor(
             QuestionnaireRoundState.Finishing
     }
 
-    fun onShow(navigator: DestinationsNavigator)
-    {
-        if (actualQuestionnaire < questionnaires.size)
-        {
-            val direction = when (questionnaires[actualQuestionnaire])
-            {
+    fun onShow(navigator: DestinationsNavigator) {
+        if (actualQuestionnaire < questionnaires.size) {
+            val direction = when (questionnaires[actualQuestionnaire]) {
                 DailyScoredQuestionnaireDrawable.MorningStress ->
                     DailyStressScreenDestination(
                         entityId = dailyRound.stressId!!,
@@ -133,6 +126,7 @@ class DailyRoundViewModel @Inject constructor(
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
+
                 DailyScoredQuestionnaireDrawable.MorningDepression ->
                     DailyDepressionScreenDestination(
                         entityId = dailyRound.depressionId!!,
@@ -140,6 +134,7 @@ class DailyRoundViewModel @Inject constructor(
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
+
                 DailyScoredQuestionnaireDrawable.MorningLoneliness ->
                     DailyLonelinessScreenDestination(
                         entityId = dailyRound.lonelinessId!!,
@@ -147,6 +142,7 @@ class DailyRoundViewModel @Inject constructor(
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
+
                 DailyScoredQuestionnaireDrawable.NightStress ->
                     DailyStressScreenDestination(
                         entityId = dailyRound.stressId!!,
@@ -154,6 +150,7 @@ class DailyRoundViewModel @Inject constructor(
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
+
                 DailyScoredQuestionnaireDrawable.NightDepression ->
                     DailyDepressionScreenDestination(
                         entityId = dailyRound.depressionId!!,
@@ -161,6 +158,7 @@ class DailyRoundViewModel @Inject constructor(
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
+
                 DailyScoredQuestionnaireDrawable.NightLoneliness ->
                     DailyLonelinessScreenDestination(
                         entityId = dailyRound.lonelinessId!!,
@@ -168,6 +166,7 @@ class DailyRoundViewModel @Inject constructor(
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
+
                 DailyNotScoredQuestionnaireDrawable.MorningSuicide ->
                     DailySuicideScreenDestination(
                         entityId = dailyRound.suicideId!!,
@@ -175,6 +174,7 @@ class DailyRoundViewModel @Inject constructor(
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
+
                 DailyNotScoredQuestionnaireDrawable.NightSuicide ->
                     DailySuicideScreenDestination(
                         entityId = dailyRound.suicideId!!,
@@ -182,10 +182,12 @@ class DailyRoundViewModel @Inject constructor(
                         questionnaireIndex = actualQuestionnaire,
                         questionnaireSize = totalSize
                     )
+
                 DailyNotScoredQuestionnaireDrawable.Symptoms ->
                     DailySymptomsScreenDestination(
                         entityId = dailyRound.symptomsId!!
                     )
+
                 else -> null
             }
             direction?.let { navigator.navigate(it) }
@@ -193,16 +195,14 @@ class DailyRoundViewModel @Inject constructor(
         _state.value = QuestionnaireRoundState.PostShow
     }
 
-    fun onFinishing()
-    {
+    fun onFinishing() {
         runBlocking {
             updateRound()
         }
         _state.value = QuestionnaireRoundState.Finished
     }
 
-    private suspend fun updateRound()
-    {
+    private suspend fun updateRound() {
         dailyRoundRepository.update(dailyRound)
     }
 }

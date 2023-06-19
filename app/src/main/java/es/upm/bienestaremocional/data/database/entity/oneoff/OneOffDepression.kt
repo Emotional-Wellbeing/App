@@ -30,21 +30,21 @@ data class OneOffDepression(
     override var completed: Boolean = false,
 
     @ColumnInfo(name = "one_off_depression_answer_1")
-    var answer1 : Int? = null,
+    var answer1: Int? = null,
     @ColumnInfo(name = "one_off_depression_answer_2")
-    var answer2 : Int? = null,
+    var answer2: Int? = null,
     @ColumnInfo(name = "one_off_depression_answer_3")
-    var answer3 : Int? = null,
+    var answer3: Int? = null,
     @ColumnInfo(name = "one_off_depression_answer_4")
-    var answer4 : Int? = null,
+    var answer4: Int? = null,
     @ColumnInfo(name = "one_off_depression_answer_5")
-    var answer5 : Int? = null,
+    var answer5: Int? = null,
     @ColumnInfo(name = "one_off_depression_answer_6")
-    var answer6 : Int? = null,
+    var answer6: Int? = null,
     @ColumnInfo(name = "one_off_depression_answer_7")
-    var answer7 : Int? = null,
+    var answer7: Int? = null,
     @ColumnInfo(name = "one_off_depression_answer_8")
-    var answer8 : Int? = null,
+    var answer8: Int? = null,
     @ColumnInfo(name = "one_off_depression_answer_9")
-    var answer9 : Int? = null
+    var answer9: Int? = null
 ) : ScoredEntity

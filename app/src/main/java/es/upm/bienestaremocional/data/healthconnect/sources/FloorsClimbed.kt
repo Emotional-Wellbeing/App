@@ -21,20 +21,17 @@ import kotlin.random.Random
 class FloorsClimbed @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<FloorsClimbedRecord>(healthConnectClient,healthConnectManager)
-{
-    companion object
-    {
+) : HealthConnectSource<FloorsClimbedRecord>(healthConnectClient, healthConnectManager) {
+    companion object {
         /**
          * Make demo data
          */
-        fun generateDummyData() : List<FloorsClimbedRecord>
-        {
+        fun generateDummyData(): List<FloorsClimbedRecord> {
             return List(5)
             { index ->
                 val (init, end) = generateInterval(offsetDays = index.toLong())
 
-                val floors = Random.nextDouble(0.0,1000000.0)
+                val floors = Random.nextDouble(0.0, 1000000.0)
 
                 FloorsClimbedRecord(
                     startTime = init.toInstant(),
@@ -48,13 +45,17 @@ class FloorsClimbed @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(FloorsClimbedRecord::class))
+        HealthPermission.getReadPermission(FloorsClimbedRecord::class)
+    )
 
     override val writePermissions = setOf(
-        HealthPermission.getWritePermission(FloorsClimbedRecord::class))
+        HealthPermission.getWritePermission(FloorsClimbedRecord::class)
+    )
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<FloorsClimbedRecord>
-    {
+    override suspend fun readSource(
+        startTime: Instant,
+        endTime: Instant
+    ): List<FloorsClimbedRecord> {
         val request = ReadRecordsRequest(
             recordType = FloorsClimbedRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

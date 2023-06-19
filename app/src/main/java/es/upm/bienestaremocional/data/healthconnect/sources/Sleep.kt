@@ -26,36 +26,37 @@ import kotlin.random.Random
 class Sleep @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<SleepSessionData>(healthConnectClient,healthConnectManager)
-{
-    companion object
-    {
+) : HealthConnectSource<SleepSessionData>(healthConnectClient, healthConnectManager) {
+    companion object {
         /**
          * Generates a week's worth of sleep data using both a [SleepSessionRecord] to describe the overall
          * period of sleep, and additionally multiple [SleepStageRecord] periods which cover the entire
          * [SleepSessionRecord]. For the purposes of this sample, the sleep stage data is generated randomly.
          */
-        fun generateDummyData(): List<SleepSessionData>
-        {
+        fun generateDummyData(): List<SleepSessionData> {
 
-            val notes = listOf("I slept great!",
+            val notes = listOf(
+                "I slept great!",
                 "I got woken up",
                 "Struggled to sleep",
                 "Much needed sleep",
-                "Restful sleep")
+                "Restful sleep"
+            )
 
             return List(7)
             { index ->
                 val (bedtime, wakeUp) = generateInterval(
                     offsetDays = index.toLong() + 1,
-                    upperBound = 14)
+                    upperBound = 14
+                )
                 val sleepStages = generateSleepStages(bedtime, wakeUp)
                 SleepSessionData(
                     uid = "",
                     title = "Dia $index",
                     duration = Duration.of(
-                        sleepStages.sumOf { it.endTime.epochSecond - it.startTime.epochSecond }
-                        ,ChronoUnit.SECONDS),
+                        sleepStages.sumOf { it.endTime.epochSecond - it.startTime.epochSecond },
+                        ChronoUnit.SECONDS
+                    ),
                     notes = notes[Random.nextInt(0, notes.size)],
                     startTime = bedtime.toInstant(),
                     startZoneOffset = bedtime.offset,
@@ -70,8 +71,7 @@ class Sleep @Inject constructor(
          * Creates a random list of sleep stages that spans the specified [start] to [end] time.
          */
         private fun generateSleepStages(start: ZonedDateTime, end: ZonedDateTime):
-                List<SleepStageRecord>
-        {
+                List<SleepStageRecord> {
             val sleepStages = mutableListOf<SleepStageRecord>()
             var stageStart = start
             while (stageStart < end) {
@@ -99,7 +99,8 @@ class Sleep @Inject constructor(
 
     override val readPermissions = setOf(
         HealthPermission.getReadPermission(SleepSessionRecord::class),
-        HealthPermission.getReadPermission(SleepStageRecord::class))
+        HealthPermission.getReadPermission(SleepStageRecord::class)
+    )
 
     /**
      * Reads sleep sessions for the previous seven days (from yesterday) to show a week's worth of
@@ -108,8 +109,7 @@ class Sleep @Inject constructor(
      * In addition to reading [SleepSessionRecord]s, for each session, the duration is calculated to
      * demonstrate aggregation, and the underlying [SleepStageRecord] data is also read.
      */
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<SleepSessionData>
-    {
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<SleepSessionData> {
         val sessions = mutableListOf<SleepSessionData>()
 
         //petición de sesiones
@@ -156,6 +156,7 @@ class Sleep @Inject constructor(
 
     override val writePermissions: Set<String> = setOf(
         HealthPermission.getWritePermission(SleepSessionRecord::class),
-        HealthPermission.getWritePermission(SleepStageRecord::class))
+        HealthPermission.getWritePermission(SleepStageRecord::class)
+    )
 }
 

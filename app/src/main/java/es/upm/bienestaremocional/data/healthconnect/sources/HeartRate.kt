@@ -21,16 +21,13 @@ import kotlin.random.Random
 class HeartRate @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<HeartRateRecord>(healthConnectClient,healthConnectManager)
-{
+) : HealthConnectSource<HeartRateRecord>(healthConnectClient, healthConnectManager) {
 
-    companion object
-    {
+    companion object {
         /**
          * Make demo data
          */
-        fun generateDummyData() : List<HeartRateRecord>
-        {
+        fun generateDummyData(): List<HeartRateRecord> {
             return List(5)
             { index ->
                 val (init, end) = generateInterval(offsetDays = index.toLong())
@@ -59,13 +56,14 @@ class HeartRate @Inject constructor(
     }
 
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(HeartRateRecord::class))
+        HealthPermission.getReadPermission(HeartRateRecord::class)
+    )
 
     override val writePermissions = setOf(
-        HealthPermission.getWritePermission(HeartRateRecord::class))
+        HealthPermission.getWritePermission(HeartRateRecord::class)
+    )
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<HeartRateRecord>
-    {
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<HeartRateRecord> {
         val request = ReadRecordsRequest(
             recordType = HeartRateRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

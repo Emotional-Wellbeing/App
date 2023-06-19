@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.health.connect.client.HealthConnectClient
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.yariksoffice.lingver.Lingver
 import dagger.Module
 import dagger.Provides
@@ -35,8 +37,7 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule
-{
+object AppModule {
     @Provides
     @Singleton
     fun provideHealthConnectClient(@ApplicationContext context: Context): HealthConnectClient =
@@ -44,9 +45,11 @@ object AppModule
 
     @Provides
     @Singleton
-    fun provideHealthConnectManager(healthConnectClient: HealthConnectClient,
-                                    @ApplicationContext context: Context): HealthConnectManager =
-        HealthConnectManagerImpl(healthConnectClient,context)
+    fun provideHealthConnectManager(
+        healthConnectClient: HealthConnectClient,
+        @ApplicationContext context: Context
+    ): HealthConnectManager =
+        HealthConnectManagerImpl(healthConnectClient, context)
 
     @Provides
     @Singleton
@@ -60,14 +63,18 @@ object AppModule
 
     @Provides
     @Singleton
-    fun provideNotification(@ApplicationContext context: Context,
-                            @Named("logTag") logTag: String): Notification =
-        NotificationImpl(context,logTag)
+    fun provideNotification(
+        @ApplicationContext context: Context,
+        @Named("logTag") logTag: String
+    ): Notification =
+        NotificationImpl(context, logTag)
 
     @Provides
     @Singleton
-    fun provideWorkAdministrator(@ApplicationContext context: Context,
-                             @Named("logTag") logTag: String): WorkAdministrator =
+    fun provideWorkAdministrator(
+        @ApplicationContext context: Context,
+        @Named("logTag") logTag: String
+    ): WorkAdministrator =
         WorkAdministratorImpl(context, logTag)
 
     @Provides
@@ -78,20 +85,25 @@ object AppModule
 
     @Provides
     @Singleton
-    fun provideLanguageManager(application: Application) : LanguageManager =
+    fun provideLanguageManager(application: Application): LanguageManager =
         LanguageManagerImpl(Lingver.init(application))
 
     @Provides
     @Singleton
     fun provideHealthConnectAvailability(healthConnectManager: HealthConnectManager)
-    : MutableState<HealthConnectAvailability> = healthConnectManager.availability
-
+            : MutableState<HealthConnectAvailability> = healthConnectManager.availability
 
     @Provides
     @Singleton
-    fun provideRemoteAPI() : RemoteAPI = Retrofit.Builder()
+    fun provideGson(): Gson = GsonBuilder()
+        .serializeNulls()
+        .create()
+
+    @Provides
+    @Singleton
+    fun provideRemoteAPI(gson: Gson): RemoteAPI = Retrofit.Builder()
         .baseUrl(AppConstants.SERVER_URL)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
         .create(RemoteAPI::class.java)
 }

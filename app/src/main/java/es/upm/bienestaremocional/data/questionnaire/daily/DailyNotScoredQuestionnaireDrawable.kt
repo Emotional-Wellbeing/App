@@ -20,8 +20,7 @@ enum class DailyNotScoredQuestionnaireDrawable(
     @StringRes override val measureRes: Int,
     @ArrayRes override val questionRes: Int,
     @ArrayRes override val answerRes: Array<Int>,
-) : QuestionnaireDrawableStringAnswers
-{
+) : QuestionnaireDrawableStringAnswers {
     MorningSuicide(
         numberOfQuestions = DailyNotScoredQuestionnaire.Suicide.numberOfQuestions,
         answerRange = DailyNotScoredQuestionnaire.Suicide.answerRange,

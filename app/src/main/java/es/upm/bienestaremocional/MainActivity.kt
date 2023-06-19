@@ -20,30 +20,30 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity()
-{
+class MainActivity : ComponentActivity() {
     @Inject
     lateinit var appSettings: AppSettings
+
     @Inject
     lateinit var appInfo: AppInfo
+
     @Inject
     lateinit var scheduler: WorkAdministrator
+
     @Inject
     lateinit var lastUploadRepository: LastUploadRepository
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val notificationManager =
             this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        lateinit var darkTheme : ThemeMode
+        lateinit var darkTheme: ThemeMode
         var dynamicColors by Delegates.notNull<Boolean>()
 
         val job = CoroutineScope(Dispatchers.Default).launch {
-            if (appInfo.getFirstTime().first())
-            {
+            if (appInfo.getFirstTime().first()) {
                 firstTimeExecution(
                     notificationManager = notificationManager,
                     scheduler = scheduler,
@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity()
             }
 
             darkTheme = appSettings.getTheme().first()
-            dynamicColors  = appSettings.getDynamicColors().first()
+            dynamicColors = appSettings.getDynamicColors().first()
         }
 
         CoroutineScope(Dispatchers.Main).launch {

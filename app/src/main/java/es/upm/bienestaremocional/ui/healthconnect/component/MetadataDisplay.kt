@@ -26,14 +26,13 @@ import java.time.ZonedDateTime
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun Metadata.Display(widthSize: WindowWidthSizeClass)
-{
+fun Metadata.Display(widthSize: WindowWidthSizeClass) {
 
     val time = formatDate(ZonedDateTime.ofInstant(lastModifiedTime, ZoneId.systemDefault()))
-    
+
     val color = MaterialTheme.colorScheme.onSurface
 
-    val textStyle : TextStyle = if (widthSize == WindowWidthSizeClass.Compact)
+    val textStyle: TextStyle = if (widthSize == WindowWidthSizeClass.Compact)
         MaterialTheme.typography.bodySmall
     else
         MaterialTheme.typography.bodyMedium
@@ -43,26 +42,34 @@ fun Metadata.Display(widthSize: WindowWidthSizeClass)
 
         Column(modifier = Modifier.padding(horizontal = 16.dp))
         {
-            if (id.isNotEmpty())
-            {
+            if (id.isNotEmpty()) {
                 DrawPair(key = stringResource(R.string.id), value = id, textStyle = textStyle)
             }
-            if (dataOrigin.packageName.isNotEmpty())
-            {
-                DrawPair(key = stringResource(R.string.data_origin),
+            if (dataOrigin.packageName.isNotEmpty()) {
+                DrawPair(
+                    key = stringResource(R.string.data_origin),
                     value = dataOrigin.packageName,
-                    textStyle = textStyle)
+                    textStyle = textStyle
+                )
             }
 
             DrawPair(key = stringResource(R.string.instant), value = time, textStyle = textStyle)
 
             device?.let { d ->
-                d.manufacturer?.let { DrawPair(key = stringResource(R.string.manufacturer),
-                    value = it,
-                    textStyle = textStyle) }
-                d.model?.let { DrawPair(key = stringResource(R.string.model),
-                    value = it,
-                    textStyle = textStyle) }
+                d.manufacturer?.let {
+                    DrawPair(
+                        key = stringResource(R.string.manufacturer),
+                        value = it,
+                        textStyle = textStyle
+                    )
+                }
+                d.model?.let {
+                    DrawPair(
+                        key = stringResource(R.string.model),
+                        value = it,
+                        textStyle = textStyle
+                    )
+                }
             }
         }
     }
@@ -72,8 +79,7 @@ fun Metadata.Display(widthSize: WindowWidthSizeClass)
 
 @Preview(group = "Light Theme")
 @Composable
-fun MetadataPreview()
-{
+fun MetadataPreview() {
     val metadata = HeartRate.generateDummyData()[0].metadata
     BienestarEmocionalTheme {
         Surface {
@@ -84,8 +90,7 @@ fun MetadataPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun MetadataPreviewDarkTheme()
-{
+fun MetadataPreviewDarkTheme() {
     val metadata = HeartRate.generateDummyData()[0].metadata
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
@@ -97,8 +102,7 @@ fun MetadataPreviewDarkTheme()
 
 @Preview(group = "Light Theme")
 @Composable
-fun MetadataPreviewLargeScreen()
-{
+fun MetadataPreviewLargeScreen() {
     val metadata = HeartRate.generateDummyData()[0].metadata
     BienestarEmocionalTheme {
         Surface {
@@ -109,8 +113,7 @@ fun MetadataPreviewLargeScreen()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun MetadataPreviewLargeScreenDarkTheme()
-{
+fun MetadataPreviewLargeScreenDarkTheme() {
     val metadata = HeartRate.generateDummyData()[0].metadata
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {

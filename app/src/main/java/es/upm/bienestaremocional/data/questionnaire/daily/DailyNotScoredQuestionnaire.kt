@@ -8,10 +8,9 @@ import es.upm.bienestaremocional.data.questionnaire.Questionnaire
  * @param answerRange: Inclusive range of the valid responses on a answer
  */
 enum class DailyNotScoredQuestionnaire(
-    override val numberOfQuestions : Int,
+    override val numberOfQuestions: Int,
     override val answerRange: IntRange,
-) : Questionnaire
-{
+) : Questionnaire {
     Suicide(
         numberOfQuestions = 3,
         answerRange = 0..1,

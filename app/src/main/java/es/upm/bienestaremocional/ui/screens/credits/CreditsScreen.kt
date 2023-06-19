@@ -34,28 +34,32 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 @Destination
 @Composable
-fun CreditsScreen(navigator: DestinationsNavigator,
-                  viewModel: CreditsViewModel = hiltViewModel()
-)
-{
-    CreditsScreen(navigator = navigator,
+fun CreditsScreen(
+    navigator: DestinationsNavigator,
+    viewModel: CreditsViewModel = hiltViewModel()
+) {
+    CreditsScreen(
+        navigator = navigator,
         widthSize = computeWindowWidthSize(),
         heightSize = computeWindowHeightSize(),
         importantCredits = viewModel.importantPeople,
-        notImportantCredits = viewModel.notImportantPeople)
+        notImportantCredits = viewModel.notImportantPeople
+    )
 }
 
 @Composable
-private fun CreditsScreen(navigator: DestinationsNavigator,
-                          widthSize: WindowWidthSizeClass,
-                          heightSize: WindowHeightSizeClass,
-                          importantCredits: List<Credit>,
-                          notImportantCredits: List<Credit>
-)
-{
-    AppBasicScreen(navigator = navigator,
+private fun CreditsScreen(
+    navigator: DestinationsNavigator,
+    widthSize: WindowWidthSizeClass,
+    heightSize: WindowHeightSizeClass,
+    importantCredits: List<Credit>,
+    notImportantCredits: List<Credit>
+) {
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = BottomBarDestination.SettingsScreen,
-        label = R.string.credits_screen_label)
+        label = R.string.credits_screen_label
+    )
     {
         Column(
             modifier = Modifier
@@ -67,14 +71,16 @@ private fun CreditsScreen(navigator: DestinationsNavigator,
         )
         {
             importantCredits.forEach {
-                CreditComponent(credit = it,
+                CreditComponent(
+                    credit = it,
                     widthSize = widthSize,
                     heightSize = heightSize
                 )
             }
             Divider()
             notImportantCredits.forEach {
-                CreditComponent(credit = it,
+                CreditComponent(
+                    credit = it,
                     widthSize = widthSize,
                     heightSize = heightSize
                 )
@@ -88,11 +94,11 @@ private fun CreditsScreen(navigator: DestinationsNavigator,
     group = "Light Theme"
 )
 @Composable
-fun CreditsScreenPreviewCompactScreen()
-{
+fun CreditsScreenPreviewCompactScreen() {
 
     BienestarEmocionalTheme {
-        CreditsScreen(navigator = EmptyDestinationsNavigator,
+        CreditsScreen(
+            navigator = EmptyDestinationsNavigator,
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
             importantCredits = CreditContent.content.filter { credit -> credit.importantContribution },
@@ -106,11 +112,11 @@ fun CreditsScreenPreviewCompactScreen()
     group = "Dark Theme"
 )
 @Composable
-fun CreditsScreenPreviewDarkThemeCompactScreen()
-{
+fun CreditsScreenPreviewDarkThemeCompactScreen() {
 
     BienestarEmocionalTheme(darkTheme = true) {
-        CreditsScreen(navigator = EmptyDestinationsNavigator,
+        CreditsScreen(
+            navigator = EmptyDestinationsNavigator,
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
             importantCredits = CreditContent.content.filter { credit -> credit.importantContribution },
@@ -124,11 +130,11 @@ fun CreditsScreenPreviewDarkThemeCompactScreen()
     group = "Light Theme"
 )
 @Composable
-fun CreditsScreenPreviewMediumScreen()
-{
+fun CreditsScreenPreviewMediumScreen() {
 
     BienestarEmocionalTheme {
-        CreditsScreen(navigator = EmptyDestinationsNavigator,
+        CreditsScreen(
+            navigator = EmptyDestinationsNavigator,
             widthSize = WindowWidthSizeClass.Medium,
             heightSize = WindowHeightSizeClass.Medium,
             importantCredits = CreditContent.content.filter { credit -> credit.importantContribution },
@@ -142,11 +148,11 @@ fun CreditsScreenPreviewMediumScreen()
     group = "Dark Theme"
 )
 @Composable
-fun CreditsScreenPreviewDarkThemeMediumScreen()
-{
+fun CreditsScreenPreviewDarkThemeMediumScreen() {
 
     BienestarEmocionalTheme(darkTheme = true) {
-        CreditsScreen(navigator = EmptyDestinationsNavigator,
+        CreditsScreen(
+            navigator = EmptyDestinationsNavigator,
             widthSize = WindowWidthSizeClass.Medium,
             heightSize = WindowHeightSizeClass.Medium,
             importantCredits = CreditContent.content.filter { credit -> credit.importantContribution },

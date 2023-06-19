@@ -5,7 +5,7 @@ import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnai
 import es.upm.bienestaremocional.utils.TimeGranularity
 import java.time.ZonedDateTime
 
-data class HistoryState (
+data class HistoryState(
     val questionnaire: DailyScoredQuestionnaire,
     val timeGranularity: TimeGranularity,
     val timeRange: Range<ZonedDateTime>,

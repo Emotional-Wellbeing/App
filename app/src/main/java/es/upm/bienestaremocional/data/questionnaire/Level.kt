@@ -24,27 +24,23 @@ import es.upm.bienestaremocional.ui.theme.light_Yellowgreen
 enum class Level(
     val id: String,
     @StringRes val label: Int
-)
-{
+) {
     Low("low", R.string.low),
-    Moderate("moderate",R.string.moderate),
-    High("high",R.string.high),
-    Minimal("minimal",R.string.minimal),
-    Mild("mild",R.string.mild),
-    ModeratelySevere("moderately_severe",R.string.moderately_severe),
-    Severe("severe",R.string.severe);
+    Moderate("moderate", R.string.moderate),
+    High("high", R.string.high),
+    Minimal("minimal", R.string.minimal),
+    Mild("mild", R.string.mild),
+    ModeratelySevere("moderately_severe", R.string.moderately_severe),
+    Severe("severe", R.string.severe);
 
-    companion object
-    {
+    companion object {
         /**
          * Obtain the LevelLabel from their id
          * @param id: The id to query
          * @return The LevelLabel if the id matches with any LevelLabel or null if doesn't
          */
-        fun decodeFromId(id: String) : Level?
-        {
-            return when(id)
-            {
+        fun decodeFromId(id: String): Level? {
+            return when (id) {
                 Low.id -> Low
                 Moderate.id -> Moderate
                 High.id -> High
@@ -57,46 +53,50 @@ enum class Level(
         }
 
         @Composable
-        fun Level.getColor() : Color
-        {
-            return when(this)
-            {
+        fun Level.getColor(): Color {
+            return when (this) {
                 Low -> {
                     if (isSystemInDarkTheme())
                         dark_Limegreen
                     else
                         light_Limegreen
                 }
+
                 Moderate -> {
                     if (isSystemInDarkTheme())
                         dark_Xanthous
                     else
                         light_Xanthous
                 }
+
                 High -> {
                     if (isSystemInDarkTheme())
                         dark_Persianred
                     else
                         light_Persianred
                 }
+
                 Minimal -> {
                     if (isSystemInDarkTheme())
                         dark_Limegreen
                     else
                         light_Limegreen
                 }
+
                 Mild -> {
                     if (isSystemInDarkTheme())
                         dark_Yellowgreen
                     else
                         light_Yellowgreen
                 }
+
                 ModeratelySevere -> {
                     if (isSystemInDarkTheme())
                         dark_Ochre
                     else
                         light_Ochre
                 }
+
                 Severe -> {
                     if (isSystemInDarkTheme())
                         dark_Persianred

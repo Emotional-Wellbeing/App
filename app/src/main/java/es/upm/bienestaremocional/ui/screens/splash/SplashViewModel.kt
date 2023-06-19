@@ -21,13 +21,12 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val notification: Notification,
-    private val healthConnectAvailability : MutableState<HealthConnectAvailability>,
+    private val healthConnectAvailability: MutableState<HealthConnectAvailability>,
     private val appSettings: AppSettings,
     private val appInfo: AppInfo
-) : ViewModel()
-{
-    val state : MutableState<SplashState> = mutableStateOf(
-        if(!notification.hasNotificationPermission())
+) : ViewModel() {
+    val state: MutableState<SplashState> = mutableStateOf(
+        if (!notification.hasNotificationPermission())
             SplashState.NotificationsDialog
         else
             SplashState.NoDialog
@@ -39,26 +38,23 @@ class SplashViewModel @Inject constructor(
     fun getDarkTheme() = runBlocking { appSettings.getTheme().first() }.themeIsDark()
 
     @Composable
-    fun NotificationsDialogAction()
-    {
+    fun NotificationsDialogAction() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             this.notification.RequestNotificationPermission { state.value = SplashState.NoDialog }
-        else
-        {
+        else {
             state.value = SplashState.NoDialog
         }
     }
 
-    fun noDialogAction() : Direction
-    {
+    fun noDialogAction(): Direction {
         //redirect to certain screen
-        return when (healthConnectAvailability.value)
-        {
+        return when (healthConnectAvailability.value) {
             HealthConnectAvailability.INSTALLED ->
                 if (showOnboarding)
                     OnboardingScreenDestination
                 else
                     HomeScreenDestination
+
             else -> ErrorScreenDestination(healthConnectAvailability.value)
         }
     }

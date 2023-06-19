@@ -12,7 +12,6 @@ import es.upm.bienestaremocional.destinations.SplashScreenDestination
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun RootScreen(navigator: DestinationsNavigator)
-{
+fun RootScreen(navigator: DestinationsNavigator) {
     navigator.navigate(SplashScreenDestination())
 }

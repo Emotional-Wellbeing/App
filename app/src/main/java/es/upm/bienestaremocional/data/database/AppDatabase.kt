@@ -31,11 +31,10 @@ import es.upm.bienestaremocional.data.database.entity.round.OneOffRound
         DailyLoneliness::class,
         DailySuicide::class,
         DailySymptoms::class,
-   ],
+    ],
     version = 1,
     exportSchema = false
 )
-abstract class AppDatabase : RoomDatabase()
-{
+abstract class AppDatabase : RoomDatabase() {
     abstract fun appDao(): AppDAO
 }

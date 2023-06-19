@@ -22,8 +22,7 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  */
 @Destination
 @Composable
-fun ErrorScreen(healthConnectAvailability: HealthConnectAvailability)
-{
+fun ErrorScreen(healthConnectAvailability: HealthConnectAvailability) {
     Surface(color = MaterialTheme.colorScheme.background)
     {
         Column(

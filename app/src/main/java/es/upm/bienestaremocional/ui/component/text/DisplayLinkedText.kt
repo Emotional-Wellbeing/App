@@ -15,10 +15,9 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import es.upm.bienestaremocional.utils.openDial
 
 @Composable
-fun DisplayHighLonelinessGuideline()
-{
+fun DisplayHighLonelinessGuideline() {
     val context = LocalContext.current
-    val pieces = stringArrayResource(id = R.array.high_loneliness)
+    val pieces = stringArrayResource(id = R.array.high_loneliness_advice_body)
 
     LinkText(
         data = listOf(
@@ -39,8 +38,7 @@ fun DisplayHighLonelinessGuideline()
 
 @Preview
 @Composable
-fun DisplayHighLonelinessGuildelinePreview()
-{
+fun DisplayHighLonelinessGuildelinePreview() {
     BienestarEmocionalTheme()
     {
         Card(modifier = Modifier.padding(16.dp))
@@ -52,8 +50,7 @@ fun DisplayHighLonelinessGuildelinePreview()
 
 @Preview
 @Composable
-fun DisplayHighLonelinessGuildelinePreviewDarkTheme()
-{
+fun DisplayHighLonelinessGuildelinePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Card(modifier = Modifier.padding(16.dp))

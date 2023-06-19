@@ -60,14 +60,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 @RequiresApi(Build.VERSION_CODES.Q)
 @Destination
 @Composable
-fun HomeScreen(navigator: DestinationsNavigator,
-               viewModel: HomeViewModel = hiltViewModel())
-{
+fun HomeScreen(
+    navigator: DestinationsNavigator,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
     BackHandlerMinimizeApp(LocalContext.current)
 
     val uncompletedQuestionnaires by viewModel.uncompletedQuestionnaires.collectAsStateWithLifecycle()
 
-    HomeScreen(navigator = navigator,
+    HomeScreen(
+        navigator = navigator,
         questionnairesToShow = viewModel.questionnaires,
         widthSize = computeWindowWidthSize(),
         heightSize = computeWindowHeightSize(),
@@ -85,22 +87,22 @@ fun HomeScreen(navigator: DestinationsNavigator,
 @Composable
 private fun HomeScreen(
     navigator: DestinationsNavigator,
-    questionnairesToShow : List<DailyScoredQuestionnaire>,
-    widthSize : WindowWidthSizeClass,
-    heightSize : WindowHeightSizeClass,
-    uncompletedQuestionnaires : Boolean,
+    questionnairesToShow: List<DailyScoredQuestionnaire>,
+    widthSize: WindowWidthSizeClass,
+    heightSize: WindowHeightSizeClass,
+    uncompletedQuestionnaires: Boolean,
     getStressScore: suspend () -> Int?,
-    getDepressionScore : suspend () -> Int?,
-    getLonelinessScore : suspend () -> Int?
-)
-{
-    var stressScore : Int? by remember { mutableStateOf(null) }
-    var depressionScore : Int? by remember { mutableStateOf(null) }
-    var lonelinesssScore : Int? by remember { mutableStateOf(null) }
+    getDepressionScore: suspend () -> Int?,
+    getLonelinessScore: suspend () -> Int?
+) {
+    var stressScore: Int? by remember { mutableStateOf(null) }
+    var depressionScore: Int? by remember { mutableStateOf(null) }
+    var lonelinesssScore: Int? by remember { mutableStateOf(null) }
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val uncompletedQuestionnairesAdviceText  = stringResource(R.string.uncompleted_questionnaires_advice)
+    val uncompletedQuestionnairesAdviceText =
+        stringResource(R.string.uncompleted_questionnaires_advice)
     val reviewText = stringResource(R.string.review)
 
     //usage info
@@ -132,8 +134,7 @@ private fun HomeScreen(
     LaunchedEffect(Unit)
     {
         questionnairesToShow.forEach { questionnaire ->
-            when(questionnaire)
-            {
+            when (questionnaire) {
                 DailyScoredQuestionnaire.Stress -> stressScore = getStressScore()
                 DailyScoredQuestionnaire.Depression -> depressionScore = getDepressionScore()
                 DailyScoredQuestionnaire.Loneliness -> lonelinesssScore = getLonelinessScore()
@@ -142,23 +143,25 @@ private fun HomeScreen(
     }
     LaunchedEffect(uncompletedQuestionnaires)
     {
-        if (uncompletedQuestionnaires)
-        {
-            showQuestionnaireAlert(snackbarHostState = snackbarHostState,
+        if (uncompletedQuestionnaires) {
+            showQuestionnaireAlert(
+                snackbarHostState = snackbarHostState,
                 uncompletedQuestionnairesAdviceText,
-                reviewText)
+                reviewText
+            )
             {
                 navigator.navigate(UncompletedQuestionnairesScreenDestination)
             }
         }
     }
 
-    AppBasicScreen(navigator = navigator,
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = BottomBarDestination.HomeScreen,
         snackbarHostState = snackbarHostState,
-        label = R.string.app_name)
+        label = R.string.app_name
+    )
     {
-        //TODO check landscape
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -167,8 +170,7 @@ private fun HomeScreen(
             verticalArrangement = Arrangement.Center,
         )
         {
-            if (questionnairesToShow.size > 1)
-            {
+            if (questionnairesToShow.size > 1) {
                 val pagerState = rememberPagerState()
 
                 HorizontalPager(
@@ -177,24 +179,29 @@ private fun HomeScreen(
                     modifier = Modifier.fillMaxSize()
                 ) { page ->
 
-                    val score = when (questionnairesToShow[page])
-                    {
+                    val score = when (questionnairesToShow[page]) {
                         DailyScoredQuestionnaire.Stress -> stressScore
                         DailyScoredQuestionnaire.Depression -> depressionScore
                         DailyScoredQuestionnaire.Loneliness -> lonelinesssScore
                     }
 
                     val onClick = {
-                        navigator.navigate(MeasureScreenDestination(
-                            questionnaire = questionnairesToShow[page]))
+                        navigator.navigate(
+                            MeasureScreenDestination(
+                                questionnaire = questionnairesToShow[page]
+                            )
+                        )
                     }
 
-                    Column(modifier = Modifier.fillMaxSize(),
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.SpaceAround
                     )
                     {
-                        MeasureSummary(questionnaire = questionnairesToShow[page],
+                        MeasureSummary(
+                            navigator = navigator,
+                            questionnaire = questionnairesToShow[page],
                             score = score,
                             pagerState = pagerState,
                             onClick = onClick,
@@ -204,8 +211,7 @@ private fun HomeScreen(
                     }
                 }
             }
-            else if (questionnairesToShow.size == 1)
-            {
+            else if (questionnairesToShow.size == 1) {
                 val score = when (questionnairesToShow[0]) {
                     DailyScoredQuestionnaire.Stress -> stressScore
                     DailyScoredQuestionnaire.Depression -> depressionScore
@@ -213,11 +219,15 @@ private fun HomeScreen(
                 }
 
                 val onClick = {
-                    navigator.navigate(MeasureScreenDestination(
-                        questionnaire = questionnairesToShow[0]))
+                    navigator.navigate(
+                        MeasureScreenDestination(
+                            questionnaire = questionnairesToShow[0]
+                        )
+                    )
                 }
 
                 MeasureSummary(
+                    navigator = navigator,
                     questionnaire = questionnairesToShow[0],
                     score = score,
                     onClick = onClick,
@@ -230,16 +240,18 @@ private fun HomeScreen(
     }
 }
 
-private suspend fun showQuestionnaireAlert(snackbarHostState: SnackbarHostState,
-                                           message : String,
-                                           actionLabel : String,
-                                           onClick : () -> Unit
-)
-{
-    val result = snackbarHostState.showSnackbar(message = message,
+private suspend fun showQuestionnaireAlert(
+    snackbarHostState: SnackbarHostState,
+    message: String,
+    actionLabel: String,
+    onClick: () -> Unit
+) {
+    val result = snackbarHostState.showSnackbar(
+        message = message,
         actionLabel = actionLabel,
         withDismissAction = true,
-        duration = SnackbarDuration.Indefinite)
+        duration = SnackbarDuration.Indefinite
+    )
     if (result === SnackbarResult.ActionPerformed)
         onClick()
 }
@@ -252,10 +264,10 @@ private suspend fun showQuestionnaireAlert(snackbarHostState: SnackbarHostState,
     group = "Light Theme"
 )
 @Composable
-fun HomeScreenOneQuestionnaireCompactPreview()
-{
-    BienestarEmocionalTheme{
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+fun HomeScreenOneQuestionnaireCompactPreview() {
+    BienestarEmocionalTheme {
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = listOf(DailyScoredQuestionnaire.Stress),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -273,11 +285,11 @@ fun HomeScreenOneQuestionnaireCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun HomeScreenOneQuestionnaireCompactPreviewDarkTheme()
-{
+fun HomeScreenOneQuestionnaireCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = listOf(DailyScoredQuestionnaire.Stress),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -295,10 +307,10 @@ fun HomeScreenOneQuestionnaireCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun HomeScreenNoQuestionnaireCompactPreview()
-{
-    BienestarEmocionalTheme{
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+fun HomeScreenNoQuestionnaireCompactPreview() {
+    BienestarEmocionalTheme {
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = listOf(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -316,11 +328,11 @@ fun HomeScreenNoQuestionnaireCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun HomeScreenNoQuestionnaireCompactPreviewDarkTheme()
-{
+fun HomeScreenNoQuestionnaireCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = listOf(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -338,10 +350,10 @@ fun HomeScreenNoQuestionnaireCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun HomeScreenAllQuestionnairesCompactPreview()
-{
-    BienestarEmocionalTheme{
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+fun HomeScreenAllQuestionnairesCompactPreview() {
+    BienestarEmocionalTheme {
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -359,11 +371,11 @@ fun HomeScreenAllQuestionnairesCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun HomeScreenAllQuestionnairesCompactPreviewDarkTheme()
-{
+fun HomeScreenAllQuestionnairesCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -381,10 +393,10 @@ fun HomeScreenAllQuestionnairesCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun HomeScreenAllQuestionnairesShowUncompletedCompactPreview()
-{
-    BienestarEmocionalTheme{
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+fun HomeScreenAllQuestionnairesShowUncompletedCompactPreview() {
+    BienestarEmocionalTheme {
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -402,11 +414,11 @@ fun HomeScreenAllQuestionnairesShowUncompletedCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun HomeScreenAllQuestionnairesShowUncompletedCompactPreviewDarkTheme()
-{
+fun HomeScreenAllQuestionnairesShowUncompletedCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,

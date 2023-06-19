@@ -23,18 +23,18 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  * @see Credit
  */
 @Composable
-private fun nameStyle(widthSize: WindowWidthSizeClass,
-                      heightSize: WindowHeightSizeClass,
-                      importantContribution: Boolean) =
-    if (widthSize >= WindowWidthSizeClass.Medium && heightSize >= WindowHeightSizeClass.Medium)
-    {
+private fun nameStyle(
+    widthSize: WindowWidthSizeClass,
+    heightSize: WindowHeightSizeClass,
+    importantContribution: Boolean
+) =
+    if (widthSize >= WindowWidthSizeClass.Medium && heightSize >= WindowHeightSizeClass.Medium) {
         if (importantContribution)
             MaterialTheme.typography.headlineSmall
         else
             MaterialTheme.typography.titleSmall
     }
-    else
-    {
+    else {
         if (importantContribution)
             MaterialTheme.typography.titleMedium
         else
@@ -50,18 +50,18 @@ private fun nameStyle(widthSize: WindowWidthSizeClass,
  * @see Credit
  */
 @Composable
-private fun descriptionStyle(widthSize: WindowWidthSizeClass,
-                             heightSize: WindowHeightSizeClass,
-                             importantContribution: Boolean) =
-    if (widthSize >= WindowWidthSizeClass.Medium && heightSize >= WindowHeightSizeClass.Medium)
-    {
+private fun descriptionStyle(
+    widthSize: WindowWidthSizeClass,
+    heightSize: WindowHeightSizeClass,
+    importantContribution: Boolean
+) =
+    if (widthSize >= WindowWidthSizeClass.Medium && heightSize >= WindowHeightSizeClass.Medium) {
         if (importantContribution)
             MaterialTheme.typography.titleMedium
         else
             MaterialTheme.typography.bodyMedium
     }
-    else
-    {
+    else {
         if (importantContribution)
             MaterialTheme.typography.bodyMedium
         else
@@ -76,18 +76,21 @@ private fun descriptionStyle(widthSize: WindowWidthSizeClass,
  * @see Credit
  */
 @Composable
-fun CreditComponent(credit: Credit,
-                    widthSize: WindowWidthSizeClass,
-                    heightSize: WindowHeightSizeClass)
-{
+fun CreditComponent(
+    credit: Credit,
+    widthSize: WindowWidthSizeClass,
+    heightSize: WindowHeightSizeClass
+) {
     Column()
     {
-        Text(text = stringResource(id = credit.nameResource),
+        Text(
+            text = stringResource(id = credit.nameResource),
             textAlign = TextAlign.Justify,
             color = MaterialTheme.colorScheme.secondary,
             style = nameStyle(widthSize, heightSize, credit.importantContribution)
         )
-        Text(text = stringResource(id = credit.descriptionResource),
+        Text(
+            text = stringResource(id = credit.descriptionResource),
             textAlign = TextAlign.Justify,
             color = MaterialTheme.colorScheme.onBackground,
             style = descriptionStyle(widthSize, heightSize, credit.importantContribution)
@@ -101,14 +104,13 @@ fun CreditComponent(credit: Credit,
     group = "Light Theme"
 )
 @Composable
-fun CreditImportantComponentPreview()
-{
+fun CreditImportantComponentPreview() {
     BienestarEmocionalTheme {
         Surface {
             CreditComponent(
                 credit = Credit(
-                    nameResource = R.string.credit_author_name,
-                    descriptionResource = R.string.credit_author_description,
+                    nameResource = R.string.credit_author1_name,
+                    descriptionResource = R.string.credit_author1_description,
                     importantContribution = true
                 ),
                 widthSize = WindowWidthSizeClass.Compact,
@@ -124,14 +126,13 @@ fun CreditImportantComponentPreview()
     group = "Dark Theme"
 )
 @Composable
-fun CreditImportantComponentPreviewDarkTheme()
-{
+fun CreditImportantComponentPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             CreditComponent(
                 credit = Credit(
-                    nameResource = R.string.credit_author_name,
-                    descriptionResource = R.string.credit_author_description,
+                    nameResource = R.string.credit_author1_name,
+                    descriptionResource = R.string.credit_author1_description,
                     importantContribution = true
                 ),
                 widthSize = WindowWidthSizeClass.Compact,
@@ -146,14 +147,13 @@ fun CreditImportantComponentPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun CreditImportantComponentPreviewMediumScreen()
-{
+fun CreditImportantComponentPreviewMediumScreen() {
     BienestarEmocionalTheme {
         Surface {
             CreditComponent(
                 credit = Credit(
-                    nameResource = R.string.credit_author_name,
-                    descriptionResource = R.string.credit_author_description,
+                    nameResource = R.string.credit_author1_name,
+                    descriptionResource = R.string.credit_author1_description,
                     importantContribution = true
                 ),
                 widthSize = WindowWidthSizeClass.Medium,
@@ -169,14 +169,13 @@ fun CreditImportantComponentPreviewMediumScreen()
     group = "Dark Theme"
 )
 @Composable
-fun CreditImportantComponentPreviewDarkThemeMediumScreen()
-{
+fun CreditImportantComponentPreviewDarkThemeMediumScreen() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             CreditComponent(
                 credit = Credit(
-                    nameResource = R.string.credit_author_name,
-                    descriptionResource = R.string.credit_author_description,
+                    nameResource = R.string.credit_author1_name,
+                    descriptionResource = R.string.credit_author1_description,
                     importantContribution = true
                 ),
                 widthSize = WindowWidthSizeClass.Medium,
@@ -191,8 +190,7 @@ fun CreditImportantComponentPreviewDarkThemeMediumScreen()
     group = "Light Theme"
 )
 @Composable
-fun CreditNotImportantComponentPreview()
-{
+fun CreditNotImportantComponentPreview() {
     BienestarEmocionalTheme {
         Surface {
             CreditComponent(
@@ -214,8 +212,7 @@ fun CreditNotImportantComponentPreview()
     group = "Dark Theme"
 )
 @Composable
-fun CreditNotImportantComponentPreviewDarkTheme()
-{
+fun CreditNotImportantComponentPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             CreditComponent(
@@ -237,8 +234,7 @@ fun CreditNotImportantComponentPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun CreditNotImportantComponentPreviewMediumScreen()
-{
+fun CreditNotImportantComponentPreviewMediumScreen() {
     BienestarEmocionalTheme {
         Surface {
             CreditComponent(
@@ -260,8 +256,7 @@ fun CreditNotImportantComponentPreviewMediumScreen()
     group = "Dark Theme"
 )
 @Composable
-fun CreditNotImportantComponentPreviewDarkThemeMediumScreen()
-{
+fun CreditNotImportantComponentPreviewDarkThemeMediumScreen() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             CreditComponent(

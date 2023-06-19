@@ -16,7 +16,7 @@ class OneOffDepressionViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     val dailyStressRepository: OneOffDepressionRepository,
     dailyStressManager: OneOffDepressionManager,
-    ) : ScoredQuestionnaireViewModel(
+) : ScoredQuestionnaireViewModel(
     repository = dailyStressRepository as QuestionnaireRepository<MeasureEntity>,
     manager = dailyStressManager as ScoredManager<MeasureEntity>,
     entityId = OneOffDepressionScreenDestination.argsFrom(savedStateHandle).entityId,

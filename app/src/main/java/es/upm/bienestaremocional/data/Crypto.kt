@@ -17,7 +17,7 @@ private fun ByteArray.toHex(): String =
  * @param str String to compute
  * @return Hash computed in hexadecimal format
  */
-private fun hash(messageDigest: MessageDigest, str: String) : String =
+private fun hash(messageDigest: MessageDigest, str: String): String =
     messageDigest.digest(str.toByteArray(Charsets.UTF_8)).toHex()
 
 /**
@@ -25,7 +25,7 @@ private fun hash(messageDigest: MessageDigest, str: String) : String =
  * @param str String to compute
  * @return Hash computed in hexadecimal format
  */
-fun sha512hash(str: String): String = hash(MessageDigest.getInstance("SHA-512"),str)
+fun sha512hash(str: String): String = hash(MessageDigest.getInstance("SHA-512"), str)
 
 /**
  * Generates UUID using UUID class (hardware ID are nowadays deprecated and unfriendly to use
@@ -37,7 +37,7 @@ private fun generateRawUUID(): String = UUID.randomUUID().toString()
  * Generates a User ID using randomUUID and sha256 hash
  * @return User ID in hexadecimal format
  */
-fun generateUID() : String = sha512hash(generateRawUUID())
+fun generateUID(): String = sha512hash(generateRawUUID())
 
 /**
  * Encrypt private user data

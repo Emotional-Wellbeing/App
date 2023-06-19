@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.Questionnaire
 import es.upm.bienestaremocional.data.questionnaire.QuestionnaireDrawableNumericAnswers
@@ -41,26 +42,26 @@ fun QuestionnaireStringAnswersScreen(
     title: String,
     answerSelected: (Int) -> Int?,
     answersRemaining: () -> List<Int>,
-    getScore : () -> Int?,
-    onAnswer: (Int,Int) -> Unit,
-    onInProgress : () -> Unit,
-    onSkippingAttempt : () -> Unit,
+    getScore: () -> Int?,
+    onAnswer: (Int, Int) -> Unit,
+    onInProgress: () -> Unit,
+    onSkippingAttempt: () -> Unit,
     onSkipped: () -> Unit,
     onFinishAttempt: () -> Unit,
     onSummary: () -> Unit,
     onExit: () -> Unit,
     summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit,
-)
-{
+) {
     val questions = stringArrayResource(questionnaire.questionRes)
-    val answers = questionnaire.answerRes.map {stringArrayResource(it) }
+    val answers = questionnaire.answerRes.map { stringArrayResource(it) }
 
-    val pagerContent : @Composable (PagerScope.(Int, PagerState) -> Unit) = { page, pagerState -> 
-        QuestionnaireStringAnswersPage(question = questions[page],
-            answers = if(answers.size == 1) answers[0] else answers[page],
+    val pagerContent: @Composable (PagerScope.(Int, PagerState) -> Unit) = { page, pagerState ->
+        QuestionnaireStringAnswersPage(
+            question = questions[page],
+            answers = if (answers.size == 1) answers[0] else answers[page],
             answerSelectedPrevious = answerSelected(page),
             pagerState = pagerState,
-            onAnswer = {answer -> onAnswer(page,answer)},
+            onAnswer = { answer -> onAnswer(page, answer) },
             onExit = onSkippingAttempt,
             onFinish = onFinishAttempt
         )
@@ -91,24 +92,24 @@ fun QuestionnaireStringAnswersScreen(
     title: String,
     answerSelected: (Int) -> Int?,
     answersRemaining: () -> List<Int>,
-    onAnswer: (Int,Int) -> Unit,
-    onInProgress : () -> Unit,
-    onSkippingAttempt : () -> Unit,
+    onAnswer: (Int, Int) -> Unit,
+    onInProgress: () -> Unit,
+    onSkippingAttempt: () -> Unit,
     onSkipped: () -> Unit,
     onFinishAttempt: () -> Unit,
     onSummary: () -> Unit,
     onExit: () -> Unit,
-)
-{
+) {
     val questions = stringArrayResource(questionnaire.questionRes)
-    val answers = questionnaire.answerRes.map {stringArrayResource(it) }
+    val answers = questionnaire.answerRes.map { stringArrayResource(it) }
 
-    val pagerContent : @Composable (PagerScope.(Int, PagerState) -> Unit) = { page, pagerState -> 
-        QuestionnaireStringAnswersPage(question = questions[page],
-            answers = if(answers.size == 1) answers[0] else answers[page],
+    val pagerContent: @Composable (PagerScope.(Int, PagerState) -> Unit) = { page, pagerState ->
+        QuestionnaireStringAnswersPage(
+            question = questions[page],
+            answers = if (answers.size == 1) answers[0] else answers[page],
             answerSelectedPrevious = answerSelected(page),
             pagerState = pagerState,
-            onAnswer = {answer -> onAnswer(page,answer)},
+            onAnswer = { answer -> onAnswer(page, answer) },
             onExit = onSkippingAttempt,
             onFinish = onFinishAttempt
         )
@@ -137,28 +138,29 @@ fun QuestionnaireNumericAnswersScreen(
     title: String,
     answerSelected: (Int) -> Int?,
     answersRemaining: () -> List<Int>,
-    getScore : () -> Int?,
-    onAnswer: (Int,Int) -> Unit,
-    onInProgress : () -> Unit,
-    onSkippingAttempt : () -> Unit,
+    getScore: () -> Int?,
+    onAnswer: (Int, Int) -> Unit,
+    onInProgress: () -> Unit,
+    onSkippingAttempt: () -> Unit,
     onSkipped: () -> Unit,
     onFinishAttempt: () -> Unit,
     onSummary: () -> Unit,
     onExit: () -> Unit,
     summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit,
-)
-{
+) {
     val questions = stringArrayResource(questionnaire.questionRes)
     val answerRange = questionnaire.answerRange
 
-    val pagerContent : @Composable (PagerScope.(Int, PagerState) -> Unit) = { page, pagerState ->
-        QuestionnaireNumericAnswersPage(question = questions[page],
+    val pagerContent: @Composable (PagerScope.(Int, PagerState) -> Unit) = { page, pagerState ->
+        QuestionnaireNumericAnswersPage(
+            question = questions[page],
             answerRange = answerRange,
             answerSelectedPrevious = answerSelected(page),
             pagerState = pagerState,
-            onAnswer = {answer -> onAnswer(page,answer)},
+            onAnswer = { answer -> onAnswer(page, answer) },
             onExit = onSkippingAttempt,
-            onFinish = onFinishAttempt)
+            onFinish = onFinishAttempt
+        )
     }
 
     QuestionnaireScoredScreen(
@@ -186,51 +188,49 @@ private fun QuestionnaireScoredScreen(
     widthSize: WindowWidthSizeClass,
     title: String,
     answersRemaining: () -> List<Int>,
-    getScore : () -> Int?,
-    onInProgress : () -> Unit,
-    onSkippingAttempt : () -> Unit,
+    getScore: () -> Int?,
+    onInProgress: () -> Unit,
+    onSkippingAttempt: () -> Unit,
     onSkipped: () -> Unit,
     onSummary: () -> Unit,
     onExit: () -> Unit,
     pagerContent: @Composable PagerScope.(Int, PagerState) -> Unit,
-    summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit,
-)
-{
+    summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit,
+) {
     val pagerState = rememberPagerState()
 
-    val content : @Composable () -> Unit = {
+    val content: @Composable () -> Unit = {
         HorizontalPager(
             count = questionnaire.numberOfQuestions,
             state = pagerState,
             //modifier = Modifier.weight(1f)
         ) { page ->
-            pagerContent(page,pagerState)
+            pagerContent(page, pagerState)
         }
     }
 
-    if (state !is QuestionnaireState.Summary || state !is QuestionnaireState.Finished)
-    {
+    if (state !is QuestionnaireState.Summary || state !is QuestionnaireState.Finished) {
         QuestionnaireLayout(
             title = title,
             onSkippingAttempt = onSkippingAttempt,
             content = content
         )
     }
-    when(state)
-    {
+    when (state) {
         QuestionnaireState.InProgress -> {}
-        QuestionnaireState.SkipAttempt ->
-        {
+        QuestionnaireState.SkipAttempt -> {
             ExitDialog(onDismiss = onInProgress, onConfirm = onSkipped)
         }
+
         QuestionnaireState.Skipped -> onExit()
-        QuestionnaireState.FinishAttempt ->
-        {
-            AnswersRemainingDialog(answersRemaining = answersRemaining(),
-                onDismiss = onInProgress)
+        QuestionnaireState.FinishAttempt -> {
+            AnswersRemainingDialog(
+                answersRemaining = answersRemaining(),
+                onDismiss = onInProgress
+            )
         }
-        QuestionnaireState.Summary ->
-        {
+
+        QuestionnaireState.Summary -> {
             ShowSummary(
                 score = getScore()!!,
                 widthSize = widthSize,
@@ -238,6 +238,7 @@ private fun QuestionnaireScoredScreen(
                 onSuccess = onSummary
             )
         }
+
         QuestionnaireState.Finished -> onExit()
 
     }
@@ -251,48 +252,47 @@ private fun QuestionnaireNotScoredScreen(
     questionnaire: Questionnaire,
     title: String,
     answersRemaining: () -> List<Int>,
-    onInProgress : () -> Unit,
-    onSkippingAttempt : () -> Unit,
+    onInProgress: () -> Unit,
+    onSkippingAttempt: () -> Unit,
     onSkipped: () -> Unit,
     onSummary: () -> Unit,
     onExit: () -> Unit,
     pagerContent: @Composable (PagerScope.(Int, PagerState) -> Unit),
-)
-{
+) {
     val pagerState = rememberPagerState()
 
-    val content : @Composable () -> Unit = {
+    val content: @Composable () -> Unit = {
         HorizontalPager(
             count = questionnaire.numberOfQuestions,
             state = pagerState,
             //modifier = Modifier.weight(1f)
         ) { page ->
-            pagerContent(page,pagerState)
+            pagerContent(page, pagerState)
         }
     }
 
 
-    if (state !is QuestionnaireState.Summary || state !is QuestionnaireState.Finished)
-    {
+    if (state !is QuestionnaireState.Summary || state !is QuestionnaireState.Finished) {
         QuestionnaireLayout(
             title = title,
             onSkippingAttempt = onSkippingAttempt,
             content = content
         )
     }
-    when(state)
-    {
+    when (state) {
         QuestionnaireState.InProgress -> {}
-        QuestionnaireState.SkipAttempt ->
-        {
+        QuestionnaireState.SkipAttempt -> {
             ExitDialog(onDismiss = onInProgress, onConfirm = onSkipped)
         }
+
         QuestionnaireState.Skipped -> onExit()
-        QuestionnaireState.FinishAttempt ->
-        {
-            AnswersRemainingDialog(answersRemaining = answersRemaining(),
-                onDismiss = onInProgress)
+        QuestionnaireState.FinishAttempt -> {
+            AnswersRemainingDialog(
+                answersRemaining = answersRemaining(),
+                onDismiss = onInProgress
+            )
         }
+
         QuestionnaireState.Summary -> onSummary()
         QuestionnaireState.Finished -> onExit()
 
@@ -303,19 +303,19 @@ private fun QuestionnaireNotScoredScreen(
 @Composable
 private fun QuestionnaireStringAnswersPage(
     question: String,
-    answers : Array<String>,
-    answerSelectedPrevious : Int?,
-    pagerState : PagerState,
+    answers: Array<String>,
+    answerSelectedPrevious: Int?,
+    pagerState: PagerState,
     onAnswer: (Int) -> Unit,
     onExit: () -> Unit,
     onFinish: () -> Unit
-)
-{
+) {
     val answerContent = @Composable {
         StringAnswer(
             answers = answers,
             answerSelectedPrevious = answerSelectedPrevious,
-            onAnswer = onAnswer)
+            onAnswer = onAnswer
+        )
     }
 
     QuestionnairePage(
@@ -332,13 +332,13 @@ private fun QuestionnaireStringAnswersPage(
 @Composable
 private fun QuestionnaireNumericAnswersPage(
     question: String,
-    answerRange : IntRange,
-    answerSelectedPrevious : Int?,
-    pagerState : PagerState,
+    answerRange: IntRange,
+    answerSelectedPrevious: Int?,
+    pagerState: PagerState,
     onAnswer: (Int) -> Unit,
     onExit: () -> Unit,
-    onFinish: () -> Unit)
-{
+    onFinish: () -> Unit
+) {
     val answerContent = @Composable {
         NumericAnswer(
             answerRange = answerRange,
@@ -360,16 +360,16 @@ private fun QuestionnaireNumericAnswersPage(
 @Composable
 private fun QuestionnairePage(
     question: String,
-    pagerState : PagerState,
+    pagerState: PagerState,
     answerContent: @Composable (() -> Unit),
     onExit: () -> Unit,
     onFinish: () -> Unit
-)
-{
+) {
     val coroutineScope = rememberCoroutineScope()
 
     //content
-    Column(modifier = Modifier.fillMaxHeight(),
+    Column(
+        modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     )
@@ -457,12 +457,11 @@ private fun QuestionnairePage(
 
 @Composable
 private fun ShowSummary(
-    score : Int,
-    widthSize : WindowWidthSizeClass,
-    content : @Composable (Int, WindowWidthSizeClass) -> Unit,
-    onSuccess : () -> Unit
-)
-{
+    score: Int,
+    widthSize: WindowWidthSizeClass,
+    content: @Composable (Int, WindowWidthSizeClass) -> Unit,
+    onSuccess: () -> Unit
+) {
     Summary(
         content = { content(score, widthSize) },
         onSuccess = onSuccess
@@ -471,17 +470,15 @@ private fun ShowSummary(
 
 @Composable
 @Preview
-fun QuestionnaireStringAnswersWithScoreScreenPreview()
-{
+fun QuestionnaireStringAnswersWithScoreScreenPreview() {
     val questionnaire = OneOffQuestionnaireDrawable.Stress
     val answers: Array<Int?> = arrayOfNulls(questionnaire.numberOfQuestions)
     val numberOfAnswers = questionnaire.numberOfAnswers
     val questionsWithInvertedScore = questionnaire.questionsWithInvertedScore
     val questionScoreOffset = questionnaire.questionScoreOffset
 
-    val score : () -> Int? = {
-        if (answers.all { it != null })
-        {
+    val score: () -> Int? = {
+        if (answers.all { it != null }) {
             var auxiliaryScore = 0
             answers.forEachIndexed { index, answer ->
 
@@ -498,8 +495,9 @@ fun QuestionnaireStringAnswersWithScoreScreenPreview()
             null
     }
 
-    val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
+    val summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
         OneOffStressStatus(
+            navigator = EmptyDestinationsNavigator,
             data = data,
             widthSize = widthSize
         )
@@ -511,7 +509,11 @@ fun QuestionnaireStringAnswersWithScoreScreenPreview()
                 state = QuestionnaireState.InProgress,
                 questionnaire = questionnaire,
                 widthSize = WindowWidthSizeClass.Compact,
-                title = "${stringResource(R.string.questionnaire)} 1/1 ${stringResource(questionnaire.measureRes)}",
+                title = "${stringResource(R.string.questionnaire)} 1/1 ${
+                    stringResource(
+                        questionnaire.measureRes
+                    )
+                }",
                 answerSelected = { index -> answers[index] },
                 answersRemaining = {
                     answers.mapIndexed { index, value -> if (value == null) index else null }
@@ -533,17 +535,15 @@ fun QuestionnaireStringAnswersWithScoreScreenPreview()
 
 @Composable
 @Preview
-fun QuestionnaireStringAnswersWithScoreDarkThemeScreenPreview()
-{
+fun QuestionnaireStringAnswersWithScoreDarkThemeScreenPreview() {
     val questionnaire = OneOffQuestionnaireDrawable.Stress
     val answers: Array<Int?> = arrayOfNulls(questionnaire.numberOfQuestions)
     val numberOfAnswers = questionnaire.numberOfAnswers
     val questionsWithInvertedScore = questionnaire.questionsWithInvertedScore
     val questionScoreOffset = questionnaire.questionScoreOffset
 
-    val score : () -> Int? = {
-        if (answers.all { it != null })
-        {
+    val score: () -> Int? = {
+        if (answers.all { it != null }) {
             var auxiliaryScore = 0
             answers.forEachIndexed { index, answer ->
 
@@ -560,8 +560,9 @@ fun QuestionnaireStringAnswersWithScoreDarkThemeScreenPreview()
             null
     }
 
-    val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
+    val summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
         OneOffStressStatus(
+            navigator = EmptyDestinationsNavigator,
             data = data,
             widthSize = widthSize
         )
@@ -573,7 +574,11 @@ fun QuestionnaireStringAnswersWithScoreDarkThemeScreenPreview()
                 state = QuestionnaireState.InProgress,
                 questionnaire = questionnaire,
                 widthSize = WindowWidthSizeClass.Compact,
-                title = "${stringResource(R.string.questionnaire)} 1/1 ${stringResource(questionnaire.measureRes)}",
+                title = "${stringResource(R.string.questionnaire)} 1/1 ${
+                    stringResource(
+                        questionnaire.measureRes
+                    )
+                }",
                 answerSelected = { index -> answers[index] },
                 answersRemaining = {
                     answers.mapIndexed { index, value -> if (value == null) index else null }
@@ -595,8 +600,7 @@ fun QuestionnaireStringAnswersWithScoreDarkThemeScreenPreview()
 
 @Composable
 @Preview
-fun QuestionnaireStringAnswersWithoutScoreScreenPreview()
-{
+fun QuestionnaireStringAnswersWithoutScoreScreenPreview() {
     val questionnaire = DailyNotScoredQuestionnaireDrawable.Symptoms
     val answers: Array<Int?> = arrayOfNulls(questionnaire.numberOfQuestions)
 
@@ -605,7 +609,11 @@ fun QuestionnaireStringAnswersWithoutScoreScreenPreview()
             QuestionnaireStringAnswersScreen(
                 state = QuestionnaireState.InProgress,
                 questionnaire = questionnaire,
-                title = "${stringResource(R.string.questionnaire)} 1/1 ${stringResource(questionnaire.measureRes)}",
+                title = "${stringResource(R.string.questionnaire)} 1/1 ${
+                    stringResource(
+                        questionnaire.measureRes
+                    )
+                }",
                 answerSelected = { index -> answers[index] },
                 answersRemaining = {
                     answers.mapIndexed { index, value -> if (value == null) index else null }
@@ -625,8 +633,7 @@ fun QuestionnaireStringAnswersWithoutScoreScreenPreview()
 
 @Composable
 @Preview
-fun QuestionnaireStringAnswersWithoutScoreDarkThemeScreenPreview()
-{
+fun QuestionnaireStringAnswersWithoutScoreDarkThemeScreenPreview() {
     val questionnaire = DailyNotScoredQuestionnaireDrawable.Symptoms
     val answers: Array<Int?> = arrayOfNulls(questionnaire.numberOfQuestions)
 
@@ -635,7 +642,11 @@ fun QuestionnaireStringAnswersWithoutScoreDarkThemeScreenPreview()
             QuestionnaireStringAnswersScreen(
                 state = QuestionnaireState.InProgress,
                 questionnaire = questionnaire,
-                title = "${stringResource(R.string.questionnaire)} 1/1 ${stringResource(questionnaire.measureRes)}",
+                title = "${stringResource(R.string.questionnaire)} 1/1 ${
+                    stringResource(
+                        questionnaire.measureRes
+                    )
+                }",
                 answerSelected = { index -> answers[index] },
                 answersRemaining = {
                     answers.mapIndexed { index, value -> if (value == null) index else null }
@@ -655,20 +666,20 @@ fun QuestionnaireStringAnswersWithoutScoreDarkThemeScreenPreview()
 
 @Composable
 @Preview
-fun QuestionnaireNumericAnswersWithScoreScreenPreview()
-{
+fun QuestionnaireNumericAnswersWithScoreScreenPreview() {
     val questionnaire = DailyScoredQuestionnaireDrawable.NightStress
     val answers: Array<Int?> = arrayOfNulls(questionnaire.numberOfQuestions)
 
-    val score : () -> Int? = {
+    val score: () -> Int? = {
         if (answers.all { it != null })
             answers.filterNotNull().sum()
         else
             null
     }
 
-    val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
+    val summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
         OneOffStressStatus(
+            navigator = EmptyDestinationsNavigator,
             data = data,
             widthSize = widthSize
         )
@@ -680,7 +691,11 @@ fun QuestionnaireNumericAnswersWithScoreScreenPreview()
                 state = QuestionnaireState.InProgress,
                 questionnaire = questionnaire,
                 widthSize = WindowWidthSizeClass.Compact,
-                title = "${stringResource(R.string.questionnaire)} 1/1 ${stringResource(questionnaire.measureRes)}",
+                title = "${stringResource(R.string.questionnaire)} 1/1 ${
+                    stringResource(
+                        questionnaire.measureRes
+                    )
+                }",
                 answerSelected = { index -> answers[index] },
                 answersRemaining = {
                     answers.mapIndexed { index, value -> if (value == null) index else null }
@@ -702,20 +717,20 @@ fun QuestionnaireNumericAnswersWithScoreScreenPreview()
 
 @Composable
 @Preview
-fun QuestionnaireNumericAnswersWithScoreDarkThemeScreenPreview()
-{
+fun QuestionnaireNumericAnswersWithScoreDarkThemeScreenPreview() {
     val questionnaire = DailyScoredQuestionnaireDrawable.NightStress
     val answers: Array<Int?> = arrayOfNulls(questionnaire.numberOfQuestions)
 
-    val score : () -> Int? = {
+    val score: () -> Int? = {
         if (answers.all { it != null })
             answers.filterNotNull().sum()
         else
             null
     }
 
-    val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
+    val summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit = { data, widthSize ->
         OneOffStressStatus(
+            navigator = EmptyDestinationsNavigator,
             data = data,
             widthSize = widthSize
         )
@@ -727,7 +742,11 @@ fun QuestionnaireNumericAnswersWithScoreDarkThemeScreenPreview()
                 state = QuestionnaireState.InProgress,
                 questionnaire = questionnaire,
                 widthSize = WindowWidthSizeClass.Compact,
-                title = "${stringResource(R.string.questionnaire)} 1/1 ${stringResource(questionnaire.measureRes)}",
+                title = "${stringResource(R.string.questionnaire)} 1/1 ${
+                    stringResource(
+                        questionnaire.measureRes
+                    )
+                }",
                 answerSelected = { index -> answers[index] },
                 answersRemaining = {
                     answers.mapIndexed { index, value -> if (value == null) index else null }
@@ -751,8 +770,7 @@ fun QuestionnaireNumericAnswersWithScoreDarkThemeScreenPreview()
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
-fun QuestionnaireStringAnswersPagePreview()
-{
+fun QuestionnaireStringAnswersPagePreview() {
     val question = stringArrayResource(id = R.array.one_off_stress_questions)[0]
     val answers = stringArrayResource(id = R.array.five_answers_questionnaire)
 
@@ -763,7 +781,7 @@ fun QuestionnaireStringAnswersPagePreview()
                 answers = answers,
                 answerSelectedPrevious = null,
                 pagerState = rememberPagerState(),
-                onAnswer = {} ,
+                onAnswer = {},
                 onExit = { },
                 onFinish = {}
             )
@@ -774,11 +792,10 @@ fun QuestionnaireStringAnswersPagePreview()
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
-fun QuestionnaireStringAnswersPageDarkThemePreview()
-{
+fun QuestionnaireStringAnswersPageDarkThemePreview() {
     val question = stringArrayResource(id = R.array.one_off_stress_questions)[0]
     val answers = stringArrayResource(id = R.array.five_answers_questionnaire)
-    
+
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             QuestionnaireStringAnswersPage(
@@ -786,7 +803,7 @@ fun QuestionnaireStringAnswersPageDarkThemePreview()
                 answers = answers,
                 answerSelectedPrevious = null,
                 pagerState = rememberPagerState(),
-                onAnswer = {} ,
+                onAnswer = {},
                 onExit = { },
                 onFinish = {}
             )
@@ -797,8 +814,7 @@ fun QuestionnaireStringAnswersPageDarkThemePreview()
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
-fun QuestionnaireNumericAnswersPagePreview()
-{
+fun QuestionnaireNumericAnswersPagePreview() {
     val question = stringArrayResource(id = R.array.daily_symptoms_questions)[0]
     BienestarEmocionalTheme {
         Surface {
@@ -807,7 +823,7 @@ fun QuestionnaireNumericAnswersPagePreview()
                 answerRange = 0..10,
                 answerSelectedPrevious = null,
                 pagerState = rememberPagerState(),
-                onAnswer = {} ,
+                onAnswer = {},
                 onExit = { },
                 onFinish = {}
             )
@@ -818,8 +834,7 @@ fun QuestionnaireNumericAnswersPagePreview()
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
-fun QuestionnaireNumericAnswersPageDarkThemePreview()
-{
+fun QuestionnaireNumericAnswersPageDarkThemePreview() {
     val question = stringArrayResource(id = R.array.daily_symptoms_questions)[0]
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
@@ -828,7 +843,7 @@ fun QuestionnaireNumericAnswersPageDarkThemePreview()
                 answerRange = 0..10,
                 answerSelectedPrevious = null,
                 pagerState = rememberPagerState(),
-                onAnswer = {} ,
+                onAnswer = {},
                 onExit = { },
                 onFinish = {}
             )
@@ -839,15 +854,14 @@ fun QuestionnaireNumericAnswersPageDarkThemePreview()
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
-fun QuestionnairePagePreview()
-{
+fun QuestionnairePagePreview() {
     val question = stringArrayResource(id = R.array.daily_symptoms_questions)[0]
     BienestarEmocionalTheme {
         Surface {
             QuestionnairePage(
                 question = question,
                 pagerState = rememberPagerState(),
-                answerContent = {} ,
+                answerContent = {},
                 onExit = { },
                 onFinish = {}
             )
@@ -858,15 +872,14 @@ fun QuestionnairePagePreview()
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
-fun QuestionnairePageDarkThemePreview()
-{
+fun QuestionnairePageDarkThemePreview() {
     val question = stringArrayResource(id = R.array.daily_symptoms_questions)[0]
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             QuestionnairePage(
                 question = question,
                 pagerState = rememberPagerState(),
-                answerContent = {} ,
+                answerContent = {},
                 onExit = { },
                 onFinish = {}
             )

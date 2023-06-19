@@ -4,15 +4,14 @@ import es.upm.bienestaremocional.data.database.entity.daily.DailyLoneliness
 import es.upm.bienestaremocional.data.questionnaire.ScoreLevel
 import es.upm.bienestaremocional.data.questionnaire.ScoredManager
 
-class DailyLonelinessManager: ScoredManager<DailyLoneliness>()
-{
-    override val answers: Array<Int?> = arrayOfNulls(DailyScoredQuestionnaire.Loneliness.numberOfQuestions)
+class DailyLonelinessManager : ScoredManager<DailyLoneliness>() {
+    override val answers: Array<Int?> =
+        arrayOfNulls(DailyScoredQuestionnaire.Loneliness.numberOfQuestions)
     override val numberOfQuestions: Int = DailyScoredQuestionnaire.Loneliness.numberOfQuestions
     override val answerRange: IntRange = DailyScoredQuestionnaire.Loneliness.answerRange
     override val levels: List<ScoreLevel> = DailyScoredQuestionnaire.Loneliness.levels
 
-    override fun loadEntity(element: DailyLoneliness)
-    {
+    override fun loadEntity(element: DailyLoneliness) {
         answers[0] = element.answer1
         answers[1] = element.answer2
         answers[2] = element.answer3

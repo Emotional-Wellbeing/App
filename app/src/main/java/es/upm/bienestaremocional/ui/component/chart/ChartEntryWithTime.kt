@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.ui.component
+package es.upm.bienestaremocional.ui.component.chart
 
 import com.patrykandpatrick.vico.core.entry.ChartEntry
 import java.time.ZonedDateTime

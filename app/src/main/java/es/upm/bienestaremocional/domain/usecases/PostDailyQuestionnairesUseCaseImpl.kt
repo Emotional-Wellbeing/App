@@ -9,8 +9,8 @@ import es.upm.bienestaremocional.data.database.entity.daily.DailyStress
 import es.upm.bienestaremocional.data.database.entity.daily.DailySuicide
 import es.upm.bienestaremocional.data.database.entity.daily.DailySymptoms
 import es.upm.bienestaremocional.data.info.AppInfo
-import es.upm.bienestaremocional.data.remote.userdata.DailyQuestionnairesRequest
-import es.upm.bienestaremocional.data.remote.userdata.DailyQuestionnairesResponse
+import es.upm.bienestaremocional.data.remote.questionnaire.daily.DailyQuestionnairesRequest
+import es.upm.bienestaremocional.data.remote.questionnaire.daily.DailyQuestionnairesResponse
 import es.upm.bienestaremocional.domain.processing.secondToZonedDateTime
 import es.upm.bienestaremocional.domain.repository.LastUploadRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyDepressionRepository
@@ -32,10 +32,8 @@ class PostDailyQuestionnairesUseCaseImpl(
     private val dailyLonelinessRepository: DailyLonelinessRepository,
     private val dailySuicideRepository: DailySuicideRepository,
     private val dailySymptomsRepository: DailySymptomsRepository,
-) : PostDailyQuestionnairesUseCase
-{
-    private suspend fun prepareDailyQuestionnairesData() : DailyQuestionnairesRequest
-    {
+) : PostDailyQuestionnairesUseCase {
+    private suspend fun prepareDailyQuestionnairesData(): DailyQuestionnairesRequest {
         lateinit var stressData: List<DailyStress>
         lateinit var depressionData: List<DailyDepression>
         lateinit var lonelinessData: List<DailyLoneliness>
@@ -43,17 +41,17 @@ class PostDailyQuestionnairesUseCaseImpl(
         lateinit var symptomsData: List<DailySymptoms>
 
         Log.d(logTag, "prepareDailyQuestionnairesData")
-        
+
         val end: ZonedDateTime = ZonedDateTime.now()
         val defaultStart: ZonedDateTime = end.minusDays(30)
 
-        
+
         var lastUpload = lastUploadRepository.get(LastUpload.Type.DailyStress)
-        var start : ZonedDateTime = lastUpload?.let { 
-            secondToZonedDateTime(it.timestamp + 1) 
+        var start: ZonedDateTime = lastUpload?.let {
+            secondToZonedDateTime(it.timestamp + 1)
         } ?: defaultStart
         stressData = dailyStressRepository.getAllFromRange(
-            range = Range(start,end),
+            range = Range(start, end),
             onlyCompleted = true
         )
 
@@ -62,7 +60,7 @@ class PostDailyQuestionnairesUseCaseImpl(
             secondToZonedDateTime(it.timestamp + 1)
         } ?: defaultStart
         depressionData = dailyDepressionRepository.getAllFromRange(
-            range = Range(start,end),
+            range = Range(start, end),
             onlyCompleted = true
         )
 
@@ -71,7 +69,7 @@ class PostDailyQuestionnairesUseCaseImpl(
             secondToZonedDateTime(it.timestamp + 1)
         } ?: defaultStart
         lonelinessData = dailyLonelinessRepository.getAllFromRange(
-            range = Range(start,end),
+            range = Range(start, end),
             onlyCompleted = true
         )
 
@@ -80,7 +78,7 @@ class PostDailyQuestionnairesUseCaseImpl(
             secondToZonedDateTime(it.timestamp + 1)
         } ?: defaultStart
         suicideData = dailySuicideRepository.getAllFromRange(
-            range = Range(start,end),
+            range = Range(start, end),
             onlyCompleted = true
         )
 
@@ -89,13 +87,13 @@ class PostDailyQuestionnairesUseCaseImpl(
             secondToZonedDateTime(it.timestamp + 1)
         } ?: defaultStart
         symptomsData = dailySymptomsRepository.getAllFromRange(
-            range = Range(start,end),
+            range = Range(start, end),
             onlyCompleted = true
         )
-        
+
 
         val userData = DailyQuestionnairesRequest.Data(
-            stress = stressData, 
+            stress = stressData,
             depression = depressionData,
             loneliness = lonelinessData,
             suicide = suicideData,
@@ -108,8 +106,7 @@ class PostDailyQuestionnairesUseCaseImpl(
         )
     }
 
-    private suspend fun processSuccessfulRequest(response : DailyQuestionnairesResponse)
-    {
+    private suspend fun processSuccessfulRequest(response: DailyQuestionnairesResponse) {
         // If we have a valid response from the server, update timestamps on database
         response.timestamps?.let { timestamps ->
             Log.d(logTag, "updating timestamps")
@@ -161,8 +158,7 @@ class PostDailyQuestionnairesUseCaseImpl(
         }
     }
 
-    override suspend fun execute() : RemoteOperationResult
-    {
+    override suspend fun execute(): RemoteOperationResult {
         val data = prepareDailyQuestionnairesData()
         val response = remoteRepository.postDailyQuestionnaires(data)
 
@@ -170,8 +166,7 @@ class PostDailyQuestionnairesUseCaseImpl(
         var result = RemoteOperationResult.Failure
 
         response?.let {
-            result = when(response.code)
-            {
+            result = when (response.code) {
                 in 200..299 -> RemoteOperationResult.Success
                 in 500..599 -> RemoteOperationResult.ServerFailure
                 else -> RemoteOperationResult.Failure

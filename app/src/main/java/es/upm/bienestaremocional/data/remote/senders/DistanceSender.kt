@@ -11,12 +11,9 @@ data class DistanceSender(
     val startTime: Long,
     val endTime: Long,
     val distance: Double
-)
-{
-    companion object
-    {
-        fun DistanceRecord.toSender(): DistanceSender
-        {
+) {
+    companion object {
+        fun DistanceRecord.toSender(): DistanceSender {
             val startTime = obtainTimestamp(startTime, startZoneOffset)
             val endTime = obtainTimestamp(endTime, endZoneOffset)
             val distance = distance.inKilometers

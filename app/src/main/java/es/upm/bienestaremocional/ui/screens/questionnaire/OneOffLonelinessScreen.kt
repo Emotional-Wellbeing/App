@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffQuestionnaireDrawable
 import es.upm.bienestaremocional.ui.component.OneOffLonelinessStatus
@@ -18,18 +19,19 @@ import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
 @Composable
 fun OneOffLonelinessScreen(
     navController: NavController,
+    navigator: DestinationsNavigator,
     entityId: Long,
-    questionnaireIndex : Int = 0,
-    questionnaireSize : Int = 1,
-    viewModel : OneOffLonelinessViewModel = hiltViewModel(),
-)
-{
+    questionnaireIndex: Int = 0,
+    questionnaireSize: Int = 1,
+    viewModel: OneOffLonelinessViewModel = hiltViewModel(),
+) {
     val questionnaire = OneOffQuestionnaireDrawable.Loneliness
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit  = { score, widthSize ->
+    val summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit = { score, widthSize ->
         OneOffLonelinessStatus(
+            navigator = navigator,
             data = score,
             widthSize = widthSize,
             indicatorColor = MaterialTheme.colorScheme.primary,
@@ -43,11 +45,15 @@ fun OneOffLonelinessScreen(
         state = state,
         questionnaire = questionnaire,
         widthSize = computeWindowWidthSize(),
-        title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${stringResource(questionnaire.measureRes)}",
+        title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${
+            stringResource(
+                questionnaire.measureRes
+            )
+        }",
         answerSelected = viewModel::answerSelected,
         answersRemaining = viewModel::answersRemaining,
         getScore = viewModel::score,
-        onAnswer = { question, answer -> viewModel.onAnswer(question,answer) },
+        onAnswer = { question, answer -> viewModel.onAnswer(question, answer) },
         onInProgress = viewModel::onInProgress,
         onSkippingAttempt = viewModel::onSkippingAttempt,
         onSkipped = viewModel::onSkipped,

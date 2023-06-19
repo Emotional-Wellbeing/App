@@ -7,22 +7,20 @@ import androidx.health.connect.client.HealthConnectClient
 /**
  * Demonstrates reading and writing from Health Connect.
  */
-class HealthConnectManagerImpl(private val healthConnectClient: HealthConnectClient,
-                               private val context: Context) : HealthConnectManager
-{
+class HealthConnectManagerImpl(
+    private val healthConnectClient: HealthConnectClient,
+    private val context: Context
+) : HealthConnectManager {
     //contains one values of HealthConnectAvailability
     override var availability = mutableStateOf(HealthConnectAvailability.NOT_SUPPORTED)
 
-    init
-    {
+    init {
         checkAvailability()
     }
 
 
-    override fun checkAvailability()
-    {
-        availability.value = when(HealthConnectClient.sdkStatus(context))
-        {
+    override fun checkAvailability() {
+        availability.value = when (HealthConnectClient.sdkStatus(context)) {
             HealthConnectClient.SDK_UNAVAILABLE -> HealthConnectAvailability.NOT_SUPPORTED
             HealthConnectClient.SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED -> HealthConnectAvailability.NOT_INSTALLED
             HealthConnectClient.SDK_AVAILABLE -> HealthConnectAvailability.INSTALLED

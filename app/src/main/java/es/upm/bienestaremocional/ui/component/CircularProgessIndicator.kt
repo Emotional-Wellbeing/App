@@ -64,19 +64,18 @@ import java.lang.Float.min
  */
 @Composable
 fun CircularProgressIndicator(
-    data : Int?,
-    minValue : Int = 0,
-    maxValue : Int = 100,
-    size : Dp = 250.dp,
-    indicatorScaleFactor : Float = 0.1f,
-    animationDuration : Int = 1000,
-    indicatorColor : Color = MaterialTheme.colorScheme.tertiary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.tertiaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    textStyle : TextStyle = MaterialTheme.typography.displayMedium,
-)
-{
-    val textContent : @Composable (State<Int>) -> Unit = { dataUsageAnimate ->
+    data: Int?,
+    minValue: Int = 0,
+    maxValue: Int = 100,
+    size: Dp = 250.dp,
+    indicatorScaleFactor: Float = 0.1f,
+    animationDuration: Int = 1000,
+    indicatorColor: Color = MaterialTheme.colorScheme.tertiary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    textStyle: TextStyle = MaterialTheme.typography.displayMedium,
+) {
+    val textContent: @Composable (State<Int>) -> Unit = { dataUsageAnimate ->
 
         val unknownLabel = stringResource(id = R.string.unknown_display)
 
@@ -99,7 +98,8 @@ fun CircularProgressIndicator(
         )
     }
 
-    CircularProgressIndicator(data = data,
+    CircularProgressIndicator(
+        data = data,
         textContent = textContent,
         minValue = minValue,
         maxValue = maxValue,
@@ -142,22 +142,21 @@ fun CircularProgressIndicator(
  */
 @Composable
 fun CircularProgressIndicator(
-    data : Int?,
-    subtitle : String,
-    minValue : Int = 0,
-    maxValue : Int = 100,
-    size : Dp = 250.dp,
-    indicatorScaleFactor : Float = 0.1f,
-    subtitleWidth : Dp = 175.dp,
-    animationDuration : Int = 1000,
-    indicatorColor : Color = MaterialTheme.colorScheme.tertiary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.tertiaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    dataTextStyle : TextStyle = MaterialTheme.typography.displayMedium,
-    subtitleTextStyle : TextStyle = MaterialTheme.typography.titleMedium,
-)
-{
-    val textContent : @Composable (State<Int>) -> Unit = { dataUsageAnimate ->
+    data: Int?,
+    subtitle: String,
+    minValue: Int = 0,
+    maxValue: Int = 100,
+    size: Dp = 250.dp,
+    indicatorScaleFactor: Float = 0.1f,
+    subtitleWidth: Dp = 175.dp,
+    animationDuration: Int = 1000,
+    indicatorColor: Color = MaterialTheme.colorScheme.tertiary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    dataTextStyle: TextStyle = MaterialTheme.typography.displayMedium,
+    subtitleTextStyle: TextStyle = MaterialTheme.typography.titleMedium,
+) {
+    val textContent: @Composable (State<Int>) -> Unit = { dataUsageAnimate ->
 
         val unknownLabel = stringResource(id = R.string.unknown_display)
 
@@ -179,7 +178,8 @@ fun CircularProgressIndicator(
         }
     }
 
-    CircularProgressIndicator(data = data,
+    CircularProgressIndicator(
+        data = data,
         textContent = textContent,
         minValue = minValue,
         maxValue = maxValue,
@@ -218,24 +218,24 @@ fun CircularProgressIndicator(
  * @param backgroundColor Background color of the whole element
  */
 @Composable
-private fun CircularProgressIndicator(data : Int?,
-                                      textContent : @Composable (State<Int>) -> Unit,
-                                      minValue : Int = 0,
-                                      maxValue : Int = 100,
-                                      size : Dp = 250.dp,
-                                      indicatorScaleFactor : Float = 0.1f,
-                                      animationDuration : Int = 1000,
-                                      indicatorColor : Color = MaterialTheme.colorScheme.tertiary,
-                                      indicatorContainerColor : Color = MaterialTheme.colorScheme.tertiaryContainer,
-                                      backgroundColor : Color = MaterialTheme.colorScheme.background,
-)
-{
+private fun CircularProgressIndicator(
+    data: Int?,
+    textContent: @Composable (State<Int>) -> Unit,
+    minValue: Int = 0,
+    maxValue: Int = 100,
+    size: Dp = 250.dp,
+    indicatorScaleFactor: Float = 0.1f,
+    animationDuration: Int = 1000,
+    indicatorColor: Color = MaterialTheme.colorScheme.tertiary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+) {
     // Checks
     require(maxValue > minValue)
     require(indicatorScaleFactor in 0f..0.5f)
 
     // Thickness of the indicator in Dp
-    val indicatorThickness : Dp = size.times(indicatorScaleFactor)
+    val indicatorThickness: Dp = size.times(indicatorScaleFactor)
 
     // Remembers the data value to update it
     var dataRemembered by remember { mutableStateOf(minValue) }
@@ -247,8 +247,10 @@ private fun CircularProgressIndicator(data : Int?,
     )
 
     // Convert the data to an angle. Max is 360
-    val sweepAngle = min(((dataUsageAnimate.value - minValue).toFloat() / (maxValue - minValue)),
-        1f) * 360
+    val sweepAngle = min(
+        ((dataUsageAnimate.value - minValue).toFloat() / (maxValue - minValue)),
+        1f
+    ) * 360
 
     // Start the animation
     LaunchedEffect(data)
@@ -303,8 +305,7 @@ private fun CircularProgressIndicator(data : Int?,
     group = "Light Theme"
 )
 @Composable
-fun CircularProgressIndicatorPreview()
-{
+fun CircularProgressIndicatorPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -318,8 +319,7 @@ fun CircularProgressIndicatorPreview()
     group = "Dark Theme"
 )
 @Composable
-fun CircularProgressIndicatorPreviewDarkTheme()
-{
+fun CircularProgressIndicatorPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -333,8 +333,7 @@ fun CircularProgressIndicatorPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun CircularProgressIndicatorNullPreview()
-{
+fun CircularProgressIndicatorNullPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -348,8 +347,7 @@ fun CircularProgressIndicatorNullPreview()
     group = "Dark Theme"
 )
 @Composable
-fun CircularProgressIndicatorNullPreviewDarkTheme()
-{
+fun CircularProgressIndicatorNullPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -363,8 +361,7 @@ fun CircularProgressIndicatorNullPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun CircularProgressIndicatorCustomPreview()
-{
+fun CircularProgressIndicatorCustomPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -383,8 +380,7 @@ fun CircularProgressIndicatorCustomPreview()
     group = "Dark Theme"
 )
 @Composable
-fun CircularProgressIndicatorCustomPreviewDarkTheme()
-{
+fun CircularProgressIndicatorCustomPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -399,12 +395,12 @@ fun CircularProgressIndicatorCustomPreviewDarkTheme()
         }
     }
 }
+
 @Preview(
     group = "Light Theme"
 )
 @Composable
-fun CircularProgressIndicatorWithSubtitlePreview()
-{
+fun CircularProgressIndicatorWithSubtitlePreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -421,8 +417,7 @@ fun CircularProgressIndicatorWithSubtitlePreview()
     group = "Dark Theme"
 )
 @Composable
-fun CircularProgressIndicatorWithSubtitlePreviewDarkTheme()
-{
+fun CircularProgressIndicatorWithSubtitlePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -439,8 +434,7 @@ fun CircularProgressIndicatorWithSubtitlePreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun CircularProgressIndicatorWithSubtitleNullPreview()
-{
+fun CircularProgressIndicatorWithSubtitleNullPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -457,8 +451,7 @@ fun CircularProgressIndicatorWithSubtitleNullPreview()
     group = "Dark Theme"
 )
 @Composable
-fun CircularProgressIndicatorWithSubtitleNullPreviewDarkTheme()
-{
+fun CircularProgressIndicatorWithSubtitleNullPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -475,8 +468,7 @@ fun CircularProgressIndicatorWithSubtitleNullPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun CircularProgressIndicatorWithSubtitleCustomPreview()
-{
+fun CircularProgressIndicatorWithSubtitleCustomPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -499,8 +491,7 @@ fun CircularProgressIndicatorWithSubtitleCustomPreview()
     group = "Dark Theme"
 )
 @Composable
-fun CircularProgressIndicatorWithSubtitleCustomPreviewDarkTheme()
-{
+fun CircularProgressIndicatorWithSubtitleCustomPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()

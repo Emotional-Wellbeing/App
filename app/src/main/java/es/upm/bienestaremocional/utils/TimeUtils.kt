@@ -18,7 +18,7 @@ import kotlin.random.Random
  */
 fun dateTimeWithOffsetOrDefault(time: Instant, offset: ZoneOffset? = null): ZonedDateTime =
     offset?.let { ZonedDateTime.ofInstant(time, it) }
-        ?: run {  ZonedDateTime.ofInstant(time, ZoneId.systemDefault()) }
+        ?: run { ZonedDateTime.ofInstant(time, ZoneId.systemDefault()) }
 
 fun Duration.formatHoursMinutes() =
     String.format("%01dh%02dm", this.toHours() % 24, this.toMinutes() % 60)
@@ -28,19 +28,19 @@ fun formatDisplayTimeStartEnd(
     startZoneOffset: ZoneOffset?,
     endTime: Instant,
     endZoneOffset: ZoneOffset?
-): String
-{
+): String {
     val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
     val start = timeFormatter.format(dateTimeWithOffsetOrDefault(startTime, startZoneOffset))
     val end = timeFormatter.format(dateTimeWithOffsetOrDefault(endTime, endZoneOffset))
     return "$start - $end"
 }
 
-fun formatDateTime(start: Instant,
-                   startZoneOffset: ZoneOffset?,
-                   end: Instant,
-                   endZoneOffset: ZoneOffset?): String
-{
+fun formatDateTime(
+    start: Instant,
+    startZoneOffset: ZoneOffset?,
+    end: Instant,
+    endZoneOffset: ZoneOffset?
+): String {
     val startTime = dateTimeWithOffsetOrDefault(start, startZoneOffset)
     val endTime = dateTimeWithOffsetOrDefault(end, endZoneOffset)
     val dateLabel = formatDate(startTime)
@@ -49,9 +49,10 @@ fun formatDateTime(start: Instant,
     return "$dateLabel: $startLabel - $endLabel"
 }
 
-fun formatDateTime(time: Instant,
-                   zoneOffset: ZoneOffset? = null): String
-{
+fun formatDateTime(
+    time: Instant,
+    zoneOffset: ZoneOffset? = null
+): String {
     val startTime = dateTimeWithOffsetOrDefault(time, zoneOffset)
     val dateLabel = formatDate(startTime)
     val timeLabel = formatTime(startTime)
@@ -67,7 +68,7 @@ fun formatDate(date: ZonedDateTime): String =
 fun formatTime(time: ZonedDateTime): String =
     DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM).format(time)
 
-fun formatUnixTimeStamp(time: Long) : String  =
+fun formatUnixTimeStamp(time: Long): String =
     formatDateTime(Instant.ofEpochMilli(time))
 
 fun generateTime(origin: ZonedDateTime = ZonedDateTime.now(), offsetDays: Long = 0): ZonedDateTime =
@@ -76,13 +77,13 @@ fun generateTime(origin: ZonedDateTime = ZonedDateTime.now(), offsetDays: Long =
         .withMinute(Random.nextInt(0, 60))
         .withSecond(Random.nextInt(0, 60))
 
-fun generateInterval(origin: ZonedDateTime = ZonedDateTime.now(),
-                     offsetDays: Long = 0,
-                     lowerBound : Int = 0,
-                     upperBound : Int = 23
+fun generateInterval(
+    origin: ZonedDateTime = ZonedDateTime.now(),
+    offsetDays: Long = 0,
+    lowerBound: Int = 0,
+    upperBound: Int = 23
 ):
-        Pair<ZonedDateTime,ZonedDateTime>
-{
+        Pair<ZonedDateTime, ZonedDateTime> {
     val init = origin.minusDays(offsetDays)
         .withHour(Random.nextInt(lowerBound, upperBound))
         .withMinute(Random.nextInt(0, 60))
@@ -91,8 +92,8 @@ fun generateInterval(origin: ZonedDateTime = ZonedDateTime.now(),
         .withHour(Random.nextInt(init.hour + 1, upperBound + 1))
         .withMinute(Random.nextInt(0, 60))
         .withSecond(Random.nextInt(0, 60))
-    return Pair(init,end)
+    return Pair(init, end)
 }
 
-fun obtainTimestamp(instant: Instant, zoneOffset: ZoneOffset?) : Long =
+fun obtainTimestamp(instant: Instant, zoneOffset: ZoneOffset?): Long =
     ZonedDateTime.ofInstant(instant, zoneOffset ?: ZoneId.systemDefault()).toEpochSecond()

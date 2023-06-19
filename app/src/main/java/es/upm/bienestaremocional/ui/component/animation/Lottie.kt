@@ -21,10 +21,11 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  * @param animationLoop: Indicate if the animation should be animate repeatedly or once
  */
 @Composable
-fun DisplayLottieAnimation(@RawRes rawRes: Int,
-                           modifier: Modifier = Modifier,
-                           animationLoop : Boolean = true)
-{
+fun DisplayLottieAnimation(
+    @RawRes rawRes: Int,
+    modifier: Modifier = Modifier,
+    animationLoop: Boolean = true
+) {
 
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(rawRes))
     LottieAnimation(
@@ -43,8 +44,7 @@ fun DisplayLottieAnimation(@RawRes rawRes: Int,
     group = "Light Theme"
 )
 @Composable
-fun DisplayLottieAnimationPreview()
-{
+fun DisplayLottieAnimationPreview() {
     BienestarEmocionalTheme {
         Surface {
             DisplayLottieAnimation(
@@ -60,13 +60,13 @@ fun DisplayLottieAnimationPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DisplayLottieAnimationDarkModePreview()
-{
+fun DisplayLottieAnimationDarkModePreview() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             DisplayLottieAnimation(
                 rawRes = R.raw.mental_wellbeing,
-                modifier = Modifier.fillMaxSize())
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }

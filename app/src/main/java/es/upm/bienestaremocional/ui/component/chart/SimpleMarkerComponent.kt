@@ -7,6 +7,7 @@ import com.patrykandpatrick.vico.core.context.DrawContext
 import com.patrykandpatrick.vico.core.extension.half
 import com.patrykandpatrick.vico.core.marker.Marker
 import com.patrykandpatrick.vico.core.marker.Marker.EntryModel
+
 /**
  * Implements a Marker only with an indicator drawn at a given point belonging to the data entry.
  * @param indicator The indicator itself.
@@ -18,8 +19,7 @@ class SimpleMarkerComponent(
     private val indicator: Component,
     private val indicatorSizeDp: Float = 0f,
     private val onApplyEntryColor: ((entryColor: Int) -> Unit)
-) : Marker
-{
+) : Marker {
 
     /**
      * Draws the marker.
@@ -27,8 +27,7 @@ class SimpleMarkerComponent(
      * @param bounds the bounds in which the marker is drawn.
      * @param markedEntries a list of [EntryModel]s representing the entries to which the marker refers.
      */
-    override fun draw(context: DrawContext, bounds: RectF, markedEntries: List<EntryModel>)
-    {
+    override fun draw(context: DrawContext, bounds: RectF, markedEntries: List<EntryModel>) {
         with(context)
         {
             val halfIndicatorSize = indicatorSizeDp.half.pixels

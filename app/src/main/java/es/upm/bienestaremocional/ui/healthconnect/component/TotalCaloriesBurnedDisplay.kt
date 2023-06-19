@@ -17,9 +17,8 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun TotalCaloriesBurnedRecord.Display(widthSize: WindowWidthSizeClass)
-{
-    val kcal = String.format("%.2f",energy.inKilocalories)
+fun TotalCaloriesBurnedRecord.Display(widthSize: WindowWidthSizeClass) {
+    val kcal = String.format("%.2f", energy.inKilocalories)
     val unit = stringResource(id = R.string.kcal)
     BasicCard {
         SeriesDateTimeHeading(
@@ -35,35 +34,34 @@ fun TotalCaloriesBurnedRecord.Display(widthSize: WindowWidthSizeClass)
 
 @Preview(group = "Light Theme")
 @Composable
-fun TotalCaloriesBurnedRecordDisplayPreview()
-{
+fun TotalCaloriesBurnedRecordDisplayPreview() {
     val basalMetabolicRateRecord = TotalCaloriesBurned.generateDummyData()[0]
     BienestarEmocionalTheme {
         basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun TotalCaloriesBurnedRecordDisplayPreviewDarkTheme()
-{
+fun TotalCaloriesBurnedRecordDisplayPreviewDarkTheme() {
     val basalMetabolicRateRecord = TotalCaloriesBurned.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
         basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun TotalCaloriesBurnedRecordDisplayLargeScreenPreview()
-{
+fun TotalCaloriesBurnedRecordDisplayLargeScreenPreview() {
     val basalMetabolicRateRecord = TotalCaloriesBurned.generateDummyData()[0]
     BienestarEmocionalTheme {
         basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun TotalCaloriesBurnedRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun TotalCaloriesBurnedRecordDisplayLargeScreenPreviewDarkTheme() {
     val basalMetabolicRateRecord = TotalCaloriesBurned.generateDummyData()[0]
     BienestarEmocionalTheme(darkTheme = true) {
         basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Medium)

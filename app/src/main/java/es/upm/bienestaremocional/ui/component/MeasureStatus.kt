@@ -20,7 +20,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
+import es.upm.bienestaremocional.data.Advice
 import es.upm.bienestaremocional.data.Measure
 import es.upm.bienestaremocional.data.questionnaire.Level
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
@@ -31,19 +34,19 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 @Composable
 fun DailyStressStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Stress) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_stress),
         level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Stress) },
@@ -59,19 +62,19 @@ fun DailyStressStatus(
 
 @Composable
 fun DailyDepressionStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Depression) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_depression),
         level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Depression) },
@@ -87,19 +90,19 @@ fun DailyDepressionStatus(
 
 @Composable
 fun DailyLonelinessStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Loneliness) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_loneliness),
         level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) },
@@ -115,19 +118,19 @@ fun DailyLonelinessStatus(
 
 @Composable
 fun OneOffStressStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Stress) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_stress),
         level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Stress) },
@@ -143,19 +146,19 @@ fun OneOffStressStatus(
 
 @Composable
 fun OneOffDepressionStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Depression) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_depression),
         level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Depression) },
@@ -171,19 +174,19 @@ fun OneOffDepressionStatus(
 
 @Composable
 fun OneOffLonelinessStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) }
-    val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
 
     MeasureStatus(
+        navigator = navigator,
         data = data,
         introLabel = stringResource(id = R.string.level_of_loneliness),
         level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) },
@@ -198,24 +201,22 @@ fun OneOffLonelinessStatus(
 }
 
 
-
 @Composable
 private fun MeasureStatus(
+    navigator: DestinationsNavigator,
     data: Int?,
-    introLabel : String,
+    introLabel: String,
     level: Level?,
-    advice : String?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color,
-    indicatorContainerColor : Color,
-    backgroundColor : Color,
+    advice: Advice?,
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color,
+    indicatorContainerColor: Color,
+    backgroundColor: Color,
     minValue: Int = 0,
-    maxValue : Int = 100,
-)
-{
+    maxValue: Int = 100,
+) {
     // Scale factor to reduce the height of row in bigger screens
-    val scaleFactor = when(widthSize)
-    {
+    val scaleFactor = when (widthSize) {
         WindowWidthSizeClass.Compact -> 1f
         WindowWidthSizeClass.Medium -> 0.75f
         WindowWidthSizeClass.Expanded -> 0.5f
@@ -223,24 +224,21 @@ private fun MeasureStatus(
     }
 
     // Text sizes
-    val cpiTextStyle = when(widthSize)
-    {
+    val cpiTextStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.displaySmall
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.displayMedium
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.displayMedium
         else -> MaterialTheme.typography.displaySmall
     }
 
-    val headlineTextStyle = when(widthSize)
-    {
+    val headlineTextStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.titleSmall
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.titleMedium
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.titleLarge
         else -> MaterialTheme.typography.titleSmall
     }
 
-    val adviceTextStyle = when(widthSize)
-    {
+    val adviceTextStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.bodySmall
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.bodyMedium
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.bodyLarge
@@ -249,12 +247,13 @@ private fun MeasureStatus(
 
     // Text to display
     val levelLabel = stringResource(id = (level?.label ?: R.string.unknown_display))
-    val headlineText = "$introLabel : $levelLabel"
+    val headlineText = "$introLabel: $levelLabel"
 
     // Composable elements
-    BoxWithConstraints(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp)
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     )
     {
         // Since we use maxSize, maxHeight and maxWidth are infinity
@@ -297,11 +296,18 @@ private fun MeasureStatus(
                 modifier = Modifier
                     .width(textWidth)
                     .padding(start = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp,Alignment.CenterVertically),
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
             )
             {
                 Text(headlineText, style = headlineTextStyle)
-                advice?.let { Text(it, style = adviceTextStyle) }
+                advice?.let {
+                    ShowAdviceHeadline(
+                        navigator = navigator,
+                        advice = it,
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        textStyle = adviceTextStyle
+                    )
+                }
             }
         }
     }
@@ -312,13 +318,16 @@ private fun MeasureStatus(
     group = "Light Theme",
 )
 @Composable
-fun DailyStressStatusCompactPreview()
-{
+fun DailyStressStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
         {
-            DailyStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
+            DailyStressStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 27,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -327,13 +336,16 @@ fun DailyStressStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DailyStressStatusCompactPreviewDarkTheme()
-{
+fun DailyStressStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
-            DailyStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
+            DailyStressStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 27,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -342,13 +354,16 @@ fun DailyStressStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun DailyDepressionStatusCompactPreview()
-{
+fun DailyDepressionStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
         {
-            DailyDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
+            DailyDepressionStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 16,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -357,13 +372,16 @@ fun DailyDepressionStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DailyDepressionStatusCompactPreviewDarkTheme()
-{
+fun DailyDepressionStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
-            DailyDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
+            DailyDepressionStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 16,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -372,13 +390,16 @@ fun DailyDepressionStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun DailyLonelinessStatusCompactPreview()
-{
+fun DailyLonelinessStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
         {
-            DailyLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
+            DailyLonelinessStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 47,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -387,13 +408,16 @@ fun DailyLonelinessStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DailyLonelinessStatusCompactPreviewDarkTheme()
-{
+fun DailyLonelinessStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
-            DailyLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
+            DailyLonelinessStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 47,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -402,13 +426,16 @@ fun DailyLonelinessStatusCompactPreviewDarkTheme()
     group = "Light Theme",
 )
 @Composable
-fun OneOffStressStatusCompactPreview()
-{
+fun OneOffStressStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
         {
-            OneOffStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
+            OneOffStressStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 27,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -417,13 +444,16 @@ fun OneOffStressStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun OneOffStressStatusCompactPreviewDarkTheme()
-{
+fun OneOffStressStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
-            OneOffStressStatus(data = 27, widthSize = WindowWidthSizeClass.Compact)
+            OneOffStressStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 27,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -432,13 +462,16 @@ fun OneOffStressStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun OneOffDepressionStatusCompactPreview()
-{
+fun OneOffDepressionStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
         {
-            OneOffDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
+            OneOffDepressionStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 16,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -447,13 +480,16 @@ fun OneOffDepressionStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun OneOffDepressionStatusCompactPreviewDarkTheme()
-{
+fun OneOffDepressionStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
-            OneOffDepressionStatus(data = 16, widthSize = WindowWidthSizeClass.Compact)
+            OneOffDepressionStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 16,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -462,13 +498,16 @@ fun OneOffDepressionStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun OneOffLonelinessStatusCompactPreview()
-{
+fun OneOffLonelinessStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
         {
-            OneOffLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
+            OneOffLonelinessStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 47,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -477,13 +516,16 @@ fun OneOffLonelinessStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun OneOffLonelinessStatusCompactPreviewDarkTheme()
-{
+fun OneOffLonelinessStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
-            OneOffLonelinessStatus(data = 47, widthSize = WindowWidthSizeClass.Compact)
+            OneOffLonelinessStatus(
+                navigator = EmptyDestinationsNavigator,
+                data = 47,
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -492,17 +534,17 @@ fun OneOffLonelinessStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun MeasureStatusCompactPreview()
-{
+fun MeasureStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
         {
             MeasureStatus(
+                navigator = EmptyDestinationsNavigator,
                 data = 33,
                 introLabel = stringResource(R.string.measure),
                 level = Level.Low,
-                advice = stringResource(id = R.string.low_stress_advice),
+                advice = Advice(head = R.string.low_stress_advice, body = null),
                 widthSize = WindowWidthSizeClass.Compact,
                 indicatorColor = MaterialTheme.colorScheme.secondary,
                 indicatorContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -516,17 +558,17 @@ fun MeasureStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun MeasureStatusCompactPreviewDarkTheme()
-{
+fun MeasureStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
             MeasureStatus(
+                navigator = EmptyDestinationsNavigator,
                 data = 33,
                 introLabel = stringResource(R.string.measure),
                 level = Level.Low,
-                advice = stringResource(id = R.string.low_stress_advice),
+                advice = Advice(head = R.string.low_stress_advice, body = null),
                 widthSize = WindowWidthSizeClass.Compact,
                 indicatorColor = MaterialTheme.colorScheme.secondary,
                 indicatorContainerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -540,13 +582,13 @@ fun MeasureStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun MeasureStatusNullCompactPreview()
-{
+fun MeasureStatusNullCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
         {
             MeasureStatus(
+                navigator = EmptyDestinationsNavigator,
                 data = null,
                 introLabel = stringResource(R.string.measure),
                 level = null,
@@ -564,13 +606,13 @@ fun MeasureStatusNullCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun MeasureStatusNullCompactPreviewDarkTheme()
-{
+fun MeasureStatusNullCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
             MeasureStatus(
+                navigator = EmptyDestinationsNavigator,
                 data = null,
                 introLabel = stringResource(R.string.measure),
                 level = null,

@@ -10,10 +10,8 @@ import javax.inject.Inject
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val appInfo: AppInfo
-) : ViewModel()
-{
-    fun onFinish()
-    {
+) : ViewModel() {
+    fun onFinish() {
         viewModelScope.launch {
             //only quit first time info when the app exit onboarding screen
             appInfo.saveFirstTime(false)
