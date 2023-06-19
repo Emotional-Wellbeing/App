@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.Advice
-import es.upm.bienestaremocional.ui.screens.destinations.AdviceScreenDestination
+import es.upm.bienestaremocional.destinations.AdviceScreenDestination
 
 @Composable
 fun ShowAdviceHeadline(

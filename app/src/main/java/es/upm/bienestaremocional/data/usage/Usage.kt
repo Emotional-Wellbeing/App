@@ -129,9 +129,9 @@ class Usage : Activity(), AdapterView.OnItemSelectedListener{
     fun findApp (appName: String): String {
         val type = ""
         val rRSS = listOf("facebook","twitter","instagram","tiktok","snapchat","whatsapp","messenger","telegram")
-        val dating = listOf("tinder","badoo","meetic","bumble","grindr","her")
+        val dating = listOf("tinder","badoo","meetic","bumble","grindr")
         val games = listOf("candy","mine","treasure","crush","sudoku","game","pokemongo","impact","scape","among","otome","madness","zombies")
-        val entertaining = listOf("youtube","netflix","hbo","disney","prime","video","tiktok","audible","book","star","crunchyroll", "firefox", "opera","chrome","9gag","los40","spotify","rtve","bbc","duolingo")
+        val entertaining = listOf("youtube","netflix","hbo","disney","prime","video","ivoox","tiktok","audible","book","star","crunchyroll", "firefox", "opera","chrome","9gag","los40","spotify","rtve","bbc","duolingo")
         val house = listOf("santander","bbva","bankinter","openbank","repsol","naturgy","iberdrola","tapo","tplink","aeat","amazon","cl@ve","sodexo","zooplus","wallapop")
         val work = listOf("office","word","excel","powerpoint","authenticator","teams","slack","zoom","moodle")
 
