@@ -238,4 +238,10 @@
     <string name="actual_week">Actual week</string>
     <string name="uncompleted_questionnaires_advice">You have uncompleted questionnaires</string>
     <string name="review">Review</string>
+    <string name="permission_screen_label">Permissions</string>
+    <string name="permission_screen_description">App permissions</string>
+    <string name="permission_granted">Permission granted. You can disable permissions in the Android settings menu</string>
+    <string name="permission_log_call">Call listing permissions</string>
+    <string name="permission_location">Location permissions</string>
+    <string name="permission_internet">Internet permissions</string>
 </resources>

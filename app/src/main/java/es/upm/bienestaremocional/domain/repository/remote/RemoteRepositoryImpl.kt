@@ -106,4 +106,15 @@ class RemoteRepositoryImpl(
         }
         return response
     }
+
+    override suspend fun postBackgroundData(message: String): Boolean {
+        try {
+            remoteAPI.postBackgroundData(message)
+
+        } catch (e: Exception) {
+            Log.e(logTag, "response failed with exception $e")
+            return false
+        }
+        return true
+    }
 }
