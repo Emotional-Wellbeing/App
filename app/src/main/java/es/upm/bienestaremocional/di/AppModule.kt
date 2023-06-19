@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.health.connect.client.HealthConnectClient
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.yariksoffice.lingver.Lingver
 import dagger.Module
 import dagger.Provides
@@ -91,12 +93,17 @@ object AppModule {
     fun provideHealthConnectAvailability(healthConnectManager: HealthConnectManager)
             : MutableState<HealthConnectAvailability> = healthConnectManager.availability
 
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = GsonBuilder()
+        .serializeNulls()
+        .create()
 
     @Provides
     @Singleton
-    fun provideRemoteAPI(): RemoteAPI = Retrofit.Builder()
+    fun provideRemoteAPI(gson: Gson): RemoteAPI = Retrofit.Builder()
         .baseUrl(AppConstants.SERVER_URL)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
         .create(RemoteAPI::class.java)
 }

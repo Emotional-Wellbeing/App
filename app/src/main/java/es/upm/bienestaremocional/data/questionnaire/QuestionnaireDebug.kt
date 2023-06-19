@@ -48,7 +48,7 @@ fun generateOneOffStressEntry(
 }
 
 /**
- * Generates am One Off Depression with random data without inserting in database.
+ * Generates an One Off Depression Entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
  * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
@@ -112,7 +112,7 @@ fun generateOneOffLonelinessEntry(
 }
 
 /**
- * Generates an One Off Loneliness entry with random data without inserting in database.
+ * Generates an Daily Stress entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
  * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
@@ -144,7 +144,7 @@ fun generateDailyStressEntry(
 }
 
 /**
- * Generates an One Off Loneliness entry with random data without inserting in database.
+ * Generates an Daily Depression entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
  * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
@@ -176,7 +176,7 @@ fun generateDailyDepressionEntry(
 }
 
 /**
- * Generates an One Off Loneliness entry with random data without inserting in database.
+ * Generates an Daily Loneliness entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
  * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
@@ -208,7 +208,7 @@ fun generateDailyLonelinessEntry(
 }
 
 /**
- * Generates an One Off Loneliness entry with random data without inserting in database.
+ * Generates an Daily Suicide entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
  * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry
@@ -220,28 +220,42 @@ fun generateDailySuicideEntry(
     val dailySuicideManager = DailySuicideManager()
     val dailySuicide = DailySuicide(createdAt = createdAt)
 
-    val uncompletedAnswer = if (fulfilled)
-        null
-    else
-        Random.nextInt(dailySuicideManager.numberOfQuestions)
+    val differentAnswer = Random.nextInt(dailySuicideManager.numberOfQuestions)
 
-    for (questionIndex in 0 until dailySuicideManager.numberOfQuestions) {
-        if (questionIndex != uncompletedAnswer)
-            dailySuicideManager.setAnswer(
-                questionIndex = questionIndex,
-                answer = Random.nextInt(
-                    dailySuicideManager.answerRange.first,
-                    dailySuicideManager.answerRange.last + 1
+    for (questionIndex in 0 until dailySuicideManager.numberOfQuestions)
+    {
+        if (fulfilled)
+        {
+            // Different answer will be the only 0, so previous answers must be 1
+            if (questionIndex <= differentAnswer)
+            {
+                val answer = if (questionIndex < differentAnswer)
+                    1
+                else
+                    0
+
+                dailySuicideManager.setAnswer(
+                    questionIndex = questionIndex,
+                    answer = answer
                 )
-            )
+            }
+        }
+        else
+        {
+            // If one 0 is present, the entry is fulfilled
+            if (questionIndex < differentAnswer)
+                dailySuicideManager.setAnswer(
+                    questionIndex = questionIndex,
+                    answer = 1
+                )
+        }
     }
-    dailySuicideManager.setCompleted()
     dailySuicideManager.setEntity(dailySuicide)
     return dailySuicide
 }
 
 /**
- * Generates an One Off Loneliness entry with random data without inserting in database.
+ * Generates an Daily Symptoms entry with random data without inserting in database.
  * @param createdAt: Entry's timestamp
  * @param fulfilled : If questionnaire must be fulfilled or not. If not, a random answer is picked to be uncompleted
  * @return Entry

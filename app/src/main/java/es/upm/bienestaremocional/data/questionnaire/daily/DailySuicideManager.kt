@@ -7,7 +7,8 @@ class DailySuicideManager {
     val numberOfQuestions: Int = DailyNotScoredQuestionnaire.Suicide.numberOfQuestions
     val answerRange: IntRange = DailyNotScoredQuestionnaire.Suicide.answerRange
 
-    var completed: Boolean = false
+    val completed: Boolean
+        get() = answers.any { it == 0 } || answers.all { it == 1 }
 
     /**
      * Set answer on the manager
@@ -26,12 +27,8 @@ class DailySuicideManager {
      */
     fun getAnswer(questionIndex: Int): Int? = answers.getOrNull(questionIndex)
 
-    fun setCompleted() {
-        completed = true
-    }
 
     fun loadEntity(element: DailySuicide) {
-        completed = element.completed
         answers[0] = element.answer1
         answers[1] = element.answer2
         answers[2] = element.answer3
