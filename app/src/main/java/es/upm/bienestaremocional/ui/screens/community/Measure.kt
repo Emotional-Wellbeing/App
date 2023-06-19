@@ -119,7 +119,7 @@ fun RemoteMeasure(
                 .padding(16.dp)
         )
         {
-            if (currentWeekScores.isNotEmpty())
+            if (currentWeekScores.isNotEmpty() && currentWeekScores.any { it.score != null })
                 ActualWeekChart(questionnaire, currentWeekScores)
             else
                 Text(stringResource(id = R.string.no_data_to_display))
