@@ -1,8 +1,8 @@
 package es.upm.bienestaremocional.di
 
 import android.app.Application
+import android.app.NotificationManager
 import android.content.Context
-import androidx.compose.runtime.MutableState
 import androidx.health.connect.client.HealthConnectClient
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -14,8 +14,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import es.upm.bienestaremocional.data.AppConstants
 import es.upm.bienestaremocional.data.healthconnect.HealthConnectAvailability
-import es.upm.bienestaremocional.data.healthconnect.HealthConnectManager
-import es.upm.bienestaremocional.data.healthconnect.HealthConnectManagerImpl
 import es.upm.bienestaremocional.data.info.AppInfo
 import es.upm.bienestaremocional.data.info.AppInfoImpl
 import es.upm.bienestaremocional.data.language.LanguageManager
@@ -45,11 +43,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideHealthConnectManager(
-        healthConnectClient: HealthConnectClient,
-        @ApplicationContext context: Context
-    ): HealthConnectManager =
-        HealthConnectManagerImpl(healthConnectClient, context)
+    fun provideHealthConnectAvailability(@ApplicationContext context: Context): HealthConnectAvailability =
+        HealthConnectAvailability.getAvailability(context)
+
 
     @Provides
     @Singleton
@@ -71,6 +67,13 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideNotificationManager(
+        @ApplicationContext context: Context
+    ): NotificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    @Provides
+    @Singleton
     fun provideWorkAdministrator(
         @ApplicationContext context: Context,
         @Named("logTag") logTag: String
@@ -87,11 +90,6 @@ object AppModule {
     @Singleton
     fun provideLanguageManager(application: Application): LanguageManager =
         LanguageManagerImpl(Lingver.init(application))
-
-    @Provides
-    @Singleton
-    fun provideHealthConnectAvailability(healthConnectManager: HealthConnectManager)
-            : MutableState<HealthConnectAvailability> = healthConnectManager.availability
 
     @Provides
     @Singleton

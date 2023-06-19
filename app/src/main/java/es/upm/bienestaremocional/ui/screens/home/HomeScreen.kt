@@ -39,6 +39,7 @@ import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.ui.screens.destinations.MeasureScreenDestination
 import es.upm.bienestaremocional.ui.screens.destinations.UncompletedQuestionnairesScreenDestination
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
+import kotlinx.coroutines.runBlocking
 
 /**
  * Home Screen has the latest news about user and is displayed when splash ends
@@ -88,8 +89,7 @@ private fun HomeScreen(
         stringResource(R.string.uncompleted_questionnaires_advice)
     val reviewText = stringResource(R.string.review)
 
-    LaunchedEffect(Unit)
-    {
+    runBlocking {
         questionnairesToShow.forEach { questionnaire ->
             when (questionnaire) {
                 DailyScoredQuestionnaire.Stress -> stressScore = getStressScore()

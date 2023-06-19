@@ -30,23 +30,29 @@ fun SplashScreen(
     splashViewModel: SplashViewModel = hiltViewModel()
 ) {
     //splash screen
-    Splash(splashViewModel.getDarkTheme())
+    Splash(
+        darkTheme = splashViewModel.getDarkTheme()
+    )
 
     when (splashViewModel.state.value) {
-        SplashState.NotificationsDialog -> {
-            splashViewModel.NotificationsDialogAction()
+        SplashState.Init -> {
+            splashViewModel.onInit()
         }
 
-        SplashState.NoDialog -> {
-            //init block. Delay simulate loading
+        SplashState.NotificationsDialog -> {
+            splashViewModel.OnNotificationsDialog()
+        }
+
+        SplashState.Loading -> {
             LaunchedEffect(true)
             {
+                splashViewModel.onLoading()
                 delay(1000)
-
-                navigator.popBackStack()
-
-                navigator.navigate(splashViewModel.noDialogAction())
             }
+        }
+
+        SplashState.Redirect -> {
+            navigator.navigate(splashViewModel.onRedirect())
         }
     }
 }

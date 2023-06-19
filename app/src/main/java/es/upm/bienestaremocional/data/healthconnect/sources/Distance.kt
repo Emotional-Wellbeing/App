@@ -6,7 +6,6 @@ import androidx.health.connect.client.records.DistanceRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Length
-import es.upm.bienestaremocional.data.healthconnect.HealthConnectManager
 import es.upm.bienestaremocional.data.healthconnect.HealthConnectSource
 import es.upm.bienestaremocional.utils.generateInterval
 import java.time.Instant
@@ -16,14 +15,12 @@ import kotlin.random.Random
 /**
  * Implementation of Distance datasource implementing [HealthConnectSource]
  * @param healthConnectClient: proportionate HealthConnect's read and write primitives
- * @param healthConnectManager: proportionate HealthConnect's permission primitives
  */
 
 
 class Distance @Inject constructor(
-    private val healthConnectClient: HealthConnectClient,
-    private val healthConnectManager: HealthConnectManager
-) : HealthConnectSource<DistanceRecord>(healthConnectClient, healthConnectManager) {
+    private val healthConnectClient: HealthConnectClient
+) : HealthConnectSource<DistanceRecord>(healthConnectClient) {
     companion object {
         /**
          * Make demo data

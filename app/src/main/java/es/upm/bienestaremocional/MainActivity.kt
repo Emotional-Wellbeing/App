@@ -1,12 +1,9 @@
 package es.upm.bienestaremocional
 
-import android.app.NotificationManager
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import dagger.hilt.android.AndroidEntryPoint
-import es.upm.bienestaremocional.data.firstTimeExecution
 import es.upm.bienestaremocional.data.info.AppInfo
 import es.upm.bienestaremocional.data.settings.AppSettings
 import es.upm.bienestaremocional.data.settings.ThemeMode
@@ -36,21 +33,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val notificationManager =
-            this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         lateinit var darkTheme: ThemeMode
         var dynamicColors by Delegates.notNull<Boolean>()
 
         val job = CoroutineScope(Dispatchers.Default).launch {
-            if (appInfo.getFirstTime().first()) {
-                firstTimeExecution(
-                    notificationManager = notificationManager,
-                    scheduler = scheduler,
-                    lastUploadRepository = lastUploadRepository
-                )
-            }
-
             darkTheme = appSettings.getTheme().first()
             dynamicColors = appSettings.getDynamicColors().first()
         }

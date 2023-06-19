@@ -72,7 +72,7 @@
     <string name="level_of_loneliness">Nivel de soledad</string>
 
     <!-- Error screen -->
-    <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes instalada, por favor reinicia la aplicación.</string>
+    <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Salud Conectada (también conocido como Health Connect), aplicación disponible en Google Play. Si ya la tienes instalada, por favor reinicia la aplicación.</string>
     <string name="not_supported_welcome_message">Esta aplicación solo está disponible para dispositivos que ejecuten una API %1$d o superior.</string>
 
     <!-- Onboarding -->

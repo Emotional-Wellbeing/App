@@ -1,21 +1,19 @@
 package es.upm.bienestaremocional.ui.screens.error
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
+import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.healthconnect.HealthConnectAvailability
-import es.upm.bienestaremocional.ui.component.NotInstalledMessage
-import es.upm.bienestaremocional.ui.component.NotSupportedMessage
+import es.upm.bienestaremocional.ui.component.TextScreen
+import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
+import es.upm.bienestaremocional.utils.MIN_SUPPORTED_SDK
 
 /**
  * This screen is shown when we need show an error message.
@@ -23,23 +21,43 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 @Destination
 @Composable
 fun ErrorScreen(healthConnectAvailability: HealthConnectAvailability) {
-    Surface(color = MaterialTheme.colorScheme.background)
-    {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        )
-        {
-            when (healthConnectAvailability) {
-                HealthConnectAvailability.NOT_INSTALLED -> NotInstalledMessage()
-                HealthConnectAvailability.NOT_SUPPORTED -> NotSupportedMessage()
-                else -> {} //HealthConnectAvailability.INSTALLED is not used in this screen
-            }
+    ErrorScreen(
+        healthConnectAvailability = healthConnectAvailability,
+        widthSize = computeWindowWidthSize()
+    )
+}
+
+@Composable
+private fun ErrorScreen(
+    healthConnectAvailability: HealthConnectAvailability,
+    widthSize: WindowWidthSizeClass,
+) {
+
+    val textContent: @Composable (TextStyle) -> Unit = { textStyle ->
+
+        val stringToShow = when (healthConnectAvailability) {
+            HealthConnectAvailability.NOT_INSTALLED ->
+                stringResource(id = R.string.not_installed_welcome_message)
+
+            HealthConnectAvailability.NOT_SUPPORTED ->
+                stringResource(id = R.string.not_supported_welcome_message, MIN_SUPPORTED_SDK)
+
+            else -> null
+        }
+
+        stringToShow?.let {
+            Text(
+                text = it,
+                textAlign = TextAlign.Justify,
+                style = textStyle
+            )
         }
     }
+
+    TextScreen(
+        textContent = textContent,
+        widthSize = widthSize
+    )
 }
 
 @Preview(
@@ -48,9 +66,11 @@ fun ErrorScreen(healthConnectAvailability: HealthConnectAvailability) {
 )
 @Composable
 fun NotInstalledMessagePreview() {
-    val healthConnectAvailability = HealthConnectAvailability.NOT_INSTALLED
     BienestarEmocionalTheme {
-        ErrorScreen(healthConnectAvailability = healthConnectAvailability)
+        ErrorScreen(
+            healthConnectAvailability = HealthConnectAvailability.NOT_INSTALLED,
+            widthSize = WindowWidthSizeClass.Compact
+        )
     }
 }
 
@@ -60,9 +80,11 @@ fun NotInstalledMessagePreview() {
 )
 @Composable
 fun NotInstalledMessagePreviewDarkTheme() {
-    val healthConnectAvailability = HealthConnectAvailability.NOT_INSTALLED
     BienestarEmocionalTheme(darkTheme = true) {
-        ErrorScreen(healthConnectAvailability = healthConnectAvailability)
+        ErrorScreen(
+            healthConnectAvailability = HealthConnectAvailability.NOT_INSTALLED,
+            widthSize = WindowWidthSizeClass.Compact
+        )
     }
 }
 
@@ -72,9 +94,11 @@ fun NotInstalledMessagePreviewDarkTheme() {
 )
 @Composable
 fun NotSupportedMessagePreview() {
-    val healthConnectAvailability = HealthConnectAvailability.NOT_SUPPORTED
     BienestarEmocionalTheme {
-        ErrorScreen(healthConnectAvailability = healthConnectAvailability)
+        ErrorScreen(
+            healthConnectAvailability = HealthConnectAvailability.NOT_SUPPORTED,
+            widthSize = WindowWidthSizeClass.Compact
+        )
     }
 }
 
@@ -84,8 +108,10 @@ fun NotSupportedMessagePreview() {
 )
 @Composable
 fun NotSupportedMessagePreviewDarkTheme() {
-    val healthConnectAvailability = HealthConnectAvailability.NOT_SUPPORTED
     BienestarEmocionalTheme(darkTheme = true) {
-        ErrorScreen(healthConnectAvailability = healthConnectAvailability)
+        ErrorScreen(
+            healthConnectAvailability = HealthConnectAvailability.NOT_SUPPORTED,
+            widthSize = WindowWidthSizeClass.Compact
+        )
     }
 }

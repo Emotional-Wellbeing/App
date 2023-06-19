@@ -6,7 +6,6 @@ import androidx.health.connect.client.records.WeightRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Mass
-import es.upm.bienestaremocional.data.healthconnect.HealthConnectManager
 import es.upm.bienestaremocional.data.healthconnect.HealthConnectSource
 import es.upm.bienestaremocional.utils.generateTime
 import java.time.Instant
@@ -16,12 +15,10 @@ import kotlin.random.Random
 /**
  * Implementation of Weight datasource implementing [HealthConnectSource]
  * @param healthConnectClient: proportionate HealthConnect's read and write primitives
- * @param healthConnectManager: proportionate HealthConnect's permission primitives
  */
 class Weight @Inject constructor(
-    private val healthConnectClient: HealthConnectClient,
-    private val healthConnectManager: HealthConnectManager
-) : HealthConnectSource<WeightRecord>(healthConnectClient, healthConnectManager) {
+    private val healthConnectClient: HealthConnectClient
+) : HealthConnectSource<WeightRecord>(healthConnectClient) {
     companion object {
         /**
          * Make demo data
