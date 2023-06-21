@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -24,16 +24,21 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
+import es.upm.bienestaremocional.domain.processing.levelToAdvice
 import es.upm.bienestaremocional.domain.processing.scoreToLevel
 import es.upm.bienestaremocional.ui.component.CircularProgressIndicator
+import es.upm.bienestaremocional.ui.component.ShowAdviceHeadline
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun MeasureSummary(
+    navigator: DestinationsNavigator,
     questionnaire: DailyScoredQuestionnaire,
     score: Int?,
     pagerState: PagerState,
@@ -47,6 +52,7 @@ fun MeasureSummary(
     )
     {
         MeasureSummary(
+            navigator = navigator,
             questionnaire = questionnaire,
             score = score,
             onClick = onClick,
@@ -70,6 +76,7 @@ fun MeasureSummary(
 
 @Composable
 fun MeasureSummary(
+    navigator: DestinationsNavigator,
     questionnaire: DailyScoredQuestionnaire,
     score: Int?,
     onClick: () -> Unit,
@@ -92,10 +99,9 @@ fun MeasureSummary(
     )
 
     val levelLabel = stringResource(id = (level?.label ?: R.string.unknown_display))
-    val headlineText = "$introLabel $levelLabel"
+    val headlineText = "$introLabel: $levelLabel"
 
-    val adviceRes = questionnaire.measure.advices?.get(level)?.get(0)
-    val advice = adviceRes?.let { stringResource(it) }
+    val advice = level?.let { levelToAdvice(it, questionnaire.measure) }
 
     // Styles
     val titleStyle = if (widthSize >= WindowWidthSizeClass.Medium &&
@@ -165,8 +171,16 @@ fun MeasureSummary(
                 color = MaterialTheme.colorScheme.secondary,
                 style = titleStyle
             )
-            advice?.let { Text(text = it, style = adviceStyle) }
-            TextButton(onClick = onClick) { Text(stringResource(R.string.more_details)) }
+            advice?.let {
+                ShowAdviceHeadline(
+                    navigator = navigator,
+                    advice = it,
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.padding(16.dp),
+                    textStyle = adviceStyle
+                )
+            }
+            OutlinedButton(onClick = onClick) { Text(stringResource(R.string.stats)) }
         }
     }
 }
@@ -178,6 +192,7 @@ fun MeasureSummaryPreview() {
     BienestarEmocionalTheme {
         Surface {
             MeasureSummary(
+                navigator = EmptyDestinationsNavigator,
                 questionnaire = DailyScoredQuestionnaire.Stress,
                 score = 27,
                 onClick = {},
@@ -194,6 +209,7 @@ fun MeasureSummaryPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             MeasureSummary(
+                navigator = EmptyDestinationsNavigator,
                 questionnaire = DailyScoredQuestionnaire.Stress,
                 score = 27,
                 onClick = {},
@@ -211,6 +227,7 @@ fun MeasureSummaryWithPagerPreview() {
     BienestarEmocionalTheme {
         Surface {
             MeasureSummary(
+                navigator = EmptyDestinationsNavigator,
                 questionnaire = DailyScoredQuestionnaire.Stress,
                 score = 27,
                 pagerState = rememberPagerState(),
@@ -229,6 +246,7 @@ fun MeasureSummaryWithPagerPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             MeasureSummary(
+                navigator = EmptyDestinationsNavigator,
                 questionnaire = DailyScoredQuestionnaire.Stress,
                 score = 27,
                 pagerState = rememberPagerState(),

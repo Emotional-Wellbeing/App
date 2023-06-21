@@ -109,8 +109,8 @@ fun CreditImportantComponentPreview() {
         Surface {
             CreditComponent(
                 credit = Credit(
-                    nameResource = R.string.credit_author_name,
-                    descriptionResource = R.string.credit_author_description,
+                    nameResource = R.string.credit_author1_name,
+                    descriptionResource = R.string.credit_author1_description,
                     importantContribution = true
                 ),
                 widthSize = WindowWidthSizeClass.Compact,
@@ -131,8 +131,8 @@ fun CreditImportantComponentPreviewDarkTheme() {
         Surface {
             CreditComponent(
                 credit = Credit(
-                    nameResource = R.string.credit_author_name,
-                    descriptionResource = R.string.credit_author_description,
+                    nameResource = R.string.credit_author1_name,
+                    descriptionResource = R.string.credit_author1_description,
                     importantContribution = true
                 ),
                 widthSize = WindowWidthSizeClass.Compact,
@@ -152,8 +152,8 @@ fun CreditImportantComponentPreviewMediumScreen() {
         Surface {
             CreditComponent(
                 credit = Credit(
-                    nameResource = R.string.credit_author_name,
-                    descriptionResource = R.string.credit_author_description,
+                    nameResource = R.string.credit_author1_name,
+                    descriptionResource = R.string.credit_author1_description,
                     importantContribution = true
                 ),
                 widthSize = WindowWidthSizeClass.Medium,
@@ -174,8 +174,8 @@ fun CreditImportantComponentPreviewDarkThemeMediumScreen() {
         Surface {
             CreditComponent(
                 credit = Credit(
-                    nameResource = R.string.credit_author_name,
-                    descriptionResource = R.string.credit_author_description,
+                    nameResource = R.string.credit_author1_name,
+                    descriptionResource = R.string.credit_author1_description,
                     importantContribution = true
                 ),
                 widthSize = WindowWidthSizeClass.Medium,

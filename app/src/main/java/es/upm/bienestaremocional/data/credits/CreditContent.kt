@@ -9,8 +9,13 @@ import es.upm.bienestaremocional.R
 object CreditContent {
     val content = listOf(
         Credit(
-            nameResource = R.string.credit_author_name,
-            descriptionResource = R.string.credit_author_description,
+            nameResource = R.string.credit_author1_name,
+            descriptionResource = R.string.credit_author1_description,
+            importantContribution = true
+        ),
+        Credit(
+            nameResource = R.string.credit_author2_name,
+            descriptionResource = R.string.credit_author2_description,
             importantContribution = true
         ),
         Credit(
@@ -22,6 +27,11 @@ object CreditContent {
             nameResource = R.string.credit_director2_name,
             descriptionResource = R.string.credit_director2_description,
             importantContribution = true
+        ),
+        Credit(
+            nameResource = R.string.credit_graphic_design_name,
+            descriptionResource = R.string.credit_graphic_design_description,
+            importantContribution = false
         ),
         Credit(
             nameResource = R.string.credit_logo1_name,

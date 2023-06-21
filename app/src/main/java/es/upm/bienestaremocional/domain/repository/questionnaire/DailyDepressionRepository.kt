@@ -17,5 +17,5 @@ interface DailyDepressionRepository : QuestionnaireRepository<DailyDepression> {
     ): List<DailyDepression>
 
     override suspend fun getAllFromYesterday(): List<DailyDepression>
-    override suspend fun getLastCompleted(): DailyDepression?
+    override suspend fun getLastElement(): DailyDepression?
 }

@@ -15,7 +15,7 @@ import javax.inject.Inject
 class DailyLonelinessViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     val dailyLonelinessRepository: DailyLonelinessRepository,
-    dailyLonelinessManager: DailyLonelinessManager,
+    private val dailyLonelinessManager: DailyLonelinessManager,
 ) : ScoredQuestionnaireViewModel(
     repository = dailyLonelinessRepository as QuestionnaireRepository<MeasureEntity>,
     manager = dailyLonelinessManager as ScoredManager<MeasureEntity>,

@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.data.healthconnect
 
+import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.records.Record
 import java.time.Instant
 import java.time.ZonedDateTime
@@ -8,7 +9,7 @@ import java.time.ZonedDateTime
  * Primitives of Health Connect
  */
 abstract class HealthConnectSource<T : Record>(
-    private val healthConnectManager: HealthConnectManager
+    private val healthConnectClient: HealthConnectClient
 ) {
     /**
      * Set that contains permissions needed to read data
@@ -20,7 +21,7 @@ abstract class HealthConnectSource<T : Record>(
      * @see readPermissions
      */
     suspend fun readPermissionsCheck(): Boolean =
-        healthConnectManager.hasAllPermissions(readPermissions)
+        healthConnectClient.hasAllPermissions(readPermissions)
 
     /**
      * Reads data from the last 30 days until now
@@ -50,4 +51,9 @@ abstract class HealthConnectSource<T : Record>(
      * @see readSource
      */
     abstract suspend fun readSource(startTime: Instant, endTime: Instant): List<T>
+
+    private suspend fun HealthConnectClient.hasAllPermissions(permissions: Set<String>): Boolean {
+        val granted = this.permissionController.getGrantedPermissions()
+        return granted.containsAll(permissions)
+    }
 }

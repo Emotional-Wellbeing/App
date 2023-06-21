@@ -22,7 +22,7 @@
     <uses-permission android:name="android.permission.health.READ_WEIGHT"/>
     <uses-permission android:name="android.permission.health.READ_FLOORS_CLIMBED"/>
     <uses-permission android:name="android.permission.health.READ_EXERCISE"/>
-    
+
     <!-- TODO Remove usesCleartextTraffic in final version -->
 
     <application

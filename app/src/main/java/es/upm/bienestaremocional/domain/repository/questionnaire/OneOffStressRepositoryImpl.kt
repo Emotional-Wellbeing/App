@@ -4,9 +4,9 @@ import android.util.Log
 import android.util.Range
 import es.upm.bienestaremocional.data.database.dao.AppDAO
 import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffStress
-import es.upm.bienestaremocional.domain.processing.getCurrentWeek
-import es.upm.bienestaremocional.domain.processing.getLastSevenDays
-import es.upm.bienestaremocional.domain.processing.getStartAndEndOfYesterday
+import es.upm.bienestaremocional.domain.processing.getCurrentWeekMillisecondTimestamps
+import es.upm.bienestaremocional.domain.processing.getLastSevenDaysMillisecondTimestamps
+import es.upm.bienestaremocional.domain.processing.getStartAndEndOfYesterdayMillisecondTimestamps
 
 import java.time.ZonedDateTime
 import javax.inject.Inject
@@ -42,13 +42,13 @@ class OneOffStressRepositoryImpl @Inject constructor(
 
     override suspend fun getAllFromCurrentWeek(): List<OneOffStress> {
         Log.d(logTag, "querying all OneOffStress from current week")
-        val range = getCurrentWeek()
+        val range = getCurrentWeekMillisecondTimestamps()
         return dao.getAllOneOffStressFromRange(range.first, range.second)
     }
 
     override suspend fun getAllFromLastSevenDays(): List<OneOffStress> {
         Log.d(logTag, "querying all OneOffStress from last seven days")
-        val range = getLastSevenDays()
+        val range = getLastSevenDaysMillisecondTimestamps()
         return dao.getAllOneOffStressFromRange(range.first, range.second)
     }
 
@@ -70,23 +70,12 @@ class OneOffStressRepositoryImpl @Inject constructor(
 
     override suspend fun getAllFromYesterday(): List<OneOffStress> {
         Log.d(logTag, "querying all OneOffStress from yesterday")
-        val range = getStartAndEndOfYesterday()
+        val range = getStartAndEndOfYesterdayMillisecondTimestamps()
         return dao.getAllOneOffStressFromRange(range.first, range.second)
     }
 
-    override suspend fun getLastCompleted(): OneOffStress? {
-        Log.d(logTag, "querying last OneOffStress completed")
-        return dao.getLastOneOffStressCompleted()
-    }
-
-    /*override suspend fun getAllCompleted(): List<OneOffStress>
-    {
-        Log.d(logTag, "querying all OneOffStress completed")
-        return dao.getAllOneOffStressCompleted()
-    }
-
-    override suspend fun getLast(): OneOffStress? {
+    override suspend fun getLastElement(): OneOffStress? {
         Log.d(logTag, "querying last OneOffStress")
         return dao.getLastOneOffStress()
-    }*/
+    }
 }

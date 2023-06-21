@@ -1,6 +1,5 @@
 package es.upm.bienestaremocional.ui.component.questionnaire
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Surface
@@ -21,11 +20,9 @@ fun StringAnswer(
     onAnswer: (Int) -> Unit,
 ) {
     val answerSelected = remember { mutableStateOf(answerSelectedPrevious) }
-    Log.d("hola", "Estamos en StringAnswer")
     // Refresh answerSelected if answers change
     LaunchedEffect(answers)
     {
-        Log.d("hola", "dentro del launched con answers")
         answerSelected.value = answerSelectedPrevious
     }
 

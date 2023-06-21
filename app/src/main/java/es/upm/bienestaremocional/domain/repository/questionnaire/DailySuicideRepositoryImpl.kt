@@ -4,9 +4,9 @@ import android.util.Log
 import android.util.Range
 import es.upm.bienestaremocional.data.database.dao.AppDAO
 import es.upm.bienestaremocional.data.database.entity.daily.DailySuicide
-import es.upm.bienestaremocional.domain.processing.getCurrentWeek
-import es.upm.bienestaremocional.domain.processing.getLastSevenDays
-import es.upm.bienestaremocional.domain.processing.getStartAndEndOfYesterday
+import es.upm.bienestaremocional.domain.processing.getCurrentWeekMillisecondTimestamps
+import es.upm.bienestaremocional.domain.processing.getLastSevenDaysMillisecondTimestamps
+import es.upm.bienestaremocional.domain.processing.getStartAndEndOfYesterdayMillisecondTimestamps
 
 import java.time.ZonedDateTime
 import javax.inject.Inject
@@ -42,13 +42,13 @@ class DailySuicideRepositoryImpl @Inject constructor(
 
     override suspend fun getAllFromCurrentWeek(): List<DailySuicide> {
         Log.d(logTag, "querying all DailySuicide from current week")
-        val range = getCurrentWeek()
+        val range = getCurrentWeekMillisecondTimestamps()
         return dao.getAllDailySuicideFromRange(range.first, range.second)
     }
 
     override suspend fun getAllFromLastSevenDays(): List<DailySuicide> {
         Log.d(logTag, "querying all DailySuicide from last seven days")
-        val range = getLastSevenDays()
+        val range = getLastSevenDaysMillisecondTimestamps()
         return dao.getAllDailySuicideFromRange(range.first, range.second)
     }
 
@@ -70,23 +70,13 @@ class DailySuicideRepositoryImpl @Inject constructor(
 
     override suspend fun getAllFromYesterday(): List<DailySuicide> {
         Log.d(logTag, "querying all DailySuicide from yesterday")
-        val range = getStartAndEndOfYesterday()
+        val range = getStartAndEndOfYesterdayMillisecondTimestamps()
         return dao.getAllDailySuicideFromRange(range.first, range.second)
     }
 
-    override suspend fun getLastCompleted(): DailySuicide? {
-        Log.d(logTag, "querying last DailySuicide completed")
-        return dao.getLastDailySuicideCompleted()
-    }
-
-    /*override suspend fun getAllCompleted(): List<DailySuicide>
-    {
-        Log.d(logTag, "querying all DailySuicide completed")
-        return dao.getAllDailySuicideCompleted()
-    }
-
-    override suspend fun getLast(): DailySuicide? {
+    override suspend fun getLastElement(): DailySuicide? {
         Log.d(logTag, "querying last DailySuicide")
         return dao.getLastDailySuicide()
-    }*/
+    }
+
 }

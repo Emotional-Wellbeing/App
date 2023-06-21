@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffQuestionnaireDrawable
 import es.upm.bienestaremocional.ui.component.OneOffDepressionStatus
@@ -18,6 +19,7 @@ import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
 @Composable
 fun OneOffDepressionScreen(
     navController: NavController,
+    navigator: DestinationsNavigator,
     entityId: Long,
     questionnaireIndex: Int = 0,
     questionnaireSize: Int = 1,
@@ -29,6 +31,7 @@ fun OneOffDepressionScreen(
 
     val summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit = { score, widthSize ->
         OneOffDepressionStatus(
+            navigator = navigator,
             data = score,
             widthSize = widthSize,
             indicatorColor = MaterialTheme.colorScheme.primary,

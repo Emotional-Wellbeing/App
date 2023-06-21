@@ -5,16 +5,17 @@ import androidx.core.util.toRange
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.patrykandpatrick.vico.core.entry.ChartEntry
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
-import com.patrykandpatrick.vico.core.entry.FloatEntry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.upm.bienestaremocional.data.database.entity.ScoredEntity
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyScoredQuestionnaire
-import es.upm.bienestaremocional.domain.processing.processRecords
+import es.upm.bienestaremocional.domain.processing.HybridChartRecord
+import es.upm.bienestaremocional.domain.processing.lowerStartDayUpperEndDay
+import es.upm.bienestaremocional.domain.processing.processRecordsSimulatingEmpty
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyDepressionRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyLonelinessRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyStressRepository
+import es.upm.bienestaremocional.ui.component.chart.ChartEntryWithTimeAndSimulated
 import es.upm.bienestaremocional.ui.screens.destinations.HistoryScreenDestination
 import es.upm.bienestaremocional.utils.TimeGranularity
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,11 +38,15 @@ class HistoryViewModel @Inject constructor(
             ?: DailyScoredQuestionnaire.Stress
 
     //state
+    private val defaultTimeRange = (ZonedDateTime.now().minusDays(7)..ZonedDateTime.now())
+        .toRange()
+        .lowerStartDayUpperEndDay()
+
     private val _state = MutableStateFlow(
         HistoryState(
             questionnaire = defaultQuestionnaire,
             timeGranularity = TimeGranularity.Day,
-            timeRange = (ZonedDateTime.now().minusDays(7)..ZonedDateTime.now()).toRange(),
+            timeRange = defaultTimeRange,
             isDataNotEmpty = false
         )
     )
@@ -56,7 +61,10 @@ class HistoryViewModel @Inject constructor(
         viewModelScope.launch {
             //cached data is empty at the start
             _state.value.apply {
-                updateData(questionnaire = questionnaire, timeRange = timeRange)
+                updateData(
+                    questionnaire = questionnaire,
+                    timeRange = timeRange
+                )
                 updateChart(
                     questionnaire = questionnaire,
                     timeGranularity = timeGranularity,
@@ -115,26 +123,31 @@ class HistoryViewModel @Inject constructor(
         )
     }
 
-    private fun computeAggregateData(timeGranularity: TimeGranularity): List<Float> {
-        return when (timeGranularity) {
-            TimeGranularity.Day -> processRecords(cachedData, timeGranularity).map { it.score }
-            TimeGranularity.Week -> processRecords(cachedData, timeGranularity).map { it.score }
-            TimeGranularity.Month -> processRecords(cachedData, timeGranularity).map { it.score }
-        }
+    private fun computeAggregateData(
+        timeGranularity: TimeGranularity,
+        timeRange: Range<ZonedDateTime>
+    ): List<HybridChartRecord> {
+        return processRecordsSimulatingEmpty(
+            records = cachedData,
+            dateRange = timeRange,
+            timeGranularity = timeGranularity
+        )
     }
 
-    private fun updateProducer(aggregateData: List<Float>) {
-        if (aggregateData.isEmpty()) {
-            producer.setEntries(emptyList<ChartEntry>())
-        }
-        else {
-            producer.setEntries(aggregateData.mapIndexed { index, value ->
-                FloatEntry(
-                    (index + 1).toFloat(),
-                    value
-                )
-            })
-        }
+    private fun updateProducer(aggregateData: List<HybridChartRecord>) {
+        if (aggregateData.isEmpty())
+            producer.setEntries(emptyList<ChartEntryWithTimeAndSimulated>())
+        else
+            producer.setEntries(
+                aggregateData.mapIndexed { index, value ->
+                    ChartEntryWithTimeAndSimulated(
+                        value.day,
+                        value.simulated,
+                        index.toFloat(),
+                        value.score
+                    )
+                }
+            )
     }
 
     private fun updateChart(
@@ -149,7 +162,10 @@ class HistoryViewModel @Inject constructor(
             viewModelScope.launch {
                 updateData(questionnaire = questionnaire, timeRange = timeRange)
 
-                val aggregateData = computeAggregateData(timeGranularity)
+                val aggregateData = computeAggregateData(
+                    timeGranularity = timeGranularity,
+                    timeRange = timeRange
+                )
                 updateProducer(aggregateData)
 
                 _state.value = HistoryState(
@@ -161,7 +177,10 @@ class HistoryViewModel @Inject constructor(
             }
         }
         else {
-            val aggregateData = computeAggregateData(timeGranularity)
+            val aggregateData = computeAggregateData(
+                timeGranularity = timeGranularity,
+                timeRange = timeRange
+            )
             updateProducer(aggregateData)
 
             _state.value = HistoryState(

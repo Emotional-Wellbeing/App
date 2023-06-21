@@ -22,10 +22,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val healthConnectAvailability: MutableState<HealthConnectAvailability>,
+    private val healthConnectAvailability: HealthConnectAvailability,
     private val appSettings: AppSettings,
     private val appInfo: AppInfo,
-    private val workAdministrator: WorkAdministrator
+    private val workAdministrator: WorkAdministrator,
 ) : ViewModel() {
     val state: MutableState<SplashState> = mutableStateOf(SplashState.Init)
 
@@ -34,30 +34,37 @@ class SplashViewModel @Inject constructor(
     @Composable
     fun getDarkTheme() = runBlocking { appSettings.getTheme().first() }.themeIsDark()
 
-    fun noDialogAction(): Direction {
+    suspend fun onLoading() {
+        //Execute app usage only if is not first execution. In first execution the permission
+        //should be required before scheduling
+        if (!appInfo.getFirstTime().first()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                workAdministrator.scheduleUploadUsageInfoWorker()
+            }
+        }
+        state.value = SplashState.Redirect
+    }
+
+    fun onRedirect(): Direction {
         //redirect to certain screen
-        return when (healthConnectAvailability.value) {
+        return when (healthConnectAvailability) {
             HealthConnectAvailability.INSTALLED ->
                 if (showOnboarding)
                     OnboardingScreenDestination
                 else
                     HomeScreenDestination
 
-            else -> ErrorScreenDestination(healthConnectAvailability.value)
+            else -> ErrorScreenDestination(healthConnectAvailability)
         }
     }
 
     fun onInit() {
         viewModelScope.launch {
-            //Execute app usage only if is not first execution. In first execution the permission
-            //should be required before scheduling
-            if (!appInfo.getFirstTime().first()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    workAdministrator.scheduleUploadUsageInfoWorker()
-                }
+            state.value = if (healthConnectAvailability == HealthConnectAvailability.INSTALLED) {
+                SplashState.Loading
             }
-            state.value = SplashState.NoDialog
+            else
+                SplashState.Redirect
         }
-
     }
 }

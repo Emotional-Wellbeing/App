@@ -39,6 +39,7 @@ import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
 import es.upm.bienestaremocional.ui.screens.destinations.MeasureScreenDestination
 import es.upm.bienestaremocional.ui.screens.destinations.UncompletedQuestionnairesScreenDestination
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
+import kotlinx.coroutines.runBlocking
 
 /**
  * Home Screen has the latest news about user and is displayed when splash ends
@@ -88,8 +89,7 @@ private fun HomeScreen(
         stringResource(R.string.uncompleted_questionnaires_advice)
     val reviewText = stringResource(R.string.review)
 
-    LaunchedEffect(Unit)
-    {
+    runBlocking {
         questionnairesToShow.forEach { questionnaire ->
             when (questionnaire) {
                 DailyScoredQuestionnaire.Stress -> stressScore = getStressScore()
@@ -119,7 +119,6 @@ private fun HomeScreen(
         label = R.string.app_name
     )
     {
-        //TODO check landscape
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -158,6 +157,7 @@ private fun HomeScreen(
                     )
                     {
                         MeasureSummary(
+                            navigator = navigator,
                             questionnaire = questionnairesToShow[page],
                             score = score,
                             pagerState = pagerState,
@@ -184,6 +184,7 @@ private fun HomeScreen(
                 }
 
                 MeasureSummary(
+                    navigator = navigator,
                     questionnaire = questionnairesToShow[0],
                     score = score,
                     onClick = onClick,
@@ -220,7 +221,8 @@ private suspend fun showQuestionnaireAlert(
 @Composable
 fun HomeScreenOneQuestionnaireCompactPreview() {
     BienestarEmocionalTheme {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = listOf(DailyScoredQuestionnaire.Stress),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -231,7 +233,6 @@ fun HomeScreenOneQuestionnaireCompactPreview() {
         )
     }
 }
-
 
 @Preview(
     showBackground = true,
@@ -254,7 +255,6 @@ fun HomeScreenOneQuestionnaireCompactPreviewDarkTheme() {
     }
 }
 
-
 @Preview(
     showBackground = true,
     group = "Light Theme"
@@ -262,7 +262,8 @@ fun HomeScreenOneQuestionnaireCompactPreviewDarkTheme() {
 @Composable
 fun HomeScreenNoQuestionnaireCompactPreview() {
     BienestarEmocionalTheme {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = listOf(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -273,7 +274,6 @@ fun HomeScreenNoQuestionnaireCompactPreview() {
         )
     }
 }
-
 
 @Preview(
     showBackground = true,
@@ -296,7 +296,6 @@ fun HomeScreenNoQuestionnaireCompactPreviewDarkTheme() {
     }
 }
 
-
 @Preview(
     showBackground = true,
     group = "Light Theme"
@@ -304,7 +303,8 @@ fun HomeScreenNoQuestionnaireCompactPreviewDarkTheme() {
 @Composable
 fun HomeScreenAllQuestionnairesCompactPreview() {
     BienestarEmocionalTheme {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -315,7 +315,6 @@ fun HomeScreenAllQuestionnairesCompactPreview() {
         )
     }
 }
-
 
 @Preview(
     showBackground = true,
@@ -338,7 +337,6 @@ fun HomeScreenAllQuestionnairesCompactPreviewDarkTheme() {
     }
 }
 
-
 @Preview(
     showBackground = true,
     group = "Light Theme"
@@ -346,7 +344,8 @@ fun HomeScreenAllQuestionnairesCompactPreviewDarkTheme() {
 @Composable
 fun HomeScreenAllQuestionnairesShowUncompletedCompactPreview() {
     BienestarEmocionalTheme {
-        HomeScreen(navigator = EmptyDestinationsNavigator,
+        HomeScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnairesToShow = DailyScoredQuestionnaire.values().toList(),
             widthSize = WindowWidthSizeClass.Compact,
             heightSize = WindowHeightSizeClass.Compact,
@@ -357,7 +356,6 @@ fun HomeScreenAllQuestionnairesShowUncompletedCompactPreview() {
         )
     }
 }
-
 
 @Preview(
     showBackground = true,

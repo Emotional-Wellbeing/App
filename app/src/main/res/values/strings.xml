@@ -6,9 +6,7 @@
     <string name="history_screen_label">Historial</string>
     <string name="community_screen_label">Comunidad</string>
     <string name="settings_screen_label">Ajustes</string>
-    <string name="debug_screen_label">Menú de desarrolladores</string>
     <string name="uncompleted_questionnaires_label">Cuestionarios incompletos</string>
-
 
     <!-- Notifications -->
     <string name="main_channel">Notificaciones generales</string>
@@ -72,7 +70,7 @@
     <string name="level_of_loneliness">Nivel de soledad</string>
 
     <!-- Error screen -->
-    <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Health Connect, aplicación disponible en Google Play. Si ya la tienes instalada, por favor reinicia la aplicación.</string>
+    <string name="not_installed_welcome_message">Para utilizar correctamente la aplicación es necesario instalar Salud Conectada (también conocido como Health Connect), aplicación disponible en Google Play. Si ya la tienes instalada, por favor reinicia la aplicación.</string>
     <string name="not_supported_welcome_message">Esta aplicación solo está disponible para dispositivos que ejecuten una API %1$d o superior.</string>
 
     <!-- Onboarding -->
@@ -115,31 +113,18 @@
     <string name="low">Bajo</string>
     <string name="high">Alto</string>
 
-    <!-- Advices -->
-    <string name="low_stress_advice">Consejo para estrés de nivel bajo</string>
-    <string name="moderate_stress_advice">Consejo para estrés de nivel moderado</string>
-    <string name="high_stress_advice">Consejo para estrés de nivel alto</string>
-
-    <string name="low_depression_advice">Consejo para depresión de nivel bajo</string>
-    <string name="moderate_depression_advice">Consejo para depresión de nivel moderado</string>
-    <string name="high_depression_advice">Consejo para depresión de nivel alto</string>
-
-    <string name="low_loneliness_advice">Consejo para soledad de nivel bajo</string>
-    <string name="moderate_loneliness_advice">Consejo para soledad de nivel moderado</string>
-    <string name="high_loneliness_advice">Consejo para soledad de nivel alto</string>
-
-    <string name="low_suicide_risk_advice">Consejo para riesgo de suicidio de nivel bajo</string>
-    <string name="moderate_suicide_risk_advice">Consejo para riesgo de suicidio de nivel moderado</string>
-    <string name="high_suicide_risk_advice">Consejo para riesgo de suicidio de nivel alto</string>
-
     <!-- Credits-->
-    <string name="credit_author_name" translatable="false">Victor Manuel Domínguez Rivas</string>
-    <string name="credit_author_description">Autor del TFM Sistema para el Bienestar Emocional y principal autor de la aplicación.</string>
+    <string name="credit_author1_name" translatable="false">Victor Manuel Domínguez Rivas</string>
+    <string name="credit_author1_description">Coautor del TFM Sistema para el Bienestar Emocional y principal autor de la aplicación.</string>
+    <string name="credit_author2_name" translatable="false">María Marco Pinar</string>
+    <string name="credit_author2_description">Coautora del TFM Sistema para el Bienestar Emocional y coautora de la aplicación.</string>
     <string name="credit_director1_name" translatable="false">Sandra Gómez Canaval</string>
     <string name="credit_director1_description">Codirectora del TFM Sistema para el Bienestar Emocional.</string>
     <string name="credit_director2_name" translatable="false">Gema Bello Orgaz</string>
     <string name="credit_director2_description">Codirectora del TFM Sistema para el Bienestar Emocional.</string>
 
+    <string name="credit_graphic_design_name">Asociación LevelUp (ETSISI)</string>
+    <string name="credit_graphic_design_description">Importante colaboración en el diseño gráfico de la aplicación.</string>
     <string name="credit_logo1_name" translatable="false">Aman Mishra</string>
     <string name="credit_logo1_description">Autor de la ilustración Health checkup, disponible en la plataforma Lottie.</string>
     <string name="credit_logo2_name" translatable="false">Echotech Engineering</string>
@@ -164,6 +149,8 @@
     <string name="cancel">Cancelar</string>
     <string name="exit">Salir</string>
     <string name="ok">Vale</string>
+    <string name="view_more_information">Ver más información</string>
+    <string name="stats">Estadísticas</string>
     <string name="more_details">Más detalles</string>
     <string name="continue_word">Continuar</string> <!-- Continue is a reserved word in Java -->
     <string name="day">Dia</string>

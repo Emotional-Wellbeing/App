@@ -4,10 +4,9 @@ import android.util.Log
 import android.util.Range
 import es.upm.bienestaremocional.data.database.dao.AppDAO
 import es.upm.bienestaremocional.data.database.entity.daily.DailyDepression
-import es.upm.bienestaremocional.domain.processing.getCurrentWeek
-import es.upm.bienestaremocional.domain.processing.getLastSevenDays
-import es.upm.bienestaremocional.domain.processing.getStartAndEndOfYesterday
-
+import es.upm.bienestaremocional.domain.processing.getCurrentWeekMillisecondTimestamps
+import es.upm.bienestaremocional.domain.processing.getLastSevenDaysMillisecondTimestamps
+import es.upm.bienestaremocional.domain.processing.getStartAndEndOfYesterdayMillisecondTimestamps
 import java.time.ZonedDateTime
 import javax.inject.Inject
 
@@ -42,13 +41,13 @@ class DailyDepressionRepositoryImpl @Inject constructor(
 
     override suspend fun getAllFromCurrentWeek(): List<DailyDepression> {
         Log.d(logTag, "querying all DailyDepression from current week")
-        val range = getCurrentWeek()
+        val range = getCurrentWeekMillisecondTimestamps()
         return dao.getAllDailyDepressionFromRange(range.first, range.second)
     }
 
     override suspend fun getAllFromLastSevenDays(): List<DailyDepression> {
         Log.d(logTag, "querying all DailyDepression from last seven days")
-        val range = getLastSevenDays()
+        val range = getLastSevenDaysMillisecondTimestamps()
         return dao.getAllDailyDepressionFromRange(range.first, range.second)
     }
 
@@ -70,23 +69,12 @@ class DailyDepressionRepositoryImpl @Inject constructor(
 
     override suspend fun getAllFromYesterday(): List<DailyDepression> {
         Log.d(logTag, "querying all DailyDepression from yesterday")
-        val range = getStartAndEndOfYesterday()
+        val range = getStartAndEndOfYesterdayMillisecondTimestamps()
         return dao.getAllDailyDepressionFromRange(range.first, range.second)
     }
 
-    override suspend fun getLastCompleted(): DailyDepression? {
-        Log.d(logTag, "querying last DailyDepression completed")
-        return dao.getLastDailyDepressionCompleted()
-    }
-
-    /*override suspend fun getAllCompleted(): List<DailyDepression>
-    {
-        Log.d(logTag, "querying all DailyDepression completed")
-        return dao.getAllDailyDepressionCompleted()
-    }
-
-    override suspend fun getLast(): DailyDepression? {
+    override suspend fun getLastElement(): DailyDepression? {
         Log.d(logTag, "querying last DailyDepression")
         return dao.getLastDailyDepression()
-    }*/
+    }
 }

@@ -13,5 +13,5 @@ interface QuestionnaireRepository<T> where T : MeasureEntity {
     suspend fun getAllFromLastSevenDays(): List<T>
     suspend fun getAllFromRange(range: Range<ZonedDateTime>, onlyCompleted: Boolean): List<T>
     suspend fun getAllFromYesterday(): List<T>
-    suspend fun getLastCompleted(): T?
+    suspend fun getLastElement(): T?
 }

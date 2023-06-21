@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -20,12 +21,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.Measure
 import es.upm.bienestaremocional.data.database.entity.round.DailyRound
 import es.upm.bienestaremocional.data.questionnaire.Level
 import es.upm.bienestaremocional.data.questionnaire.daily.DailyNotScoredQuestionnaireDrawable
 import es.upm.bienestaremocional.domain.processing.levelToAdvice
+import es.upm.bienestaremocional.ui.component.ShowAdviceHeadline
 import es.upm.bienestaremocional.ui.component.questionnaire.ExitDialog
 import es.upm.bienestaremocional.ui.component.questionnaire.QuestionnaireLayout
 import es.upm.bienestaremocional.ui.component.questionnaire.StringAnswer
@@ -36,6 +39,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun DailySuicideScreen(
     navController: NavController,
+    navigator: DestinationsNavigator,
     entityId: Long,
     moment: DailyRound.Moment,
     questionnaireIndex: Int = 0,
@@ -56,6 +60,7 @@ fun DailySuicideScreen(
     val questionNumber by viewModel.questionNumber.collectAsStateWithLifecycle()
 
     DailySuicideScreen(
+        navigator = navigator,
         state = state,
         questionNumber = questionNumber,
         questions = questions,
@@ -85,6 +90,7 @@ fun DailySuicideScreen(
 
 @Composable
 private fun DailySuicideScreen(
+    navigator: DestinationsNavigator,
     state: SuicideScreenState,
     questionNumber: Int,
     questions: Array<String>,
@@ -123,7 +129,8 @@ private fun DailySuicideScreen(
 
         SuicideScreenState.Skipped -> onExit()
         SuicideScreenState.Summary -> {
-            ShowAdvice(
+            ShowSummary(
+                navigator = navigator,
                 level = level,
                 onSuccess = onSummary
             )
@@ -192,17 +199,24 @@ private fun ShowQuestion(
 }
 
 @Composable
-private fun ShowAdvice(
+private fun ShowSummary(
+    navigator: DestinationsNavigator,
     level: Level,
     onSuccess: () -> Unit
 ) {
-    val content: @Composable () -> Unit = {
-        val adviceRes = levelToAdvice(level, Measure.Suicide)
-        val advice = adviceRes?.let { stringResource(id = it) }
-        advice?.let { Text(advice) }
-    }
+    val advice = levelToAdvice(level, Measure.Suicide)
+
     Summary(
-        content = content,
+        content = {
+            advice?.let {
+                ShowAdviceHeadline(
+                    navigator = navigator,
+                    advice = it,
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        },
         onSuccess = onSuccess
     )
 }

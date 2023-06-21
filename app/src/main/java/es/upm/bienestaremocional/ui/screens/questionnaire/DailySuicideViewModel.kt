@@ -90,7 +90,6 @@ class DailySuicideViewModel @Inject constructor(
             else {
                 Level.High
             }
-            manager.setCompleted()
             _state.value = SuicideScreenState.Summary
         }
         else

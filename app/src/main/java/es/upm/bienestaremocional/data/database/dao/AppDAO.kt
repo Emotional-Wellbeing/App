@@ -732,111 +732,104 @@ interface AppDAO {
 
     /**
      * -------------------------------------------------------------------------------------------
-     * Get Last Completed
+     * Get Last
      * -------------------------------------------------------------------------------------------
      */
 
     /**
-     * Get last [OneOffStress] completed
+     * Get last [OneOffStress]
      * @return [OneOffStress], null if id doesn't match any row
      */
     @Query(
         "SELECT * " +
                 "FROM one_off_stress " +
-                "WHERE one_off_stress_completed = 1 " +
                 "ORDER BY one_off_stress_created_at DESC " +
                 "LIMIT 1"
     )
-    suspend fun getLastOneOffStressCompleted(): OneOffStress?
+    suspend fun getLastOneOffStress(): OneOffStress?
 
     /**
-     * Get last [OneOffDepression] completed
+     * Get last [OneOffDepression]
      * @return [OneOffDepression], null if id doesn't match any row
      */
     @Query(
         "SELECT * " +
                 "FROM one_off_depression " +
-                "WHERE one_off_depression_completed = 1 " +
                 "ORDER BY one_off_depression_created_at DESC " +
                 "LIMIT 1"
     )
-    suspend fun getLastOneOffDepressionCompleted(): OneOffDepression?
+    suspend fun getLastOneOffDepression(): OneOffDepression?
 
     /**
-     * Get last [OneOffLoneliness] completed
+     * Get last [OneOffLoneliness]
      * @return [OneOffLoneliness], null if id doesn't match any row
      */
     @Query(
         "SELECT * " +
                 "FROM one_off_loneliness " +
-                "WHERE one_off_loneliness_completed = 1 " +
                 "ORDER BY one_off_loneliness_created_at DESC " +
                 "LIMIT 1"
     )
-    suspend fun getLastOneOffLonelinessCompleted(): OneOffLoneliness?
+    suspend fun getLastOneOffLoneliness(): OneOffLoneliness?
 
     /**
-     * Get last [DailyStress] completed
+     * Get last [DailyStress]
      * @return [DailyStress], null if id doesn't match any row
      */
     @Query(
         "SELECT * " +
                 "FROM daily_stress " +
-                "WHERE daily_stress_completed = 1 " +
                 "ORDER BY daily_stress_created_at DESC " +
                 "LIMIT 1"
     )
-    suspend fun getLastDailyStressCompleted(): DailyStress?
+    suspend fun getLastDailyStress(): DailyStress?
 
     /**
-     * Get last [DailyDepression] completed
+     * Get last [DailyDepression]
      * @return [DailyDepression], null if id doesn't match any row
      */
     @Query(
         "SELECT * " +
                 "FROM daily_depression " +
-                "WHERE daily_depression_completed = 1 " +
                 "ORDER BY daily_depression_created_at DESC " +
                 "LIMIT 1"
     )
-    suspend fun getLastDailyDepressionCompleted(): DailyDepression?
+    suspend fun getLastDailyDepression(): DailyDepression?
 
     /**
-     * Get last [DailyLoneliness] completed
+     * Get last [DailyLoneliness]
      * @return [DailyLoneliness], null if id doesn't match any row
      */
     @Query(
         "SELECT * " +
                 "FROM daily_loneliness " +
-                "WHERE daily_loneliness_completed = 1 " +
                 "ORDER BY daily_loneliness_created_at DESC " +
                 "LIMIT 1"
     )
-    suspend fun getLastDailyLonelinessCompleted(): DailyLoneliness?
+    suspend fun getLastDailyLoneliness(): DailyLoneliness?
 
     /**
-     * Get last [DailySuicide] completed
+     * Get last [DailySuicide]
      * @return [DailySuicide], null if id doesn't match any row
      */
     @Query(
         "SELECT * " +
                 "FROM daily_suicide " +
-                "WHERE daily_suicide_completed = 1 " +
                 "ORDER BY daily_suicide_created_at DESC " +
                 "LIMIT 1"
     )
-    suspend fun getLastDailySuicideCompleted(): DailySuicide?
+    suspend fun getLastDailySuicide(): DailySuicide?
 
     /**
-     * Get last [DailySymptoms] completed
+     * Get last [DailySymptoms]
      * @return [DailySymptoms], null if id doesn't match any row
      */
     @Query(
         "SELECT * " +
                 "FROM daily_symptoms " +
-                "WHERE daily_symptoms_completed = 1 " +
                 "ORDER BY daily_symptoms_created_at DESC " +
                 "LIMIT 1"
     )
-    suspend fun getLastDailySymptomsCompleted(): DailySymptoms?
+    suspend fun getLastDailySymptoms(): DailySymptoms?
+
 }

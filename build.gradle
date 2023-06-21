@@ -1,14 +1,14 @@
 buildscript {
     ext {
         compose_ui_version = '1.4.3'
-        navigation_compose_version = '2.5.3'
+        navigation_compose_version = '2.6.0'
         material3_version = '1.1.0'
         accompanist_version = '0.28.0'
         compose_destination_version = '1.8.42-beta'
         room_version = "2.5.1"
         dagger_hilt_version = "2.45"
         hilt_composer_version = "1.0.0"
-        vico_version = "1.6.4"
+        vico_version = "1.6.6"
         sheets_compose_dialogs_version = "1.1.1"
         work_version = "2.8.1"
         kotlin_version = "1.8.0"
@@ -20,8 +20,8 @@ buildscript {
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version '7.4.1' apply false
-    id 'com.android.library' version '7.4.1' apply false
+    id 'com.android.application' version '8.0.0' apply false
+    id 'com.android.library' version '8.0.0' apply false
     id 'org.jetbrains.kotlin.android' version "$kotlin_version" apply false
 }
 

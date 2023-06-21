@@ -1,27 +1,29 @@
 package es.upm.bienestaremocional.data.healthconnect.sources
 
+import android.util.Log
 import androidx.health.connect.client.HealthConnectClient
+import androidx.health.connect.client.aggregate.AggregationResult
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.SleepSessionRecord
 import androidx.health.connect.client.records.SleepStageRecord
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
-import es.upm.bienestaremocional.data.healthconnect.HealthConnectManager
 import es.upm.bienestaremocional.data.healthconnect.HealthConnectSource
 import es.upm.bienestaremocional.data.healthconnect.types.SleepSessionData
 import java.time.Instant
 import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * Implementation of Sleep datasource implementing [HealthConnectSource]
  * @param healthConnectClient: proportionate HealthConnect's read and write primitives
- * @param healthConnectManager: proportionate HealthConnect's permission primitives
  */
 class Sleep @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
-    private val healthConnectManager: HealthConnectManager
-) : HealthConnectSource<SleepSessionData>(healthConnectManager) {
+    @Named("logTag") private val logTag: String,
+) : HealthConnectSource<SleepSessionData>(healthConnectClient) {
+
     override val readPermissions = setOf(
         HealthPermission.getReadPermission(SleepSessionRecord::class),
         HealthPermission.getReadPermission(SleepStageRecord::class)
@@ -53,12 +55,20 @@ class Sleep @Inject constructor(
                 metrics = setOf(SleepSessionRecord.SLEEP_DURATION_TOTAL),
                 timeRangeFilter = sessionTimeFilter
             )
+            var aggregateResponse: AggregationResult? = null
+
+            //Sometimes a RemoteException is produced for unknown reasons ONLY on first record...
+            try {
+                aggregateResponse = healthConnectClient.aggregate(durationAggregateRequest)
+            }
+            catch (e: Exception) {
+                Log.e(logTag, "Exception during sleep aggregate:", e)
+            }
+
             val stagesRequest = ReadRecordsRequest(
                 recordType = SleepStageRecord::class,
                 timeRangeFilter = sessionTimeFilter
             )
-
-            val aggregateResponse = healthConnectClient.aggregate(durationAggregateRequest)
 
             val stagesResponse = healthConnectClient.readRecords(stagesRequest)
 
@@ -71,7 +81,7 @@ class Sleep @Inject constructor(
                     startZoneOffset = session.startZoneOffset,
                     endTime = session.endTime,
                     endZoneOffset = session.endZoneOffset,
-                    duration = aggregateResponse[SleepSessionRecord.SLEEP_DURATION_TOTAL],
+                    duration = aggregateResponse?.get(SleepSessionRecord.SLEEP_DURATION_TOTAL),
                     stages = stagesResponse.records
                 )
             )

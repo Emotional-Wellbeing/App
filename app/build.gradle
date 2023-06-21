@@ -30,11 +30,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         compose true
@@ -111,7 +111,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie-compose:5.2.0'
 
     // Window size
-    implementation "androidx.window:window:1.0.0"
+    implementation "androidx.window:window:1.1.0"
 
     // Preferences
     implementation "androidx.datastore:datastore-preferences:1.0.0"
@@ -172,4 +172,5 @@ dependencies {
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.5.0"
+
 }
