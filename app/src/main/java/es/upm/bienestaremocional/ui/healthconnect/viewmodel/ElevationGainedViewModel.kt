@@ -12,24 +12,22 @@ import javax.inject.Inject
 @HiltViewModel
 class ElevationGainedViewModel @Inject constructor(
     private val elevationGained: ElevationGained
-): HealthConnectViewModel<ElevationGainedRecord>()
-{
+) : HealthConnectViewModel<ElevationGainedRecord>() {
 
     @Composable
-    override fun getViewModelData(): ViewModelData<ElevationGainedRecord>
-    {
+    override fun getViewModelData(): ViewModelData<ElevationGainedRecord> {
         val data by elements
-        val onPermissionsResult = {readData(elevationGained)}
+        val onPermissionsResult = { readData(elevationGained) }
 
         val launcher = rememberLauncherForActivityResult(contract = permissionLauncher,
-            onResult = {onPermissionsResult()})
+            onResult = { onPermissionsResult() })
 
         return ViewModelData(
             data = data,
             uiState = uiState,
             permissions = elevationGained.readPermissions,
             onPermissionsResult = onPermissionsResult,
-            onRequestPermissions = {values -> launcher.launch(values)},
+            onRequestPermissions = { values -> launcher.launch(values) },
         )
     }
 }

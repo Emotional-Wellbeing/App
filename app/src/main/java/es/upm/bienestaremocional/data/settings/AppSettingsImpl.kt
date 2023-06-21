@@ -15,15 +15,13 @@ import kotlinx.coroutines.flow.map
 /**
  * Implementation of [AppSettings] using DataStore
  */
-class AppSettingsImpl(private val context: Context): AppSettings
-{
-    companion object
-    {
+class AppSettingsImpl(private val context: Context) : AppSettings {
+    companion object {
         /**
          * DataStore object used for ACID operations
          */
-        private val Context.appSettingsDataStore : DataStore<Preferences>
-            by preferencesDataStore(name = "settings")
+        private val Context.appSettingsDataStore: DataStore<Preferences>
+                by preferencesDataStore(name = "settings")
 
         //preferences keys of the settings
         private val MEASURES = stringSetPreferencesKey("measures")
@@ -36,10 +34,9 @@ class AppSettingsImpl(private val context: Context): AppSettings
         private const val DYNAMIC_COLORS_DEFAULT_VALUE = false
     }
 
-    override suspend fun saveMeasuresSelected(value: Set<Measure>)
-    {
+    override suspend fun saveMeasuresSelected(value: Set<Measure>) {
         val setTransformed = value.map { it.id }.toSet()
-        context.appSettingsDataStore.edit{ preferences ->
+        context.appSettingsDataStore.edit { preferences ->
             preferences[MEASURES] = setTransformed
         }
     }
@@ -52,17 +49,15 @@ class AppSettingsImpl(private val context: Context): AppSettings
     }
 
 
-    override suspend fun saveTheme(value: ThemeMode)
-    {
-        context.appSettingsDataStore.edit{ preferences ->
+    override suspend fun saveTheme(value: ThemeMode) {
+        context.appSettingsDataStore.edit { preferences ->
             preferences[THEME] = value.key
         }
     }
 
     override suspend fun getTheme(): Flow<ThemeMode> =
         context.appSettingsDataStore.data.map { preferences ->
-            when(preferences[THEME])
-            {
+            when (preferences[THEME]) {
                 ThemeMode.LIGHT_MODE.key -> ThemeMode.LIGHT_MODE
                 ThemeMode.DARK_MODE.key -> ThemeMode.DARK_MODE
                 ThemeMode.DEFAULT_MODE.key -> ThemeMode.DEFAULT_MODE
@@ -70,9 +65,8 @@ class AppSettingsImpl(private val context: Context): AppSettings
             }
         }
 
-    override suspend fun saveDynamicColors(value: Boolean)
-    {
-        context.appSettingsDataStore.edit{ preferences ->
+    override suspend fun saveDynamicColors(value: Boolean) {
+        context.appSettingsDataStore.edit { preferences ->
             preferences[DYNAMIC_COLORS] = value
         }
     }

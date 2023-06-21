@@ -11,7 +11,7 @@ import androidx.annotation.StringRes
  * @param animationLoop: Indicate if the animation should be animate repeatedly or once
  */
 data class HorizontalPagerContent(
-    @RawRes val animation : Int,
+    @RawRes val animation: Int,
     @StringRes val title: Int,
     @StringRes val content: Int,
     val animationLoop: Boolean,

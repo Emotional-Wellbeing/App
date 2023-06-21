@@ -2,10 +2,9 @@ package es.upm.bienestaremocional.data.questionnaire
 
 import es.upm.bienestaremocional.data.database.entity.MeasureEntity
 
-abstract class NotScoredManager<in T> where T : MeasureEntity
-{
+abstract class NotScoredManager<in T> where T : MeasureEntity {
     abstract val answers: Array<Int?>
-    abstract val numberOfQuestions : Int
+    abstract val numberOfQuestions: Int
     abstract val answerRange: IntRange
 
     /**
@@ -13,8 +12,7 @@ abstract class NotScoredManager<in T> where T : MeasureEntity
      * @param questionIndex index of the question to be set
      * @param answer value of the answer
      */
-    fun setAnswer(questionIndex: Int, answer: Int) 
-    {
+    fun setAnswer(questionIndex: Int, answer: Int) {
         if (questionIndex in 0 until numberOfQuestions)
             answers[questionIndex] = answer
     }
@@ -30,18 +28,17 @@ abstract class NotScoredManager<in T> where T : MeasureEntity
      * Remove answer on the manager
      * @param questionIndex index of the question to be removed
      */
-    fun removeAnswer(questionIndex: Int) 
-    {
+    fun removeAnswer(questionIndex: Int) {
         if (questionIndex in 0 until numberOfQuestions)
             answers[questionIndex] = null
     }
-    
+
     /**
      * Get the answers that hasn't been set
      */
     val answersRemaining: List<Int>
         get() = answers
-            .mapIndexed{index, value -> if(value == null) index else null}
+            .mapIndexed { index, value -> if (value == null) index else null }
             .filterNotNull()
 
     /**

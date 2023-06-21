@@ -18,8 +18,7 @@ import kotlin.random.Random
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun StepsRecord.Display(widthSize: WindowWidthSizeClass)
-{
+fun StepsRecord.Display(widthSize: WindowWidthSizeClass) {
     BasicCard {
         SeriesDateTimeHeading(
             start = startTime,
@@ -34,10 +33,9 @@ fun StepsRecord.Display(widthSize: WindowWidthSizeClass)
     }
 }
 
-private fun generateDummyData() : StepsRecord
-{
+private fun generateDummyData(): StepsRecord {
     val (init, end) = generateInterval()
-    val count = Random.nextLong(0,20000)
+    val count = Random.nextLong(0, 20000)
     return StepsRecord(
         startTime = init.toInstant(),
         startZoneOffset = init.offset,
@@ -49,35 +47,34 @@ private fun generateDummyData() : StepsRecord
 
 @Preview(group = "Light Theme")
 @Composable
-fun StepsRecordDisplayPreview()
-{
+fun StepsRecordDisplayPreview() {
     val stepsRecord = generateDummyData()
     BienestarEmocionalTheme {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun StepsRecordDisplayPreviewDarkTheme()
-{
+fun StepsRecordDisplayPreviewDarkTheme() {
     val stepsRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun StepsRecordDisplayLargeScreenPreview()
-{
+fun StepsRecordDisplayLargeScreenPreview() {
     val stepsRecord = generateDummyData()
     BienestarEmocionalTheme {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun StepsRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun StepsRecordDisplayLargeScreenPreviewDarkTheme() {
     val stepsRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Medium)

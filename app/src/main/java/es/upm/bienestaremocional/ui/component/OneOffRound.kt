@@ -14,8 +14,7 @@ import es.upm.bienestaremocional.utils.formatUnixTimeStamp
  * Display [OneOffRoundFull]: createdAt, score and level
  */
 @Composable
-fun ShowOneOffRound(element : OneOffRoundFull)
-{
+fun ShowOneOffRound(element: OneOffRoundFull) {
     val context = LocalContext.current
 
     Text(
@@ -28,9 +27,8 @@ fun ShowOneOffRound(element : OneOffRoundFull)
 
     element.oneOffStress.let {
         Text(stringResource(R.string.pss_questionnaire))
-        if (it.completed)
-        {
-            Text(context.getString(R.string.score_formatter,it.score))
+        if (it.completed) {
+            Text(context.getString(R.string.score_formatter, it.score))
             it.scoreLevel?.let { scoreLevel -> ShowScoreLevel(context, scoreLevel) }
         }
         else
@@ -39,9 +37,8 @@ fun ShowOneOffRound(element : OneOffRoundFull)
 
     element.oneOffDepression?.let {
         Text(stringResource(R.string.phq_questionnaire))
-        if (it.completed)
-        {
-            Text(context.getString(R.string.score_formatter,it.score))
+        if (it.completed) {
+            Text(context.getString(R.string.score_formatter, it.score))
             it.scoreLevel?.let { scoreLevel -> ShowScoreLevel(context, scoreLevel) }
         }
         else
@@ -50,9 +47,8 @@ fun ShowOneOffRound(element : OneOffRoundFull)
 
     element.oneOffLoneliness?.let {
         Text(stringResource(R.string.ucla_questionnaire))
-        if (it.completed)
-        {
-            Text(context.getString(R.string.score_formatter,it.score))
+        if (it.completed) {
+            Text(context.getString(R.string.score_formatter, it.score))
             it.scoreLevel?.let { scoreLevel -> ShowScoreLevel(context, scoreLevel) }
         }
         else
@@ -64,8 +60,7 @@ fun ShowOneOffRound(element : OneOffRoundFull)
  * Display uncompleted [OneOffRoundFull]: createdAt and uncompleted questionnaires
  */
 @Composable
-fun ShowUncompletedOneOffRound(element : OneOffRoundFull)
-{
+fun ShowUncompletedOneOffRound(element: OneOffRoundFull) {
     val context = LocalContext.current
 
     val uncompletedQuestionnairesText = stringResource(R.string.uncompleted_questionnaires_label)
@@ -100,10 +95,9 @@ fun ShowUncompletedOneOffRound(element : OneOffRoundFull)
 }
 
 @Composable
-private fun ShowScoreLevel(context: Context, scoreLevel: String)
-{
+private fun ShowScoreLevel(context: Context, scoreLevel: String) {
     Level.decodeFromId(scoreLevel)?.let {
         val label = stringResource(it.label)
-        Text(context.getString(R.string.level_formatter,label))
+        Text(context.getString(R.string.level_formatter, label))
     }
 }

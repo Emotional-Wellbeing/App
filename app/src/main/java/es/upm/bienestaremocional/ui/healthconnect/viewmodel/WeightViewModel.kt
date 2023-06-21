@@ -12,13 +12,11 @@ import javax.inject.Inject
 @HiltViewModel
 class WeightViewModel @Inject constructor(
     private val weight: Weight
-): HealthConnectViewModel<WeightRecord>()
-{
+) : HealthConnectViewModel<WeightRecord>() {
     @Composable
-    override fun getViewModelData(): ViewModelData<WeightRecord>
-    {
+    override fun getViewModelData(): ViewModelData<WeightRecord> {
         val data by elements
-        val onPermissionsResult = {readData(weight)}
+        val onPermissionsResult = { readData(weight) }
 
         //launcher is a special case
         val permissionsLauncher =
@@ -29,7 +27,7 @@ class WeightViewModel @Inject constructor(
             uiState = uiState,
             permissions = weight.readPermissions,
             onPermissionsResult = onPermissionsResult,
-            onRequestPermissions = { values -> permissionsLauncher.launch(values)},
+            onRequestPermissions = { values -> permissionsLauncher.launch(values) },
         )
     }
 }

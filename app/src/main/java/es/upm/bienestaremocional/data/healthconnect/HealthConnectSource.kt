@@ -7,14 +7,13 @@ import java.time.ZonedDateTime
 /**
  * Primitives of Health Connect
  */
-abstract class HealthConnectSource<T: Record>(
+abstract class HealthConnectSource<T : Record>(
     private val healthConnectManager: HealthConnectManager
-)
-{
+) {
     /**
      * Set that contains permissions needed to read data
      */
-    abstract val readPermissions : Set<String>
+    abstract val readPermissions: Set<String>
 
     /**
      * Checks if all permissions needed for read are granted
@@ -27,11 +26,10 @@ abstract class HealthConnectSource<T: Record>(
      * Reads data from the last 30 days until now
      * @return [List] of [T] with the data
      */
-    suspend fun readSource(): List<T>
-    {
+    suspend fun readSource(): List<T> {
         val end: ZonedDateTime = ZonedDateTime.now()
         val start: ZonedDateTime = end.minusDays(30)
-        return readSource(start,end)
+        return readSource(start, end)
     }
 
     /**

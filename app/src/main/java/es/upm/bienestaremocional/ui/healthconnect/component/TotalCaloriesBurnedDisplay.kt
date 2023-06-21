@@ -19,9 +19,8 @@ import kotlin.random.Random
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun TotalCaloriesBurnedRecord.Display(widthSize: WindowWidthSizeClass)
-{
-    val kcal = String.format("%.2f",energy.inKilocalories)
+fun TotalCaloriesBurnedRecord.Display(widthSize: WindowWidthSizeClass) {
+    val kcal = String.format("%.2f", energy.inKilocalories)
     val unit = stringResource(id = R.string.kcal)
     BasicCard {
         SeriesDateTimeHeading(
@@ -35,10 +34,9 @@ fun TotalCaloriesBurnedRecord.Display(widthSize: WindowWidthSizeClass)
     }
 }
 
-private fun generateDummyData() : TotalCaloriesBurnedRecord
-{
+private fun generateDummyData(): TotalCaloriesBurnedRecord {
     val (init, end) = generateInterval()
-    val energy = Energy.kilocalories(Random.nextDouble(1000.0,5000.0))
+    val energy = Energy.kilocalories(Random.nextDouble(1000.0, 5000.0))
     return TotalCaloriesBurnedRecord(
         startTime = init.toInstant(),
         startZoneOffset = init.offset,
@@ -50,35 +48,34 @@ private fun generateDummyData() : TotalCaloriesBurnedRecord
 
 @Preview(group = "Light Theme")
 @Composable
-fun TotalCaloriesBurnedRecordDisplayPreview()
-{
+fun TotalCaloriesBurnedRecordDisplayPreview() {
     val basalMetabolicRateRecord = generateDummyData()
     BienestarEmocionalTheme {
         basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun TotalCaloriesBurnedRecordDisplayPreviewDarkTheme()
-{
+fun TotalCaloriesBurnedRecordDisplayPreviewDarkTheme() {
     val basalMetabolicRateRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun TotalCaloriesBurnedRecordDisplayLargeScreenPreview()
-{
+fun TotalCaloriesBurnedRecordDisplayLargeScreenPreview() {
     val basalMetabolicRateRecord = generateDummyData()
     BienestarEmocionalTheme {
         basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun TotalCaloriesBurnedRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun TotalCaloriesBurnedRecordDisplayLargeScreenPreviewDarkTheme() {
     val basalMetabolicRateRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         basalMetabolicRateRecord.Display(widthSize = WindowWidthSizeClass.Medium)

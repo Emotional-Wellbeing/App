@@ -15,8 +15,7 @@ import es.upm.bienestaremocional.utils.formatUnixTimeStamp
  * Display [DailyRoundFull]: createdAt, score and level
  */
 @Composable
-fun ShowDailyRound(element : DailyRoundFull)
-{
+fun ShowDailyRound(element: DailyRoundFull) {
     val context = LocalContext.current
 
     val momentRes = if (element.dailyRound.moment == DailyRound.Moment.Morning)
@@ -34,9 +33,8 @@ fun ShowDailyRound(element : DailyRoundFull)
 
     element.dailyStress?.let {
         Text(stringResource(R.string.stress))
-        if (it.completed)
-        {
-            Text(context.getString(R.string.score_formatter,it.score))
+        if (it.completed) {
+            Text(context.getString(R.string.score_formatter, it.score))
             it.scoreLevel?.let { scoreLevel -> ShowScoreLevel(context, scoreLevel) }
         }
         else
@@ -45,9 +43,8 @@ fun ShowDailyRound(element : DailyRoundFull)
 
     element.dailyDepression?.let {
         Text(stringResource(R.string.depression))
-        if (it.completed)
-        {
-            Text(context.getString(R.string.score_formatter,it.score))
+        if (it.completed) {
+            Text(context.getString(R.string.score_formatter, it.score))
             it.scoreLevel?.let { scoreLevel -> ShowScoreLevel(context, scoreLevel) }
         }
         else
@@ -56,9 +53,8 @@ fun ShowDailyRound(element : DailyRoundFull)
 
     element.dailyLoneliness?.let {
         Text(stringResource(R.string.loneliness))
-        if (it.completed)
-        {
-            Text(context.getString(R.string.score_formatter,it.score))
+        if (it.completed) {
+            Text(context.getString(R.string.score_formatter, it.score))
             it.scoreLevel?.let { scoreLevel -> ShowScoreLevel(context, scoreLevel) }
         }
         else
@@ -86,8 +82,7 @@ fun ShowDailyRound(element : DailyRoundFull)
  * Display uncompleted [DailyRoundFull]: createdAt and uncompleted questionnaires
  */
 @Composable
-fun ShowUncompletedDailyRound(element : DailyRoundFull)
-{
+fun ShowUncompletedDailyRound(element: DailyRoundFull) {
     val context = LocalContext.current
 
     val uncompletedQuestionnairesText = stringResource(R.string.uncompleted_questionnaires_label)
@@ -137,10 +132,9 @@ fun ShowUncompletedDailyRound(element : DailyRoundFull)
 }
 
 @Composable
-private fun ShowScoreLevel(context: Context, scoreLevel: String)
-{
+private fun ShowScoreLevel(context: Context, scoreLevel: String) {
     Level.decodeFromId(scoreLevel)?.let {
         val label = stringResource(it.label)
-        Text(context.getString(R.string.level_formatter,label))
+        Text(context.getString(R.string.level_formatter, label))
     }
 }

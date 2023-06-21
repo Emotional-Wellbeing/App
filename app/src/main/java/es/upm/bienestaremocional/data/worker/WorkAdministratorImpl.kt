@@ -27,8 +27,7 @@ import java.time.ZonedDateTime
 class WorkAdministratorImpl(
     context: Context,
     private val logTag: String
-) : WorkAdministrator
-{
+) : WorkAdministrator {
     private val workManager = WorkManager.getInstance(context)
 
     /**
@@ -147,8 +146,7 @@ class WorkAdministratorImpl(
         cancelRequest(DailyNightNotificationWorker.tag)
     }
 
-    override fun scheduleOneOffNotificationWorker()
-    {
+    override fun scheduleOneOffNotificationWorker() {
         with(OneOffNotificationWorker)
         {
             scheduleRequest(
@@ -162,8 +160,7 @@ class WorkAdministratorImpl(
         cancelRequest(OneOffNotificationWorker.tag)
     }
 
-    override fun scheduleUploadWorker()
-    {
+    override fun scheduleUploadWorker() {
         //Only execute upload job when battery is not low and network is available
         val constraints = Constraints.Builder()
             .setRequiresBatteryNotLow(true)

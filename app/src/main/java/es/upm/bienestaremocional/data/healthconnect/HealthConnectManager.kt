@@ -6,8 +6,7 @@ import androidx.compose.runtime.MutableState
  * Interface with the Health Connect operations that are related to permissions
  * and availability
  */
-interface HealthConnectManager
-{
+interface HealthConnectManager {
     var availability: MutableState<HealthConnectAvailability>
 
     /**

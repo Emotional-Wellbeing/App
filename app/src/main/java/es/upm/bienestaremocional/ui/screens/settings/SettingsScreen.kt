@@ -62,10 +62,10 @@ import kotlinx.coroutines.launch
  */
 @Destination
 @Composable
-fun SettingsScreen(navigator: DestinationsNavigator,
-                   viewModel: SettingsViewModel = hiltViewModel()
-)
-{
+fun SettingsScreen(
+    navigator: DestinationsNavigator,
+    viewModel: SettingsViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -82,32 +82,38 @@ fun SettingsScreen(navigator: DestinationsNavigator,
     val android12OrAbove = android12OrAbove()
     val languagesAvailable = viewModel.getLanguagesAvailable()
 
-    val onMeasuresChange : (Set<Int>) -> Unit = { viewModel.changeMeasuresSelected(it) }
-    val onLanguageChange : (Int) -> Unit = { lang ->
+    val onMeasuresChange: (Set<Int>) -> Unit = { viewModel.changeMeasuresSelected(it) }
+    val onLanguageChange: (Int) -> Unit = { lang ->
         viewModel.changeLanguage(context, lang)
         coroutineScope.launch {
-            showRestartInfo(snackbarHostState = snackbarHostState,
+            showRestartInfo(
+                snackbarHostState = snackbarHostState,
                 message = restartApplyAllChanges,
                 actionLabel = actionLabel,
-                context = context)
+                context = context
+            )
         }
     }
-    val onThemeChange : (Int) -> Unit = { theme ->
+    val onThemeChange: (Int) -> Unit = { theme ->
         viewModel.changeDarkMode(theme)
         coroutineScope.launch {
-            showRestartInfo(snackbarHostState = snackbarHostState,
+            showRestartInfo(
+                snackbarHostState = snackbarHostState,
                 message = restartToApplyChanges,
                 actionLabel = actionLabel,
-                context = context)
+                context = context
+            )
         }
     }
-    val onDynamicChange : (Boolean) -> Unit = { dynamic ->
+    val onDynamicChange: (Boolean) -> Unit = { dynamic ->
         viewModel.changeDynamicColors(dynamic)
         coroutineScope.launch {
-            showRestartInfo(snackbarHostState = snackbarHostState,
+            showRestartInfo(
+                snackbarHostState = snackbarHostState,
                 message = restartToApplyChanges,
                 actionLabel = actionLabel,
-                context = context)
+                context = context
+            )
         }
     }
     val onSettingsApplication = { viewModel.openSettingsApplication(context) }
@@ -147,27 +153,27 @@ fun SettingsScreen(navigator: DestinationsNavigator,
  * @param onSettingsApplication: executed when user press application's setting
  */
 @Composable
-private fun SettingsScreen(navigator: DestinationsNavigator,
-                           snackbarHostState: SnackbarHostState,
-                           questionnaires: SettingValueState<Set<Int>>,
-                           language: SettingValueState<Int>,
-                           themeMode: SettingValueState<Int>,
-                           dynamicColor : SettingValueState<Boolean>,
-                           android12OrAbove : Boolean,
-                           languagesAvailable : List<String>,
-                           onMeasuresChange :  (Set<Int>) -> Unit,
-                           onLanguageChange : (Int) -> Unit,
-                           onThemeChange : (Int) -> Unit,
-                           onDynamicChange : (Boolean) -> Unit,
-                           onSettingsApplication: () -> Unit,
-                           onSettingsNotifications: () -> Unit,
-)
-
-{
+private fun SettingsScreen(
+    navigator: DestinationsNavigator,
+    snackbarHostState: SnackbarHostState,
+    questionnaires: SettingValueState<Set<Int>>,
+    language: SettingValueState<Int>,
+    themeMode: SettingValueState<Int>,
+    dynamicColor: SettingValueState<Boolean>,
+    android12OrAbove: Boolean,
+    languagesAvailable: List<String>,
+    onMeasuresChange: (Set<Int>) -> Unit,
+    onLanguageChange: (Int) -> Unit,
+    onThemeChange: (Int) -> Unit,
+    onDynamicChange: (Boolean) -> Unit,
+    onSettingsApplication: () -> Unit,
+    onSettingsNotifications: () -> Unit,
+) {
     val context = LocalContext.current
-    val measureOptions : List<String> = Measure.getOptionalLabels()
+    val measureOptions: List<String> = Measure.getOptionalLabels()
 
-    AppBasicScreen(navigator = navigator,
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = BottomBarDestination.SettingsScreen,
         label = BottomBarDestination.SettingsScreen.label,
         snackbarHostState = snackbarHostState
@@ -184,35 +190,64 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
             GroupText(textRes = R.string.privacy_group)
 
             SettingsMenuLink(
-                icon = { Icon(painter = painterResource(R.drawable.storage),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(text = stringResource(id = R.string.my_data_label),
-                    color = MaterialTheme.colorScheme.secondary) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.storage),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()
+                    )
+                },
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.my_data_label),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
                 subtitle = { Text(stringResource(id = R.string.my_data_description)) },
                 onClick = { navigator.navigate(MyDataScreenDestination()) },
             )
 
 
             SettingsMenuLink(
-                icon = { Icon(painter = painterResource(R.drawable.security),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(text = stringResource(id = R.string.privacy_policy_screen_label),
-                    color = MaterialTheme.colorScheme.secondary) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.security),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()
+                    )
+                },
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.privacy_policy_screen_label),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
                 subtitle = { Text(stringResource(id = R.string.privacy_policy_screen_description)) },
                 onClick = { navigator.navigate(PrivacyPolicyScreenDestination) },
             )
 
             SettingsMenuLink(
-                    icon = { Icon(painter = painterResource(R.drawable.health_connect_logo),
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.health_connect_logo),
                         contentDescription = null,
                         modifier = Modifier.defaultIconModifier(),
-                        tint = Color.Unspecified) },
-            title = { Text(text = stringResource(id = R.string.health_connect_settings_label),
-                color = MaterialTheme.colorScheme.secondary) },
-            subtitle = { Text(stringResource(id = R.string.health_connect_settings_description)) },
-            onClick = { openForeignActivity(context = context, action = ACTION_HEALTH_CONNECT_SETTINGS ) },
+                        tint = Color.Unspecified
+                    )
+                },
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.health_connect_settings_label),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
+                subtitle = { Text(stringResource(id = R.string.health_connect_settings_description)) },
+                onClick = {
+                    openForeignActivity(
+                        context = context,
+                        action = ACTION_HEALTH_CONNECT_SETTINGS
+                    )
+                },
             )
 
             Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
@@ -220,24 +255,39 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
             GroupText(textRes = R.string.ui_group)
 
             SettingsList(
-                icon = { Icon(painter = painterResource(R.drawable.language),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(stringResource(R.string.language),
-                    color = MaterialTheme.colorScheme.secondary) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.language),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()
+                    )
+                },
+                title = {
+                    Text(
+                        stringResource(R.string.language),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
                 state = language,
                 items = languagesAvailable,
-                onItemSelected = {index, _ -> onLanguageChange(index)}
+                onItemSelected = { index, _ -> onLanguageChange(index) }
             )
 
-            if (android12OrAbove)
-            {
+            if (android12OrAbove) {
                 SettingsSwitch(
-                    icon = { Icon(painter = painterResource(R.drawable.palette),
-                        contentDescription = null,
-                        modifier = Modifier.defaultIconModifier()) },
-                    title = { Text(text = stringResource(R.string.dynamic_colors_label),
-                        color = MaterialTheme.colorScheme.secondary) },
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable.palette),
+                            contentDescription = null,
+                            modifier = Modifier.defaultIconModifier()
+                        )
+                    },
+                    title = {
+                        Text(
+                            text = stringResource(R.string.dynamic_colors_label),
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    },
                     subtitle = { Text(text = stringResource(R.string.dynamic_colors_description)) },
                     state = dynamicColor,
                     onCheckedChange = { onDynamicChange(it) }
@@ -245,14 +295,22 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
             }
 
             SettingsList(
-                icon = { Icon(painter = painterResource(R.drawable.dark_mode),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(stringResource(R.string.dark_mode),
-                    color = MaterialTheme.colorScheme.secondary) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.dark_mode),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()
+                    )
+                },
+                title = {
+                    Text(
+                        stringResource(R.string.dark_mode),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
                 state = themeMode,
                 items = ThemeMode.getLabels(),
-                onItemSelected = {index, _ -> onThemeChange(index)}
+                onItemSelected = { index, _ -> onThemeChange(index) }
             )
 
 
@@ -261,21 +319,37 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
             GroupText(textRes = R.string.notifications)
 
             SettingsMenuLink(
-                icon = { Icon(painter = painterResource(R.drawable.settings_applications),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(stringResource(R.string.application_settings),
-                    color = MaterialTheme.colorScheme.secondary) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.settings_applications),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()
+                    )
+                },
+                title = {
+                    Text(
+                        stringResource(R.string.application_settings),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
                 subtitle = { Text(stringResource(R.string.application_settings_label)) },
                 onClick = onSettingsApplication,
             )
 
             SettingsMenuLink(
-                icon = { Icon(painter = painterResource(R.drawable.notifications),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(stringResource(R.string.permission_for_notifications),
-                    color = MaterialTheme.colorScheme.secondary) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.notifications),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()
+                    )
+                },
+                title = {
+                    Text(
+                        stringResource(R.string.permission_for_notifications),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
                 subtitle = { Text(stringResource(R.string.permission_for_notifications_body)) },
                 onClick = onSettingsNotifications,
             )
@@ -285,11 +359,19 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
             GroupText(textRes = R.string.feedback_group)
 
             SettingsListMultiSelect(
-                icon = { Icon(painter = painterResource(R.drawable.question_answer),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(stringResource(R.string.additional_measures),
-                    color = MaterialTheme.colorScheme.secondary) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.question_answer),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()
+                    )
+                },
+                title = {
+                    Text(
+                        stringResource(R.string.additional_measures),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
                 state = questionnaires,
                 items = measureOptions,
                 confirmButton = stringResource(R.string.accept),
@@ -306,31 +388,55 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
             GroupText(textRes = R.string.misc_group)
 
             SettingsMenuLink(
-                icon = { Icon(painter = painterResource(R.drawable.help_outline),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(text = stringResource(id = R.string.about_screen_label),
-                    color = MaterialTheme.colorScheme.secondary) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.help_outline),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()
+                    )
+                },
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.about_screen_label),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
                 subtitle = { Text(stringResource(id = R.string.about_screen_description)) },
                 onClick = { navigator.navigate(AboutScreenDestination) },
             )
 
             SettingsMenuLink(
-                icon = { Icon(painter = painterResource(R.drawable.start),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(text = stringResource(id = R.string.onboarding_screen_label),
-                    color = MaterialTheme.colorScheme.secondary) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.start),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()
+                    )
+                },
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.onboarding_screen_label),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
                 subtitle = { Text(stringResource(id = R.string.onboarding_screen_description)) },
                 onClick = { navigator.navigate(OnboardingScreenDestination) },
             )
 
             SettingsMenuLink(
-                icon = { Icon(painter = painterResource(R.drawable.people_alt),
-                    contentDescription = null,
-                    modifier = Modifier.defaultIconModifier()) },
-                title = { Text(text = stringResource(id = R.string.credits_screen_label),
-                    color = MaterialTheme.colorScheme.secondary) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.people_alt),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()
+                    )
+                },
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.credits_screen_label),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
                 subtitle = { Text(stringResource(id = R.string.credits_screen_description)) },
                 onClick = { navigator.navigate(CreditsScreenDestination) },
             )
@@ -343,13 +449,15 @@ private fun SettingsScreen(navigator: DestinationsNavigator,
  * Text with custom style to split group of settings
  */
 @Composable
-private fun GroupText(@StringRes textRes : Int) =
-    Text(text = stringResource(textRes),
+private fun GroupText(@StringRes textRes: Int) =
+    Text(
+        text = stringResource(textRes),
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, bottom = 16.dp),
         style = MaterialTheme.typography.headlineSmall,
-        color = MaterialTheme.colorScheme.primary)
+        color = MaterialTheme.colorScheme.primary
+    )
 
 /**
  * Default icon padding and size for this screen
@@ -360,26 +468,28 @@ private fun Modifier.defaultIconModifier() = this.then(padding(all = 2.dp).size(
  * Show snackbar to restart app in order to show properly user's changes
  */
 
-private suspend fun showRestartInfo(snackbarHostState: SnackbarHostState,
-                                    message : String,
-                                    actionLabel : String,
-                                    context: Context)
-{
-    val result = snackbarHostState.showSnackbar(message = message, actionLabel = actionLabel,
-        withDismissAction = true, duration = SnackbarDuration.Long)
+private suspend fun showRestartInfo(
+    snackbarHostState: SnackbarHostState,
+    message: String,
+    actionLabel: String,
+    context: Context
+) {
+    val result = snackbarHostState.showSnackbar(
+        message = message, actionLabel = actionLabel,
+        withDismissAction = true, duration = SnackbarDuration.Long
+    )
     if (result === SnackbarResult.ActionPerformed)
         restartApp(activity = context.getActivity())
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SettingsScreenNoDynamicPreview()
-{
+fun SettingsScreenNoDynamicPreview() {
     BienestarEmocionalTheme()
     {
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
-            snackbarHostState =  remember { SnackbarHostState() },
+            snackbarHostState = remember { SnackbarHostState() },
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
@@ -398,13 +508,12 @@ fun SettingsScreenNoDynamicPreview()
 
 @Preview(showBackground = true)
 @Composable
-fun SettingsScreenNoDynamicPreviewDarkTheme()
-{
+fun SettingsScreenNoDynamicPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
-            snackbarHostState =  remember { SnackbarHostState() },
+            snackbarHostState = remember { SnackbarHostState() },
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
@@ -423,13 +532,12 @@ fun SettingsScreenNoDynamicPreviewDarkTheme()
 
 @Preview(showBackground = true)
 @Composable
-fun SettingsScreenPreview()
-{
+fun SettingsScreenPreview() {
     BienestarEmocionalTheme()
     {
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
-            snackbarHostState =  remember { SnackbarHostState() },
+            snackbarHostState = remember { SnackbarHostState() },
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),
@@ -448,13 +556,12 @@ fun SettingsScreenPreview()
 
 @Preview(showBackground = true)
 @Composable
-fun SettingsScreenPreviewDarkTheme()
-{
+fun SettingsScreenPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         SettingsScreen(
             navigator = EmptyDestinationsNavigator,
-            snackbarHostState =  remember { SnackbarHostState() },
+            snackbarHostState = remember { SnackbarHostState() },
             questionnaires = rememberIntSetSettingState(),
             language = rememberIntSettingState(-1),
             themeMode = rememberIntSettingState(-1),

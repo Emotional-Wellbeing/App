@@ -18,13 +18,12 @@ import javax.inject.Inject
 class Weight @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<WeightRecord>(healthConnectManager)
-{
+) : HealthConnectSource<WeightRecord>(healthConnectManager) {
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(WeightRecord::class))
+        HealthPermission.getReadPermission(WeightRecord::class)
+    )
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<WeightRecord>
-    {
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<WeightRecord> {
         val request = ReadRecordsRequest(
             recordType = WeightRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

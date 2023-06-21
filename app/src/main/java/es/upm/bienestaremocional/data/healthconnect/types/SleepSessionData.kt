@@ -22,4 +22,4 @@ data class SleepSessionData(
     val duration: Duration?,
     val stages: List<SleepStageRecord> = listOf(),
     override val metadata: Metadata = Metadata()
-): Record
+) : Record

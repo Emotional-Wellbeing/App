@@ -35,11 +35,12 @@ import kotlinx.coroutines.launch
  */
 @Destination
 @Composable
-fun OnboardingScreen(navigator: DestinationsNavigator,
-                     viewModel: OnboardingViewModel = hiltViewModel()
-)
-{
-    OnboardingScreen(heightSize = computeWindowHeightSize(),
+fun OnboardingScreen(
+    navigator: DestinationsNavigator,
+    viewModel: OnboardingViewModel = hiltViewModel()
+) {
+    OnboardingScreen(
+        heightSize = computeWindowHeightSize(),
         widthSize = computeWindowWidthSize()
     )
     {
@@ -51,18 +52,21 @@ fun OnboardingScreen(navigator: DestinationsNavigator,
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun OnboardingScreen(heightSize : WindowHeightSizeClass,
-                             widthSize: WindowWidthSizeClass,
-                             onFinish: () -> Unit)
-{
-    val items = remember { OnboardingContent.content}
+private fun OnboardingScreen(
+    heightSize: WindowHeightSizeClass,
+    widthSize: WindowWidthSizeClass,
+    onFinish: () -> Unit
+) {
+    val items = remember { OnboardingContent.content }
     val pagerState = rememberPagerState()
 
     Surface()
     {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        )
         {
             HorizontalPager(
                 count = items.size,
@@ -70,11 +74,13 @@ private fun OnboardingScreen(heightSize : WindowHeightSizeClass,
                 modifier = Modifier.fillMaxSize()
             ) { page ->
 
-                DrawPage(horizontalPagerContent = items[page],
+                DrawPage(
+                    horizontalPagerContent = items[page],
                     pagerState = pagerState,
                     heightSize = heightSize,
                     widthSize = widthSize,
-                    onFinish = onFinish)
+                    onFinish = onFinish
+                )
             }
         }
     }
@@ -86,15 +92,15 @@ private fun OnboardingScreen(heightSize : WindowHeightSizeClass,
  */
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
-                     pagerState : PagerState,
-                     heightSize : WindowHeightSizeClass,
-                     widthSize: WindowWidthSizeClass,
-                     onFinish: () -> Unit
-)
-{
+private fun DrawPage(
+    horizontalPagerContent: HorizontalPagerContent,
+    pagerState: PagerState,
+    heightSize: WindowHeightSizeClass,
+    widthSize: WindowWidthSizeClass,
+    onFinish: () -> Unit
+) {
     val coroutineScope = rememberCoroutineScope()
-    val onPreviousPage : () -> Unit = {
+    val onPreviousPage: () -> Unit = {
         coroutineScope.launch {
             pagerState.animateScrollToPage(
                 pagerState.currentPage - 1,
@@ -102,7 +108,7 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
             )
         }
     }
-    val onNextPage : () -> Unit = {
+    val onNextPage: () -> Unit = {
         coroutineScope.launch {
             pagerState.animateScrollToPage(
                 pagerState.currentPage + 1,
@@ -112,13 +118,15 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
     }
 
     //content
-    Column(modifier = Modifier.fillMaxSize(),
+    Column(
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
         //Image
-        DisplayLottieAnimation(rawRes = horizontalPagerContent.animation,
+        DisplayLottieAnimation(
+            rawRes = horizontalPagerContent.animation,
             modifier = Modifier.weight(1f),
             animationLoop = horizontalPagerContent.animationLoop,
         )
@@ -131,7 +139,8 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
             modifier = Modifier.fillMaxWidth(),
 
             style = if (widthSize >= WindowWidthSizeClass.Medium
-                && heightSize >= WindowHeightSizeClass.Medium)
+                && heightSize >= WindowHeightSizeClass.Medium
+            )
                 MaterialTheme.typography.titleLarge
             else
                 MaterialTheme.typography.titleMedium
@@ -144,26 +153,27 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = if (widthSize >= WindowWidthSizeClass.Medium
-                && heightSize >= WindowHeightSizeClass.Medium)
+                && heightSize >= WindowHeightSizeClass.Medium
+            )
                 MaterialTheme.typography.bodyLarge
             else
                 MaterialTheme.typography.bodyMedium
         )
 
         //footer
-        Row(modifier = Modifier.fillMaxWidth(),
+        Row(
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically)
+            verticalAlignment = Alignment.CenterVertically
+        )
         {
-            if (pagerState.currentPage == 0)
-            {
+            if (pagerState.currentPage == 0) {
                 TextButton(onClick = onFinish)
                 {
                     Text(text = stringResource(id = R.string.skip))
                 }
             }
-            else
-            {
+            else {
                 TextButton(onClick = onPreviousPage)
                 {
                     Text(text = stringResource(id = R.string.go_back))
@@ -172,7 +182,8 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
 
             HorizontalPagerIndicator(
                 pagerState = pagerState,
-                activeColor = MaterialTheme.colorScheme.primary)
+                activeColor = MaterialTheme.colorScheme.primary
+            )
 
             if (pagerState.currentPage == pagerState.pageCount - 1) {
                 TextButton(onClick = onFinish)
@@ -180,8 +191,7 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
                     Text(text = stringResource(id = R.string.finish))
                 }
             }
-            else
-            {
+            else {
                 TextButton(onClick = onNextPage)
                 {
                     Text(text = stringResource(id = R.string.next))
@@ -201,8 +211,7 @@ private fun DrawPage(horizontalPagerContent: HorizontalPagerContent,
     group = "Light Theme"
 )
 @Composable
-fun OnboardingScreenPreview()
-{
+fun OnboardingScreenPreview() {
     BienestarEmocionalTheme {
         OnboardingScreen(heightSize = WindowHeightSizeClass.Compact,
             widthSize = WindowWidthSizeClass.Compact,
@@ -215,8 +224,7 @@ fun OnboardingScreenPreview()
     group = "Dark Theme"
 )
 @Composable
-fun OnboardingScreenPreviewDarkTheme()
-{
+fun OnboardingScreenPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         OnboardingScreen(heightSize = WindowHeightSizeClass.Compact,
             widthSize = WindowWidthSizeClass.Compact,
@@ -229,8 +237,7 @@ fun OnboardingScreenPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun OnboardingScreenNotCompactPreview()
-{
+fun OnboardingScreenNotCompactPreview() {
     BienestarEmocionalTheme {
         OnboardingScreen(heightSize = WindowHeightSizeClass.Medium,
             widthSize = WindowWidthSizeClass.Medium,
@@ -243,8 +250,7 @@ fun OnboardingScreenNotCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun OnboardingScreenNotCompactPreviewDarkTheme()
-{
+fun OnboardingScreenNotCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         OnboardingScreen(heightSize = WindowHeightSizeClass.Medium,
             widthSize = WindowWidthSizeClass.Medium,

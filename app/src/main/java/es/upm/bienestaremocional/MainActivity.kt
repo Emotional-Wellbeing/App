@@ -14,21 +14,19 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity()
-{
+class MainActivity : ComponentActivity() {
     @Inject
     lateinit var appSettings: AppSettings
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lateinit var darkTheme : ThemeMode
+        lateinit var darkTheme: ThemeMode
         var dynamicColors by Delegates.notNull<Boolean>()
 
         val job = CoroutineScope(Dispatchers.Default).launch {
             darkTheme = appSettings.getTheme().first()
-            dynamicColors  = appSettings.getDynamicColors().first()
+            dynamicColors = appSettings.getDynamicColors().first()
         }
 
         CoroutineScope(Dispatchers.Main).launch {

@@ -27,14 +27,13 @@ class HomeViewModel @Inject constructor(
     private val dailyLonelinessRepository: DailyLonelinessRepository,
     private val dailyRoundFullRepository: DailyRoundFullRepository,
     val appSettings: AppSettings
-): ViewModel()
-{
+) : ViewModel() {
 
-    private val _uncompletedQuestionnaires : MutableStateFlow<Boolean> =
+    private val _uncompletedQuestionnaires: MutableStateFlow<Boolean> =
         MutableStateFlow(false)
-    val uncompletedQuestionnaires : StateFlow<Boolean> = _uncompletedQuestionnaires.asStateFlow()
+    val uncompletedQuestionnaires: StateFlow<Boolean> = _uncompletedQuestionnaires.asStateFlow()
 
-    val questionnaires : List<DailyScoredQuestionnaire> =
+    val questionnaires: List<DailyScoredQuestionnaire> =
         runBlocking {
             val measures = Measure.getMandatory() + appSettings.getMeasuresSelected().first()
             measures.mapNotNull { DailyScoredQuestionnaire.fromMeasure(it) }
@@ -48,24 +47,23 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun getStressScore() : Int?
-    {
+    suspend fun getStressScore(): Int? {
         val scores = dailyStressRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
             processRecords(scores, TimeGranularity.Day)[0].score.toInt()
         else
             null
     }
-    suspend fun getDepressionScore() : Int?
-    {
+
+    suspend fun getDepressionScore(): Int? {
         val scores = dailyDepressionRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
             processRecords(scores, TimeGranularity.Day)[0].score.toInt()
         else
             null
     }
-    suspend fun getLonelinessScore() : Int?
-    {
+
+    suspend fun getLonelinessScore(): Int? {
         val scores = dailyLonelinessRepository.getAllFromYesterday()
         return if (scores.any { it.score != null })
             processRecords(scores, TimeGranularity.Day)[0].score.toInt()

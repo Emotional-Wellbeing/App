@@ -18,14 +18,13 @@ import javax.inject.Inject
 class HeartRate @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<HeartRateRecord>(healthConnectManager)
-{
+) : HealthConnectSource<HeartRateRecord>(healthConnectManager) {
 
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(HeartRateRecord::class))
+        HealthPermission.getReadPermission(HeartRateRecord::class)
+    )
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<HeartRateRecord>
-    {
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<HeartRateRecord> {
         val request = ReadRecordsRequest(
             recordType = HeartRateRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

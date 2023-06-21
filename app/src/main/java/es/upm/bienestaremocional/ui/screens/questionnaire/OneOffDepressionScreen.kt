@@ -19,16 +19,15 @@ import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
 fun OneOffDepressionScreen(
     navController: NavController,
     entityId: Long,
-    questionnaireIndex : Int = 0,
-    questionnaireSize : Int = 1,
-    viewModel : OneOffDepressionViewModel = hiltViewModel(),
-)
-{
+    questionnaireIndex: Int = 0,
+    questionnaireSize: Int = 1,
+    viewModel: OneOffDepressionViewModel = hiltViewModel(),
+) {
     val questionnaire = OneOffQuestionnaireDrawable.Depression
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit  = { score, widthSize ->
+    val summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit = { score, widthSize ->
         OneOffDepressionStatus(
             data = score,
             widthSize = widthSize,
@@ -43,11 +42,15 @@ fun OneOffDepressionScreen(
         state = state,
         questionnaire = questionnaire,
         widthSize = computeWindowWidthSize(),
-        title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${stringResource(questionnaire.measureRes)}",
+        title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${
+            stringResource(
+                questionnaire.measureRes
+            )
+        }",
         answerSelected = viewModel::answerSelected,
         answersRemaining = viewModel::answersRemaining,
         getScore = viewModel::score,
-        onAnswer = { question, answer -> viewModel.onAnswer(question,answer) },
+        onAnswer = { question, answer -> viewModel.onAnswer(question, answer) },
         onInProgress = viewModel::onInProgress,
         onSkippingAttempt = viewModel::onSkippingAttempt,
         onSkipped = viewModel::onSkipped,

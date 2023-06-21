@@ -19,13 +19,15 @@ import javax.inject.Inject
 class FloorsClimbed @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<FloorsClimbedRecord>(healthConnectManager)
-{
+) : HealthConnectSource<FloorsClimbedRecord>(healthConnectManager) {
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(FloorsClimbedRecord::class))
+        HealthPermission.getReadPermission(FloorsClimbedRecord::class)
+    )
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<FloorsClimbedRecord>
-    {
+    override suspend fun readSource(
+        startTime: Instant,
+        endTime: Instant
+    ): List<FloorsClimbedRecord> {
         val request = ReadRecordsRequest(
             recordType = FloorsClimbedRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

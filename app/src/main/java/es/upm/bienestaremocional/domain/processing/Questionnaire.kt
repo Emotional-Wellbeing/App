@@ -8,13 +8,10 @@ import es.upm.bienestaremocional.data.questionnaire.ScoreLevel
 import es.upm.bienestaremocional.utils.TimeGranularity
 import java.time.ZonedDateTime
 
-fun scoreToLevel(score: Int, questionnaire: QuestionnaireScored): Level?
-{
+fun scoreToLevel(score: Int, questionnaire: QuestionnaireScored): Level? {
     var scoreLevel: ScoreLevel? = null
-    for(level in questionnaire.levels)
-    {
-        if (score in level.min .. level.max)
-        {
+    for (level in questionnaire.levels) {
+        if (score in level.min..level.max) {
             scoreLevel = level
             break
         }
@@ -22,8 +19,7 @@ fun scoreToLevel(score: Int, questionnaire: QuestionnaireScored): Level?
     return scoreLevel?.level
 }
 
-fun levelToAdvice(level: Level, measure: Measure) : Int?
-{
+fun levelToAdvice(level: Level, measure: Measure): Int? {
     return measure.advices?.let {
         val advices = it[level]
         advices?.let {
@@ -33,11 +29,9 @@ fun levelToAdvice(level: Level, measure: Measure) : Int?
     }
 }
 
-fun reduceEntries(entries : List<PureChartRecord>): Float?
-{
-    return if (entries.isNotEmpty())
-    {
-        var result =  0f
+fun reduceEntries(entries: List<PureChartRecord>): Float? {
+    return if (entries.isNotEmpty()) {
+        var result = 0f
 
         for (entry in entries)
             result += entry.score
@@ -48,17 +42,16 @@ fun reduceEntries(entries : List<PureChartRecord>): Float?
         null
 }
 
-fun processRecords(records: List<ScoredEntity>, timeGranularity: TimeGranularity) :
-        List<PureChartRecord>
-{
-    val criteria = when(timeGranularity)
-    {
+fun processRecords(records: List<ScoredEntity>, timeGranularity: TimeGranularity):
+        List<PureChartRecord> {
+    val criteria = when (timeGranularity) {
         TimeGranularity.Day -> ::timestampToStartOfTheDay
         TimeGranularity.Week -> ::timestampToStartOfTheWeek
         TimeGranularity.Month -> ::timestampToStartOfTheMonth
     }
 
-    return processRecords(records = records,
+    return processRecords(
+        records = records,
         aggregationCriteria = criteria,
         reduceCriteria = ::averageCriteria
     )
@@ -68,23 +61,21 @@ fun processRecordsMaintainingEmpty(
     records: List<ScoredEntity>,
     dateRange: Pair<Long, Long>,
     timeGranularity: TimeGranularity
-) : List<NullableChartRecord>
-{
-    val updateCriteria : (ZonedDateTime) -> ZonedDateTime = when(timeGranularity)
-    {
+): List<NullableChartRecord> {
+    val updateCriteria: (ZonedDateTime) -> ZonedDateTime = when (timeGranularity) {
         TimeGranularity.Day -> { zdt -> zdt.plusDays(1) }
         TimeGranularity.Week -> { zdt -> zdt.plusWeeks(1) }
         TimeGranularity.Month -> { zdt -> zdt.plusMonths(1) }
     }
 
-    val aggregationCriteria = when(timeGranularity)
-    {
+    val aggregationCriteria = when (timeGranularity) {
         TimeGranularity.Day -> ::timestampToStartOfTheDay
         TimeGranularity.Week -> ::timestampToStartOfTheWeek
         TimeGranularity.Month -> ::timestampToStartOfTheMonth
     }
 
-    return processRecordsMaintainingEmpty(records = records,
+    return processRecordsMaintainingEmpty(
+        records = records,
         dateRange = dateRange,
         updateCriteria = updateCriteria,
         aggregationCriteria = aggregationCriteria,
@@ -95,26 +86,24 @@ fun processRecordsMaintainingEmpty(
 // TODO implement simulated elements
 
 
-private fun averageCriteria(list : List<Int>) : Float
-{
-    require(list.isNotEmpty()) {"List cannot be empty"}
+private fun averageCriteria(list: List<Int>): Float {
+    require(list.isNotEmpty()) { "List cannot be empty" }
     return list.sum().toFloat() / list.size
 }
 
-private fun averageCriteriaNullable(list : List<Int>) : Float?
-{
+private fun averageCriteriaNullable(list: List<Int>): Float? {
     return if (list.isNotEmpty())
         list.sum().toFloat() / list.size
     else
         null
 }
 
-fun processRecords(records: List<ScoredEntity>,
-                   aggregationCriteria : (Long) -> ZonedDateTime,
-                   reduceCriteria : (List<Int>) -> Float,
-) : List<PureChartRecord>
-{
-    val buffer = mutableMapOf<ZonedDateTime,MutableList<Int>>()
+fun processRecords(
+    records: List<ScoredEntity>,
+    aggregationCriteria: (Long) -> ZonedDateTime,
+    reduceCriteria: (List<Int>) -> Float,
+): List<PureChartRecord> {
+    val buffer = mutableMapOf<ZonedDateTime, MutableList<Int>>()
     val result = mutableListOf<PureChartRecord>()
     // Iter over all records
     records.forEach { record ->
@@ -142,13 +131,12 @@ fun processRecords(records: List<ScoredEntity>,
 
 fun processRecordsMaintainingEmpty(
     records: List<ScoredEntity>,
-    dateRange : Pair<Long, Long>,
-    updateCriteria : (ZonedDateTime) -> ZonedDateTime,
-    aggregationCriteria : (Long) -> ZonedDateTime,
-    reduceCriteria : (List<Int>) -> Float?,
-) : List<NullableChartRecord>
-{
-    val buffer = mutableMapOf<ZonedDateTime,MutableList<Int>>()
+    dateRange: Pair<Long, Long>,
+    updateCriteria: (ZonedDateTime) -> ZonedDateTime,
+    aggregationCriteria: (Long) -> ZonedDateTime,
+    reduceCriteria: (List<Int>) -> Float?,
+): List<NullableChartRecord> {
+    val buffer = mutableMapOf<ZonedDateTime, MutableList<Int>>()
 
     // Generate all possible entries
     val start = milliSecondToZonedDateTime(dateRange.first)
@@ -156,8 +144,7 @@ fun processRecordsMaintainingEmpty(
 
     var aux = start
 
-    while (aux.isBefore(end))
-    {
+    while (aux.isBefore(end)) {
         buffer[aux] = mutableListOf()
         aux = updateCriteria(aux)
     }

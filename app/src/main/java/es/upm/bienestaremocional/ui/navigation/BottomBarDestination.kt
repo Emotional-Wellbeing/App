@@ -19,8 +19,7 @@ enum class BottomBarDestination(
     val direction: Direction,
     @StringRes val label: Int,
     @DrawableRes val icon: Int
-)
-{
+) {
     HomeScreen(
         direction = HomeScreenDestination,
         label = R.string.home_screen_label,

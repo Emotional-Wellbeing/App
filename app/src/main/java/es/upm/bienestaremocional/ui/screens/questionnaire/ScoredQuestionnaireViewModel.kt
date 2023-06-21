@@ -18,11 +18,11 @@ abstract class ScoredQuestionnaireViewModel(
     protected val repository: QuestionnaireRepository<MeasureEntity>,
     protected val manager: ScoredManager<MeasureEntity>,
     protected val entityId: Long,
-) : ViewModel()
-{
+) : ViewModel() {
     //state
-    private val _state : MutableStateFlow<QuestionnaireState> = MutableStateFlow(QuestionnaireState.InProgress)
-    val state : StateFlow<QuestionnaireState> get() = _state.asStateFlow()
+    private val _state: MutableStateFlow<QuestionnaireState> =
+        MutableStateFlow(QuestionnaireState.InProgress)
+    val state: StateFlow<QuestionnaireState> get() = _state.asStateFlow()
 
     private var measureEntity: MeasureEntity? = null
 
@@ -30,12 +30,10 @@ abstract class ScoredQuestionnaireViewModel(
         runBlocking {
             measureEntity = repository.get(entityId)
         }
-        if(measureEntity?.completed == true)
-        {
+        if (measureEntity?.completed == true) {
             _state.value = QuestionnaireState.Finished
         }
-        else
-        {
+        else {
             loadAnswers()
         }
     }
@@ -46,26 +44,22 @@ abstract class ScoredQuestionnaireViewModel(
     val score
         get() = manager.score
 
-    fun onSkippingAttempt()
-    {
+    fun onSkippingAttempt() {
         _state.value = QuestionnaireState.SkipAttempt
     }
 
-    fun onInProgress()
-    {
+    fun onInProgress() {
         _state.value = QuestionnaireState.InProgress
     }
 
-    fun onSkipped()
-    {
+    fun onSkipped() {
         runBlocking {
             updateQuestionnaire()
         }
         _state.value = QuestionnaireState.Skipped
     }
 
-    fun onFinishAttempt()
-    {
+    fun onFinishAttempt() {
         val listAnswersRemaining = manager.answersRemaining
         if (listAnswersRemaining.isEmpty())
             _state.value = QuestionnaireState.Summary
@@ -73,19 +67,17 @@ abstract class ScoredQuestionnaireViewModel(
             _state.value = QuestionnaireState.FinishAttempt
     }
 
-    fun onSummary()
-    {
+    fun onSummary() {
         runBlocking {
             updateQuestionnaire()
         }
         _state.value = QuestionnaireState.Finished
     }
 
-    fun onAnswer(question: Int, answer: Int)
-    {
+    fun onAnswer(question: Int, answer: Int) {
         manager.apply {
             if (getAnswer(question) != answer)
-                setAnswer(question,answer)
+                setAnswer(question, answer)
             else
                 removeAnswer(question)
         }
@@ -93,15 +85,13 @@ abstract class ScoredQuestionnaireViewModel(
 
     fun answerSelected(question: Int) = manager.getAnswer(question)
 
-    private fun loadAnswers()
-    {
+    private fun loadAnswers() {
         measureEntity?.let {
             manager.loadEntity(it)
         }
     }
 
-    private suspend fun updateQuestionnaire()
-    {
+    private suspend fun updateQuestionnaire() {
         measureEntity?.let {
             manager.setEntity(it)
             repository.update(it)

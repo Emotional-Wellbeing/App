@@ -34,10 +34,12 @@ class PhoneInfo {
         var message = "{"
         cursor?.use {
             while (it.moveToNext()) {
-                var json : String = " \"Call\": {\"Name\": \"" + securePrivateData(it.getStringFromColumn(CACHED_NAME))+
-                        "\", \"Number\": \""+ securePrivateData(it.getStringFromColumn(NUMBER))+
-                        "\", \"Date\": \""+ it.getStringFromColumn(DATE)+
-                        "\", \"Duration\": \""+ it.getStringFromColumn(DURATION)+
+                var json: String = " \"Call\": {\"Name\": \"" + securePrivateData(
+                    it.getStringFromColumn(CACHED_NAME)
+                ) +
+                        "\", \"Number\": \"" + securePrivateData(it.getStringFromColumn(NUMBER)) +
+                        "\", \"Date\": \"" + it.getStringFromColumn(DATE) +
+                        "\", \"Duration\": \"" + it.getStringFromColumn(DURATION) +
                         "\"}"
 
                 if (it.moveToNext())
@@ -54,9 +56,11 @@ class PhoneInfo {
     private fun Cursor.getStringFromColumn(columnName: String) =
         getString(getColumnIndex(columnName))
 
-    private fun checkPermissions(context: Context) : Boolean{
-        val permission = ContextCompat.checkSelfPermission(context,
-            READ_CALL_LOG)
+    private fun checkPermissions(context: Context): Boolean {
+        val permission = ContextCompat.checkSelfPermission(
+            context,
+            READ_CALL_LOG
+        )
 
         return permission == PackageManager.PERMISSION_GRANTED
     }

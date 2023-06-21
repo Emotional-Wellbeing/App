@@ -18,15 +18,13 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule
-{
+object DatabaseModule {
     @Provides
     fun provideAppDao(appDatabase: AppDatabase): AppDAO = appDatabase.appDao()
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase
-    {
+    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
         val pass = SecretKey.getSecretKey().encoded
         val factory = SupportFactory(pass)
 

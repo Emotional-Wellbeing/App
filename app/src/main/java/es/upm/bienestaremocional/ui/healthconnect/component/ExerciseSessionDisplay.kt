@@ -18,8 +18,7 @@ import kotlin.random.Random
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun ExerciseSessionRecord.Display(widthSize: WindowWidthSizeClass)
-{
+fun ExerciseSessionRecord.Display(widthSize: WindowWidthSizeClass) {
     val exerciseFormatted = decodeExerciseType()
 
     BasicCard {
@@ -40,8 +39,8 @@ fun ExerciseSessionRecord.Display(widthSize: WindowWidthSizeClass)
 
 @Composable
 private fun ExerciseSessionRecord.decodeExerciseType(): String =
-    stringResource(when(exerciseType)
-        {
+    stringResource(
+        when (exerciseType) {
             ExerciseSessionRecord.EXERCISE_TYPE_OTHER_WORKOUT -> R.string.other
             ExerciseSessionRecord.EXERCISE_TYPE_BADMINTON -> R.string.badminton
             ExerciseSessionRecord.EXERCISE_TYPE_BASEBALL -> R.string.baseball
@@ -107,12 +106,10 @@ private fun ExerciseSessionRecord.decodeExerciseType(): String =
         }
     )
 
-private fun generateDummyData() : ExerciseSessionRecord
-{
+private fun generateDummyData(): ExerciseSessionRecord {
     val (init, end) = generateInterval()
 
-    val exerciseType = when(Random.nextInt(0,61))
-    {
+    val exerciseType = when (Random.nextInt(0, 61)) {
         0 -> ExerciseSessionRecord.EXERCISE_TYPE_OTHER_WORKOUT
         1 -> ExerciseSessionRecord.EXERCISE_TYPE_BADMINTON
         2 -> ExerciseSessionRecord.EXERCISE_TYPE_BASEBALL
@@ -190,35 +187,34 @@ private fun generateDummyData() : ExerciseSessionRecord
 
 @Preview(group = "Light Theme")
 @Composable
-fun ExerciseSessionRecordDisplayPreview()
-{
+fun ExerciseSessionRecordDisplayPreview() {
     val exerciseSessionRecord = generateDummyData()
     BienestarEmocionalTheme {
         exerciseSessionRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun ExerciseSessionRecordDisplayPreviewDarkTheme()
-{
+fun ExerciseSessionRecordDisplayPreviewDarkTheme() {
     val exerciseSessionRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         exerciseSessionRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun ExerciseSessionRecordDisplayLargeScreenPreview()
-{
+fun ExerciseSessionRecordDisplayLargeScreenPreview() {
     val exerciseSessionRecord = generateDummyData()
     BienestarEmocionalTheme {
         exerciseSessionRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun ExerciseSessionRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun ExerciseSessionRecordDisplayLargeScreenPreviewDarkTheme() {
     val exerciseSessionRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         exerciseSessionRecord.Display(widthSize = WindowWidthSizeClass.Medium)

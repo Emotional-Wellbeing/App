@@ -7,8 +7,7 @@ import kotlinx.coroutines.flow.Flow
  * Contains the operations related with the settings of the app
  * @see AppSettingsImpl
  */
-interface AppSettings
-{
+interface AppSettings {
     /**
      * Save questionnaires selected
      * @param value: Preference to save

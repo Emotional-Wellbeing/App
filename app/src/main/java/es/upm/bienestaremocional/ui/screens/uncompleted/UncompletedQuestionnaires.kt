@@ -33,8 +33,7 @@ import es.upm.bienestaremocional.ui.screens.destinations.OneOffRoundScreenDestin
 fun UncompletedQuestionnairesScreen(
     navigator: DestinationsNavigator,
     viewModel: UncompletedQuestionnairesViewModel = hiltViewModel()
-)
-{
+) {
     BackHandlerMinimizeApp(LocalContext.current)
 
     val dailyRoundsUncompleted by viewModel.dailyRoundsUncompleted.observeAsState(emptyList())
@@ -50,25 +49,26 @@ fun UncompletedQuestionnairesScreen(
 @Composable
 fun UncompletedQuestionnairesScreen(
     navigator: DestinationsNavigator,
-    dailyRoundsUncompleted : List<DailyRoundFull>,
-    oneOffRoundsUncompleted : List<OneOffRoundFull>)
-{
-    AppBasicScreen(navigator = navigator,
+    dailyRoundsUncompleted: List<DailyRoundFull>,
+    oneOffRoundsUncompleted: List<OneOffRoundFull>
+) {
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = null,
-        label = R.string.uncompleted_questionnaires_label)
+        label = R.string.uncompleted_questionnaires_label
+    )
     {
         LazyColumn(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp))
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        )
         {
-            if(dailyRoundsUncompleted.isEmpty() && oneOffRoundsUncompleted.isEmpty())
-            {
+            if (dailyRoundsUncompleted.isEmpty() && oneOffRoundsUncompleted.isEmpty()) {
                 item {
                     Text(stringResource(R.string.empty_list))
                 }
             }
-            else
-            {
+            else {
                 items(dailyRoundsUncompleted) { item ->
                     BasicCard {
                         ShowUncompletedDailyRound(item)
@@ -80,8 +80,10 @@ fun UncompletedQuestionnairesScreen(
                             )
                         })
                         {
-                            Text(stringResource(R.string.continue_label),
-                                color = MaterialTheme.colorScheme.tertiary)
+                            Text(
+                                stringResource(R.string.continue_label),
+                                color = MaterialTheme.colorScheme.tertiary
+                            )
                         }
                     }
                 }
@@ -93,8 +95,10 @@ fun UncompletedQuestionnairesScreen(
                             navigator.navigate(OneOffRoundScreenDestination(oneOffRound = item.oneOffRound))
                         })
                         {
-                            Text(stringResource(R.string.continue_label),
-                                color = MaterialTheme.colorScheme.tertiary)
+                            Text(
+                                stringResource(R.string.continue_label),
+                                color = MaterialTheme.colorScheme.tertiary
+                            )
                         }
                     }
                 }

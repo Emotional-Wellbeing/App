@@ -27,23 +27,23 @@ import java.util.Locale
 @Composable
 fun ActualWeekChart(
     questionnaire: DailyScoredQuestionnaire,
-    data : List<NullableChartRecord>
-)
-{
+    data: List<NullableChartRecord>
+) {
     val producer = remember { ChartEntryModelProducer() }
 
     producer.setEntries(
         data.mapIndexed { index, value ->
-            ChartEntryWithTime(value.day, index.toFloat(),value.score ?: 0f)
+            ChartEntryWithTime(value.day, index.toFloat(), value.score ?: 0f)
         }
     )
 
     val valueFormatter = AxisValueFormatter<AxisPosition.Horizontal.Bottom> { index, chartValues ->
         // Access to the first list of entries (in our case only one chart is plotted)
         // Get actual element and extract day of the week from time
-        (chartValues.chartEntryModel.entries.first().getOrNull(index.toInt()) as? ChartEntryWithTime)
+        (chartValues.chartEntryModel.entries.first()
+            .getOrNull(index.toInt()) as? ChartEntryWithTime)
             ?.time
-            ?.run { this.dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.getDefault())  }
+            ?.run { this.dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.getDefault()) }
             .orEmpty()
     }
 
@@ -53,10 +53,12 @@ fun ActualWeekChart(
     {
         Chart(
             chart = columnChart(
-                axisValuesOverrider = AxisValuesOverrider.fixed(null,
+                axisValuesOverrider = AxisValuesOverrider.fixed(
+                    null,
                     null,
                     questionnaire.minScore.toFloat(),
-                    questionnaire.maxScore.toFloat())
+                    questionnaire.maxScore.toFloat()
+                )
             ),
             model = producer.getModel(),
             startAxis = startAxis(

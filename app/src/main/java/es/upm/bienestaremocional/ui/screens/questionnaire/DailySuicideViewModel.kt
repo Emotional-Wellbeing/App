@@ -15,19 +15,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
+
 @HiltViewModel
 class DailySuicideViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val repository: DailySuicideRepository,
-    private val manager : DailySuicideManager
-) : ViewModel()
-{
+    private val manager: DailySuicideManager
+) : ViewModel() {
     //state
-    private val _state : MutableStateFlow<SuicideScreenState> = MutableStateFlow(SuicideScreenState.InProgress)
-    val state : StateFlow<SuicideScreenState> get() = _state.asStateFlow()
+    private val _state: MutableStateFlow<SuicideScreenState> =
+        MutableStateFlow(SuicideScreenState.InProgress)
+    val state: StateFlow<SuicideScreenState> get() = _state.asStateFlow()
 
-    private val _questionNumber : MutableStateFlow<Int> = MutableStateFlow(0)
-    val questionNumber : StateFlow<Int> get() = _questionNumber.asStateFlow()
+    private val _questionNumber: MutableStateFlow<Int> = MutableStateFlow(0)
+    val questionNumber: StateFlow<Int> get() = _questionNumber.asStateFlow()
 
     private var measureEntity: DailySuicide? = null
 
@@ -39,64 +40,54 @@ class DailySuicideViewModel @Inject constructor(
         runBlocking {
             measureEntity = repository.get(entityId)
         }
-        if(measureEntity?.completed == true)
-        {
+        if (measureEntity?.completed == true) {
             _state.value = SuicideScreenState.Finished
         }
-        else
-        {
+        else {
             loadAnswers()
         }
     }
 
-    fun onSkippingAttempt()
-    {
+    fun onSkippingAttempt() {
         _state.value = SuicideScreenState.SkipAttempt
     }
 
-    fun onInProgress()
-    {
+    fun onInProgress() {
         _state.value = SuicideScreenState.InProgress
     }
 
-    fun onSkipped()
-    {
+    fun onSkipped() {
         runBlocking {
             updateQuestionnaire()
         }
         _state.value = SuicideScreenState.Skipped
     }
 
-    fun onSummary()
-    {
+    fun onSummary() {
         runBlocking {
             updateQuestionnaire()
         }
         _state.value = SuicideScreenState.Finished
     }
 
-    suspend fun onAnswer(question: Int, answer: Int)
-    {
+    suspend fun onAnswer(question: Int, answer: Int) {
         manager.apply {
-            setAnswer(question,answer)
+            setAnswer(question, answer)
         }
 
         delay(animationDurationMillis.toLong())
 
         //If user answers no, we don't ask more questions, or if we don't have more questions to ask
-        if(answer == 1 || _questionNumber.value == manager.numberOfQuestions - 1)
-        {
+        if (answer == 1 || _questionNumber.value == manager.numberOfQuestions - 1) {
             // If user answer no, level depends on what index is
-            level = if(answer == 1)
-            {
+            level = if (answer == 1) {
                 if (question == 0)
                     Level.Low
                 else
                     Level.Moderate
             }
             // If all answers were yes, level is high
-            else
-            {
+            else {
                 Level.High
             }
             manager.setCompleted()
@@ -108,12 +99,10 @@ class DailySuicideViewModel @Inject constructor(
 
     fun answerSelected(question: Int) = manager.getAnswer(question)
 
-    private fun loadAnswers()
-    {
+    private fun loadAnswers() {
         measureEntity?.let { manager.loadEntity(it) }
 
-        if (measureEntity?.answer1 != null)
-        {
+        if (measureEntity?.answer1 != null) {
             if (measureEntity?.answer2 != null)
                 _questionNumber.value = 2
             else
@@ -121,8 +110,7 @@ class DailySuicideViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateQuestionnaire()
-    {
+    private suspend fun updateQuestionnaire() {
         measureEntity?.let {
             manager.setEntity(it)
             repository.update(it)

@@ -55,15 +55,14 @@ fun LinkText(
 }
 
 @Composable
-private fun createAnnotatedString(data: List<LinkTextData>,
-                                  normalTextSpanStyle: SpanStyle,
-                                  clickableTextSpanStyle: SpanStyle,
-): AnnotatedString
-{
+private fun createAnnotatedString(
+    data: List<LinkTextData>,
+    normalTextSpanStyle: SpanStyle,
+    clickableTextSpanStyle: SpanStyle,
+): AnnotatedString {
     return buildAnnotatedString {
         data.forEach { linkTextData ->
-            if (linkTextData.tag != null && linkTextData.annotation != null)
-            {
+            if (linkTextData.tag != null && linkTextData.annotation != null) {
                 //push annotation and stylish text with linkTextData
                 pushStringAnnotation(
                     tag = linkTextData.tag,
@@ -75,8 +74,7 @@ private fun createAnnotatedString(data: List<LinkTextData>,
                 }
                 pop()
             }
-            else
-            {
+            else {
                 //Apply normalTextStyle and go on
                 pushStyle(style = normalTextSpanStyle)
                 append(linkTextData.text)
@@ -88,8 +86,7 @@ private fun createAnnotatedString(data: List<LinkTextData>,
 
 @Preview
 @Composable
-private fun LinkTextPreview()
-{
+private fun LinkTextPreview() {
     val context = LocalContext.current
     val pieces = stringArrayResource(id = R.array.high_loneliness)
 
@@ -117,8 +114,7 @@ private fun LinkTextPreview()
 
 @Preview
 @Composable
-private fun LinkTextPreviewDarkTheme()
-{
+private fun LinkTextPreviewDarkTheme() {
     val context = LocalContext.current
     val pieces = stringArrayResource(id = R.array.high_loneliness)
 

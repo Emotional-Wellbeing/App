@@ -1,4 +1,3 @@
-
 package es.upm.bienestaremocional.ui.component
 
 import androidx.compose.material3.MaterialTheme

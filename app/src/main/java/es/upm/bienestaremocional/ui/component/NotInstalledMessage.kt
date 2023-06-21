@@ -1,4 +1,3 @@
-
 package es.upm.bienestaremocional.ui.component
 
 import androidx.compose.material3.MaterialTheme
@@ -29,8 +28,7 @@ fun NotInstalledMessage() {
     group = "Light Theme"
 )
 @Composable
-fun NotInstalledMessagePreview()
-{
+fun NotInstalledMessagePreview() {
     BienestarEmocionalTheme {
         Surface {
             NotInstalledMessage()
@@ -43,8 +41,7 @@ fun NotInstalledMessagePreview()
     group = "Dark Theme"
 )
 @Composable
-fun NotInstalledMessagePreviewDarkTheme()
-{
+fun NotInstalledMessagePreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             NotInstalledMessage()

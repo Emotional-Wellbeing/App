@@ -26,42 +26,44 @@ class InsertDailyRoundUseCaseImpl(
     private val dailySuicideRepository: DailySuicideRepository,
     private val dailySymptomsRepository: DailySymptomsRepository,
     private val dailyRoundRepository: DailyRoundRepository
-) : InsertDailyRoundUseCase
-{
-    override suspend fun insertDailyMorningRound(): DailyRound
-    {
-        Log.d(logTag,"Inserting daily morning round")
+) : InsertDailyRoundUseCase {
+    override suspend fun insertDailyMorningRound(): DailyRound {
+        Log.d(logTag, "Inserting daily morning round")
         //Frequency.OnlyDaily or Frequency.DailyAndOneOff are valid (not Frequency.OnlyDailyAtNight)
-        val mandatoryMeasures = Measure.get().filter { it.mandatory &&
-                it.frequency != Measure.Frequency.OnlyDailyAtNight
+        val mandatoryMeasures = Measure.get().filter {
+            it.mandatory &&
+                    it.frequency != Measure.Frequency.OnlyDailyAtNight
         }
         val optionalMeasures = appSettings.getMeasuresSelected().first().filter {
-                it.frequency != Measure.Frequency.OnlyDailyAtNight
+            it.frequency != Measure.Frequency.OnlyDailyAtNight
         }
         val measures = mandatoryMeasures + optionalMeasures
 
-        var stressId : Long? = null
-        var depressionId : Long? = null
-        var lonelinessId : Long? = null
-        var suicideId : Long? = null
+        var stressId: Long? = null
+        var depressionId: Long? = null
+        var lonelinessId: Long? = null
+        var suicideId: Long? = null
 
         measures.forEach {
-            when(it)
-            {
+            when (it) {
                 Measure.Stress -> {
                     stressId = dailyStressRepository.insert(DailyStress())
                 }
+
                 Measure.Depression -> {
                     depressionId = dailyDepressionRepository.insert(DailyDepression())
                 }
+
                 Measure.Loneliness -> {
                     lonelinessId = dailyLonelinessRepository.insert(DailyLoneliness())
                 }
+
                 Measure.Suicide -> {
                     //Only ask for suicide if depression is present
-                    if(measures.contains(Measure.Depression))
+                    if (measures.contains(Measure.Depression))
                         suicideId = dailySuicideRepository.insert(DailySuicide())
                 }
+
                 else -> {}
             }
         }
@@ -78,38 +80,40 @@ class InsertDailyRoundUseCaseImpl(
         return dailyRound
     }
 
-    override suspend fun insertDailyNightRound(): DailyRound
-    {
-        Log.d(logTag,"Inserting daily night round")
+    override suspend fun insertDailyNightRound(): DailyRound {
+        Log.d(logTag, "Inserting daily night round")
 
         // Every frequency is valid
         val mandatoryMeasures = Measure.get().filter { it.mandatory }
         val optionalMeasures = appSettings.getMeasuresSelected().first()
         val measures = mandatoryMeasures + optionalMeasures
 
-        var stressId : Long? = null
-        var depressionId : Long? = null
-        var lonelinessId : Long? = null
-        var suicideId : Long? = null
-        var symptomsId : Long? = null
+        var stressId: Long? = null
+        var depressionId: Long? = null
+        var lonelinessId: Long? = null
+        var suicideId: Long? = null
+        var symptomsId: Long? = null
 
         measures.forEach {
-            when(it)
-            {
+            when (it) {
                 Measure.Stress -> {
                     stressId = dailyStressRepository.insert(DailyStress())
                 }
+
                 Measure.Depression -> {
                     depressionId = dailyDepressionRepository.insert(DailyDepression())
                 }
+
                 Measure.Loneliness -> {
                     lonelinessId = dailyLonelinessRepository.insert(DailyLoneliness())
                 }
+
                 Measure.Suicide -> {
                     //Only ask for suicide if depression is present
-                    if(measures.contains(Measure.Depression))
+                    if (measures.contains(Measure.Depression))
                         suicideId = dailySuicideRepository.insert(DailySuicide())
                 }
+
                 Measure.Symptoms -> {
                     symptomsId = dailySymptomsRepository.insert(DailySymptoms())
                 }

@@ -31,9 +31,8 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 @Composable
 fun BottomBar(
     navigator: DestinationsNavigator,
-    entrySelected : BottomBarDestination?
-)
-{
+    entrySelected: BottomBarDestination?
+) {
     NavigationBar {
         BottomBarDestination.values().forEach { destination ->
             BottomBarItem(
@@ -43,8 +42,9 @@ fun BottomBar(
                 onClick = {
                     navigator.navigate(destination.direction) {
                         launchSingleTop = true
-                    }},
-                )
+                    }
+                },
+            )
         }
     }
 }
@@ -60,10 +60,9 @@ fun BottomBar(
 private fun RowScope.BottomBarItem(
     @DrawableRes icon: Int,
     @StringRes label: Int,
-    selected : Boolean,
-    onClick : () -> Unit,
-)
-{
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
     NavigationBarItem(
         selected = selected,
         onClick = onClick,
@@ -88,8 +87,7 @@ private fun RowScope.BottomBarItem(
 
 @Preview(group = "Light Theme")
 @Composable
-fun BottomBarPreview()
-{
+fun BottomBarPreview() {
     BienestarEmocionalTheme {
         BottomBar(EmptyDestinationsNavigator, BottomBarDestination.HomeScreen)
     }
@@ -97,8 +95,7 @@ fun BottomBarPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun BottomBarPreviewDarkTheme()
-{
+fun BottomBarPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         BottomBar(EmptyDestinationsNavigator, BottomBarDestination.HomeScreen)
     }
@@ -106,8 +103,7 @@ fun BottomBarPreviewDarkTheme()
 
 @Preview(group = "Light Theme")
 @Composable
-fun BottomBarItemSelectedPreview()
-{
+fun BottomBarItemSelectedPreview() {
     BienestarEmocionalTheme {
         Surface {
             //extracted from https://m3.material.io/components/navigation-bar/specs
@@ -126,8 +122,7 @@ fun BottomBarItemSelectedPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun BottomBarItemSelectedPreviewDarkTheme()
-{
+fun BottomBarItemSelectedPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             Row(Modifier.height(80.dp))
@@ -145,8 +140,7 @@ fun BottomBarItemSelectedPreviewDarkTheme()
 
 @Preview(group = "Light Theme")
 @Composable
-fun BottomBarItemNotSelectedPreview()
-{
+fun BottomBarItemNotSelectedPreview() {
     BienestarEmocionalTheme {
         Surface {
             Row(Modifier.height(80.dp))
@@ -164,16 +158,17 @@ fun BottomBarItemNotSelectedPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun BottomBarItemNotSelectedPreviewDarkTheme()
-{
+fun BottomBarItemNotSelectedPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             Row(Modifier.height(80.dp))
             {
-                BottomBarItem(selected = false,
+                BottomBarItem(
+                    selected = false,
                     onClick = {},
                     icon = BottomBarDestination.HomeScreen.icon,
-                    label = BottomBarDestination.HomeScreen.label)
+                    label = BottomBarDestination.HomeScreen.label
+                )
             }
         }
 

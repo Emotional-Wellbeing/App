@@ -38,8 +38,7 @@ import kotlin.random.Random
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun SleepSessionData.Display(widthSize: WindowWidthSizeClass)
-{
+fun SleepSessionData.Display(widthSize: WindowWidthSizeClass) {
     BasicCard {
         SeriesDateTimeHeading(
             start = startTime,
@@ -59,36 +58,44 @@ fun SleepSessionData.Display(widthSize: WindowWidthSizeClass)
             DrawPair(key = stringResource(R.string.duration), value = formattedDuration)
         }
 
-        Text(text = stringResource(R.string.sleep_stages),color = MaterialTheme.colorScheme.onSurface)
-        stages.forEach{it.Display()}
+        Text(
+            text = stringResource(R.string.sleep_stages),
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        stages.forEach { it.Display() }
 
         metadata.Display(widthSize)
     }
 }
 
 @Composable
-fun SleepStageRecord.Display()
-{
-    Row(modifier = Modifier
-        .fillMaxSize()
-        .padding(horizontal = 16.dp))
+fun SleepStageRecord.Display() {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    )
     {
         val intervalLabel = formatDisplayTimeStartEnd(
-            startTime, startZoneOffset, endTime, endZoneOffset)
+            startTime, startZoneOffset, endTime, endZoneOffset
+        )
 
-        Text(modifier = Modifier.weight(1f),
+        Text(
+            modifier = Modifier.weight(1f),
             text = intervalLabel,
-            color = MaterialTheme.colorScheme.primary)
-        Text(modifier = Modifier.weight(1f),
+            color = MaterialTheme.colorScheme.primary
+        )
+        Text(
+            modifier = Modifier.weight(1f),
             text = decode(),
-            color = MaterialTheme.colorScheme.tertiary)
+            color = MaterialTheme.colorScheme.tertiary
+        )
     }
 }
 
 @Composable
 fun SleepStageRecord.decode(): String =
-    when(stage)
-    {
+    when (stage) {
         STAGE_TYPE_UNKNOWN -> stringResource(R.string.unknown)
         STAGE_TYPE_AWAKE -> stringResource(R.string.awake)
         STAGE_TYPE_SLEEPING -> stringResource(R.string.sleeping)
@@ -109,8 +116,7 @@ private fun randomSleepStage() = Random.nextInt(7)
  * Creates a random list of sleep stages that spans the specified [start] to [end] time.
  */
 private fun generateSleepStages(start: ZonedDateTime, end: ZonedDateTime):
-        List<SleepStageRecord>
-{
+        List<SleepStageRecord> {
     val sleepStages = mutableListOf<SleepStageRecord>()
     var stageStart = start
     while (stageStart < end) {
@@ -130,22 +136,24 @@ private fun generateSleepStages(start: ZonedDateTime, end: ZonedDateTime):
     return sleepStages
 }
 
-private fun generateDummyData() : SleepSessionData
-{
-    val notes = listOf("I slept great!",
+private fun generateDummyData(): SleepSessionData {
+    val notes = listOf(
+        "I slept great!",
         "I got woken up",
         "Struggled to sleep",
         "Much needed sleep",
-        "Restful sleep")
-    
+        "Restful sleep"
+    )
+
     val (bedtime, wakeUp) = generateInterval(upperBound = 14)
     val sleepStages = generateSleepStages(bedtime, wakeUp)
     return SleepSessionData(
         uid = "",
         title = "Zzz",
         duration = Duration.of(
-            sleepStages.sumOf { it.endTime.epochSecond - it.startTime.epochSecond }
-            , ChronoUnit.SECONDS),
+            sleepStages.sumOf { it.endTime.epochSecond - it.startTime.epochSecond },
+            ChronoUnit.SECONDS
+        ),
         notes = notes[Random.nextInt(0, notes.size)],
         startTime = bedtime.toInstant(),
         startZoneOffset = bedtime.offset,
@@ -157,8 +165,7 @@ private fun generateDummyData() : SleepSessionData
 
 @Preview(group = "Light Theme")
 @Composable
-fun SleepSessionDataDisplayPreview()
-{
+fun SleepSessionDataDisplayPreview() {
     val sleepSessionData = generateDummyData()
     BienestarEmocionalTheme {
         sleepSessionData.Display(widthSize = WindowWidthSizeClass.Compact)
@@ -167,8 +174,7 @@ fun SleepSessionDataDisplayPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun SleepSessionDataDisplayPreviewDarkTheme()
-{
+fun SleepSessionDataDisplayPreviewDarkTheme() {
     val sleepSessionData = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         sleepSessionData.Display(widthSize = WindowWidthSizeClass.Compact)
@@ -177,8 +183,7 @@ fun SleepSessionDataDisplayPreviewDarkTheme()
 
 @Preview(group = "Light Theme")
 @Composable
-fun SleepSessionDataDisplayLargeScreenPreview()
-{
+fun SleepSessionDataDisplayLargeScreenPreview() {
     val sleepSessionData = generateDummyData()
     BienestarEmocionalTheme {
         sleepSessionData.Display(widthSize = WindowWidthSizeClass.Medium)
@@ -187,8 +192,7 @@ fun SleepSessionDataDisplayLargeScreenPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun SleepSessionDataDisplayLargeScreenPreviewDarkTheme()
-{
+fun SleepSessionDataDisplayLargeScreenPreviewDarkTheme() {
     val sleepSessionData = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         sleepSessionData.Display(widthSize = WindowWidthSizeClass.Medium)
@@ -197,8 +201,7 @@ fun SleepSessionDataDisplayLargeScreenPreviewDarkTheme()
 
 @Preview(group = "Light Theme")
 @Composable
-fun SleepStageDisplayPreview()
-{
+fun SleepStageDisplayPreview() {
     val stage = generateDummyData().stages[0]
     BienestarEmocionalTheme {
         stage.Display()
@@ -207,8 +210,7 @@ fun SleepStageDisplayPreview()
 
 @Preview(group = "Dark Theme")
 @Composable
-fun SleepStageDisplayPreviewDarkTheme()
-{
+fun SleepStageDisplayPreviewDarkTheme() {
     val stage = generateDummyData().stages[0]
     BienestarEmocionalTheme(darkTheme = true) {
         stage.Display()

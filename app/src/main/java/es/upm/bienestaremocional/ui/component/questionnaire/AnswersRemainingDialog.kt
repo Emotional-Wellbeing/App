@@ -13,15 +13,16 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 @Composable
 fun AnswersRemainingDialog(
     answersRemaining: List<Int>,
-    onDismiss : () -> Unit
-)
-{
+    onDismiss: () -> Unit
+) {
     val textToShow = pluralStringResource(
         R.plurals.number_of_questions_left,
         answersRemaining.size,
-        answersRemaining.map { it+1 }.joinToString())
+        answersRemaining.map { it + 1 }.joinToString()
+    )
 
-    AlertDialog(onDismissRequest = onDismiss,
+    AlertDialog(
+        onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.ok))
@@ -37,18 +38,16 @@ fun AnswersRemainingDialog(
 
 @Composable
 @Preview
-fun AnswersRemainingDialogPreview()
-{
+fun AnswersRemainingDialogPreview() {
     BienestarEmocionalTheme {
-        AnswersRemainingDialog(answersRemaining = listOf(1,2,4,7,8)) {}
+        AnswersRemainingDialog(answersRemaining = listOf(1, 2, 4, 7, 8)) {}
     }
 }
 
 @Composable
 @Preview
-fun AnswersRemainingDialogDarkThemePreview()
-{
+fun AnswersRemainingDialogDarkThemePreview() {
     BienestarEmocionalTheme(darkTheme = true) {
-        AnswersRemainingDialog(answersRemaining = listOf(1,2,4,7)) {}
+        AnswersRemainingDialog(answersRemaining = listOf(1, 2, 4, 7)) {}
     }
 }

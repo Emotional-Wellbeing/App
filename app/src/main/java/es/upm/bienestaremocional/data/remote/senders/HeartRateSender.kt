@@ -10,13 +10,10 @@ import es.upm.bienestaremocional.utils.obtainTimestamp
 data class HeartRateSender(
     val startTime: Long,
     val endTime: Long,
-    val samples : List<HeartRateSampleSender>
-)
-{
-    companion object
-    {
-        fun HeartRateRecord.toSender(): HeartRateSender
-        {
+    val samples: List<HeartRateSampleSender>
+) {
+    companion object {
+        fun HeartRateRecord.toSender(): HeartRateSender {
             val startTime = obtainTimestamp(startTime, startZoneOffset)
             val endTime = obtainTimestamp(endTime, endZoneOffset)
             val samples = samples.map { it.toSender() }

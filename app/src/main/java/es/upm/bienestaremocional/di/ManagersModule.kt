@@ -18,8 +18,7 @@ import es.upm.bienestaremocional.data.questionnaire.oneoff.OneOffStressManager
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object ManagersModule
-{
+object ManagersModule {
     @Provides
     fun provideDailyStressManager(): DailyStressManager = DailyStressManager()
 

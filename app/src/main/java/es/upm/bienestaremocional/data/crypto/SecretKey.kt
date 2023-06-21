@@ -12,8 +12,7 @@ object SecretKey {
     private const val algorithm = KeyProperties.KEY_ALGORITHM_AES
     private const val cipherMode = KeyProperties.BLOCK_MODE_GCM
 
-    private fun generateSecretKey(): SecretKey
-    {
+    private fun generateSecretKey(): SecretKey {
         val keyGenerator = KeyGenerator.getInstance(algorithm, provider)
         val spec = KeyGenParameterSpec
             .Builder(secretKeyAlias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)

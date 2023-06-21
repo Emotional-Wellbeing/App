@@ -18,9 +18,8 @@ import kotlin.random.Random
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun FloorsClimbedRecord.Display(widthSize: WindowWidthSizeClass)
-{
-    val floorsFormatted = String.format("%.2f",floors)
+fun FloorsClimbedRecord.Display(widthSize: WindowWidthSizeClass) {
+    val floorsFormatted = String.format("%.2f", floors)
 
     BasicCard {
         SeriesDateTimeHeading(
@@ -36,11 +35,10 @@ fun FloorsClimbedRecord.Display(widthSize: WindowWidthSizeClass)
     }
 }
 
-private fun generateDummyData(): FloorsClimbedRecord
-{
+private fun generateDummyData(): FloorsClimbedRecord {
     val (init, end) = generateInterval()
 
-    val floors = Random.nextDouble(0.0,1000000.0)
+    val floors = Random.nextDouble(0.0, 1000000.0)
 
     return FloorsClimbedRecord(
         startTime = init.toInstant(),
@@ -53,35 +51,34 @@ private fun generateDummyData(): FloorsClimbedRecord
 
 @Preview(group = "Light Theme")
 @Composable
-fun FloorsClimbedRecordDisplayPreview()
-{
+fun FloorsClimbedRecordDisplayPreview() {
     val floorsClimbedRecord = generateDummyData()
     BienestarEmocionalTheme {
         floorsClimbedRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun FloorsClimbedRecordDisplayPreviewDarkTheme()
-{
+fun FloorsClimbedRecordDisplayPreviewDarkTheme() {
     val floorsClimbedRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         floorsClimbedRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun FloorsClimbedRecordDisplayLargeScreenPreview()
-{
+fun FloorsClimbedRecordDisplayLargeScreenPreview() {
     val floorsClimbedRecord = generateDummyData()
     BienestarEmocionalTheme {
         floorsClimbedRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun FloorsClimbedRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun FloorsClimbedRecordDisplayLargeScreenPreviewDarkTheme() {
     val floorsClimbedRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         floorsClimbedRecord.Display(widthSize = WindowWidthSizeClass.Medium)

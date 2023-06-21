@@ -18,71 +18,63 @@ import javax.inject.Inject
 class OneOffStressRepositoryImpl @Inject constructor(
     private val dao: AppDAO,
     private val logTag: String
-): OneOffStressRepository
-{
-    override suspend fun insert(element: OneOffStress): Long
-    {
+) : OneOffStressRepository {
+    override suspend fun insert(element: OneOffStress): Long {
         Log.d(logTag, "inserting new OneOffStress")
         return dao.insert(element)
     }
 
-    override suspend fun update(element: OneOffStress)
-    {
+    override suspend fun update(element: OneOffStress) {
         Log.d(logTag, "updating OneOffStress with id: ${element.id}")
         element.apply { modifiedAt = System.currentTimeMillis() }
         return dao.update(element)
     }
 
-    override suspend fun get(id: Long): OneOffStress?
-    {
+    override suspend fun get(id: Long): OneOffStress? {
         Log.d(logTag, "querying OneOffStress with id: $id")
         return dao.getOneOffStress(id)
     }
 
-    override suspend fun getAll(): List<OneOffStress>
-    {
+    override suspend fun getAll(): List<OneOffStress> {
         Log.d(logTag, "querying all OneOffStress")
         return dao.getAllOneOffStress()
     }
 
-    override suspend fun getAllFromCurrentWeek(): List<OneOffStress>
-    {
+    override suspend fun getAllFromCurrentWeek(): List<OneOffStress> {
         Log.d(logTag, "querying all OneOffStress from current week")
         val range = getCurrentWeek()
-        return dao.getAllOneOffStressFromRange(range.first,range.second)
+        return dao.getAllOneOffStressFromRange(range.first, range.second)
     }
 
-    override suspend fun getAllFromLastSevenDays(): List<OneOffStress>
-    {
+    override suspend fun getAllFromLastSevenDays(): List<OneOffStress> {
         Log.d(logTag, "querying all OneOffStress from last seven days")
         val range = getLastSevenDays()
-        return dao.getAllOneOffStressFromRange(range.first,range.second)
+        return dao.getAllOneOffStressFromRange(range.first, range.second)
     }
 
     override suspend fun getAllFromRange(
         range: Range<ZonedDateTime>,
         onlyCompleted: Boolean
-    ): List<OneOffStress>
-    {
-        Log.d(logTag, "querying all OneOffStress between ${range.lower} " +
-                "and ${range.upper}; only completed: $onlyCompleted")
+    ): List<OneOffStress> {
+        Log.d(
+            logTag, "querying all OneOffStress between ${range.lower} " +
+                    "and ${range.upper}; only completed: $onlyCompleted"
+        )
         val start = range.lower.toEpochSecond() * 1000
         val end = range.upper.plusDays(1).toEpochSecond() * 1000
         return if (onlyCompleted)
-            dao.getAllOneOffStressCompletedFromRange(start,end)
+            dao.getAllOneOffStressCompletedFromRange(start, end)
         else
-            dao.getAllOneOffStressFromRange(start,end)
+            dao.getAllOneOffStressFromRange(start, end)
     }
 
-    override suspend fun getAllFromYesterday(): List<OneOffStress>
-    {
+    override suspend fun getAllFromYesterday(): List<OneOffStress> {
         Log.d(logTag, "querying all OneOffStress from yesterday")
         val range = getStartAndEndOfYesterday()
-        return dao.getAllOneOffStressFromRange(range.first,range.second)
+        return dao.getAllOneOffStressFromRange(range.first, range.second)
     }
 
-    override suspend fun getLastCompleted(): OneOffStress?
-    {
+    override suspend fun getLastCompleted(): OneOffStress? {
         Log.d(logTag, "querying last OneOffStress completed")
         return dao.getLastOneOffStressCompleted()
     }

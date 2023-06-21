@@ -6,9 +6,8 @@ import java.time.LocalDateTime
 /**
  * Contains the essential data of a process that should be scheduled
  */
-interface Schedulable
-{
+interface Schedulable {
     val initialTime: LocalDateTime?
     val tag: String
-    val repeatInterval : Duration
+    val repeatInterval: Duration
 }

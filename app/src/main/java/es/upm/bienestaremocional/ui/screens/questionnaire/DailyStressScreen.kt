@@ -21,11 +21,10 @@ fun DailyStressScreen(
     navController: NavController,
     entityId: Long,
     moment: DailyRound.Moment,
-    questionnaireIndex : Int = 0,
-    questionnaireSize : Int = 1,
-    viewModel : DailyStressViewModel = hiltViewModel(),
-)
-{
+    questionnaireIndex: Int = 0,
+    questionnaireSize: Int = 1,
+    viewModel: DailyStressViewModel = hiltViewModel(),
+) {
     val questionnaire = if (moment == DailyRound.Moment.Morning)
         DailyScoredQuestionnaireDrawable.MorningStress
     else
@@ -33,7 +32,7 @@ fun DailyStressScreen(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val summaryContent : @Composable (Int, WindowWidthSizeClass) -> Unit  = { score, widthSize ->
+    val summaryContent: @Composable (Int, WindowWidthSizeClass) -> Unit = { score, widthSize ->
         DailyStressStatus(
             data = score,
             widthSize = widthSize,
@@ -48,11 +47,15 @@ fun DailyStressScreen(
         state = state,
         questionnaire = questionnaire,
         widthSize = computeWindowWidthSize(),
-        title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${stringResource(questionnaire.measureRes)}",
+        title = "${stringResource(R.string.questionnaire)} ${questionnaireIndex + 1}/${questionnaireSize} ${
+            stringResource(
+                questionnaire.measureRes
+            )
+        }",
         answerSelected = viewModel::answerSelected,
         answersRemaining = viewModel::answersRemaining,
         getScore = viewModel::score,
-        onAnswer = { question, answer -> viewModel.onAnswer(question,answer) },
+        onAnswer = { question, answer -> viewModel.onAnswer(question, answer) },
         onInProgress = viewModel::onInProgress,
         onSkippingAttempt = viewModel::onSkippingAttempt,
         onSkipped = viewModel::onSkipped,

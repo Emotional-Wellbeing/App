@@ -19,9 +19,8 @@ import kotlin.random.Random
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun WeightRecord.Display(widthSize: WindowWidthSizeClass)
-{
-    val weightFormatted = String.format("%.2f",weight.inKilograms)
+fun WeightRecord.Display(widthSize: WindowWidthSizeClass) {
+    val weightFormatted = String.format("%.2f", weight.inKilograms)
     val unit = stringResource(id = R.string.kg)
 
     BasicCard {
@@ -36,11 +35,10 @@ fun WeightRecord.Display(widthSize: WindowWidthSizeClass)
     }
 }
 
-private fun generateDummyData() : WeightRecord
-{
+private fun generateDummyData(): WeightRecord {
     val time = generateTime()
 
-    val weight = Mass.kilograms(Random.nextDouble(0.0,200.0))
+    val weight = Mass.kilograms(Random.nextDouble(0.0, 200.0))
 
     return WeightRecord(
         time = time.toInstant(),
@@ -51,35 +49,34 @@ private fun generateDummyData() : WeightRecord
 
 @Preview(group = "Light Theme")
 @Composable
-fun WeightRecordDisplayPreview()
-{
+fun WeightRecordDisplayPreview() {
     val weightRecord = generateDummyData()
     BienestarEmocionalTheme {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun WeightRecordDisplayPreviewDarkTheme()
-{
+fun WeightRecordDisplayPreviewDarkTheme() {
     val weightRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun WeightRecordDisplayLargeScreenPreview()
-{
+fun WeightRecordDisplayLargeScreenPreview() {
     val weightRecord = generateDummyData()
     BienestarEmocionalTheme {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun WeightRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun WeightRecordDisplayLargeScreenPreviewDarkTheme() {
     val weightRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Medium)

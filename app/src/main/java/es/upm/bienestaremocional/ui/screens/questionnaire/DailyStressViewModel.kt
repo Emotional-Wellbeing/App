@@ -16,7 +16,7 @@ class DailyStressViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     val dailyStressRepository: DailyStressRepository,
     dailyStressManager: DailyStressManager,
-    ) : ScoredQuestionnaireViewModel(
+) : ScoredQuestionnaireViewModel(
     repository = dailyStressRepository as QuestionnaireRepository<MeasureEntity>,
     manager = dailyStressManager as ScoredManager<MeasureEntity>,
     entityId = DailyStressScreenDestination.argsFrom(savedStateHandle).entityId,

@@ -35,18 +35,19 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 @Composable
 fun MeasureSummary(
     questionnaire: DailyScoredQuestionnaire,
-    score : Int?,
+    score: Int?,
     pagerState: PagerState,
-    onClick : () -> Unit,
+    onClick: () -> Unit,
     widthSize: WindowWidthSizeClass,
     heightSize: WindowHeightSizeClass
-)
-{
-    Column(modifier = Modifier.fillMaxSize(),
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        MeasureSummary(questionnaire = questionnaire,
+        MeasureSummary(
+            questionnaire = questionnaire,
             score = score,
             onClick = onClick,
             widthSize = widthSize,
@@ -60,7 +61,8 @@ fun MeasureSummary(
         ) {
             HorizontalPagerIndicator(
                 pagerState = pagerState,
-                activeColor = MaterialTheme.colorScheme.primary)
+                activeColor = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
@@ -69,13 +71,12 @@ fun MeasureSummary(
 @Composable
 fun MeasureSummary(
     questionnaire: DailyScoredQuestionnaire,
-    score : Int?,
+    score: Int?,
     onClick: () -> Unit,
     widthSize: WindowWidthSizeClass,
     heightSize: WindowHeightSizeClass,
-    heightFraction : Float = 1f,
-)
-{
+    heightFraction: Float = 1f,
+) {
     // Checks
     require(heightFraction in 0f..1f)
 
@@ -83,8 +84,7 @@ fun MeasureSummary(
 
     // Text to display
     val introLabel = stringResource(
-        when(questionnaire)
-        {
+        when (questionnaire) {
             DailyScoredQuestionnaire.Stress -> R.string.level_of_stress
             DailyScoredQuestionnaire.Depression -> R.string.level_of_depression
             DailyScoredQuestionnaire.Loneliness -> R.string.level_of_loneliness
@@ -99,20 +99,21 @@ fun MeasureSummary(
 
     // Styles
     val titleStyle = if (widthSize >= WindowWidthSizeClass.Medium &&
-        heightSize >= WindowHeightSizeClass.Medium)
+        heightSize >= WindowHeightSizeClass.Medium
+    )
         MaterialTheme.typography.titleLarge
     else
         MaterialTheme.typography.titleMedium
 
     val adviceStyle = if (widthSize >= WindowWidthSizeClass.Medium &&
-        heightSize >= WindowHeightSizeClass.Medium)
+        heightSize >= WindowHeightSizeClass.Medium
+    )
         MaterialTheme.typography.bodyLarge
     else
         MaterialTheme.typography.bodyMedium
 
     // Text sizes
-    val cpiTextStyle = when(widthSize)
-    {
+    val cpiTextStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.displaySmall
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.displayMedium
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.displayMedium
@@ -124,33 +125,37 @@ fun MeasureSummary(
         modifier = Modifier.fillMaxHeight(heightFraction)
     )
     {
-        Column(modifier = Modifier
-            .weight(1f)
-            .fillMaxSize(),
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         )
         {
-            BoxWithConstraints(modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            BoxWithConstraints(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 contentAlignment = Alignment.Center
             )
             {
-                CircularProgressIndicator(data = score,
+                CircularProgressIndicator(
+                    data = score,
                     minValue = questionnaire.minScore,
                     maxValue = questionnaire.maxScore,
                     size = maxHeight,
                     textStyle = cpiTextStyle,
                     indicatorColor = MaterialTheme.colorScheme.primary,
-                    indicatorContainerColor  = MaterialTheme.colorScheme.primaryContainer,
+                    indicatorContainerColor = MaterialTheme.colorScheme.primaryContainer,
                 )
             }
         }
 
-        Column(modifier = Modifier
-            .weight(1f)
-            .fillMaxSize(),
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceAround
         )
@@ -158,7 +163,8 @@ fun MeasureSummary(
             Text(
                 text = headlineText,
                 color = MaterialTheme.colorScheme.secondary,
-                style = titleStyle)
+                style = titleStyle
+            )
             advice?.let { Text(text = it, style = adviceStyle) }
             TextButton(onClick = onClick) { Text(stringResource(R.string.more_details)) }
         }
@@ -168,8 +174,7 @@ fun MeasureSummary(
 
 @Preview
 @Composable
-fun MeasureSummaryPreview()
-{
+fun MeasureSummaryPreview() {
     BienestarEmocionalTheme {
         Surface {
             MeasureSummary(
@@ -185,8 +190,7 @@ fun MeasureSummaryPreview()
 
 @Preview
 @Composable
-fun MeasureSummaryPreviewDarkTheme()
-{
+fun MeasureSummaryPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             MeasureSummary(
@@ -203,8 +207,7 @@ fun MeasureSummaryPreviewDarkTheme()
 @OptIn(ExperimentalPagerApi::class)
 @Preview
 @Composable
-fun MeasureSummaryWithPagerPreview()
-{
+fun MeasureSummaryWithPagerPreview() {
     BienestarEmocionalTheme {
         Surface {
             MeasureSummary(
@@ -222,8 +225,7 @@ fun MeasureSummaryWithPagerPreview()
 @OptIn(ExperimentalPagerApi::class)
 @Preview
 @Composable
-fun MeasureSummaryWithPagerPreviewDarkTheme()
-{
+fun MeasureSummaryWithPagerPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             MeasureSummary(

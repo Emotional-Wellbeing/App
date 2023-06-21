@@ -25,11 +25,12 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  */
 @Destination
 @Composable
-fun PrivacyPolicyScreen(navigator: DestinationsNavigator)
-{
-    AppBasicScreen(navigator = navigator,
+fun PrivacyPolicyScreen(navigator: DestinationsNavigator) {
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = BottomBarDestination.SettingsScreen,
-        label = R.string.privacy_policy_screen_label)
+        label = R.string.privacy_policy_screen_label
+    )
     {
         Column(
             modifier = Modifier
@@ -39,7 +40,7 @@ fun PrivacyPolicyScreen(navigator: DestinationsNavigator)
             horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-            BasicCard{
+            BasicCard {
                 Text(stringResource(R.string.privacy_policy_description))
             }
         }
@@ -51,8 +52,7 @@ fun PrivacyPolicyScreen(navigator: DestinationsNavigator)
     group = "Light Theme"
 )
 @Composable
-fun PrivacyPolicyScreenPreview()
-{
+fun PrivacyPolicyScreenPreview() {
 
     BienestarEmocionalTheme {
         PrivacyPolicyScreen(EmptyDestinationsNavigator)
@@ -64,8 +64,7 @@ fun PrivacyPolicyScreenPreview()
     group = "Dark Theme"
 )
 @Composable
-fun PrivacyPolicyScreenPreviewDarkTheme()
-{
+fun PrivacyPolicyScreenPreviewDarkTheme() {
 
     BienestarEmocionalTheme(darkTheme = true) {
         PrivacyPolicyScreen(EmptyDestinationsNavigator)

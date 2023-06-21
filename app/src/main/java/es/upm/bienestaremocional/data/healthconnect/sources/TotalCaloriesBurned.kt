@@ -20,14 +20,13 @@ import javax.inject.Inject
 class TotalCaloriesBurned @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<TotalCaloriesBurnedRecord>(healthConnectManager)
-{
+) : HealthConnectSource<TotalCaloriesBurnedRecord>(healthConnectManager) {
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(TotalCaloriesBurnedRecord::class))
+        HealthPermission.getReadPermission(TotalCaloriesBurnedRecord::class)
+    )
 
     override suspend fun readSource(startTime: Instant, endTime: Instant):
-            List<TotalCaloriesBurnedRecord>
-    {
+            List<TotalCaloriesBurnedRecord> {
         val request = ReadRecordsRequest(
             recordType = TotalCaloriesBurnedRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

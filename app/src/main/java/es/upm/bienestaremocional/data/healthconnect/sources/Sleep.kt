@@ -21,11 +21,11 @@ import javax.inject.Inject
 class Sleep @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<SleepSessionData>(healthConnectManager)
-{
+) : HealthConnectSource<SleepSessionData>(healthConnectManager) {
     override val readPermissions = setOf(
         HealthPermission.getReadPermission(SleepSessionRecord::class),
-        HealthPermission.getReadPermission(SleepStageRecord::class))
+        HealthPermission.getReadPermission(SleepStageRecord::class)
+    )
 
     /**
      * Reads sleep sessions for the previous seven days (from yesterday) to show a week's worth of
@@ -34,8 +34,7 @@ class Sleep @Inject constructor(
      * In addition to reading [SleepSessionRecord]s, for each session, the duration is calculated to
      * demonstrate aggregation, and the underlying [SleepStageRecord] data is also read.
      */
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<SleepSessionData>
-    {
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<SleepSessionData> {
         val sessions = mutableListOf<SleepSessionData>()
 
         //petición de sesiones

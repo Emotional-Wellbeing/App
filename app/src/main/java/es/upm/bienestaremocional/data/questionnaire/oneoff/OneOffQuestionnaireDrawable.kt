@@ -23,19 +23,18 @@ import es.upm.bienestaremocional.data.questionnaire.ScoreLevel
  * if the answers label change across the questions
  */
 enum class OneOffQuestionnaireDrawable(
-    override val numberOfQuestions : Int,
+    override val numberOfQuestions: Int,
     override val answerRange: IntRange,
     override val levels: List<ScoreLevel>,
     override val minScore: Int,
     override val maxScore: Int,
-    val numberOfAnswers : Int,
-    val questionScoreOffset : Int = 0,
-    val questionsWithInvertedScore : Set<Int> = setOf(),
+    val numberOfAnswers: Int,
+    val questionScoreOffset: Int = 0,
+    val questionsWithInvertedScore: Set<Int> = setOf(),
     @StringRes override val measureRes: Int,
     @ArrayRes override val questionRes: Int,
     @ArrayRes override val answerRes: Array<Int>,
-) : QuestionnaireDrawableStringAnswers, QuestionnaireScored
-{
+) : QuestionnaireDrawableStringAnswers, QuestionnaireScored {
     Stress(
         numberOfQuestions = OneOffQuestionnaire.Stress.numberOfQuestions,
         answerRange = OneOffQuestionnaire.Stress.answerRange,

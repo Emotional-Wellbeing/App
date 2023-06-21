@@ -38,11 +38,11 @@ import java.time.temporal.TemporalAdjusters
 
 @Destination
 @Composable
-fun MeasureScreen(navigator : DestinationsNavigator,
-                  questionnaire: DailyScoredQuestionnaire,
-                  viewModel : MeasureViewModel = hiltViewModel()
-)
-{
+fun MeasureScreen(
+    navigator: DestinationsNavigator,
+    questionnaire: DailyScoredQuestionnaire,
+    viewModel: MeasureViewModel = hiltViewModel()
+) {
     val yesterdayScore by viewModel.yesterdayScore.collectAsStateWithLifecycle()
     val lastSevenDaysScore by viewModel.lastSevenDaysScore.collectAsStateWithLifecycle()
     val currentWeekScores by viewModel.currentWeekScores.collectAsStateWithLifecycle()
@@ -66,11 +66,12 @@ private fun MeasureScreen(
     lastSevenDaysScore: Int?,
     currentWeekScores: List<NullableChartRecord>,
     widthSize: WindowWidthSizeClass
-)
-{
-    AppBasicScreen(navigator = navigator,
+) {
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = null,
-        label = questionnaire.measure.measureRes)
+        label = questionnaire.measure.measureRes
+    )
     {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -84,7 +85,10 @@ private fun MeasureScreen(
                 {
                     DoubleMeasureStatus(
                         data = Pair(yesterdayScore, lastSevenDaysScore),
-                        headers = Pair(stringResource(R.string.yesterday), stringResource(R.string.last_seven_days)),
+                        headers = Pair(
+                            stringResource(R.string.yesterday),
+                            stringResource(R.string.last_seven_days)
+                        ),
                         questionnaire = questionnaire,
                         height = maxHeight,
                         widthSize = widthSize,
@@ -95,12 +99,14 @@ private fun MeasureScreen(
                 }
 
             }
-            Box(modifier = Modifier
-                .weight(0.6f)
-                .padding(16.dp))
+            Box(
+                modifier = Modifier
+                    .weight(0.6f)
+                    .padding(16.dp)
+            )
             {
                 if (currentWeekScores.isNotEmpty())
-                    ActualWeekChart(questionnaire,currentWeekScores)
+                    ActualWeekChart(questionnaire, currentWeekScores)
                 else
                     Text(stringResource(id = R.string.no_data_to_display))
             }
@@ -113,8 +119,7 @@ private fun MeasureScreen(
 
 @Preview(group = "Light Theme")
 @Composable
-private fun MeasureScreenCompactPreview()
-{
+private fun MeasureScreenCompactPreview() {
     val days = 7
     val step = DailyScoredQuestionnaire.Stress.run { maxScore - minScore } / days.toFloat()
 
@@ -127,24 +132,25 @@ private fun MeasureScreenCompactPreview()
     {
         NullableChartRecord(
             day = monday.plusDays(it.toLong()),
-            score = DailyScoredQuestionnaire.Stress.minScore + (step * (it+1)),
+            score = DailyScoredQuestionnaire.Stress.minScore + (step * (it + 1)),
         )
     }
 
     BienestarEmocionalTheme {
-        MeasureScreen(navigator = EmptyDestinationsNavigator,
+        MeasureScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnaire = DailyScoredQuestionnaire.Stress,
             yesterdayScore = 20,
             lastSevenDaysScore = 40,
             currentWeekScores = currentWeekScores,
-            widthSize = WindowWidthSizeClass.Compact)
+            widthSize = WindowWidthSizeClass.Compact
+        )
     }
 }
 
 @Preview(group = "Dark Theme")
 @Composable
-private fun MeasureScreenCompactPreviewDarkTheme()
-{
+private fun MeasureScreenCompactPreviewDarkTheme() {
     val days = 7
     val step = DailyScoredQuestionnaire.Stress.run { maxScore - minScore } / days.toFloat()
 
@@ -157,16 +163,18 @@ private fun MeasureScreenCompactPreviewDarkTheme()
     {
         NullableChartRecord(
             day = monday.plusDays(it.toLong()),
-            score = DailyScoredQuestionnaire.Stress.minScore + (step * (it+1)),
+            score = DailyScoredQuestionnaire.Stress.minScore + (step * (it + 1)),
         )
     }
 
     BienestarEmocionalTheme(darkTheme = true) {
-        MeasureScreen(navigator = EmptyDestinationsNavigator,
+        MeasureScreen(
+            navigator = EmptyDestinationsNavigator,
             questionnaire = DailyScoredQuestionnaire.Stress,
             yesterdayScore = 20,
             lastSevenDaysScore = 40,
             currentWeekScores = currentWeekScores,
-            widthSize = WindowWidthSizeClass.Compact)
+            widthSize = WindowWidthSizeClass.Compact
+        )
     }
 }

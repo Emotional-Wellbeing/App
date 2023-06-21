@@ -11,10 +11,10 @@ import es.upm.bienestaremocional.data.questionnaire.Level
  */
 enum class Measure(
     val id: String,
-    val mandatory : Boolean,
+    val mandatory: Boolean,
     val frequency: Frequency,
     @StringRes val measureRes: Int,
-    val advices : Map<Level,List<Int>>?
+    val advices: Map<Level, List<Int>>?
 ) {
     Stress(
         id = "stress",
@@ -68,15 +68,13 @@ enum class Measure(
         advices = null
     );
 
-    enum class Frequency
-    {
+    enum class Frequency {
         OnlyDailyAtNight,
         OnlyDaily,
         DailyAndOneOff
     }
-    
-    companion object
-    {
+
+    companion object {
         /**
          * Get all [Measure]
          * @return [List] of [Measure]
@@ -108,8 +106,7 @@ enum class Measure(
          * @param id to decode
          */
         fun decode(id: String): Measure? =
-            when(id)
-            {
+            when (id) {
                 Stress.id -> Stress
                 Depression.id -> Depression
                 Loneliness.id -> Loneliness

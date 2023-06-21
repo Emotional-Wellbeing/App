@@ -20,13 +20,12 @@ import javax.inject.Inject
 class Distance @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<DistanceRecord>(healthConnectManager)
-{
+) : HealthConnectSource<DistanceRecord>(healthConnectManager) {
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(DistanceRecord::class))
+        HealthPermission.getReadPermission(DistanceRecord::class)
+    )
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<DistanceRecord>
-    {
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<DistanceRecord> {
         val request = ReadRecordsRequest(
             recordType = DistanceRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

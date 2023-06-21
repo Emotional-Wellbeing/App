@@ -20,10 +20,8 @@ class OneOffNotificationWorker @AssistedInject constructor(
     @Named("logTag") private val logTag: String,
     private val notification: Notification,
     private val insertOneOffRoundUseCase: InsertOneOffRoundUseCase
-): CoroutineWorker(appContext, workerParams)
-{
-    companion object : Schedulable
-    {
+) : CoroutineWorker(appContext, workerParams) {
+    companion object : Schedulable {
         override val initialTime: LocalDateTime = LocalDateTime.now()
             .withHour(15)
             .withMinute(0)
@@ -35,9 +33,8 @@ class OneOffNotificationWorker @AssistedInject constructor(
         override val repeatInterval: Duration = Duration.ofDays(14)
     }
 
-    override suspend fun doWork(): Result
-    {
-        Log.d(logTag,"Executing Daily Morning Round Day Worker")
+    override suspend fun doWork(): Result {
+        Log.d(logTag, "Executing Daily Morning Round Day Worker")
 
         val oneOffRound = insertOneOffRoundUseCase.insertOneOffRound()
 

@@ -36,86 +36,89 @@ import javax.inject.Named
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object QuestionnaireRepositoriesModule
-{
+object QuestionnaireRepositoriesModule {
     @Provides
     fun provideDailyStressRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): DailyStressRepository =
-        DailyStressRepositoryImpl(dao,logTag)
+        DailyStressRepositoryImpl(dao, logTag)
 
     @Provides
     fun provideDailyDepressionRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): DailyDepressionRepository =
-        DailyDepressionRepositoryImpl(dao,logTag)
+        DailyDepressionRepositoryImpl(dao, logTag)
 
     @Provides
     fun provideDailyLonelinessRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): DailyLonelinessRepository =
-        DailyLonelinessRepositoryImpl(dao,logTag)
+        DailyLonelinessRepositoryImpl(dao, logTag)
 
     @Provides
     fun provideDailySuicideRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): DailySuicideRepository =
-        DailySuicideRepositoryImpl(dao,logTag)
+        DailySuicideRepositoryImpl(dao, logTag)
+
     @Provides
     fun provideDailySymptomsRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): DailySymptomsRepository =
-        DailySymptomsRepositoryImpl(dao,logTag)
+        DailySymptomsRepositoryImpl(dao, logTag)
 
     @Provides
     fun provideDailyRoundRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): DailyRoundRepository =
-        DailyRoundRepositoryImpl(dao,logTag)
+        DailyRoundRepositoryImpl(dao, logTag)
 
     @Provides
     fun provideDailyRoundFullRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): DailyRoundFullRepository =
-        DailyRoundFullRepositoryImpl(dao,logTag)
+        DailyRoundFullRepositoryImpl(dao, logTag)
 
     @Provides
     fun provideOneOffStressRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): OneOffStressRepository =
-        OneOffStressRepositoryImpl(dao,logTag)
+        OneOffStressRepositoryImpl(dao, logTag)
 
     @Provides
     fun provideOneOffDepressionRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): OneOffDepressionRepository =
-        OneOffDepressionRepositoryImpl(dao,logTag)
+        OneOffDepressionRepositoryImpl(dao, logTag)
+
     @Provides
     fun provideOneOffLonelinessRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): OneOffLonelinessRepository =
-        OneOffLonelinessRepositoryImpl(dao,logTag)
+        OneOffLonelinessRepositoryImpl(dao, logTag)
+
     @Provides
     fun provideOneOffRoundFullRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): OneOffRoundFullRepository =
-        OneOffRoundFullRepositoryImpl(dao,logTag)
+        OneOffRoundFullRepositoryImpl(dao, logTag)
+
     @Provides
     fun provideOneOffRoundRepository(
         dao: AppDAO,
         @Named("logTag") logTag: String
     ): OneOffRoundRepository =
-        OneOffRoundRepositoryImpl(dao,logTag)
+        OneOffRoundRepositoryImpl(dao, logTag)
 
 }

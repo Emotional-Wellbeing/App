@@ -3,18 +3,17 @@ package es.upm.bienestaremocional.data.questionnaire.oneoff
 import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffStress
 import es.upm.bienestaremocional.data.questionnaire.ScoreLevel
 
-class OneOffStressManager: OneOffManager<OneOffStress>()
-{
+class OneOffStressManager : OneOffManager<OneOffStress>() {
     override val answers: Array<Int?> = arrayOfNulls(OneOffQuestionnaire.Stress.numberOfQuestions)
-    override val questionsWithInvertedScore : Set<Int> = OneOffQuestionnaire.Stress.questionsWithInvertedScore
+    override val questionsWithInvertedScore: Set<Int> =
+        OneOffQuestionnaire.Stress.questionsWithInvertedScore
     override val answerRange: IntRange = OneOffQuestionnaire.Stress.answerRange
-    override val numberOfAnswers : Int = OneOffQuestionnaire.Stress.numberOfAnswers
+    override val numberOfAnswers: Int = OneOffQuestionnaire.Stress.numberOfAnswers
     override val numberOfQuestions: Int = OneOffQuestionnaire.Stress.numberOfQuestions
-    override val questionScoreOffset : Int = OneOffQuestionnaire.Stress.questionScoreOffset
+    override val questionScoreOffset: Int = OneOffQuestionnaire.Stress.questionScoreOffset
     override val levels: List<ScoreLevel> = OneOffQuestionnaire.Stress.levels
 
-    override fun loadEntity(element: OneOffStress)
-    {
+    override fun loadEntity(element: OneOffStress) {
         answers[0] = element.answer1
         answers[1] = element.answer2
         answers[2] = element.answer3

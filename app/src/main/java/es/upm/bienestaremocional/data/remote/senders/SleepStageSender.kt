@@ -10,16 +10,12 @@ data class SleepStageSender(
     val startTime: Long,
     val endTime: Long,
     val stage: String
-)
-{
-    companion object
-    {
-        fun SleepStageRecord.toSender(): SleepStageSender
-        {
+) {
+    companion object {
+        fun SleepStageRecord.toSender(): SleepStageSender {
             val startTime = obtainTimestamp(startTime, startZoneOffset)
             val endTime = obtainTimestamp(endTime, endZoneOffset)
-            val stage = when(stage)
-            {
+            val stage = when (stage) {
                 SleepStageRecord.STAGE_TYPE_UNKNOWN -> "unknown"
                 SleepStageRecord.STAGE_TYPE_AWAKE -> "awake"
                 SleepStageRecord.STAGE_TYPE_SLEEPING -> "sleeping"

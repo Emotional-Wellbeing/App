@@ -32,13 +32,12 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 @Composable
 fun DailyStressStatus(
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Stress) }
     val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
     val advice = adviceRes?.let { stringResource(it) }
@@ -60,13 +59,12 @@ fun DailyStressStatus(
 @Composable
 fun DailyDepressionStatus(
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Depression) }
     val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
     val advice = adviceRes?.let { stringResource(it) }
@@ -88,13 +86,12 @@ fun DailyDepressionStatus(
 @Composable
 fun DailyLonelinessStatus(
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Loneliness) }
     val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
     val advice = adviceRes?.let { stringResource(it) }
@@ -116,13 +113,12 @@ fun DailyLonelinessStatus(
 @Composable
 fun OneOffStressStatus(
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Stress) }
     val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
     val advice = adviceRes?.let { stringResource(it) }
@@ -144,13 +140,12 @@ fun OneOffStressStatus(
 @Composable
 fun OneOffDepressionStatus(
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Depression) }
     val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
     val advice = adviceRes?.let { stringResource(it) }
@@ -172,13 +167,12 @@ fun OneOffDepressionStatus(
 @Composable
 fun OneOffLonelinessStatus(
     data: Int?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer,
-    backgroundColor : Color = MaterialTheme.colorScheme.background,
-    showAdvice : Boolean = true,
-)
-{
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showAdvice: Boolean = true,
+) {
     val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) }
     val adviceRes = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
     val advice = adviceRes?.let { stringResource(it) }
@@ -198,24 +192,21 @@ fun OneOffLonelinessStatus(
 }
 
 
-
 @Composable
 private fun MeasureStatus(
     data: Int?,
-    introLabel : String,
+    introLabel: String,
     level: Level?,
-    advice : String?,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color,
-    indicatorContainerColor : Color,
-    backgroundColor : Color,
+    advice: String?,
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color,
+    indicatorContainerColor: Color,
+    backgroundColor: Color,
     minValue: Int = 0,
-    maxValue : Int = 100,
-)
-{
+    maxValue: Int = 100,
+) {
     // Scale factor to reduce the height of row in bigger screens
-    val scaleFactor = when(widthSize)
-    {
+    val scaleFactor = when (widthSize) {
         WindowWidthSizeClass.Compact -> 1f
         WindowWidthSizeClass.Medium -> 0.75f
         WindowWidthSizeClass.Expanded -> 0.5f
@@ -223,24 +214,21 @@ private fun MeasureStatus(
     }
 
     // Text sizes
-    val cpiTextStyle = when(widthSize)
-    {
+    val cpiTextStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.displaySmall
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.displayMedium
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.displayMedium
         else -> MaterialTheme.typography.displaySmall
     }
 
-    val headlineTextStyle = when(widthSize)
-    {
+    val headlineTextStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.titleSmall
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.titleMedium
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.titleLarge
         else -> MaterialTheme.typography.titleSmall
     }
 
-    val adviceTextStyle = when(widthSize)
-    {
+    val adviceTextStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.bodySmall
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.bodyMedium
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.bodyLarge
@@ -252,9 +240,10 @@ private fun MeasureStatus(
     val headlineText = "$introLabel : $levelLabel"
 
     // Composable elements
-    BoxWithConstraints(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp)
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     )
     {
         // Since we use maxSize, maxHeight and maxWidth are infinity
@@ -297,7 +286,7 @@ private fun MeasureStatus(
                 modifier = Modifier
                     .width(textWidth)
                     .padding(start = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp,Alignment.CenterVertically),
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
             )
             {
                 Text(headlineText, style = headlineTextStyle)
@@ -312,8 +301,7 @@ private fun MeasureStatus(
     group = "Light Theme",
 )
 @Composable
-fun DailyStressStatusCompactPreview()
-{
+fun DailyStressStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -327,8 +315,7 @@ fun DailyStressStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DailyStressStatusCompactPreviewDarkTheme()
-{
+fun DailyStressStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -342,8 +329,7 @@ fun DailyStressStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun DailyDepressionStatusCompactPreview()
-{
+fun DailyDepressionStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -357,8 +343,7 @@ fun DailyDepressionStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DailyDepressionStatusCompactPreviewDarkTheme()
-{
+fun DailyDepressionStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -372,8 +357,7 @@ fun DailyDepressionStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun DailyLonelinessStatusCompactPreview()
-{
+fun DailyLonelinessStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -387,8 +371,7 @@ fun DailyLonelinessStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DailyLonelinessStatusCompactPreviewDarkTheme()
-{
+fun DailyLonelinessStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -402,8 +385,7 @@ fun DailyLonelinessStatusCompactPreviewDarkTheme()
     group = "Light Theme",
 )
 @Composable
-fun OneOffStressStatusCompactPreview()
-{
+fun OneOffStressStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -417,8 +399,7 @@ fun OneOffStressStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun OneOffStressStatusCompactPreviewDarkTheme()
-{
+fun OneOffStressStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -432,8 +413,7 @@ fun OneOffStressStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun OneOffDepressionStatusCompactPreview()
-{
+fun OneOffDepressionStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -447,8 +427,7 @@ fun OneOffDepressionStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun OneOffDepressionStatusCompactPreviewDarkTheme()
-{
+fun OneOffDepressionStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -462,8 +441,7 @@ fun OneOffDepressionStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun OneOffLonelinessStatusCompactPreview()
-{
+fun OneOffLonelinessStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -477,8 +455,7 @@ fun OneOffLonelinessStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun OneOffLonelinessStatusCompactPreviewDarkTheme()
-{
+fun OneOffLonelinessStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -492,8 +469,7 @@ fun OneOffLonelinessStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun MeasureStatusCompactPreview()
-{
+fun MeasureStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -516,8 +492,7 @@ fun MeasureStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun MeasureStatusCompactPreviewDarkTheme()
-{
+fun MeasureStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
@@ -540,8 +515,7 @@ fun MeasureStatusCompactPreviewDarkTheme()
     group = "Light Theme"
 )
 @Composable
-fun MeasureStatusNullCompactPreview()
-{
+fun MeasureStatusNullCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
@@ -564,8 +538,7 @@ fun MeasureStatusNullCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun MeasureStatusNullCompactPreviewDarkTheme()
-{
+fun MeasureStatusNullCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()

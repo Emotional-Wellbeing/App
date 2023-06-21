@@ -81,19 +81,17 @@ private val DarkColors = darkColorScheme(
 @Composable
 fun BienestarEmocionalTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColors : Boolean = false,
+    dynamicColors: Boolean = false,
     content: @Composable () -> Unit
 ) {
     // Dynamic color is available on Android 12+
-    val colorScheme : ColorScheme = if (android12OrAbove() && dynamicColors)
-    {
+    val colorScheme: ColorScheme = if (android12OrAbove() && dynamicColors) {
         if (darkTheme)
             dynamicDarkColorScheme(LocalContext.current)
         else
             dynamicLightColorScheme(LocalContext.current)
     }
-    else
-    {
+    else {
         if (darkTheme)
             DarkColors
         else
@@ -108,13 +106,15 @@ fun BienestarEmocionalTheme(
             colorScheme.primaryContainer
         else
             colorScheme.primary,
-        darkIcons = false)
+        darkIcons = false
+    )
     systemUiController.setNavigationBarColor(
         color = if (darkTheme)
             colorScheme.onPrimary
         else
             colorScheme.onPrimaryContainer,
-        darkIcons = false)
+        darkIcons = false
+    )
 
     MaterialTheme(
         colorScheme = colorScheme,

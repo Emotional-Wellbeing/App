@@ -19,9 +19,8 @@ import kotlin.random.Random
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun ElevationGainedRecord.Display(widthSize: WindowWidthSizeClass)
-{
-    val elevationGainedFormatted  = String.format("%.2f",elevation.inMeters)
+fun ElevationGainedRecord.Display(widthSize: WindowWidthSizeClass) {
+    val elevationGainedFormatted = String.format("%.2f", elevation.inMeters)
     val unit = stringResource(id = R.string.m)
     BasicCard {
         SeriesDateTimeHeading(
@@ -31,18 +30,19 @@ fun ElevationGainedRecord.Display(widthSize: WindowWidthSizeClass)
             endZoneOffset = endZoneOffset
         )
 
-        DrawPair(key = stringResource(id = R.string.elevation_gained),
-            value = "$elevationGainedFormatted $unit")
+        DrawPair(
+            key = stringResource(id = R.string.elevation_gained),
+            value = "$elevationGainedFormatted $unit"
+        )
 
         metadata.Display(widthSize)
     }
 }
 
-private fun generateDummyData() : ElevationGainedRecord
-{
+private fun generateDummyData(): ElevationGainedRecord {
     val (init, end) = generateInterval()
 
-    val elevation = Length.meters(Random.nextDouble(0.0,2500.0))
+    val elevation = Length.meters(Random.nextDouble(0.0, 2500.0))
 
     return ElevationGainedRecord(
         startTime = init.toInstant(),
@@ -55,35 +55,34 @@ private fun generateDummyData() : ElevationGainedRecord
 
 @Preview(group = "Light Theme")
 @Composable
-fun ElevationGainedRecordDisplayPreview()
-{
+fun ElevationGainedRecordDisplayPreview() {
     val elevationGainedRecord = generateDummyData()
     BienestarEmocionalTheme {
         elevationGainedRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun ElevationGainedRecordDisplayPreviewDarkTheme()
-{
+fun ElevationGainedRecordDisplayPreviewDarkTheme() {
     val elevationGainedRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         elevationGainedRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun ElevationGainedRecordDisplayLargeScreenPreview()
-{
+fun ElevationGainedRecordDisplayLargeScreenPreview() {
     val elevationGainedRecord = generateDummyData()
     BienestarEmocionalTheme {
         elevationGainedRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun ElevationGainedRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun ElevationGainedRecordDisplayLargeScreenPreviewDarkTheme() {
     val elevationGainedRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         elevationGainedRecord.Display(widthSize = WindowWidthSizeClass.Medium)

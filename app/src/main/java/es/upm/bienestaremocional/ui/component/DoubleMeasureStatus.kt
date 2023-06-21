@@ -32,39 +32,40 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 @Composable
 fun DoubleMeasureStatus(
-    data : Pair<Int?,Int?>,
-    headers : Pair<String, String>,
-    questionnaire : DailyScoredQuestionnaire,
+    data: Pair<Int?, Int?>,
+    headers: Pair<String, String>,
+    questionnaire: DailyScoredQuestionnaire,
     height: Dp,
-    widthSize : WindowWidthSizeClass,
-    showHeadline : Boolean = true,
-    indicatorColor : Color = MaterialTheme.colorScheme.secondary,
-    indicatorContainerColor : Color = MaterialTheme.colorScheme.secondaryContainer
-)
-{
+    widthSize: WindowWidthSizeClass,
+    showHeadline: Boolean = true,
+    indicatorColor: Color = MaterialTheme.colorScheme.secondary,
+    indicatorContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer
+) {
     // If we have score and level label, put it. If we don't have any of them,
     // put R.string.unknown_display
     val firstSubtitle = stringResource(data.first?.let {
         scoreToLevel(it, questionnaire)?.label
-            ?: R.string.unknown_display }
+            ?: R.string.unknown_display
+    }
         ?: R.string.unknown_display)
 
     val secondSubtitle = stringResource(data.second?.let {
         scoreToLevel(it, questionnaire)?.label
-            ?: R.string.unknown_display }
+            ?: R.string.unknown_display
+    }
         ?: R.string.unknown_display)
 
     val measureLabel =
         if (showHeadline)
             stringResource(questionnaire.measure.measureRes)
-    else
-        null
+        else
+            null
 
     DoubleMeasureStatus(
         data = data,
         measureLabel = measureLabel,
         headers = headers,
-        subtitle = Pair(firstSubtitle,secondSubtitle),
+        subtitle = Pair(firstSubtitle, secondSubtitle),
         height = height,
         widthSize = widthSize,
         indicatorColor = indicatorColor,
@@ -77,44 +78,40 @@ fun DoubleMeasureStatus(
 @Composable
 private fun DoubleMeasureStatus(
     data: Pair<Int?, Int?>,
-    measureLabel : String?,
-    headers : Pair<String,String>,
-    subtitle : Pair<String,String>,
-    height : Dp,
-    widthSize : WindowWidthSizeClass,
-    indicatorColor : Color,
-    indicatorContainerColor : Color,
-    minValue : Int = 0,
-    maxValue : Int = 100
-)
-{
+    measureLabel: String?,
+    headers: Pair<String, String>,
+    subtitle: Pair<String, String>,
+    height: Dp,
+    widthSize: WindowWidthSizeClass,
+    indicatorColor: Color,
+    indicatorContainerColor: Color,
+    minValue: Int = 0,
+    maxValue: Int = 100
+) {
 
     // Text sizes
-    val headlineTextStyle = when(widthSize)
-    {
+    val headlineTextStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.titleSmall
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.titleMedium
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.titleLarge
         else -> MaterialTheme.typography.titleSmall
     }
 
-    val dataTextStyle = when(widthSize)
-    {
+    val dataTextStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.displaySmall
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.displayMedium
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.displayMedium
         else -> MaterialTheme.typography.displaySmall
     }
 
-    val subtitleTextStyle = when(widthSize)
-    {
+    val subtitleTextStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.bodySmall
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.bodyMedium
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.bodyLarge
         else -> MaterialTheme.typography.bodySmall
     }
 
-    var headlineText : String? = null
+    var headlineText: String? = null
 
     // Text to display
     measureLabel?.let {
@@ -132,9 +129,10 @@ private fun DoubleMeasureStatus(
     {
         headlineText?.let { Text(it, style = headlineTextStyle) }
 
-        BoxWithConstraints(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+        BoxWithConstraints(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
         )
         {
             val cpiWidth = this.minWidth / 2.25f
@@ -147,7 +145,8 @@ private fun DoubleMeasureStatus(
                 horizontalArrangement = Arrangement.Start
             )
             {
-                Box(modifier = Modifier.width(cpiWidth),
+                Box(
+                    modifier = Modifier.width(cpiWidth),
                     contentAlignment = Alignment.Center
                 )
                 {
@@ -168,7 +167,8 @@ private fun DoubleMeasureStatus(
 
                 Spacer(modifier = Modifier.width(spacerWidth))
 
-                Box(modifier = Modifier.width(cpiWidth),
+                Box(
+                    modifier = Modifier.width(cpiWidth),
                     contentAlignment = Alignment.Center
                 )
                 {
@@ -193,19 +193,18 @@ private fun DoubleMeasureStatus(
 
 @Composable
 private fun TextAndIndicator(
-    header : String,
+    header: String,
     data: Int?,
     subtitle: String,
-    height : Dp,
+    height: Dp,
     minValue: Int = 0,
-    maxValue : Int = 100,
+    maxValue: Int = 100,
     indicatorColor: Color,
     indicatorContainerColor: Color,
-    headlineTextStyle : TextStyle,
-    dataTextStyle : TextStyle,
-    subtitleTextStyle : TextStyle
-)
-{
+    headlineTextStyle: TextStyle,
+    dataTextStyle: TextStyle,
+    subtitleTextStyle: TextStyle
+) {
     Column(
         modifier = Modifier.height(height),
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
@@ -216,7 +215,7 @@ private fun TextAndIndicator(
 
         BoxWithConstraints()
         {
-            val size = min(maxHeight,maxWidth)
+            val size = min(maxHeight, maxWidth)
             CircularProgressIndicator(
                 data = data,
                 subtitle = subtitle,
@@ -238,20 +237,21 @@ private fun TextAndIndicator(
     group = "Light Theme",
 )
 @Composable
-fun DoubleMeasureStatusCompactPreview()
-{
+fun DoubleMeasureStatusCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
         {
-            DoubleMeasureStatus(data = Pair(17,27),
+            DoubleMeasureStatus(
+                data = Pair(17, 27),
                 headers = Pair(
                     stringResource(R.string.yesterday),
                     stringResource(R.string.last_seven_days)
                 ),
                 height = 200.dp,
                 questionnaire = DailyScoredQuestionnaire.Stress,
-                widthSize = WindowWidthSizeClass.Compact)
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -260,20 +260,21 @@ fun DoubleMeasureStatusCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DoubleMeasureStatusCompactPreviewDarkTheme()
-{
+fun DoubleMeasureStatusCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
-            DoubleMeasureStatus(data = Pair(17,27),
+            DoubleMeasureStatus(
+                data = Pair(17, 27),
                 headers = Pair(
                     stringResource(R.string.yesterday),
                     stringResource(R.string.last_seven_days)
                 ),
                 height = 200.dp,
                 questionnaire = DailyScoredQuestionnaire.Stress,
-                widthSize = WindowWidthSizeClass.Compact)
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -282,13 +283,13 @@ fun DoubleMeasureStatusCompactPreviewDarkTheme()
     group = "Light Theme",
 )
 @Composable
-fun DoubleMeasureStatusNoHeadlineCompactPreview()
-{
+fun DoubleMeasureStatusNoHeadlineCompactPreview() {
     BienestarEmocionalTheme()
     {
         Surface()
         {
-            DoubleMeasureStatus(data = Pair(17,27),
+            DoubleMeasureStatus(
+                data = Pair(17, 27),
                 headers = Pair(
                     stringResource(R.string.yesterday),
                     stringResource(R.string.last_seven_days)
@@ -296,7 +297,8 @@ fun DoubleMeasureStatusNoHeadlineCompactPreview()
                 height = 200.dp,
                 showHeadline = false,
                 questionnaire = DailyScoredQuestionnaire.Stress,
-                widthSize = WindowWidthSizeClass.Compact)
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }
@@ -305,13 +307,13 @@ fun DoubleMeasureStatusNoHeadlineCompactPreview()
     group = "Dark Theme"
 )
 @Composable
-fun DoubleMeasureStatusNoHeadlineCompactPreviewDarkTheme()
-{
+fun DoubleMeasureStatusNoHeadlineCompactPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true)
     {
         Surface()
         {
-            DoubleMeasureStatus(data = Pair(17,27),
+            DoubleMeasureStatus(
+                data = Pair(17, 27),
                 headers = Pair(
                     stringResource(R.string.yesterday),
                     stringResource(R.string.last_seven_days)
@@ -319,7 +321,8 @@ fun DoubleMeasureStatusNoHeadlineCompactPreviewDarkTheme()
                 height = 200.dp,
                 showHeadline = false,
                 questionnaire = DailyScoredQuestionnaire.Stress,
-                widthSize = WindowWidthSizeClass.Compact)
+                widthSize = WindowWidthSizeClass.Compact
+            )
         }
     }
 }

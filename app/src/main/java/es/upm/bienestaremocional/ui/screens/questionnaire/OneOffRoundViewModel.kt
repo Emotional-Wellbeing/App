@@ -22,15 +22,14 @@ import javax.inject.Named
 class OneOffRoundViewModel @Inject constructor(
     private val oneOffRoundRepository: OneOffRoundRepository,
     savedStateHandle: SavedStateHandle,
-    @Named("logTag") val logTag : String
-) : ViewModel()
-{
+    @Named("logTag") val logTag: String
+) : ViewModel() {
     //state
     private val _state = MutableStateFlow<QuestionnaireRoundState>(QuestionnaireRoundState.Init)
     val state: StateFlow<QuestionnaireRoundState> = _state.asStateFlow()
 
     //from screen
-    private val oneOffRound : OneOffRound = OneOffRoundScreenDestination
+    private val oneOffRound: OneOffRound = OneOffRoundScreenDestination
         .argsFrom(savedStateHandle)
         .oneOffRound
 
@@ -48,16 +47,14 @@ class OneOffRoundViewModel @Inject constructor(
 
     private var actualQuestionnaire = 0
 
-    fun onInit()
-    {
+    fun onInit() {
         _state.value = if (questionnaires.isNotEmpty())
             QuestionnaireRoundState.Show
         else
             QuestionnaireRoundState.Finished
     }
 
-    fun onResumeRound()
-    {
+    fun onResumeRound() {
         _state.value = if (actualQuestionnaire + 1 < questionnaires.size) {
             actualQuestionnaire++
             QuestionnaireRoundState.Show
@@ -66,22 +63,22 @@ class OneOffRoundViewModel @Inject constructor(
             QuestionnaireRoundState.Finishing
     }
 
-    fun onShow(navigator: DestinationsNavigator)
-    {
-        val direction = when(questionnaires[actualQuestionnaire])
-        {
+    fun onShow(navigator: DestinationsNavigator) {
+        val direction = when (questionnaires[actualQuestionnaire]) {
             OneOffQuestionnaire.Stress ->
                 OneOffStressScreenDestination(
                     entityId = oneOffRound.stressId!!,
                     questionnaireIndex = actualQuestionnaire,
                     questionnaireSize = questionnaires.size,
                 )
+
             OneOffQuestionnaire.Depression ->
                 OneOffDepressionScreenDestination(
                     entityId = oneOffRound.depressionId!!,
                     questionnaireIndex = actualQuestionnaire,
                     questionnaireSize = questionnaires.size,
                 )
+
             OneOffQuestionnaire.Loneliness ->
                 OneOffLonelinessScreenDestination(
                     entityId = oneOffRound.lonelinessId!!,
@@ -93,16 +90,14 @@ class OneOffRoundViewModel @Inject constructor(
         _state.value = QuestionnaireRoundState.PostShow
     }
 
-    fun onFinishing()
-    {
+    fun onFinishing() {
         runBlocking {
             updateRound()
         }
         _state.value = QuestionnaireRoundState.Finished
     }
 
-    private suspend fun updateRound()
-    {
+    private suspend fun updateRound() {
         oneOffRoundRepository.update(oneOffRound)
     }
 }

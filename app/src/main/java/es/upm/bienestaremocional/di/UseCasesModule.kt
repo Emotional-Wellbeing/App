@@ -47,14 +47,13 @@ import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
-object UseCasesModule
-{
+object UseCasesModule {
     @Provides
     fun providePostUserDataUseCase(
         @Named("logTag") logTag: String,
-        appInfo : AppInfo,
-        remoteRepository : RemoteRepository,
-        lastUploadRepository : LastUploadRepository,
+        appInfo: AppInfo,
+        remoteRepository: RemoteRepository,
+        lastUploadRepository: LastUploadRepository,
         distance: Distance,
         elevationGained: ElevationGained,
         exerciseSession: ExerciseSession,
@@ -78,8 +77,9 @@ object UseCasesModule
             sleep = sleep,
             steps = steps,
             totalCaloriesBurned = totalCaloriesBurned,
-            weight = weight)
-    
+            weight = weight
+        )
+
     @Provides
     fun provideInsertDailyRoundUseCase(
         @Named("logTag") logTag: String,

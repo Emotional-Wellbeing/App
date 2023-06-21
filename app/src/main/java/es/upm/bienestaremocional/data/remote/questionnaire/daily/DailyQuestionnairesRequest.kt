@@ -7,10 +7,9 @@ import es.upm.bienestaremocional.data.database.entity.daily.DailySuicide
 import es.upm.bienestaremocional.data.database.entity.daily.DailySymptoms
 
 data class DailyQuestionnairesRequest(
-    val userId : String,
-    val data : Data
-)
-{
+    val userId: String,
+    val data: Data
+) {
     data class Data(
         val stress: List<DailyStress>?,
         val depression: List<DailyDepression>?,

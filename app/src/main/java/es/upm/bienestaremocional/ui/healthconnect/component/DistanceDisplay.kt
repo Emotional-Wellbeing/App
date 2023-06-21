@@ -19,9 +19,8 @@ import kotlin.random.Random
  * @param widthSize: [WindowWidthSizeClass] to modify the component according to the screen
  */
 @Composable
-fun DistanceRecord.Display(widthSize: WindowWidthSizeClass)
-{
-    val distanceFormatted  = String.format("%.2f",distance.inKilometers)
+fun DistanceRecord.Display(widthSize: WindowWidthSizeClass) {
+    val distanceFormatted = String.format("%.2f", distance.inKilometers)
     val unit = stringResource(id = R.string.km)
 
     BasicCard {
@@ -38,11 +37,10 @@ fun DistanceRecord.Display(widthSize: WindowWidthSizeClass)
     }
 }
 
-private fun generateDummyData(): DistanceRecord
-{
+private fun generateDummyData(): DistanceRecord {
     val (init, end) = generateInterval()
 
-    val distance = Length.kilometers(Random.nextDouble(0.0,10.0))
+    val distance = Length.kilometers(Random.nextDouble(0.0, 10.0))
 
     return DistanceRecord(
         startTime = init.toInstant(),
@@ -55,35 +53,34 @@ private fun generateDummyData(): DistanceRecord
 
 @Preview(group = "Light Theme")
 @Composable
-fun DistanceRecordDisplayPreview()
-{
+fun DistanceRecordDisplayPreview() {
     val distanceRecord = generateDummyData()
     BienestarEmocionalTheme {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun DistanceRecordDisplayPreviewDarkTheme()
-{
+fun DistanceRecordDisplayPreviewDarkTheme() {
     val distanceRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
 }
+
 @Preview(group = "Light Theme")
 @Composable
-fun DistanceRecordDisplayLargeScreenPreview()
-{
+fun DistanceRecordDisplayLargeScreenPreview() {
     val distanceRecord = generateDummyData()
     BienestarEmocionalTheme {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
 }
+
 @Preview(group = "Dark Theme")
 @Composable
-fun DistanceRecordDisplayLargeScreenPreviewDarkTheme()
-{
+fun DistanceRecordDisplayLargeScreenPreviewDarkTheme() {
     val distanceRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Medium)

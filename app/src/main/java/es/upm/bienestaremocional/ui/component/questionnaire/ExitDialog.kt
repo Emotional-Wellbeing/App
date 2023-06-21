@@ -11,11 +11,11 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
 @Composable
 fun ExitDialog(
-    onDismiss : () -> Unit,
-    onConfirm : () -> Unit
-)
-{
-    AlertDialog(onDismissRequest = onDismiss,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(onClick = onConfirm) {
                 Text(stringResource(R.string.accept))
@@ -36,8 +36,7 @@ fun ExitDialog(
 
 @Composable
 @Preview
-fun ExitDialogPreview()
-{
+fun ExitDialogPreview() {
     BienestarEmocionalTheme {
         ExitDialog(onConfirm = {}, onDismiss = {})
     }
@@ -45,8 +44,7 @@ fun ExitDialogPreview()
 
 @Composable
 @Preview
-fun ExitDialogDarkThemePreview()
-{
+fun ExitDialogDarkThemePreview() {
     BienestarEmocionalTheme(darkTheme = true) {
         ExitDialog(onConfirm = {}, onDismiss = {})
     }

@@ -3,7 +3,7 @@ package es.upm.bienestaremocional.data.trafficstats
 import android.annotation.SuppressLint
 import android.net.TrafficStats
 
-class Traffic{
+class Traffic {
 
     fun init(): String {
         if (TrafficStats.getTotalRxBytes() != TrafficStats.UNSUPPORTED.toLong() && TrafficStats.getTotalTxBytes() != TrafficStats.UNSUPPORTED.toLong()) {

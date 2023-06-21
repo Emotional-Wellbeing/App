@@ -72,7 +72,7 @@ class Usage(
                     val pkgStats = stats[i]
                     val type = findApp(pkgStats.packageName)
                     var message: String
-                    if ((type != "") && (pkgStats.totalTimeVisible >0)) {
+                    if ((type != "") && (pkgStats.totalTimeVisible > 0)) {
                         if (usageInfo != "")
                             usageInfo += ", "
                         message = "\"App\": { \"AppName\": \"" + pkgStats.packageName +
@@ -126,10 +126,72 @@ class Usage(
             "telegram"
         )
         val dating = listOf("tinder", "badoo", "meetic", "bumble", "grindr")
-        val games = listOf("candy","mine","treasure","crush","sudoku","game","pokemongo","impact","scape","among","otome","madness","zombies")
-        val entertaining = listOf("youtube","netflix","hbo","disney","prime","video","ivoox","tiktok","audible","book","star","crunchyroll", "firefox", "opera","chrome","9gag","los40","spotify","rtve","bbc","duolingo")
-        val house = listOf("santander","bbva","bankinter","openbank","repsol","naturgy","iberdrola","tapo","tplink","aeat","amazon","cl@ve","sodexo","zooplus","wallapop")
-        val work = listOf("office","word","excel","powerpoint","authenticator","teams","slack","zoom","moodle")
+        val games = listOf(
+            "candy",
+            "mine",
+            "treasure",
+            "crush",
+            "sudoku",
+            "game",
+            "pokemongo",
+            "impact",
+            "scape",
+            "among",
+            "otome",
+            "madness",
+            "zombies"
+        )
+        val entertaining = listOf(
+            "youtube",
+            "netflix",
+            "hbo",
+            "disney",
+            "prime",
+            "video",
+            "ivoox",
+            "tiktok",
+            "audible",
+            "book",
+            "star",
+            "crunchyroll",
+            "firefox",
+            "opera",
+            "chrome",
+            "9gag",
+            "los40",
+            "spotify",
+            "rtve",
+            "bbc",
+            "duolingo"
+        )
+        val house = listOf(
+            "santander",
+            "bbva",
+            "bankinter",
+            "openbank",
+            "repsol",
+            "naturgy",
+            "iberdrola",
+            "tapo",
+            "tplink",
+            "aeat",
+            "amazon",
+            "cl@ve",
+            "sodexo",
+            "zooplus",
+            "wallapop"
+        )
+        val work = listOf(
+            "office",
+            "word",
+            "excel",
+            "powerpoint",
+            "authenticator",
+            "teams",
+            "slack",
+            "zoom",
+            "moodle"
+        )
 
         val rRSSCount = rRSS.size
         for (i in 0 until rRSSCount) {
@@ -144,7 +206,7 @@ class Usage(
         val datingCount = dating.size
         for (i in 0 until datingCount) {
             if (appName.contains(dating[i]))
-                 return "dating"
+                return "dating"
         }
         val houseCount = house.size
         for (i in 0 until houseCount) {

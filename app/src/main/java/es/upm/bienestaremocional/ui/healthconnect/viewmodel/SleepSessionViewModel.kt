@@ -12,13 +12,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SleepSessionViewModel @Inject constructor(
     private val sleep: Sleep
-): HealthConnectViewModel<SleepSessionData>()
-{
+) : HealthConnectViewModel<SleepSessionData>() {
     @Composable
-    override fun getViewModelData(): ViewModelData<SleepSessionData>
-    {
+    override fun getViewModelData(): ViewModelData<SleepSessionData> {
         val data by elements
-        val onPermissionsResult = {readData(sleep)}
+        val onPermissionsResult = { readData(sleep) }
 
         val permissionsLauncher =
             rememberLauncherForActivityResult(permissionLauncher) { onPermissionsResult() }
@@ -28,7 +26,7 @@ class SleepSessionViewModel @Inject constructor(
             uiState = uiState,
             permissions = sleep.readPermissions,
             onPermissionsResult = onPermissionsResult,
-            onRequestPermissions = { values -> permissionsLauncher.launch(values)},
+            onRequestPermissions = { values -> permissionsLauncher.launch(values) },
         )
     }
 }

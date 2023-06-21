@@ -14,26 +14,23 @@ import es.upm.bienestaremocional.data.settings.ThemeMode.LIGHT_MODE
  * @param labelRes: StringResource of the label
  * @param key: String used for store themes
  */
-enum class ThemeMode(@StringRes val labelRes: Int, val key: String)
-{
+enum class ThemeMode(@StringRes val labelRes: Int, val key: String) {
     LIGHT_MODE(R.string.light_mode_label, "light"),
     DARK_MODE(R.string.dark_mode_label, "dark"),
-    DEFAULT_MODE(R.string.default_mode_label,"default");
+    DEFAULT_MODE(R.string.default_mode_label, "default");
 
     /**
      * Retrieves boolean indicating if option is dark or not
      */
     @Composable
     fun themeIsDark(): Boolean =
-        when(this)
-        {
+        when (this) {
             LIGHT_MODE -> false
             DARK_MODE -> true
             DEFAULT_MODE -> isSystemInDarkTheme()
         }
 
-    companion object
-    {
+    companion object {
         /**
          * Get all [ThemeMode] possible values
          * @return [List] of [ThemeMode] with the values
@@ -45,6 +42,6 @@ enum class ThemeMode(@StringRes val labelRes: Int, val key: String)
          * @return [List] of [String] with the labels
          */
         @Composable
-        fun getLabels(): List<String> = get().map { stringResource(id = it.labelRes)  }
+        fun getLabels(): List<String> = get().map { stringResource(id = it.labelRes) }
     }
 }

@@ -36,7 +36,8 @@ fun LazyListScope.seriesDateTimeHeading(
             start = start,
             startZoneOffset = startZoneOffset,
             end = end,
-            endZoneOffset = endZoneOffset)
+            endZoneOffset = endZoneOffset
+        )
     }
 }
 
@@ -54,10 +55,12 @@ fun SeriesDateTimeHeading(
     end: Instant,
     endZoneOffset: ZoneOffset?
 ) {
-    val textToDisplay = formatDateTime(start = start,
+    val textToDisplay = formatDateTime(
+        start = start,
         startZoneOffset = startZoneOffset,
         end = end,
-        endZoneOffset = endZoneOffset)
+        endZoneOffset = endZoneOffset
+    )
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -78,17 +81,18 @@ fun SeriesDateTimeHeading(
  * @param zoneOffset: ZoneOffset of [time]
  */
 @Composable
-fun SeriesDateTimeHeading(time: Instant, zoneOffset: ZoneOffset?)
-{
+fun SeriesDateTimeHeading(time: Instant, zoneOffset: ZoneOffset?) {
     val textToDisplay = formatDateTime(time = time, zoneOffset = zoneOffset)
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center)
+        horizontalArrangement = Arrangement.Center
+    )
     {
         Text(
             color = MaterialTheme.colorScheme.secondary,
             text = textToDisplay,
-            textAlign = TextAlign.Center)
+            textAlign = TextAlign.Center
+        )
     }
 }
 
@@ -97,8 +101,7 @@ fun SeriesDateTimeHeading(time: Instant, zoneOffset: ZoneOffset?)
     group = "Light Theme"
 )
 @Composable
-fun SeriesDateTimeHeadingPreview()
-{
+fun SeriesDateTimeHeadingPreview() {
     BienestarEmocionalTheme {
         Surface {
             LazyColumn()
@@ -120,8 +123,7 @@ fun SeriesDateTimeHeadingPreview()
     group = "Dark Theme"
 )
 @Composable
-fun SeriesDateTimeHeadingPreviewDarkMode()
-{
+fun SeriesDateTimeHeadingPreviewDarkMode() {
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             LazyColumn()

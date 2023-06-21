@@ -19,13 +19,12 @@ import javax.inject.Inject
 class Steps @Inject constructor(
     private val healthConnectClient: HealthConnectClient,
     private val healthConnectManager: HealthConnectManager
-): HealthConnectSource<StepsRecord>(healthConnectManager)
-{
+) : HealthConnectSource<StepsRecord>(healthConnectManager) {
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(StepsRecord::class))
+        HealthPermission.getReadPermission(StepsRecord::class)
+    )
 
-    override suspend fun readSource(startTime: Instant, endTime: Instant): List<StepsRecord>
-    {
+    override suspend fun readSource(startTime: Instant, endTime: Instant): List<StepsRecord> {
         val stepsRequest = ReadRecordsRequest(
             recordType = StepsRecord::class,
             timeRangeFilter = TimeRangeFilter.between(startTime, endTime),

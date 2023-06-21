@@ -12,9 +12,8 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 @Composable
 fun CommunityRow(
     item: CommunityResponse.Data.Row,
-    textBefore : String? = null
-)
-{
+    textBefore: String? = null
+) {
     BasicCard {
         textBefore?.let { Text(text = it, textAlign = TextAlign.Center) }
         DrawPair(key = stringResource(id = R.string.depression), value = "${item.depression}")
@@ -25,8 +24,7 @@ fun CommunityRow(
 
 @Preview
 @Composable
-fun CommunityRowPreview()
-{
+fun CommunityRowPreview() {
     BienestarEmocionalTheme {
         CommunityRow(
             item = CommunityResponse.Data.Row(
@@ -41,8 +39,7 @@ fun CommunityRowPreview()
 
 @Preview
 @Composable
-fun CommunityRowPreviewDarkTheme()
-{
+fun CommunityRowPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         CommunityRow(
             item = CommunityResponse.Data.Row(

@@ -11,12 +11,9 @@ data class ElevationGainedSender(
     val startTime: Long,
     val endTime: Long,
     val elevation: Double
-)
-{
-    companion object
-    {
-        fun ElevationGainedRecord.toSender(): ElevationGainedSender
-        {
+) {
+    companion object {
+        fun ElevationGainedRecord.toSender(): ElevationGainedSender {
             val startTime = obtainTimestamp(startTime, startZoneOffset)
             val endTime = obtainTimestamp(endTime, endZoneOffset)
             val elevation = elevation.inKilometers

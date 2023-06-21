@@ -12,23 +12,21 @@ import javax.inject.Inject
 @HiltViewModel
 class TotalCaloriesBurnedViewModel @Inject constructor(
     private val totalCaloriesBurned: TotalCaloriesBurned
-): HealthConnectViewModel<TotalCaloriesBurnedRecord>()
-{
+) : HealthConnectViewModel<TotalCaloriesBurnedRecord>() {
     @Composable
-    override fun getViewModelData(): ViewModelData<TotalCaloriesBurnedRecord>
-    {
+    override fun getViewModelData(): ViewModelData<TotalCaloriesBurnedRecord> {
         val data by elements
-        val onPermissionsResult = {readData(totalCaloriesBurned)}
+        val onPermissionsResult = { readData(totalCaloriesBurned) }
 
         val launcher = rememberLauncherForActivityResult(contract = permissionLauncher,
-            onResult = {onPermissionsResult()})
+            onResult = { onPermissionsResult() })
 
         return ViewModelData(
             data = data,
             uiState = uiState,
             permissions = totalCaloriesBurned.readPermissions,
             onPermissionsResult = onPermissionsResult,
-            onRequestPermissions = {values -> launcher.launch(values)},
+            onRequestPermissions = { values -> launcher.launch(values) },
         )
     }
 }

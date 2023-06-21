@@ -24,11 +24,12 @@ import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
  */
 @Destination
 @Composable
-fun AboutScreen(navigator: DestinationsNavigator)
-{
-    AppBasicScreen(navigator = navigator,
+fun AboutScreen(navigator: DestinationsNavigator) {
+    AppBasicScreen(
+        navigator = navigator,
         entrySelected = BottomBarDestination.SettingsScreen,
-        label = R.string.about_screen_label)
+        label = R.string.about_screen_label
+    )
     {
         Column(
             modifier = Modifier
@@ -50,8 +51,7 @@ fun AboutScreen(navigator: DestinationsNavigator)
     group = "Light Theme"
 )
 @Composable
-fun AboutScreenPreview()
-{
+fun AboutScreenPreview() {
     BienestarEmocionalTheme {
         AboutScreen(EmptyDestinationsNavigator)
     }
@@ -62,8 +62,7 @@ fun AboutScreenPreview()
     group = "Dark Theme"
 )
 @Composable
-fun AboutScreenPreviewDarkTheme()
-{
+fun AboutScreenPreviewDarkTheme() {
     BienestarEmocionalTheme(darkTheme = true) {
         AboutScreen(EmptyDestinationsNavigator)
     }

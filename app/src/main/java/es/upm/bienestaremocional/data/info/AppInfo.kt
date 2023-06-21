@@ -6,8 +6,7 @@ import kotlinx.coroutines.flow.Flow
  * Contains the operations related with app info as app is executed for first time, user id
  * @see AppInfoImpl
  */
-interface AppInfo
-{
+interface AppInfo {
     /**
      * Save first time info
      * @param value: Preference to save

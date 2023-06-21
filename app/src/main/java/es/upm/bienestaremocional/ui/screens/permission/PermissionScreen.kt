@@ -50,14 +50,16 @@ import es.upm.bienestaremocional.utils.openForeignActivity
 
 @Destination
 @Composable
-fun PermissionScreen(navigator: DestinationsNavigator,
-                     viewModel: PermissionViewModel = hiltViewModel()
+fun PermissionScreen(
+    navigator: DestinationsNavigator,
+    viewModel: PermissionViewModel = hiltViewModel()
 ) {
     val requestNotificationPermission: @Composable ((Boolean) -> Unit) -> Unit = { onResult ->
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             viewModel.RequestNotificationPermission(onResult = onResult)
     }
-    PermissionScreen(navigator = navigator,
+    PermissionScreen(
+        navigator = navigator,
         requestNotificationPermission = requestNotificationPermission,
         onFinish = {
             viewModel.onFinish()
@@ -220,7 +222,8 @@ fun checkAndRequestPermission(
             R.string.permission_granted,
             Toast.LENGTH_LONG
         ).show()
-    } else {
+    }
+    else {
         launcher.launch(permission)
     }
 }

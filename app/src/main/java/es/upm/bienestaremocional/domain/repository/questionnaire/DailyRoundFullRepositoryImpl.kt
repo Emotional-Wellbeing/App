@@ -8,25 +8,21 @@ import javax.inject.Inject
 /**
  * Repository to interact with [DailyRoundFull] (only queries)
  */
-class DailyRoundFullRepositoryImpl @Inject constructor (
+class DailyRoundFullRepositoryImpl @Inject constructor(
     private val dao: AppDAO,
     private val logTag: String
-): DailyRoundFullRepository
-{
-    override suspend fun get(id: Long): DailyRoundFull?
-    {
+) : DailyRoundFullRepository {
+    override suspend fun get(id: Long): DailyRoundFull? {
         Log.d(logTag, "querying daily round full with id: $id")
         return dao.getDailyRoundFull(id)
     }
 
-    override suspend fun getAll(): List<DailyRoundFull>
-    {
+    override suspend fun getAll(): List<DailyRoundFull> {
         Log.d(logTag, "querying all daily rounds full")
         return dao.getAllDailyRoundFull()
     }
 
-    override suspend fun getAllUncompleted(): List<DailyRoundFull>
-    {
+    override suspend fun getAllUncompleted(): List<DailyRoundFull> {
         Log.d(logTag, "querying daily rounds uncompleted")
         return dao.getAllDailyRoundFullUncompleted()
     }

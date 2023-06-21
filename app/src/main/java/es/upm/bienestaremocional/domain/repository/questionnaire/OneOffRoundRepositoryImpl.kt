@@ -8,32 +8,27 @@ import javax.inject.Inject
 /**
  * Repository to interact with [OneOffRound] (only queries)
  */
-class OneOffRoundRepositoryImpl @Inject constructor (
+class OneOffRoundRepositoryImpl @Inject constructor(
     private val dao: AppDAO,
     private val logTag: String
-): OneOffRoundRepository
-{
-    override suspend fun insert(oneOffRound: OneOffRound): Long
-    {
+) : OneOffRoundRepository {
+    override suspend fun insert(oneOffRound: OneOffRound): Long {
         Log.d(logTag, "inserting new one off round")
         return dao.insert(oneOffRound)
     }
 
-    override suspend fun update(oneOffRound: OneOffRound)
-    {
+    override suspend fun update(oneOffRound: OneOffRound) {
         Log.d(logTag, "updating one off round with id: ${oneOffRound.id}")
         oneOffRound.apply { modifiedAt = System.currentTimeMillis() }
         return dao.update(oneOffRound)
     }
 
-    override suspend fun get(id: Long): OneOffRound?
-    {
+    override suspend fun get(id: Long): OneOffRound? {
         Log.d(logTag, "querying one off round with id: $id")
         return dao.getOneOffRound(id)
     }
 
-    override suspend fun getAll(): List<OneOffRound>
-    {
+    override suspend fun getAll(): List<OneOffRound> {
         Log.d(logTag, "querying all oneOff rounds")
         return dao.getAllOneOffRound()
     }

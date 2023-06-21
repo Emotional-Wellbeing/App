@@ -22,14 +22,12 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val appSettings: AppSettings,
     private val languageManager: LanguageManager
-) : ViewModel()
-{
+) : ViewModel() {
     /**
      * Load dynamic color value from [AppSettings]
      */
-    fun loadDynamicColors(): Boolean
-    {
-        var option : Boolean
+    fun loadDynamicColors(): Boolean {
+        var option: Boolean
 
         runBlocking(Dispatchers.IO)
         {
@@ -41,8 +39,7 @@ class SettingsViewModel @Inject constructor(
     /**
      * Saves dynamic color value
      */
-    fun changeDynamicColors(option: Boolean)
-    {
+    fun changeDynamicColors(option: Boolean) {
         viewModelScope.launch {
             appSettings.saveDynamicColors(option)
         }
@@ -51,9 +48,8 @@ class SettingsViewModel @Inject constructor(
     /**
      * Load theme value from [AppSettings]
      */
-    fun loadDarkMode() : Int
-    {
-        var option : Int
+    fun loadDarkMode(): Int {
+        var option: Int
         runBlocking(Dispatchers.IO)
         {
             option = appSettings.getTheme().first().ordinal
@@ -64,21 +60,19 @@ class SettingsViewModel @Inject constructor(
     /**
      * Save theme value from [LanguageManager]
      */
-     fun changeLanguage(context: Context, option: Int)
-    {
-        languageManager.changeLocale(context,option)
+    fun changeLanguage(context: Context, option: Int) {
+        languageManager.changeLocale(context, option)
     }
 
-  /**
+    /**
      * Load theme value from [LanguageManager]
      */
-    fun loadLanguage() : Int = languageManager.getLocale()
+    fun loadLanguage(): Int = languageManager.getLocale()
 
     /**
      * Save theme value from [AppSettings]
      */
-    fun changeDarkMode(option: Int)
-    {
+    fun changeDarkMode(option: Int) {
         // Default to null
         val themeMode: ThemeMode? = ThemeMode.values().getOrNull(option)
         themeMode?.let {
@@ -87,17 +81,17 @@ class SettingsViewModel @Inject constructor(
             }
         }
     }
-    
+
     /**
      * Load questionnaires selected value from [AppSettings]
      */
-    fun loadMeasuresSelected(): Set<Int>
-    {
-        var option : Set<Int>
+    fun loadMeasuresSelected(): Set<Int> {
+        var option: Set<Int>
         val possibleOptions = Measure.getOptional()
         runBlocking(Dispatchers.IO)
         {
-            option = appSettings.getMeasuresSelected().first().map { possibleOptions.indexOf(it) }.toSet()
+            option = appSettings.getMeasuresSelected().first().map { possibleOptions.indexOf(it) }
+                .toSet()
         }
         return option
     }
@@ -105,8 +99,7 @@ class SettingsViewModel @Inject constructor(
     /**
      * Saves questionnaires selected value
      */
-    fun changeMeasuresSelected(option: Set<Int>)
-    {
+    fun changeMeasuresSelected(option: Set<Int>) {
         // Decode each measure to index in optional list and eliminate error (null) values
         val measure: Set<Measure> = option.mapNotNull {
             //Decode each measure to index in optional list
@@ -118,8 +111,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun openSettingsNotifications(context: Context)
-    {
+    fun openSettingsNotifications(context: Context) {
         val intent = Intent().apply {
             action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
             putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
@@ -127,8 +119,7 @@ class SettingsViewModel @Inject constructor(
         context.startActivity(intent)
     }
 
-    fun openSettingsApplication(context: Context)
-    {
+    fun openSettingsApplication(context: Context) {
         val intent = Intent().apply {
             action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
             data = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)

@@ -9,8 +9,7 @@ import es.upm.bienestaremocional.data.database.entity.round.DailyRound
  */
 @NavTypeSerializer
 class DailyRoundNavTypeSerializer :
-    DestinationsNavTypeSerializer<DailyRound>
-{
+    DestinationsNavTypeSerializer<DailyRound> {
     override fun fromRouteString(routeStr: String): DailyRound {
         val values = routeStr.split(";").map { it.toLongOrNull() }
         return DailyRound(

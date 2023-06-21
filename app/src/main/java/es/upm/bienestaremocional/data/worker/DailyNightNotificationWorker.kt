@@ -20,10 +20,8 @@ class DailyNightNotificationWorker @AssistedInject constructor(
     @Named("logTag") private val logTag: String,
     private val notification: Notification,
     private val insertDailyRoundUseCase: InsertDailyRoundUseCase
-): CoroutineWorker(appContext, workerParams)
-{
-    companion object : Schedulable
-    {
+) : CoroutineWorker(appContext, workerParams) {
+    companion object : Schedulable {
         override val initialTime: LocalDateTime = LocalDateTime.now()
             .withHour(21)
             .withMinute(0)
@@ -35,9 +33,8 @@ class DailyNightNotificationWorker @AssistedInject constructor(
         override val repeatInterval: Duration = Duration.ofHours(24)
     }
 
-    override suspend fun doWork(): Result
-    {
-        Log.d(logTag,"Executing Daily Night Round Day Worker")
+    override suspend fun doWork(): Result {
+        Log.d(logTag, "Executing Daily Night Round Day Worker")
 
         val dailyRound = insertDailyRoundUseCase.insertDailyNightRound()
 

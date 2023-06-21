@@ -26,8 +26,7 @@ class SplashViewModel @Inject constructor(
     private val appSettings: AppSettings,
     private val appInfo: AppInfo,
     private val workAdministrator: WorkAdministrator
-) : ViewModel()
-{
+) : ViewModel() {
     val state: MutableState<SplashState> = mutableStateOf(SplashState.Init)
 
     private val showOnboarding = runBlocking { appInfo.getFirstTime().first() }
@@ -35,8 +34,7 @@ class SplashViewModel @Inject constructor(
     @Composable
     fun getDarkTheme() = runBlocking { appSettings.getTheme().first() }.themeIsDark()
 
-    fun noDialogAction() : Direction
-    {
+    fun noDialogAction(): Direction {
         //redirect to certain screen
         return when (healthConnectAvailability.value) {
             HealthConnectAvailability.INSTALLED ->

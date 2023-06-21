@@ -11,12 +11,9 @@ data class SleepSender(
     val startTime: Long,
     val endTime: Long,
     val stages: List<SleepStageSender>
-)
-{
-    companion object
-    {
-        fun SleepSessionData.toSender(): SleepSender
-        {
+) {
+    companion object {
+        fun SleepSessionData.toSender(): SleepSender {
             val startTime = obtainTimestamp(startTime, startZoneOffset)
             val endTime = obtainTimestamp(endTime, endZoneOffset)
             val stages = stages.map { it.toSender() }

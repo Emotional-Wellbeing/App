@@ -33,14 +33,12 @@ import es.upm.bienestaremocional.ui.component.chart.ActualWeekChart
 fun RemoteMeasure(
     questionnaire: DailyScoredQuestionnaire,
     pagerState: PagerState,
-    yesterdayScore : Int?,
-    lastSevenDaysScore : Int?,
-    currentWeekScores : List<NullableChartRecord>,
-    widthSize : WindowWidthSizeClass,
-)
-{
-    val titleStyle = when(widthSize)
-    {
+    yesterdayScore: Int?,
+    lastSevenDaysScore: Int?,
+    currentWeekScores: List<NullableChartRecord>,
+    widthSize: WindowWidthSizeClass,
+) {
+    val titleStyle = when (widthSize) {
         WindowWidthSizeClass.Compact -> MaterialTheme.typography.titleSmall
         WindowWidthSizeClass.Medium -> MaterialTheme.typography.titleMedium
         WindowWidthSizeClass.Expanded -> MaterialTheme.typography.titleLarge
@@ -74,21 +72,21 @@ fun RemoteMeasure(
         ) {
             HorizontalPagerIndicator(
                 pagerState = pagerState,
-                activeColor = MaterialTheme.colorScheme.primary)
+                activeColor = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
 
 @Composable
 fun RemoteMeasure(
-    questionnaire : DailyScoredQuestionnaire,
-    yesterdayScore : Int?,
-    lastSevenDaysScore : Int?,
-    currentWeekScores : List<NullableChartRecord>,
-    widthSize : WindowWidthSizeClass,
-    heightFraction : Float = 1f,
-)
-{
+    questionnaire: DailyScoredQuestionnaire,
+    yesterdayScore: Int?,
+    lastSevenDaysScore: Int?,
+    currentWeekScores: List<NullableChartRecord>,
+    widthSize: WindowWidthSizeClass,
+    heightFraction: Float = 1f,
+) {
     Column(
         modifier = Modifier.fillMaxHeight(heightFraction),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -101,7 +99,10 @@ fun RemoteMeasure(
             {
                 DoubleMeasureStatus(
                     data = Pair(yesterdayScore, lastSevenDaysScore),
-                    headers = Pair(stringResource(R.string.yesterday), stringResource(R.string.last_seven_days)),
+                    headers = Pair(
+                        stringResource(R.string.yesterday),
+                        stringResource(R.string.last_seven_days)
+                    ),
                     questionnaire = questionnaire,
                     height = maxHeight,
                     widthSize = widthSize,
@@ -112,12 +113,14 @@ fun RemoteMeasure(
             }
 
         }
-        Box(modifier = Modifier
-            .weight(0.6f)
-            .padding(16.dp))
+        Box(
+            modifier = Modifier
+                .weight(0.6f)
+                .padding(16.dp)
+        )
         {
             if (currentWeekScores.isNotEmpty())
-                ActualWeekChart(questionnaire,currentWeekScores)
+                ActualWeekChart(questionnaire, currentWeekScores)
             else
                 Text(stringResource(id = R.string.no_data_to_display))
         }

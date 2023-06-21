@@ -7,7 +7,7 @@ package es.upm.bienestaremocional.data.questionnaire
  * @param level: Label of the interval
  */
 data class ScoreLevel(
-    val min : Int,
+    val min: Int,
     val max: Int,
     val level: Level
 )

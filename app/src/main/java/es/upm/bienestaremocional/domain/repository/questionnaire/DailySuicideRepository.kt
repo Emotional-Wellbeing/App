@@ -4,8 +4,7 @@ import android.util.Range
 import es.upm.bienestaremocional.data.database.entity.daily.DailySuicide
 import java.time.ZonedDateTime
 
-interface DailySuicideRepository : QuestionnaireRepository<DailySuicide>
-{
+interface DailySuicideRepository : QuestionnaireRepository<DailySuicide> {
     override suspend fun insert(element: DailySuicide): Long
     override suspend fun update(element: DailySuicide)
     override suspend fun get(id: Long): DailySuicide?
@@ -16,6 +15,7 @@ interface DailySuicideRepository : QuestionnaireRepository<DailySuicide>
         range: Range<ZonedDateTime>,
         onlyCompleted: Boolean
     ): List<DailySuicide>
+
     override suspend fun getAllFromYesterday(): List<DailySuicide>
     override suspend fun getLastCompleted(): DailySuicide?
 }
