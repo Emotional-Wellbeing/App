@@ -1,28 +1,29 @@
 package es.upm.bienestaremocional.data.usage
 
-import android.app.Activity
-import android.app.usage.UsageStatsManager
 import android.app.usage.UsageStats
+import android.app.usage.UsageStatsManager
 import android.content.Context
-import android.view.ViewGroup
-import android.os.Bundle
-import android.content.Intent
+import android.content.Context.LAYOUT_INFLATER_SERVICE
+import android.content.Context.USAGE_STATS_SERVICE
 import android.content.pm.PackageManager
 import android.os.Build
-import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import java.util.*
 
-class Usage : Activity(), AdapterView.OnItemSelectedListener{
+class Usage(
+    private val logTag: String
+) {
     private var mUsageStatsManager: UsageStatsManager? = null
     private var mInflater: LayoutInflater? = null
     private var mAdapter: Usage.UsageStatsAdapter? = null
     private var mPm: PackageManager? = null
 
-    var usageInfo: String =""
+    var usageInfo: String = ""
 
     @RequiresApi(Build.VERSION_CODES.Q)
     internal inner class UsageStatsAdapter : BaseAdapter() {
@@ -89,27 +90,12 @@ class Usage : Activity(), AdapterView.OnItemSelectedListener{
         }
     }
 
-    /** Called when the activity is first created.  */
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     @RequiresApi(Build.VERSION_CODES.Q)
-    override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-        mAdapter!!.sortList(position)
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        // do nothing
-    }
-
-    @RequiresApi(Build.VERSION_CODES.Q)
-    fun getAppUsage(contexto: Context): String {
-        mUsageStatsManager = contexto.getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
-        requestPermissions(contexto)
-        mInflater = contexto.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        mPm = contexto.packageManager
+    fun getAppUsage(context: Context): String {
+        mUsageStatsManager = context.getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
+        havePermissions()
+        mInflater = context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        mPm = context.packageManager
 
         mAdapter = UsageStatsAdapter()
 
@@ -119,17 +105,27 @@ class Usage : Activity(), AdapterView.OnItemSelectedListener{
         return "\"App\": \"N/A\""
     }
 
-    private fun requestPermissions(contexto: Context) {
+    private fun havePermissions() {
         val stats = mUsageStatsManager
             ?.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, 0, System.currentTimeMillis())
-         if (stats?.isEmpty() == true) {
-            contexto.startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+        if (stats?.isEmpty() == true) {
+            Log.d(logTag, "It seems that we don't have permissions")
         }
     }
-    fun findApp (appName: String): String {
+
+    fun findApp(appName: String): String {
         val type = ""
-        val rRSS = listOf("facebook","twitter","instagram","tiktok","snapchat","whatsapp","messenger","telegram")
-        val dating = listOf("tinder","badoo","meetic","bumble","grindr")
+        val rRSS = listOf(
+            "facebook",
+            "twitter",
+            "instagram",
+            "tiktok",
+            "snapchat",
+            "whatsapp",
+            "messenger",
+            "telegram"
+        )
+        val dating = listOf("tinder", "badoo", "meetic", "bumble", "grindr")
         val games = listOf("candy","mine","treasure","crush","sudoku","game","pokemongo","impact","scape","among","otome","madness","zombies")
         val entertaining = listOf("youtube","netflix","hbo","disney","prime","video","ivoox","tiktok","audible","book","star","crunchyroll", "firefox", "opera","chrome","9gag","los40","spotify","rtve","bbc","duolingo")
         val house = listOf("santander","bbva","bankinter","openbank","repsol","naturgy","iberdrola","tapo","tplink","aeat","amazon","cl@ve","sodexo","zooplus","wallapop")

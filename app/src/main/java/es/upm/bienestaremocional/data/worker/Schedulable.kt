@@ -8,7 +8,7 @@ import java.time.LocalDateTime
  */
 interface Schedulable
 {
-    val time: LocalDateTime
-    val tag : String
+    val initialTime: LocalDateTime?
+    val tag: String
     val repeatInterval : Duration
 }

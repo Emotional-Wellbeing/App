@@ -11,10 +11,9 @@ import java.time.Instant
 
 suspend fun firstTimeExecution(
     notificationManager: NotificationManager,
-    scheduler: WorkAdministrator,
-    lastUploadRepository: LastUploadRepository
-)
-{
+    workAdministrator: WorkAdministrator,
+    lastUploadRepository: LastUploadRepository,
+) {
     //build channel notifications
     for (appChannel in NotificationChannels.values())
         createNotificationChannel(
@@ -22,16 +21,18 @@ suspend fun firstTimeExecution(
             channel = appChannel
         )
     //schedule notifications
-    scheduler.scheduleDailyMorningNotificationWorker()
-    scheduler.scheduleDailyNightNotificationWorker()
-    scheduler.scheduleOneOffNotificationWorker()
-    scheduler.scheduleUploadWorker()
+    workAdministrator.scheduleDailyMorningNotificationWorker()
+    workAdministrator.scheduleDailyNightNotificationWorker()
+    workAdministrator.scheduleOneOffNotificationWorker()
+    workAdministrator.scheduleUploadWorker()
+    workAdministrator.scheduleUploadPhoneDataWorker()
+    workAdministrator.scheduleUploadTrafficDataWorker()
+
 
     //insert values in last upload table
-    val now = obtainTimestamp(Instant.now(),null)
+    val now = obtainTimestamp(Instant.now(), null)
 
-    for(type in LastUpload.Type.values())
-    {
+    for (type in LastUpload.Type.values()) {
         lastUploadRepository.insert(
             LastUpload(
                 type = type,

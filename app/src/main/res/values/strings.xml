@@ -301,10 +301,20 @@
     <!-- Permission -->
     <string name="permission_screen_label">Permisos</string>
     <string name="permission_screen_description">Permisos de la aplicación</string>
-    <string name="permission_granted">Permiso concedido. Puede deshabilitar permisos en el menú de configuración de Android</string>
+    <string name="permission_granted">Permiso concedido. Puede deshabilitarlo en el menú de configuración de Android</string>
     <string name="permission_log_call">Permisos de listado de llamadas</string>
     <string name="permission_location">Permisos de ubicación</string>
-    <string name="permission_internet">Permisos de internet</string>
+    <string name="permission_usage">Permisos de acceso al uso del dispositivo</string>
+    <string name="permission_notification">Permisos de notificaciones</string>
+    <string name="permission_health_connect">Permisos de Salud Conectada</string>
+    <string name="permission_intro">¡Hola! Para que la app pueda realizar todas sus funciones es necesario otorgar los siguientes permisos. La aplicación se adaptará a los permisos que concedas.No obstante, la información está anonimizada para que nadie (incluidos los desarrolladores) pueda identificarle.</string>
+    <string name="permission_log_call_description">El permiso del listado de llamada se utiliza para acceder al registro de llamadas del dispositivo, con la finalidad de extraer estadísticas anonimizadas. Los números de teléfono son transformados a identificadores no relacionados con dicho número para generar estadísticas anonimazadas.</string>
+    <string name="permission_location_description">El permiso de ubicación se necesita para poder acceder a los datos de las redes móviles. No lo usamos para geolocalizar, únicamente para conocer el perfil de uso de las redes móviles.</string>
+    <string name="permission_usage_description">El permiso de acceso al uso del dispositivo se utiliza para conocer qué aplicaciones has utilizado y extraer estadísticas relacionadas.</string>
+    <string name="permission_notification_description">Este permiso se necesita para el envío de notificaciones, como las que se envían al abrirse un nuevo cuestionario.</string>
+    <string name="permission_health_connect_description">Si dispone de una pulsera compatible con Salud Conectada, por favor revise los permisos para acceder a los datos de la pulsera.</string>
+    <string name="permission_outro">Cuando esté listo, pulse el botón para ir a la ventana principal.</string>
+
     <string name="Title" translatable="false">Title</string>
     <string name="_0_kb" translatable="false">0 Kb</string>
 </resources>

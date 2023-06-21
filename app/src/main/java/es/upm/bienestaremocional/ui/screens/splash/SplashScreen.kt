@@ -35,9 +35,11 @@ fun SplashScreen(
 
     when(splashViewModel.state.value)
     {
-        SplashState.NotificationsDialog -> { splashViewModel.NotificationsDialogAction() }
-        SplashState.NoDialog ->
-        {
+        SplashState.Init -> {
+            splashViewModel.onInit()
+        }
+
+        SplashState.NoDialog -> {
             //init block. Delay simulate loading
             LaunchedEffect(true)
             {

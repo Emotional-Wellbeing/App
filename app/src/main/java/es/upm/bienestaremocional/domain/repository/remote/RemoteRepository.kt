@@ -19,5 +19,6 @@ interface RemoteRepository
             DailyQuestionnairesResponse?
     suspend fun postOneOffQuestionnaires(oneOffQuestionnairesRequest: OneOffQuestionnairesRequest):
             OneOffQuestionnairesResponse?
-    suspend fun postBackgroundData(message: String): Boolean?
+
+    suspend fun postBackgroundData(message: String): Boolean
 }

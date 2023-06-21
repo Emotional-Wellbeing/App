@@ -1,6 +1,7 @@
 package es.upm.bienestaremocional.di
 
 import android.app.Application
+import android.app.NotificationManager
 import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.health.connect.client.HealthConnectClient
@@ -60,14 +61,23 @@ object AppModule
 
     @Provides
     @Singleton
-    fun provideNotification(@ApplicationContext context: Context,
-                            @Named("logTag") logTag: String): Notification =
-        NotificationImpl(context,logTag)
+    fun provideNotification(
+        @ApplicationContext context: Context,
+        @Named("logTag") logTag: String
+    ): Notification =
+        NotificationImpl(context, logTag)
 
     @Provides
     @Singleton
-    fun provideWorkAdministrator(@ApplicationContext context: Context,
-                             @Named("logTag") logTag: String): WorkAdministrator =
+    fun provideNotificationManager(@ApplicationContext context: Context): NotificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    @Provides
+    @Singleton
+    fun provideWorkAdministrator(
+        @ApplicationContext context: Context,
+        @Named("logTag") logTag: String
+    ): WorkAdministrator =
         WorkAdministratorImpl(context, logTag)
 
     @Provides

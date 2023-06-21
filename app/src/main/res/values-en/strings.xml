@@ -240,8 +240,17 @@
     <string name="review">Review</string>
     <string name="permission_screen_label">Permissions</string>
     <string name="permission_screen_description">App permissions</string>
-    <string name="permission_granted">Permission granted. You can disable permissions in the Android settings menu</string>
+    <string name="permission_granted">Permission granted. You can disable it in the Android settings menu</string>
     <string name="permission_log_call">Call listing permissions</string>
     <string name="permission_location">Location permissions</string>
-    <string name="permission_internet">Internet permissions</string>
+    <string name="permission_notification">Notification permission</string>
+    <string name="permission_usage">Access for device usage permission</string>
+    <string name="permission_health_connect">Health Connect permissions</string>
+    <string name="permission_intro">Hello! To ensure the correct functioning of the app it is necessary to grant the following permissions. The app will adapt to the permissions you grant.However, the information is anonymised so that no one (including the developers) can identify you.</string>
+    <string name="permission_log_call_description">The call listing permission is used to access the device\'s call log for the purpose of extracting anonymised statistics. Phone numbers are transformed to identifiers not related to that number to generate anonymised statistics.</string>
+    <string name="permission_location_description">The location permission is needed to be able to access data from mobile networks. Is not used to geolocate, only to get to know the usage profile of mobile networks.</string>
+    <string name="permission_usage_description">The device usage access permission is used to know which applications you have used and to extract related statistics.</string>
+    <string name="permission_notification_description">This permission is required for the sending of notifications, such as those sent when a new questionnaire is available.</string>
+    <string name="permission_health_connect_description">If you have a wearable compatible with Health Connected, please check the permissions to access the wearable data.</string>
+    <string name="permission_outro">When you are ready, click the button to go to the main window.</string>
 </resources>

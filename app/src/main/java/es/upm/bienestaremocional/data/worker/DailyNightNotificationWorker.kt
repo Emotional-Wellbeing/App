@@ -24,7 +24,7 @@ class DailyNightNotificationWorker @AssistedInject constructor(
 {
     companion object : Schedulable
     {
-        override val time: LocalDateTime = LocalDateTime.now()
+        override val initialTime: LocalDateTime = LocalDateTime.now()
             .withHour(21)
             .withMinute(0)
             .withSecond(0)

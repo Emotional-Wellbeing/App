@@ -1,5 +1,7 @@
 package es.upm.bienestaremocional.data.worker
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.work.WorkInfo
 
@@ -48,6 +50,38 @@ interface WorkAdministrator
      * Cancel [UploadWorker]
      */
     fun cancelUploadWorker()
+
+    /**
+     * Schedule [UploadPhoneDataWorker]
+     */
+    fun scheduleUploadPhoneDataWorker()
+
+    /**
+     * Cancel [UploadPhoneDataWorker]
+     */
+    fun cancelUploadPhoneDataWorker()
+
+    /**
+     * Schedule [UploadTrafficDataWorker]
+     */
+    fun scheduleUploadTrafficDataWorker()
+
+    /**
+     * Cancel [UploadTrafficDataWorker]
+     */
+    fun cancelUploadTrafficDataWorker()
+
+    /**
+     * Schedule [UploadUsageInfoWorker]
+     */
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun scheduleUploadUsageInfoWorker()
+
+    /**
+     * Cancel [UploadUsageInfoWorker]
+     */
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun cancelUploadUsageInfoWorker()
 
     /**
      * Query workers status
