@@ -41,8 +41,8 @@ fun SplashScreen(
         SplashState.Loading -> {
             LaunchedEffect(true)
             {
-                splashViewModel.onLoading()
                 delay(1000)
+                splashViewModel.onLoading()
             }
         }
 

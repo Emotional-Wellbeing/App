@@ -123,6 +123,11 @@ private fun PermissionScreen(
                 text = stringResource(id = R.string.permission_intro),
                 textAlign = TextAlign.Justify
             )
+
+            Text(
+                text = stringResource(id = R.string.permission_log_call_description),
+                textAlign = TextAlign.Justify
+            )
             TextButton(
                 onClick = {
                     checkAndRequestPermission(
