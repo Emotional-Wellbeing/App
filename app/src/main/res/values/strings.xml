@@ -43,6 +43,7 @@
     <string name="misc_group">Miscelánea</string>
     <string name="about_screen_label">Acerca de la aplicación</string>
     <string name="about_screen_description">Información técnica de la aplicación</string>
+    <string name="version_placeholder">Versión de la aplicación: %s</string>
     <string name="onboarding_screen_label">Bienvenida</string>
     <string name="onboarding_screen_description">Volver a visitar el tutorial de bienvenida</string>
     <string name="credits_screen_label">Créditos</string>

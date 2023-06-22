@@ -40,6 +40,7 @@
     <string name="privacy_policy_screen_description">Treatment of your data</string>
     <string name="misc_group">Miscellaneous</string>
     <string name="about_screen_description">Technical information of the app</string>
+    <string name="version_placeholder">App version: %s</string>
     <string name="onboarding_screen_description">Revisit onboarding</string>
     <string name="credits_screen_description">People behind the scenes</string>
     <string name="not_installed_welcome_message">You need to install Health Connect to use the app correctly, which is available on Google Play. If you already have it installed, please restart the app.</string>

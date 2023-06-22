@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
+import es.upm.bienestaremocional.BuildConfig
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.ui.component.TextScreen
 import es.upm.bienestaremocional.ui.navigation.BottomBarDestination
@@ -36,6 +37,12 @@ private fun AboutScreen(
     val content: @Composable (TextStyle) -> Unit = { textStyle ->
         Text(
             text = stringResource(id = R.string.about_screen_description),
+            textAlign = TextAlign.Justify,
+            style = textStyle
+        )
+
+        Text(
+            text = stringResource(id = R.string.version_placeholder, BuildConfig.VERSION_NAME),
             textAlign = TextAlign.Justify,
             style = textStyle
         )
