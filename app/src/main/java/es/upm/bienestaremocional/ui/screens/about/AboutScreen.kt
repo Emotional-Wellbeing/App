@@ -36,12 +36,6 @@ private fun AboutScreen(
 ) {
     val content: @Composable (TextStyle) -> Unit = { textStyle ->
         Text(
-            text = stringResource(id = R.string.about_screen_description),
-            textAlign = TextAlign.Justify,
-            style = textStyle
-        )
-
-        Text(
             text = stringResource(id = R.string.version_placeholder, BuildConfig.VERSION_NAME),
             textAlign = TextAlign.Justify,
             style = textStyle

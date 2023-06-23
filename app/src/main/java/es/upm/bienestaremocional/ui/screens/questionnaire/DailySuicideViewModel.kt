@@ -77,10 +77,11 @@ class DailySuicideViewModel @Inject constructor(
 
         delay(animationDurationMillis.toLong())
 
-        //If user answers no, we don't ask more questions, or if we don't have more questions to ask
-        if (answer == 1 || _questionNumber.value == manager.numberOfQuestions - 1) {
+        //If user answers no (answerToSkip), we don't ask more questions,
+        // or if we don't have more questions to ask
+        if (answer == manager.answerToSkip || _questionNumber.value == manager.numberOfQuestions - 1) {
             // If user answer no, level depends on what index is
-            level = if (answer == 1) {
+            level = if (answer == manager.answerToSkip) {
                 if (question == 0)
                     Level.Low
                 else

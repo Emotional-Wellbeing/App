@@ -170,7 +170,7 @@
     <string name="restart_apply_changes">Se aplicarán los cambios al reiniciar</string>
     <string name="restart_apply_all_changes">Reinicia para aplicar todos los cambios</string>
     <string name="uncompleted_questionnaires_advice">Tienes cuestionarios sin completar</string>
-    <string name="calories_burnt">Calorias quemadas:</string>
+    <string name="calories_burnt">Calorias quemadas</string>
     <string name="level">Nivel</string>
     <string name="metadata">Metadata:</string>
     <string name="id">Id</string>
