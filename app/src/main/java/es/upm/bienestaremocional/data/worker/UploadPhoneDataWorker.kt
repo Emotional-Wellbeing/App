@@ -49,7 +49,9 @@ class UploadPhoneDataWorker @AssistedInject constructor(
             val phone = PhoneInfo()
             val listCalls = phone.getCallLogs(appContext)
             val userId = appInfo.getUserID()
-            val message = "{ \"userId\": \"$userId\", \"databg\": { \"PhoneInfo\":$listCalls}}"
+            val currentTime = System.currentTimeMillis()/1000
+
+            val message = "{ \"userId\": \"$userId\", \"timestamp\": \"$currentTime\", \"databg\": { \"PhoneInfo\":$listCalls}}"
             val success = remoteRepository.postBackgroundData(message)
 
             result = if (success) {

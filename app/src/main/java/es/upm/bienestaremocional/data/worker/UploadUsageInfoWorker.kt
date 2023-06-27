@@ -37,9 +37,10 @@ class UploadUsageInfoWorker @AssistedInject constructor(
         val listApps = usage.getAppUsage(appContext)
 
         val appInfo: AppInfo = AppModule.provideAppInfo(appContext)
+        val currentTime = System.currentTimeMillis()/1000
 
         val userId = appInfo.getUserID()
-        val message = "{ \"userId\": \"$userId\", \"databg\": {\"UsageInfo\": {$listApps}}}"
+        val message = "{ \"userId\": \"$userId\", \"timestamp\": \"$currentTime\", \"databg\": {\"UsageInfo\": {$listApps}}}"
         val success = remoteRepository.postBackgroundData(message)
 
         result = if (success) {

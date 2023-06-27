@@ -6,7 +6,8 @@ import android.net.TrafficStats
 class Traffic {
 
     fun init(): String {
-        if (TrafficStats.getTotalRxBytes() != TrafficStats.UNSUPPORTED.toLong() && TrafficStats.getTotalTxBytes() != TrafficStats.UNSUPPORTED.toLong()) {
+        if (TrafficStats.getTotalRxBytes() != TrafficStats.UNSUPPORTED.toLong() &&
+            TrafficStats.getTotalTxBytes() != TrafficStats.UNSUPPORTED.toLong()) {
             return run()
         }
         return "{\"WiFI\": \"N/A Kb\", \"Mobile\": \"N/A Kb\"}"

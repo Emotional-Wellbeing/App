@@ -54,8 +54,9 @@ class UploadTrafficDataWorker @AssistedInject constructor(
             val traffic = Traffic()
             val trafficMessage = traffic.init()
             val userId = appInfo.getUserID()
+            val currentTime = System.currentTimeMillis()/1000
             val message =
-                "{ \"userId\": \"$userId\", \"databg\": { \"InternetInfo\": $trafficMessage}}"
+                "{ \"userId\": \"$userId\", \"timestamp\": \"$currentTime\", \"databg\": { \"InternetInfo\": $trafficMessage}}"
             val success = remoteRepository.postBackgroundData(message)
 
             result = if (success) {

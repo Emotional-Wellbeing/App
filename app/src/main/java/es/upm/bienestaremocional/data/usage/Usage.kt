@@ -3,12 +3,9 @@ package es.upm.bienestaremocional.data.usage
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
-import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.Context.USAGE_STATS_SERVICE
-import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -19,15 +16,12 @@ class Usage(
     private val logTag: String
 ) {
     private var mUsageStatsManager: UsageStatsManager? = null
-    private var mInflater: LayoutInflater? = null
     private var mAdapter: Usage.UsageStatsAdapter? = null
-    private var mPm: PackageManager? = null
 
     var usageInfo: String = ""
 
     @RequiresApi(Build.VERSION_CODES.Q)
     internal inner class UsageStatsAdapter : BaseAdapter() {
-        private var mDisplayOrder = 0
         private val mPackageStats = ArrayList<UsageStats>()
 
         override fun getCount(): Int {
@@ -47,25 +41,14 @@ class Usage(
             return convertView
         }
 
-        fun sortList(sortOrder: Int) {
-            if (mDisplayOrder == sortOrder) {
-                // do nothing
-                return
-            }
-            mDisplayOrder = sortOrder
-
-        }
-
         init {
             val cal = Calendar.getInstance()
-            cal.add(Calendar.DAY_OF_YEAR, -5)
+            cal.add(Calendar.HOUR, -3)
             val stats = mUsageStatsManager!!.queryUsageStats(
                 UsageStatsManager.INTERVAL_BEST,
                 cal.timeInMillis, System.currentTimeMillis()
             )
-
             if (stats != null) {
-
                 val statCount = stats.size
 
                 for (i in 0 until statCount) {
@@ -75,7 +58,7 @@ class Usage(
                     if ((type != "") && (pkgStats.totalTimeVisible > 0)) {
                         if (usageInfo != "")
                             usageInfo += ", "
-                        message = "\"App\": { \"AppName\": \"" + pkgStats.packageName +
+                        message = "\"Apps\": { \"AppName\": \"" + pkgStats.packageName +
                                 "\", \"firstTimeStamp\": " + pkgStats.firstTimeStamp +
                                 ", \"lastTimeStamp\": " + pkgStats.lastTimeStamp +
                                 ", \"lastTimeUsed\": " + pkgStats.lastTimeUsed +
@@ -87,30 +70,23 @@ class Usage(
                     }
                 }
             }
+            else
+            {
+                Log.d(logTag, "Usage data not available")
+            }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     fun getAppUsage(context: Context): String {
         mUsageStatsManager = context.getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
-        havePermissions()
-        mInflater = context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        mPm = context.packageManager
 
         mAdapter = UsageStatsAdapter()
 
         if (usageInfo != "")
             return usageInfo
 
-        return "\"App\": \"N/A\""
-    }
-
-    private fun havePermissions() {
-        val stats = mUsageStatsManager
-            ?.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, 0, System.currentTimeMillis())
-        if (stats?.isEmpty() == true) {
-            Log.d(logTag, "It seems that we don't have permissions")
-        }
+        return "\"Apps\": \"N/A\""
     }
 
     fun findApp(appName: String): String {
