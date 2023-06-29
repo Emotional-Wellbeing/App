@@ -2,7 +2,9 @@ package es.upm.bienestaremocional.ui.screens.history
 
 import android.graphics.Typeface
 import android.util.Range
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -24,6 +26,7 @@ import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
+import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollState
 import com.patrykandpatrick.vico.compose.component.shapeComponent
 import com.patrykandpatrick.vico.compose.component.textComponent
 import com.patrykandpatrick.vico.compose.dimensions.dimensionsOf
@@ -399,6 +402,22 @@ private fun DrawLineChart(
             .orEmpty()
     }
 
+    val chartScrollState = rememberChartScrollState()
+
+    //If the state changes, move to the end of the chart. To perform this scroll we can't set the
+    //destination, we need indicate the difference between our destination and the actual point
+    LaunchedEffect(questionnaire, timeGranularity, producer.getModel())
+    {
+        with(chartScrollState)
+        {
+            this.animateScrollBy(
+                value = this.maxValue - this.value,
+                animationSpec = spring()
+            )
+        }
+    }
+
+
     ProvideChartStyle(chartStyle)
     {
         val defaultLines = currentChartStyle.lineChart.lines
@@ -446,7 +465,8 @@ private fun DrawLineChart(
                     padding = dimensionsOf(8.dp),
                 )
             },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            chartScrollState = chartScrollState
         )
     }
 }
