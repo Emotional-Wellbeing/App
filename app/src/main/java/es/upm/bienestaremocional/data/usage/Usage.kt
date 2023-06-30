@@ -90,7 +90,7 @@ class Usage(
     }
 
     fun findApp(appName: String): String {
-        val type = ""
+        val type = "N/A"
         val rRSS = listOf(
             "facebook",
             "twitter",
@@ -128,7 +128,6 @@ class Usage(
             "tiktok",
             "audible",
             "book",
-            "star",
             "crunchyroll",
             "firefox",
             "opera",
