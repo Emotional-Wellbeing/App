@@ -129,14 +129,14 @@
         <item>Insuficiente</item>
     </string-array>
     <string-array name="concentration_answers">
-        <item>Satisfactoria</item>
-        <item>Moderada</item>
+        <item>Satisfactorio</item>
+        <item>Moderado</item>
         <item>Insuficiente</item>
     </string-array>
     <string-array name="libido_answers">
-        <item>Satisfactoria</item>
-        <item>Moderada</item>
-        <item>Baja</item>
+        <item>Satisfactorio</item>
+        <item>Moderado</item>
+        <item>Bajo</item>
     </string-array>
     <string-array name="pain_answers">
         <item>Sin dolor</item>

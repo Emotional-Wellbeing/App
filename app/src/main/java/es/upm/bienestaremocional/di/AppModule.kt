@@ -12,7 +12,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import es.upm.bienestaremocional.data.AppConstants
+import es.upm.bienestaremocional.data.RemoteConstants
 import es.upm.bienestaremocional.data.healthconnect.HealthConnectAvailability
 import es.upm.bienestaremocional.data.info.AppInfo
 import es.upm.bienestaremocional.data.info.AppInfoImpl
@@ -100,7 +100,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRemoteAPI(gson: Gson): RemoteAPI = Retrofit.Builder()
-        .baseUrl(AppConstants.SERVER_URL)
+        .baseUrl(RemoteConstants.SERVER_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
         .create(RemoteAPI::class.java)

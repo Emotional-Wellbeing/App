@@ -29,13 +29,9 @@ class UploadWorker @AssistedInject constructor(
     private val postOneOffQuestionnairesUseCase: PostOneOffQuestionnairesUseCase,
 ) : CoroutineWorker(appContext, workerParams) {
     companion object : Schedulable {
-        override val initialTime: LocalDateTime = LocalDateTime.now()
-            .withHour(3)
-            .withMinute(0)
-            .withSecond(0)
-            .withNano(0)
+        override val initialTime: LocalDateTime? = null
         override val tag = "upload"
-        override val repeatInterval: Duration = Duration.ofHours(24)
+        override val repeatInterval: Duration = Duration.ofHours(8)
     }
 
     override suspend fun doWork(): Result {

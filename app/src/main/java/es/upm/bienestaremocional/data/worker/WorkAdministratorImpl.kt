@@ -15,6 +15,7 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkQuery
+import es.upm.bienestaremocional.data.RemoteConstants
 import es.upm.bienestaremocional.utils.formatHoursMinutes
 import java.time.Duration
 import java.time.ZoneId
@@ -66,6 +67,10 @@ class WorkAdministratorImpl(
         )
             .addTag(schedulable.tag)
             .setInitialDelay(offset)
+            .setBackoffCriteria(
+                backoffPolicy = RemoteConstants.BACKOFF_CRITERIA,
+                duration = Duration.ofMillis(RemoteConstants.BACKOFF_INITIAL_DELAY)
+            )
 
         constraints?.let {
             requestBuilder.setConstraints(it)
@@ -161,18 +166,11 @@ class WorkAdministratorImpl(
     }
 
     override fun scheduleUploadWorker() {
-        //Only execute upload job when battery is not low and network is available
-        val constraints = Constraints.Builder()
-            .setRequiresBatteryNotLow(true)
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
         with(UploadWorker)
         {
             scheduleRequest(
                 workerClass = UploadWorker::class.java,
                 schedulable = this,
-                constraints = constraints
             )
         }
     }
