@@ -32,7 +32,7 @@ class UploadTrafficDataWorker @AssistedInject constructor(
 
         override val tag: String = "upload_traffic_data"
 
-        override val repeatInterval: Duration = Duration.ofSeconds(1800)
+        override val repeatInterval: Duration = Duration.ofSeconds(3600)
     }
 
     override suspend fun doWork(): Result {

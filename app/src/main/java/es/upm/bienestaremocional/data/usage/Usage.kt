@@ -43,7 +43,7 @@ class Usage(
 
         init {
             val cal = Calendar.getInstance()
-            cal.add(Calendar.HOUR, -3)
+            cal.add(Calendar.HOUR, -6)
             val stats = mUsageStatsManager!!.queryUsageStats(
                 UsageStatsManager.INTERVAL_BEST,
                 cal.timeInMillis, System.currentTimeMillis()
