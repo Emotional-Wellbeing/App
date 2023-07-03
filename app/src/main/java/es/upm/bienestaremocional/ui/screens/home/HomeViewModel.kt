@@ -10,6 +10,7 @@ import es.upm.bienestaremocional.domain.repository.questionnaire.DailyDepression
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyLonelinessRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyRoundFullRepository
 import es.upm.bienestaremocional.domain.repository.questionnaire.DailyStressRepository
+import es.upm.bienestaremocional.domain.repository.questionnaire.OneOffRoundFullRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,6 +25,7 @@ class HomeViewModel @Inject constructor(
     private val dailyDepressionRepository: DailyDepressionRepository,
     private val dailyLonelinessRepository: DailyLonelinessRepository,
     private val dailyRoundFullRepository: DailyRoundFullRepository,
+    private val oneOffRoundFullRepository: OneOffRoundFullRepository,
     val appSettings: AppSettings
 ) : ViewModel() {
 
@@ -39,9 +41,10 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _uncompletedQuestionnaires.value = dailyRoundFullRepository
-                .getAllUncompleted()
-                .isNotEmpty()
+            _uncompletedQuestionnaires.value = (
+                    dailyRoundFullRepository.getAllUncompleted().isNotEmpty() ||
+                            oneOffRoundFullRepository.getAllUncompleted().isNotEmpty()
+                    )
         }
     }
 

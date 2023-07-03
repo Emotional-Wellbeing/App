@@ -50,7 +50,7 @@ class SplashViewModel @Inject constructor(
         return when (healthConnectAvailability) {
             HealthConnectAvailability.INSTALLED ->
                 if (showOnboarding)
-                    OnboardingScreenDestination
+                    OnboardingScreenDestination(standalone = false)
                 else
                     HomeScreenDestination
 

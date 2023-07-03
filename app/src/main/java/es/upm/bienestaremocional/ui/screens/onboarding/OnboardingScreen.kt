@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun OnboardingScreen(
     navigator: DestinationsNavigator,
+    standalone: Boolean,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     OnboardingScreen(
@@ -46,7 +47,9 @@ fun OnboardingScreen(
     {
         viewModel.onFinish()
         navigator.popBackStack()
-        navigator.navigate(PermissionScreenDestination)
+
+        if (!standalone)
+            navigator.navigate(PermissionScreenDestination)
     }
 }
 

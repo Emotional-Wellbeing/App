@@ -80,7 +80,12 @@
     <string name="onboarding_welcome_description">Diseñada para ayudarte a cuidar tu bienestar emocional de forma fácil y sencilla. Creada por y para la Universidad.</string>
 
     <string name="onboarding_features_title">Tu salud mental importa</string>
-    <string name="onboarding_features_description">Te ayudamos a monitorizar tu salud mental, pudiendo detectar posibles síntomas para que puedas buscar ayuda.</string>
+    <string name="onboarding_features_description">Te ayudamos a monitorizar tu salud mental, pudiendo detectar posibles síntomas para que puedas buscar ayuda. Para ello te realizaremos unos sencillos cuestionarios diarios y otros más completos cada dos semanas. Puedes configurar las medidas a monitorizar.</string>
+
+    <string name="onboarding_notifications_title">Notificaciones de la aplicación</string>
+    <string name="onboarding_notifications_description">
+        Recibirás una notificación cada vez que haya un nuevo cuestionario disponible: a las 10 de la mañana y a las 10 de la noche diariamente, y cada dos semanas a las 3 de la tarde. No obstante, por limitaciones técnicas pueden no aparecer dichas notificaciones, por lo que para una óptima experiencia de uso abra la aplicación regularmente.
+    </string>
 
     <string name="onboarding_privacy_title">Tus datos, tu privacidad</string>
     <string name="onboarding_privacy_description">La aplicación puede utilizar datos como tu uso del móvil o tus pulsaciones cardíacas, pero en todo momento tienes el control de los datos.</string>
@@ -99,9 +104,9 @@
     <string name="new_daily_morning_round_available_title">Cuestionario de mañana</string>
     <string name="new_daily_night_round_available_title">Cuestionario de noche</string>
     <string name="new_one_off_round_available_title">Cuestionario puntual</string>
-    <string name="new_daily_morning_round_available_content">¡Hola! Está disponible el cuestionario de mañana de hoy. Haz click para realizarlo.</string>
-    <string name="new_daily_night_round_available_content">¡Hola! Está disponible el cuestionario de noche de hoy. Haz click para realizarlo.</string>
-    <string name="new_one_off_round_available_content">¡Hola! Está disponible un nuevo cuestionario puntual. Haz click para realizarlo.</string>
+    <string name="new_daily_morning_round_available_content">¡Hola! Está disponible el cuestionario de mañana de hoy. Pulse para realizarlo.</string>
+    <string name="new_daily_night_round_available_content">¡Hola! Está disponible el cuestionario de noche de hoy. Pulse para realizarlo.</string>
+    <string name="new_one_off_round_available_content">¡Hola! Está disponible un nuevo cuestionario puntual. Pulse para realizarlo.</string>
     <string name="uploading">Subiendo datos</string>
     <string name="uploading_in_progress">Subida de datos en progreso</string>
 

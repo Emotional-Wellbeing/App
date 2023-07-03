@@ -420,7 +420,7 @@ private fun SettingsScreen(
                     )
                 },
                 subtitle = { Text(stringResource(id = R.string.onboarding_screen_description)) },
-                onClick = { navigator.navigate(OnboardingScreenDestination) },
+                onClick = { navigator.navigate(OnboardingScreenDestination(standalone = true)) },
             )
 
             SettingsMenuLink(

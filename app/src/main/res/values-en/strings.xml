@@ -47,12 +47,16 @@
     <string name="not_supported_welcome_message">This app is only available for devices running API %1$d or higher.</string>
     <string name="onboarding_welcome_title">Hello! Welcome to Bienestar Emocional</string>
     <string name="onboarding_features_title">Mental health matters</string>
+    <string name="onboarding_notifications_title">App notifications</string>
     <string name="onboarding_privacy_title">Your data, your privacy</string>
     <string name="onboarding_community_title">The power of the community</string>
     <string name="onboarding_welcome_description">Designed to help you take care of your emotional wellbeing in an easy and simple way. Created by and for the University.</string>
-    <string name="onboarding_features_description">"We help you to monitor your mental health and detect possible symptoms so you can seek help.</string>
-    <string name="onboarding_privacy_description">The app may use data such as your mobile usage or heart rate, but you have the full control of your personal data</string>
-    <string name="onboarding_community_description">"You can consult anonymised statistics about your community. Moreover, you can collaborate with the development of the application.     "</string>
+    <string name="onboarding_features_description">"We help you to monitor your mental health and detect possible symptoms so you can seek help. To do so, we will carry out simple daily questionnaires and more complete questionnaires every two weeks. You can configure the measures to be monitored.</string>
+    <string name="onboarding_notifications_description">
+        You will receive a notification every time a new quiz is available: at 10am and 10pm daily, and every two weeks at 3pm. However, due to technical limitations these notifications may not appear, so for an optimal user experience open the application regularly.
+    </string>
+    <string name="onboarding_privacy_description">The app may use data such as your mobile usage or heart rate, but you have the full control of your personal data.</string>
+    <string name="onboarding_community_description">"You can consult anonymised statistics about your community. Moreover, you can collaborate with the development of the application.</string>
     <string name="privacy_policy_description">\n        This is a placeholder example. Your app should display an appropriate privacy policy for how\n        you will handle and use Health Connect data. This sample app does not store or transmit any\n        data outside of Health Connect.</string>
     <string name="credit_author1_description">Co-author of the MFP Emotional Wellbeing System and main author of the application.</string>
     <string name="credit_author2_description">Co-author of the MFP Emotional Wellbeing System and co-author of the application.</string>
