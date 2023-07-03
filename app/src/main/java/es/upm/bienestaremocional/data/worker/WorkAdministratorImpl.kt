@@ -104,7 +104,7 @@ class WorkAdministratorImpl(
         oneTimeWorker: OneTimeWorker,
         constraints: Constraints? = null,
     ) {
-        Log.d(logTag, "Setting daily request with tag: ${oneTimeWorker.tag}")
+        Log.d(logTag, "Setting one time request with tag: ${oneTimeWorker.tag}")
 
         // Build request. If we have received constants, set them
 

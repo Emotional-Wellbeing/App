@@ -44,6 +44,11 @@ object CreditContent {
             importantContribution = false
         ),
         Credit(
+            nameResource = R.string.credit_logo5_name,
+            descriptionResource = R.string.credit_logo5_description,
+            importantContribution = false
+        ),
+        Credit(
             nameResource = R.string.credit_logo3_name,
             descriptionResource = R.string.credit_logo3_description,
             importantContribution = false
@@ -53,7 +58,6 @@ object CreditContent {
             descriptionResource = R.string.credit_logo4_description,
             importantContribution = false
         ),
-
         Credit(
             nameResource = R.string.credit_app_logo_name,
             descriptionResource = R.string.credit_app_logo_description,

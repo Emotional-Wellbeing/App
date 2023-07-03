@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -12,18 +11,15 @@ import es.upm.bienestaremocional.domain.repository.remote.RemoteOperationResult
 import es.upm.bienestaremocional.domain.usecases.PostDailyQuestionnairesUseCase
 import es.upm.bienestaremocional.domain.usecases.PostOneOffQuestionnairesUseCase
 import es.upm.bienestaremocional.domain.usecases.PostUserDataUseCase
-import es.upm.bienestaremocional.ui.notification.Notification
 import java.time.Duration
 import java.time.LocalDateTime
 import javax.inject.Named
-import kotlin.random.Random
 
 @HiltWorker
 class UploadWorker @AssistedInject constructor(
     @Assisted val appContext: Context,
     @Assisted workerParams: WorkerParameters,
     @Named("logTag") private val logTag: String,
-    private val notification: Notification,
     private val postUserDataUseCase: PostUserDataUseCase,
     private val postDailyQuestionnairesUseCase: PostDailyQuestionnairesUseCase,
     private val postOneOffQuestionnairesUseCase: PostOneOffQuestionnairesUseCase,
@@ -40,8 +36,6 @@ class UploadWorker @AssistedInject constructor(
         lateinit var result: Result
         lateinit var response: RemoteOperationResult
         try {
-            setForeground(getForegroundInfo())
-
             if (postUserDataUseCase.shouldExecute()) {
                 Log.d(logTag, "We can read user data so upload it")
 
@@ -90,12 +84,5 @@ class UploadWorker @AssistedInject constructor(
 
         return result
 
-    }
-
-    override suspend fun getForegroundInfo(): ForegroundInfo {
-        return ForegroundInfo(
-            Random.nextInt(),
-            notification.showUploadNotification()
-        )
     }
 }
