@@ -16,9 +16,6 @@ class SleepSessionViewModel @Inject constructor(
     private fun writeAndReadDummyData() {
         val data = Sleep.generateDummyData()
         super.writeData(sleep, data.map { it.toSleepSessionRecord() })
-        data.forEach {
-            super.writeData(sleep, it.stages)
-        }
         readData(sleep)
     }
 

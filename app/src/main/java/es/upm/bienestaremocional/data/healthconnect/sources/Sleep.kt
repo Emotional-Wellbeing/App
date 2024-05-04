@@ -5,7 +5,6 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.aggregate.AggregationResult
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.SleepSessionRecord
-import androidx.health.connect.client.records.SleepStageRecord
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
@@ -29,9 +28,11 @@ class Sleep @Inject constructor(
     @Named("logTag") private val logTag: String,
 ) : HealthConnectSource<SleepSessionData>(healthConnectClient) {
     companion object {
+
+        private const val SLEEP_STAGE_TYPES = 8
         /**
          * Generates a week's worth of sleep data using both a [SleepSessionRecord] to describe the overall
-         * period of sleep, and additionally multiple [SleepStageRecord] periods which cover the entire
+         * period of sleep, and additionally multiple [SleepSessionRecord.Stage] periods which cover the entire
          * [SleepSessionRecord]. For the purposes of this sample, the sleep stage data is generated randomly.
          */
         fun generateDummyData(): List<SleepSessionData> {
@@ -44,7 +45,7 @@ class Sleep @Inject constructor(
                 "Restful sleep"
             )
 
-            return List(7)
+            return List(SLEEP_STAGE_TYPES)
             { index ->
                 val (bedtime, wakeUp) = generateInterval(
                     offsetDays = index.toLong() + 1,
@@ -72,19 +73,17 @@ class Sleep @Inject constructor(
          * Creates a random list of sleep stages that spans the specified [start] to [end] time.
          */
         private fun generateSleepStages(start: ZonedDateTime, end: ZonedDateTime):
-                List<SleepStageRecord> {
-            val sleepStages = mutableListOf<SleepStageRecord>()
+                List<SleepSessionRecord.Stage> {
+            val sleepStages = mutableListOf<SleepSessionRecord.Stage>()
             var stageStart = start
             while (stageStart < end) {
                 val stageEnd = stageStart.plusMinutes(Random.nextLong(30, 120))
                 val checkedEnd = if (stageEnd > end) end else stageEnd
                 sleepStages.add(
-                    SleepStageRecord(
+                    SleepSessionRecord.Stage(
                         stage = randomSleepStage(),
                         startTime = stageStart.toInstant(),
-                        startZoneOffset = stageStart.offset,
                         endTime = checkedEnd.toInstant(),
-                        endZoneOffset = checkedEnd.offset
                     )
                 )
                 stageStart = checkedEnd
@@ -95,12 +94,11 @@ class Sleep @Inject constructor(
         /**
          * Generates a random sleep stage for the purpose of populating data.
          */
-        private fun randomSleepStage() = Random.nextInt(7)
+        private fun randomSleepStage() = Random.nextInt(SLEEP_STAGE_TYPES)
     }
 
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(SleepSessionRecord::class),
-        HealthPermission.getReadPermission(SleepStageRecord::class)
+        HealthPermission.getReadPermission(SleepSessionRecord::class)
     )
 
     /**
@@ -139,12 +137,6 @@ class Sleep @Inject constructor(
                 Log.e(logTag, "Exception during sleep aggregate:", e)
             }
 
-            val stagesRequest = ReadRecordsRequest(
-                recordType = SleepStageRecord::class,
-                timeRangeFilter = sessionTimeFilter
-            )
-            val stagesResponse = healthConnectClient.readRecords(stagesRequest)
-
             sessions.add(
                 SleepSessionData(
                     uid = session.metadata.id,
@@ -155,7 +147,7 @@ class Sleep @Inject constructor(
                     endTime = session.endTime,
                     endZoneOffset = session.endZoneOffset,
                     duration = aggregateResponse?.get(SleepSessionRecord.SLEEP_DURATION_TOTAL),
-                    stages = stagesResponse.records
+                    stages = session.stages
                 )
             )
         }
@@ -164,7 +156,6 @@ class Sleep @Inject constructor(
 
     override val writePermissions: Set<String> = setOf(
         HealthPermission.getWritePermission(SleepSessionRecord::class),
-        HealthPermission.getWritePermission(SleepStageRecord::class)
     )
 }
 
