@@ -26,7 +26,7 @@ class FloorsClimbed @Inject constructor(
         fun generateDummyData(): List<FloorsClimbedRecord> {
             return List(5)
             { index ->
-                val (init, end) = generateInterval(offsetDays = index.toLong())
+                val (init, end) = generateInterval(offsetDays = index.toLong() + 1)
 
                 val floors = Random.nextDouble(0.0, 1000000.0)
 

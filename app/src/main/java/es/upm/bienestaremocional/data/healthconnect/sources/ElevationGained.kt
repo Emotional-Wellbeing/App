@@ -28,7 +28,7 @@ class ElevationGained @Inject constructor(
         fun generateDummyData(): List<ElevationGainedRecord> {
             return List(5)
             { index ->
-                val (init, end) = generateInterval(offsetDays = index.toLong())
+                val (init, end) = generateInterval(offsetDays = index.toLong() + 1)
 
                 val elevation = Length.meters(Random.nextDouble(0.0, 2500.0))
 

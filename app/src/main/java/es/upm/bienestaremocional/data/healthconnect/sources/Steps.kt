@@ -27,7 +27,7 @@ class Steps @Inject constructor(
 
             return List(5)
             { index ->
-                val (init, end) = generateInterval(offsetDays = index.toLong())
+                val (init, end) = generateInterval(offsetDays = index.toLong() + 1)
                 val count = Random.nextLong(0, 20000)
                 StepsRecord(
                     startTime = init.toInstant(),

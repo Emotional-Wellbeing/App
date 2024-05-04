@@ -26,7 +26,7 @@ class Weight @Inject constructor(
         fun generateDummyData(): List<WeightRecord> {
             return List(5)
             { index ->
-                val time = generateTime(offsetDays = index.toLong())
+                val time = generateTime(offsetDays = index.toLong() + 1)
 
                 val weight = Mass.kilograms(Random.nextDouble(0.0, 200.0))
 

@@ -28,7 +28,7 @@ class TotalCaloriesBurned @Inject constructor(
         fun generateDummyData(): List<TotalCaloriesBurnedRecord> {
             return List(5)
             { index ->
-                val (init, end) = generateInterval(offsetDays = index.toLong())
+                val (init, end) = generateInterval(offsetDays = index.toLong() + 1)
                 val energy = Energy.kilocalories(Random.nextDouble(1000.0, 5000.0))
                 TotalCaloriesBurnedRecord(
                     startTime = init.toInstant(),

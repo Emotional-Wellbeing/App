@@ -5,6 +5,7 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.aggregate.AggregationResult
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.SleepSessionRecord
+import androidx.health.connect.client.records.SleepSessionRecord.Stage
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
@@ -49,7 +50,6 @@ class Sleep @Inject constructor(
             { index ->
                 val (bedtime, wakeUp) = generateInterval(
                     offsetDays = index.toLong() + 1,
-                    upperBound = 14
                 )
                 val sleepStages = generateSleepStages(bedtime, wakeUp)
                 SleepSessionData(
@@ -73,14 +73,14 @@ class Sleep @Inject constructor(
          * Creates a random list of sleep stages that spans the specified [start] to [end] time.
          */
         private fun generateSleepStages(start: ZonedDateTime, end: ZonedDateTime):
-                List<SleepSessionRecord.Stage> {
-            val sleepStages = mutableListOf<SleepSessionRecord.Stage>()
+                List<Stage> {
+            val sleepStages = mutableListOf<Stage>()
             var stageStart = start
             while (stageStart < end) {
                 val stageEnd = stageStart.plusMinutes(Random.nextLong(30, 120))
                 val checkedEnd = if (stageEnd > end) end else stageEnd
                 sleepStages.add(
-                    SleepSessionRecord.Stage(
+                    Stage(
                         stage = randomSleepStage(),
                         startTime = stageStart.toInstant(),
                         endTime = checkedEnd.toInstant(),
@@ -106,7 +106,7 @@ class Sleep @Inject constructor(
      * sleep data.
      *
      * In addition to reading [SleepSessionRecord]s, for each session, the duration is calculated to
-     * demonstrate aggregation, and the underlying [SleepStageRecord] data is also read.
+     * demonstrate aggregation, and the underlying [Stage] data is also read.
      */
     override suspend fun readSource(startTime: Instant, endTime: Instant): List<SleepSessionData> {
         val sessions = mutableListOf<SleepSessionData>()
