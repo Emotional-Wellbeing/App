@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.ui.screens.splash
 
+import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -8,12 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import es.upm.bienestaremocional.R
@@ -34,13 +37,17 @@ fun SplashScreen(
         darkTheme = splashViewModel.getDarkTheme()
     )
 
-    when (splashViewModel.state.value) {
+    val uiState by splashViewModel.state.collectAsStateWithLifecycle()
+
+    when (uiState) {
         SplashState.Init -> {
             splashViewModel.onInit()
         }
 
         SplashState.NotificationsDialog -> {
-            splashViewModel.OnNotificationsDialog()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                splashViewModel.OnNotificationsDialog()
+            }
         }
 
         SplashState.Loading -> {

@@ -2,9 +2,8 @@ package es.upm.bienestaremocional.ui.screens.splash
 
 import android.app.NotificationManager
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.ramcosta.composedestinations.spec.Direction
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +17,9 @@ import es.upm.bienestaremocional.ui.notification.Notification
 import es.upm.bienestaremocional.ui.screens.destinations.ErrorScreenDestination
 import es.upm.bienestaremocional.ui.screens.destinations.HomeScreenDestination
 import es.upm.bienestaremocional.ui.screens.destinations.OnboardingScreenDestination
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -32,7 +34,10 @@ class SplashViewModel @Inject constructor(
     private val scheduler: WorkAdministrator,
     private val lastUploadRepository: LastUploadRepository
 ) : ViewModel() {
-    val state: MutableState<SplashState> = mutableStateOf(SplashState.Init)
+
+    private val _state: MutableStateFlow<SplashState> =
+        MutableStateFlow(SplashState.Init)
+    val state: StateFlow<SplashState> = _state.asStateFlow()
 
     private val showOnboarding = runBlocking { appInfo.getFirstTime().first() }
 
@@ -41,8 +46,10 @@ class SplashViewModel @Inject constructor(
 
 
     fun onInit() {
-        state.value = if (healthConnectAvailability == HealthConnectAvailability.INSTALLED) {
-            if (!notification.hasNotificationPermission())
+        _state.value = if (healthConnectAvailability == HealthConnectAvailability.INSTALLED) {
+            if (!notification.hasNotificationPermission() &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+            )
                 SplashState.NotificationsDialog
             else
                 SplashState.Loading
@@ -51,13 +58,10 @@ class SplashViewModel @Inject constructor(
             SplashState.Redirect
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @Composable
     fun OnNotificationsDialog() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            this.notification.RequestNotificationPermission { state.value = SplashState.Loading }
-        else {
-            state.value = SplashState.Loading
-        }
+        this.notification.RequestNotificationPermission { _state.value = SplashState.Loading }
     }
 
     suspend fun onLoading() {
@@ -68,7 +72,7 @@ class SplashViewModel @Inject constructor(
                 lastUploadRepository = lastUploadRepository
             )
         }
-        state.value = SplashState.Redirect
+        _state.value = SplashState.Redirect
     }
 
     fun onRedirect(): Direction {
