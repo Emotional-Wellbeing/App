@@ -8,6 +8,7 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 
 /**
@@ -79,20 +80,15 @@ fun generateTime(origin: ZonedDateTime = ZonedDateTime.now(), offsetDays: Long =
 
 fun generateInterval(
     origin: ZonedDateTime = ZonedDateTime.now(),
-    offsetDays: Long = 0,
-    lowerBound: Int = 0,
-    upperBound: Int = 23
-):
-        Pair<ZonedDateTime, ZonedDateTime> {
-    val init = origin.minusDays(offsetDays)
-        .withHour(Random.nextInt(lowerBound, upperBound))
-        .withMinute(Random.nextInt(0, 60))
-        .withSecond(Random.nextInt(0, 60))
-    val end = origin.minusDays(offsetDays)
-        .withHour(Random.nextInt(init.hour + 1, upperBound + 1))
-        .withMinute(Random.nextInt(0, 60))
-        .withSecond(Random.nextInt(0, 60))
-    return Pair(init, end)
+    offsetDays: Long = 1
+): Pair<ZonedDateTime, ZonedDateTime> {
+    val day = origin.minusDays(offsetDays)
+    val start = day.toLocalDate().atStartOfDay(day.zone)
+    val end = day.toLocalDate().atTime(23, 59, 59).atZone(day.zone)
+    val randomSeconds = Random.nextLong(start.until(end, ChronoUnit.SECONDS))
+    val first = start.plusSeconds(randomSeconds)
+    val second = first.plusSeconds(Random.nextLong(end.toEpochSecond() - first.toEpochSecond()))
+    return Pair(first, second)
 }
 
 fun obtainTimestamp(instant: Instant, zoneOffset: ZoneOffset?): Long =

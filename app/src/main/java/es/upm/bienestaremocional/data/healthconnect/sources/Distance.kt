@@ -28,7 +28,7 @@ class Distance @Inject constructor(
         fun generateDummyData(): List<DistanceRecord> {
             return List(5)
             { index ->
-                val (init, end) = generateInterval(offsetDays = index.toLong())
+                val (init, end) = generateInterval(offsetDays = index.toLong() + 1)
 
                 val distance = Length.kilometers(Random.nextDouble(0.0, 10.0))
 

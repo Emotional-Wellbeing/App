@@ -27,17 +27,17 @@ class HeartRate @Inject constructor(
         fun generateDummyData(): List<HeartRateRecord> {
             return List(5)
             { index ->
-                val (init, end) = generateInterval(offsetDays = index.toLong())
+                val (init, end) = generateInterval(offsetDays = index.toLong() + 1)
 
                 val numberSamples = 5
                 val samples = linspace(
-                    init.toInstant().epochSecond,
-                    end.toInstant().epochSecond,
+                    init,
+                    end,
                     numberSamples
                 )
-                    .map { instant ->
+                    .map {
                         HeartRateRecord.Sample(
-                            Instant.ofEpochSecond(instant),
+                            it.toInstant(),
                             Random.nextLong(60, 190)
                         )
                     }

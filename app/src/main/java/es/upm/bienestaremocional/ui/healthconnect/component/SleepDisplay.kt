@@ -11,14 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.health.connect.client.records.SleepStageRecord
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_AWAKE
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_DEEP
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_LIGHT
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_OUT_OF_BED
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_REM
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_SLEEPING
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_UNKNOWN
+import androidx.health.connect.client.records.SleepSessionRecord
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_AWAKE
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_DEEP
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_LIGHT
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_OUT_OF_BED
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_REM
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_SLEEPING
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_UNKNOWN
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.healthconnect.sources.Sleep
 import es.upm.bienestaremocional.data.healthconnect.types.SleepSessionData
@@ -65,7 +65,7 @@ fun SleepSessionData.Display(widthSize: WindowWidthSizeClass) {
 }
 
 @Composable
-fun SleepStageRecord.Display() {
+fun SleepSessionRecord.Stage.Display() {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -73,7 +73,7 @@ fun SleepStageRecord.Display() {
     )
     {
         val intervalLabel = formatDisplayTimeStartEnd(
-            startTime, startZoneOffset, endTime, endZoneOffset
+            startTime, null, endTime, null
         )
 
         Text(
@@ -90,7 +90,7 @@ fun SleepStageRecord.Display() {
 }
 
 @Composable
-fun SleepStageRecord.decode(): String =
+fun SleepSessionRecord.Stage.decode(): String =
     when (stage) {
         STAGE_TYPE_UNKNOWN -> stringResource(R.string.unknown)
         STAGE_TYPE_AWAKE -> stringResource(R.string.awake)

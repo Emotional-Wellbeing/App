@@ -17,7 +17,7 @@ enum class HealthConnectAvailability {
 
     companion object {
         fun getAvailability(context: Context): HealthConnectAvailability {
-            return when (HealthConnectClient.sdkStatus(context)) {
+            return when (HealthConnectClient.getSdkStatus(context)) {
                 HealthConnectClient.SDK_UNAVAILABLE -> NOT_SUPPORTED
                 HealthConnectClient.SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED -> NOT_INSTALLED
                 HealthConnectClient.SDK_AVAILABLE -> INSTALLED

@@ -33,11 +33,11 @@ abstract class HealthConnectViewModel<T : Record> : ViewModel() {
      */
     val permissionLauncher = PermissionController.createRequestPermissionResultContract()
 
-    fun readData(HealthConnectSource: HealthConnectSource<T>) {
+    fun readData(healthConnectSource: HealthConnectSource<T>) {
         viewModelScope.launch {
             uiState = try {
-                if (HealthConnectSource.readPermissionsCheck()) {
-                    elements.value = HealthConnectSource.readSource()
+                if (healthConnectSource.readPermissionsCheck()) {
+                    elements.value = healthConnectSource.readSource()
                     UiState.Success
                 }
                 else
@@ -58,10 +58,10 @@ abstract class HealthConnectViewModel<T : Record> : ViewModel() {
         }
     }
 
-    fun writeData(HealthConnectSource: HealthConnectSource<T>, data: List<Record>) {
+    fun writeData(healthConnectSource: HealthConnectSource<T>, data: List<Record>) {
         viewModelScope.launch {
-            if (HealthConnectSource.writePermissionsCheck())
-                HealthConnectSource.writeSource(data)
+            if (healthConnectSource.writePermissionsCheck())
+                healthConnectSource.writeSource(data)
         }
     }
 

@@ -27,7 +27,7 @@ class ExerciseSession @Inject constructor(
             val differentExercises = 61
             return List(differentExercises)
             { index ->
-                val (init, end) = generateInterval(offsetDays = index.toLong())
+                val (init, end) = generateInterval(offsetDays = index.toLong() + 1)
 
                 val exerciseType = when (index) {
                     0 -> ExerciseSessionRecord.EXERCISE_TYPE_OTHER_WORKOUT
