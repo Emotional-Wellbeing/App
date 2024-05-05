@@ -11,14 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.health.connect.client.records.SleepStageRecord
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_AWAKE
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_DEEP
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_LIGHT
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_OUT_OF_BED
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_REM
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_SLEEPING
-import androidx.health.connect.client.records.SleepStageRecord.Companion.STAGE_TYPE_UNKNOWN
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_AWAKE
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_DEEP
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_LIGHT
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_OUT_OF_BED
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_REM
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_SLEEPING
+import androidx.health.connect.client.records.SleepSessionRecord.Companion.STAGE_TYPE_UNKNOWN
+import androidx.health.connect.client.records.SleepSessionRecord.Stage
 import es.upm.bienestaremocional.R
 import es.upm.bienestaremocional.data.healthconnect.types.SleepSessionData
 import es.upm.bienestaremocional.ui.component.BasicCard
@@ -32,6 +32,8 @@ import java.time.Duration
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.random.Random
+
+private const val SLEEP_STAGE_TYPES = 8
 
 /**
  * Displays [SleepSessionData]
@@ -69,7 +71,7 @@ fun SleepSessionData.Display(widthSize: WindowWidthSizeClass) {
 }
 
 @Composable
-fun SleepStageRecord.Display() {
+fun Stage.Display() {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -77,7 +79,7 @@ fun SleepStageRecord.Display() {
     )
     {
         val intervalLabel = formatDisplayTimeStartEnd(
-            startTime, startZoneOffset, endTime, endZoneOffset
+            startTime, null, endTime, null
         )
 
         Text(
@@ -94,7 +96,7 @@ fun SleepStageRecord.Display() {
 }
 
 @Composable
-fun SleepStageRecord.decode(): String =
+fun Stage.decode(): String =
     when (stage) {
         STAGE_TYPE_UNKNOWN -> stringResource(R.string.unknown)
         STAGE_TYPE_AWAKE -> stringResource(R.string.awake)
@@ -110,25 +112,23 @@ fun SleepStageRecord.decode(): String =
 /**
  * Generates a random sleep stage for the purpose of populating data.
  */
-private fun randomSleepStage() = Random.nextInt(7)
+private fun randomSleepStage() = Random.nextInt(SLEEP_STAGE_TYPES)
 
 /**
  * Creates a random list of sleep stages that spans the specified [start] to [end] time.
  */
 private fun generateSleepStages(start: ZonedDateTime, end: ZonedDateTime):
-        List<SleepStageRecord> {
-    val sleepStages = mutableListOf<SleepStageRecord>()
+        List<Stage> {
+    val sleepStages = mutableListOf<Stage>()
     var stageStart = start
     while (stageStart < end) {
         val stageEnd = stageStart.plusMinutes(Random.nextLong(30, 120))
         val checkedEnd = if (stageEnd > end) end else stageEnd
         sleepStages.add(
-            SleepStageRecord(
+            Stage(
                 stage = randomSleepStage(),
                 startTime = stageStart.toInstant(),
-                startZoneOffset = stageStart.offset,
                 endTime = checkedEnd.toInstant(),
-                endZoneOffset = checkedEnd.offset
             )
         )
         stageStart = checkedEnd
@@ -145,7 +145,7 @@ private fun generateDummyData(): SleepSessionData {
         "Restful sleep"
     )
 
-    val (bedtime, wakeUp) = generateInterval(upperBound = 14)
+    val (bedtime, wakeUp) = generateInterval(offsetDays = 1)
     val sleepStages = generateSleepStages(bedtime, wakeUp)
     return SleepSessionData(
         uid = "",

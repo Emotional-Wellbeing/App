@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
@@ -250,7 +250,7 @@ private fun SettingsScreen(
                 },
             )
 
-            Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
 
             GroupText(textRes = R.string.ui_group)
 
@@ -314,7 +314,7 @@ private fun SettingsScreen(
             )
 
 
-            Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
 
             GroupText(textRes = R.string.notifications)
 
@@ -354,7 +354,7 @@ private fun SettingsScreen(
                 onClick = onSettingsNotifications,
             )
 
-            Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
 
             GroupText(textRes = R.string.feedback_group)
 
@@ -383,7 +383,7 @@ private fun SettingsScreen(
                 }
             )
 
-            Divider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
+            HorizontalDivider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
 
             GroupText(textRes = R.string.misc_group)
 

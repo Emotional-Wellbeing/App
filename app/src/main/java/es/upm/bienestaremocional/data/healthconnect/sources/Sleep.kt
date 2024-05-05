@@ -5,7 +5,7 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.aggregate.AggregationResult
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.SleepSessionRecord
-import androidx.health.connect.client.records.SleepStageRecord
+import androidx.health.connect.client.records.SleepSessionRecord.Stage
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
@@ -25,8 +25,7 @@ class Sleep @Inject constructor(
 ) : HealthConnectSource<SleepSessionData>(healthConnectClient) {
 
     override val readPermissions = setOf(
-        HealthPermission.getReadPermission(SleepSessionRecord::class),
-        HealthPermission.getReadPermission(SleepStageRecord::class)
+        HealthPermission.getReadPermission(SleepSessionRecord::class)
     )
 
     /**
@@ -34,7 +33,7 @@ class Sleep @Inject constructor(
      * sleep data.
      *
      * In addition to reading [SleepSessionRecord]s, for each session, the duration is calculated to
-     * demonstrate aggregation, and the underlying [SleepStageRecord] data is also read.
+     * demonstrate aggregation, and the underlying [Stage] data is also read.
      */
     override suspend fun readSource(startTime: Instant, endTime: Instant): List<SleepSessionData> {
         val sessions = mutableListOf<SleepSessionData>()
@@ -65,13 +64,6 @@ class Sleep @Inject constructor(
                 Log.e(logTag, "Exception during sleep aggregate:", e)
             }
 
-            val stagesRequest = ReadRecordsRequest(
-                recordType = SleepStageRecord::class,
-                timeRangeFilter = sessionTimeFilter
-            )
-
-            val stagesResponse = healthConnectClient.readRecords(stagesRequest)
-
             sessions.add(
                 SleepSessionData(
                     uid = session.metadata.id,
@@ -82,7 +74,7 @@ class Sleep @Inject constructor(
                     endTime = session.endTime,
                     endZoneOffset = session.endZoneOffset,
                     duration = aggregateResponse?.get(SleepSessionRecord.SLEEP_DURATION_TOTAL),
-                    stages = stagesResponse.records
+                    stages = session.stages
                 )
             )
         }

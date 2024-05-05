@@ -8,14 +8,22 @@ import android.net.Uri
 import android.os.Build
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
+import java.time.Duration
+import java.time.ZonedDateTime
 import kotlin.random.Random
 import kotlin.random.nextInt
 
 // The minimum android level that can use Health Connect
 const val MIN_SUPPORTED_SDK = Build.VERSION_CODES.O_MR1
 
-fun linspace(start: Long, stop: Long, num: Int) =
-    (start..stop step (stop - start) / (num - 1)).toList()
+fun linspace(start: ZonedDateTime, end: ZonedDateTime, numPoints: Int): List<ZonedDateTime> {
+    require(numPoints > 1) { "Number of points must be greater than 1" }
+
+    val duration = Duration.between(start, end)
+    val step = duration.dividedBy((numPoints - 1).toLong())
+
+    return (0 until numPoints).map { start.plus(step.multipliedBy(it.toLong())) }
+}
 
 fun randomSequence(
     min: Int,

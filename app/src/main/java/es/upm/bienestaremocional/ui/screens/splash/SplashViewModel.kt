@@ -2,8 +2,6 @@ package es.upm.bienestaremocional.ui.screens.splash
 
 import android.os.Build
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ramcosta.composedestinations.spec.Direction
@@ -15,6 +13,9 @@ import es.upm.bienestaremocional.data.worker.WorkAdministrator
 import es.upm.bienestaremocional.ui.screens.destinations.ErrorScreenDestination
 import es.upm.bienestaremocional.ui.screens.destinations.HomeScreenDestination
 import es.upm.bienestaremocional.ui.screens.destinations.OnboardingScreenDestination
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -27,7 +28,9 @@ class SplashViewModel @Inject constructor(
     private val appInfo: AppInfo,
     private val workAdministrator: WorkAdministrator,
 ) : ViewModel() {
-    val state: MutableState<SplashState> = mutableStateOf(SplashState.Init)
+    private val _state: MutableStateFlow<SplashState> =
+        MutableStateFlow(SplashState.Init)
+    val state: StateFlow<SplashState> = _state.asStateFlow()
 
     private val showOnboarding = runBlocking { appInfo.getFirstTime().first() }
 
@@ -42,7 +45,7 @@ class SplashViewModel @Inject constructor(
                 workAdministrator.scheduleUploadUsageInfoWorker()
             }
         }
-        state.value = SplashState.Redirect
+        _state.value = SplashState.Redirect
     }
 
     fun onRedirect(): Direction {
@@ -57,10 +60,9 @@ class SplashViewModel @Inject constructor(
             else -> ErrorScreenDestination(healthConnectAvailability)
         }
     }
-
     fun onInit() {
         viewModelScope.launch {
-            state.value = if (healthConnectAvailability == HealthConnectAvailability.INSTALLED) {
+            _state.value = if (healthConnectAvailability == HealthConnectAvailability.INSTALLED) {
                 SplashState.Loading
             }
             else

@@ -20,7 +20,6 @@ import es.upm.bienestaremocional.utils.formatHoursMinutes
 import es.upm.bienestaremocional.utils.generateInterval
 import es.upm.bienestaremocional.utils.linspace
 import java.time.Duration
-import java.time.Instant
 import kotlin.random.Random
 
 /**
@@ -61,10 +60,9 @@ fun generateHeartRateDummyData(): HeartRateRecord {
     val (init, end) = generateInterval()
 
     val numberSamples = 5
-    val samples = linspace(init.toInstant().epochSecond, end.toInstant().epochSecond, numberSamples)
-        .map { instant ->
+    val samples = linspace(init, end, numberSamples).map {
             HeartRateRecord.Sample(
-                Instant.ofEpochSecond(instant),
+                it.toInstant(),
                 Random.nextLong(60, 190)
             )
         }
