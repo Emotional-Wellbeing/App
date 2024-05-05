@@ -13,12 +13,6 @@ import javax.inject.Inject
 class WeightViewModel @Inject constructor(
     private val weight: Weight
 ) : HealthConnectViewModel<WeightRecord>() {
-
-    private fun writeAndReadDummyData() {
-        writeData(weight, Weight.generateDummyData())
-        readData(weight)
-    }
-
     @Composable
     override fun getViewModelData(): ViewModelData<WeightRecord> {
         val data by elements
@@ -31,10 +25,9 @@ class WeightViewModel @Inject constructor(
         return ViewModelData(
             data = data,
             uiState = uiState,
-            permissions = weight.readPermissions + weight.writePermissions,
+            permissions = weight.readPermissions,
             onPermissionsResult = onPermissionsResult,
             onRequestPermissions = { values -> permissionsLauncher.launch(values) },
-            onWrite = this::writeAndReadDummyData
         )
     }
 }

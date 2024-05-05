@@ -22,7 +22,7 @@ class DailyMorningNotificationWorker @AssistedInject constructor(
     private val insertDailyRoundUseCase: InsertDailyRoundUseCase
 ) : CoroutineWorker(appContext, workerParams) {
     companion object : Schedulable {
-        override val time: LocalDateTime = LocalDateTime.now()
+        override val initialTime: LocalDateTime = LocalDateTime.now()
             .withHour(9)
             .withMinute(0)
             .withSecond(0)

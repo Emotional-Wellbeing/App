@@ -5,12 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.DistanceRecord
+import androidx.health.connect.client.units.Length
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.healthconnect.sources.Distance
 import es.upm.bienestaremocional.ui.component.BasicCard
 import es.upm.bienestaremocional.ui.component.DrawPair
 import es.upm.bienestaremocional.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
+import es.upm.bienestaremocional.utils.generateInterval
+import kotlin.random.Random
 
 /**
  * Displays [DistanceRecord]
@@ -35,10 +37,24 @@ fun DistanceRecord.Display(widthSize: WindowWidthSizeClass) {
     }
 }
 
+private fun generateDummyData(): DistanceRecord {
+    val (init, end) = generateInterval()
+
+    val distance = Length.kilometers(Random.nextDouble(0.0, 10.0))
+
+    return DistanceRecord(
+        startTime = init.toInstant(),
+        startZoneOffset = init.offset,
+        endTime = end.toInstant(),
+        endZoneOffset = end.offset,
+        distance = distance
+    )
+}
+
 @Preview(group = "Light Theme")
 @Composable
 fun DistanceRecordDisplayPreview() {
-    val distanceRecord = Distance.generateDummyData()[0]
+    val distanceRecord = generateDummyData()
     BienestarEmocionalTheme {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
@@ -47,7 +63,7 @@ fun DistanceRecordDisplayPreview() {
 @Preview(group = "Dark Theme")
 @Composable
 fun DistanceRecordDisplayPreviewDarkTheme() {
-    val distanceRecord = Distance.generateDummyData()[0]
+    val distanceRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
@@ -56,7 +72,7 @@ fun DistanceRecordDisplayPreviewDarkTheme() {
 @Preview(group = "Light Theme")
 @Composable
 fun DistanceRecordDisplayLargeScreenPreview() {
-    val distanceRecord = Distance.generateDummyData()[0]
+    val distanceRecord = generateDummyData()
     BienestarEmocionalTheme {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
@@ -65,7 +81,7 @@ fun DistanceRecordDisplayLargeScreenPreview() {
 @Preview(group = "Dark Theme")
 @Composable
 fun DistanceRecordDisplayLargeScreenPreviewDarkTheme() {
-    val distanceRecord = Distance.generateDummyData()[0]
+    val distanceRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         distanceRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }

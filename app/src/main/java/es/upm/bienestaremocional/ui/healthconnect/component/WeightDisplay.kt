@@ -5,12 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.WeightRecord
+import androidx.health.connect.client.units.Mass
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.healthconnect.sources.Weight
 import es.upm.bienestaremocional.ui.component.BasicCard
 import es.upm.bienestaremocional.ui.component.DrawPair
 import es.upm.bienestaremocional.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
+import es.upm.bienestaremocional.utils.generateTime
+import kotlin.random.Random
 
 /**
  * Displays [WeightRecord]
@@ -33,10 +35,22 @@ fun WeightRecord.Display(widthSize: WindowWidthSizeClass) {
     }
 }
 
+private fun generateDummyData(): WeightRecord {
+    val time = generateTime()
+
+    val weight = Mass.kilograms(Random.nextDouble(0.0, 200.0))
+
+    return WeightRecord(
+        time = time.toInstant(),
+        zoneOffset = time.offset,
+        weight = weight
+    )
+}
+
 @Preview(group = "Light Theme")
 @Composable
 fun WeightRecordDisplayPreview() {
-    val weightRecord = Weight.generateDummyData()[0]
+    val weightRecord = generateDummyData()
     BienestarEmocionalTheme {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
@@ -45,7 +59,7 @@ fun WeightRecordDisplayPreview() {
 @Preview(group = "Dark Theme")
 @Composable
 fun WeightRecordDisplayPreviewDarkTheme() {
-    val weightRecord = Weight.generateDummyData()[0]
+    val weightRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
@@ -54,7 +68,7 @@ fun WeightRecordDisplayPreviewDarkTheme() {
 @Preview(group = "Light Theme")
 @Composable
 fun WeightRecordDisplayLargeScreenPreview() {
-    val weightRecord = Weight.generateDummyData()[0]
+    val weightRecord = generateDummyData()
     BienestarEmocionalTheme {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
@@ -63,7 +77,7 @@ fun WeightRecordDisplayLargeScreenPreview() {
 @Preview(group = "Dark Theme")
 @Composable
 fun WeightRecordDisplayLargeScreenPreviewDarkTheme() {
-    val weightRecord = Weight.generateDummyData()[0]
+    val weightRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         weightRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }

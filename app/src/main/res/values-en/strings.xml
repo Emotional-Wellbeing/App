@@ -40,18 +40,23 @@
     <string name="privacy_policy_screen_description">Treatment of your data</string>
     <string name="misc_group">Miscellaneous</string>
     <string name="about_screen_description">Technical information of the app</string>
+    <string name="version_placeholder">App version: %s</string>
     <string name="onboarding_screen_description">Revisit onboarding</string>
     <string name="credits_screen_description">People behind the scenes</string>
     <string name="not_installed_welcome_message">You need to install Health Connect to use the app correctly, which is available on Google Play. If you already have it installed, please restart the app.</string>
     <string name="not_supported_welcome_message">This app is only available for devices running API %1$d or higher.</string>
     <string name="onboarding_welcome_title">Hello! Welcome to Bienestar Emocional</string>
     <string name="onboarding_features_title">Mental health matters</string>
+    <string name="onboarding_notifications_title">App notifications</string>
     <string name="onboarding_privacy_title">Your data, your privacy</string>
     <string name="onboarding_community_title">The power of the community</string>
     <string name="onboarding_welcome_description">Designed to help you take care of your emotional wellbeing in an easy and simple way. Created by and for the University.</string>
-    <string name="onboarding_features_description">"It helps you monitoring your mental health using Artificial Intelligence, detecting possible symptoms so you can seek help.     "</string>
-    <string name="onboarding_privacy_description">The app may use data such as your mobile usage or heart rate, but you have the full control of your personal data</string>
-    <string name="onboarding_community_description">"You can consult anonymised statistics about your community. Moreover, you can collaborate with the development of the application.     "</string>
+    <string name="onboarding_features_description">"We help you to monitor your mental health and detect possible symptoms so you can seek help. To do so, we will carry out simple daily questionnaires and more complete questionnaires every two weeks. You can configure the measures to be monitored.</string>
+    <string name="onboarding_notifications_description">
+        You will receive a notification every time a new quiz is available: at 10am and 10pm daily, and every two weeks at 3pm. However, due to technical limitations these notifications may not appear, so for an optimal user experience open the application regularly.
+    </string>
+    <string name="onboarding_privacy_description">The app may use data such as your mobile usage or heart rate, but you have the full control of your personal data.</string>
+    <string name="onboarding_community_description">"You can consult anonymised statistics about your community. Moreover, you can collaborate with the development of the application.</string>
     <string name="privacy_policy_description">\n        This is a placeholder example. Your app should display an appropriate privacy policy for how\n        you will handle and use Health Connect data. This sample app does not store or transmit any\n        data outside of Health Connect.</string>
     <string name="credit_author1_description">Co-author of the MFP Emotional Wellbeing System and main author of the application.</string>
     <string name="credit_author2_description">Co-author of the MFP Emotional Wellbeing System and co-author of the application.</string>
@@ -63,6 +68,7 @@
     <string name="credit_logo2_description">Author of the illustration How it works, available on the Lottie platform.</string>
     <string name="credit_logo3_description">Author of the illustration Mental wellbeing, available on the Lottie platform.</string>
     <string name="credit_logo4_description">Author of the illustration Mental Health Awareness, available on the Lottie platform.</string>
+    <string name="credit_logo5_description">Author of the illustration Notifications, available on the Lottie platform.</string>
     <string name="credit_app_logo_description">"Original author of the application logo, available on the Canvas platform.     "</string>
     <string name="default_mode_label">Use device settings</string>
     <string name="restart_apply_changes">Restart to apply changes</string>
@@ -183,14 +189,6 @@
     <string name="severe">Severe</string>
     <string name="low">Low</string>
     <string name="high">High</string>
-    <string name="debug_screen_label">Debug menu</string>
-    <string name="daily_morning_notification_start_questionnaire">Notification to start daily morning questionnaire</string>
-    <string name="daily_night_start_questionnaire">Notification to start daily night questionnaire</string>
-    <string name="one_off_start_questionnaire">Notification to start one off questionnaire</string>
-    <string name="query_uncompleted_questionnaire_rounds">Query uncompleted questionnaire rounds</string>
-    <string name="query_all_questionnaire_rounds">Query all questionnaire rounds</string>
-    <string name="delete_database">Delete database</string>
-    <string name="database_deleted">Database deleted</string>
     <string name="empty_list">No data to display</string>
     <string name="daily">Daily</string>
     <string name="daily_morning">Morning daily</string>
@@ -198,7 +196,6 @@
     <string name="one_off">One Off</string>
     <string name="daily_rounds">Daily rounds</string>
     <string name="one_off_rounds">One off rounds</string>
-
     <string name="round_created_formatter">%s round created at: %s</string>
     <string name="created_formatter">Created at: %s</string>
     <string name="pss_questionnaire">PSS questionnaire</string>
@@ -210,9 +207,6 @@
     <string name="daily_symptoms_label">How have you been today?</string>
     <string name="completed">Completed</string>
     <string name="uncompleted">Uncompleted</string>
-    <string name="developer_options">Developer options</string>
-    <string name="prepopulate_database">Prepopulate database</string>
-    <string name="database_prepopulated">Database prepopulated</string>
     <string name="granularity">Granularity</string>
     <string name="day">Day</string>
     <string name="week">Week</string>
@@ -223,20 +217,6 @@
     <string name="generate_data">Generate data</string>
     <string name="uploading">Uploading…</string>
     <string name="uploading_in_progress">Uploading data in progress…</string>
-    <string name="test_daily_morning_notification_worker">Test daily morning notification worker</string>
-    <string name="test_daily_night_notification_worker">Test daily night notification worker</string>
-    <string name="test_one_off_notification_worker">Test one off notification worker</string>
-    <string name="test_upload_worker">Test upload all data worker</string>
-    <string name="test_get_community">Test get community</string>
-    <string name="test_post_user_data">Test post user data</string>
-    <string name="reset_upload_timestamps">Reset upload timestamps</string>
-    <string name="query_worker_status">Query worker status</string>
-    <string name="data_sent_successfully">Data sent successfully</string>
-    <string name="request_failed">Request failed</string>
-    <string name="result_of_request">Result of request</string>
-    <string name="upload_timestamps_reset">Upload timestamps reset</string>
-    <string name="tags">Tags</string>
-    <string name="state">State</string>
     <string name="stress">Stress</string>
     <string name="depression">Depression</string>
     <string name="loneliness">Loneliness</string>
@@ -246,7 +226,6 @@
     <string name="level_of_stress">Level of stress</string>
     <string name="level_of_depression">Level of depression</string>
     <string name="level_of_loneliness">Level of loneliness</string>
-    <string name="query_uid">Query User ID</string>
     <string name="yesterday">Yesterday</string>
     <string name="last_seven_days">Last seven days</string>
     <string name="continue_word">Continue</string>
@@ -257,12 +236,20 @@
     <string name="actual_week">Actual week</string>
     <string name="uncompleted_questionnaires_advice">You have uncompleted questionnaires</string>
     <string name="review">Review</string>
-    <!-- Debug community -->
-    <string name="monday">Monday</string>
-    <string name="tuesday">Tuesday</string>
-    <string name="wednesday">Wednesday</string>
-    <string name="thursday">Thursday</string>
-    <string name="friday">Friday</string>
-    <string name="saturday">Saturday</string>
-    <string name="sunday">Sunday</string>
+    <string name="permission_screen_label">Permissions</string>
+    <string name="permission_screen_description">App permissions</string>
+    <string name="permission_granted">Permission granted. You can disable it in the Android settings menu</string>
+    <string name="permission_log_call">Call listing permissions</string>
+    <string name="permission_location">Location permissions</string>
+    <string name="permission_notification">Notification permission</string>
+    <string name="permission_usage">Access for device usage permission</string>
+    <string name="permission_health_connect">Health Connect permissions</string>
+    <string name="permission_intro">Hello! To ensure the correct functioning of the app it is necessary to grant the following permissions. The app will adapt to the permissions you grant. However, the information is anonymised so that no one (including the developers) can identify you.</string>
+    <string name="permission_log_call_description">The call listing permission is used to access the device\'s call log for the purpose of extracting anonymised statistics. Phone numbers are transformed to identifiers not related to that number.</string>
+    <string name="permission_location_description">The location permission is needed to be able to access data from mobile networks. Is not used to geolocate, only to determinate the usage profile.</string>
+    <string name="permission_usage_description">The device usage access permission is used to find out which applications you have used and to extract related statistics on usage only. The contents of the apps are never used.</string>
+    <string name="permission_notification_description">This permission is required for the sending of notifications, such as those sent when a new questionnaire is available.</string>
+    <string name="permission_health_connect_description">If you have a wearable compatible with Health Connected, please check the permissions to access the wearable data.
+    \n\nTo grant permission, in the list that appears when you click on the button, select the name of this app (Emotional Wellbeing) to grant it.</string>
+    <string name="permission_outro">When you are ready, click the button to go to the main window.</string>
 </resources>

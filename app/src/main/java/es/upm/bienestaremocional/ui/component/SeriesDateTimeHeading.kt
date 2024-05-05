@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import es.upm.bienestaremocional.data.healthconnect.sources.HeartRate
+import es.upm.bienestaremocional.ui.healthconnect.component.generateHeartRateDummyData
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import es.upm.bienestaremocional.utils.formatDateTime
 import java.time.Instant
@@ -106,7 +106,7 @@ fun SeriesDateTimeHeadingPreview() {
         Surface {
             LazyColumn()
             {
-                val data = HeartRate.generateDummyData()[0]
+                val data = generateHeartRateDummyData()
                 seriesDateTimeHeading(
                     start = data.startTime,
                     startZoneOffset = data.startZoneOffset,
@@ -128,7 +128,7 @@ fun SeriesDateTimeHeadingPreviewDarkMode() {
         Surface {
             LazyColumn()
             {
-                val data = HeartRate.generateDummyData()[0]
+                val data = generateHeartRateDummyData()
                 seriesDateTimeHeading(
                     start = data.startTime,
                     startZoneOffset = data.startZoneOffset,

@@ -23,6 +23,12 @@ object OnboardingContent {
             animationLoop = true
         ),
         HorizontalPagerContent(
+            animation = R.raw.notifications,
+            title = R.string.onboarding_notifications_title,
+            content = R.string.onboarding_notifications_description,
+            animationLoop = true
+        ),
+        HorizontalPagerContent(
             animation = R.raw.health_checkup,
             title = R.string.onboarding_privacy_title,
             content = R.string.onboarding_privacy_description,

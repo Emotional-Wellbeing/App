@@ -6,11 +6,10 @@ import es.upm.bienestaremocional.data.settings.ThemeMode
 import es.upm.bienestaremocional.ui.screens.NavGraphs
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 
-
 @Composable
 fun BienestarEmocionalApp(
     darkTheme: ThemeMode,
-    dynamicColors: Boolean
+    dynamicColors: Boolean,
 ) {
     BienestarEmocionalTheme(darkTheme = darkTheme.themeIsDark(), dynamicColors = dynamicColors)
     {

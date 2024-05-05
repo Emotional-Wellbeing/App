@@ -6,11 +6,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.connect.client.records.StepsRecord
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.healthconnect.sources.Steps
 import es.upm.bienestaremocional.ui.component.BasicCard
 import es.upm.bienestaremocional.ui.component.DrawPair
 import es.upm.bienestaremocional.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
+import es.upm.bienestaremocional.utils.generateInterval
+import kotlin.random.Random
 
 /**
  * Displays [StepsRecord]
@@ -32,10 +33,22 @@ fun StepsRecord.Display(widthSize: WindowWidthSizeClass) {
     }
 }
 
+private fun generateDummyData(): StepsRecord {
+    val (init, end) = generateInterval()
+    val count = Random.nextLong(0, 20000)
+    return StepsRecord(
+        startTime = init.toInstant(),
+        startZoneOffset = init.offset,
+        endTime = end.toInstant(),
+        endZoneOffset = end.offset,
+        count = count
+    )
+}
+
 @Preview(group = "Light Theme")
 @Composable
 fun StepsRecordDisplayPreview() {
-    val stepsRecord = Steps.generateDummyData()[0]
+    val stepsRecord = generateDummyData()
     BienestarEmocionalTheme {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
@@ -44,7 +57,7 @@ fun StepsRecordDisplayPreview() {
 @Preview(group = "Dark Theme")
 @Composable
 fun StepsRecordDisplayPreviewDarkTheme() {
-    val stepsRecord = Steps.generateDummyData()[0]
+    val stepsRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Compact)
     }
@@ -53,7 +66,7 @@ fun StepsRecordDisplayPreviewDarkTheme() {
 @Preview(group = "Light Theme")
 @Composable
 fun StepsRecordDisplayLargeScreenPreview() {
-    val stepsRecord = Steps.generateDummyData()[0]
+    val stepsRecord = generateDummyData()
     BienestarEmocionalTheme {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }
@@ -62,7 +75,7 @@ fun StepsRecordDisplayLargeScreenPreview() {
 @Preview(group = "Dark Theme")
 @Composable
 fun StepsRecordDisplayLargeScreenPreviewDarkTheme() {
-    val stepsRecord = Steps.generateDummyData()[0]
+    val stepsRecord = generateDummyData()
     BienestarEmocionalTheme(darkTheme = true) {
         stepsRecord.Display(widthSize = WindowWidthSizeClass.Medium)
     }

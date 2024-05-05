@@ -26,7 +26,7 @@ import es.upm.bienestaremocional.ui.component.onboarding.HorizontalPagerContent
 import es.upm.bienestaremocional.ui.component.onboarding.OnboardingContent
 import es.upm.bienestaremocional.ui.responsive.computeWindowHeightSize
 import es.upm.bienestaremocional.ui.responsive.computeWindowWidthSize
-import es.upm.bienestaremocional.ui.screens.destinations.HomeScreenDestination
+import es.upm.bienestaremocional.ui.screens.destinations.PermissionScreenDestination
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun OnboardingScreen(
     navigator: DestinationsNavigator,
+    standalone: Boolean,
     viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     OnboardingScreen(
@@ -46,7 +47,9 @@ fun OnboardingScreen(
     {
         viewModel.onFinish()
         navigator.popBackStack()
-        navigator.navigate(HomeScreenDestination)
+
+        if (!standalone)
+            navigator.navigate(PermissionScreenDestination)
     }
 }
 

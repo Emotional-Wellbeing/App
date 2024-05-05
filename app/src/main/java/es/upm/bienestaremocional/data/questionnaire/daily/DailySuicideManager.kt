@@ -7,8 +7,11 @@ class DailySuicideManager {
     val numberOfQuestions: Int = DailyNotScoredQuestionnaire.Suicide.numberOfQuestions
     val answerRange: IntRange = DailyNotScoredQuestionnaire.Suicide.answerRange
 
+    private val answerToContinue = 0
+    val answerToSkip = 1
+
     val completed: Boolean
-        get() = answers.any { it == 0 } || answers.all { it == 1 }
+        get() = answers.any { it == answerToSkip } || answers.all { it == answerToContinue }
 
     /**
      * Set answer on the manager

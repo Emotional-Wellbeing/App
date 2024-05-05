@@ -58,6 +58,7 @@ fun DailyDepressionScreen(
         answerSelected = viewModel::answerSelected,
         answersRemaining = viewModel::answersRemaining,
         getScore = viewModel::score,
+        onQuestionLoad = { question -> viewModel.onLoadQuestion(question) },
         onAnswer = { question, answer -> viewModel.onAnswer(question, answer) },
         onInProgress = viewModel::onInProgress,
         onSkippingAttempt = viewModel::onSkippingAttempt,

@@ -222,13 +222,10 @@ fun generateDailySuicideEntry(
 
     val differentAnswer = Random.nextInt(dailySuicideManager.numberOfQuestions)
 
-    for (questionIndex in 0 until dailySuicideManager.numberOfQuestions)
-    {
-        if (fulfilled)
-        {
+    for (questionIndex in 0 until dailySuicideManager.numberOfQuestions) {
+        if (fulfilled) {
             // Different answer will be the only 0, so previous answers must be 1
-            if (questionIndex <= differentAnswer)
-            {
+            if (questionIndex <= differentAnswer) {
                 val answer = if (questionIndex < differentAnswer)
                     1
                 else
@@ -240,8 +237,7 @@ fun generateDailySuicideEntry(
                 )
             }
         }
-        else
-        {
+        else {
             // If one 0 is present, the entry is fulfilled
             if (questionIndex < differentAnswer)
                 dailySuicideManager.setAnswer(

@@ -14,11 +14,6 @@ class StepsViewModel @Inject constructor(
     private val steps: Steps
 ) : HealthConnectViewModel<StepsRecord>() {
 
-    private fun writeAndReadDummyData() {
-        writeData(steps, Steps.generateDummyData())
-        readData(steps)
-    }
-
     @Composable
     override fun getViewModelData(): ViewModelData<StepsRecord> {
         val data by elements
@@ -30,10 +25,9 @@ class StepsViewModel @Inject constructor(
         return ViewModelData(
             data = data,
             uiState = uiState,
-            permissions = steps.readPermissions + steps.writePermissions,
+            permissions = steps.readPermissions,
             onPermissionsResult = onPermissionsResult,
             onRequestPermissions = { values -> permissionsLauncher.launch(values) },
-            onWrite = { writeAndReadDummyData() }
         )
     }
 }

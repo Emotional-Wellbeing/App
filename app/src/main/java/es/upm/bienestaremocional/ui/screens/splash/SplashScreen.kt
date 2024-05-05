@@ -1,6 +1,5 @@
 package es.upm.bienestaremocional.ui.screens.splash
 
-import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +31,6 @@ fun SplashScreen(
     navigator: DestinationsNavigator,
     splashViewModel: SplashViewModel = hiltViewModel()
 ) {
-    //splash screen
     Splash(
         darkTheme = splashViewModel.getDarkTheme()
     )
@@ -44,17 +42,11 @@ fun SplashScreen(
             splashViewModel.onInit()
         }
 
-        SplashState.NotificationsDialog -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                splashViewModel.OnNotificationsDialog()
-            }
-        }
-
         SplashState.Loading -> {
             LaunchedEffect(true)
             {
-                splashViewModel.onLoading()
                 delay(1000)
+                splashViewModel.onLoading()
             }
         }
 

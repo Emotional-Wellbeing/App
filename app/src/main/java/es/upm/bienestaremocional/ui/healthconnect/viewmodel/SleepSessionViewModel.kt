@@ -13,12 +13,6 @@ import javax.inject.Inject
 class SleepSessionViewModel @Inject constructor(
     private val sleep: Sleep
 ) : HealthConnectViewModel<SleepSessionData>() {
-    private fun writeAndReadDummyData() {
-        val data = Sleep.generateDummyData()
-        super.writeData(sleep, data.map { it.toSleepSessionRecord() })
-        readData(sleep)
-    }
-
     @Composable
     override fun getViewModelData(): ViewModelData<SleepSessionData> {
         val data by elements
@@ -30,10 +24,9 @@ class SleepSessionViewModel @Inject constructor(
         return ViewModelData(
             data = data,
             uiState = uiState,
-            permissions = sleep.readPermissions + sleep.writePermissions,
+            permissions = sleep.readPermissions,
             onPermissionsResult = onPermissionsResult,
             onRequestPermissions = { values -> permissionsLauncher.launch(values) },
-            onWrite = { writeAndReadDummyData() }
         )
     }
 }

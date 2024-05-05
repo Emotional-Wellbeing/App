@@ -139,6 +139,7 @@ fun QuestionnaireNumericAnswersScreen(
     answerSelected: (Int) -> Int?,
     answersRemaining: () -> List<Int>,
     getScore: () -> Int?,
+    onQuestionLoad: (Int) -> Unit,
     onAnswer: (Int, Int) -> Unit,
     onInProgress: () -> Unit,
     onSkippingAttempt: () -> Unit,
@@ -156,6 +157,7 @@ fun QuestionnaireNumericAnswersScreen(
             question = questions[page],
             answerRange = answerRange,
             answerSelectedPrevious = answerSelected(page),
+            onQuestionLoad = { onQuestionLoad(page) },
             pagerState = pagerState,
             onAnswer = { answer -> onAnswer(page, answer) },
             onExit = onSkippingAttempt,
@@ -335,6 +337,7 @@ private fun QuestionnaireNumericAnswersPage(
     answerRange: IntRange,
     answerSelectedPrevious: Int?,
     pagerState: PagerState,
+    onQuestionLoad: () -> Unit,
     onAnswer: (Int) -> Unit,
     onExit: () -> Unit,
     onFinish: () -> Unit
@@ -345,6 +348,11 @@ private fun QuestionnaireNumericAnswersPage(
             answerSelectedPrevious = answerSelectedPrevious,
             onAnswer = onAnswer
         )
+    }
+
+    LaunchedEffect(Unit)
+    {
+        onQuestionLoad()
     }
 
     QuestionnairePage(
@@ -702,6 +710,9 @@ fun QuestionnaireNumericAnswersWithScoreScreenPreview() {
                         .filterNotNull()
                 },
                 getScore = score,
+                onQuestionLoad = { question ->
+                    if (answers[question] == null) answers[question] = 0
+                },
                 onAnswer = { question, answer -> answers[question] = answer },
                 onInProgress = {},
                 onSkippingAttempt = {},
@@ -753,6 +764,9 @@ fun QuestionnaireNumericAnswersWithScoreDarkThemeScreenPreview() {
                         .filterNotNull()
                 },
                 getScore = score,
+                onQuestionLoad = { question ->
+                    if (answers[question] == null) answers[question] = 0
+                },
                 onAnswer = { question, answer -> answers[question] = answer },
                 onInProgress = {},
                 onSkippingAttempt = {},
@@ -823,8 +837,9 @@ fun QuestionnaireNumericAnswersPagePreview() {
                 answerRange = 0..10,
                 answerSelectedPrevious = null,
                 pagerState = rememberPagerState(),
+                onQuestionLoad = {},
                 onAnswer = {},
-                onExit = { },
+                onExit = {},
                 onFinish = {}
             )
         }
@@ -843,6 +858,7 @@ fun QuestionnaireNumericAnswersPageDarkThemePreview() {
                 answerRange = 0..10,
                 answerSelectedPrevious = null,
                 pagerState = rememberPagerState(),
+                onQuestionLoad = {},
                 onAnswer = {},
                 onExit = { },
                 onFinish = {}

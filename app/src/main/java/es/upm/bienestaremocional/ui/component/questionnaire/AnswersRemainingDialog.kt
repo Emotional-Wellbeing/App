@@ -21,7 +21,8 @@ fun AnswersRemainingDialog(
         answersRemaining.map { it + 1 }.joinToString()
     )
 
-    AlertDialog(onDismissRequest = onDismiss,
+    AlertDialog(
+        onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.ok))

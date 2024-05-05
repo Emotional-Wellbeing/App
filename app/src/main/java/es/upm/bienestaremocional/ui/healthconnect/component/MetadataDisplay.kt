@@ -14,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.health.connect.client.records.metadata.Metadata
 import es.upm.bienestaremocional.R
-import es.upm.bienestaremocional.data.healthconnect.sources.HeartRate
 import es.upm.bienestaremocional.ui.component.DrawPair
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import es.upm.bienestaremocional.utils.formatDate
@@ -80,7 +79,7 @@ fun Metadata.Display(widthSize: WindowWidthSizeClass) {
 @Preview(group = "Light Theme")
 @Composable
 fun MetadataPreview() {
-    val metadata = HeartRate.generateDummyData()[0].metadata
+    val metadata = generateHeartRateDummyData().metadata
     BienestarEmocionalTheme {
         Surface {
             metadata.Display(widthSize = WindowWidthSizeClass.Compact)
@@ -91,7 +90,7 @@ fun MetadataPreview() {
 @Preview(group = "Dark Theme")
 @Composable
 fun MetadataPreviewDarkTheme() {
-    val metadata = HeartRate.generateDummyData()[0].metadata
+    val metadata = generateHeartRateDummyData().metadata
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             metadata.Display(widthSize = WindowWidthSizeClass.Compact)
@@ -103,7 +102,7 @@ fun MetadataPreviewDarkTheme() {
 @Preview(group = "Light Theme")
 @Composable
 fun MetadataPreviewLargeScreen() {
-    val metadata = HeartRate.generateDummyData()[0].metadata
+    val metadata = generateHeartRateDummyData().metadata
     BienestarEmocionalTheme {
         Surface {
             metadata.Display(widthSize = WindowWidthSizeClass.Medium)
@@ -114,7 +113,7 @@ fun MetadataPreviewLargeScreen() {
 @Preview(group = "Dark Theme")
 @Composable
 fun MetadataPreviewLargeScreenDarkTheme() {
-    val metadata = HeartRate.generateDummyData()[0].metadata
+    val metadata = generateHeartRateDummyData().metadata
     BienestarEmocionalTheme(darkTheme = true) {
         Surface {
             metadata.Display(widthSize = WindowWidthSizeClass.Medium)

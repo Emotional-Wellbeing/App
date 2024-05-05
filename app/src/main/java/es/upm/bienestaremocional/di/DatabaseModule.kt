@@ -7,8 +7,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import es.upm.bienestaremocional.data.crypto.SecretKey
 import es.upm.bienestaremocional.data.database.AppDatabase
 import es.upm.bienestaremocional.data.database.dao.AppDAO
+import net.sqlcipher.database.SupportFactory
 import javax.inject.Singleton
 
 /**
@@ -22,12 +24,19 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase =
-        Room.databaseBuilder(
+    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+        val pass = SecretKey.getSecretKey().encoded
+        val factory = SupportFactory(pass)
+
+        val builder = Room.databaseBuilder(
             appContext,
             AppDatabase::class.java,
             "app_database.db"
         )
-            .fallbackToDestructiveMigration()
-            .build()
+
+        builder.openHelperFactory(factory)
+        builder.fallbackToDestructiveMigration()
+        return builder.build()
+    }
+
 }

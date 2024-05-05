@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -42,22 +43,26 @@ fun DailyStressStatus(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     showAdvice: Boolean = true,
 ) {
-    val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Stress) }
-    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
+    with(DailyScoredQuestionnaire.Stress)
+    {
+        val level = data?.let { scoreToLevel(it, this) }
+        val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
 
-    MeasureStatus(
-        navigator = navigator,
-        data = data,
-        introLabel = stringResource(id = R.string.level_of_stress),
-        level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Stress) },
-        advice = advice,
-        widthSize = widthSize,
-        indicatorColor = indicatorColor,
-        indicatorContainerColor = indicatorContainerColor,
-        backgroundColor = backgroundColor,
-        minValue = DailyScoredQuestionnaire.Stress.minScore,
-        maxValue = DailyScoredQuestionnaire.Stress.maxScore,
-    )
+        MeasureStatus(
+            navigator = navigator,
+            data = data,
+            introLabel = stringResource(id = R.string.level_of_stress),
+            level = data?.let { scoreToLevel(it, this) },
+            advice = advice,
+            widthSize = widthSize,
+            indicatorColor = indicatorColor,
+            indicatorContainerColor = indicatorContainerColor,
+            backgroundColor = backgroundColor,
+            minValue = this.minScore,
+            maxValue = this.maxScore,
+        )
+    }
+
 }
 
 @Composable
@@ -70,22 +75,25 @@ fun DailyDepressionStatus(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     showAdvice: Boolean = true,
 ) {
-    val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Depression) }
-    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
+    with(DailyScoredQuestionnaire.Depression)
+    {
+        val level = data?.let { scoreToLevel(it, this) }
+        val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
 
-    MeasureStatus(
-        navigator = navigator,
-        data = data,
-        introLabel = stringResource(id = R.string.level_of_depression),
-        level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Depression) },
-        advice = advice,
-        widthSize = widthSize,
-        indicatorColor = indicatorColor,
-        indicatorContainerColor = indicatorContainerColor,
-        backgroundColor = backgroundColor,
-        minValue = DailyScoredQuestionnaire.Depression.minScore,
-        maxValue = DailyScoredQuestionnaire.Depression.maxScore
-    )
+        MeasureStatus(
+            navigator = navigator,
+            data = data,
+            introLabel = stringResource(id = R.string.level_of_depression),
+            level = data?.let { scoreToLevel(it, this) },
+            advice = advice,
+            widthSize = widthSize,
+            indicatorColor = indicatorColor,
+            indicatorContainerColor = indicatorContainerColor,
+            backgroundColor = backgroundColor,
+            minValue = this.minScore,
+            maxValue = this.maxScore
+        )
+    }
 }
 
 @Composable
@@ -98,22 +106,26 @@ fun DailyLonelinessStatus(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     showAdvice: Boolean = true,
 ) {
-    val level = data?.let { scoreToLevel(it, DailyScoredQuestionnaire.Loneliness) }
-    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
+    with(DailyScoredQuestionnaire.Loneliness)
+    {
+        val level = data?.let { scoreToLevel(it, this) }
+        val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
 
-    MeasureStatus(
-        navigator = navigator,
-        data = data,
-        introLabel = stringResource(id = R.string.level_of_loneliness),
-        level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) },
-        advice = advice,
-        widthSize = widthSize,
-        indicatorColor = indicatorColor,
-        indicatorContainerColor = indicatorContainerColor,
-        backgroundColor = backgroundColor,
-        minValue = DailyScoredQuestionnaire.Loneliness.minScore,
-        maxValue = DailyScoredQuestionnaire.Loneliness.maxScore
-    )
+        MeasureStatus(
+            navigator = navigator,
+            data = data,
+            introLabel = stringResource(id = R.string.level_of_loneliness),
+            level = data?.let { scoreToLevel(it, this) },
+            advice = advice,
+            widthSize = widthSize,
+            indicatorColor = indicatorColor,
+            indicatorContainerColor = indicatorContainerColor,
+            backgroundColor = backgroundColor,
+            minValue = this.minScore,
+            maxValue = this.maxScore
+        )
+    }
+
 }
 
 @Composable
@@ -126,22 +138,26 @@ fun OneOffStressStatus(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     showAdvice: Boolean = true,
 ) {
-    val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Stress) }
-    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
+    with(OneOffQuestionnaire.Stress)
+    {
+        val level = data?.let { scoreToLevel(it, this) }
+        val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Stress) } else null
 
-    MeasureStatus(
-        navigator = navigator,
-        data = data,
-        introLabel = stringResource(id = R.string.level_of_stress),
-        level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Stress) },
-        advice = advice,
-        widthSize = widthSize,
-        indicatorColor = indicatorColor,
-        indicatorContainerColor = indicatorContainerColor,
-        backgroundColor = backgroundColor,
-        minValue = OneOffQuestionnaire.Stress.minScore,
-        maxValue = OneOffQuestionnaire.Stress.maxScore,
-    )
+        MeasureStatus(
+            navigator = navigator,
+            data = data,
+            introLabel = stringResource(id = R.string.level_of_stress),
+            level = data?.let { scoreToLevel(it, this) },
+            advice = advice,
+            widthSize = widthSize,
+            indicatorColor = indicatorColor,
+            indicatorContainerColor = indicatorContainerColor,
+            backgroundColor = backgroundColor,
+            minValue = this.minScore,
+            maxValue = this.maxScore,
+        )
+    }
+
 }
 
 @Composable
@@ -154,22 +170,26 @@ fun OneOffDepressionStatus(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     showAdvice: Boolean = true,
 ) {
-    val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Depression) }
-    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
+    with(OneOffQuestionnaire.Depression)
+    {
+        val level = data?.let { scoreToLevel(it, this) }
+        val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Depression) } else null
 
-    MeasureStatus(
-        navigator = navigator,
-        data = data,
-        introLabel = stringResource(id = R.string.level_of_depression),
-        level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Depression) },
-        advice = advice,
-        widthSize = widthSize,
-        indicatorColor = indicatorColor,
-        indicatorContainerColor = indicatorContainerColor,
-        backgroundColor = backgroundColor,
-        minValue = OneOffQuestionnaire.Depression.minScore,
-        maxValue = OneOffQuestionnaire.Depression.maxScore
-    )
+        MeasureStatus(
+            navigator = navigator,
+            data = data,
+            introLabel = stringResource(id = R.string.level_of_depression),
+            level = data?.let { scoreToLevel(it, this) },
+            advice = advice,
+            widthSize = widthSize,
+            indicatorColor = indicatorColor,
+            indicatorContainerColor = indicatorContainerColor,
+            backgroundColor = backgroundColor,
+            minValue = this.minScore,
+            maxValue = this.maxScore
+        )
+    }
+
 }
 
 @Composable
@@ -182,24 +202,26 @@ fun OneOffLonelinessStatus(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     showAdvice: Boolean = true,
 ) {
-    val level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) }
-    val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
+    with(OneOffQuestionnaire.Loneliness)
+    {
+        val level = data?.let { scoreToLevel(it, this) }
+        val advice = if (showAdvice) level?.let { levelToAdvice(it, Measure.Loneliness) } else null
 
-    MeasureStatus(
-        navigator = navigator,
-        data = data,
-        introLabel = stringResource(id = R.string.level_of_loneliness),
-        level = data?.let { scoreToLevel(it, OneOffQuestionnaire.Loneliness) },
-        advice = advice,
-        widthSize = widthSize,
-        indicatorColor = indicatorColor,
-        indicatorContainerColor = indicatorContainerColor,
-        backgroundColor = backgroundColor,
-        minValue = OneOffQuestionnaire.Loneliness.minScore,
-        maxValue = OneOffQuestionnaire.Loneliness.maxScore
-    )
+        MeasureStatus(
+            navigator = navigator,
+            data = data,
+            introLabel = stringResource(id = R.string.level_of_loneliness),
+            level = data?.let { scoreToLevel(it, this) },
+            advice = advice,
+            widthSize = widthSize,
+            indicatorColor = indicatorColor,
+            indicatorContainerColor = indicatorContainerColor,
+            backgroundColor = backgroundColor,
+            minValue = this.minScore,
+            maxValue = this.maxScore
+        )
+    }
 }
-
 
 @Composable
 private fun MeasureStatus(
@@ -296,10 +318,15 @@ private fun MeasureStatus(
                 modifier = Modifier
                     .width(textWidth)
                     .padding(start = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
             )
             {
-                Text(headlineText, style = headlineTextStyle)
+                Text(
+                    text = headlineText,
+                    textAlign = TextAlign.Justify,
+                    style = headlineTextStyle
+                )
                 advice?.let {
                     ShowAdviceHeadline(
                         navigator = navigator,
