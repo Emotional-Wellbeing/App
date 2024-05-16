@@ -2,7 +2,7 @@ name: Test App
 on:
   push:
     branches:
-      - dominguez-debug
+      - dominguez_debug
     tags:
       - '*alpha*'
       - '*beta*'
@@ -11,7 +11,7 @@ on:
 # all steps run in series
 jobs:
   test:
-    name: Test App
+    name: Debug App
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
