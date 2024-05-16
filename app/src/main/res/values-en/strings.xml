@@ -55,7 +55,7 @@
     <string name="onboarding_notifications_description">
         You will receive a notification every time a new quiz is available: at 9 am and 9 pm daily, and every two weeks at 3pm. For an optimal user experience, open the application regularly.
     </string>
-    <string name="onboarding_privacy_description">The app may use data such as your mobile usage or heart rate, but you have the full control of your personal data.</string>
+    <string name="onboarding_privacy_description">The app may use data such as your heart rate, but you have the full control of your personal data.</string>
     <string name="onboarding_community_description">"You can consult anonymised statistics about your community. Moreover, you can collaborate with the development of the application.</string>
     <string name="privacy_policy_description">\n        This is a placeholder example. Your app should display an appropriate privacy policy for how\n        you will handle and use Health Connect data. This sample app does not store or transmit any\n        data outside of Health Connect.</string>
     <string name="credit_author1_description">Co-author of the MFP Emotional Wellbeing System and main author of the application.</string>
@@ -221,15 +221,9 @@
     <string name="review">Review</string>
     <string name="permission_screen_label">Permissions</string>
     <string name="permission_granted">Permission granted. You can disable it in the Android settings menu</string>
-    <string name="permission_log_call">Call listing permissions</string>
-    <string name="permission_location">Location permissions</string>
     <string name="permission_notification">Notification permission</string>
-    <string name="permission_usage">Access for device usage permission</string>
     <string name="permission_health_connect">Health Connect permissions</string>
     <string name="permission_intro">Hello! To ensure the correct functioning of the app it is necessary to grant the following permissions. The app will adapt to the permissions you grant. However, the information is anonymised so that no one (including the developers) can identify you.</string>
-    <string name="permission_log_call_description">The call listing permission is used to access the device\'s call log for the purpose of extracting anonymised statistics. Phone numbers are transformed to identifiers not related to that number.</string>
-    <string name="permission_location_description">The location permission is needed to be able to access data from mobile networks. Is not used to geolocate, only to determinate the usage profile.</string>
-    <string name="permission_usage_description">The device usage access permission is used to find out which applications you have used and to extract related statistics on usage only. The contents of the apps are never used.</string>
     <string name="permission_notification_description">This permission is required for the sending of notifications, such as those sent when a new questionnaire is available.</string>
     <string name="permission_health_connect_description">If you have a wearable compatible with Health Connected, please check the permissions to access the wearable data.
     \n\nTo grant permission, in the list that appears when you click on the button, select the name of this app (Emotional Wellbeing) to grant it.</string>
