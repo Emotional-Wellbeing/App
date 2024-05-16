@@ -59,6 +59,13 @@ abstract class HealthConnectViewModel<T : Record> : ViewModel() {
         }
     }
 
+    fun writeData(healthConnectSource: HealthConnectSource<T>, data: List<Record>) {
+        viewModelScope.launch {
+            if (healthConnectSource.writePermissionsCheck())
+                healthConnectSource.writeSource(data)
+        }
+    }
+
     @Composable
     abstract fun getViewModelData(): ViewModelData<T>
 }

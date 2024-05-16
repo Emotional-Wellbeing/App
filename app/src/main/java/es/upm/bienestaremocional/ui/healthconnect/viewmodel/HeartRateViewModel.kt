@@ -13,6 +13,10 @@ import javax.inject.Inject
 class HeartRateViewModel @Inject constructor(
     private val heartRate: HeartRate
 ) : HealthConnectViewModel<HeartRateRecord>() {
+    private fun writeAndReadDummyData() {
+        writeData(heartRate, HeartRate.generateDummyData())
+        readData(heartRate)
+    }
     @Composable
     override fun getViewModelData(): ViewModelData<HeartRateRecord> {
         val data by elements
@@ -27,6 +31,7 @@ class HeartRateViewModel @Inject constructor(
             permissions = heartRate.readPermissions,
             onPermissionsResult = onPermissionsResult,
             onRequestPermissions = { values -> permissionsLauncher.launch(values) },
+            onWrite = { writeAndReadDummyData() }
         )
     }
 }

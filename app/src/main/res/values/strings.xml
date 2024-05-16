@@ -267,7 +267,6 @@
     <string name="wheelchair">Silla de ruedas</string>
     <string name="yoga">Yoga</string>
 
-
     <!-- Questionnaire display -->
     <string name="empty_list">No hay datos para mostrar</string>
     <string name="daily_morning">Diaria de mañana</string>
@@ -286,4 +285,47 @@
     <string name="permission_health_connect_description">Si dispone de una pulsera compatible con Salud Conectada, por favor revise los permisos para acceder a los datos de la pulsera.</string>
     <string name="permission_outro">Cuando esté listo, pulse el botón para ir a la ventana principal.</string>
 
+    <!-- Debug -->
+    <string name="debug_screen_label">Menú de desarrolladores</string>
+    <string name="developer_options">Opciones de desarrollador</string>
+    <string name="daily_morning_notification_start_questionnaire">Notificación para crear cuestionario de mañana</string>
+    <string name="daily_night_start_questionnaire">Notificación para crear cuestionario de noche</string>
+    <string name="one_off_start_questionnaire">Notificación para crear cuestionario puntual</string>
+    <string name="query_uncompleted_questionnaire_rounds">Consultar rondas de cuestionarios incompletas</string>
+    <string name="query_all_questionnaire_rounds">Consultar todas las rondas de cuestionarios</string>
+    <string name="prepopulate_database">Rellenar base de datos</string>
+    <string name="database_prepopulated">Base de datos rellenada</string>
+    <string name="delete_database">Borrar base de datos</string>
+    <string name="database_deleted">Base de datos borrada</string>
+    <string name="test_daily_morning_notification_worker">Probar daily morning notification worker</string>
+    <string name="test_daily_night_notification_worker">Probar daily night notification worker</string>
+    <string name="test_one_off_notification_worker">Probar one off notification worker</string>
+    <string name="test_upload_worker">Probar upload worker subiendo todos los datos</string>
+    <string name="test_get_community">Probar getCommunity</string>
+    <string name="test_post_user_data">Probar postUserData</string>
+    <string name="reset_upload_timestamps">Reiniciar las marcas de tiempo de las subidas</string>
+    <string name="query_worker_status">Consultar el estado de los workers</string>
+    <string name="query_uid">Consultar el User ID</string>
+    <string name="data_sent_successfully">Datos enviados correctamente</string>
+    <string name="request_failed">Petición fallida</string>
+    <string name="tags">Etiquetas</string>
+    <string name="state">Estado</string>
+    <string name="upload_timestamps_reset">Reiniciadas las marcas de tiempo de las subidas</string>
+    <string name="generate_data">Generar datos</string>
+    <string name="daily_rounds">Rondas diarias</string>
+    <string name="one_off_rounds">Rondas puntuales</string>
+    <string name="monday">Lunes</string>
+    <string name="tuesday">Martes</string>
+    <string name="wednesday">Miércoles</string>
+    <string name="thursday">Jueves</string>
+    <string name="friday">Viernes</string>
+    <string name="saturday">Sábado</string>
+    <string name="sunday">Domingo</string>
+    <string name="pss_questionnaire">Cuestionario PSS</string>
+    <string name="phq_questionnaire">Cuestionario PHQ</string>
+    <string name="ucla_questionnaire">Cuestionario UCLA</string>
+    <string name="score_formatter">Puntuación: %d</string>
+    <string name="level_formatter">Nivel %s</string>
+    <string name="completed">Completado</string>
+    <string name="uncompleted">Incompletado</string>
 </resources>

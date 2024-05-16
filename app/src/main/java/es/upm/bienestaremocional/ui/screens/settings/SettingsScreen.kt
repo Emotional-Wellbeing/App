@@ -47,6 +47,7 @@ import es.upm.bienestaremocional.ui.component.AppBasicScreen
 import es.upm.bienestaremocional.ui.navigation.BottomBarDestination
 import es.upm.bienestaremocional.ui.screens.destinations.AboutScreenDestination
 import es.upm.bienestaremocional.ui.screens.destinations.CreditsScreenDestination
+import es.upm.bienestaremocional.ui.screens.destinations.DebugScreenDestination
 import es.upm.bienestaremocional.ui.screens.destinations.MyDataScreenDestination
 import es.upm.bienestaremocional.ui.screens.destinations.OnboardingScreenDestination
 import es.upm.bienestaremocional.ui.screens.destinations.PrivacyPolicyScreenDestination
@@ -441,6 +442,26 @@ private fun SettingsScreen(
                 onClick = { navigator.navigate(CreditsScreenDestination) },
             )
 
+            HorizontalDivider(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
+
+            GroupText(textRes = R.string.developer_options)
+
+            SettingsMenuLink(
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.developer_mode),
+                        contentDescription = null,
+                        modifier = Modifier.defaultIconModifier()
+                    )
+                },
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.debug_screen_label),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                },
+                onClick = { navigator.navigate(DebugScreenDestination) },
+            )
         }
     }
 }

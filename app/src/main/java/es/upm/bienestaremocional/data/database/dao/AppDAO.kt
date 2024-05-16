@@ -1,6 +1,10 @@
 package es.upm.bienestaremocional.data.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
 import es.upm.bienestaremocional.data.database.entity.LastUpload
 import es.upm.bienestaremocional.data.database.entity.daily.DailyDepression
 import es.upm.bienestaremocional.data.database.entity.daily.DailyLoneliness
@@ -831,5 +835,62 @@ interface AppDAO {
                 "LIMIT 1"
     )
     suspend fun getLastDailySymptoms(): DailySymptoms?
+
+
+    /**
+     * -------------------------------------------------------------------------------------------
+     * Debug
+     * -------------------------------------------------------------------------------------------
+     */
+    @Query("DELETE FROM last_upload")
+    fun nukeLastUploadTable()
+
+    @Query("DELETE FROM one_off_round")
+    fun nukeOneOffRoundTable()
+
+    @Query("DELETE FROM daily_round")
+    fun nukeDailyRoundTable()
+
+    @Query("DELETE FROM one_off_depression")
+    fun nukeOneOffDepressionTable()
+
+    @Query("DELETE FROM one_off_stress")
+    fun nukeOneOffStressTable()
+
+    @Query("DELETE FROM one_off_loneliness")
+    fun nukeOneOffLonelinessTable()
+
+    @Query("DELETE FROM daily_stress")
+    fun nukeDailyStressTable()
+
+    @Query("DELETE FROM daily_depression")
+    fun nukeDailyDepressionTable()
+
+    @Query("DELETE FROM daily_loneliness")
+    fun nukeDailyLonelinessTable()
+
+    @Query("DELETE FROM daily_suicide")
+    fun nukeDailySuicideTable()
+
+    @Query("DELETE FROM daily_symptoms")
+    fun nukeDailySymptomsTable()
+
+
+    @Transaction
+    suspend fun nukeDatabase() {
+        nukeLastUploadTable()
+        nukeOneOffRoundTable()
+        nukeDailyRoundTable()
+
+        nukeOneOffDepressionTable()
+        nukeOneOffStressTable()
+        nukeOneOffLonelinessTable()
+
+        nukeDailyStressTable()
+        nukeDailyDepressionTable()
+        nukeDailyLonelinessTable()
+        nukeDailySuicideTable()
+        nukeDailySymptomsTable()
+    }
 
 }

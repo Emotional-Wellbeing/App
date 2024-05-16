@@ -45,7 +45,10 @@ fun DrawHealthConnectSubscreen(
             if (viewModelData.uiState == UiState.Success) {
                 if (viewModelData.data.isEmpty()) {
                     item {
-                        Text(text = stringResource(id = R.string.no_data_to_display))
+                        Button(onClick = viewModelData.onWrite)
+                        {
+                            Text(text = stringResource(id = R.string.generate_data))
+                        }
                     }
                 }
                 else

@@ -13,6 +13,10 @@ import javax.inject.Inject
 class StepsViewModel @Inject constructor(
     private val steps: Steps
 ) : HealthConnectViewModel<StepsRecord>() {
+    private fun writeAndReadDummyData() {
+        writeData(steps, Steps.generateDummyData())
+        readData(steps)
+    }
 
     @Composable
     override fun getViewModelData(): ViewModelData<StepsRecord> {
@@ -28,6 +32,7 @@ class StepsViewModel @Inject constructor(
             permissions = steps.readPermissions,
             onPermissionsResult = onPermissionsResult,
             onRequestPermissions = { values -> permissionsLauncher.launch(values) },
+            onWrite = { writeAndReadDummyData() }
         )
     }
 }

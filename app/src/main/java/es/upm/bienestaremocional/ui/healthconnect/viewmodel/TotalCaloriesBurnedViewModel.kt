@@ -13,6 +13,10 @@ import javax.inject.Inject
 class TotalCaloriesBurnedViewModel @Inject constructor(
     private val totalCaloriesBurned: TotalCaloriesBurned
 ) : HealthConnectViewModel<TotalCaloriesBurnedRecord>() {
+    private fun writeAndReadDummyData() {
+        writeData(totalCaloriesBurned, TotalCaloriesBurned.generateDummyData())
+        readData(totalCaloriesBurned)
+    }
     @Composable
     override fun getViewModelData(): ViewModelData<TotalCaloriesBurnedRecord> {
         val data by elements
@@ -27,6 +31,7 @@ class TotalCaloriesBurnedViewModel @Inject constructor(
             permissions = totalCaloriesBurned.readPermissions,
             onPermissionsResult = onPermissionsResult,
             onRequestPermissions = { values -> launcher.launch(values) },
+            onWrite = { writeAndReadDummyData() }
         )
     }
 }

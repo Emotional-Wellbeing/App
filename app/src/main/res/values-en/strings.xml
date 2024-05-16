@@ -228,4 +228,48 @@
     <string name="permission_health_connect_description">If you have a wearable compatible with Health Connected, please check the permissions to access the wearable data.
     \n\nTo grant permission, in the list that appears when you click on the button, select the name of this app (Emotional Wellbeing) to grant it.</string>
     <string name="permission_outro">When you are ready, click the button to go to the main window.</string>
+
+    <!-- Debug -->
+    <string name="debug_screen_label">Debug menu</string>
+    <string name="developer_options">Developer options</string>
+    <string name="daily_morning_notification_start_questionnaire">Notification to start daily morning questionnaire</string>
+    <string name="daily_night_start_questionnaire">Notification to start daily night questionnaire</string>
+    <string name="one_off_start_questionnaire">Notification to start one off questionnaire</string>
+    <string name="query_uncompleted_questionnaire_rounds">Query uncompleted questionnaire rounds</string>
+    <string name="query_all_questionnaire_rounds">Query all questionnaire rounds</string>
+    <string name="prepopulate_database">Prepopulate database</string>
+    <string name="database_prepopulated">Database prepopulated</string>
+    <string name="delete_database">Delete database</string>
+    <string name="database_deleted">Database deleted</string>
+    <string name="test_daily_morning_notification_worker">Test daily morning notification worker</string>
+    <string name="test_daily_night_notification_worker">Test daily night notification worker</string>
+    <string name="test_one_off_notification_worker">Test one off notification worker</string>
+    <string name="test_upload_worker">Test upload all data worker</string>
+    <string name="test_get_community">Test get community</string>
+    <string name="test_post_user_data">Test post user data</string>
+    <string name="reset_upload_timestamps">Reset upload timestamps</string>
+    <string name="query_worker_status">Query worker status</string>
+    <string name="query_uid">Query User ID</string>
+    <string name="data_sent_successfully">Data sent successfully</string>
+    <string name="request_failed">Request failed</string>
+    <string name="tags">Tags</string>
+    <string name="state">State</string>
+    <string name="upload_timestamps_reset">Upload timestamps reset</string>
+    <string name="generate_data">Generate data</string>
+    <string name="daily_rounds">Daily rounds</string>
+    <string name="one_off_rounds">One off rounds</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="pss_questionnaire">PSS questionnaire</string>
+    <string name="phq_questionnaire">PHQ questionnaire</string>
+    <string name="ucla_questionnaire">UCLA questionnaire</string>
+    <string name="score_formatter">Score: %d</string>
+    <string name="level_formatter">%s level</string>
+    <string name="completed">Completed</string>
+    <string name="uncompleted">Uncompleted</string>
 </resources>

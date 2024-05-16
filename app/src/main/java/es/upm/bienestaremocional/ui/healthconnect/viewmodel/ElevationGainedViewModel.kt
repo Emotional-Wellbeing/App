@@ -13,6 +13,10 @@ import javax.inject.Inject
 class ElevationGainedViewModel @Inject constructor(
     private val elevationGained: ElevationGained
 ) : HealthConnectViewModel<ElevationGainedRecord>() {
+    private fun writeAndReadDummyData() {
+        writeData(elevationGained, ElevationGained.generateDummyData())
+        readData(elevationGained)
+    }
 
     @Composable
     override fun getViewModelData(): ViewModelData<ElevationGainedRecord> {
@@ -28,6 +32,7 @@ class ElevationGainedViewModel @Inject constructor(
             permissions = elevationGained.readPermissions,
             onPermissionsResult = onPermissionsResult,
             onRequestPermissions = { values -> launcher.launch(values) },
+            onWrite = { writeAndReadDummyData() }
         )
     }
 }

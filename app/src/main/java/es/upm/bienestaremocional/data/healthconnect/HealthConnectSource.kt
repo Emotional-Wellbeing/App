@@ -17,11 +17,23 @@ abstract class HealthConnectSource<T : Record>(
     abstract val readPermissions: Set<String>
 
     /**
+     * Set that contains permissions needed to write data
+     */
+    abstract val writePermissions: Set<String>
+
+    /**
      * Checks if all permissions needed for read are granted
      * @see readPermissions
      */
     suspend fun readPermissionsCheck(): Boolean =
         healthConnectClient.hasAllPermissions(readPermissions)
+
+    /**
+     * Checks if all permissions needed for read are granted
+     * @see readPermissions
+     */
+    suspend fun writePermissionsCheck(): Boolean =
+        healthConnectClient.hasAllPermissions(writePermissions)
 
     /**
      * Reads data from the last 30 days until now
@@ -51,6 +63,14 @@ abstract class HealthConnectSource<T : Record>(
      * @see readSource
      */
     abstract suspend fun readSource(startTime: Instant, endTime: Instant): List<T>
+
+    /**
+     * Write data into health connect
+     * @param data: [List] of [T] with the data
+     */
+    suspend fun writeSource(data: List<Record>) {
+        healthConnectClient.insertRecords(data)
+    }
 
     private suspend fun HealthConnectClient.hasAllPermissions(permissions: Set<String>): Boolean {
         val granted = this.permissionController.getGrantedPermissions()

@@ -8,5 +8,6 @@ data class ViewModelData<T : Record>(
     val uiState: UiState,
     val permissions: Set<String>,
     val onPermissionsResult: () -> Unit,
-    val onRequestPermissions: (Set<String>) -> Unit
+    val onRequestPermissions: (Set<String>) -> Unit,
+    val onWrite: () -> Unit,
 )
