@@ -1,5 +1,5 @@
 ![master workflow](https://github.com/Emotional-Wellbeing/App/actions/workflows/master.yml/badge.svg)
-![dev workflow](https://github.com/Emotional-Wellbeing/App/actions/workflows/dev.yml/badge.svg)
+![dominguez workflow](https://github.com/Emotional-Wellbeing/App/actions/workflows/dominguez.yml/badge.svg)
 
 
 # SBE - App

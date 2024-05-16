@@ -1,3 +1,5 @@
+@file:Suppress("KotlinDeprecation")
+
 package es.upm.bienestaremocional.ui.screens.community
 
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import es.upm.bienestaremocional.R
@@ -28,7 +29,6 @@ import es.upm.bienestaremocional.domain.processing.NullableChartRecord
 import es.upm.bienestaremocional.ui.component.DoubleMeasureStatus
 import es.upm.bienestaremocional.ui.component.chart.ActualWeekChart
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun RemoteMeasure(
     questionnaire: DailyScoredQuestionnaire,

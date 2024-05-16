@@ -142,12 +142,5 @@ fun getStartAndEndOfYesterdayMillisecondTimestamps(): Pair<Long, Long> {
     return Pair(yesterday.lower.toEpochMilliSecond(), yesterday.upper.toEpochMilliSecond())
 }
 
-/**
- * Convert the range in [ZonedDateTime] to [Pair] containing the same information but in
- * millisecond timestamp format
- */
-fun Range<ZonedDateTime>.toPairMillisecondTimestamps(): Pair<Long, Long> =
-    Pair(lower.toEpochMilliSecond(), upper.toEpochMilliSecond())
-
 fun Range<ZonedDateTime>.lowerStartDayUpperEndDay(): Range<ZonedDateTime> =
     Range(lower.toStartOfTheDay(), upper.toEndOfTheDay())

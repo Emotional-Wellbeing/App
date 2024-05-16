@@ -2,7 +2,7 @@ name: Test App
 on:
   push:
     branches:
-      - dev
+      - dominguez
     tags:
       - '*alpha*'
       - '*beta*'

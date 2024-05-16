@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -238,12 +238,13 @@ private fun CircularProgressIndicator(
     val indicatorThickness: Dp = size.times(indicatorScaleFactor)
 
     // Remembers the data value to update it
-    var dataRemembered by remember { mutableStateOf(minValue) }
+    var dataRemembered by remember { mutableIntStateOf(minValue) }
 
     // This is to animate the foreground indicator
     val dataUsageAnimate = animateIntAsState(
         targetValue = dataRemembered,
-        animationSpec = tween(durationMillis = animationDuration)
+        animationSpec = tween(durationMillis = animationDuration),
+        label = "dataUsage"
     )
 
     // Convert the data to an angle. Max is 360

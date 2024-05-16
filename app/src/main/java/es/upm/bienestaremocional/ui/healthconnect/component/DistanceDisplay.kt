@@ -12,6 +12,7 @@ import es.upm.bienestaremocional.ui.component.DrawPair
 import es.upm.bienestaremocional.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import es.upm.bienestaremocional.utils.generateInterval
+import java.util.Locale
 import kotlin.random.Random
 
 /**
@@ -20,7 +21,7 @@ import kotlin.random.Random
  */
 @Composable
 fun DistanceRecord.Display(widthSize: WindowWidthSizeClass) {
-    val distanceFormatted = String.format("%.2f", distance.inKilometers)
+    val distanceFormatted = String.format(Locale.getDefault(), "%.2f", distance.inKilometers)
     val unit = stringResource(id = R.string.km)
 
     BasicCard {

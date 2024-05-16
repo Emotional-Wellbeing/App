@@ -1,5 +1,6 @@
 package es.upm.bienestaremocional.domain.usecases
 
+import android.util.Log
 import es.upm.bienestaremocional.data.Measure
 import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffDepression
 import es.upm.bienestaremocional.data.database.entity.oneoff.OneOffLoneliness
@@ -21,6 +22,7 @@ class InsertOneOffRoundUseCaseImpl(
     private val oneOffRoundRepository: OneOffRoundRepository
 ) : InsertOneOffRoundUseCase {
     override suspend fun insertOneOffRound(): OneOffRound {
+        Log.d(logTag, "Inserting one off round")
         val mandatoryMeasures = Measure.get().filter {
             it.mandatory &&
                     it.frequency == Measure.Frequency.DailyAndOneOff

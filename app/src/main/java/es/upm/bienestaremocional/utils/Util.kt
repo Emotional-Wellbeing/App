@@ -10,8 +10,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import java.time.Duration
 import java.time.ZonedDateTime
-import kotlin.random.Random
-import kotlin.random.nextInt
 
 // The minimum android level that can use Health Connect
 const val MIN_SUPPORTED_SDK = Build.VERSION_CODES.O_MR1
@@ -24,27 +22,6 @@ fun linspace(start: ZonedDateTime, end: ZonedDateTime, numPoints: Int): List<Zon
 
     return (0 until numPoints).map { start.plus(step.multipliedBy(it.toLong())) }
 }
-
-fun randomSequence(
-    min: Int,
-    max: Int,
-    length: Int,
-): Set<Int> {
-    return generateSequence {
-        // this lambda is the source of the sequence's values
-        Random.nextInt(min..max)
-    }
-        // make the values distinct, so there's no repeated ints
-        .distinct()
-        // only fetch 6 values
-        // Note: It's very important that the source lambda can provide
-        //       this many distinct values! If not, the stream will
-        //       hang, endlessly waiting for more unique values.
-        .take(length)
-        // and collect them into a Set
-        .toSet()
-}
-
 fun android12OrAbove(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
 /**

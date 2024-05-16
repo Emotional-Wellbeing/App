@@ -11,6 +11,7 @@ import es.upm.bienestaremocional.ui.component.DrawPair
 import es.upm.bienestaremocional.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import es.upm.bienestaremocional.utils.generateInterval
+import java.util.Locale
 import kotlin.random.Random
 
 /**
@@ -19,7 +20,7 @@ import kotlin.random.Random
  */
 @Composable
 fun FloorsClimbedRecord.Display(widthSize: WindowWidthSizeClass) {
-    val floorsFormatted = String.format("%.2f", floors)
+    val floorsFormatted = String.format(Locale.getDefault(),"%.2f", floors)
 
     BasicCard {
         SeriesDateTimeHeading(
