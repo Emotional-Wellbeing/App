@@ -1,4 +1,4 @@
-package es.upm.bienestaremocional.data
+package es.upm.bienestaremocional.data.crypto
 
 import java.security.MessageDigest
 import java.util.UUID

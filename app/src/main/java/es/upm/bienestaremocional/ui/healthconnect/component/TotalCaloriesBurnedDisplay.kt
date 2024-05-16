@@ -12,6 +12,7 @@ import es.upm.bienestaremocional.ui.component.DrawPair
 import es.upm.bienestaremocional.ui.component.SeriesDateTimeHeading
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import es.upm.bienestaremocional.utils.generateInterval
+import java.util.Locale
 import kotlin.random.Random
 
 /**
@@ -20,7 +21,7 @@ import kotlin.random.Random
  */
 @Composable
 fun TotalCaloriesBurnedRecord.Display(widthSize: WindowWidthSizeClass) {
-    val kcal = String.format("%.2f", energy.inKilocalories)
+    val kcal = String.format(Locale.getDefault(),"%.2f", energy.inKilocalories)
     val unit = stringResource(id = R.string.kcal)
     BasicCard {
         SeriesDateTimeHeading(

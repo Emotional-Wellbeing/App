@@ -114,7 +114,7 @@ private fun DailySuicideScreen(
         )
     }
 
-    if (state !is SuicideScreenState.Summary || state !is SuicideScreenState.Finished) {
+    if (state !is SuicideScreenState.Summary && state !is SuicideScreenState.Finished) {
         QuestionnaireLayout(
             title = title,
             onSkippingAttempt = onSkippingAttempt,

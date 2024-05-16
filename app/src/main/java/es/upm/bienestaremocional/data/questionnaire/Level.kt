@@ -34,24 +34,6 @@ enum class Level(
     Severe("severe", R.string.severe);
 
     companion object {
-        /**
-         * Obtain the LevelLabel from their id
-         * @param id: The id to query
-         * @return The LevelLabel if the id matches with any LevelLabel or null if doesn't
-         */
-        fun decodeFromId(id: String): Level? {
-            return when (id) {
-                Low.id -> Low
-                Moderate.id -> Moderate
-                High.id -> High
-                Minimal.id -> Minimal
-                Mild.id -> Mild
-                ModeratelySevere.id -> ModeratelySevere
-                Severe.id -> Severe
-                else -> null
-            }
-        }
-
         @Composable
         fun Level.getColor(): Color {
             return when (this) {

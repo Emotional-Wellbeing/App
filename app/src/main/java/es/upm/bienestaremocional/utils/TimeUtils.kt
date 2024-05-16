@@ -2,13 +2,13 @@ package es.upm.bienestaremocional.utils
 
 import java.time.Duration
 import java.time.Instant
-import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
+import java.util.Locale
 import kotlin.random.Random
 
 /**
@@ -22,7 +22,8 @@ fun dateTimeWithOffsetOrDefault(time: Instant, offset: ZoneOffset? = null): Zone
         ?: run { ZonedDateTime.ofInstant(time, ZoneId.systemDefault()) }
 
 fun Duration.formatHoursMinutes() =
-    String.format("%01dh%02dm", this.toHours() % 24, this.toMinutes() % 60)
+    String.format(Locale.getDefault(),"%01dh%02dm", this.toHours() % 24,
+        this.toMinutes() % 60)
 
 fun formatDisplayTimeStartEnd(
     startTime: Instant,
@@ -59,9 +60,6 @@ fun formatDateTime(
     val timeLabel = formatTime(startTime)
     return "$dateLabel: $timeLabel"
 }
-
-fun formatDate(date: LocalDate): String =
-    DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).format(date)
 
 fun formatDate(date: ZonedDateTime): String =
     DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).format(date)

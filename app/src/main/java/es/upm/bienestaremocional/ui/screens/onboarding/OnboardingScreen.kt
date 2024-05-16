@@ -1,3 +1,5 @@
+@file:Suppress("KotlinDeprecation")
+
 package es.upm.bienestaremocional.ui.screens.onboarding
 
 import androidx.compose.foundation.layout.*
@@ -53,7 +55,6 @@ fun OnboardingScreen(
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun OnboardingScreen(
     heightSize: WindowHeightSizeClass,
@@ -93,7 +94,6 @@ private fun OnboardingScreen(
 /**
  * Draws a single page of onboarding
  */
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun DrawPage(
     horizontalPagerContent: HorizontalPagerContent,

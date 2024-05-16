@@ -50,17 +50,13 @@
     <string name="credits_screen_description">Las personas detrás del proyecto</string>
 
     <string name="feedback_group">Retroalimentación</string>
-    <string name="feedback_frequency">Frecuencia de los cuestionarios</string>
-    <string name="questionnaire_only_night">Un cuestionario a la noche</string>
-    <string name="questionnaire_night_lunch">Un cuestionario al mediodía y otro a la noche</string>
     <string name="additional_measures">Mediciones adicionales</string>
     <string name="application_settings">Ajustes generales de la aplicación</string>
-    <string name="application_settings_label">Accede a los ajustes de la app: Consumo de energía, notificaciones…</string>
+    <string name="application_settings_label">Accede a los ajustes de la app</string>
 
     <!-- Measures -->
     <string name="questionnaire">Cuestionario</string>
     <string name="measure">Medida</string>
-    <string name="score">Puntuación</string>
     <string name="stress">Estrés</string>
     <string name="depression">Depresión</string>
     <string name="loneliness">Soledad</string>
@@ -84,7 +80,7 @@
 
     <string name="onboarding_notifications_title">Notificaciones de la aplicación</string>
     <string name="onboarding_notifications_description">
-        Recibirás una notificación cada vez que haya un nuevo cuestionario disponible: a las 10 de la mañana y a las 10 de la noche diariamente, y cada dos semanas a las 3 de la tarde. No obstante, por limitaciones técnicas pueden no aparecer dichas notificaciones, por lo que para una óptima experiencia de uso abra la aplicación regularmente.
+        Recibirás una notificación cada vez que haya un nuevo cuestionario disponible: a las 9:00 y a las 21:00 diariamente, y cada dos semanas a las 15:00. Para una óptima experiencia de uso abra la aplicación regularmente.
     </string>
 
     <string name="onboarding_privacy_title">Tus datos, tu privacidad</string>
@@ -178,7 +174,6 @@
     <string name="restart_apply_all_changes">Reinicia para aplicar todos los cambios</string>
     <string name="uncompleted_questionnaires_advice">Tienes cuestionarios sin completar</string>
     <string name="calories_burnt">Calorias quemadas</string>
-    <string name="level">Nivel</string>
     <string name="metadata">Metadata:</string>
     <string name="id">Id</string>
     <string name="data_origin">Origen de datos</string>
@@ -196,7 +191,6 @@
     <string name="bpm">ppm</string>
     <string name="no_data_to_display">No hay datos para mostrar</string>
     <string name="request_permissions">Solicita permisos</string>
-    <string name="generate_data">Generar datos</string>
     <string name="unknown_display" translatable="false">--</string>
     <string name="exercise">Ejercicio</string>
 
@@ -276,26 +270,14 @@
 
     <!-- Questionnaire display -->
     <string name="empty_list">No hay datos para mostrar</string>
-    <string name="daily">Diaria</string>
     <string name="daily_morning">Diaria de mañana</string>
     <string name="daily_night">Diaria de noche</string>
     <string name="one_off">Puntual</string>
-    <string name="daily_rounds">Rondas diarias</string>
-    <string name="one_off_rounds">Rondas puntuales</string>
     <string name="round_created_formatter">Ronda %s creada en %s</string>
-    <string name="created_formatter">Creada en: %s</string>
-    <string name="pss_questionnaire">Cuestionario PSS</string>
-    <string name="phq_questionnaire">Cuestionario PHQ</string>
-    <string name="ucla_questionnaire">Cuestionario UCLA</string>
-    <string name="score_formatter">Puntuación: %d</string>
-    <string name="level_formatter">Nivel %s</string>
-    <string name="completed">Completado</string>
-    <string name="uncompleted">Incompletado</string>
     <string name="continue_label">Continuar</string>
     <string name="daily_symptoms_label">¿Cómo has estado hoy?</string>
     <!-- Permission -->
     <string name="permission_screen_label">Permisos</string>
-    <string name="permission_screen_description">Permisos de la aplicación</string>
     <string name="permission_granted">Permiso concedido. Puede deshabilitarlo en el menú de configuración de Android</string>
     <string name="permission_log_call">Permisos de listado de llamadas</string>
     <string name="permission_location">Permisos de ubicación</string>
@@ -312,6 +294,4 @@
     <string name="permission_health_connect_description">Si dispone de una pulsera compatible con Salud Conectada, por favor revise los permisos para acceder a los datos de la pulsera.</string>
     <string name="permission_outro">Cuando esté listo, pulse el botón para ir a la ventana principal.</string>
 
-    <string name="Title" translatable="false">Title</string>
-    <string name="_0_kb" translatable="false">0 Kb</string>
 </resources>

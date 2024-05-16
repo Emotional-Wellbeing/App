@@ -77,10 +77,13 @@ dependencies {
 
     // Jetpack compose
     // Kotlin extensions for 'lifecycle' artifact
+    //noinspection GradleDependency
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     // Compose integration with Lifecycle
+    //noinspection GradleDependency
     implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version"
     // Compose integration with Lifecycle ViewModel
+    //noinspection GradleDependency
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
 
     implementation "androidx.activity:activity-compose:$activity_compose_version"
@@ -117,6 +120,7 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:$datastore_preferences_version"
 
     // Settings
+    //noinspection GradleDependency
     implementation "com.github.alorma:compose-settings-ui-m3:$compose_settings_version"
 
     // Navigation
@@ -133,7 +137,9 @@ dependencies {
     ksp "io.github.raamcosta.compose-destinations:ksp:$compose_destination_version"
 
     // Room
+    //noinspection GradleDependency
     implementation "androidx.room:room-runtime:$room_version"
+    //noinspection GradleDependency
     implementation "androidx.room:room-ktx:$room_version"
     ksp "androidx.room:room-compiler:$room_version"
 
@@ -160,10 +166,13 @@ dependencies {
 
     // Vico
     // Includes the core logic for charts and other elements.
+    //noinspection GradleDependency
     implementation "com.patrykandpatrick.vico:core:$vico_version"
     // For Jetpack Compose.
+    //noinspection GradleDependency
     implementation "com.patrykandpatrick.vico:compose:$vico_version"
     // For `compose`. Creates a `ChartStyle` based on an M3 Material Theme.
+    //noinspection GradleDependency
     implementation "com.patrykandpatrick.vico:compose-m3:$vico_version"
 
     // Work Manager

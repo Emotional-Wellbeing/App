@@ -19,6 +19,7 @@ import java.io.IOException
 /**
  * Implements [HealthConnectViewModel] and add some shared variables
  */
+@Suppress("EmptyMethod")
 abstract class HealthConnectViewModel<T : Record> : ViewModel() {
     /**
      * Holds UiState to show (or not) data, request permission button, exceptions...

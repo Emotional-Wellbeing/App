@@ -33,8 +33,8 @@
     <string name="sleep">Sleep</string>
     <string name="language">Language</string>
     <string name="exit">Exit</string>
-    <string name="light_mode_label">Deactivated</string>
-    <string name="dark_mode_label">Activated</string>
+    <string name="light_mode_label">Disabled</string>
+    <string name="dark_mode_label">Enabled</string>
     <string name="health_connect_settings_description">"Manage access and permissions "</string>
     <string name="my_data_description">View data collected by the app</string>
     <string name="privacy_policy_screen_description">Treatment of your data</string>
@@ -53,7 +53,7 @@
     <string name="onboarding_welcome_description">Designed to help you take care of your emotional wellbeing in an easy and simple way. Created by and for the University.</string>
     <string name="onboarding_features_description">"We help you to monitor your mental health and detect possible symptoms so you can seek help. To do so, we will carry out simple daily questionnaires and more complete questionnaires every two weeks. You can configure the measures to be monitored.</string>
     <string name="onboarding_notifications_description">
-        You will receive a notification every time a new quiz is available: at 10am and 10pm daily, and every two weeks at 3pm. However, due to technical limitations these notifications may not appear, so for an optimal user experience open the application regularly.
+        You will receive a notification every time a new quiz is available: at 9 am and 9 pm daily, and every two weeks at 3pm. For an optimal user experience, open the application regularly.
     </string>
     <string name="onboarding_privacy_description">The app may use data such as your mobile usage or heart rate, but you have the full control of your personal data.</string>
     <string name="onboarding_community_description">"You can consult anonymised statistics about your community. Moreover, you can collaborate with the development of the application.</string>
@@ -75,7 +75,6 @@
     <string name="restart">Restart</string>
     <string name="restart_apply_all_changes">Restart to apply all changes</string>
     <string name="calories_burnt">Calories burnt</string>
-    <string name="level">Level</string>
     <string name="metadata">Metadata</string>
     <string name="id">Id</string>
     <string name="data_origin">Data origin</string>
@@ -165,9 +164,6 @@
     <string name="new_one_off_round_available_content">Hi! A new one-off questionnaire is available. Click here to do it.</string>
 
     <string name="feedback_group">Feedback</string>
-    <string name="feedback_frequency">Questionnaire frequency</string>
-    <string name="questionnaire_only_night">One questionnaire at night</string>
-    <string name="questionnaire_night_lunch">One questionnaire at lunch and another at night</string>
     <string name="additional_measures">Additional measures</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
@@ -176,12 +172,11 @@
     <string name="questionnaire_not_completed">Questionnaire not completed</string>
     <string name="exit_questionnaire">Exit questionnaire</string>
     <string name="sure_skip_questionnaire">Are you sure you want to skip the questionnaire?</string>
-    <string name="score">Score</string>
     <string name="notifications">Notifications</string>
     <string name="permission_for_notifications">Permission for notifications</string>
     <string name="permission_for_notifications_body">Adjust app notifications</string>
     <string name="application_settings">General app settings</string>
-    <string name="application_settings_label">Access Android\'s app settings: Power consumption, notifications…</string>
+    <string name="application_settings_label">Access Android\'s app settings</string>
     <string name="minimal">Minimal</string>
     <string name="mild">Mild</string>
     <string name="moderate">Moderate</string>
@@ -190,23 +185,13 @@
     <string name="low">Low</string>
     <string name="high">High</string>
     <string name="empty_list">No data to display</string>
-    <string name="daily">Daily</string>
     <string name="daily_morning">Morning daily</string>
     <string name="daily_night">Night daily</string>
     <string name="one_off">One Off</string>
-    <string name="daily_rounds">Daily rounds</string>
-    <string name="one_off_rounds">One off rounds</string>
     <string name="round_created_formatter">%s round created at: %s</string>
-    <string name="created_formatter">Created at: %s</string>
-    <string name="pss_questionnaire">PSS questionnaire</string>
-    <string name="phq_questionnaire">PHQ questionnaire</string>
-    <string name="ucla_questionnaire">UCLA questionnaire</string>
-    <string name="score_formatter">Score: %d</string>
     <string name="level_formatter">%s level</string>
     <string name="continue_label">Continue</string>
     <string name="daily_symptoms_label">How have you been today?</string>
-    <string name="completed">Completed</string>
-    <string name="uncompleted">Uncompleted</string>
     <string name="granularity">Granularity</string>
     <string name="day">Day</string>
     <string name="week">Week</string>
@@ -214,7 +199,6 @@
     <string name="time_interval">Time interval</string>
     <string name="no_data_to_display">No data to display</string>
     <string name="request_permissions">Request permissions</string>
-    <string name="generate_data">Generate data</string>
     <string name="uploading">Uploading…</string>
     <string name="uploading_in_progress">Uploading data in progress…</string>
     <string name="stress">Stress</string>
@@ -237,7 +221,6 @@
     <string name="uncompleted_questionnaires_advice">You have uncompleted questionnaires</string>
     <string name="review">Review</string>
     <string name="permission_screen_label">Permissions</string>
-    <string name="permission_screen_description">App permissions</string>
     <string name="permission_granted">Permission granted. You can disable it in the Android settings menu</string>
     <string name="permission_log_call">Call listing permissions</string>
     <string name="permission_location">Location permissions</string>

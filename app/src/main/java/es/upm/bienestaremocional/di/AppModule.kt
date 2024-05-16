@@ -80,6 +80,7 @@ object AppModule {
     ): WorkAdministrator =
         WorkAdministratorImpl(context, logTag)
 
+    @Suppress("SameReturnValue")
     @Provides
     @Singleton
     @Named("logTag")

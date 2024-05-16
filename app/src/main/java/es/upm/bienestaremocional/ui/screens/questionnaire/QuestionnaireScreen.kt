@@ -1,3 +1,5 @@
+@file:Suppress("KotlinDeprecation")
+
 package es.upm.bienestaremocional.ui.screens.questionnaire
 
 import androidx.compose.foundation.layout.*
@@ -32,8 +34,6 @@ import es.upm.bienestaremocional.ui.component.questionnaire.Summary
 import es.upm.bienestaremocional.ui.theme.BienestarEmocionalTheme
 import kotlinx.coroutines.launch
 
-
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun QuestionnaireStringAnswersScreen(
     state: QuestionnaireState,
@@ -84,7 +84,6 @@ fun QuestionnaireStringAnswersScreen(
     )
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun QuestionnaireStringAnswersScreen(
     state: QuestionnaireState,
@@ -129,7 +128,6 @@ fun QuestionnaireStringAnswersScreen(
     )
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun QuestionnaireNumericAnswersScreen(
     state: QuestionnaireState,
@@ -182,7 +180,6 @@ fun QuestionnaireNumericAnswersScreen(
     )
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun QuestionnaireScoredScreen(
     state: QuestionnaireState,
@@ -211,7 +208,7 @@ private fun QuestionnaireScoredScreen(
         }
     }
 
-    if (state !is QuestionnaireState.Summary || state !is QuestionnaireState.Finished) {
+    if (state !is QuestionnaireState.Summary && state !is QuestionnaireState.Finished) {
         QuestionnaireLayout(
             title = title,
             onSkippingAttempt = onSkippingAttempt,
@@ -247,7 +244,6 @@ private fun QuestionnaireScoredScreen(
 }
 
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun QuestionnaireNotScoredScreen(
     state: QuestionnaireState,
@@ -274,7 +270,7 @@ private fun QuestionnaireNotScoredScreen(
     }
 
 
-    if (state !is QuestionnaireState.Summary || state !is QuestionnaireState.Finished) {
+    if (state !is QuestionnaireState.Summary && state !is QuestionnaireState.Finished) {
         QuestionnaireLayout(
             title = title,
             onSkippingAttempt = onSkippingAttempt,
@@ -301,7 +297,6 @@ private fun QuestionnaireNotScoredScreen(
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun QuestionnaireStringAnswersPage(
     question: String,
@@ -330,7 +325,7 @@ private fun QuestionnaireStringAnswersPage(
 
 }
 
-@OptIn(ExperimentalPagerApi::class)
+
 @Composable
 private fun QuestionnaireNumericAnswersPage(
     question: String,
@@ -364,7 +359,6 @@ private fun QuestionnaireNumericAnswersPage(
     )
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun QuestionnairePage(
     question: String,
@@ -781,7 +775,6 @@ fun QuestionnaireNumericAnswersWithScoreDarkThemeScreenPreview() {
 }
 
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
 fun QuestionnaireStringAnswersPagePreview() {
@@ -803,7 +796,6 @@ fun QuestionnaireStringAnswersPagePreview() {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
 fun QuestionnaireStringAnswersPageDarkThemePreview() {
@@ -825,7 +817,6 @@ fun QuestionnaireStringAnswersPageDarkThemePreview() {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
 fun QuestionnaireNumericAnswersPagePreview() {
@@ -846,7 +837,6 @@ fun QuestionnaireNumericAnswersPagePreview() {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
 fun QuestionnaireNumericAnswersPageDarkThemePreview() {
@@ -867,7 +857,6 @@ fun QuestionnaireNumericAnswersPageDarkThemePreview() {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
 fun QuestionnairePagePreview() {
@@ -885,7 +874,6 @@ fun QuestionnairePagePreview() {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 @Preview
 fun QuestionnairePageDarkThemePreview() {

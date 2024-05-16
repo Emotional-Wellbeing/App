@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.provider.CallLog.Calls.*
 import androidx.core.content.ContextCompat
-import es.upm.bienestaremocional.data.securePrivateData
+import es.upm.bienestaremocional.data.crypto.securePrivateData
 
 class PhoneInfo {
 
