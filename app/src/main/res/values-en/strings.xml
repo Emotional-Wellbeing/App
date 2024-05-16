@@ -189,7 +189,6 @@
     <string name="daily_night">Night daily</string>
     <string name="one_off">One Off</string>
     <string name="round_created_formatter">%s round created at: %s</string>
-    <string name="level_formatter">%s level</string>
     <string name="continue_label">Continue</string>
     <string name="daily_symptoms_label">How have you been today?</string>
     <string name="granularity">Granularity</string>
