@@ -34,6 +34,10 @@ class PermissionViewModel @Inject constructor(
                 workAdministrator = workAdministrator,
                 lastUploadRepository = lastUploadRepository
             )
+            //Execute app usage
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                workAdministrator.scheduleUploadUsageInfoWorker()
+            }
         }
     }
 }

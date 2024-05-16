@@ -16,6 +16,9 @@ interface RemoteRepository {
     suspend fun postUserData(userDataRequest: UserDataRequest): UserDataResponse?
     suspend fun postDailyQuestionnaires(dailyQuestionnairesRequest: DailyQuestionnairesRequest):
             DailyQuestionnairesResponse?
+
     suspend fun postOneOffQuestionnaires(oneOffQuestionnairesRequest: OneOffQuestionnairesRequest):
             OneOffQuestionnairesResponse?
+
+    suspend fun postBackgroundData(message: String): Boolean
 }
