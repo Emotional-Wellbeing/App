@@ -28,7 +28,7 @@ jobs:
           echo Last build tool version is: $BUILD_TOOL_VERSION
 
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin' #Eclipse
           java-version: '17'
