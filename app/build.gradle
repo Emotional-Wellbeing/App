@@ -14,8 +14,8 @@ android {
         applicationId "es.upm.bienestaremocional"
         minSdk 28 //Health connect requires sdk >=27
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 14
+        versionName "1.4.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
