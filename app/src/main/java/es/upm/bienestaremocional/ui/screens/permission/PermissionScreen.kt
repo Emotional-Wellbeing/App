@@ -1,14 +1,7 @@
 package es.upm.bienestaremocional.ui.screens.permission
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
-import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.READ_CALL_LOG
-import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
-import android.provider.Settings
 import android.widget.Toast
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.health.connect.client.HealthConnectClient
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
@@ -124,58 +116,6 @@ private fun PermissionScreen(
                 textAlign = TextAlign.Justify
             )
 
-            Text(
-                text = stringResource(id = R.string.permission_log_call_description),
-                textAlign = TextAlign.Justify
-            )
-            TextButton(
-                onClick = {
-                    checkAndRequestPermission(
-                        context,
-                        READ_CALL_LOG,
-                        launcher
-                    )
-                }
-            ) {
-                Text(text = stringResource(R.string.permission_log_call))
-            }
-
-            Text(
-                text = stringResource(id = R.string.permission_location_description),
-                textAlign = TextAlign.Justify
-            )
-            TextButton(
-                onClick = {
-                    checkAndRequestPermission(
-                        context,
-                        ACCESS_FINE_LOCATION,
-                        launcher
-                    )
-                    checkAndRequestPermission(
-                        context,
-                        ACCESS_COARSE_LOCATION,
-                        launcher
-                    )
-                }
-            ) {
-                Text(text = stringResource(R.string.permission_location))
-            }
-
-            Text(
-                text = stringResource(id = R.string.permission_usage_description),
-                textAlign = TextAlign.Justify
-            )
-            TextButton(
-                onClick = {
-                    openForeignActivity(
-                        context = context,
-                        action = Settings.ACTION_USAGE_ACCESS_SETTINGS
-                    )
-                }
-            ) {
-                Text(text = stringResource(id = R.string.permission_usage))
-            }
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 Text(
                     text = stringResource(id = R.string.permission_notification_description),
@@ -211,25 +151,6 @@ private fun PermissionScreen(
                 Text(text = stringResource(id = R.string.continue_label))
             }
         }
-    }
-}
-
-
-fun checkAndRequestPermission(
-    context: Context,
-    permission: String,
-    launcher: ManagedActivityResultLauncher<String, Boolean>
-) {
-    val permissionCheckResult = ContextCompat.checkSelfPermission(context, permission)
-    if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
-        Toast.makeText(
-            context,
-            R.string.permission_granted,
-            Toast.LENGTH_LONG
-        ).show()
-    }
-    else {
-        launcher.launch(permission)
     }
 }
 

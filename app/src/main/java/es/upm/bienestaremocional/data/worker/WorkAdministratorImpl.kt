@@ -1,16 +1,11 @@
 package es.upm.bienestaremocional.data.worker
 
 import android.content.Context
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
 import androidx.work.ListenableWorker
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
@@ -93,36 +88,6 @@ class WorkAdministratorImpl(
         Log.d(logTag, "The request with tag $tag has been cancelled")
     }
 
-    /**
-     * Schedules an one time request
-     * @param workerClass Class associated with the worker to request
-     * @param oneTimeWorker Info to schedule the one time request
-     * @param constraints Optional constraints that must be fulfilled to execute the request
-     */
-    private fun oneTimeRequest(
-        workerClass: Class<out ListenableWorker>,
-        oneTimeWorker: OneTimeWorker,
-        constraints: Constraints? = null,
-    ) {
-        Log.d(logTag, "Setting one time request with tag: ${oneTimeWorker.tag}")
-
-        // Build request. If we have received constants, set them
-
-        val requestBuilder = OneTimeWorkRequest.Builder(workerClass)
-
-        constraints?.let {
-            requestBuilder.setConstraints(it)
-        }
-
-        workManager.enqueueUniqueWork(
-            oneTimeWorker.tag,
-            ExistingWorkPolicy.KEEP,
-            requestBuilder.build()
-        )
-
-        Log.d(logTag, "The request shall be triggered")
-    }
-
     override fun scheduleDailyMorningNotificationWorker() {
         with(DailyMorningNotificationWorker)
         {
@@ -178,79 +143,6 @@ class WorkAdministratorImpl(
 
     override fun cancelUploadWorker() = cancelRequest(UploadWorker.tag)
 
-    /**
-     * Schedule [UploadPhoneDataWorker]
-     */
-    override fun scheduleUploadPhoneDataWorker() {
-
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
-        with(UploadPhoneDataWorker)
-        {
-            scheduleRequest(
-                workerClass = UploadPhoneDataWorker::class.java,
-                schedulable = this,
-                constraints = constraints
-            )
-        }
-    }
-
-    /**
-     * Cancel [UploadPhoneDataWorker]
-     */
-    override fun cancelUploadPhoneDataWorker() {
-        cancelRequest(UploadPhoneDataWorker.tag)
-    }
-
-    /**
-     * Schedule [UploadTrafficDataWorker]
-     */
-    override fun scheduleUploadTrafficDataWorker() {
-
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
-        with(UploadTrafficDataWorker)
-        {
-            scheduleRequest(
-                workerClass = UploadTrafficDataWorker::class.java,
-                schedulable = this,
-                constraints = constraints
-            )
-        }
-    }
-
-    /**
-     * Cancel [UploadTrafficDataWorker]
-     */
-    override fun cancelUploadTrafficDataWorker() {
-        cancelRequest(UploadTrafficDataWorker.tag)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.Q)
-    override fun scheduleUploadUsageInfoWorker() {
-
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
-        with(UploadUsageInfoWorker)
-        {
-            oneTimeRequest(
-                workerClass = UploadUsageInfoWorker::class.java,
-                oneTimeWorker = this,
-                constraints = constraints
-            )
-        }
-    }
-
-    override fun cancelUploadUsageInfoWorker() {
-        cancelRequest(UploadUsageInfoWorker.tag)
-    }
-
     override fun queryWorkerStatus(): LiveData<List<WorkInfo>> {
         return workManager.getWorkInfosLiveData(
             WorkQuery.fromUniqueWorkNames(
@@ -258,9 +150,6 @@ class WorkAdministratorImpl(
                 DailyNightNotificationWorker.tag,
                 OneOffNotificationWorker.tag,
                 UploadWorker.tag,
-                UploadPhoneDataWorker.tag,
-                UploadTrafficDataWorker.tag,
-                UploadUsageInfoWorker.tag
             )
         )
     }

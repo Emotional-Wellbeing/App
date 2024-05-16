@@ -25,9 +25,6 @@ suspend fun firstTimeExecution(
     workAdministrator.scheduleDailyNightNotificationWorker()
     workAdministrator.scheduleOneOffNotificationWorker()
     workAdministrator.scheduleUploadWorker()
-    workAdministrator.scheduleUploadPhoneDataWorker()
-    workAdministrator.scheduleUploadTrafficDataWorker()
-
 
     //insert values in last upload table
     val now = obtainTimestamp(Instant.now(), null)

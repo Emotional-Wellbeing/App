@@ -29,7 +29,4 @@ interface RemoteAPI {
     @POST("/one_off_questionnaires")
     suspend fun postOneOffQuestionnaires(@Body data: OneOffQuestionnairesRequest):
             Response<OneOffQuestionnairesResponse.Timestamps>
-
-    @POST("/bg_data")
-    suspend fun postBackgroundData(@Body message: String): Response<Unit>
 }

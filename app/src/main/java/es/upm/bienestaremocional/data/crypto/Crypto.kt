@@ -38,9 +38,3 @@ private fun generateRawUUID(): String = UUID.randomUUID().toString()
  * @return User ID in hexadecimal format
  */
 fun generateUID(): String = sha512hash(generateRawUUID())
-
-/**
- * Encrypt private user data
- * @return User ID in String format
- */
-fun securePrivateData(message: String): String = sha512hash(message)
