@@ -19,8 +19,6 @@ This project is a modern Android app that allows the detection of mental disorde
 
 *Emotional Wellbeing* provides indicators and charts of user's mental indicators, anonymized statistics on how the community is doing and, depending on the user's state, guidelines to improve user's emotional well-being and redirects, if necessary, to professional support. 
 
----
-
 ## 🧠 Key Features
 
 - **User measures visualization**: As home screen, app offers briefly user status, showing today's level and advice extract.
