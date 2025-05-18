@@ -97,7 +97,7 @@ Meanwhile, community status can be checked: for each measure, user can check yes
 ## 🚀 Getting Started
 
 1. Install [Health Connect app](https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata&pli=1) in target if it runs Android 13 or lower and you don't have it.
-2. For community graphs, run and [configure](app\src\main\java\es\upm\bienestaremocional\data\RemoteConstants.kt) an instance of [API Service](https://github.com/Emotional-Wellbeing/Api).
+2. For community graphs, run and [configure](app/src/main/java/es/upm/bienestaremocional/data/RemoteConstants.kt) an instance of [API Service](https://github.com/Emotional-Wellbeing/Api).
 3. Code can be compiled in Android Studio with a JDK 17. If you don't have or aren't sure about that, go to File | Settings | Build, Execution, Deployment | Build Tools | Gradle and download a JDK selecting Version 17.
 
 ## 💙 Contributing
